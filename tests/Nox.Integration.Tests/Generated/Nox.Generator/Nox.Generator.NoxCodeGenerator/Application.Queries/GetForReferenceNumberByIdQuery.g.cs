@@ -31,7 +31,7 @@ internal abstract class GetForReferenceNumberByIdQueryHandlerBase:  QueryBase<IQ
 
     public virtual Task<IQueryable<ForReferenceNumberDto>> Handle(GetForReferenceNumberByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<ForReferenceNumberDto >()
+        var query = ReadOnlyRepository.Query<ForReferenceNumberDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

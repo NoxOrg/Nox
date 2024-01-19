@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
@@ -15,22 +16,21 @@ public partial record GetTenantsStatusesQuery(Nox.Types.CultureCode cultureCode)
 
 internal partial class GetTenantsStatusesQueryHandler: GetTenantsStatusesQueryHandlerBase
 {
-    public GetTenantsStatusesQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetTenantsStatusesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTenantsStatusesQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.TenantStatusDto>>, IRequestHandler<GetTenantsStatusesQuery, IQueryable<DtoNameSpace.TenantStatusDto>>
 {
-    public  GetTenantsStatusesQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetTenantsStatusesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.TenantStatusDto>> Handle(GetTenantsStatusesQuery request, CancellationToken cancellationToken)
     {
-        var queryBuilder = (IQueryable<DtoNameSpace.TenantStatusDto>)DataDbContext.TenantsStatuses
-            .AsNoTracking();
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.TenantStatusDto>();
         return Task.FromResult(OnResponse(queryBuilder));
     }
 }

@@ -31,7 +31,7 @@ internal abstract class GetTestEntityWithNuidByIdQueryHandlerBase:  QueryBase<IQ
 
     public virtual Task<IQueryable<TestEntityWithNuidDto>> Handle(GetTestEntityWithNuidByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityWithNuidDto >()
+        var query = ReadOnlyRepository.Query<TestEntityWithNuidDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

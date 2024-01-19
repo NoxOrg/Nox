@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetRatingProgramsQuery() : IRequest<IQueryable<RatingProgr
 
 internal partial class GetRatingProgramsQueryHandler: GetRatingProgramsQueryHandlerBase
 {
-    public GetRatingProgramsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetRatingProgramsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetRatingProgramsQueryHandlerBase : QueryBase<IQueryable<RatingProgramDto>>, IRequestHandler<GetRatingProgramsQuery, IQueryable<RatingProgramDto>>
 {
-    public  GetRatingProgramsQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetRatingProgramsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<RatingProgramDto>> Handle(GetRatingProgramsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<RatingProgramDto>)DataDbContext.RatingPrograms
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<RatingProgramDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

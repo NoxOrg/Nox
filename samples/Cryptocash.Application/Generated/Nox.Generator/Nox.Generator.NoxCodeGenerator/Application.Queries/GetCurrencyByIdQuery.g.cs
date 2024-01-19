@@ -31,7 +31,7 @@ internal abstract class GetCurrencyByIdQueryHandlerBase:  QueryBase<IQueryable<C
 
     public virtual Task<IQueryable<CurrencyDto>> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CurrencyDto >()
+        var query = ReadOnlyRepository.Query<CurrencyDto>()
             .Include(e => e.BankNotes)
             .Include(e => e.ExchangeRates)
             .Where(r =>

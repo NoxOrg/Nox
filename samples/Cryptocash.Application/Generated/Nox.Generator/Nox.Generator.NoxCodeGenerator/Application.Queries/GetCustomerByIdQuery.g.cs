@@ -31,7 +31,7 @@ internal abstract class GetCustomerByIdQueryHandlerBase:  QueryBase<IQueryable<C
 
     public virtual Task<IQueryable<CustomerDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CustomerDto >()
+        var query = ReadOnlyRepository.Query<CustomerDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

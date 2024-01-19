@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetStoreOwnersQuery() : IRequest<IQueryable<StoreOwnerDto>
 
 internal partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
 {
-    public GetStoreOwnersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetStoreOwnersQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
 {
-    public  GetStoreOwnersQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetStoreOwnersQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnersQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<StoreOwnerDto>)DataDbContext.StoreOwners
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<StoreOwnerDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

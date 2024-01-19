@@ -31,7 +31,7 @@ internal abstract class GetPaymentDetailByIdQueryHandlerBase:  QueryBase<IQuerya
 
     public virtual Task<IQueryable<PaymentDetailDto>> Handle(GetPaymentDetailByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<PaymentDetailDto >()
+        var query = ReadOnlyRepository.Query<PaymentDetailDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

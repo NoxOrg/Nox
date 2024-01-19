@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetReferenceNumberEntitiesQuery() : IRequest<IQueryable<Re
 
 internal partial class GetReferenceNumberEntitiesQueryHandler: GetReferenceNumberEntitiesQueryHandlerBase
 {
-    public GetReferenceNumberEntitiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetReferenceNumberEntitiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetReferenceNumberEntitiesQueryHandlerBase : QueryBase<IQueryable<ReferenceNumberEntityDto>>, IRequestHandler<GetReferenceNumberEntitiesQuery, IQueryable<ReferenceNumberEntityDto>>
 {
-    public  GetReferenceNumberEntitiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetReferenceNumberEntitiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<ReferenceNumberEntityDto>> Handle(GetReferenceNumberEntitiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<ReferenceNumberEntityDto>)DataDbContext.ReferenceNumberEntities
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<ReferenceNumberEntityDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

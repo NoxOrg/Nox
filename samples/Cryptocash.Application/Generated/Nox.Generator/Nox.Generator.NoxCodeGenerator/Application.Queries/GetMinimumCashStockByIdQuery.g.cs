@@ -31,7 +31,7 @@ internal abstract class GetMinimumCashStockByIdQueryHandlerBase:  QueryBase<IQue
 
     public virtual Task<IQueryable<MinimumCashStockDto>> Handle(GetMinimumCashStockByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<MinimumCashStockDto >()
+        var query = ReadOnlyRepository.Query<MinimumCashStockDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

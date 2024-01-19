@@ -31,7 +31,7 @@ internal abstract class GetTransactionByIdQueryHandlerBase:  QueryBase<IQueryabl
 
     public virtual Task<IQueryable<TransactionDto>> Handle(GetTransactionByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TransactionDto >()
+        var query = ReadOnlyRepository.Query<TransactionDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
