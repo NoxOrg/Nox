@@ -179,7 +179,7 @@ namespace ClientApi.Tests.Controllers
         public async Task Post_VatNumberIsCreated()
         {
             // Arrange
-            var expectedVatNumber = "515714941";
+            var expectedVatNumber = "PT515714941";
             var createDto = new StoreOwnerCreateDto
             {
                 Id = "002",
