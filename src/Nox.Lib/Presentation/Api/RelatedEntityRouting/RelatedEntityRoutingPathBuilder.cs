@@ -3,6 +3,7 @@ using Nox.Extensions;
 using Nox.Solution;
 using Nox.Solution.Builders;
 using System.Text.RegularExpressions;
+using Nox.Types.Extensions;
 
 namespace Nox.Presentation.Api;
 
@@ -19,6 +20,9 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
         var navigationName = currentEntity.GetNavigationPropertyName(relationship);
         var tagName = GetTagName(existingPath);
         var relatedEntityName = relationship.Related.Entity.Name;
+        var relatedKeyType = relationship.Related.Entity.Keys[0].Type.GetComponents(relationship.Related.Entity.Keys[0]).Single().Value.ToString();
+        if (relatedKeyType.StartsWith("System."))
+            relatedKeyType = relatedKeyType[7..];
 
         if (relationship.WithSingleEntity)
         {
@@ -60,7 +64,7 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
             AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/$ref", tagName, new List<OperationInfo>
             {
                 new() { OperationType = OperationType.Get },
-                new() { OperationType = OperationType.Put, RequestReferenceId = "StringReferencesDto" },
+                new() { OperationType = OperationType.Put, RequestReferenceId = relatedKeyType + "ReferencesDto" },
                 new() { OperationType = OperationType.Delete }
             });
             AddOperationItemsToResult(result, $"{existingPath}/{navigationName}/{{{GetKeyParameterName(navigationName)}}}/$ref", tagName, new List<OperationInfo>

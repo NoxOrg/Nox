@@ -211,7 +211,7 @@ public partial class RouteMappingTests : NoxWebApiTestBase
     [InlineData("post", "/Paises", "CountryCreateDto", "CountryDto", null)]
     [InlineData("get", "/Paises/{key}", null, "CountryDtoSingleResult", null)]
     [InlineData("patch", "/Paises/{key}", "CountryPartialUpdateDtoDelta", "CountryDto", null)]
-    [InlineData("put", "/Paises/{key}/RefWorkplaces", "ReferencesDto", null, null)]
+    [InlineData("put", "/Paises/{key}/RefWorkplaces", "Int64ReferencesDto", null, null)]
     [InlineData("get", "/Paises/{key}/RefWorkplaces/{relatedKey}", null, null, null)]
     [InlineData("get", "/CountriesEncoded", null, null, "array")]
     [InlineData("delete", "/Tenants/{TenantId}/Workplaces/{key}", null, null, null)]
