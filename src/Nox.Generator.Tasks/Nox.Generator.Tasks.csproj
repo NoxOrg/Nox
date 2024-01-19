@@ -97,15 +97,5 @@
 		<Content Include="build\Nox.Generator.Tasks.targets" PackagePath="build\" />
 	</ItemGroup>
 
-	<PropertyGroup>
-		<!-- Define the local NuGet feed path -->
-		<LocalFeedPath>..\nuget</LocalFeedPath>
-		<RootNamespace>Nox.Generator</RootNamespace>
-	</PropertyGroup>
-
-	<Target Name="CopyPackage" AfterTargets="Pack">
-		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(Version).nupkg" DestinationFolder="$(LocalFeedPath)" />
-	</Target>
-
 </Project>
 	
