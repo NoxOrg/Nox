@@ -89,6 +89,24 @@
                             Id = "GBP",
                             Name = "British Pound"
                         };  
+    List<GenericEntityModel> testGenericEntityList = new List<GenericEntityModel>()
+                {
+                    new GenericEntityModel()
+                    {
+                        Id = "IDA",
+                        Name = "Entity A"
+                    },
+                    new GenericEntityModel()
+                    {
+                        Id = "IDB",
+                        Name = "Entity B"
+                    }                               
+                };
+    GenericEntityModel testGenericEntity = new()
+    {
+         Id = "IDA",
+         Name = "Entity A"
+    };
 
     #endregion
 
@@ -258,6 +276,15 @@
                                                     <MudItem xs="6">
                                                         <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>
+                                                <MudItem xs="6">
+                                                    <EditListMoney TitleCurrency="Currency" 
+                                                        TitleAmount="Amount"
+                                                        CurrencySelectionList="@testCurrencySelectionList" />
+                                                </MudItem>                                                
+                                                <MudItem xs="6">
+                                                    <EditEntityExactlyOne Title="Entity Exactly One"
+                                                        SelectionList="@testGenericEntityList" />
+                                                </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -319,6 +346,8 @@
                                 <MudTh>IpAddress</MudTh>
                                 <MudTh>Country</MudTh>
                                 <MudTh>Currency</MudTh>
+                                <MudTh>EntityExactlyOne</MudTh>
+                                <MudTh>EntityZeroOrMany</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -392,6 +421,12 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewCurrency Currency="@testCurrency" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewEntityExactlyOne Entity="@testGenericEntity" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewEntityZeroOrMany EntityList="@testGenericEntityList" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

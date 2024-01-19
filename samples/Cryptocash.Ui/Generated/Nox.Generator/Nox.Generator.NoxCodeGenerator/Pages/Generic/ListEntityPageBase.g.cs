@@ -159,6 +159,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public LatLongModel? CurrentAddEntityLatLong { get; set; }
 
         /// <summary>
+        /// Property CurrentAddEntityLandLordId used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public string? CurrentAddEntityLandLordId { get; set; }
+
+        /// <summary>
         /// Property AddEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
         /// </summary>
         public bool AddEntityValidateSuccess { get; set; } = false;
@@ -231,7 +236,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <summary>
         /// Property LandLordEntityData used to store LandLord list data in preparation for selection
         /// </summary>
-        public EntityData<LandLordDto>? LandLordEntityData { get; set; }
+        public List<GenericEntityModel>? LandLordEntityData { get; set; }
 
         /// <summary>
         /// Property GoogleMapApiKey to define Api security key
@@ -1118,7 +1123,21 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         protected async Task GetAllLandLords()
         {
             ApiUiService LandLordApiService = new LandLordService().IntialiseApiUiService(ConfigurationHelper.Configuration?["BaseApiUrl"]);
-            LandLordEntityData = await EntityDataService<LandLordDto>.GetAsyncRecursivePagedEntityData(LandLordApiService);              
+            var tempLandLordEntityData = await EntityDataService<LandLordDto>.GetAsyncRecursivePagedEntityData(LandLordApiService);
+
+            LandLordEntityData = new();
+            if (tempLandLordEntityData != null
+                && tempLandLordEntityData.EntityList != null)
+            {
+                foreach (LandLordDto currentLandLord in tempLandLordEntityData.EntityList)
+                {
+                    LandLordEntityData.Add(new()
+                    {
+                        Id = currentLandLord.Id.ToString(),
+                        Name = currentLandLord.Name
+                    });
+                }
+            }
 
             return;
         }
@@ -1284,6 +1303,15 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 {
                     propLatLong.SetValue(CurrentAddEntity, tempLatLong);
                 }
+
+                if (System.Guid.TryParse(CurrentAddEntityLandLordId, out System.Guid guidOutput))
+                {
+                    PropertyInfo? propLandLordId = t.GetProperty("LandLordId");
+                    if (propLandLordId != null)
+                    {
+                        propLandLordId.SetValue(CurrentAddEntity, guidOutput);
+                    }
+                }                
             }            
         }
 

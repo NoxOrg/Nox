@@ -1,6 +1,6 @@
-﻿@using Cryptocash.Ui.Generated.Component;
-@using Application.Dto;
-@inherits UiEditEntityCreateMinimumCashStockBase
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+@using Nox.Ui.Blazor.Lib.Models
 
 <MudForm @ref="AddMinimumCashStockEntityForm" @bind-IsValid="@AddMinimumCashStockValidateSuccess">
     <MudGrid Style="margin-bottom:13px;">
@@ -9,11 +9,15 @@
                        Variant="Variant.Outlined"
                        FullWidth="true"
                        Clearable="true"
-                       TextChanged="OnCurrencyIdChanged"                       
+                       TextChanged="OnCurrencyIdChanged"
                        Value="@CurrentCurrencyIdStr">
-                @foreach (CurrencyDto item in CurrencySelectionList)
+                @foreach (CurrencyModel item in CurrencySelectionList)
                 {
-                    <MudSelectItem Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+                    if (!string.IsNullOrEmpty(item.Id)
+                    && !string.IsNullOrWhiteSpace(item.Name))
+                    {
+                        <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+                    }                    
                 }
             </MudSelect>
         </MudItem>
@@ -36,8 +40,25 @@
                        Variant="Variant.Filled"
                        Color="Color.Info"
                        Style="margin-top:15px;">
-                    <MudText>ADD</MudText>
+                <MudText>ADD</MudText>
             </MudButton>
         </MudItem>
     </MudGrid>
 </MudForm>
+
+<MudDataGrid Items="@MoneyList" Loading="IsLoading">
+    <Columns>
+        <PropertyColumn Property="x => x.CurrencyCode.ToString()" Title="@TitleCurrency" />
+        <PropertyColumn Property="x => x.Amount" Title="@TitleAmount" />
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudStack Row>
+                    <MudIconButton OnClick="@(async() => await RemoveItem(@context.Item))" Color="@Color.Default" Icon="@Icons.Material.Filled.Delete" />
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <NoRecordsContent>
+        Currently Empty
+    </NoRecordsContent>
+</MudDataGrid>
