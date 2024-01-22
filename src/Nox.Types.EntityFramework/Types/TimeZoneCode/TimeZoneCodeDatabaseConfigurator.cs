@@ -30,7 +30,7 @@ public class TimeZoneCodeDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .IsUnicode(false)
-            .HasMaxLength(5)
+            .HasMaxLength(48)
             .HasConversion<TimeZoneCodeConverter>();
     }
 
