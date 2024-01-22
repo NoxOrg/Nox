@@ -8,6 +8,7 @@
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Nox.Ui.Blazor.Lib.Components.Generic
 @using MudBlazor
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
@@ -114,7 +115,7 @@
                                                                        Format="#.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                            <EditEntityExactlyOne @bind-Id="CurrentAddEntityLandLordId"
+                                                            <Select @bind-CurrentId="CurrentAddEntityLandLordId"
                                                                                       Title="ContractedAreaLandLord"
                                                                                       SelectionList="LandLordEntityData" />
                                                     </MudItem>

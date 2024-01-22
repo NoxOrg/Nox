@@ -7,6 +7,7 @@
 @using Cryptocash.Ui.Generated.Data.Enum;
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes;
 @using MudBlazor
 @using System.Globalization;
@@ -88,25 +89,13 @@
                         {
                             Id = "GBP",
                             Name = "British Pound"
-                        };  
-    List<GenericEntityModel> testGenericEntityList = new List<GenericEntityModel>()
+                        };
+    List<SelectEntityModel> testGenericEntityList = new List<SelectEntityModel>()
                 {
-                    new GenericEntityModel()
-                    {
-                        Id = "IDA",
-                        Name = "Entity A"
-                    },
-                    new GenericEntityModel()
-                    {
-                        Id = "IDB",
-                        Name = "Entity B"
-                    }                               
+                    new SelectEntityModel("IDA", "Entity A"),
+                    new SelectEntityModel("IDB", "Entity B")
                 };
-    GenericEntityModel testGenericEntity = new()
-    {
-         Id = "IDA",
-         Name = "Entity A"
-    };
+    SelectEntityModel testGenericEntity = new("IDA", "Entity A");
 
     #endregion
 
@@ -277,7 +266,7 @@
                                                         <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>                              
                                                     <MudItem xs="6">
-                                                        <EditEntityExactlyOne Title="Entity Exactly One"
+                                                        <Select Title="Entity Exactly One"
                                                             SelectionList="@testGenericEntityList" />
                                                     </MudItem>
                                                 </MudGrid>
@@ -341,8 +330,6 @@
                                 <MudTh>IpAddress</MudTh>
                                 <MudTh>Country</MudTh>
                                 <MudTh>Currency</MudTh>
-                                <MudTh>EntityExactlyOne</MudTh>
-                                <MudTh>EntityZeroOrMany</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -416,12 +403,6 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewCurrency Currency="@testCurrency" />
-                                </MudTd>
-                                <MudTd Style="vertical-align:top;">
-                                    <ViewEntityExactlyOne Entity="@testGenericEntity" />
-                                </MudTd>                                
-                                <MudTd Style="vertical-align:top;">
-                                    <ViewEntityZeroOrMany EntityList="@testGenericEntityList" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

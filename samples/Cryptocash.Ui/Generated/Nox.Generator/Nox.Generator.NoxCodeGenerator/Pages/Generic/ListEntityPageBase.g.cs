@@ -236,7 +236,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <summary>
         /// Property LandLordEntityData used to store LandLord list data in preparation for selection
         /// </summary>
-        public List<GenericEntityModel>? LandLordEntityData { get; set; }
+        public List<SelectEntityModel>? LandLordEntityData { get; set; }
 
         /// <summary>
         /// Property GoogleMapApiKey to define Api security key
@@ -1131,11 +1131,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 foreach (LandLordDto currentLandLord in tempLandLordEntityData.EntityList)
                 {
-                    LandLordEntityData.Add(new()
-                    {
-                        Id = currentLandLord.Id.ToString(),
-                        Name = currentLandLord.Name
-                    });
+                    LandLordEntityData.Add(new(currentLandLord.Id.ToString(), currentLandLord.Name));
                 }
             }
 

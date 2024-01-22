@@ -1,18 +1,18 @@
-﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+﻿@namespace Nox.Ui.Blazor.Lib.Components.Generic
 @using MudBlazor
 @using Nox.Ui.Blazor.Lib.Models
 
-@if (SelectionList != null && SelectionList.Count > 0)
+@if (SelectionList.Any())
 {
     <MudSelect Label="@Title"
                Variant="Variant.Outlined"
                FullWidth="true"
                Clearable="true"
-               Required="true"
+               Required="@Required"
                RequiredError="@ErrorRequiredMessage(Title)"
                TextChanged="OnIdChanged"
-               Value="@CurrentIdStr">
-        @foreach (GenericEntityModel item in SelectionList)
+               Value="@CurrentId">
+        @foreach (SelectEntityModel item in SelectionList)
         {
             if (!string.IsNullOrWhiteSpace(item.Id)
             && !string.IsNullOrWhiteSpace(item.Name))
