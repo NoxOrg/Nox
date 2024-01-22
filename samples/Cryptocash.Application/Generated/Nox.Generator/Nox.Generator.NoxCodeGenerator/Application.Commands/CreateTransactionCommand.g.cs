@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,12 +29,12 @@ public partial record CreateTransactionCommand(TransactionCreateDto EntityDto, N
 internal partial class CreateTransactionCommandHandler : CreateTransactionCommandHandlerBase
 {
 	public CreateTransactionCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CustomerFactory, BookingFactory, entityFactory)
+		: base(repository, noxSolution,CustomerFactory, BookingFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreateTransactionCommandHandler : CreateTransactionComman
 
 internal abstract class CreateTransactionCommandHandlerBase : CommandBase<CreateTransactionCommand,TransactionEntity>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory;
 
 	protected CreateTransactionCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CustomerFactory = CustomerFactory;
 		this.BookingFactory = BookingFactory;
@@ -69,7 +70,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
@@ -83,7 +84,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		if(request.EntityDto.BookingId is not null)
 		{
 			var relatedKey = Dto.BookingMetadata.CreateId(request.EntityDto.BookingId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBooking(relatedEntity);
 			else
@@ -96,8 +97,8 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Transactions.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Transaction>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TransactionKeyDto(entityToCreate.Id.Value);
 	}
 }

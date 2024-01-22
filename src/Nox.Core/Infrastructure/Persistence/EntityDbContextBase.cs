@@ -13,6 +13,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 using Nox.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -238,8 +239,13 @@ namespace Nox.Infrastructure.Persistence
         }
         #region IRepository
         IQueryable<T> IRepository.Query<T>()
-        {
+        {            
             return Set<T>();
+        }
+
+        ValueTask<T?> IRepository.FindAsync<T>(params object?[]? keyValues) where T : class
+        {            
+            return Set<T>().FindAsync(keyValues);
         }
 
         async ValueTask<T> IRepository.AddAsync<T>(T entity, CancellationToken cancellationToken)
@@ -284,6 +290,20 @@ namespace Nox.Infrastructure.Persistence
             {
                 await connection.CloseAsync();
             }
+        }
+
+        Task IRepository.SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return SaveChangesAsync(cancellationToken);
+        }
+
+        public void SetStateModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+        public void SetStateDetached(object entity)
+        {
+            Entry(entity).State = EntityState.Detached;
         }
         #endregion
     }

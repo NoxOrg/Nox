@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,7 +29,7 @@ public partial record CreateVendingMachineCommand(VendingMachineCreateDto Entity
 internal partial class CreateVendingMachineCommandHandler : CreateVendingMachineCommandHandlerBase
 {
 	public CreateVendingMachineCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.LandLord, LandLordCreateDto, LandLordUpdateDto> LandLordFactory,
@@ -36,7 +37,7 @@ internal partial class CreateVendingMachineCommandHandler : CreateVendingMachine
 		IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory,
 		IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory,
 		IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CountryFactory, LandLordFactory, BookingFactory, CashStockOrderFactory, MinimumCashStockFactory, entityFactory)
+		: base(repository, noxSolution,CountryFactory, LandLordFactory, BookingFactory, CashStockOrderFactory, MinimumCashStockFactory, entityFactory)
 	{
 	}
 }
@@ -44,7 +45,7 @@ internal partial class CreateVendingMachineCommandHandler : CreateVendingMachine
 
 internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<CreateVendingMachineCommand,VendingMachineEntity>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.LandLord, LandLordCreateDto, LandLordUpdateDto> LandLordFactory;
@@ -53,7 +54,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 	protected readonly IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory;
 
 	protected CreateVendingMachineCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.LandLord, LandLordCreateDto, LandLordUpdateDto> LandLordFactory,
@@ -63,7 +64,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CountryFactory = CountryFactory;
 		this.LandLordFactory = LandLordFactory;
@@ -81,7 +82,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -95,7 +96,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.LandLordId is not null)
 		{
 			var relatedKey = Dto.LandLordMetadata.CreateId(request.EntityDto.LandLordId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.LandLords.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<LandLord>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToLandLord(relatedEntity);
 			else
@@ -111,7 +112,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
 				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToBookings(relatedEntity);
@@ -132,7 +133,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			foreach(var relatedId in request.EntityDto.CashStockOrdersId)
 			{
 				var relatedKey = Dto.CashStockOrderMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<CashStockOrder>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCashStockOrders(relatedEntity);
@@ -153,7 +154,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			foreach(var relatedId in request.EntityDto.MinimumCashStocksId)
 			{
 				var relatedKey = Dto.MinimumCashStockMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<MinimumCashStock>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
@@ -171,8 +172,8 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.VendingMachines.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<VendingMachine>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new VendingMachineKeyDto(entityToCreate.Id.Value);
 	}
 }

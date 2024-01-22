@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,12 +29,12 @@ public partial record CreateCurrencyCommand(CurrencyCreateDto EntityDto, Nox.Typ
 internal partial class CreateCurrencyCommandHandler : CreateCurrencyCommandHandlerBase
 {
 	public CreateCurrencyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory,
 		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CountryFactory, MinimumCashStockFactory, entityFactory)
+		: base(repository, noxSolution,CountryFactory, MinimumCashStockFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreateCurrencyCommandHandler : CreateCurrencyCommandHandl
 
 internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCurrencyCommand,CurrencyEntity>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory;
 
 	protected CreateCurrencyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory,
 		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CountryFactory = CountryFactory;
 		this.MinimumCashStockFactory = MinimumCashStockFactory;
@@ -71,7 +72,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.CountriesId)
 			{
 				var relatedKey = Dto.CountryMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCountries(relatedEntity);
@@ -92,7 +93,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.MinimumCashStocksId)
 			{
 				var relatedKey = Dto.MinimumCashStockMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<MinimumCashStock>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
@@ -110,8 +111,8 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Currencies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Currency>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);
 	}
 }
