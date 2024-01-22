@@ -40,7 +40,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -302,7 +302,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -2343,7 +2343,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "SST"
+        "TimeZoneCode": "PACIFIC/APIA"
       }
     ],
     "Holidays": [
@@ -2822,7 +2822,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -3069,13 +3069,13 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AEST"
+        "TimeZoneCode": "AUSTRALIA/MELBOURNE"
       },
       {
-        "TimeZoneCode": "ACST"
+        "TimeZoneCode": "AUSTRALIA/SYDNEY"
       },
       {
-        "TimeZoneCode": "AWST"
+        "TimeZoneCode": "AUSTRALIA/WEST"
       }
     ],
     "Holidays": [
@@ -3927,7 +3927,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
@@ -4456,7 +4456,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "WAT"
+        "TimeZoneCode": "AFRICA/TUNIS"
       }
     ],
     "Holidays": [
@@ -6146,7 +6146,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -6893,7 +6893,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -7150,7 +7150,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -7888,7 +7888,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -8320,7 +8320,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
@@ -8604,19 +8604,19 @@
         "TimeZoneCode": "EST"
       },
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       },
       {
         "TimeZoneCode": "MST"
       },
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       },
       {
-        "TimeZoneCode": "NST"
+        "TimeZoneCode": "US/ALASKA"
       },
       {
-        "TimeZoneCode": "PST"
+        "TimeZoneCode": "US/PACIFIC"
       }
     ],
     "Holidays": [
@@ -9696,7 +9696,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -10508,7 +10508,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -10883,7 +10883,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -11110,7 +11110,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -12486,7 +12486,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -12593,7 +12593,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -13132,7 +13132,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -13944,7 +13944,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -15021,7 +15021,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -17774,7 +17774,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -18682,7 +18682,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -19017,7 +19017,7 @@
         "TimeZoneCode": "GMT"
       },
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -19274,7 +19274,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -19769,7 +19769,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "ChST"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -20439,7 +20439,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "HKT"
+        "TimeZoneCode": "ASIA/HONG_KONG"
       }
     ],
     "Holidays": [
@@ -20771,7 +20771,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -24907,7 +24907,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -25260,7 +25260,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -26206,7 +26206,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -27940,7 +27940,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": []
@@ -27976,7 +27976,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -28900,7 +28900,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -29183,7 +29183,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       },
       {
         "TimeZoneCode": "EST"
@@ -30853,7 +30853,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "ChST"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": []
@@ -30899,7 +30899,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
@@ -31116,7 +31116,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -31348,7 +31348,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -31677,7 +31677,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
@@ -32131,7 +32131,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -32388,7 +32388,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
@@ -32903,7 +32903,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "WAT"
+        "TimeZoneCode": "AFRICA/TUNIS"
       }
     ],
     "Holidays": [
@@ -33087,7 +33087,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "WAT"
+        "TimeZoneCode": "AFRICA/TUNIS"
       }
     ],
     "Holidays": [
@@ -33314,7 +33314,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -36259,7 +36259,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -38305,7 +38305,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
@@ -39784,7 +39784,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -40418,7 +40418,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -44210,7 +44210,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -44849,7 +44849,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       }
     ],
     "Holidays": [
@@ -45546,7 +45546,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -45803,7 +45803,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "Holidays": [
@@ -46350,7 +46350,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "SST"
+        "TimeZoneCode": "PACIFIC/APIA"
       }
     ],
     "Holidays": []
@@ -46732,7 +46732,7 @@
         "TimeZoneCode": "MST"
       },
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "US/CENTRAL"
       },
       {
         "TimeZoneCode": "EST"
@@ -47444,7 +47444,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -47696,7 +47696,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -47973,7 +47973,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "ATLANTIC/BERMUDA"
       }
     ],
     "Holidays": [
@@ -49638,7 +49638,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/DAKAR"
       }
     ],
     "Holidays": [
