@@ -7,6 +7,8 @@ using MediatR;
 using YamlDotNet.Core.Tokens;
 
 using Nox.Application.Queries;
+using Nox.Application.Repositories;
+
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +18,21 @@ public partial record  GetTenantBrandTranslationsQuery(System.Int64 keyId) : IRe
 
 internal partial class GetTenantBrandTranslationsQueryHandler:GetTenantBrandTranslationsQueryHandlerBase
 {
-    public  GetTenantBrandTranslationsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public  GetTenantBrandTranslationsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTenantBrandTranslationsQueryHandlerBase:  QueryBase<IQueryable<TenantBrandLocalizedDto>>, IRequestHandler<GetTenantBrandTranslationsQuery, IQueryable<TenantBrandLocalizedDto>>
 {
-    public  GetTenantBrandTranslationsQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTenantBrandTranslationsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TenantBrandLocalizedDto>> Handle(GetTenantBrandTranslationsQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.TenantBrandsLocalized
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TenantBrandLocalizedDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

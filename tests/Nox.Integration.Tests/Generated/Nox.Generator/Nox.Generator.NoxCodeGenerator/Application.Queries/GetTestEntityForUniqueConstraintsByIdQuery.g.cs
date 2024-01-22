@@ -31,7 +31,7 @@ internal abstract class GetTestEntityForUniqueConstraintsByIdQueryHandlerBase:  
 
     public virtual Task<IQueryable<TestEntityForUniqueConstraintsDto>> Handle(GetTestEntityForUniqueConstraintsByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityForUniqueConstraintsDto >()
+        var query = ReadOnlyRepository.Query<TestEntityForUniqueConstraintsDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

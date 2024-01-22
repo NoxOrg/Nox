@@ -31,7 +31,7 @@ internal abstract class GetTenantByIdQueryHandlerBase:  QueryBase<IQueryable<Ten
 
     public virtual Task<IQueryable<TenantDto>> Handle(GetTenantByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TenantDto >()
+        var query = ReadOnlyRepository.Query<TenantDto>()
             .Include(e => e.TenantBrands)
             .Include(e => e.TenantContact)
             .Where(r =>

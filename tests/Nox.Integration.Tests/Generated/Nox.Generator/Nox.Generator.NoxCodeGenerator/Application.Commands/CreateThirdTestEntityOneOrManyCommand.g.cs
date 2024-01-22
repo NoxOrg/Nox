@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -28,11 +29,11 @@ public partial record CreateThirdTestEntityOneOrManyCommand(ThirdTestEntityOneOr
 internal partial class CreateThirdTestEntityOneOrManyCommandHandler : CreateThirdTestEntityOneOrManyCommandHandlerBase
 {
 	public CreateThirdTestEntityOneOrManyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrMany, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> ThirdTestEntityZeroOrManyFactory,
 		IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,ThirdTestEntityZeroOrManyFactory, entityFactory)
+		: base(repository, noxSolution,ThirdTestEntityZeroOrManyFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateThirdTestEntityOneOrManyCommandHandler : CreateThir
 
 internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : CommandBase<CreateThirdTestEntityOneOrManyCommand,ThirdTestEntityOneOrManyEntity>, IRequestHandler <CreateThirdTestEntityOneOrManyCommand, ThirdTestEntityOneOrManyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrMany, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> ThirdTestEntityZeroOrManyFactory;
 
 	protected CreateThirdTestEntityOneOrManyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrMany, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> ThirdTestEntityZeroOrManyFactory,
 		IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.ThirdTestEntityZeroOrManyFactory = ThirdTestEntityZeroOrManyFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 			foreach(var relatedId in request.EntityDto.ThirdTestEntityZeroOrManiesId)
 			{
 				var relatedKey = Dto.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.ThirdTestEntityZeroOrManies.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ThirdTestEntityZeroOrMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToThirdTestEntityZeroOrManies(relatedEntity);
@@ -85,8 +86,8 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.ThirdTestEntityOneOrManies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<ThirdTestEntityOneOrMany>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new ThirdTestEntityOneOrManyKeyDto(entityToCreate.Id.Value);
 	}
 }

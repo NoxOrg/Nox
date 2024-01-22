@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetCountryQualityOfLifeIndicesQuery() : IRequest<IQueryabl
 
 internal partial class GetCountryQualityOfLifeIndicesQueryHandler: GetCountryQualityOfLifeIndicesQueryHandlerBase
 {
-    public GetCountryQualityOfLifeIndicesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCountryQualityOfLifeIndicesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountryQualityOfLifeIndicesQueryHandlerBase : QueryBase<IQueryable<CountryQualityOfLifeIndexDto>>, IRequestHandler<GetCountryQualityOfLifeIndicesQuery, IQueryable<CountryQualityOfLifeIndexDto>>
 {
-    public  GetCountryQualityOfLifeIndicesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCountryQualityOfLifeIndicesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CountryQualityOfLifeIndexDto>> Handle(GetCountryQualityOfLifeIndicesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<CountryQualityOfLifeIndexDto>)DataDbContext.CountryQualityOfLifeIndices
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<CountryQualityOfLifeIndexDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

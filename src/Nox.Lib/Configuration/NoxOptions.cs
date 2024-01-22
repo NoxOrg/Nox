@@ -37,8 +37,7 @@ namespace Nox.Configuration
     {
         private Assembly? _clientAssembly;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
-        private Action<IServiceCollection>? _configureDatabaseContext;
-        private Action<IServiceCollection>? _configureRepository;
+        private Action<IServiceCollection>? _configureRepositories;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
         private Action<IHealthChecksBuilder>? _healthChecksBuilderAction;
 
@@ -77,38 +76,29 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext
+        public INoxOptions WithRepositories<T, D>() where T : DbContext where D : DbContext
         {
-            if (typeof(T).IsAssignableFrom(typeof(EntityDbContextBase)))
+            if (typeof(T).IsAssignableFrom(typeof(IRepository)))
             {
-                throw new InvalidConfigurationException($"{nameof(T)} is not of type {typeof(EntityDbContextBase)}");
+                throw new InvalidConfigurationException($"{nameof(T)} is not of type {typeof(IRepository)}");
             }
             if (typeof(D).IsAssignableFrom(typeof(IReadOnlyRepository)))
             {
                 throw new InvalidConfigurationException($"{nameof(D)} is not {typeof(IReadOnlyRepository)}");
             }
 
-            _configureDatabaseContext = (services) =>
+            _configureRepositories = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
-                services.AddScoped(typeof(EntityDbContextBase),serviceProvider => serviceProvider.GetRequiredService<T>());
+                services.AddScoped(typeof(IRepository),serviceProvider => serviceProvider.GetRequiredService<T>());
                 
                 services.AddDbContext<D>();
                 services.AddScoped(typeof(IReadOnlyRepository), serviceProvider => serviceProvider.GetRequiredService<D>());
             };
 
             return this;
-        }
-        public INoxOptions WithRepository<R>() where R : class, IRepository
-        {
-            _configureRepository = (services) =>
-            {
-                services.AddScoped<IRepository, R>();
-            };
-
-            return this;
-        }
+        }      
    
         public INoxOptions WithoutMessagingTransactionalOutbox()
         {
@@ -269,9 +259,7 @@ namespace Nox.Configuration
                 services.AddSingleton(typeof(INoxDatabaseProvider), dbProviderType);
 
                 
-                _configureDatabaseContext?.Invoke(services);
-
-                _configureRepository?.Invoke(services);
+                _configureRepositories?.Invoke(services);
 
                 services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
 

@@ -61,6 +61,21 @@ public abstract partial class TenantsControllerBase
 
         return Ok(item);
     }
+
+    [HttpDelete("/api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> DeleteTenantBrandLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+
+        await _mediator.Send(new DeleteTenantBrandsTranslationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+
+        return NoContent();
+    }
     [HttpPut("/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}")]
     public virtual async Task<ActionResult<TenantContactLocalizedDto>> PutTenantContactLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] TenantContactLocalizedUpsertDto tenantContactLocalizedUpsertDto)
     {
@@ -92,4 +107,18 @@ public abstract partial class TenantsControllerBase
         return Ok(item);
     }
 
+    [HttpDelete("/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<TenantContactLocalizedDto>> DeleteTenantContactLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+
+        await _mediator.Send(new DeleteTenantContactTranslationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+
+        return NoContent();
+    }
 }

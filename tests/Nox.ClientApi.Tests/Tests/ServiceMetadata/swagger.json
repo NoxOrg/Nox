@@ -432,7 +432,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -28319,6 +28319,131 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "DELETE_api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantBrandLocalizedDto"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}": {
@@ -28443,6 +28568,131 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantContactLocalizedDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "DELETE_api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -33391,6 +33641,131 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Workplaces"
+        ],
+        "operationId": "DELETE_api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkplaceLocalizedDto"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/Workplaces/{key}/WorkplacesLocalized": {
@@ -36158,7 +36533,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -38489,7 +38864,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -39036,7 +39411,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -39664,7 +40039,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -41049,7 +41424,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -43821,7 +44196,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -44886,7 +45261,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -45631,7 +46006,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -47633,7 +48008,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -48662,7 +49037,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -49407,7 +49782,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -50427,7 +50802,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -51456,7 +51831,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -54705,7 +55080,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -55806,7 +56181,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -56551,7 +56926,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }

@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,12 +29,12 @@ public partial record CreateCommissionCommand(CommissionCreateDto EntityDto, Nox
 internal partial class CreateCommissionCommandHandler : CreateCommissionCommandHandlerBase
 {
 	public CreateCommissionCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CountryFactory, BookingFactory, entityFactory)
+		: base(repository, noxSolution,CountryFactory, BookingFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreateCommissionCommandHandler : CreateCommissionCommandH
 
 internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateCommissionCommand,CommissionEntity>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory;
 
 	protected CreateCommissionCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CountryFactory = CountryFactory;
 		this.BookingFactory = BookingFactory;
@@ -69,7 +70,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -85,7 +86,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
 				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToBookings(relatedEntity);
@@ -103,8 +104,8 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Commissions.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Commission>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);
 	}
 }

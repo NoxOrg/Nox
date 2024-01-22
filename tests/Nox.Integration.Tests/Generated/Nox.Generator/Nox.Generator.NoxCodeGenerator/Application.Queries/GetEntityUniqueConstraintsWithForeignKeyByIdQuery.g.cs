@@ -31,7 +31,7 @@ internal abstract class GetEntityUniqueConstraintsWithForeignKeyByIdQueryHandler
 
     public virtual Task<IQueryable<EntityUniqueConstraintsWithForeignKeyDto>> Handle(GetEntityUniqueConstraintsWithForeignKeyByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<EntityUniqueConstraintsWithForeignKeyDto >()
+        var query = ReadOnlyRepository.Query<EntityUniqueConstraintsWithForeignKeyDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

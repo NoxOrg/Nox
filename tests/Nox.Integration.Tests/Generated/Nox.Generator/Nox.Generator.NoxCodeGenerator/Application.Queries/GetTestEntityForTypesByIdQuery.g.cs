@@ -31,7 +31,7 @@ internal abstract class GetTestEntityForTypesByIdQueryHandlerBase:  QueryBase<IQ
 
     public virtual Task<IQueryable<TestEntityForTypesDto>> Handle(GetTestEntityForTypesByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityForTypesDto >()
+        var query = ReadOnlyRepository.Query<TestEntityForTypesDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

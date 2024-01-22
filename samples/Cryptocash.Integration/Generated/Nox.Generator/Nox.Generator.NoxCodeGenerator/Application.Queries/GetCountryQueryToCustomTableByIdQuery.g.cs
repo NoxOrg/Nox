@@ -31,7 +31,7 @@ internal abstract class GetCountryQueryToCustomTableByIdQueryHandlerBase:  Query
 
     public virtual Task<IQueryable<CountryQueryToCustomTableDto>> Handle(GetCountryQueryToCustomTableByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CountryQueryToCustomTableDto >()
+        var query = ReadOnlyRepository.Query<CountryQueryToCustomTableDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using CryptocashIntegration.Application.Dto;
 using CryptocashIntegration.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetCountryQueryToCustomTablesQuery() : IRequest<IQueryable
 
 internal partial class GetCountryQueryToCustomTablesQueryHandler: GetCountryQueryToCustomTablesQueryHandlerBase
 {
-    public GetCountryQueryToCustomTablesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCountryQueryToCustomTablesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountryQueryToCustomTablesQueryHandlerBase : QueryBase<IQueryable<CountryQueryToCustomTableDto>>, IRequestHandler<GetCountryQueryToCustomTablesQuery, IQueryable<CountryQueryToCustomTableDto>>
 {
-    public  GetCountryQueryToCustomTablesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCountryQueryToCustomTablesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CountryQueryToCustomTableDto>> Handle(GetCountryQueryToCustomTablesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<CountryQueryToCustomTableDto>)DataDbContext.CountryQueryToCustomTables
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<CountryQueryToCustomTableDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

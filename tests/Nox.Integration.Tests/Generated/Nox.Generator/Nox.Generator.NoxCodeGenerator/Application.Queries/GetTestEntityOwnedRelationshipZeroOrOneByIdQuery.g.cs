@@ -31,7 +31,7 @@ internal abstract class GetTestEntityOwnedRelationshipZeroOrOneByIdQueryHandlerB
 
     public virtual Task<IQueryable<TestEntityOwnedRelationshipZeroOrOneDto>> Handle(GetTestEntityOwnedRelationshipZeroOrOneByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityOwnedRelationshipZeroOrOneDto >()
+        var query = ReadOnlyRepository.Query<TestEntityOwnedRelationshipZeroOrOneDto>()
             .Include(e => e.SecondTestEntityOwnedRelationshipZeroOrOne)
             .Where(r =>
                 r.Id.Equals(request.keyId));

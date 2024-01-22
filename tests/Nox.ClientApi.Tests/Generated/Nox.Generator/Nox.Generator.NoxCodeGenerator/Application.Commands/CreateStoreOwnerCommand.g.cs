@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -28,11 +29,11 @@ public partial record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto, Nox
 internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandHandlerBase
 {
 	public CreateStoreOwnerCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,StoreFactory, entityFactory)
+		: base(repository, noxSolution,StoreFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandH
 
 internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateStoreOwnerCommand,StoreOwnerEntity>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	protected CreateStoreOwnerCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.StoreFactory = StoreFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 			foreach(var relatedId in request.EntityDto.StoresId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStores(relatedEntity);
@@ -85,8 +86,8 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.StoreOwners.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<StoreOwner>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new StoreOwnerKeyDto(entityToCreate.Id.Value);
 	}
 }

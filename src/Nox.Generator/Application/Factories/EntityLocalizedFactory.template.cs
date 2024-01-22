@@ -41,7 +41,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
     public virtual async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.Query<{{localizedEntityName}}>(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        var entityLocalized = await Repository.Query<{{localizedEntityName}}>().Where(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
             entityLocalized = CreateLocalizedEntity(entity, cultureCode);
@@ -59,7 +59,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
     public virtual async Task PartialUpdateLocalizedEntityAsync({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.Query<{{localizedEntityName}}>(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        var entityLocalized = await Repository.Query<{{localizedEntityName}}>().Where(x =>{{for key in entityKeys }} x.{{key.Name}} == entity.{{key.Name}} &&{{end}} x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
             entityLocalized = CreateLocalizedEntity(entity, cultureCode);

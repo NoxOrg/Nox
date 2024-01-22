@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -28,10 +29,10 @@ public partial record CreateReferenceNumberEntityCommand(ReferenceNumberEntityCr
 internal partial class CreateReferenceNumberEntityCommandHandler : CreateReferenceNumberEntityCommandHandlerBase
 {
 	public CreateReferenceNumberEntityCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(repository, noxSolution,entityFactory)
 	{
 	}
 }
@@ -39,16 +40,16 @@ internal partial class CreateReferenceNumberEntityCommandHandler : CreateReferen
 
 internal abstract class CreateReferenceNumberEntityCommandHandlerBase : CommandBase<CreateReferenceNumberEntityCommand,ReferenceNumberEntityEntity>, IRequestHandler <CreateReferenceNumberEntityCommand, ReferenceNumberEntityKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> EntityFactory;
 
 	protected CreateReferenceNumberEntityCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ReferenceNumberEntityEntity, ReferenceNumberEntityCreateDto, ReferenceNumberEntityUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -60,8 +61,8 @@ internal abstract class CreateReferenceNumberEntityCommandHandlerBase : CommandB
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.ReferenceNumberEntities.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<ReferenceNumberEntity>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new ReferenceNumberEntityKeyDto(entityToCreate.Id.Value);
 	}
 }

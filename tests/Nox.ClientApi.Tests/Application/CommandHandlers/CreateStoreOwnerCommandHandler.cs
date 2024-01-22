@@ -5,6 +5,7 @@ using ClientApi.Domain;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
 using Nox.Infrastructure.Messaging;
 using Nox.Application.Factories;
+using Nox.Domain;
 
 namespace ClientApi.Application.Commands;
 
@@ -16,12 +17,12 @@ internal partial class CreateStoreOwnerCommandHandler
     private IOutboxRepository? _outboxRepository;
 
     public CreateStoreOwnerCommandHandler(
-        Infrastructure.Persistence.AppDbContext dbContext,
+        IRepository repository,
         NoxSolution noxSolution,
         IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
         IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
         IOutboxRepository outboxRepository)
-        : base(dbContext, noxSolution, storefactory, entityFactory)
+        : base(repository, noxSolution, storefactory, entityFactory)
     {
         _outboxRepository = outboxRepository;
     }

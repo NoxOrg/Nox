@@ -31,7 +31,7 @@ internal abstract class GetThirdTestEntityZeroOrOneByIdQueryHandlerBase:  QueryB
 
     public virtual Task<IQueryable<ThirdTestEntityZeroOrOneDto>> Handle(GetThirdTestEntityZeroOrOneByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<ThirdTestEntityZeroOrOneDto >()
+        var query = ReadOnlyRepository.Query<ThirdTestEntityZeroOrOneDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

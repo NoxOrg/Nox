@@ -31,7 +31,7 @@ internal abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<E
 
     public virtual Task<IQueryable<EmployeeDto>> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<EmployeeDto >()
+        var query = ReadOnlyRepository.Query<EmployeeDto>()
             .Include(e => e.EmployeePhoneNumbers)
             .Where(r =>
                 r.Id.Equals(request.keyId));

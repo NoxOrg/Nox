@@ -40,7 +40,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
 
     public virtual async Task UpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>().Where(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
             entityLocalized = CreateLocalizedEntity(entity, cultureCode);
@@ -52,7 +52,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>().Where(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
             entityLocalized = CreateLocalizedEntity(entity, cultureCode);

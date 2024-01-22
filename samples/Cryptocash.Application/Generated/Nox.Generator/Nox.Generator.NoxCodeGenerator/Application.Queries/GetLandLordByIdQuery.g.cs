@@ -31,7 +31,7 @@ internal abstract class GetLandLordByIdQueryHandlerBase:  QueryBase<IQueryable<L
 
     public virtual Task<IQueryable<LandLordDto>> Handle(GetLandLordByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<LandLordDto >()
+        var query = ReadOnlyRepository.Query<LandLordDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

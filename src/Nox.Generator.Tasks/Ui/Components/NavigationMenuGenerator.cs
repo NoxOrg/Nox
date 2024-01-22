@@ -20,7 +20,7 @@ internal class NavigationMenuGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Ui.Components.NavigationMenu";
+        var templateName = @"Tasks.Ui.Components.NavigationMenu";
         var entities = codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity);
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)

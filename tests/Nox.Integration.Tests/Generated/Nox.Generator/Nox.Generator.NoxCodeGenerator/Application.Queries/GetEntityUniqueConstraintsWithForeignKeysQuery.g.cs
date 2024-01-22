@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Queries;
-
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetEntityUniqueConstraintsWithForeignKeysQuery() : IReques
 
 internal partial class GetEntityUniqueConstraintsWithForeignKeysQueryHandler: GetEntityUniqueConstraintsWithForeignKeysQueryHandlerBase
 {
-    public GetEntityUniqueConstraintsWithForeignKeysQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetEntityUniqueConstraintsWithForeignKeysQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetEntityUniqueConstraintsWithForeignKeysQueryHandlerBase : QueryBase<IQueryable<EntityUniqueConstraintsWithForeignKeyDto>>, IRequestHandler<GetEntityUniqueConstraintsWithForeignKeysQuery, IQueryable<EntityUniqueConstraintsWithForeignKeyDto>>
 {
-    public  GetEntityUniqueConstraintsWithForeignKeysQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetEntityUniqueConstraintsWithForeignKeysQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<EntityUniqueConstraintsWithForeignKeyDto>> Handle(GetEntityUniqueConstraintsWithForeignKeysQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<EntityUniqueConstraintsWithForeignKeyDto>)DataDbContext.EntityUniqueConstraintsWithForeignKeys
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<EntityUniqueConstraintsWithForeignKeyDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

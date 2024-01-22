@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,14 +29,14 @@ public partial record CreateCountryCommand(CountryCreateDto EntityDto, Nox.Types
 internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
 	public CreateCountryCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CurrencyFactory, CommissionFactory, VendingMachineFactory, CustomerFactory, entityFactory)
+		: base(repository, noxSolution,CurrencyFactory, CommissionFactory, VendingMachineFactory, CustomerFactory, entityFactory)
 	{
 	}
 }
@@ -43,7 +44,7 @@ internal partial class CreateCountryCommandHandler : CreateCountryCommandHandler
 
 internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCountryCommand,CountryEntity>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory;
@@ -51,7 +52,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 
 	protected CreateCountryCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory,
@@ -60,7 +61,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CurrencyFactory = CurrencyFactory;
 		this.CommissionFactory = CommissionFactory;
@@ -77,7 +78,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		if(request.EntityDto.CurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCurrency(relatedEntity);
 			else
@@ -93,7 +94,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.CommissionsId)
 			{
 				var relatedKey = Dto.CommissionMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Commission>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCommissions(relatedEntity);
@@ -114,7 +115,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToVendingMachines(relatedEntity);
@@ -135,7 +136,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.CustomersId)
 			{
 				var relatedKey = Dto.CustomerMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCustomers(relatedEntity);
@@ -153,8 +154,8 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Countries.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Country>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);
 	}
 }

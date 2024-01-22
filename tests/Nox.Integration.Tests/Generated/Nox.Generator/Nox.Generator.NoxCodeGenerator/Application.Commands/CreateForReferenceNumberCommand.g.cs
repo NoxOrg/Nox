@@ -5,14 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -27,10 +28,10 @@ public partial record CreateForReferenceNumberCommand(ForReferenceNumberCreateDt
 internal partial class CreateForReferenceNumberCommandHandler : CreateForReferenceNumberCommandHandlerBase
 {
 	public CreateForReferenceNumberCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(repository, noxSolution,entityFactory)
 	{
 	}
 }
@@ -38,16 +39,16 @@ internal partial class CreateForReferenceNumberCommandHandler : CreateForReferen
 
 internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase<CreateForReferenceNumberCommand,ForReferenceNumberEntity>, IRequestHandler <CreateForReferenceNumberCommand, ForReferenceNumberKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> EntityFactory;
 
 	protected CreateForReferenceNumberCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ForReferenceNumberEntity, ForReferenceNumberCreateDto, ForReferenceNumberUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -59,8 +60,8 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.ForReferenceNumbers.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<ForReferenceNumber>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new ForReferenceNumberKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -31,7 +31,7 @@ internal abstract class GetCountryQueryToTableByIdQueryHandlerBase:  QueryBase<I
 
     public virtual Task<IQueryable<CountryQueryToTableDto>> Handle(GetCountryQueryToTableByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<CountryQueryToTableDto >()
+        var query = ReadOnlyRepository.Query<CountryQueryToTableDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

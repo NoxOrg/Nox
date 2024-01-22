@@ -31,7 +31,7 @@ internal abstract class GetRatingProgramByIdQueryHandlerBase:  QueryBase<IQuerya
 
     public virtual Task<IQueryable<RatingProgramDto>> Handle(GetRatingProgramByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<RatingProgramDto >()
+        var query = ReadOnlyRepository.Query<RatingProgramDto>()
             .Where(r =>
                 r.StoreId.Equals(request.keyStoreId) &&
                 r.Id.Equals(request.keyId));

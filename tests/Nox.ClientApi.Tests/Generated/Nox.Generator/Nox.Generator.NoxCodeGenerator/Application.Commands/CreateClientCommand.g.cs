@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -28,11 +29,11 @@ public partial record CreateClientCommand(ClientCreateDto EntityDto, Nox.Types.C
 internal partial class CreateClientCommandHandler : CreateClientCommandHandlerBase
 {
 	public CreateClientCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,StoreFactory, entityFactory)
+		: base(repository, noxSolution,StoreFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateClientCommandHandler : CreateClientCommandHandlerBa
 
 internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClientCommand,ClientEntity>, IRequestHandler <CreateClientCommand, ClientKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	protected CreateClientCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.StoreFactory = StoreFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 			foreach(var relatedId in request.EntityDto.StoresId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStores(relatedEntity);
@@ -85,8 +86,8 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Clients.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Client>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new ClientKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -31,7 +31,7 @@ internal abstract class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<Bo
 
     public virtual Task<IQueryable<BookingDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<BookingDto >()
+        var query = ReadOnlyRepository.Query<BookingDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

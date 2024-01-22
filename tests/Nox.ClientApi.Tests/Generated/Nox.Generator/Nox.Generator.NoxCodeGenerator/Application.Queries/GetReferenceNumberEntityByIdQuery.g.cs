@@ -31,7 +31,7 @@ internal abstract class GetReferenceNumberEntityByIdQueryHandlerBase:  QueryBase
 
     public virtual Task<IQueryable<ReferenceNumberEntityDto>> Handle(GetReferenceNumberEntityByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<ReferenceNumberEntityDto >()
+        var query = ReadOnlyRepository.Query<ReferenceNumberEntityDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

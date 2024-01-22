@@ -31,7 +31,7 @@ internal abstract class GetTestEntityTwoRelationshipsOneToManyByIdQueryHandlerBa
 
     public virtual Task<IQueryable<TestEntityTwoRelationshipsOneToManyDto>> Handle(GetTestEntityTwoRelationshipsOneToManyByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = ReadOnlyRepository.Query<TestEntityTwoRelationshipsOneToManyDto >()
+        var query = ReadOnlyRepository.Query<TestEntityTwoRelationshipsOneToManyDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
