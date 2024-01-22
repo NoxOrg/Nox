@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,14 +29,14 @@ public partial record CreateBookingCommand(BookingCreateDto EntityDto, Nox.Types
 internal partial class CreateBookingCommandHandler : CreateBookingCommandHandlerBase
 {
 	public CreateBookingCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory,
 		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CustomerFactory, VendingMachineFactory, CommissionFactory, TransactionFactory, entityFactory)
+		: base(repository, noxSolution,CustomerFactory, VendingMachineFactory, CommissionFactory, TransactionFactory, entityFactory)
 	{
 	}
 }
@@ -43,7 +44,7 @@ internal partial class CreateBookingCommandHandler : CreateBookingCommandHandler
 
 internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBookingCommand,BookingEntity>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
@@ -51,7 +52,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 	protected readonly IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory;
 
 	protected CreateBookingCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
@@ -60,7 +61,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CustomerFactory = CustomerFactory;
 		this.VendingMachineFactory = VendingMachineFactory;
@@ -77,7 +78,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
@@ -91,7 +92,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		if(request.EntityDto.VendingMachineId is not null)
 		{
 			var relatedKey = Dto.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToVendingMachine(relatedEntity);
 			else
@@ -105,7 +106,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		if(request.EntityDto.CommissionId is not null)
 		{
 			var relatedKey = Dto.CommissionMetadata.CreateId(request.EntityDto.CommissionId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Commission>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCommission(relatedEntity);
 			else
@@ -119,7 +120,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		if(request.EntityDto.TransactionId is not null)
 		{
 			var relatedKey = Dto.TransactionMetadata.CreateId(request.EntityDto.TransactionId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Transaction>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTransaction(relatedEntity);
 			else
@@ -132,8 +133,8 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Bookings.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Booking>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new BookingKeyDto(entityToCreate.Id.Value);
 	}
 }

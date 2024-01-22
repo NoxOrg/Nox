@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -28,11 +29,11 @@ public partial record CreateTestEntityExactlyOneToZeroOrManyCommand(TestEntityEx
 internal partial class CreateTestEntityExactlyOneToZeroOrManyCommandHandler : CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 {
 	public CreateTestEntityExactlyOneToZeroOrManyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne, TestEntityZeroOrManyToExactlyOneCreateDto, TestEntityZeroOrManyToExactlyOneUpdateDto> TestEntityZeroOrManyToExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,TestEntityZeroOrManyToExactlyOneFactory, entityFactory)
+		: base(repository, noxSolution,TestEntityZeroOrManyToExactlyOneFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateTestEntityExactlyOneToZeroOrManyCommandHandler : Cr
 
 internal abstract class CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase : CommandBase<CreateTestEntityExactlyOneToZeroOrManyCommand,TestEntityExactlyOneToZeroOrManyEntity>, IRequestHandler <CreateTestEntityExactlyOneToZeroOrManyCommand, TestEntityExactlyOneToZeroOrManyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne, TestEntityZeroOrManyToExactlyOneCreateDto, TestEntityZeroOrManyToExactlyOneUpdateDto> TestEntityZeroOrManyToExactlyOneFactory;
 
 	protected CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne, TestEntityZeroOrManyToExactlyOneCreateDto, TestEntityZeroOrManyToExactlyOneUpdateDto> TestEntityZeroOrManyToExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.TestEntityZeroOrManyToExactlyOneFactory = TestEntityZeroOrManyToExactlyOneFactory;
 	}
@@ -65,7 +66,7 @@ internal abstract class CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 		if(request.EntityDto.TestEntityZeroOrManyToExactlyOneId is not null)
 		{
 			var relatedKey = Dto.TestEntityZeroOrManyToExactlyOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrManyToExactlyOneId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.TestEntityZeroOrManyToExactlyOnes.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<TestEntityZeroOrManyToExactlyOne>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestEntityZeroOrManyToExactlyOne(relatedEntity);
 			else
@@ -78,8 +79,8 @@ internal abstract class CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.TestEntityExactlyOneToZeroOrManies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<TestEntityExactlyOneToZeroOrMany>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TestEntityExactlyOneToZeroOrManyKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,11 +29,11 @@ public partial record CreatePaymentProviderCommand(PaymentProviderCreateDto Enti
 internal partial class CreatePaymentProviderCommandHandler : CreatePaymentProviderCommandHandlerBase
 {
 	public CreatePaymentProviderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
 		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,PaymentDetailFactory, entityFactory)
+		: base(repository, noxSolution,PaymentDetailFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreatePaymentProviderCommandHandler : CreatePaymentProvid
 
 internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<CreatePaymentProviderCommand,PaymentProviderEntity>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory;
 
 	protected CreatePaymentProviderCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
 		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.PaymentDetailFactory = PaymentDetailFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
 			{
 				var relatedKey = Dto.PaymentDetailMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<PaymentDetail>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToPaymentDetails(relatedEntity);
@@ -85,8 +86,8 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.PaymentProviders.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<PaymentProvider>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new PaymentProviderKeyDto(entityToCreate.Id.Value);
 	}
 }

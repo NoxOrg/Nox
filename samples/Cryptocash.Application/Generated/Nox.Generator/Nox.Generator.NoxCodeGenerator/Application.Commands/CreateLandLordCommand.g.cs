@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,11 +29,11 @@ public partial record CreateLandLordCommand(LandLordCreateDto EntityDto, Nox.Typ
 internal partial class CreateLandLordCommandHandler : CreateLandLordCommandHandlerBase
 {
 	public CreateLandLordCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,VendingMachineFactory, entityFactory)
+		: base(repository, noxSolution,VendingMachineFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateLandLordCommandHandler : CreateLandLordCommandHandl
 
 internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLandLordCommand,LandLordEntity>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 
 	protected CreateLandLordCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.VendingMachineFactory = VendingMachineFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToVendingMachines(relatedEntity);
@@ -85,8 +86,8 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.LandLords.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<LandLord>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new LandLordKeyDto(entityToCreate.Id.Value);
 	}
 }

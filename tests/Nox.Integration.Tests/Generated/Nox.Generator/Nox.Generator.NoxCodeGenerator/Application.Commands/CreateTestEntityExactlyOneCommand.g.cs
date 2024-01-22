@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -28,11 +29,11 @@ public partial record CreateTestEntityExactlyOneCommand(TestEntityExactlyOneCrea
 internal partial class CreateTestEntityExactlyOneCommandHandler : CreateTestEntityExactlyOneCommandHandlerBase
 {
 	public CreateTestEntityExactlyOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,SecondTestEntityExactlyOneFactory, entityFactory)
+		: base(repository, noxSolution,SecondTestEntityExactlyOneFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateTestEntityExactlyOneCommandHandler : CreateTestEnti
 
 internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBase<CreateTestEntityExactlyOneCommand,TestEntityExactlyOneEntity>, IRequestHandler <CreateTestEntityExactlyOneCommand, TestEntityExactlyOneKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory;
 
 	protected CreateTestEntityExactlyOneCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.SecondTestEntityExactlyOneFactory = SecondTestEntityExactlyOneFactory;
 	}
@@ -65,7 +66,7 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		if(request.EntityDto.SecondTestEntityExactlyOneId is not null)
 		{
 			var relatedKey = Dto.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<SecondTestEntityExactlyOne>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToSecondTestEntityExactlyOne(relatedEntity);
 			else
@@ -78,8 +79,8 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.TestEntityExactlyOnes.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<TestEntityExactlyOne>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TestEntityExactlyOneKeyDto(entityToCreate.Id.Value);
 	}
 }

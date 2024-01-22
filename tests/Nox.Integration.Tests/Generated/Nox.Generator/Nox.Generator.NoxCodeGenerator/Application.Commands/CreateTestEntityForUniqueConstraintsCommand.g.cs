@@ -5,14 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -27,10 +28,10 @@ public partial record CreateTestEntityForUniqueConstraintsCommand(TestEntityForU
 internal partial class CreateTestEntityForUniqueConstraintsCommandHandler : CreateTestEntityForUniqueConstraintsCommandHandlerBase
 {
 	public CreateTestEntityForUniqueConstraintsCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(repository, noxSolution,entityFactory)
 	{
 	}
 }
@@ -38,16 +39,16 @@ internal partial class CreateTestEntityForUniqueConstraintsCommandHandler : Crea
 
 internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase : CommandBase<CreateTestEntityForUniqueConstraintsCommand,TestEntityForUniqueConstraintsEntity>, IRequestHandler <CreateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> EntityFactory;
 
 	protected CreateTestEntityForUniqueConstraintsCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -59,8 +60,8 @@ internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase :
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.TestEntityForUniqueConstraints.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<TestEntityForUniqueConstraints>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TestEntityForUniqueConstraintsKeyDto(entityToCreate.Id.Value);
 	}
 }

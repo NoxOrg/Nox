@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,12 +29,12 @@ public partial record CreateCashStockOrderCommand(CashStockOrderCreateDto Entity
 internal partial class CreateCashStockOrderCommandHandler : CreateCashStockOrderCommandHandlerBase
 {
 	public CreateCashStockOrderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Employee, EmployeeCreateDto, EmployeeUpdateDto> EmployeeFactory,
 		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,VendingMachineFactory, EmployeeFactory, entityFactory)
+		: base(repository, noxSolution,VendingMachineFactory, EmployeeFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreateCashStockOrderCommandHandler : CreateCashStockOrder
 
 internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<CreateCashStockOrderCommand,CashStockOrderEntity>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Employee, EmployeeCreateDto, EmployeeUpdateDto> EmployeeFactory;
 
 	protected CreateCashStockOrderCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Employee, EmployeeCreateDto, EmployeeUpdateDto> EmployeeFactory,
 		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.VendingMachineFactory = VendingMachineFactory;
 		this.EmployeeFactory = EmployeeFactory;
@@ -69,7 +70,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.VendingMachineId is not null)
 		{
 			var relatedKey = Dto.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToVendingMachine(relatedEntity);
 			else
@@ -83,7 +84,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.EmployeeId is not null)
 		{
 			var relatedKey = Dto.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Employees.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Employee>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEmployee(relatedEntity);
 			else
@@ -96,8 +97,8 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.CashStockOrders.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<CashStockOrder>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CashStockOrderKeyDto(entityToCreate.Id.Value);
 	}
 }

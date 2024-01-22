@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -28,11 +29,11 @@ public partial record CreateTestEntityZeroOrManyCommand(TestEntityZeroOrManyCrea
 internal partial class CreateTestEntityZeroOrManyCommandHandler : CreateTestEntityZeroOrManyCommandHandlerBase
 {
 	public CreateTestEntityZeroOrManyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityZeroOrMany, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> SecondTestEntityZeroOrManyFactory,
 		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,SecondTestEntityZeroOrManyFactory, entityFactory)
+		: base(repository, noxSolution,SecondTestEntityZeroOrManyFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateTestEntityZeroOrManyCommandHandler : CreateTestEnti
 
 internal abstract class CreateTestEntityZeroOrManyCommandHandlerBase : CommandBase<CreateTestEntityZeroOrManyCommand,TestEntityZeroOrManyEntity>, IRequestHandler <CreateTestEntityZeroOrManyCommand, TestEntityZeroOrManyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.SecondTestEntityZeroOrMany, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> SecondTestEntityZeroOrManyFactory;
 
 	protected CreateTestEntityZeroOrManyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityZeroOrMany, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> SecondTestEntityZeroOrManyFactory,
 		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.SecondTestEntityZeroOrManyFactory = SecondTestEntityZeroOrManyFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 			foreach(var relatedId in request.EntityDto.SecondTestEntityZeroOrManiesId)
 			{
 				var relatedKey = Dto.SecondTestEntityZeroOrManyMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.SecondTestEntityZeroOrManies.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<SecondTestEntityZeroOrMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToSecondTestEntityZeroOrManies(relatedEntity);
@@ -85,8 +86,8 @@ internal abstract class CreateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.TestEntityZeroOrManies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<TestEntityZeroOrMany>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TestEntityZeroOrManyKeyDto(entityToCreate.Id.Value);
 	}
 }

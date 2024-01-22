@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -28,10 +29,10 @@ public partial record CreateTestEntityForTypesCommand(TestEntityForTypesCreateDt
 internal partial class CreateTestEntityForTypesCommandHandler : CreateTestEntityForTypesCommandHandlerBase
 {
 	public CreateTestEntityForTypesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(repository, noxSolution,entityFactory)
 	{
 	}
 }
@@ -39,16 +40,16 @@ internal partial class CreateTestEntityForTypesCommandHandler : CreateTestEntity
 
 internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase<CreateTestEntityForTypesCommand,TestEntityForTypesEntity>, IRequestHandler <CreateTestEntityForTypesCommand, TestEntityForTypesKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> EntityFactory;
 
 	protected CreateTestEntityForTypesCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -60,8 +61,8 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.TestEntityForTypes.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<TestEntityForTypes>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TestEntityForTypesKeyDto(entityToCreate.Id.Value);
 	}
 }

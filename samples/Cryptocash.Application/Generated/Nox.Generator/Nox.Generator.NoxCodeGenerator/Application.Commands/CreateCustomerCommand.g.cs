@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,14 +29,14 @@ public partial record CreateCustomerCommand(CustomerCreateDto EntityDto, Nox.Typ
 internal partial class CreateCustomerCommandHandler : CreateCustomerCommandHandlerBase
 {
 	public CreateCustomerCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,PaymentDetailFactory, BookingFactory, TransactionFactory, CountryFactory, entityFactory)
+		: base(repository, noxSolution,PaymentDetailFactory, BookingFactory, TransactionFactory, CountryFactory, entityFactory)
 	{
 	}
 }
@@ -43,7 +44,7 @@ internal partial class CreateCustomerCommandHandler : CreateCustomerCommandHandl
 
 internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCustomerCommand,CustomerEntity>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory;
@@ -51,7 +52,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 
 	protected CreateCustomerCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
@@ -60,7 +61,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.PaymentDetailFactory = PaymentDetailFactory;
 		this.BookingFactory = BookingFactory;
@@ -79,7 +80,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
 			{
 				var relatedKey = Dto.PaymentDetailMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<PaymentDetail>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToPaymentDetails(relatedEntity);
@@ -100,7 +101,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
 				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToBookings(relatedEntity);
@@ -121,7 +122,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			foreach(var relatedId in request.EntityDto.TransactionsId)
 			{
 				var relatedKey = Dto.TransactionMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Transaction>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTransactions(relatedEntity);
@@ -140,7 +141,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -153,8 +154,8 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Customers.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Customer>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CustomerKeyDto(entityToCreate.Id.Value);
 	}
 }

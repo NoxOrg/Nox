@@ -5,14 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
@@ -27,10 +28,10 @@ public partial record CreateCountryJsonToTableCommand(CountryJsonToTableCreateDt
 internal partial class CreateCountryJsonToTableCommandHandler : CreateCountryJsonToTableCommandHandlerBase
 {
 	public CreateCountryJsonToTableCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,entityFactory)
+		: base(repository, noxSolution,entityFactory)
 	{
 	}
 }
@@ -38,16 +39,16 @@ internal partial class CreateCountryJsonToTableCommandHandler : CreateCountryJso
 
 internal abstract class CreateCountryJsonToTableCommandHandlerBase : CommandBase<CreateCountryJsonToTableCommand,CountryJsonToTableEntity>, IRequestHandler <CreateCountryJsonToTableCommand, CountryJsonToTableKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> EntityFactory;
 
 	protected CreateCountryJsonToTableCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -59,8 +60,8 @@ internal abstract class CreateCountryJsonToTableCommandHandlerBase : CommandBase
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.CountryJsonToTables.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<CountryJsonToTable>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CountryJsonToTableKeyDto(entityToCreate.Id.Value);
 	}
 }

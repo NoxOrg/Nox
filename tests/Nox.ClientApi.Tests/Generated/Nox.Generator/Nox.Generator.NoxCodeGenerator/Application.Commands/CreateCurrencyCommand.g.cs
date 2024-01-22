@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -28,11 +29,11 @@ public partial record CreateCurrencyCommand(CurrencyCreateDto EntityDto, Nox.Typ
 internal partial class CreateCurrencyCommandHandler : CreateCurrencyCommandHandlerBase
 {
 	public CreateCurrencyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,StoreLicenseFactory, entityFactory)
+		: base(repository, noxSolution,StoreLicenseFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateCurrencyCommandHandler : CreateCurrencyCommandHandl
 
 internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCurrencyCommand,CurrencyEntity>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory;
 
 	protected CreateCurrencyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.StoreLicenseFactory = StoreLicenseFactory;
 	}
@@ -67,7 +68,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.StoreLicenseDefaultId)
 			{
 				var relatedKey = Dto.StoreLicenseMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<StoreLicense>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStoreLicenseDefault(relatedEntity);
@@ -88,7 +89,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.StoreLicenseSoldInId)
 			{
 				var relatedKey = Dto.StoreLicenseMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<StoreLicense>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStoreLicenseSoldIn(relatedEntity);
@@ -106,8 +107,8 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Currencies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Currency>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);
 	}
 }
