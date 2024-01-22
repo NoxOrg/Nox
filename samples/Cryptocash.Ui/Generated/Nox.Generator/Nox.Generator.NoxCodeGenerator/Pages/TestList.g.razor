@@ -10,8 +10,14 @@
 @using MudBlazor
 @using System.Globalization;
 @using global::Cryptocash.Ui.Generated.Data.Helper;
+@using Nox.Ui.Blazor.Lib.Services;
 
 @page "/Test"
+
+@inject GlobalDataService TestGlobalData
+@{
+    TestGlobalData.PageTitle = "Test";
+}
 
 @inherits ListEntityPageBase<CustomerDto, CustomerCreateDto, CustomerUpdateDto>
 
