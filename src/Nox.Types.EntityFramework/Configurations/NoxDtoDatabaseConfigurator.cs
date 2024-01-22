@@ -11,11 +11,11 @@ namespace Nox.Types.EntityFramework.Configurations;
 
 public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
-    private readonly NoxCodeGenConventions _codeGenConventions;    
+    private readonly NoxCodeGenConventions _codeGenConventions;
     private readonly IEntityDtoSqlQueryBuilderProvider _sqlQueryBuilderProvider;
 
     public NoxDtoDatabaseConfigurator(
-        NoxCodeGenConventions codeGenConventions,        
+        NoxCodeGenConventions codeGenConventions,
         IEntityDtoSqlQueryBuilderProvider sqlQueryBuilderProvider)
     {
         _codeGenConventions = codeGenConventions;
@@ -101,26 +101,18 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     private void ConfigureRelationship(EntityTypeBuilder builder, Entity entity, EntityRelationship relationship)
     {
         var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
-        var reversedNavigationPropertyName = relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
+        var reversedNavigationPropertyName = relationship.Entity == entity.Name
+            ? null
+            : relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
 
         // ManyToMany Currently, configured bi-directionally, shouldn't cause any issues.
         if (relationship.WithMultiEntity &&
             relationship.Related.EntityRelationship.WithMultiEntity)
         {
-            if (relationship.Entity == entity.Name)
-            {
-                builder
-                    .HasMany(navigationPropertyName)
-                    .WithMany()
-                    .UsingEntity(x => x.ToTable(relationship.Name));
-            }
-            else
-            {
-                builder
-                    .HasMany(navigationPropertyName)
-                    .WithMany(reversedNavigationPropertyName)
-                    .UsingEntity(x => x.ToTable(relationship.Name));
-            }
+            builder
+                .HasMany(navigationPropertyName)
+                .WithMany(reversedNavigationPropertyName)
+                .UsingEntity(x => x.ToTable(relationship.Name));
         }
         // OneToOne and OneToMany, setup should be done only on foreign key side
         else if (relationship.WithSingleEntity())

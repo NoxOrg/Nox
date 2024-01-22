@@ -95,12 +95,20 @@ public abstract class StoreCreateDtoBase
     public virtual List<ClientCreateDto> Clients { get; set; } = new();
 
     /// <summary>
-    /// Store franchise stores ZeroOrMany Stores
+    /// Store parent stores ZeroOrOne Stores
     /// </summary>
-    public virtual List<System.Guid> StoresId { get; set; } = new();
+    public System.Guid? ParentOfStoreId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<StoreCreateDto> Stores { get; set; } = new();
+    public virtual StoreCreateDto? ParentOfStore { get; set; } = default!;
+
+    /// <summary>
+    /// Store franchise stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<System.Guid> FranchisesOfStoreId { get; set; } = new();
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual List<StoreCreateDto> FranchisesOfStore { get; set; } = new();
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

@@ -120,9 +120,16 @@ public abstract class StoreDtoBase : EntityDtoBase
     public virtual List<ClientDto> Clients { get; set; } = new();
 
     /// <summary>
+    /// Store parent stores ZeroOrOne Stores
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Guid? ParentOfStoreId { get; set; } = default!;
+    public virtual StoreDto? ParentOfStore { get; set; } = null!;
+
+    /// <summary>
     /// Store franchise stores ZeroOrMany Stores
     /// </summary>
-    public virtual List<StoreDto> Stores { get; set; } = new();
+    public virtual List<StoreDto> FranchisesOfStore { get; set; } = new();
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

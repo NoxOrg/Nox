@@ -141,25 +141,39 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 				entityToCreate.CreateRefToClients(relatedEntity);
 			}
 		}
-		if(request.EntityDto.StoresId.Any())
+		if(request.EntityDto.ParentOfStoreId is not null)
 		{
-			foreach(var relatedId in request.EntityDto.StoresId)
+			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.ParentOfStoreId.NonNullValue<System.Guid>());
+			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToParentOfStore(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("ParentOfStore", request.EntityDto.ParentOfStoreId.NonNullValue<System.Guid>().ToString());
+		}
+		else if(request.EntityDto.ParentOfStore is not null)
+		{
+			var relatedEntity = await StoreFactory.CreateEntityAsync(request.EntityDto.ParentOfStore, request.CultureCode);
+			entityToCreate.CreateRefToParentOfStore(relatedEntity);
+		}
+		if(request.EntityDto.FranchisesOfStoreId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.FranchisesOfStoreId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToStores(relatedEntity);
+					entityToCreate.CreateRefToFranchisesOfStore(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("Stores", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("FranchisesOfStore", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.Stores)
+			foreach(var relatedCreateDto in request.EntityDto.FranchisesOfStore)
 			{
 				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
-				entityToCreate.CreateRefToStores(relatedEntity);
+				entityToCreate.CreateRefToFranchisesOfStore(relatedEntity);
 			}
 		}
 

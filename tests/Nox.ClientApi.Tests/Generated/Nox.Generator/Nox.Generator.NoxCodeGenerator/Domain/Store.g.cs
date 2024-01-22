@@ -226,29 +226,54 @@ public abstract partial class StoreBase : AuditableEntityBase, IEtag
     }
 
     /// <summary>
+    /// Store parent stores ZeroOrOne Stores
+    /// </summary>
+    public virtual Store? ParentOfStore { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Store
+    /// </summary>
+    public Nox.Types.Guid? ParentOfStoreId { get; set; } = null!;
+
+    public virtual void CreateRefToParentOfStore(Store relatedStore)
+    {
+        ParentOfStore = relatedStore;
+    }
+
+    public virtual void DeleteRefToParentOfStore(Store relatedStore)
+    {
+        ParentOfStore = null;
+    }
+
+    public virtual void DeleteAllRefToParentOfStore()
+    {
+        ParentOfStoreId = null;
+    }
+
+    /// <summary>
     /// Store franchise stores ZeroOrMany Stores
     /// </summary>
-    public virtual List<Store> Stores { get; private set; } = new();
+    public virtual List<Store> FranchisesOfStore { get; private set; } = new();
 
-    public virtual void CreateRefToStores(Store relatedStore)
+    public virtual void CreateRefToFranchisesOfStore(Store relatedStore)
     {
-        Stores.Add(relatedStore);
+        FranchisesOfStore.Add(relatedStore);
     }
 
-    public virtual void UpdateRefToStores(List<Store> relatedStore)
+    public virtual void UpdateRefToFranchisesOfStore(List<Store> relatedStore)
     {
-        Stores.Clear();
-        Stores.AddRange(relatedStore);
+        FranchisesOfStore.Clear();
+        FranchisesOfStore.AddRange(relatedStore);
     }
 
-    public virtual void DeleteRefToStores(Store relatedStore)
+    public virtual void DeleteRefToFranchisesOfStore(Store relatedStore)
     {
-        Stores.Remove(relatedStore);
+        FranchisesOfStore.Remove(relatedStore);
     }
 
-    public virtual void DeleteAllRefToStores()
+    public virtual void DeleteAllRefToFranchisesOfStore()
     {
-        Stores.Clear();
+        FranchisesOfStore.Clear();
     }﻿
 
     /// <summary>

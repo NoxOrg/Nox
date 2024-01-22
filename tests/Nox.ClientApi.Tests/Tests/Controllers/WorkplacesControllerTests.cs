@@ -1037,7 +1037,6 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        // TODO: FIX THIS TEST ONCE LOCALIZATION IS IMPLEMENTED FOR PATCH
         [Fact]
         public async Task Patch_Description_ShouldUpdateDescriptionOnly()
         {

@@ -320,6 +320,7 @@ country where the store is located|ZeroOrOne|Country|CountryOfTheStore|Yes|Yes
 Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes|Yes
 License that this store uses|ZeroOrOne|StoreLicense|License|Yes|Yes
 clients of the store|ZeroOrMany|Client|ClientsOfStore|Yes|Yes
+parent stores|ZeroOrOne|Store|ParentOfStore|Yes|Yes
 franchise stores|ZeroOrMany|Store|FranchisesOfStore|Yes|Yes
 
 

@@ -48,6 +48,7 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("StoresStatuses.Name as StatusName")
 			.Select("Stores.CountryId")
 			.Select("Stores.StoreOwnerId")
+			.Select("Stores.ParentOfStoreId")
 			.Select("Stores.DeletedAtUtc")
 			.Select("Stores.Etag")
 			.LeftJoin(StatusEnumQuery(), j => j.On("StoresStatuses.Id", "Stores.Status"));

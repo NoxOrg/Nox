@@ -219,6 +219,51 @@ This document provides information about the various endpoints available in our 
 ### Store
 
 #### Get Store relations
+- **GET** `/api/v1/Stores/{key}/ParentOfStore/$ref`
+  - Description: Retrieve all existing Stores relations for a specific Store.
+  
+#### Create Store relation
+- **POST** `/api/v1/Stores/{key}/ParentOfStore/{relatedKey}/$ref`
+  - Description: Create a new Store relation for a specific Store.
+  
+#### Update Store relation
+- **PUT** `/api/v1/Stores/{key}/ParentOfStore/{relatedKey}/$ref`
+  - Description: Updates an existing Store relation for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/ParentOfStore/$ref`
+  - Description: Updates the Store relations for a specific Store.
+
+#### Delete Store relation
+- **DELETE** `/api/v1/Stores/{key}/ParentOfStore/{relatedKey}/$ref`
+  - Description: Delete an existing Store relation for a specific Store.
+
+#### Delete Store relations
+- **DELETE** `/api/v1/Stores/{key}/ParentOfStore/$ref`
+  - Description: Delete all existing Stores relations for a specific Store.
+
+#### Get Store
+- **GET** `/api/v1/Stores/{key}/ParentOfStore`
+  - Description: Retrieve all existing Stores for a specific Store.
+  
+#### Create Store
+- **POST** `/api/v1/Stores/{key}/ParentOfStore/{relatedKey}`
+  - Description: Create a new Store for a specific Store.
+  
+#### Update Store
+- **PUT** `/api/v1/Stores/{key}/ParentOfStore/{relatedKey}`
+  - Description: Updates an existing Store for a specific Store.
+- **PUT** `/api/v1/Stores/{key}/ParentOfStore`
+  - Description: Updates the Store for a specific Store.
+
+#### Delete Store
+- **DELETE** `/api/v1/Stores/{key}/ParentOfStore/{relatedKey}`
+  - Description: Delete an existing Store for a specific Store.
+
+#### Delete Store
+- **DELETE** `/api/v1/Stores/{key}/ParentOfStore`
+  - Description: Delete all existing Stores for a specific Store.
+### Store
+
+#### Get Store relations
 - **GET** `/api/v1/Stores/{key}/FranchisesOfStore/$ref`
   - Description: Retrieve all existing Stores relations for a specific Store.
   
@@ -368,4 +413,5 @@ This section details the API endpoints related to enumeration attributes in a sp
 [StoreOwner](StoreOwnerEndpoints.md)
 [StoreLicense](StoreLicenseEndpoints.md)
 [Client](ClientEndpoints.md)
+[Store](StoreEndpoints.md)
 [Store](StoreEndpoints.md)

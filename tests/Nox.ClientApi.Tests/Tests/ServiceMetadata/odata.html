@@ -175,19 +175,28 @@
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.PatchtoClientsNonConventional (Nox.ClientApi.Tests)</td><td>PATCH</td><td>/api/v1/Stores/{key}/Clients/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToClients (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/Clients/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToClients (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/Clients</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToStores (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Stores/{key}/Stores/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.UpdateRefToStoresNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Stores/{key}/Stores/$ref</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToStores (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/Stores/$ref">api/v1/Stores/{key}/Stores/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/Stores/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/Stores/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToStores (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Stores/{key}/Stores</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetStores (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/Stores">api/v1/Stores/{key}/Stores</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetStores (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/Stores/$count">api/v1/Stores/{key}/Stores/$count</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetStoresNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Stores/{key}/Stores/{relatedKey}">/api/v1/Stores/{key}/Stores/{relatedKey}</a></td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToStoresNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Stores/{key}/Stores/{relatedKey}</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PatchtoStoresNonConventional (Nox.ClientApi.Tests)</td><td>PATCH</td><td>/api/v1/Stores/{key}/Stores/{relatedKey}</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/Stores/{relatedKey}</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToStores (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/Stores</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToParentOfStore (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Stores/{key}/ParentOfStore/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToParentOfStore (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/ParentOfStore/$ref">api/v1/Stores/{key}/ParentOfStore/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToParentOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/ParentOfStore/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToParentOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/ParentOfStore/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToParentOfStore (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Stores/{key}/ParentOfStore</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetParentOfStore (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/ParentOfStore">api/v1/Stores/{key}/ParentOfStore</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToParentOfStore (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Stores/{key}/ParentOfStore</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PatchToParentOfStore (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Stores/{key}/ParentOfStore</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToParentOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/ParentOfStore</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.UpdateRefToFranchisesOfStoreNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Stores/{key}/FranchisesOfStore/$ref</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/FranchisesOfStore/$ref">api/v1/Stores/{key}/FranchisesOfStore/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/v1/Stores/{key}/FranchisesOfStore/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Stores/{key}/FranchisesOfStore</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetFranchisesOfStore (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/FranchisesOfStore">api/v1/Stores/{key}/FranchisesOfStore</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetFranchisesOfStore (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Stores/{key}/FranchisesOfStore/$count">api/v1/Stores/{key}/FranchisesOfStore/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetFranchisesOfStoreNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}">/api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}</a></td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToFranchisesOfStoreNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PatchtoFranchisesOfStoreNonConventional (Nox.ClientApi.Tests)</td><td>PATCH</td><td>/api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/FranchisesOfStore/{relatedKey}</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteToFranchisesOfStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Stores/{key}/FranchisesOfStore</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces">api/v1/Workplaces</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces/$count">api/v1/Workplaces/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Workplaces/{key}">api/v1/Workplaces/{key}</a></td><td>Yes</td></tr>
