@@ -412,7 +412,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -36472,7 +36472,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -38812,7 +38812,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -39368,7 +39368,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -40005,7 +40005,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -41399,7 +41399,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -44180,7 +44180,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -45254,7 +45254,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -46008,7 +46008,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -48019,7 +48019,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -49057,7 +49057,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -49811,7 +49811,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }
@@ -50840,7 +50840,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -51878,7 +51878,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -55136,7 +55136,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/GuidReferencesDto"
               }
             }
           }
@@ -56246,7 +56246,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/Int64ReferencesDto"
               }
             }
           }
@@ -57000,7 +57000,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StringReferencesDto"
+                "$ref": "#/components/schemas/UInt32ReferencesDto"
               }
             }
           }

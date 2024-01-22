@@ -175,7 +175,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         if (requestReferenceId.Contains("Delta"))
             requestReferenceId = (GetTypeFromFullName(bodyParameterDescription?.Type.FullName) ?? string.Empty) + "Delta";
         else if (requestReferenceId.Contains("ReferencesDto"))
-            requestReferenceId = "StringReferencesDto";
+            requestReferenceId = (GetTypeFromFullName(bodyParameterDescription?.Type.FullName) ?? string.Empty) + "ReferencesDto";
         operation.WithRequestBody(requestReferenceId);
     }
 
