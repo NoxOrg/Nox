@@ -17,7 +17,7 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v3
       - name: Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.ftp_server }}
           username: ${{ secrets.ftp_user }}
