@@ -1,0 +1,46 @@
+#
+# relationships-ref-relationship-names-dont-cross-reference-properly.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain
+
+overview: Overview
+
+domain:
+
+  entities:
+
+    - name: Test
+      description: Test
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+
+      attributes:
+        - name: Name        
+          description: The test name
+          type: text          
+          isRequired: true
+          textTypeOptions:
+            isUnicode: false
+            minLength: 10
+            maxLength: 20
+
+presentation: 
+    apiConfiguration: 
+        apiRouteMappings:
+            - name: TestMapping
+              description: Get test mapping
+              httpVerb: get
+              route: /Test/{key}/Test?key2={key2}
+              targetUrl: /Countries

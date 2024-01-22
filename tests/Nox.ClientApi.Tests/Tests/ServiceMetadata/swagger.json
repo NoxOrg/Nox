@@ -11,12 +11,13 @@
           "CountriesByName"
         ],
         "summary": "Get country names in alphabetical order.",
-        "operationId": "/CountriesByName/{Count}",
+        "operationId": "GET_/CountriesByName/{Count}",
         "parameters": [
           {
             "name": "Count",
             "in": "path",
             "description": "The number of country names to get",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -42,13 +43,13 @@
         }
       }
     },
-    "/api/v1/CountriesByNameQuery?count={Top}": {
+    "/api/v1/CountriesByNameQuery": {
       "get": {
         "tags": [
           "CountriesByNameQueryString"
         ],
         "summary": "Get country names in alphabetical order.",
-        "operationId": "/CountriesByNameQuery?count={Top}",
+        "operationId": "GET_/CountriesByNameQuery?count={Top}",
         "parameters": [
           {
             "name": "Top",
@@ -88,7 +89,7 @@
           "CountriesEncoded"
         ],
         "summary": "Get country names in alphabetical order.",
-        "operationId": "/CountriesEncoded",
+        "operationId": "GET_/CountriesEncoded",
         "responses": {
           "200": {
             "description": "Success",
@@ -115,12 +116,13 @@
           "CountriesPreserveOdataQuery"
         ],
         "summary": "Get country preserve odata query",
-        "operationId": "/CountriesByOdata/{MyId}",
+        "operationId": "GET_/CountriesByOdata/{MyId}",
         "parameters": [
           {
             "name": "MyId",
             "in": "path",
             "description": "My Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -152,12 +154,13 @@
           "CountriesPreserveOdataQueryMultipleSegments"
         ],
         "summary": "Get country preserve odata query with multiple segments",
-        "operationId": "/CountriesByOdataSegments/{MyId}/MySpecial",
+        "operationId": "GET_/CountriesByOdataSegments/{MyId}/MySpecial",
         "parameters": [
           {
             "name": "MyId",
             "in": "path",
             "description": "My Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -189,12 +192,24 @@
           "AddWorkplaceToCountry"
         ],
         "summary": "Update country workplaces",
-        "operationId": "/MySpecial/{CountryId}/SecondSpecial/{ExtraId}/ThirdSpecial/$ref",
+        "operationId": "PUT_/MySpecial/{CountryId}/SecondSpecial/{ExtraId}/ThirdSpecial/$ref",
         "parameters": [
           {
             "name": "CountryId",
             "in": "path",
             "description": "The Country Id",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "simple",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "ExtraId",
+            "in": "path",
+            "description": "The Extra Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -224,12 +239,13 @@
           "twoSeqSegmentsWithProperties"
         ],
         "summary": "test case for two sequential segments with properties",
-        "operationId": "/countriesSeqSegProps/{CountryId}/{ExtraId}",
+        "operationId": "GET_/countriesSeqSegProps/{CountryId}/{ExtraId}",
         "parameters": [
           {
             "name": "CountryId",
             "in": "path",
             "description": "The Country Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -240,6 +256,7 @@
             "name": "ExtraId",
             "in": "path",
             "description": "Another Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -270,7 +287,7 @@
           "CountriesInPortugues"
         ],
         "summary": "Get country names in alphabetical order.",
-        "operationId": "/Paises",
+        "operationId": "GET_/Paises",
         "responses": {
           "200": {
             "description": "Success",
@@ -292,7 +309,7 @@
           "PostCountriesInPortugues"
         ],
         "summary": "Post country",
-        "operationId": "/Paises",
+        "operationId": "POST_/Paises",
         "requestBody": {
           "content": {
             "application/json": {
@@ -322,12 +339,13 @@
           "CountriesInPortuguesById"
         ],
         "summary": "Get country.",
-        "operationId": "/Paises/{key}",
+        "operationId": "GET_/Paises/{key}",
         "parameters": [
           {
             "name": "key",
             "in": "path",
             "description": "Country Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -353,12 +371,13 @@
           "PatchCountriesInPortugues"
         ],
         "summary": "Get country",
-        "operationId": "/Paises/{key}",
+        "operationId": "PATCH_/Paises/{key}",
         "parameters": [
           {
             "name": "key",
             "in": "path",
             "description": "Country Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -395,12 +414,13 @@
           "PutRefCountriesInPortuguesToWorkplaces"
         ],
         "summary": "Post ref country to workplaces.",
-        "operationId": "/Paises/{key}/RefWorkplaces",
+        "operationId": "PUT_/Paises/{key}/RefWorkplaces",
         "parameters": [
           {
             "name": "key",
             "in": "path",
             "description": "Country Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -430,12 +450,13 @@
           "GetRefCountriesInPortuguesToWorkplaces"
         ],
         "summary": "Post ref country to workplaces.",
-        "operationId": "/Paises/{key}/RefWorkplaces/{relatedKey}",
+        "operationId": "GET_/Paises/{key}/RefWorkplaces/{relatedKey}",
         "parameters": [
           {
             "name": "key",
             "in": "path",
             "description": "Country Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -446,6 +467,7 @@
             "name": "relatedKey",
             "in": "path",
             "description": "Workplace Id",
+            "required": true,
             "allowEmptyValue": true,
             "style": "simple",
             "schema": {
@@ -466,7 +488,31 @@
           "DeleteWorkplaceViaTenant"
         ],
         "summary": "Delete workplace via Tenant",
-        "operationId": "/Tenants/{TenantId}/Workplaces/{key}",
+        "operationId": "DELETE_/Tenants/{TenantId}/Workplaces/{key}",
+        "parameters": [
+          {
+            "name": "TenantId",
+            "in": "path",
+            "description": "The Tenant Id",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "simple",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Workplace Key",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "simple",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -478,7 +524,31 @@
           "PatchWorkplaceViaTenant"
         ],
         "summary": "Patch workplace via Tenant",
-        "operationId": "/Tenants/{TenantId}/Workplaces/{key}",
+        "operationId": "PATCH_/Tenants/{TenantId}/Workplaces/{key}",
+        "parameters": [
+          {
+            "name": "TenantId",
+            "in": "path",
+            "description": "The Tenant Id",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "simple",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The Workplace Key",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "simple",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -35863,15 +35933,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TenantDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -38203,15 +38264,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClientDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -38759,15 +38811,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -39351,15 +39394,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TenantDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -40790,15 +40824,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -43526,15 +43551,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClientDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -44600,15 +44616,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -45309,15 +45316,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TenantDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -47410,15 +47408,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClientDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -48403,15 +48392,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -49112,15 +49092,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TenantDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -50231,15 +50202,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClientDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -51224,15 +51186,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoreDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -54437,15 +54390,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClientDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -55592,15 +55536,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"
@@ -56301,15 +56236,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TenantDtoSingleResult"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success"

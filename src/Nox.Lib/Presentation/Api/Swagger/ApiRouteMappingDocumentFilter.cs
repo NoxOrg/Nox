@@ -41,7 +41,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             // define operation
             var operation = new OpenApiOperation
             {
-                OperationId = route.Route,
+                OperationId = $"{route.HttpVerbString}_{route.Route}",
                 Summary = route.Description,
             };
 
@@ -51,11 +51,13 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             // create parameter properties
             foreach (var inputParam in route.RequestInput)
             {
+                var parameterLocation = FindParameterLocationInRoute(inputParam.Name, route.Route);
                 var p = new OpenApiParameter
                 {
                     Name = inputParam.Name,
                     Description = inputParam.Description ?? string.Empty,
                     AllowEmptyValue = !inputParam.IsRequired,
+                    Required = parameterLocation == ParameterLocation.Path || inputParam.IsRequired,
                     In = FindParameterLocationInRoute(inputParam.Name, route.Route),
                     Schema = new OpenApiSchema()
                     {
@@ -86,7 +88,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             }
 
             // finally add the path to document
-            var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route}";
+            var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route.StripQueryParameters()}";
             if (newPaths.TryGetValue(routeKey, out var existing))
             {
                 existing.Operations.Add(RouteHttpVerbToOperationType(route.HttpVerb), operation);
@@ -161,14 +163,14 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             var relativePathRegex = ConvertToRegex(apiDescription.RelativePath!);
             if (Regex.IsMatch(targetUrl, relativePathRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
             {
-                AddRequestBody(operation, apiDescription);
+                AddRequestBody(operation, apiDescription, RouteHttpVerbToOperationType(route.HttpVerb));
                 AddResponse(operation, apiDescription);
                 break;
             }
         }
     }
 
-    private static void AddRequestBody(OpenApiOperation operation, ApiDescription apiDescription)
+    private static void AddRequestBody(OpenApiOperation operation, ApiDescription apiDescription, OperationType operationType)
     {
         var bodyParameterDescription = apiDescription.ParameterDescriptions.FirstOrDefault(pd => pd.Source.Id == "Body");
         var requestReferenceId = bodyParameterDescription?.Type.Name ?? string.Empty;
@@ -176,7 +178,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             requestReferenceId = (GetTypeFromFullName(bodyParameterDescription?.Type.FullName) ?? string.Empty) + "Delta";
         else if (requestReferenceId.Contains("ReferencesDto"))
             requestReferenceId = "StringReferencesDto";
-        operation.WithRequestBody(requestReferenceId);
+        operation.WithRequestBody(requestReferenceId, operationType);
     }
 
     private static void AddResponse(OpenApiOperation operation, ApiDescription apiDescription)

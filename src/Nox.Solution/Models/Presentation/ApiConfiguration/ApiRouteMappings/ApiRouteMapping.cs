@@ -1,9 +1,13 @@
 ﻿using Nox.Yaml;
 using Nox.Yaml.Attributes;
 using Nox.Yaml.Validation;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
+
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -74,11 +78,36 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
     {
         var result = base.Validate(topNode, parentNode, yamlPath);
 
-        if (HttpVerb == HttpVerb.Get && JsonBodyType != null)
+        if ((HttpVerb is HttpVerb.Get or HttpVerb.Delete) && JsonBodyType != null)
         {
-            result.AddError(nameof(HttpVerb),$"Endpoint [{Name}] with verb [{HttpVerb}] can not define a value for [{nameof(JsonBodyType)}].");
+            result.AddError(nameof(HttpVerb), $"Endpoint [{Name}] with verb [{HttpVerb}] can not define a value for [{nameof(JsonBodyType)}].");
         }
+
+        var parametersFromRoute = ExtractParametersFromRoute();
+        var definedParameters = RequestInput.Select(x => x.Name);
+        foreach (var parameter in parametersFromRoute)
+        {
+            if (!definedParameters.Any(x => string.Equals(x, parameter, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                result.AddError(nameof(RequestInput), $"Endpoint [{Name}] defines a parameter [{parameter}] in the route that is not defined in the [{nameof(RequestInput)}] section.");
+            }
+        }
+
         return result;
+    }
+
+    private IEnumerable<string> ExtractParametersFromRoute()
+    {
+        string parametersPattern = @"\{(\w+)}";
+        MatchCollection matches = Regex.Matches(Route, parametersPattern, RegexOptions.None, TimeSpan.FromMilliseconds(100));
+
+        List<string> parameterNames = new();
+        foreach (Match match in matches)
+        {
+            parameterNames.Add(match.Groups[1].Value);
+        }
+
+        return parameterNames;
     }
 
     private static string HttpVerbToHttpVerbString(HttpVerb verb)
