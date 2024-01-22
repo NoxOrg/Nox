@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
@@ -26,26 +27,26 @@ public partial record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto
 internal partial class CreateEmailAddressForStoreCommandHandler : CreateEmailAddressForStoreCommandHandlerBase
 {
 	public CreateEmailAddressForStoreCommandHandler(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBase<CreateEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
+	protected readonly Nox.Domain.IRepository Repository;
+	protected readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> RntityFactory;
 	
 	protected CreateEmailAddressForStoreCommandHandlerBase(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		RntityFactory = entityFactory;
 	}
 
 	public virtual  async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
@@ -53,20 +54,19 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		await OnExecutingAsync(request);
 		var keyId = Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
+		var parentEntity = await Repository.FindAsync<Store> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToEmailAddress(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
 
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await OnCompletedAsync(request, entity);
+		Repository.SetStateModified(parentEntity);		
+		await Repository.SaveChangesAsync();
 
 		return new EmailAddressKeyDto();
 	}

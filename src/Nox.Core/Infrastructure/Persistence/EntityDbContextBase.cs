@@ -244,7 +244,7 @@ namespace Nox.Infrastructure.Persistence
         }
 
         ValueTask<T?> IRepository.FindAsync<T>(params object?[]? keyValues) where T : class
-        {
+        {            
             return Set<T>().FindAsync(keyValues);
         }
 
@@ -295,6 +295,15 @@ namespace Nox.Infrastructure.Persistence
         Task IRepository.SaveChangesAsync(CancellationToken cancellationToken)
         {
             return SaveChangesAsync(cancellationToken);
+        }
+
+        public void SetStateModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+        public void SetStateDetached(object entity)
+        {
+            Entry(entity).State = EntityState.Detached;
         }
         #endregion
     }

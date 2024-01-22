@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
@@ -32,26 +33,26 @@ public partial record Create{{relationshipName}}For{{parent.Name}}Command({{pare
 internal partial class Create{{relationshipName}}For{{parent.Name}}CommandHandler : Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
 	public Create{{relationshipName}}For{{parent.Name}}CommandHandler(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Create{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Create{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
+	protected readonly Nox.Domain.IRepository Repository;
+	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> RntityFactory;
 	
 	protected Create{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		RntityFactory = entityFactory;
 	}
 
 	public virtual  async Task<{{entity.Name}}KeyDto?> Handle(Create{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
@@ -62,20 +63,19 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
-		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
+		var parentEntity = await Repository.FindAsync<{{parent.Name}}> ({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefTo{{relationshipName}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
 
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await OnCompletedAsync(request, entity);
+		Repository.SetStateModified(parentEntity);		
+		await Repository.SaveChangesAsync();
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
