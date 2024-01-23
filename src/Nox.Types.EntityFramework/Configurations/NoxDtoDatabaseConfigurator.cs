@@ -101,15 +101,13 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     private void ConfigureRelationship(EntityTypeBuilder builder, Entity entity, EntityRelationship relationship)
     {
         var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
-        var reversedNavigationPropertyName = relationship.Entity == entity.Name
-            ? null
-            : relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
+        var reversedNavigationPropertyName = relationship.GetNavigationPropertyName(relationship.Related.EntityRelationship);
 
         // ManyToMany Currently, configured bi-directionally, shouldn't cause any issues.
         if (relationship.WithMultiEntity &&
             relationship.Related.EntityRelationship.WithMultiEntity)
         {
-            if (relationship.Entity == entity.Name)
+            if (relationship.IsSelfReferencingRelationshipTo(relationship.Related.EntityRelationship))
             {
                 var entityNamespace = _codeGenConventions.GetEntityDtoTypeFullName($"{entity.Name}Dto");
 

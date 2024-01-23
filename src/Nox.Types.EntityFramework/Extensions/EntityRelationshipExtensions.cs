@@ -35,9 +35,15 @@ internal static class EntityRelationshipExtensions
         // Single to Single pick Exactly one
         if (relationship.WithSingleEntity && reverseRelationship.WithSingleEntity)
         {
-           return relationship.Relationship == EntityRelationshipType.ExactlyOne;
+            return relationship.Relationship == EntityRelationshipType.ExactlyOne;
         }
-        
+
         throw new NotSupportedException($"Can not define Relationship side to configure in EntityFramework {relationship.Name}");
     }
+
+    public static string? GetNavigationPropertyName(this EntityRelationship thisSide, EntityRelationship otherSize)
+        => IsSelfReferencingRelationshipTo(thisSide, otherSize) ? null : thisSide.Related.Entity.GetNavigationPropertyName(otherSize);
+
+    public static bool IsSelfReferencingRelationshipTo(this EntityRelationship thisSide, EntityRelationship otherSize)
+        => thisSide.Entity == otherSize.Entity;
 }

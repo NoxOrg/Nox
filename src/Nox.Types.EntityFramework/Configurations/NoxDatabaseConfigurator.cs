@@ -164,9 +164,7 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             var relatedEntityTypeName = CodeGenConventions.GetEntityTypeFullName(relationship.Relationship.Entity);
             var navigationPropertyName = entity.GetNavigationPropertyName(relationship.Relationship);
-            var reversedNavigationPropertyName = relationship.Relationship.Entity == entity.Name
-                ? null
-                : relationship.Relationship.Related.Entity.GetNavigationPropertyName(relationship.Relationship.Related.EntityRelationship);
+            var reversedNavigationPropertyName = relationship.Relationship.GetNavigationPropertyName(relationship.Relationship.Related.EntityRelationship);
 
             // Many to Many
             // Currently, configured bi-directionally, shouldn't cause any issues.
