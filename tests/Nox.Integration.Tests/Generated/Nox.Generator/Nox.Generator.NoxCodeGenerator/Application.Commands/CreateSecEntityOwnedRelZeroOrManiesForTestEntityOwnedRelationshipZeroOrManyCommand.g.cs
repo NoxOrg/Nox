@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
@@ -26,26 +27,26 @@ public partial record CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelat
 internal partial class CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandler : CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {
 	public CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandler(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<SecEntityOwnedRelZeroOrManyEntity, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecEntityOwnedRelZeroOrManyEntity>, IRequestHandler<CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecEntityOwnedRelZeroOrManyKeyDto?>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<SecEntityOwnedRelZeroOrManyEntity, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> _entityFactory;
+	protected readonly Nox.Domain.IRepository Repository;
+	protected readonly IEntityFactory<SecEntityOwnedRelZeroOrManyEntity, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> RntityFactory;
 	
 	protected CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<SecEntityOwnedRelZeroOrManyEntity, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		RntityFactory = entityFactory;
 	}
 
 	public virtual  async Task<SecEntityOwnedRelZeroOrManyKeyDto?> Handle(CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
@@ -53,20 +54,19 @@ internal abstract class CreateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRel
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
+		var parentEntity = await Repository.FindAsync<TestEntityOwnedRelationshipZeroOrMany> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToSecEntityOwnedRelZeroOrManies(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
 
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await OnCompletedAsync(request, entity);
+		Repository.SetStateModified(parentEntity);		
+		await Repository.SaveChangesAsync();
 
 		return new SecEntityOwnedRelZeroOrManyKeyDto(entity.Id.Value);
 	}

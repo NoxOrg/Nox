@@ -15,7 +15,7 @@
     },
     "ExpiryDateTime": "2023-12-15T00:00:00.000Z",
     "VatNumber": {
-      "Number": "123456789",
+      "Number": "GB123456789",
       "CountryCode": "GB"
     },
     "CustomerId": "76D2E947-2008-48FC-8854-53EEC7EDCD2F",
