@@ -35,6 +35,6 @@
 - NoxReferenceData.dataConnection.nox.yaml
 - countriesByName.apiRouteMapping.nox.yaml
 - generator.nox.yaml
-Logging Verbosity Minimal
-SUCCESS.
+Errors ->
+- Property 'applicationDto' not found on type 'Nox.Generator.Tasks.Common.GeneratorConfig'.
 */
