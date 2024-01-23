@@ -9,3 +9,12 @@ description: Patch workplace via Tenant
 httpVerb: patch
 route: /Tenants/{TenantId}/Workplaces/{key}
 targetUrl: /Workplaces/{key}?TenantId={TenantId}
+
+requestInput:
+  - name: TenantId
+    description: The Tenant Id
+    type: number
+
+  - name: key
+    description: The Workplace Key
+    type: number
