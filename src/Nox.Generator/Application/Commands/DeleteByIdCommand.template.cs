@@ -18,8 +18,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.DtoNameSpace}};
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
@@ -32,20 +32,20 @@ public partial record Delete{{entity.Name }}ByIdCommand(IEnumerable<{{entity.Nam
 internal partial class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCollectionBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public Delete{{entity.Name}}ByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
@@ -62,7 +62,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCol
 			var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(keyDto.key{{key.Name}});
 			{{- end }}		
 
-			var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entity.Keys | array.map "Name" | keysQuery}});
+			var entity = await Repository.FindAsync<{{entity.Name}}>({{entity.Keys | array.map "Name" | keysQuery}});
 			if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
 			{
 				throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");
@@ -74,9 +74,9 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCol
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<{{entity.Name}}Entity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

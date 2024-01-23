@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
@@ -26,26 +27,26 @@ public partial record CreateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKey
 internal partial class CreateBankNotesForCurrencyCommandHandler : CreateBankNotesForCurrencyCommandHandlerBase
 {
 	public CreateBankNotesForCurrencyCommandHandler(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBase<CreateBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler<CreateBankNotesForCurrencyCommand, BankNoteKeyDto?>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
+	protected readonly Nox.Domain.IRepository Repository;
+	protected readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> RntityFactory;
 	
 	protected CreateBankNotesForCurrencyCommandHandlerBase(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		RntityFactory = entityFactory;
 	}
 
 	public virtual  async Task<BankNoteKeyDto?> Handle(CreateBankNotesForCurrencyCommand request, CancellationToken cancellationToken)
@@ -53,20 +54,19 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 		await OnExecutingAsync(request);
 		var keyId = Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
+		var parentEntity = await Repository.FindAsync<Currency> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToBankNotes(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
 
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await OnCompletedAsync(request, entity);
+		Repository.SetStateModified(parentEntity);		
+		await Repository.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);
 	}

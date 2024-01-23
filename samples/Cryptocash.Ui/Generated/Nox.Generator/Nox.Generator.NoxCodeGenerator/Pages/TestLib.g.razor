@@ -7,6 +7,7 @@
 @using Cryptocash.Ui.Generated.Data.Enum;
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes;
 @using MudBlazor
 @using System.Globalization;
@@ -94,7 +95,12 @@
                         {
                             Id = "GBP",
                             Name = "British Pound"
-                        };  
+                        };
+    List<SelectEntityModel> testGenericEntityList = new List<SelectEntityModel>()
+                {
+                    new SelectEntityModel("IDA", "Entity A"),
+                    new SelectEntityModel("IDB", "Entity B")
+                };
 
     #endregion
 
@@ -263,6 +269,10 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
+                                                    </MudItem>                              
+                                                    <MudItem xs="6">
+                                                        <Select Title="Entity Exactly One"
+                                                            SelectionList="@testGenericEntityList" />
                                                     </MudItem>
                                                 </MudGrid>
                                     </MudItem>

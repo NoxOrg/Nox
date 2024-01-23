@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteClientByIdCommand(IEnumerable<ClientKeyDto> KeyDtos,
 internal partial class DeleteClientByIdCommandHandler : DeleteClientByIdCommandHandlerBase
 {
 	public DeleteClientByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteClientByIdCommandHandlerBase : CommandCollectionBase<DeleteClientByIdCommand, ClientEntity>, IRequestHandler<DeleteClientByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteClientByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteClientByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteClientByIdCommandHandlerBase : CommandCollectionBa
 		{
 			var keyId = Dto.ClientMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.Clients.FindAsync(keyId);
+			var entity = await Repository.FindAsync<Client>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Client",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteClientByIdCommandHandlerBase : CommandCollectionBa
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<ClientEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }
