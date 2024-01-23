@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteCountryQualityOfLifeIndexByIdCommand(IEnumerable<Cou
 internal partial class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : CommandCollectionBase<DeleteCountryQualityOfLifeIndexByIdCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteCountryQualityOfLifeIndexByIdCommand request, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 			var keyCountryId = Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
 			var keyId = Dto.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
+			var entity = await Repository.FindAsync<CountryQualityOfLifeIndex>(keyCountryId, keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("CountryQualityOfLifeIndex",  $"{keyCountryId.ToString()}, {keyId.ToString()}");
@@ -59,9 +59,9 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<CountryQualityOfLifeIndexEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteRatingProgramByIdCommand(IEnumerable<RatingProgramKe
 internal partial class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCommandHandlerBase
 {
 	public DeleteRatingProgramByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandCollectionBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteRatingProgramByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteRatingProgramByIdCommand request, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandColle
 			var keyStoreId = Dto.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
 			var keyId = Dto.RatingProgramMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
+			var entity = await Repository.FindAsync<RatingProgram>(keyStoreId, keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("RatingProgram",  $"{keyStoreId.ToString()}, {keyId.ToString()}");
@@ -59,9 +59,9 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandColle
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<RatingProgramEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

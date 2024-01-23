@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteForReferenceNumberByIdCommand(IEnumerable<ForReferen
 internal partial class DeleteForReferenceNumberByIdCommandHandler : DeleteForReferenceNumberByIdCommandHandlerBase
 {
 	public DeleteForReferenceNumberByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : CommandCollectionBase<DeleteForReferenceNumberByIdCommand, ForReferenceNumberEntity>, IRequestHandler<DeleteForReferenceNumberByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteForReferenceNumberByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteForReferenceNumberByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : Command
 		{
 			var keyId = Dto.ForReferenceNumberMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.ForReferenceNumbers.FindAsync(keyId);
+			var entity = await Repository.FindAsync<ForReferenceNumber>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("ForReferenceNumber",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteForReferenceNumberByIdCommandHandlerBase : Command
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<ForReferenceNumberEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }
