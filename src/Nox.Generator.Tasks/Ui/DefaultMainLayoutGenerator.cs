@@ -3,7 +3,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Tasks.Ui.Components;
 
-internal class SolutionMainLayoutGenerator : INoxFileGenerator
+internal class DefaultMainLayoutGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,11 +20,11 @@ internal class SolutionMainLayoutGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.SolutionMainLayout";
+        var templateName = @"Tasks.Ui.DefaultMainLayout";
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
             .WithFileExtension("razor")
-            .WithClassName($"SolutionMainLayout")
+            .WithClassName($"DefaultMainLayout")
             .GenerateSourceCodeFromResource(templateName);
     }
 }
