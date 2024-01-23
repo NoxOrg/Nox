@@ -21,8 +21,8 @@ internal class NavigationMenuRazor : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Ui.Components.NavigationMenuRazor";
-        var entities = codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity);
+        var templateName = @"Tasks.Ui.Components.NavigationMenuRazor";
+        var entities = codeGeneratorState.Solution.Domain.Entities.Where(e => !e.IsOwnedEntity && e.Persistence.Read.IsEnabled);
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
             .WithFileExtension("razor")

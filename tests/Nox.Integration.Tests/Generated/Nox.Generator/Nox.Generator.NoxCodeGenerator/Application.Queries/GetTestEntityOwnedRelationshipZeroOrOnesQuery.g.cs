@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,26 +16,22 @@ public partial record GetTestEntityOwnedRelationshipZeroOrOnesQuery() : IRequest
 
 internal partial class GetTestEntityOwnedRelationshipZeroOrOnesQueryHandler: GetTestEntityOwnedRelationshipZeroOrOnesQueryHandlerBase
 {
-    public GetTestEntityOwnedRelationshipZeroOrOnesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityOwnedRelationshipZeroOrOnesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityOwnedRelationshipZeroOrOnesQueryHandlerBase : QueryBase<IQueryable<TestEntityOwnedRelationshipZeroOrOneDto>>, IRequestHandler<GetTestEntityOwnedRelationshipZeroOrOnesQuery, IQueryable<TestEntityOwnedRelationshipZeroOrOneDto>>
 {
-    public  GetTestEntityOwnedRelationshipZeroOrOnesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityOwnedRelationshipZeroOrOnesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityOwnedRelationshipZeroOrOneDto>> Handle(GetTestEntityOwnedRelationshipZeroOrOnesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityOwnedRelationshipZeroOrOneDto>)DataDbContext.TestEntityOwnedRelationshipZeroOrOnes
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TestEntityOwnedRelationshipZeroOrOneDto>()
             .Include(e => e.SecondTestEntityOwnedRelationshipZeroOrOne);
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }

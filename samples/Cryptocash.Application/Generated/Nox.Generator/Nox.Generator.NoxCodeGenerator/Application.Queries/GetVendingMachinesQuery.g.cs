@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetVendingMachinesQuery() : IRequest<IQueryable<VendingMac
 
 internal partial class GetVendingMachinesQueryHandler: GetVendingMachinesQueryHandlerBase
 {
-    public GetVendingMachinesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetVendingMachinesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetVendingMachinesQueryHandlerBase : QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachinesQuery, IQueryable<VendingMachineDto>>
 {
-    public  GetVendingMachinesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetVendingMachinesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachinesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<VendingMachineDto>)DataDbContext.VendingMachines
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<VendingMachineDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

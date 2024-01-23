@@ -28,6 +28,8 @@ using Nox.Presentation.Api.Swagger;
 using Elastic.Apm.SerilogEnricher;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Http;
+using Nox.Application.Repositories;
+using Nox.Exceptions;
 
 namespace Nox.Configuration
 {
@@ -35,8 +37,7 @@ namespace Nox.Configuration
     {
         private Assembly? _clientAssembly;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
-        private Action<IServiceCollection>? _configureDatabaseContext;
-        private Action<IServiceCollection>? _configureDatabaseRepository;
+        private Action<IServiceCollection>? _configureRepositories;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
         private Action<IHealthChecksBuilder>? _healthChecksBuilderAction;
 
@@ -75,28 +76,30 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext
+        public INoxOptions WithRepositories<T, D>() where T : DbContext where D : DbContext
         {
-            _configureDatabaseContext = (services) =>
+            if (typeof(T).IsAssignableFrom(typeof(IRepository)))
+            {
+                throw new InvalidConfigurationException($"{nameof(T)} is not of type {typeof(IRepository)}");
+            }
+            if (typeof(D).IsAssignableFrom(typeof(IReadOnlyRepository)))
+            {
+                throw new InvalidConfigurationException($"{nameof(D)} is not {typeof(IReadOnlyRepository)}");
+            }
+
+            _configureRepositories = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
-                services.AddScoped(typeof(EntityDbContextBase),serviceProvider => serviceProvider.GetRequiredService<T>());
+                services.AddScoped(typeof(IRepository),serviceProvider => serviceProvider.GetRequiredService<T>());
+                
                 services.AddDbContext<D>();
+                services.AddScoped(typeof(IReadOnlyRepository), serviceProvider => serviceProvider.GetRequiredService<D>());
             };
 
             return this;
-        }
-        public INoxOptions WithRepository<R>() where R : class, IRepository
-        {
-            _configureDatabaseRepository = (services) =>
-            {
-                services.AddScoped<IRepository, R>();
-            };
-
-            return this;
-        }
-
+        }      
+   
         public INoxOptions WithoutMessagingTransactionalOutbox()
         {
             _configureMassTransitTransactionalOutbox = null;
@@ -153,10 +156,8 @@ namespace Nox.Configuration
 
         public INoxOptions WithClientAssembly(Assembly clientAssembly)
         {
-            if (clientAssembly is null)
-            {
-                throw new ArgumentNullException(nameof(clientAssembly));
-            }
+            ArgumentNullException.ThrowIfNull(clientAssembly);
+            
             _clientAssembly = clientAssembly;
 
             return this;
@@ -170,7 +171,9 @@ namespace Nox.Configuration
         }
 
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
-        {
+        {         
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");            
+
             var referencedAssemblies = _clientAssembly!
                 .GetReferencedAssemblies()
                 .Union(Assembly.GetExecutingAssembly()!.GetReferencedAssemblies())
@@ -183,10 +186,10 @@ namespace Nox.Configuration
                 .Union(new[] { _clientAssembly! }).ToArray();
 
             var noxSolution = CreateSolution(services.BuildServiceProvider());
-
+            
             services
                 .AddSingleton(typeof(NoxSolution), noxSolution)
-                .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
+                .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly, NoxAssemblyConfiguration.DomainAssembly))
                 .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>()))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
@@ -198,7 +201,7 @@ namespace Nox.Configuration
 
             AddNoxMessaging(services, noxSolution);
             AddNoxDatabase(services, noxSolution, noxAndEntryAssemblies);
-            AddIntegrations(services, noxSolution);
+            AddIntegrations(services);
 
             AddLogging(webApplicationBuilder);
             AddSwagger(services);
@@ -256,9 +259,7 @@ namespace Nox.Configuration
                 services.AddSingleton(typeof(INoxDatabaseProvider), dbProviderType);
 
                 
-                _configureDatabaseContext?.Invoke(services);
-
-                _configureDatabaseRepository?.Invoke(services);
+                _configureRepositories?.Invoke(services);
 
                 services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
 
@@ -344,7 +345,7 @@ namespace Nox.Configuration
                 .Build();
         }
         
-        private void AddIntegrations(IServiceCollection services, NoxSolution noxSolution)
+        private void AddIntegrations(IServiceCollection services)
         {
             services.AddNoxIntegrations(options =>
             {

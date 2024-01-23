@@ -35,7 +35,7 @@ internal partial class DtoDbContext : DtoDbContextBase
           interceptors)
     { }
 }
-internal abstract partial class DtoDbContextBase : DbContext
+internal abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repositories.IReadOnlyRepository
 {
     /// <summary>
     /// The Nox solution configuration.
@@ -86,12 +86,21 @@ internal abstract partial class DtoDbContextBase : DbContext
         public virtual DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
         public virtual DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
 
+    public IQueryable<T> Query<T>() where T : class
+    {
+        return this.Set<T>().AsNoTracking();
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "Cryptocash", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(
+                optionsBuilder, 
+                "Cryptocash",
+                _noxSolution.Infrastructure!.Persistence.DatabaseServer,
+                _clientAssemblyProvider.ClientAssembly.GetName().Name);
             optionsBuilder.AddInterceptors(_interceptors);
         }
     }

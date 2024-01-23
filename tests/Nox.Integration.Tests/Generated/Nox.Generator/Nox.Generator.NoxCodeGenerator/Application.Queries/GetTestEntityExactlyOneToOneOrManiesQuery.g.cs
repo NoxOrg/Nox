@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetTestEntityExactlyOneToOneOrManiesQuery() : IRequest<IQu
 
 internal partial class GetTestEntityExactlyOneToOneOrManiesQueryHandler: GetTestEntityExactlyOneToOneOrManiesQueryHandlerBase
 {
-    public GetTestEntityExactlyOneToOneOrManiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityExactlyOneToOneOrManiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityExactlyOneToOneOrManiesQueryHandlerBase : QueryBase<IQueryable<TestEntityExactlyOneToOneOrManyDto>>, IRequestHandler<GetTestEntityExactlyOneToOneOrManiesQuery, IQueryable<TestEntityExactlyOneToOneOrManyDto>>
 {
-    public  GetTestEntityExactlyOneToOneOrManiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityExactlyOneToOneOrManiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityExactlyOneToOneOrManyDto>> Handle(GetTestEntityExactlyOneToOneOrManiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityExactlyOneToOneOrManyDto>)DataDbContext.TestEntityExactlyOneToOneOrManies
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<TestEntityExactlyOneToOneOrManyDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

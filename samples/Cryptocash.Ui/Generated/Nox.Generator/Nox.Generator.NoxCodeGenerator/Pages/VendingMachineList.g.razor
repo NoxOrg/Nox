@@ -8,6 +8,7 @@
 @using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Nox.Ui.Blazor.Lib.Components.Generic
 @using MudBlazor
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
@@ -114,9 +115,9 @@
                                                                        Format="#.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditEntityExactlyOneLandLord_g @bind-LandLordId="CurrentAddEntity.LandLordId"
+                                                            <Select @bind-CurrentId="CurrentAddEntityLandLordId"
                                                                                       Title="ContractedAreaLandLord"
-                                                                                      LandLordSelectionList="LandLordEntityData?.EntityList" />
+                                                                                      SelectionList="LandLordEntityData" />
                                                     </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
@@ -169,19 +170,6 @@
                                                                                CountrySelectionList="CountryModelData" />
                                                         </MudItem>
                                                     }                                                  
-                                                </MudGrid>
-                                            </MudTabPanel>
-                                            <MudTabPanel Text="Minimum Cash Stocks">
-                                                <MudGrid Style="margin-top:15px;">
-                                                    <MudItem xs=12>
-                                                        <UiEditEntityCreateMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.MinimumCashStocks"
-                                                                                              TitleCurrency="Currency"
-                                                                                              TitleAmount="Amount"
-                                                                                              CurrencySelectionList="CurrencyEntityData?.EntityList" />
-                                                        <UiEditEntityListMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.MinimumCashStocks"
-                                                                                            TitleCurrency="CurrencyCode"
-                                                                                            TitleAmount="Amount" />
-                                                    </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>

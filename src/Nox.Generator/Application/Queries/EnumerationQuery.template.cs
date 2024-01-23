@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
 using PersistenceNameSpace = {{codeGenConventions.PersistenceNameSpace}};
@@ -17,17 +18,17 @@ public partial record Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.N
 
 internal partial class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandler: Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandlerBase
 {
-    public Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>, IRequestHandler<Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query, IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>>
 {
-    public  Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}QueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>> Handle(Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query request, CancellationToken cancellationToken)
     {
@@ -35,8 +36,8 @@ internal abstract class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute
         {
             var cultureCode = request.cultureCode.Value;
             IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> queryBuilder =
-            from enumValues in DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}.AsNoTracking()
-            from enumLocalized in DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}Localized.AsNoTracking()
+            from enumValues in ReadOnlyRepository.Query<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>()
+            from enumLocalized in ReadOnlyRepository.Query<DtoNameSpace.{{enumAtt.EntityNameForLocalizedEnumeration}}>()
                 .Where(l => enumValues.Id == l.Id && l.CultureCode == cultureCode).DefaultIfEmpty()
             select new DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}()
             {
@@ -46,8 +47,7 @@ internal abstract class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute
             return Task.FromResult(OnResponse(queryBuilder));
         }
         {{- else }}
-        var queryBuilder = (IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>)DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}
-            .AsNoTracking();
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>();
         return Task.FromResult(OnResponse(queryBuilder));
         {{- end }}
     }

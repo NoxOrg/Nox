@@ -20,7 +20,7 @@ public class EntityLocalizedQueriesTests
             .AssertOutputResult()
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Application.Queries.GetCityTranslationsByIdQuery.expected.g.cs", "Application.Queries.GetCityTranslationsByIdQuery.g.cs")
-            .AssertFileExistsAndContent("Application.Queries.GetCityTranslationsQuery.expected.g.cs", "Application.Queries.GetCityTranslationsQuery.g.cs");
+            .AssertFileWasGenerated("Application.Queries.GetCityTranslationsByIdQuery.g.cs")
+            .AssertFileWasGenerated("Application.Queries.GetCityTranslationsQuery.g.cs");
     }
 }

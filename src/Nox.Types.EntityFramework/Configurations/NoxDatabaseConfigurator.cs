@@ -59,12 +59,12 @@ namespace Nox.Types.EntityFramework.Configurations
         /// <param name="modelBuilder">Model builder type of <see cref="ModelBuilder"/>.</param>
         /// <param name="builder">Entity builder type of <see cref="IEntityBuilder"/>.</param>
         /// <param name="entity">Entity param type of <see cref="Entity"/>.</param>
-        /// <param name="clientAssembly">The Client Assembly where entity is generated.</param>
+        /// <param name="domainAssembly">The Client Assembly where entity is generated.</param>
         public virtual void ConfigureEntity(
             ModelBuilder modelBuilder,
             EntityTypeBuilder builder,
             Entity entity,
-            Assembly clientAssembly
+            Assembly domainAssembly
             )
         {
             ConfigureTableName(builder, entity);
@@ -75,9 +75,9 @@ namespace Nox.Types.EntityFramework.Configurations
 
             ConfigureSystemFields(builder, entity);
 
-            ConfigureRelationships(builder, modelBuilder, entity, clientAssembly);
+            ConfigureRelationships(builder, modelBuilder, entity, domainAssembly);
 
-            ConfigureOwnedRelationships(CodeGenConventions, builder, entity, clientAssembly);
+            ConfigureOwnedRelationships(CodeGenConventions, builder, entity, domainAssembly);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
         }

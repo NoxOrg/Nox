@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetCustomerByIdQuery(System.Guid keyId) : IRequest <IQuery
 
 internal partial class GetCustomerByIdQueryHandler:GetCustomerByIdQueryHandlerBase
 {
-    public  GetCustomerByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCustomerByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCustomerByIdQueryHandlerBase:  QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomerByIdQuery, IQueryable<CustomerDto>>
 {
-    public  GetCustomerByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCustomerByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CustomerDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.Customers
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<CustomerDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

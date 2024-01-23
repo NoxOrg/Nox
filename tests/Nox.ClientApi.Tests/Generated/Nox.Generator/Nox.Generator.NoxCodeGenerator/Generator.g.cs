@@ -22,14 +22,21 @@
 //  - tenant.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
-//  - countries.directRoute.ApiRouteMapping.nox.yaml
 //  - countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
+//  - countriesInPortugues.Get.ApiRouteMapping.nox.yaml
+//  - countriesInPortugues.GetById.ApiRouteMapping.nox.yaml
+//  - countriesInPortugues.Patch.ApiRouteMapping.nox.yaml
+//  - countriesInPortugues.Post.ApiRouteMapping.nox.yaml
+//  - countriesInPortuguesToWorkplaces.GetRef.ApiRouteMapping.nox.yaml
+//  - countriesInPortuguesToWorkplaces.PostRef.ApiRouteMapping.nox.yaml
 //  - countryByName.ApiRouteMapping.nox.yaml
 //  - countryByName.queryString.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
 //  - getTwoSeqSegProperties.nox.yaml
 //  - putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
+//  - workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml
+//  - workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml
 //  - presentation.nox.yaml
 //  - generator.nox.yaml
 // Logging Verbosity Diagnostic
@@ -91,6 +98,8 @@
 //  - Nox.Generator.Application.Commands.DeleteByIdCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteEnumerationTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteOwnedCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteOwnedEntityTranslationsCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteTranslationCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.RefToCommandGenerator

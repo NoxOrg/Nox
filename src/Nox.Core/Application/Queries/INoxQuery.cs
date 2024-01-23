@@ -1,8 +1,8 @@
-﻿namespace Nox.Application.Commands;
+﻿namespace Nox.Application.Queries;
 
 /// <summary>
 /// Marker interface for Nox Query
 /// </summary>
-public interface INoxQuery
+public interface IQuery
 {
 }

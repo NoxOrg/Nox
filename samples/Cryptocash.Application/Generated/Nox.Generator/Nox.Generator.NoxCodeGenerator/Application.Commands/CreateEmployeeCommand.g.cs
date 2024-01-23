@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,11 +29,11 @@ public partial record CreateEmployeeCommand(EmployeeCreateDto EntityDto, Nox.Typ
 internal partial class CreateEmployeeCommandHandler : CreateEmployeeCommandHandlerBase
 {
 	public CreateEmployeeCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CashStockOrderFactory, entityFactory)
+		: base(repository, noxSolution,CashStockOrderFactory, entityFactory)
 	{
 	}
 }
@@ -40,18 +41,18 @@ internal partial class CreateEmployeeCommandHandler : CreateEmployeeCommandHandl
 
 internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmployeeCommand,EmployeeEntity>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory;
 
 	protected CreateEmployeeCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CashStockOrderFactory = CashStockOrderFactory;
 	}
@@ -65,7 +66,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		if(request.EntityDto.CashStockOrderId is not null)
 		{
 			var relatedKey = Dto.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>());
-			var relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<CashStockOrder>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCashStockOrder(relatedEntity);
 			else
@@ -78,8 +79,8 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Employees.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Employee>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);
 	}
 }

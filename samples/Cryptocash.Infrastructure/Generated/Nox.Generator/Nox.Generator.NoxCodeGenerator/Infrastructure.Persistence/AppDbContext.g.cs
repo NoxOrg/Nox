@@ -55,7 +55,7 @@ internal partial class AppDbContext: AppDbContextBase
     {}
 }
 
-internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Domain.IRepository
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
@@ -100,7 +100,11 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "Cryptocash", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(
+                optionsBuilder,
+                "Cryptocash",
+                _noxSolution.Infrastructure!.Persistence.DatabaseServer,
+                _clientAssemblyProvider.ClientAssembly.GetName().Name);
         }
     }
 
@@ -119,12 +123,12 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
 #endif
             ConfigureEnumeratedAttributes(modelBuilder, entity);
 
-            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, modelBuilder.Entity(type!).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.ClientAssembly);
+            var type = _clientAssemblyProvider.GetEntityType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, modelBuilder.Entity(type!).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.DomainAssembly);
 
             if (entity.IsLocalized)
             {
-                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
+                type = _clientAssemblyProvider.GetEntityType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
 
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(modelBuilder, modelBuilder.Entity(type!), entity);
             }
@@ -141,8 +145,8 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
                 ConfigureEnumeration(modelBuilder.Entity($"Cryptocash.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
                 if (enumAttribute.EnumerationTypeOptions!.IsLocalized)
                 {
-                    var enumLocalizedType = _clientAssemblyProvider.GetType($"Cryptocash.Domain.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
-                    var enumType = _clientAssemblyProvider.GetType($"Cryptocash.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
+                    var enumLocalizedType = _clientAssemblyProvider.GetEntityType($"Cryptocash.Domain.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
+                    var enumType = _clientAssemblyProvider.GetEntityType($"Cryptocash.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
                     ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
                 }
             }

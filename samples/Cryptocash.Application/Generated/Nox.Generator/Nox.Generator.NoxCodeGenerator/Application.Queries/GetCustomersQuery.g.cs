@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetCustomersQuery() : IRequest<IQueryable<CustomerDto>>;
 
 internal partial class GetCustomersQueryHandler: GetCustomersQueryHandlerBase
 {
-    public GetCustomersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCustomersQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCustomersQueryHandlerBase : QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
 {
-    public  GetCustomersQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCustomersQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CustomerDto>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<CustomerDto>)DataDbContext.Customers
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<CustomerDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

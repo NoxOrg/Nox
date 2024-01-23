@@ -36,11 +36,15 @@ public static class {{className}}
 
     public static IServiceCollection AddNox(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
+        {{- if solution.Domain != null }}
+        // Set the Assembly where Entities are generated
+        NoxAssemblyConfiguration.DomainAssembly = typeof({{codeGenConventions.DomainNameSpace}}.{{solution.Domain.Entities[0].Name}}).Assembly;
+        {{- end }}
+
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
-            configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
+            configurator.WithRepositories<AppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
-            configurator.WithRepository<Nox.Domain.Repository>();
             configurator.WithHealthChecks(healthChecksBuilder => healthChecksBuilder.AddDbContextCheck<AppDbContext>());
             configureNox?.Invoke(configurator);
         });

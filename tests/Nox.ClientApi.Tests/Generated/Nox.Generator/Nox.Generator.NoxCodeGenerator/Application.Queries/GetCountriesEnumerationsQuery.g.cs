@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
@@ -15,25 +16,25 @@ public partial record GetCountriesContinentsQuery(Nox.Types.CultureCode cultureC
 
 internal partial class GetCountriesContinentsQueryHandler: GetCountriesContinentsQueryHandlerBase
 {
-    public GetCountriesContinentsQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetCountriesContinentsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountriesContinentsQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.CountryContinentDto>>, IRequestHandler<GetCountriesContinentsQuery, IQueryable<DtoNameSpace.CountryContinentDto>>
 {
-    public  GetCountriesContinentsQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetCountriesContinentsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.CountryContinentDto>> Handle(GetCountriesContinentsQuery request, CancellationToken cancellationToken)
     {
         {
             var cultureCode = request.cultureCode.Value;
             IQueryable<DtoNameSpace.CountryContinentDto> queryBuilder =
-            from enumValues in DataDbContext.CountriesContinents.AsNoTracking()
-            from enumLocalized in DataDbContext.CountriesContinentsLocalized.AsNoTracking()
+            from enumValues in ReadOnlyRepository.Query<DtoNameSpace.CountryContinentDto>()
+            from enumLocalized in ReadOnlyRepository.Query<DtoNameSpace.CountryContinentLocalizedDto>()
                 .Where(l => enumValues.Id == l.Id && l.CultureCode == cultureCode).DefaultIfEmpty()
             select new DtoNameSpace.CountryContinentDto()
             {

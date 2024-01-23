@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetPaymentDetailsQuery() : IRequest<IQueryable<PaymentDeta
 
 internal partial class GetPaymentDetailsQueryHandler: GetPaymentDetailsQueryHandlerBase
 {
-    public GetPaymentDetailsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetPaymentDetailsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetPaymentDetailsQueryHandlerBase : QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailsQuery, IQueryable<PaymentDetailDto>>
 {
-    public  GetPaymentDetailsQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetPaymentDetailsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<PaymentDetailDto>> Handle(GetPaymentDetailsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<PaymentDetailDto>)DataDbContext.PaymentDetails
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<PaymentDetailDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

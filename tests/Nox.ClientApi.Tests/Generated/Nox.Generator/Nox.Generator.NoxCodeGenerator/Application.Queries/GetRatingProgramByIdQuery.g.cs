@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetRatingProgramByIdQuery(System.Guid keyStoreId, System.I
 
 internal partial class GetRatingProgramByIdQueryHandler:GetRatingProgramByIdQueryHandlerBase
 {
-    public  GetRatingProgramByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetRatingProgramByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetRatingProgramByIdQueryHandlerBase:  QueryBase<IQueryable<RatingProgramDto>>, IRequestHandler<GetRatingProgramByIdQuery, IQueryable<RatingProgramDto>>
 {
-    public  GetRatingProgramByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetRatingProgramByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<RatingProgramDto>> Handle(GetRatingProgramByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.RatingPrograms
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<RatingProgramDto>()
             .Where(r =>
                 r.StoreId.Equals(request.keyStoreId) &&
                 r.Id.Equals(request.keyId));

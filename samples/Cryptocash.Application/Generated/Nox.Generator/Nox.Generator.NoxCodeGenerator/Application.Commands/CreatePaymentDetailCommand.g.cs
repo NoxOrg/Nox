@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,12 +29,12 @@ public partial record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDt
 internal partial class CreatePaymentDetailCommandHandler : CreatePaymentDetailCommandHandlerBase
 {
 	public CreatePaymentDetailCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CustomerFactory, PaymentProviderFactory, entityFactory)
+		: base(repository, noxSolution,CustomerFactory, PaymentProviderFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreatePaymentDetailCommandHandler : CreatePaymentDetailCo
 
 internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<CreatePaymentDetailCommand,PaymentDetailEntity>, IRequestHandler <CreatePaymentDetailCommand, PaymentDetailKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory;
 
 	protected CreatePaymentDetailCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CustomerFactory = CustomerFactory;
 		this.PaymentProviderFactory = PaymentProviderFactory;
@@ -69,7 +70,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
@@ -83,7 +84,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		if(request.EntityDto.PaymentProviderId is not null)
 		{
 			var relatedKey = Dto.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.PaymentProviders.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<PaymentProvider>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 			else
@@ -96,8 +97,8 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.PaymentDetails.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<PaymentDetail>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new PaymentDetailKeyDto(entityToCreate.Id.Value);
 	}
 }

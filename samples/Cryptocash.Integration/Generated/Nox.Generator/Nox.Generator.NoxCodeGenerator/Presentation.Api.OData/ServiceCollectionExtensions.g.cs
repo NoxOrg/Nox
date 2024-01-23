@@ -34,11 +34,13 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddNox(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
+        // Set the Assembly where Entities are generated
+        NoxAssemblyConfiguration.DomainAssembly = typeof(CryptocashIntegration.Domain.CountryQueryToTable).Assembly;
+
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
-            configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
+            configurator.WithRepositories<AppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<AppDbContext>();
-            configurator.WithRepository<Nox.Domain.Repository>();
             configurator.WithHealthChecks(healthChecksBuilder => healthChecksBuilder.AddDbContextCheck<AppDbContext>());
             configureNox?.Invoke(configurator);
         });

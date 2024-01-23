@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace Nox.Exceptions
 {
@@ -21,6 +23,14 @@ namespace Nox.Exceptions
         protected InvalidConfigurationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+        }
+
+        public static void ThrowIfNull([NotNull] object? argument, string message)
+        {
+            if (argument is null)
+            {
+                throw new InvalidConfigurationException(message);
+            }
         }
     }
 }

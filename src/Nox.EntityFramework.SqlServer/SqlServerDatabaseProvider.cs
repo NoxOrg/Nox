@@ -31,7 +31,11 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         return result;
     }
        
-    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(
+        DbContextOptionsBuilder optionsBuilder, 
+        string applicationName, 
+        DatabaseServer dbServer,
+        string? migrationAssemblyName = null)
     {
         var csb = new SqlConnectionStringBuilder(dbServer.Options)
         {
@@ -49,7 +53,12 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
                 opts =>
                 {
                     opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
+                    if(migrationAssemblyName is not null)
+                    {
+                        opts.MigrationsAssembly(migrationAssemblyName);
+                    }
                 });
+        
     }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)

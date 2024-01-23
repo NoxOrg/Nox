@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -28,7 +29,7 @@ public partial record CreateStoreCommand(StoreCreateDto EntityDto, Nox.Types.Cul
 internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 {
 	public CreateStoreCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
@@ -36,7 +37,7 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, StoreFactory, entityFactory)
+		: base(repository, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, StoreFactory, entityFactory)
 	{
 	}
 }
@@ -44,7 +45,7 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 
 internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreCommand,StoreEntity>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory;
@@ -53,7 +54,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	protected CreateStoreCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
@@ -63,7 +64,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.CountryFactory = CountryFactory;
 		this.StoreOwnerFactory = StoreOwnerFactory;
@@ -81,7 +82,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
-			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -95,7 +96,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.StoreOwnerId is not null)
 		{
 			var relatedKey = Dto.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<StoreOwner>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStoreOwner(relatedEntity);
 			else
@@ -109,7 +110,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.StoreLicenseId is not null)
 		{
 			var relatedKey = Dto.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
-			var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<StoreLicense>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStoreLicense(relatedEntity);
 			else
@@ -125,7 +126,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			foreach(var relatedId in request.EntityDto.ClientsId)
 			{
 				var relatedKey = Dto.ClientMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Clients.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Client>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToClients(relatedEntity);
@@ -144,7 +145,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.ParentOfStoreId is not null)
 		{
 			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.ParentOfStoreId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToParentOfStore(relatedEntity);
 			else
@@ -160,7 +161,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			foreach(var relatedId in request.EntityDto.FranchisesOfStoreId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToFranchisesOfStore(relatedEntity);
@@ -178,8 +179,8 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Stores.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Store>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);
 	}
 }

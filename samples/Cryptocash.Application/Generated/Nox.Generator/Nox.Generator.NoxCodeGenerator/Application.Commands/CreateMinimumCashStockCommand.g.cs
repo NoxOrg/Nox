@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
@@ -28,12 +29,12 @@ public partial record CreateMinimumCashStockCommand(MinimumCashStockCreateDto En
 internal partial class CreateMinimumCashStockCommandHandler : CreateMinimumCashStockCommandHandlerBase
 {
 	public CreateMinimumCashStockCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,VendingMachineFactory, CurrencyFactory, entityFactory)
+		: base(repository, noxSolution,VendingMachineFactory, CurrencyFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreateMinimumCashStockCommandHandler : CreateMinimumCashS
 
 internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<CreateMinimumCashStockCommand,MinimumCashStockEntity>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory;
 
 	protected CreateMinimumCashStockCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.VendingMachineFactory = VendingMachineFactory;
 		this.CurrencyFactory = CurrencyFactory;
@@ -71,7 +72,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToVendingMachines(relatedEntity);
@@ -90,7 +91,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		if(request.EntityDto.CurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCurrency(relatedEntity);
 			else
@@ -103,8 +104,8 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.MinimumCashStocks.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<MinimumCashStock>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new MinimumCashStockKeyDto(entityToCreate.Id.Value);
 	}
 }

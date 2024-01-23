@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
 
@@ -16,27 +16,23 @@ public partial record GetCurrenciesQuery() : IRequest<IQueryable<CurrencyDto>>;
 
 internal partial class GetCurrenciesQueryHandler: GetCurrenciesQueryHandlerBase
 {
-    public GetCurrenciesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCurrenciesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCurrenciesQueryHandlerBase : QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrenciesQuery, IQueryable<CurrencyDto>>
 {
-    public  GetCurrenciesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCurrenciesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<CurrencyDto>)DataDbContext.Currencies
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<CurrencyDto>()
             .Include(e => e.BankNotes)
             .Include(e => e.ExchangeRates);
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }

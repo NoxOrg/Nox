@@ -5,14 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -27,11 +28,11 @@ public partial record CreateSecondTestEntityTwoRelationshipsManyToManyCommand(Se
 internal partial class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandler : CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase
 {
 	public CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,TestEntityTwoRelationshipsManyToManyFactory, entityFactory)
+		: base(repository, noxSolution,TestEntityTwoRelationshipsManyToManyFactory, entityFactory)
 	{
 	}
 }
@@ -39,18 +40,18 @@ internal partial class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHa
 
 internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase : CommandBase<CreateSecondTestEntityTwoRelationshipsManyToManyCommand,SecondTestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler <CreateSecondTestEntityTwoRelationshipsManyToManyCommand, SecondTestEntityTwoRelationshipsManyToManyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory;
 
 	protected CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.TestEntityTwoRelationshipsManyToManyFactory = TestEntityTwoRelationshipsManyToManyFactory;
 	}
@@ -66,7 +67,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 			foreach(var relatedId in request.EntityDto.TestRelationshipOneOnOtherSideId)
 			{
 				var relatedKey = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestEntityTwoRelationshipsManyToMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
@@ -87,7 +88,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 			foreach(var relatedId in request.EntityDto.TestRelationshipTwoOnOtherSideId)
 			{
 				var relatedKey = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestEntityTwoRelationshipsManyToMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
@@ -105,8 +106,8 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.SecondTestEntityTwoRelationshipsManyToManies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<SecondTestEntityTwoRelationshipsManyToMany>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new SecondTestEntityTwoRelationshipsManyToManyKeyDto(entityToCreate.Id.Value);
 	}
 }

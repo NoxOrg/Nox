@@ -137,4 +137,7 @@
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Application\Queries\" />
+	</ItemGroup>
 </Project>

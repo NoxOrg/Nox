@@ -1,0 +1,24 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.Generic
+@using MudBlazor
+@using Nox.Ui.Blazor.Lib.Models
+
+@if (SelectionList.Any())
+{
+    <MudSelect Label="@Title"
+               Variant="Variant.Outlined"
+               FullWidth="true"
+               Clearable="true"
+               Required="@Required"
+               RequiredError="@ErrorRequiredMessage(Title)"
+               TextChanged="OnIdChanged"
+               Value="@CurrentId">
+        @foreach (SelectEntityModel item in SelectionList)
+        {
+            if (!string.IsNullOrWhiteSpace(item.Id)
+            && !string.IsNullOrWhiteSpace(item.Name))
+            {
+                <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+            }            
+        }
+    </MudSelect>
+}

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
@@ -26,26 +27,26 @@ public partial record CreateTenantContactForTenantCommand(TenantKeyDto ParentKey
 internal partial class CreateTenantContactForTenantCommandHandler : CreateTenantContactForTenantCommandHandlerBase
 {
 	public CreateTenantContactForTenantCommandHandler(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class CreateTenantContactForTenantCommandHandlerBase : CommandBase<CreateTenantContactForTenantCommand, TenantContactEntity>, IRequestHandler<CreateTenantContactForTenantCommand, TenantContactKeyDto?>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> _entityFactory;
+	protected readonly Nox.Domain.IRepository Repository;
+	protected readonly IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> RntityFactory;
 	
 	protected CreateTenantContactForTenantCommandHandlerBase(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		RntityFactory = entityFactory;
 	}
 
 	public virtual  async Task<TenantContactKeyDto?> Handle(CreateTenantContactForTenantCommand request, CancellationToken cancellationToken)
@@ -53,20 +54,19 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 		await OnExecutingAsync(request);
 		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
+		var parentEntity = await Repository.FindAsync<Tenant> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToTenantContact(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
 
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await OnCompletedAsync(request, entity);
+		Repository.SetStateModified(parentEntity);		
+		await Repository.SaveChangesAsync();
 
 		return new TenantContactKeyDto();
 	}

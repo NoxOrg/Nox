@@ -70,10 +70,33 @@ public static class OpenApiExtensions
         return operation;
     }
 
-    public static OpenApiOperation WithResponseBody(this OpenApiOperation operation, string? referenceId)
+    public static OpenApiOperation WithResponseBody(this OpenApiOperation operation, string? referenceId, string? responseType = null)
     {
+        if (!operation.Responses.ContainsKey("200"))
+            operation.Responses.Add("200", new OpenApiResponse { Description = "Success" });
+
         if (string.IsNullOrEmpty(referenceId))
             return operation;
+
+        var reference = new OpenApiReference
+        {
+            Type = ReferenceType.Schema,
+            Id = referenceId
+        };
+
+        var schema = (responseType is null) ?
+            new OpenApiSchema
+            {
+                Reference = reference
+            } :
+            new OpenApiSchema
+            {
+                Type = responseType,
+                Items = new OpenApiSchema
+                {
+                    Reference = reference
+                }
+            };
 
         operation.Responses["200"].Content = new Dictionary<string, OpenApiMediaType>
         {
@@ -81,14 +104,7 @@ public static class OpenApiExtensions
                 "application/json",
                 new OpenApiMediaType
                 {
-                    Schema = new OpenApiSchema
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.Schema,
-                            Id = referenceId
-                        }
-                    }
+                    Schema = schema
                 }
             }
         };

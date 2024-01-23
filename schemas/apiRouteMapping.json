@@ -17,9 +17,7 @@
         "httpVerb",
         "route",
         "targetUrl",
-        "requestBodyType",
-        "jsonBodyType",
-        "responseOutput"
+        "requestBodyType"
       ],
       "properties": {
         "name": {    
@@ -137,8 +135,7 @@
         "name",
         "httpVerb",
         "route",
-        "targetUrl",
-        "responseOutput"
+        "targetUrl"
       ],
       "properties": {
         "name": {    

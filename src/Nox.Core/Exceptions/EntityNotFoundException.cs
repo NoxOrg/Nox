@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Nox.Exceptions;
@@ -16,7 +18,6 @@ public class EntityNotFoundException : Exception, IApplicationException
         : base(message)
     {
         ErrorDetails = message;
-
     }
 
     public EntityNotFoundException(string message, Exception inner)
@@ -30,7 +31,15 @@ public class EntityNotFoundException : Exception, IApplicationException
     }
     public virtual HttpStatusCode? StatusCode => HttpStatusCode.NotFound;
 
-    public virtual  string ErrorCode => "entity_not_found";
+    public virtual string ErrorCode => "entity_not_found";
 
     public object? ErrorDetails { get; private set; }
+
+    public static void ThrowIfNull([NotNull] object? argument, string entityName, string entityId)
+    {
+        if (argument is null)
+        {
+            throw new EntityNotFoundException(entityName, entityId);
+        }
+    }
 }

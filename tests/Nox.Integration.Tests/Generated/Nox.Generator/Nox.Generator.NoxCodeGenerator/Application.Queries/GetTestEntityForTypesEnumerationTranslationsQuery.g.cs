@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = TestWebApp.Application.Dto;
 using PersistenceNameSpace = TestWebApp.Infrastructure.Persistence;
@@ -15,24 +16,21 @@ public partial record GetTestEntityForTypesEnumerationTestFieldsTranslationsQuer
 
 internal partial class GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandler: GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandlerBase
 {
-    public GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>, IRequestHandler<GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery, IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>
 {
-    public  GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetTestEntityForTypesEnumerationTestFieldsTranslationsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>> Handle(GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery request, CancellationToken cancellationToken)
-    {
-       
-        var queryBuilder = DataDbContext.TestEntityForTypesEnumerationTestFieldsLocalized
-            .AsNoTracking<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
-        return Task.FromResult(OnResponse(queryBuilder));
-       
+    {       
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
+        return Task.FromResult(OnResponse(queryBuilder));       
     }  
 }

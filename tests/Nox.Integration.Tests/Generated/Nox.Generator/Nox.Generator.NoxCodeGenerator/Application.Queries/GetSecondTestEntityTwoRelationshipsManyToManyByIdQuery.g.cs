@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(Sys
 
 internal partial class GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandler:GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandlerBase
 {
-    public  GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandlerBase:  QueryBase<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>, IRequestHandler<GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery, IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>>
 {
-    public  GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<SecondTestEntityTwoRelationshipsManyToManyDto>> Handle(GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.SecondTestEntityTwoRelationshipsManyToManies
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<SecondTestEntityTwoRelationshipsManyToManyDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

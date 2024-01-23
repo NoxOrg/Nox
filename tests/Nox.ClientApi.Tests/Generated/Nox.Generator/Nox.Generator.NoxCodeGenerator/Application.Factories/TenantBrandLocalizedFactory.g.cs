@@ -40,7 +40,7 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
 
     public virtual async Task UpdateLocalizedEntityAsync(TenantBrandEntity entity, TenantBrandUpsertDto updateDto, CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.Query<TenantBrandLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        var entityLocalized = await Repository.Query<TenantBrandLocalized>().Where(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
             entityLocalized = CreateLocalizedEntity(entity, cultureCode);
@@ -52,7 +52,7 @@ internal abstract class TenantBrandLocalizedFactoryBase : IEntityLocalizedFactor
 
     public virtual async Task PartialUpdateLocalizedEntityAsync(TenantBrandEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        var entityLocalized = await Repository.Query<TenantBrandLocalized>(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
+        var entityLocalized = await Repository.Query<TenantBrandLocalized>().Where(x => x.Id == entity.Id && x.CultureCode == cultureCode).FirstOrDefaultAsync();
         if (entityLocalized is null)
         {
             entityLocalized = CreateLocalizedEntity(entity, cultureCode);

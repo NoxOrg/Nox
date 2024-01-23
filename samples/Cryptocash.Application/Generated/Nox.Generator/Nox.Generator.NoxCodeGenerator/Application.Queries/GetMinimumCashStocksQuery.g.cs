@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetMinimumCashStocksQuery() : IRequest<IQueryable<MinimumC
 
 internal partial class GetMinimumCashStocksQueryHandler: GetMinimumCashStocksQueryHandlerBase
 {
-    public GetMinimumCashStocksQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetMinimumCashStocksQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetMinimumCashStocksQueryHandlerBase : QueryBase<IQueryable<MinimumCashStockDto>>, IRequestHandler<GetMinimumCashStocksQuery, IQueryable<MinimumCashStockDto>>
 {
-    public  GetMinimumCashStocksQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetMinimumCashStocksQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<MinimumCashStockDto>> Handle(GetMinimumCashStocksQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<MinimumCashStockDto>)DataDbContext.MinimumCashStocks
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<MinimumCashStockDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

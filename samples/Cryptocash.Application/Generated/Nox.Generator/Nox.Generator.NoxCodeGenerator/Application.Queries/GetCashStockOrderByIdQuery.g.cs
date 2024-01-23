@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetCashStockOrderByIdQuery(System.Int64 keyId) : IRequest 
 
 internal partial class GetCashStockOrderByIdQueryHandler:GetCashStockOrderByIdQueryHandlerBase
 {
-    public  GetCashStockOrderByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetCashStockOrderByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCashStockOrderByIdQueryHandlerBase:  QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrderByIdQuery, IQueryable<CashStockOrderDto>>
 {
-    public  GetCashStockOrderByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetCashStockOrderByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<CashStockOrderDto>> Handle(GetCashStockOrderByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.CashStockOrders
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<CashStockOrderDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

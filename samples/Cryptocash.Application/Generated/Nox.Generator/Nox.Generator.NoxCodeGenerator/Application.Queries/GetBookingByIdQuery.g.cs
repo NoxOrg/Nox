@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetBookingByIdQuery(System.Guid keyId) : IRequest <IQuerya
 
 internal partial class GetBookingByIdQueryHandler:GetBookingByIdQueryHandlerBase
 {
-    public  GetBookingByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetBookingByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingByIdQuery, IQueryable<BookingDto>>
 {
-    public  GetBookingByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetBookingByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<BookingDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.Bookings
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<BookingDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

@@ -28,18 +28,11 @@ public interface INoxOptions
     INoxOptions WithClientAssembly(Assembly clientAssembly);
 
     /// <summary>
-    /// Set the generated DbContext for Dto and Entities
+    /// Teh entityes repository and the readonly repository
     /// </summary>
-    /// <typeparam name="T">DbContext for the Application Domain, <see cref="EntityDbContextBase"/></typeparam>
-    /// <typeparam name="D"></typeparam>
-    INoxOptions WithDatabaseContexts<T, D>() where T : EntityDbContextBase where D : DbContext;
-
-    /// <summary>
-    /// Set the IRepository instance type
-    /// </summary>
-    /// <typeparam name="R">Repository Type</typeparam>    
-    INoxOptions WithRepository<R>() where R : class, IRepository;
-    
+    /// <typeparam name="T">DbContext for the Domain, <see cref="IRepository"/></typeparam>
+    /// <typeparam name="D">The DbContext for the Read Model for the Application  <see cref="IReadOnlyRepository"/></typeparam>
+    INoxOptions WithRepositories<T, D>() where T : DbContext where D : DbContext;
 
     /// <summary>
     /// Disable default Nox Logging

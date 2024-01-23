@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetForReferenceNumbersQuery() : IRequest<IQueryable<ForRef
 
 internal partial class GetForReferenceNumbersQueryHandler: GetForReferenceNumbersQueryHandlerBase
 {
-    public GetForReferenceNumbersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetForReferenceNumbersQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetForReferenceNumbersQueryHandlerBase : QueryBase<IQueryable<ForReferenceNumberDto>>, IRequestHandler<GetForReferenceNumbersQuery, IQueryable<ForReferenceNumberDto>>
 {
-    public  GetForReferenceNumbersQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetForReferenceNumbersQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<ForReferenceNumberDto>> Handle(GetForReferenceNumbersQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<ForReferenceNumberDto>)DataDbContext.ForReferenceNumbers
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<ForReferenceNumberDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }
