@@ -388,7 +388,7 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CountryId = table.Column<string>(type: "char(2)", nullable: false),
-                    TimeZoneCode = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false)
+                    TimeZoneCode = table.Column<string>(type: "varchar(48)", unicode: false, maxLength: 48, nullable: false)
                 },
                 constraints: table =>
                 {
