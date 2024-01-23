@@ -1,9 +1,13 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace Nox.Domain;
 
 public interface IRepository
 {
     IQueryable<T> Query<T>() where T : class, IEntity;
+    IQueryable<T> Query<T>(params Expression<Func<T, object>>[] includeExpressions) where T : class, IEntity;
+    
     ValueTask<T?> FindAsync<T>(params object?[]? keyValues) where T : class, IEntity;
 
     ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
