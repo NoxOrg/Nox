@@ -96,12 +96,12 @@ public class ApiRouteMapping : YamlConfigNode<NoxSolution, ApiConfiguration>
         return result;
     }
 
-    private IEnumerable<string> ExtractParametersFromRoute()
+    private IReadOnlyCollection<string> ExtractParametersFromRoute()
     {
         string parametersPattern = @"\{(\w+)}";
         MatchCollection matches = Regex.Matches(Route, parametersPattern, RegexOptions.None, TimeSpan.FromMilliseconds(100));
 
-        List<string> parameterNames = new();
+        List<string> parameterNames = new(matches.Count);
         foreach (Match match in matches)
         {
             parameterNames.Add(match.Groups[1].Value);

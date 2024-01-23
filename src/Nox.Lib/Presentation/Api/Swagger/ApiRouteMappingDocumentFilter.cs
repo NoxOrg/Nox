@@ -88,7 +88,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             }
 
             // finally add the path to document
-            var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{route.Route.StripQueryParameters()}";
+            var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{StripQueryParameters(route.Route)}";
             if (newPaths.TryGetValue(routeKey, out var existing))
             {
                 existing.Operations.Add(RouteHttpVerbToOperationType(route.HttpVerb), operation);
@@ -286,7 +286,6 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         };
     }
 
-
     private static IOpenApiAny? DefaultToOpenApiAny(JsonTypeDefinition t)
     {
         if (t.Default is null) return null;
@@ -302,4 +301,14 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         };
     }
 
+    private static string StripQueryParameters(string input)
+    {
+        var index = input.IndexOf('?');
+        if (index == -1)
+        {
+            return input;
+        } 
+
+        return input[..index];
+    }
 }
