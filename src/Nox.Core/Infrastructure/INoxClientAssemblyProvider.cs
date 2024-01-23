@@ -8,5 +8,6 @@ namespace Nox.Infrastructure
     public interface INoxClientAssemblyProvider
     {
         Assembly ClientAssembly { get; }
+        Assembly DomainAssembly { get; }
     }    
 }

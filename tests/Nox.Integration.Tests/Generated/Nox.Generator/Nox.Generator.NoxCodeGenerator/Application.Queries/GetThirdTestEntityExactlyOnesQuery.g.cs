@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetThirdTestEntityExactlyOnesQuery() : IRequest<IQueryable
 
 internal partial class GetThirdTestEntityExactlyOnesQueryHandler: GetThirdTestEntityExactlyOnesQueryHandlerBase
 {
-    public GetThirdTestEntityExactlyOnesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetThirdTestEntityExactlyOnesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetThirdTestEntityExactlyOnesQueryHandlerBase : QueryBase<IQueryable<ThirdTestEntityExactlyOneDto>>, IRequestHandler<GetThirdTestEntityExactlyOnesQuery, IQueryable<ThirdTestEntityExactlyOneDto>>
 {
-    public  GetThirdTestEntityExactlyOnesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetThirdTestEntityExactlyOnesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<ThirdTestEntityExactlyOneDto>> Handle(GetThirdTestEntityExactlyOnesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<ThirdTestEntityExactlyOneDto>)DataDbContext.ThirdTestEntityExactlyOnes
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<ThirdTestEntityExactlyOneDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

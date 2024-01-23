@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
@@ -16,25 +17,21 @@ public partial record GetTestEntityForUniqueConstraintsByIdQuery(System.String k
 
 internal partial class GetTestEntityForUniqueConstraintsByIdQueryHandler:GetTestEntityForUniqueConstraintsByIdQueryHandlerBase
 {
-    public  GetTestEntityForUniqueConstraintsByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityForUniqueConstraintsByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityForUniqueConstraintsByIdQueryHandlerBase:  QueryBase<IQueryable<TestEntityForUniqueConstraintsDto>>, IRequestHandler<GetTestEntityForUniqueConstraintsByIdQuery, IQueryable<TestEntityForUniqueConstraintsDto>>
 {
-    public  GetTestEntityForUniqueConstraintsByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityForUniqueConstraintsByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityForUniqueConstraintsDto>> Handle(GetTestEntityForUniqueConstraintsByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.TestEntityForUniqueConstraints
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TestEntityForUniqueConstraintsDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

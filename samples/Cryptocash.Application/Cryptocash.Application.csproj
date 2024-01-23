@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IsPackable>false</IsPackable>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+	</PropertyGroup>
+
+	<Target Name="CleanSourceGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+		<RemoveDir Directories="Generated" />
+	</Target>
+
+	<ItemGroup>
+		<Compile Remove="Generated\**" />
+		<Content Include="Generated\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="../.nox/design/**/*.yaml" LinkBase="Design">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include="../.nox/docs/**/*.md" LinkBase="Docs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="generator.nox.yaml" />		
+		<InternalsVisibleTo Include="Cryptocash.Api"></InternalsVisibleTo>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Nox.Core\Nox.Core.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+		<ProjectReference Include="..\Cryptocash.Application.Dto\Cryptocash.Application.Dto.csproj" />
+		<ProjectReference Include="..\Cryptocash.Domain\Cryptocash.Domain.csproj" />
+	</ItemGroup>
+</Project>

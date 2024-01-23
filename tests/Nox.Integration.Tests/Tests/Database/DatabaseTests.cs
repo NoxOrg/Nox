@@ -78,7 +78,7 @@ public class DatabaseTests
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
         var currencyNumber = (short)970;
-        var vatNumberValue = "44403198682";
+        var vatNumberValue = "FR44403198682";
         var vatNumberCountryCode2 = CountryCode.FR;
         var color = new byte[] { 255, 255, 0, 0 };
         var date = new DateOnly(2023, 7, 14);

@@ -24,7 +24,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         
         GeneratorFixture.GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(11)
+            .AssertFileCount(10)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileWasGenerated("Domain.Country.g.cs")

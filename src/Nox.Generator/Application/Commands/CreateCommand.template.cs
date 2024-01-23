@@ -14,6 +14,9 @@ end -}}
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
+
 {{- if (entity.Persistence?.IsAudited ?? true)}}
 using Nox.Abstractions;
 {{- end}}
@@ -23,8 +26,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
@@ -39,13 +41,13 @@ public partial record Create{{entity.Name}}Command({{entity.Name}}CreateDto Enti
 internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name}}CommandHandlerBase
 {
 	public Create{{entity.Name}}CommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		{{- for relatedEntity in relatedEntities }}
 		IEntityFactory<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
-		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory)
+		: base(repository, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory)
 	{
 	}
 }
@@ -53,7 +55,7 @@ internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name
 
 internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Create{{entity.Name}}Command,{{entity.Name}}Entity>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory;
 	
 	
@@ -62,7 +64,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	{{- end }}
 
 	protected Create{{entity.Name}}CommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		{{- for relatedEntity in relatedEntities }}
 		IEntityFactory<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
@@ -70,7 +72,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		{{- for relatedEntity in relatedEntities }}
 		this.{{fieldFactoryName relatedEntity}} = {{fieldFactoryName relatedEntity}};
@@ -94,14 +96,14 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 
 			{{- key = array.first relatedEntity.Keys }}
 			var relatedKey = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
-			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<{{relatedEntity.Name}}>(relatedKey);
 			
 			{{- else }}
 
 			{{- for key in relatedEntity.Keys }}
 			var relatedKey{{key.Name}} = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationshipName}}Id!.key{{key.Name}});
 			{{- end }}
-			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntity.Keys | array.map "Name" | keysQuery}});
+			var relatedEntity = await Repository.FindAsync<{{relatedEntity.Name}}>({{relatedEntity.Keys | array.map "Name" | keysQuery}});
 			
 			{{- end }}
 			if(relatedEntity is not null)
@@ -122,7 +124,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 			foreach(var relatedId in request.EntityDto.{{relationshipName}}Id)
 			{
 				var relatedKey = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
-				var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<{{relatedEntity.Name}}>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
@@ -142,8 +144,8 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	{{- end }}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.{{entity.PluralName}}.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<{{entity.Name}}>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
 	}
 }

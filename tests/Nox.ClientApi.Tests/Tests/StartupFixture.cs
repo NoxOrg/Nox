@@ -6,6 +6,7 @@ using ClientApi.Tests.Application.Dto;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using Nox.Configuration;
+using ClientApi.Presentation;
 
 namespace ClientApi.Tests;
 
@@ -52,5 +53,8 @@ public class StartupFixture
         {
             endpoints.MapControllers();
         });
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
 }

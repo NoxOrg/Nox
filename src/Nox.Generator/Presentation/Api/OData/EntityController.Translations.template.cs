@@ -76,6 +76,20 @@ public abstract partial class {{className}}Base
         return Ok(item);
     }
 
+    [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Delete{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}})
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var cultureCodeValue));
+               
+        await _mediator.Send(new Delete{{ entity.Name }}TranslationCommand({{ primaryKeysQuery }}, cultureCodeValue!));
+
+        return NoContent();
+    }
 
     [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/")]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Get{{entity.Name}}LocalizedNonConventional( {{ primaryKeysRoute }})
@@ -127,6 +141,20 @@ public abstract partial class {{className}}Base
 
         return Ok(item);
     }
-    {{- end }}
 
+    [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{if localizedRelationship.IsWithMultiEntity}}{{localizedRelationship.OwnedEntity.PluralName}}{{else}}{{localizedRelationship.OwnedEntity.Name}}{{end}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Delete{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{ cultureCode}})
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
+
+        await _mediator.Send(new Delete{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}TranslationsFor{{entity.Name}}Command({{ primaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})));
+
+        return NoContent();
+    }
+    {{- end }}
 }

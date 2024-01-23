@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{codeGenConventions.PersistenceNameSpace}};
 
@@ -16,28 +16,24 @@ public partial record Get{{entity.PluralName}}Query() : IRequest<IQueryable<{{en
 
 internal partial class Get{{entity.PluralName}}QueryHandler: Get{{entity.PluralName}}QueryHandlerBase
 {
-    public Get{{entity.PluralName}}QueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public Get{{entity.PluralName}}QueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
 {
-    public  Get{{entity.PluralName}}QueryHandlerBase(DtoDbContext dataDbContext)
+    public  Get{{entity.PluralName}}QueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<{{entity.Name}}Dto>()
             {{- for ownedRelationship in entity.OwnedRelationships }}
             .Include(e => e.{{GetNavigationPropertyName entity ownedRelationship}})
             {{- end -}};
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }

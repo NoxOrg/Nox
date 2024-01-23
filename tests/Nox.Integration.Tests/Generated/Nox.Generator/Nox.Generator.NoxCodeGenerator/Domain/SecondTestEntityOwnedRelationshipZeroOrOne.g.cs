@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class SecondTestEntityOwnedRelationshipZeroOrOne : SecondTestEntityOwnedRelationshipZeroOrOneBase, IEntityHaveDomainEvents
+public partial class SecondTestEntityOwnedRelationshipZeroOrOne : SecondTestEntityOwnedRelationshipZeroOrOneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class SecondTestEntityOwnedRelationshipZeroOrOne : SecondTestEn
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrOne created event.
 /// </summary>
-internal record SecondTestEntityOwnedRelationshipZeroOrOneCreated(SecondTestEntityOwnedRelationshipZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOne) :  IDomainEvent, INotification;
+public record SecondTestEntityOwnedRelationshipZeroOrOneCreated(SecondTestEntityOwnedRelationshipZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrOne updated event.
 /// </summary>
-internal record SecondTestEntityOwnedRelationshipZeroOrOneUpdated(SecondTestEntityOwnedRelationshipZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
+public record SecondTestEntityOwnedRelationshipZeroOrOneUpdated(SecondTestEntityOwnedRelationshipZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrOne deleted event.
 /// </summary>
-internal record SecondTestEntityOwnedRelationshipZeroOrOneDeleted(SecondTestEntityOwnedRelationshipZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
+public record SecondTestEntityOwnedRelationshipZeroOrOneDeleted(SecondTestEntityOwnedRelationshipZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-internal abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase : EntityBase, IOwnedEntity
+public abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///     

@@ -5,14 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -27,11 +28,11 @@ public partial record CreateTenantCommand(TenantCreateDto EntityDto, Nox.Types.C
 internal partial class CreateTenantCommandHandler : CreateTenantCommandHandlerBase
 {
 	public CreateTenantCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
 		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory)
+		: base(repository, noxSolution,WorkplaceFactory, entityFactory)
 	{
 	}
 }
@@ -39,18 +40,18 @@ internal partial class CreateTenantCommandHandler : CreateTenantCommandHandlerBa
 
 internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenantCommand,TenantEntity>, IRequestHandler <CreateTenantCommand, TenantKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
 
 	protected CreateTenantCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
 		IEntityFactory<TenantEntity, TenantCreateDto, TenantUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.WorkplaceFactory = WorkplaceFactory;
 	}
@@ -66,7 +67,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
 			{
 				var relatedKey = Dto.WorkplaceMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Workplace>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToWorkplaces(relatedEntity);
@@ -84,8 +85,8 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.Tenants.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<Tenant>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}
 }

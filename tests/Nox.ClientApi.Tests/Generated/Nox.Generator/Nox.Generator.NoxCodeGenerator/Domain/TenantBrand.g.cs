@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class TenantBrand : TenantBrandBase, IEntityHaveDomainEvents
+public partial class TenantBrand : TenantBrandBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class TenantBrand : TenantBrandBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for TenantBrand created event.
 /// </summary>
-internal record TenantBrandCreated(TenantBrand TenantBrand) :  IDomainEvent, INotification;
+public record TenantBrandCreated(TenantBrand TenantBrand) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TenantBrand updated event.
 /// </summary>
-internal record TenantBrandUpdated(TenantBrand TenantBrand) : IDomainEvent, INotification;
+public record TenantBrandUpdated(TenantBrand TenantBrand) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TenantBrand deleted event.
 /// </summary>
-internal record TenantBrandDeleted(TenantBrand TenantBrand) : IDomainEvent, INotification;
+public record TenantBrandDeleted(TenantBrand TenantBrand) : IDomainEvent, INotification;
 
 /// <summary>
 /// Tenant Brand.
 /// </summary>
-internal abstract partial class TenantBrandBase : EntityBase, IOwnedEntity
+public abstract partial class TenantBrandBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///     

@@ -58,6 +58,20 @@ public abstract partial class TestEntityLocalizationsControllerBase
         return Ok(item);
     }
 
+    [HttpDelete("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> DeleteTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+               
+        await _mediator.Send(new DeleteTestEntityLocalizationTranslationCommand(key, cultureCodeValue!));
+
+        return NoContent();
+    }
 
     [HttpGet("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/")]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLocalizedNonConventional( [FromRoute] System.String key)
@@ -66,6 +80,5 @@ public abstract partial class TestEntityLocalizationsControllerBase
             
         return Ok(result);
     }
-
 
 }

@@ -10,7 +10,8 @@ public class CountryCode3ExtensionsTests : WorldTestBase
     [InlineData("732", "EH", "ESH", "Western Sahara")]
     public void WhenGettingReferenceCountry_WithValidCountryCode3_ThenReturnsCountry(string countryNumber, string countryCode2, string countryCode3, string countryName)
     {
-        // Arrange Act
+        // Arrange
+        // Act
         var country = CountryCode3.From(countryCode3).GetReferenceCountry();
 
         // Assert

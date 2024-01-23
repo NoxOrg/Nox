@@ -13,8 +13,8 @@ public interface INoxDatabaseConfigurator
     /// <param name="modelBuilder">Model builder type of <see cref="ModelBuilder"/>.</param>
     /// <param name="builder">Entity builder type of <see cref="IEntityBuilder"/>.</param>
     /// <param name="entity">Entity param type of <see cref="Entity"/>.</param>
-    /// <param name="clientAssembly">The Client Assembly where entity is generated.</param>
-    void ConfigureEntity(ModelBuilder modelBuilder, EntityTypeBuilder builder, Entity entity, Assembly clientAssembly);
+    /// <param name="domainAssembly">The Client Assembly where entity is generated.</param>
+    void ConfigureEntity(ModelBuilder modelBuilder, EntityTypeBuilder builder, Entity entity, Assembly domainAssembly);
 
     /// <summary>
     /// Configure the data base model for an localized Entity

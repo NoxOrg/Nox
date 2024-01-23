@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
@@ -15,25 +16,25 @@ public partial record GetWorkplacesOwnershipsQuery(Nox.Types.CultureCode culture
 
 internal partial class GetWorkplacesOwnershipsQueryHandler: GetWorkplacesOwnershipsQueryHandlerBase
 {
-    public GetWorkplacesOwnershipsQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetWorkplacesOwnershipsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetWorkplacesOwnershipsQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.WorkplaceOwnershipDto>>, IRequestHandler<GetWorkplacesOwnershipsQuery, IQueryable<DtoNameSpace.WorkplaceOwnershipDto>>
 {
-    public  GetWorkplacesOwnershipsQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetWorkplacesOwnershipsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.WorkplaceOwnershipDto>> Handle(GetWorkplacesOwnershipsQuery request, CancellationToken cancellationToken)
     {
         {
             var cultureCode = request.cultureCode.Value;
             IQueryable<DtoNameSpace.WorkplaceOwnershipDto> queryBuilder =
-            from enumValues in DataDbContext.WorkplacesOwnerships.AsNoTracking()
-            from enumLocalized in DataDbContext.WorkplacesOwnershipsLocalized.AsNoTracking()
+            from enumValues in ReadOnlyRepository.Query<DtoNameSpace.WorkplaceOwnershipDto>()
+            from enumLocalized in ReadOnlyRepository.Query<DtoNameSpace.WorkplaceOwnershipLocalizedDto>()
                 .Where(l => enumValues.Id == l.Id && l.CultureCode == cultureCode).DefaultIfEmpty()
             select new DtoNameSpace.WorkplaceOwnershipDto()
             {
@@ -48,22 +49,21 @@ public partial record GetWorkplacesTypesQuery(Nox.Types.CultureCode cultureCode)
 
 internal partial class GetWorkplacesTypesQueryHandler: GetWorkplacesTypesQueryHandlerBase
 {
-    public GetWorkplacesTypesQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetWorkplacesTypesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetWorkplacesTypesQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.WorkplaceTypeDto>>, IRequestHandler<GetWorkplacesTypesQuery, IQueryable<DtoNameSpace.WorkplaceTypeDto>>
 {
-    public  GetWorkplacesTypesQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetWorkplacesTypesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.WorkplaceTypeDto>> Handle(GetWorkplacesTypesQuery request, CancellationToken cancellationToken)
     {
-        var queryBuilder = (IQueryable<DtoNameSpace.WorkplaceTypeDto>)DataDbContext.WorkplacesTypes
-            .AsNoTracking();
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.WorkplaceTypeDto>();
         return Task.FromResult(OnResponse(queryBuilder));
     }
 }

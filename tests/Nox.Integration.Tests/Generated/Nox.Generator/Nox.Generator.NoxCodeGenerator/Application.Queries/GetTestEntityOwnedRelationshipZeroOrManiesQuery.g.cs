@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,26 +16,22 @@ public partial record GetTestEntityOwnedRelationshipZeroOrManiesQuery() : IReque
 
 internal partial class GetTestEntityOwnedRelationshipZeroOrManiesQueryHandler: GetTestEntityOwnedRelationshipZeroOrManiesQueryHandlerBase
 {
-    public GetTestEntityOwnedRelationshipZeroOrManiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityOwnedRelationshipZeroOrManiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityOwnedRelationshipZeroOrManiesQueryHandlerBase : QueryBase<IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>>, IRequestHandler<GetTestEntityOwnedRelationshipZeroOrManiesQuery, IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>>
 {
-    public  GetTestEntityOwnedRelationshipZeroOrManiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityOwnedRelationshipZeroOrManiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>> Handle(GetTestEntityOwnedRelationshipZeroOrManiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>)DataDbContext.TestEntityOwnedRelationshipZeroOrManies
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<TestEntityOwnedRelationshipZeroOrManyDto>()
             .Include(e => e.SecEntityOwnedRelZeroOrManies);
-       return Task.FromResult(OnResponse(item));
+       return Task.FromResult(OnResponse(query));
     }
 }

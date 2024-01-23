@@ -19,7 +19,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Tenant Contact.
 /// </summary>
-internal partial class TenantContactLocalized : IEntity, IEtag 
+public partial class TenantContactLocalized : IEntity, IEtag
 {
     /// <summary>
     ///  (Required).

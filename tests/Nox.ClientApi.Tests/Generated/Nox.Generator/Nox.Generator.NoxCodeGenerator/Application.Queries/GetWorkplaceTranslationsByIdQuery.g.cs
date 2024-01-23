@@ -2,11 +2,13 @@
 
 #nullable enable
 
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-
-using Nox.Application.Commands;
+using MediatR;
 using YamlDotNet.Core.Tokens;
+
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
+
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -16,25 +18,21 @@ public record  GetWorkplaceTranslationsByIdQuery(System.Int64 keyId, Nox.Types.C
 
 internal partial class GetWorkplaceTranslationsByIdQueryHandler:GetWorkplaceTranslationsByIdQueryHandlerBase
 {
-    public  GetWorkplaceTranslationsByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public  GetWorkplaceTranslationsByIdQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetWorkplaceTranslationsByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceLocalizedDto>>, IRequestHandler<GetWorkplaceTranslationsByIdQuery, IQueryable<WorkplaceLocalizedDto>>
 {
-    public  GetWorkplaceTranslationsByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetWorkplaceTranslationsByIdQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<WorkplaceLocalizedDto>> Handle(GetWorkplaceTranslationsByIdQuery request, CancellationToken cancellationToken)
     {    
-        var query = DataDbContext.WorkplacesLocalized
-            .AsNoTracking()
+        var query = ReadOnlyRepository.Query<WorkplaceLocalizedDto>()
             .Where(r =>
                 r.Id.Equals(request.keyId)
                 && r.CultureCode == request.CultureCode.Value

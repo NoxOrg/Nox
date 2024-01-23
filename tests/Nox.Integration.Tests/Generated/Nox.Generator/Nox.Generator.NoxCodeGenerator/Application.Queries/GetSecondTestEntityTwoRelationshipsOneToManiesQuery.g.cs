@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetSecondTestEntityTwoRelationshipsOneToManiesQuery() : IR
 
 internal partial class GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandler: GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandlerBase
 {
-    public GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandlerBase : QueryBase<IQueryable<SecondTestEntityTwoRelationshipsOneToManyDto>>, IRequestHandler<GetSecondTestEntityTwoRelationshipsOneToManiesQuery, IQueryable<SecondTestEntityTwoRelationshipsOneToManyDto>>
 {
-    public  GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetSecondTestEntityTwoRelationshipsOneToManiesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<SecondTestEntityTwoRelationshipsOneToManyDto>> Handle(GetSecondTestEntityTwoRelationshipsOneToManiesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<SecondTestEntityTwoRelationshipsOneToManyDto>)DataDbContext.SecondTestEntityTwoRelationshipsOneToManies
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<SecondTestEntityTwoRelationshipsOneToManyDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

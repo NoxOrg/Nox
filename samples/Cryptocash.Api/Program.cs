@@ -1,5 +1,6 @@
 using Nox;
 using Cryptocash.DataSeed;
+using Cryptocash.Presentation;
 
 var builder = WebApplication.CreateBuilder(args);
 

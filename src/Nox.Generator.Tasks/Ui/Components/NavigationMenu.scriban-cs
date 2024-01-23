@@ -1,17 +1,22 @@
 ﻿// Generated
 
-#nullable enable
-
 using Microsoft.AspNetCore.Components;
+using System.Collections.Immutable;
 
-namespace {{codeGeneratorState.UiNameSpace}}.Components;
+namespace {{codeGenConventions.UiNameSpace}}.Components;
+
+public record NavigationItem(string Name, string Link, string? Icon = null);
 
 public partial class NavigationMenu : ComponentBase
 {
-    {{- for entity in entities }}
-    
-    public string {{entity.PluralName}}Icon { get; set; } = "";    
-    public string {{entity.PluralName}}PageLink { get; set; } = "{{entity.PluralName}}";
+    [Parameter]
+    public List<NavigationItem> NavigationItems { get; set; } = DefaultNavigationItems.ToList();
 
-    {{- end }}
+    public static readonly ImmutableList<NavigationItem> DefaultNavigationItems =
+        ImmutableList<NavigationItem>.Empty
+        {{- for entity in entities }}
+        {{- icon = entity.UserInterface?.Icon }}
+        .Add(new NavigationItem("{{entity.PluralName}}", "{{entity.PluralName}}", {{ (icon | string.empty) ? "null" : ('"' + icon + '"') }}))
+        {{- end }}
+        ;
 }

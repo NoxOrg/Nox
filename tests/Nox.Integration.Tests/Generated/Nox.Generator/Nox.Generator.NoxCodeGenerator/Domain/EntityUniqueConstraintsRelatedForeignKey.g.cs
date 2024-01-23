@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace TestWebApp.Domain;
 
-internal partial class EntityUniqueConstraintsRelatedForeignKey : EntityUniqueConstraintsRelatedForeignKeyBase, IEntityHaveDomainEvents
+public partial class EntityUniqueConstraintsRelatedForeignKey : EntityUniqueConstraintsRelatedForeignKeyBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class EntityUniqueConstraintsRelatedForeignKey : EntityUniqueCo
 /// <summary>
 /// Record for EntityUniqueConstraintsRelatedForeignKey created event.
 /// </summary>
-internal record EntityUniqueConstraintsRelatedForeignKeyCreated(EntityUniqueConstraintsRelatedForeignKey EntityUniqueConstraintsRelatedForeignKey) :  IDomainEvent, INotification;
+public record EntityUniqueConstraintsRelatedForeignKeyCreated(EntityUniqueConstraintsRelatedForeignKey EntityUniqueConstraintsRelatedForeignKey) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for EntityUniqueConstraintsRelatedForeignKey updated event.
 /// </summary>
-internal record EntityUniqueConstraintsRelatedForeignKeyUpdated(EntityUniqueConstraintsRelatedForeignKey EntityUniqueConstraintsRelatedForeignKey) : IDomainEvent, INotification;
+public record EntityUniqueConstraintsRelatedForeignKeyUpdated(EntityUniqueConstraintsRelatedForeignKey EntityUniqueConstraintsRelatedForeignKey) : IDomainEvent, INotification;
 /// <summary>
 /// Record for EntityUniqueConstraintsRelatedForeignKey deleted event.
 /// </summary>
-internal record EntityUniqueConstraintsRelatedForeignKeyDeleted(EntityUniqueConstraintsRelatedForeignKey EntityUniqueConstraintsRelatedForeignKey) : IDomainEvent, INotification;
+public record EntityUniqueConstraintsRelatedForeignKeyDeleted(EntityUniqueConstraintsRelatedForeignKey EntityUniqueConstraintsRelatedForeignKey) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-internal abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : EntityBase, IEtag
+public abstract partial class EntityUniqueConstraintsRelatedForeignKeyBase : EntityBase, IEtag
 {
     /// <summary>
     ///     

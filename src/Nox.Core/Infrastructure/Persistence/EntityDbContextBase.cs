@@ -11,13 +11,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.Extensions.Logging;
+using System.Linq.Expressions;
+using Nox.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Nox.Infrastructure.Persistence
 {
     /// <summary>
     /// Domain Entities DbContext
     /// </summary>
-    public abstract class EntityDbContextBase : DbContext
+    public abstract class EntityDbContextBase : DbContext, IRepository
     {
         protected readonly IPublisher _publisher;
         protected readonly IUserProvider _userProvider;
@@ -60,23 +63,7 @@ namespace Nox.Infrastructure.Persistence
             var entry = await base.AddAsync(entity, cancellationToken);
             return entry.Entity;
         }
-
-        public virtual async Task<long> GetSequenceNextValueAsync(string sequenceName)
-        {
-            var connection = base.Database.GetDbConnection();
-            try
-            {
-                await connection.OpenAsync();
-                using var cmd = connection.CreateCommand();
-                cmd.CommandText = _databaseProvider.GetSqlStatementForSequenceNextValue(sequenceName);
-                var result = await cmd.ExecuteScalarAsync();
-                return (long)result!;
-            }
-            finally
-            {
-                await connection.CloseAsync();
-            }
-        }
+      
         protected virtual async Task HandleDomainEvents()
         {
             var entriesWithDomainEvents = GetEntriesWithDomainEvents();
@@ -250,5 +237,74 @@ namespace Nox.Infrastructure.Persistence
                 enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name, CultureCode = Types.CultureCode.From(defaultCultureCode) });
             }
         }
+        #region IRepository
+        IQueryable<T> IRepository.Query<T>()
+        {            
+            return Set<T>();
+        }
+
+        ValueTask<T?> IRepository.FindAsync<T>(params object?[]? keyValues) where T : class
+        {            
+            return Set<T>().FindAsync(keyValues);
+        }
+
+        async ValueTask<T> IRepository.AddAsync<T>(T entity, CancellationToken cancellationToken)
+        {
+            var entry = await AddAsync(entity, cancellationToken);
+            return entry.Entity;
+        }
+
+        void IRepository.Update<T>(T entity) 
+        {
+            Update(entity);
+        }
+
+        public void Delete<T>(T entity) where T : IEntity
+        {
+            Remove(entity);
+        }
+
+        public void DeleteOwned<T>(T entity) where T : IOwnedEntity
+        {
+            Remove(entity);
+        }
+
+        public void DeleteOwned<T>(IEnumerable<T> entities) where T : IOwnedEntity
+        {
+            ArgumentNullException.ThrowIfNull(entities);
+
+            entities.ForEach(e => DeleteOwned(e));
+        }
+        public virtual async Task<long> GetSequenceNextValueAsync(string sequenceName)
+        {
+            var connection = base.Database.GetDbConnection();
+            try
+            {
+                await connection.OpenAsync();
+                using var cmd = connection.CreateCommand();
+                cmd.CommandText = _databaseProvider.GetSqlStatementForSequenceNextValue(sequenceName);
+                var result = await cmd.ExecuteScalarAsync();
+                return (long)result!;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        Task IRepository.SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return SaveChangesAsync(cancellationToken);
+        }
+
+        public void SetStateModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+        public void SetStateDetached(object entity)
+        {
+            Entry(entity).State = EntityState.Detached;
+        }
+        #endregion
     }
 }

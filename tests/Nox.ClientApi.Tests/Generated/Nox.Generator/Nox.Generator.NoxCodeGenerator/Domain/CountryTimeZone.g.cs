@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace ClientApi.Domain;
 
-internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainEvents
+public partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainE
 /// <summary>
 /// Record for CountryTimeZone created event.
 /// </summary>
-internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) :  IDomainEvent, INotification;
+public record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryTimeZone updated event.
 /// </summary>
-internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
+public record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryTimeZone deleted event.
 /// </summary>
-internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
+public record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
 
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
+public abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's related time zone code    

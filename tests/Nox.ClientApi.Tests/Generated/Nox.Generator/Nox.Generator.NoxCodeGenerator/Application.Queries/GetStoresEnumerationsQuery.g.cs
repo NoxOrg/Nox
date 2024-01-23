@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
@@ -15,22 +16,21 @@ public partial record GetStoresStatusesQuery(Nox.Types.CultureCode cultureCode) 
 
 internal partial class GetStoresStatusesQueryHandler: GetStoresStatusesQueryHandlerBase
 {
-    public GetStoresStatusesQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetStoresStatusesQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetStoresStatusesQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.StoreStatusDto>>, IRequestHandler<GetStoresStatusesQuery, IQueryable<DtoNameSpace.StoreStatusDto>>
 {
-    public  GetStoresStatusesQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetStoresStatusesQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.StoreStatusDto>> Handle(GetStoresStatusesQuery request, CancellationToken cancellationToken)
     {
-        var queryBuilder = (IQueryable<DtoNameSpace.StoreStatusDto>)DataDbContext.StoresStatuses
-            .AsNoTracking();
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.StoreStatusDto>();
         return Task.FromResult(OnResponse(queryBuilder));
     }
 }

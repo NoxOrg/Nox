@@ -5,7 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
 using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
@@ -15,24 +16,21 @@ public partial record GetCountriesContinentsTranslationsQuery() : IRequest<IQuer
 
 internal partial class GetCountriesContinentsTranslationsQueryHandler: GetCountriesContinentsTranslationsQueryHandlerBase
 {
-    public GetCountriesContinentsTranslationsQueryHandler(PersistenceNameSpace.DtoDbContext dataDbContext): base(dataDbContext){}
+    public GetCountriesContinentsTranslationsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetCountriesContinentsTranslationsQueryHandlerBase : QueryBase<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>, IRequestHandler<GetCountriesContinentsTranslationsQuery, IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>
 {
-    public  GetCountriesContinentsTranslationsQueryHandlerBase(PersistenceNameSpace.DtoDbContext dataDbContext)
+    public  GetCountriesContinentsTranslationsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public PersistenceNameSpace.DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>> Handle(GetCountriesContinentsTranslationsQuery request, CancellationToken cancellationToken)
-    {
-       
-        var queryBuilder = DataDbContext.CountriesContinentsLocalized
-            .AsNoTracking<DtoNameSpace.CountryContinentLocalizedDto>();
-        return Task.FromResult(OnResponse(queryBuilder));
-       
+    {       
+        var queryBuilder = ReadOnlyRepository.Query<DtoNameSpace.CountryContinentLocalizedDto>();
+        return Task.FromResult(OnResponse(queryBuilder));       
     }  
 }

@@ -5,6 +5,8 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -12,8 +14,7 @@ using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
@@ -28,12 +29,12 @@ public partial record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto,
 internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseCommandHandlerBase
 {
 	public CreateStoreLicenseCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,StoreFactory, CurrencyFactory, entityFactory)
+		: base(repository, noxSolution,StoreFactory, CurrencyFactory, entityFactory)
 	{
 	}
 }
@@ -41,20 +42,20 @@ internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseComm
 
 internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<CreateStoreLicenseCommand,StoreLicenseEntity>, IRequestHandler <CreateStoreLicenseCommand, StoreLicenseKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory;
 
 	protected CreateStoreLicenseCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.StoreFactory = StoreFactory;
 		this.CurrencyFactory = CurrencyFactory;
@@ -69,7 +70,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		if(request.EntityDto.StoreId is not null)
 		{
 			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
-			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStore(relatedEntity);
 			else
@@ -83,7 +84,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		if(request.EntityDto.DefaultCurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToDefaultCurrency(relatedEntity);
 			else
@@ -97,7 +98,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		if(request.EntityDto.SoldInCurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToSoldInCurrency(relatedEntity);
 			else
@@ -110,8 +111,8 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.StoreLicenses.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<StoreLicense>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new StoreLicenseKeyDto(entityToCreate.Id.Value);
 	}
 }

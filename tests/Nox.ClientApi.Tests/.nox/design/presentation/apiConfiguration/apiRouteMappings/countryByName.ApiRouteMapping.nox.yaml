@@ -15,12 +15,3 @@ requestInput:
     description: The number of country names to get
     type: number
     default: 10
-
-responseOutput: 
-  name: TopCountriesResult
-  description: List of country names in alphabetical order
-  type: array
-  items:
-    name: Name
-    description: The name of the country
-    type: string

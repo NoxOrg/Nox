@@ -16,7 +16,7 @@ using Nox.Exceptions;
 
 namespace CryptocashIntegration.Domain;
 
-internal partial class CountryJsonToTable : CountryJsonToTableBase, IEntityHaveDomainEvents
+public partial class CountryJsonToTable : CountryJsonToTableBase, IEntityHaveDomainEvents
 {
     ///<inheritdoc/>
     public void RaiseCreateEvent()
@@ -37,20 +37,20 @@ internal partial class CountryJsonToTable : CountryJsonToTableBase, IEntityHaveD
 /// <summary>
 /// Record for CountryJsonToTable created event.
 /// </summary>
-internal record CountryJsonToTableCreated(CountryJsonToTable CountryJsonToTable) :  IDomainEvent, INotification;
+public record CountryJsonToTableCreated(CountryJsonToTable CountryJsonToTable) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryJsonToTable updated event.
 /// </summary>
-internal record CountryJsonToTableUpdated(CountryJsonToTable CountryJsonToTable) : IDomainEvent, INotification;
+public record CountryJsonToTableUpdated(CountryJsonToTable CountryJsonToTable) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryJsonToTable deleted event.
 /// </summary>
-internal record CountryJsonToTableDeleted(CountryJsonToTable CountryJsonToTable) : IDomainEvent, INotification;
+public record CountryJsonToTableDeleted(CountryJsonToTable CountryJsonToTable) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country and related data for Json file integration.
 /// </summary>
-internal abstract partial class CountryJsonToTableBase : EntityBase, IEtag
+public abstract partial class CountryJsonToTableBase : EntityBase, IEtag
 {
     /// <summary>
     /// Country unique identifier    

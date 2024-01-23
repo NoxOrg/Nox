@@ -5,8 +5,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-using Nox.Application.Commands;
-
+using Nox.Application.Queries;
+using Nox.Application.Repositories;
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,25 +16,21 @@ public partial record GetTestEntityWithNuidsQuery() : IRequest<IQueryable<TestEn
 
 internal partial class GetTestEntityWithNuidsQueryHandler: GetTestEntityWithNuidsQueryHandlerBase
 {
-    public GetTestEntityWithNuidsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
-    {
-    
-    }
+    public GetTestEntityWithNuidsQueryHandler(IReadOnlyRepository readOnlyRepository): base(readOnlyRepository){}
 }
 
 internal abstract class GetTestEntityWithNuidsQueryHandlerBase : QueryBase<IQueryable<TestEntityWithNuidDto>>, IRequestHandler<GetTestEntityWithNuidsQuery, IQueryable<TestEntityWithNuidDto>>
 {
-    public  GetTestEntityWithNuidsQueryHandlerBase(DtoDbContext dataDbContext)
+    public  GetTestEntityWithNuidsQueryHandlerBase(IReadOnlyRepository readOnlyRepository)
     {
-        DataDbContext = dataDbContext;
+        ReadOnlyRepository = readOnlyRepository;
     }
 
-    public DtoDbContext DataDbContext { get; }
+    public IReadOnlyRepository ReadOnlyRepository { get; }
 
     public virtual Task<IQueryable<TestEntityWithNuidDto>> Handle(GetTestEntityWithNuidsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<TestEntityWithNuidDto>)DataDbContext.TestEntityWithNuids
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        var query = ReadOnlyRepository.Query<TestEntityWithNuidDto>();
+       return Task.FromResult(OnResponse(query));
     }
 }

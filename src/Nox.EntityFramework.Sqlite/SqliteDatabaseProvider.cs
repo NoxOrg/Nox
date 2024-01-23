@@ -17,11 +17,22 @@ public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvi
     {
     }
 
-    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(
+       DbContextOptionsBuilder optionsBuilder,
+       string applicationName,
+       DatabaseServer dbServer,
+       string? migrationAssemblyName = null)
     {
         return optionsBuilder
             .UseSqlite(dbServer.Options,
-                opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
+                opts => { 
+                    opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
+
+                    if(migrationAssemblyName is not null)
+                    {
+                        opts.MigrationsAssembly(migrationAssemblyName);
+                    }
+                });
     }
 
     public string GetSqlStatementForSequenceNextValue(string sequenceName)

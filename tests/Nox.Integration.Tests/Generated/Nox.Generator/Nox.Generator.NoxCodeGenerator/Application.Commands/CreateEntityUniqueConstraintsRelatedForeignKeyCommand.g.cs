@@ -5,14 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Application.Factories;
 using Nox.Solution;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
+using Nox.Domain;
 
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
@@ -27,11 +28,11 @@ public partial record CreateEntityUniqueConstraintsRelatedForeignKeyCommand(Enti
 internal partial class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandler : CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase
 {
 	public CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityUniqueConstraintsWithForeignKeyFactory,
 		IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,EntityUniqueConstraintsWithForeignKeyFactory, entityFactory)
+		: base(repository, noxSolution,EntityUniqueConstraintsWithForeignKeyFactory, entityFactory)
 	{
 	}
 }
@@ -39,18 +40,18 @@ internal partial class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHand
 
 internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase : CommandBase<CreateEntityUniqueConstraintsRelatedForeignKeyCommand,EntityUniqueConstraintsRelatedForeignKeyEntity>, IRequestHandler <CreateEntityUniqueConstraintsRelatedForeignKeyCommand, EntityUniqueConstraintsRelatedForeignKeyKeyDto>
 {
-	protected readonly AppDbContext DbContext;
+	protected readonly IRepository Repository;
 	protected readonly IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityUniqueConstraintsWithForeignKeyFactory;
 
 	protected CreateEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityUniqueConstraintsWithForeignKeyFactory,
 		IEntityFactory<EntityUniqueConstraintsRelatedForeignKeyEntity, EntityUniqueConstraintsRelatedForeignKeyCreateDto, EntityUniqueConstraintsRelatedForeignKeyUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 		this.EntityUniqueConstraintsWithForeignKeyFactory = EntityUniqueConstraintsWithForeignKeyFactory;
 	}
@@ -66,7 +67,7 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 			foreach(var relatedId in request.EntityDto.EntityUniqueConstraintsWithForeignKeysId)
 			{
 				var relatedKey = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(relatedId);
-				var relatedEntity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(relatedKey);
+				var relatedEntity = await Repository.FindAsync<EntityUniqueConstraintsWithForeignKey>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToEntityUniqueConstraintsWithForeignKeys(relatedEntity);
@@ -84,8 +85,8 @@ internal abstract class CreateEntityUniqueConstraintsRelatedForeignKeyCommandHan
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		DbContext.EntityUniqueConstraintsRelatedForeignKeys.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		await Repository.AddAsync<EntityUniqueConstraintsRelatedForeignKey>(entityToCreate);
+		await Repository.SaveChangesAsync();
 		return new EntityUniqueConstraintsRelatedForeignKeyKeyDto(entityToCreate.Id.Value);
 	}
 }
