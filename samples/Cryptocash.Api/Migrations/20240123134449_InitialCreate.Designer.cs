@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240118165349_InitialCreate")]
+    [Migration("20240123134449_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -391,9 +391,9 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<string>("TimeZoneCode")
                         .IsRequired()
-                        .HasMaxLength(5)
+                        .HasMaxLength(48)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("varchar(48)");
 
                     b.HasKey("Id");
 
