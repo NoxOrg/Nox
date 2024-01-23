@@ -3,7 +3,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Tasks.Ui.Components;
 
-internal class NavigationMenuRazor : INoxFileGenerator
+internal class DefaultMainLayoutGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,12 +20,11 @@ internal class NavigationMenuRazor : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Components.NavigationMenuRazor";
+        var templateName = @"Tasks.Ui.DefaultMainLayout";
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
             .WithFileExtension("razor")
-            .WithClassName($"NavigationMenu")
-            .WithFileNamePrefix($"Ui.Components")
+            .WithClassName($"DefaultMainLayout")
             .GenerateSourceCodeFromResource(templateName);
     }
 }
