@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
 using Dto = CryptocashIntegration.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteCountryQueryToCustomTableByIdCommand(IEnumerable<Cou
 internal partial class DeleteCountryQueryToCustomTableByIdCommandHandler : DeleteCountryQueryToCustomTableByIdCommandHandlerBase
 {
 	public DeleteCountryQueryToCustomTableByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteCountryQueryToCustomTableByIdCommandHandlerBase : CommandCollectionBase<DeleteCountryQueryToCustomTableByIdCommand, CountryQueryToCustomTableEntity>, IRequestHandler<DeleteCountryQueryToCustomTableByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteCountryQueryToCustomTableByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteCountryQueryToCustomTableByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteCountryQueryToCustomTableByIdCommandHandlerBase : 
 		{
 			var keyId = Dto.CountryQueryToCustomTableMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.CountryQueryToCustomTables.FindAsync(keyId);
+			var entity = await Repository.FindAsync<CountryQueryToCustomTable>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteCountryQueryToCustomTableByIdCommandHandlerBase : 
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<CountryQueryToCustomTableEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

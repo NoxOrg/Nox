@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeletePaymentDetailByIdCommand(IEnumerable<PaymentDetailKe
 internal partial class DeletePaymentDetailByIdCommandHandler : DeletePaymentDetailByIdCommandHandlerBase
 {
 	public DeletePaymentDetailByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandCollectionBase<DeletePaymentDetailByIdCommand, PaymentDetailEntity>, IRequestHandler<DeletePaymentDetailByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeletePaymentDetailByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeletePaymentDetailByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandColle
 		{
 			var keyId = Dto.PaymentDetailMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.PaymentDetails.FindAsync(keyId);
+			var entity = await Repository.FindAsync<PaymentDetail>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("PaymentDetail",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandColle
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<PaymentDetailEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

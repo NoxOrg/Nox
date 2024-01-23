@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteSecondTestEntityExactlyOneByIdCommand(IEnumerable<Se
 internal partial class DeleteSecondTestEntityExactlyOneByIdCommandHandler : DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase
 {
 	public DeleteSecondTestEntityExactlyOneByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase : CommandCollectionBase<DeleteSecondTestEntityExactlyOneByIdCommand, SecondTestEntityExactlyOneEntity>, IRequestHandler<DeleteSecondTestEntityExactlyOneByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteSecondTestEntityExactlyOneByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase :
 		{
 			var keyId = Dto.SecondTestEntityExactlyOneMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
+			var entity = await Repository.FindAsync<SecondTestEntityExactlyOne>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("SecondTestEntityExactlyOne",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase :
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<SecondTestEntityExactlyOneEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

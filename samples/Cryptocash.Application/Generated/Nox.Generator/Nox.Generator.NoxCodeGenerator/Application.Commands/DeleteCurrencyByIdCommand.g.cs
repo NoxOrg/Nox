@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteCurrencyByIdCommand(IEnumerable<CurrencyKeyDto> KeyD
 internal partial class DeleteCurrencyByIdCommandHandler : DeleteCurrencyByIdCommandHandlerBase
 {
 	public DeleteCurrencyByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteCurrencyByIdCommandHandlerBase : CommandCollectionBase<DeleteCurrencyByIdCommand, CurrencyEntity>, IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteCurrencyByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteCurrencyByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteCurrencyByIdCommandHandlerBase : CommandCollection
 		{
 			var keyId = Dto.CurrencyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.Currencies.FindAsync(keyId);
+			var entity = await Repository.FindAsync<Currency>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteCurrencyByIdCommandHandlerBase : CommandCollection
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<CurrencyEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

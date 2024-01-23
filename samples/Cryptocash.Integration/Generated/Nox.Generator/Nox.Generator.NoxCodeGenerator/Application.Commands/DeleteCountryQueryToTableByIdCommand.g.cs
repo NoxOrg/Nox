@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
 using Dto = CryptocashIntegration.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteCountryQueryToTableByIdCommand(IEnumerable<CountryQu
 internal partial class DeleteCountryQueryToTableByIdCommandHandler : DeleteCountryQueryToTableByIdCommandHandlerBase
 {
 	public DeleteCountryQueryToTableByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteCountryQueryToTableByIdCommandHandlerBase : CommandCollectionBase<DeleteCountryQueryToTableByIdCommand, CountryQueryToTableEntity>, IRequestHandler<DeleteCountryQueryToTableByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteCountryQueryToTableByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteCountryQueryToTableByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteCountryQueryToTableByIdCommandHandlerBase : Comman
 		{
 			var keyId = Dto.CountryQueryToTableMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.CountryQueryToTables.FindAsync(keyId);
+			var entity = await Repository.FindAsync<CountryQueryToTable>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("CountryQueryToTable",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteCountryQueryToTableByIdCommandHandlerBase : Comman
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<CountryQueryToTableEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }
