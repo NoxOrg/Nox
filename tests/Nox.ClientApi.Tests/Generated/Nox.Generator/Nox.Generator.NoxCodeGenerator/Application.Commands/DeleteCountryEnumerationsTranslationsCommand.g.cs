@@ -6,10 +6,10 @@ using MediatR;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Abstractions.Extensions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using CountryEntity = ClientApi.Domain.Country;
 
@@ -19,20 +19,20 @@ public partial record  DeleteCountriesContinentsTranslationsCommand(Nox.Types.Cu
 internal partial class DeleteCountriesContinentsTranslationsCommandHandler : DeleteCountriesContinentsTranslationsCommandHandlerBase
 {
 	public DeleteCountriesContinentsTranslationsCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase : CommandCollectionBase<DeleteCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<DeleteCountriesContinentsTranslationsCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteCountriesContinentsTranslationsCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteCountriesContinentsTranslationsCommand command, CancellationToken cancellationToken)
@@ -40,7 +40,7 @@ internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 
-		var localizedEnums = await DbContext.CountriesContinentsLocalized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+		var localizedEnums = await Repository.Query<CountryContinentLocalized>().Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
 		
 		if(!localizedEnums.Any())
 		{
@@ -49,9 +49,9 @@ internal abstract class DeleteCountriesContinentsTranslationsCommandHandlerBase 
 		
 		await OnCompletedAsync(command, localizedEnums);
 		
-		DbContext.RemoveRange(localizedEnums);
+		Repository.DeleteRange(localizedEnums);
 		
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

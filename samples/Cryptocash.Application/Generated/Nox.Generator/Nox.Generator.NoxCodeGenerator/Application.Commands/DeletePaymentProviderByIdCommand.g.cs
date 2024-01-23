@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeletePaymentProviderByIdCommand(IEnumerable<PaymentProvid
 internal partial class DeletePaymentProviderByIdCommandHandler : DeletePaymentProviderByIdCommandHandlerBase
 {
 	public DeletePaymentProviderByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeletePaymentProviderByIdCommandHandlerBase : CommandCollectionBase<DeletePaymentProviderByIdCommand, PaymentProviderEntity>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeletePaymentProviderByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeletePaymentProviderByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeletePaymentProviderByIdCommandHandlerBase : CommandCol
 		{
 			var keyId = Dto.PaymentProviderMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.PaymentProviders.FindAsync(keyId);
+			var entity = await Repository.FindAsync<PaymentProvider>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("PaymentProvider",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeletePaymentProviderByIdCommandHandlerBase : CommandCol
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<PaymentProviderEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

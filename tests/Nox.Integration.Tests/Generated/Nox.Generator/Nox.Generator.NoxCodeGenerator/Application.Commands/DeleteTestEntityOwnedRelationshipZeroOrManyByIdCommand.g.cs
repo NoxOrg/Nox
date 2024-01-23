@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand(IEn
 internal partial class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler : DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase
 {
 	public DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHa
 		{
 			var keyId = Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
+			var entity = await Repository.FindAsync<TestEntityOwnedRelationshipZeroOrMany>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHa
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<TestEntityOwnedRelationshipZeroOrManyEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

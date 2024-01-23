@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteTestEntityTwoRelationshipsOneToOneByIdCommand(IEnume
 internal partial class DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandler : DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase
 {
 	public DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase : CommandCollectionBase<DeleteTestEntityTwoRelationshipsOneToOneByIdCommand, TestEntityTwoRelationshipsOneToOneEntity>, IRequestHandler<DeleteTestEntityTwoRelationshipsOneToOneByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteTestEntityTwoRelationshipsOneToOneByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandl
 		{
 			var keyId = Dto.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
+			var entity = await Repository.FindAsync<TestEntityTwoRelationshipsOneToOne>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToOne",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteTestEntityTwoRelationshipsOneToOneByIdCommandHandl
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<TestEntityTwoRelationshipsOneToOneEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }

@@ -21,7 +21,9 @@ internal class NavigationMenuGenerator : INoxFileGenerator
         }
 
         var templateName = @"Tasks.Ui.Components.NavigationMenu";
-        var entities = codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity);
+        var entities = codeGeneratorState.Solution.Domain.Entities
+            .Where(e => !e.IsOwnedEntity && e.Persistence.Read.IsEnabled)
+            .OrderBy(e => e.PluralName);
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
             .WithFileExtension("razor.cs")

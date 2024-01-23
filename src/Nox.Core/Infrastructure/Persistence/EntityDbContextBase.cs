@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 using Nox.Extensions;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.AspNetCore.Routing.Matching;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -237,14 +239,24 @@ namespace Nox.Infrastructure.Persistence
                 enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name, CultureCode = Types.CultureCode.From(defaultCultureCode) });
             }
         }
-        #region IRepository
-        IQueryable<T> IRepository.Query<T>()
-        {            
-            return Set<T>();
+
+        #region IRepository        
+
+        IQueryable<T> IRepository.Query<T>(params Expression<Func<T, object>>[] includeExpressions) where T : class
+        {
+            IQueryable<T> query = Set<T>(); 
+            if(includeExpressions is not null)
+            {
+                foreach (var includeExpression in includeExpressions)
+                {
+                    query = query.Include(includeExpression);
+                }                
+            }
+            return query;
         }
 
         ValueTask<T?> IRepository.FindAsync<T>(params object?[]? keyValues) where T : class
-        {            
+        {
             return Set<T>().FindAsync(keyValues);
         }
 
@@ -262,6 +274,10 @@ namespace Nox.Infrastructure.Persistence
         public void Delete<T>(T entity) where T : IEntity
         {
             Remove(entity);
+        }
+        public void DeleteRange<T>(IEnumerable<T> entities) where T : IEntity
+        {
+            RemoveRange((IEnumerable<object>)entities);
         }
 
         public void DeleteOwned<T>(T entity) where T : IOwnedEntity
@@ -290,8 +306,7 @@ namespace Nox.Infrastructure.Persistence
             {
                 await connection.CloseAsync();
             }
-        }
-
+        }        
         Task IRepository.SaveChangesAsync(CancellationToken cancellationToken)
         {
             return SaveChangesAsync(cancellationToken);
@@ -304,7 +319,7 @@ namespace Nox.Infrastructure.Persistence
         public void SetStateDetached(object entity)
         {
             Entry(entity).State = EntityState.Detached;
-        }
+        }       
         #endregion
     }
 }

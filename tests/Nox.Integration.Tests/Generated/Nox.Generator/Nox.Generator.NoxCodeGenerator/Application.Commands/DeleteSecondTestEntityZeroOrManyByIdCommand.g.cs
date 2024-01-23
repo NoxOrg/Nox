@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Domain;
 using Nox.Exceptions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -21,20 +21,20 @@ public partial record DeleteSecondTestEntityZeroOrManyByIdCommand(IEnumerable<Se
 internal partial class DeleteSecondTestEntityZeroOrManyByIdCommandHandler : DeleteSecondTestEntityZeroOrManyByIdCommandHandlerBase
 {
 	public DeleteSecondTestEntityZeroOrManyByIdCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteSecondTestEntityZeroOrManyByIdCommandHandlerBase : CommandCollectionBase<DeleteSecondTestEntityZeroOrManyByIdCommand, SecondTestEntityZeroOrManyEntity>, IRequestHandler<DeleteSecondTestEntityZeroOrManyByIdCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteSecondTestEntityZeroOrManyByIdCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteSecondTestEntityZeroOrManyByIdCommand request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ internal abstract class DeleteSecondTestEntityZeroOrManyByIdCommandHandlerBase :
 		{
 			var keyId = Dto.SecondTestEntityZeroOrManyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await DbContext.SecondTestEntityZeroOrManies.FindAsync(keyId);
+			var entity = await Repository.FindAsync<SecondTestEntityZeroOrMany>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("SecondTestEntityZeroOrMany",  $"{keyId.ToString()}");
@@ -58,9 +58,9 @@ internal abstract class DeleteSecondTestEntityZeroOrManyByIdCommandHandlerBase :
 			entities.Add(entity);			
 		}
 
-		DbContext.RemoveRange(entities);
+		Repository.DeleteRange<SecondTestEntityZeroOrManyEntity>(entities);
 		await OnCompletedAsync(request, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }
