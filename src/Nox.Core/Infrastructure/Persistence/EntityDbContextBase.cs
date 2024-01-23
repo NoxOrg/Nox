@@ -240,19 +240,17 @@ namespace Nox.Infrastructure.Persistence
             }
         }
 
-        #region IRepository
-        IQueryable<T> IRepository.Query<T>()
-        {
-            return Set<T>();
-        }
+        #region IRepository        
 
         IQueryable<T> IRepository.Query<T>(params Expression<Func<T, object>>[] includeExpressions) where T : class
         {
-            IQueryable<T> query = ((IRepository)this).Query<T>();
-
-            foreach (var includeExpression in includeExpressions)
+            IQueryable<T> query = Set<T>(); 
+            if(includeExpressions is not null)
             {
-                query = query.Include(includeExpression);
+                foreach (var includeExpression in includeExpressions)
+                {
+                    query = query.Include(includeExpression);
+                }                
             }
             return query;
         }
