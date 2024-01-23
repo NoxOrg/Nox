@@ -16,6 +16,11 @@ public interface IRepository
     void Delete<T>(T entity) where T : IEntity;
 
     /// <summary>
+    /// Deletes Multiple Entities
+    /// </summary>
+    void DeleteRange<T>(IEnumerable<T> entities) where T : IEntity;
+
+    /// <summary>
     /// Deletes Owned Entity
     /// </summary>
     void DeleteOwned<T>(T entity) where T : IOwnedEntity;

@@ -263,6 +263,10 @@ namespace Nox.Infrastructure.Persistence
         {
             Remove(entity);
         }
+        public void DeleteRange<T>(IEnumerable<T> entities) where T : IEntity
+        {
+            RemoveRange((IEnumerable<object>)entities);
+        }
 
         public void DeleteOwned<T>(T entity) where T : IOwnedEntity
         {
@@ -304,7 +308,7 @@ namespace Nox.Infrastructure.Persistence
         public void SetStateDetached(object entity)
         {
             Entry(entity).State = EntityState.Detached;
-        }
+        }       
         #endregion
     }
 }

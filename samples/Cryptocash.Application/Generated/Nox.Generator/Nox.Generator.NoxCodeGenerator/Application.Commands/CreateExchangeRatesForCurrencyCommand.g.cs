@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Exceptions;
@@ -26,26 +27,26 @@ public partial record CreateExchangeRatesForCurrencyCommand(CurrencyKeyDto Paren
 internal partial class CreateExchangeRatesForCurrencyCommandHandler : CreateExchangeRatesForCurrencyCommandHandlerBase
 {
 	public CreateExchangeRatesForCurrencyCommandHandler(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : CommandBase<CreateExchangeRatesForCurrencyCommand, ExchangeRateEntity>, IRequestHandler<CreateExchangeRatesForCurrencyCommand, ExchangeRateKeyDto?>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
+	protected readonly Nox.Domain.IRepository Repository;
+	protected readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> RntityFactory;
 	
 	protected CreateExchangeRatesForCurrencyCommandHandlerBase(
-        AppDbContext dbContext,
+        Nox.Domain.IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		RntityFactory = entityFactory;
 	}
 
 	public virtual  async Task<ExchangeRateKeyDto?> Handle(CreateExchangeRatesForCurrencyCommand request, CancellationToken cancellationToken)
@@ -53,20 +54,19 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 		await OnExecutingAsync(request);
 		var keyId = Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
+		var parentEntity = await Repository.FindAsync<Currency> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");
 		}
 
-		var entity = await _entityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
+		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 		parentEntity.CreateRefToExchangeRates(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await OnCompletedAsync(request, entity);
 
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await OnCompletedAsync(request, entity);
+		Repository.SetStateModified(parentEntity);		
+		await Repository.SaveChangesAsync();
 
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}

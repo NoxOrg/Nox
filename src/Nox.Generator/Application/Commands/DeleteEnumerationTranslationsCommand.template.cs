@@ -6,10 +6,10 @@ using MediatR;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Abstractions.Extensions;
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
 
@@ -24,20 +24,20 @@ public partial record  {{deleteCommand}}(Nox.Types.CultureCode {{codeGenConventi
 internal partial class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
 {
 	public {{deleteCommand}}Handler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{deleteCommand}}, {{enumEntity}}>, IRequestHandler<{{deleteCommand}}, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public {{deleteCommand}}HandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle({{deleteCommand}} command, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{d
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 
-		var localizedEnums = await DbContext.{{entity.PluralName}}{{Pluralize (enumAtt.Attribute.Name)}}Localized.Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+		var localizedEnums = await Repository.Query<{{entity.Name}}{{enumAtt.Attribute.Name}}Localized>().Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
 		
 		if(!localizedEnums.Any())
 		{
@@ -54,9 +54,9 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{d
 		
 		await OnCompletedAsync(command, localizedEnums);
 		
-		DbContext.RemoveRange(localizedEnums);
+		Repository.DeleteRange(localizedEnums);
 		
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return true;
 	}
 }
