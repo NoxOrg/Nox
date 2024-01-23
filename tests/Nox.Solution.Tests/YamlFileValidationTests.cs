@@ -479,4 +479,20 @@ public class YamlFileValidationTests
                 "Multiple Relationships [ExchangeRateFrom,ExchangeRateFromDuplicate] on entity [Currency] have same RefRelationshipName value of [CurrencyFrom] that refers to same entity [ExchangeRate]."
             );
     }
+
+    [Fact]
+    public void Deserialize_ApiRouteMapping_WhenParametersFromRouteAreNotDefinedInRequestInput()
+    {
+        // api-route-mapping-undefined-parameters.solution.nox.yaml
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/api-route-mapping-undefined-parameters.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "Endpoint [TestMapping] defines a parameter [key] in the route that is not defined in the [RequestInput] section.",
+                "Endpoint [TestMapping] defines a parameter [key2] in the route that is not defined in the [RequestInput] section."
+            );
+    }
 }

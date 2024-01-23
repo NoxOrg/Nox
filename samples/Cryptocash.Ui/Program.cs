@@ -4,6 +4,7 @@ using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
 using Cryptocash.Ui.Generated.Data.Helper;
 using System.Text.Json.Serialization;
+using Nox.Ui.Blazor.Lib.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddMudServices();
 builder.Services.AddTransient<NavigationHelper>();
+builder.Services.AddSingleton<GlobalDataService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

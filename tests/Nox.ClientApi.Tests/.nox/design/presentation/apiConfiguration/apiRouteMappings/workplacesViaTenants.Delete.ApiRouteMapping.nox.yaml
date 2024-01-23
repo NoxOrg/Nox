@@ -9,3 +9,12 @@ description: Delete workplace via Tenant
 httpVerb: delete
 route: /Tenants/{TenantId}/Workplaces/{key}
 targetUrl: /Workplaces/{key}?TenantId={TenantId}
+
+requestInput:
+  - name: TenantId
+    description: The Tenant Id
+    type: number
+
+  - name: key
+    description: The Workplace Key
+    type: number

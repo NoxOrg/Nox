@@ -17,6 +17,10 @@ requestInput:
     description: The Country Id
     type: number
 
+  - name: ExtraId
+    description: The Extra Id
+    type: number
+
 responseOutput: 
   name: UpdateCount
   description: result count

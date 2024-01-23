@@ -388,9 +388,9 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<string>("TimeZoneCode")
                         .IsRequired()
-                        .HasMaxLength(5)
+                        .HasMaxLength(48)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(5)");
+                        .HasColumnType("varchar(48)");
 
                     b.HasKey("Id");
 

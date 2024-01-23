@@ -13,9 +13,15 @@
 @using System.Globalization;
 @using Nox.Ui.Blazor.Lib.Models
 @using global::Cryptocash.Ui.Generated.Data.Helper;
+@using Nox.Ui.Blazor.Lib.Services;
 
 
 @page "/TestLib"
+
+@inject GlobalDataService TestGlobalData
+@{
+    TestGlobalData.PageTitle = "Test Lib";
+}
 
 @inherits ListEntityPageBase<CustomerDto, CustomerCreateDto, CustomerUpdateDto>
 

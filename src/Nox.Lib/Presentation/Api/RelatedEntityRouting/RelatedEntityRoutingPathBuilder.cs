@@ -107,7 +107,7 @@ internal sealed partial class RelatedEntityRoutingPathBuilder : RelatedEntityRou
             pathItem.AddOperation(info.OperationType!.Value,
                 OpenApiExtensions.CreateOperation(tagName)
                 .WithPathParameters(keyNames)
-                .WithRequestBody(info.RequestReferenceId)
+                .WithRequestBody(info.RequestReferenceId, info.OperationType.Value)
                 .WithResponseBody(info.ResponseReferenceId, info.ResponseType));
         }
 

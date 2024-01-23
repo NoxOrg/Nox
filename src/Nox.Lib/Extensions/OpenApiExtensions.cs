@@ -42,9 +42,12 @@ public static class OpenApiExtensions
         return operation;
     }
 
-    public static OpenApiOperation WithRequestBody(this OpenApiOperation operation, string? referenceId)
+    public static OpenApiOperation WithRequestBody(this OpenApiOperation operation, string? referenceId, OperationType operationType)
     {
         if (string.IsNullOrEmpty(referenceId))
+            return operation;
+
+        if (operationType == OperationType.Get || operationType == OperationType.Delete)
             return operation;
 
         operation.RequestBody = new OpenApiRequestBody
