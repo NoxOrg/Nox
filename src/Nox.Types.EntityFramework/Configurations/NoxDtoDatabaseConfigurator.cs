@@ -109,10 +109,25 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         if (relationship.WithMultiEntity &&
             relationship.Related.EntityRelationship.WithMultiEntity)
         {
-            builder
-                .HasMany(navigationPropertyName)
-                .WithMany(reversedNavigationPropertyName)
-                .UsingEntity(x => x.ToTable(relationship.Name));
+            if (relationship.Entity == entity.Name)
+            {
+                var entityNamespace = _codeGenConventions.GetEntityDtoTypeFullName($"{entity.Name}Dto");
+
+                builder
+                    .HasMany(navigationPropertyName)
+                    .WithMany()
+                    .UsingEntity(
+                        relationship.Name,
+                        l => l.HasOne(entityNamespace).WithMany().HasForeignKey($"{relationship.Name}Id"),
+                        r => r.HasOne(entityNamespace).WithMany().HasForeignKey($"{entity.Name}Id"));
+            }
+            else
+            {
+                builder
+                    .HasMany(navigationPropertyName)
+                    .WithMany(reversedNavigationPropertyName)
+                    .UsingEntity(x => x.ToTable(relationship.Name));
+            }
         }
         // OneToOne and OneToMany, setup should be done only on foreign key side
         else if (relationship.WithSingleEntity())
