@@ -110,7 +110,7 @@ public static class Icon
     {
         get
         {
-            return "<path d=\"M9 6L15 12L9 18\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>";
+            return "<path d=\"M12,21.2c-5.1,0-9.2-4.1-9.2-9.2c0-5.1,4.1-9.2,9.2-9.2s9.2,4.1,9.2,9.2C21.2,17.1,17.1,21.2,12,21.2z M12,5.8c-3.4,0-6.2,2.8-6.2,6.2c0,3.4,2.8,6.2,6.2,6.2s6.2-2.8,6.2-6.2C18.2,8.6,15.4,5.8,12,5.8z\"/>";
         }
     }
 }

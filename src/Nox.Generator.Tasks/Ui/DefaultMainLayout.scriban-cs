@@ -46,7 +46,7 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public List<NavigationItem> NavigationItems { get; set; } = new();
+    public List<NavigationItem> NavigationItems { get; set; } = NavigationMenu.DefaultNavigationItems.ToList();
 
     private bool drawerOpen = true;
 
