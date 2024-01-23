@@ -150,7 +150,7 @@ internal abstract class RefCommissionToCountryCommandHandlerBase<TRequest> : Com
 
 	protected async Task<CommissionEntity?> GetCommission(CommissionKeyDto entityKeyDto)
 	{
-		var keyId = Dto.CommissionMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CommissionMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Commissions.FindAsync(keyId);
 	}
 

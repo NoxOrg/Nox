@@ -195,7 +195,13 @@ internal abstract class RefCustomerToTransactionsCommandHandlerBase<TRequest> : 
 	protected async Task<CustomerEntity?> GetCustomer(CustomerKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CustomerMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Customers.FindAsync(keyId);
+		var entity = await DbContext.Customers.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Transactions).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.Transaction?> GetCustomerRelatedTransactions(TransactionKeyDto relatedEntityKeyDto)

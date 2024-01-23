@@ -195,7 +195,13 @@ internal abstract class RefEntityUniqueConstraintsRelatedForeignKeyToEntityUniqu
 	protected async Task<EntityUniqueConstraintsRelatedForeignKeyEntity?> GetEntityUniqueConstraintsRelatedForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
+		var entity = await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.EntityUniqueConstraintsWithForeignKeys).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey?> Getrelatesto2(EntityUniqueConstraintsWithForeignKeyKeyDto relatedEntityKeyDto)

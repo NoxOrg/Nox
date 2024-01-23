@@ -150,7 +150,7 @@ internal abstract class RefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand
 
 	protected async Task<TestEntityZeroOrOneEntity?> GetTestEntityZeroOrOne(TestEntityZeroOrOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.TestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.TestEntityZeroOrOnes.FindAsync(keyId);
 	}
 

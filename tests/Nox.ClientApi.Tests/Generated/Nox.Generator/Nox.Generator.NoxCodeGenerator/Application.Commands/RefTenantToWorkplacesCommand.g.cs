@@ -195,7 +195,13 @@ internal abstract class RefTenantToWorkplacesCommandHandlerBase<TRequest> : Comm
 	protected async Task<TenantEntity?> GetTenant(TenantKeyDto entityKeyDto)
 	{
 		var keyId = Dto.TenantMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Tenants.FindAsync(keyId);
+		var entity = await DbContext.Tenants.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<ClientApi.Domain.Workplace?> GetTenantWorkplaces(WorkplaceKeyDto relatedEntityKeyDto)

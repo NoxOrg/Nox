@@ -150,7 +150,7 @@ internal abstract class RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneT
 
 	protected async Task<TestEntityExactlyOneToZeroOrOneEntity?> GetTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.TestEntityExactlyOneToZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TestEntityExactlyOneToZeroOrOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.TestEntityExactlyOneToZeroOrOnes.FindAsync(keyId);
 	}
 

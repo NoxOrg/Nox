@@ -211,7 +211,18 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 		{{- for key in entity.Keys }}
 		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}});
 		{{- end }}
+		{{- if relationship.WithSingleEntity }}		
 		return await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
+		{{- else }}
+		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
+		if(entity is not null)
+		{
+			{{- navigationName = GetNavigationPropertyName entity relationship }}
+			await DbContext.Entry(entity).Collection(x => x.{{navigationName}}).LoadAsync();
+		}
+
+		return entity;
+		{{- end }}
 	}
 
 	protected async Task<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}?> Get{{relationship.Name}}({{relatedEntity.Name}}KeyDto relatedEntityKeyDto)

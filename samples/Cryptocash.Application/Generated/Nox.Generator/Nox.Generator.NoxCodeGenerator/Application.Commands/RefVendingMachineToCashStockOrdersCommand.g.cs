@@ -195,7 +195,13 @@ internal abstract class RefVendingMachineToCashStockOrdersCommandHandlerBase<TRe
 	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
 	{
 		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.VendingMachines.FindAsync(keyId);
+		var entity = await DbContext.VendingMachines.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.CashStockOrders).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.CashStockOrder?> GetVendingMachineRelatedCashStockOrders(CashStockOrderKeyDto relatedEntityKeyDto)

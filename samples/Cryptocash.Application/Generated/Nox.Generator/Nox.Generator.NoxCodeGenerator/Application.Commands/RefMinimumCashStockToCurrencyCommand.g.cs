@@ -150,7 +150,7 @@ internal abstract class RefMinimumCashStockToCurrencyCommandHandlerBase<TRequest
 
 	protected async Task<MinimumCashStockEntity?> GetMinimumCashStock(MinimumCashStockKeyDto entityKeyDto)
 	{
-		var keyId = Dto.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.MinimumCashStocks.FindAsync(keyId);
 	}
 

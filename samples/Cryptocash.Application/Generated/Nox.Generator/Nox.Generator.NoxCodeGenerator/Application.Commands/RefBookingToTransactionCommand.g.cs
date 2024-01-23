@@ -150,7 +150,7 @@ internal abstract class RefBookingToTransactionCommandHandlerBase<TRequest> : Co
 
 	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto)
 	{
-		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Bookings.FindAsync(keyId);
 	}
 

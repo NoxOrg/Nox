@@ -195,7 +195,13 @@ internal abstract class RefCommissionToBookingsCommandHandlerBase<TRequest> : Co
 	protected async Task<CommissionEntity?> GetCommission(CommissionKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CommissionMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Commissions.FindAsync(keyId);
+		var entity = await DbContext.Commissions.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.Booking?> GetCommissionFeesForBooking(BookingKeyDto relatedEntityKeyDto)

@@ -150,7 +150,7 @@ internal abstract class RefCountryToCurrencyCommandHandlerBase<TRequest> : Comma
 
 	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
 	{
-		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Countries.FindAsync(keyId);
 	}
 

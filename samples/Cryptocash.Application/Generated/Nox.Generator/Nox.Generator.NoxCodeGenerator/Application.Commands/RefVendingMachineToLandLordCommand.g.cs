@@ -150,7 +150,7 @@ internal abstract class RefVendingMachineToLandLordCommandHandlerBase<TRequest> 
 
 	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
 	{
-		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.VendingMachines.FindAsync(keyId);
 	}
 

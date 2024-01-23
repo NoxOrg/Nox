@@ -150,7 +150,7 @@ internal abstract class RefSecondTestEntityExactlyOneToTestEntityExactlyOneComma
 
 	protected async Task<SecondTestEntityExactlyOneEntity?> GetSecondTestEntityExactlyOne(SecondTestEntityExactlyOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.SecondTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.SecondTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
 	}
 

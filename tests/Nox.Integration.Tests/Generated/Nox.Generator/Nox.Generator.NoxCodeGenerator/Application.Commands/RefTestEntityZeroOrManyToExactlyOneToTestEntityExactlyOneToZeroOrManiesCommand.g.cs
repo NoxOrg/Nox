@@ -195,7 +195,13 @@ internal abstract class RefTestEntityZeroOrManyToExactlyOneToTestEntityExactlyOn
 	protected async Task<TestEntityZeroOrManyToExactlyOneEntity?> GetTestEntityZeroOrManyToExactlyOne(TestEntityZeroOrManyToExactlyOneKeyDto entityKeyDto)
 	{
 		var keyId = Dto.TestEntityZeroOrManyToExactlyOneMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.TestEntityZeroOrManyToExactlyOnes.FindAsync(keyId);
+		var entity = await DbContext.TestEntityZeroOrManyToExactlyOnes.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.TestEntityExactlyOneToZeroOrManies).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany?> GetTestEntityExactlyOneToZeroOrMany(TestEntityExactlyOneToZeroOrManyKeyDto relatedEntityKeyDto)

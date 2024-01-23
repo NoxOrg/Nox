@@ -195,7 +195,13 @@ internal abstract class RefCustomerToBookingsCommandHandlerBase<TRequest> : Comm
 	protected async Task<CustomerEntity?> GetCustomer(CustomerKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CustomerMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Customers.FindAsync(keyId);
+		var entity = await DbContext.Customers.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.Booking?> GetCustomerRelatedBookings(BookingKeyDto relatedEntityKeyDto)

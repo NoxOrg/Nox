@@ -195,7 +195,13 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : Comm
 	protected async Task<StoreOwnerEntity?> GetStoreOwner(StoreOwnerKeyDto entityKeyDto)
 	{
 		var keyId = Dto.StoreOwnerMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.StoreOwners.FindAsync(keyId);
+		var entity = await DbContext.StoreOwners.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<ClientApi.Domain.Store?> GetStores(StoreKeyDto relatedEntityKeyDto)

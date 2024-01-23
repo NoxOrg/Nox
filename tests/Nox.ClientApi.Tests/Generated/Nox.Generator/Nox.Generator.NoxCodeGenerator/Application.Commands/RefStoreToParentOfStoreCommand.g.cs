@@ -150,7 +150,7 @@ internal abstract class RefStoreToParentOfStoreCommandHandlerBase<TRequest> : Co
 
 	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
 	{
-		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 

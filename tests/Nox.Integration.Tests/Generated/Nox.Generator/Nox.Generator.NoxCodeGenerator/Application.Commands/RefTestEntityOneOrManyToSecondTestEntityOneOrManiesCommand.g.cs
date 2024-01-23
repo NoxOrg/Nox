@@ -195,7 +195,13 @@ internal abstract class RefTestEntityOneOrManyToSecondTestEntityOneOrManiesComma
 	protected async Task<TestEntityOneOrManyEntity?> GetTestEntityOneOrMany(TestEntityOneOrManyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.TestEntityOneOrManyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.TestEntityOneOrManies.FindAsync(keyId);
+		var entity = await DbContext.TestEntityOneOrManies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOneOrManies).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<TestWebApp.Domain.SecondTestEntityOneOrMany?> GetSecondTestEntityOneOrManyRelationship(SecondTestEntityOneOrManyKeyDto relatedEntityKeyDto)

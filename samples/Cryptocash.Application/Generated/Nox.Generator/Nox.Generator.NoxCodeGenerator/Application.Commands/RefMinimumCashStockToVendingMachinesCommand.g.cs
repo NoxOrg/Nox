@@ -195,7 +195,13 @@ internal abstract class RefMinimumCashStockToVendingMachinesCommandHandlerBase<T
 	protected async Task<MinimumCashStockEntity?> GetMinimumCashStock(MinimumCashStockKeyDto entityKeyDto)
 	{
 		var keyId = Dto.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.MinimumCashStocks.FindAsync(keyId);
+		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.VendingMachine?> GetMinimumCashStocksRequiredByVendingMachines(VendingMachineKeyDto relatedEntityKeyDto)

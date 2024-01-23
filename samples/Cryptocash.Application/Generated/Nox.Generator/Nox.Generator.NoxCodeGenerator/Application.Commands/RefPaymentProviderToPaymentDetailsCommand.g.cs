@@ -195,7 +195,13 @@ internal abstract class RefPaymentProviderToPaymentDetailsCommandHandlerBase<TRe
 	protected async Task<PaymentProviderEntity?> GetPaymentProvider(PaymentProviderKeyDto entityKeyDto)
 	{
 		var keyId = Dto.PaymentProviderMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.PaymentProviders.FindAsync(keyId);
+		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.PaymentDetail?> GetPaymentProviderRelatedPaymentDetails(PaymentDetailKeyDto relatedEntityKeyDto)

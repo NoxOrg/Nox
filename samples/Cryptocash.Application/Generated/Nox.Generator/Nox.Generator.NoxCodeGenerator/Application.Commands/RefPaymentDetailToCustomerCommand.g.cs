@@ -150,7 +150,7 @@ internal abstract class RefPaymentDetailToCustomerCommandHandlerBase<TRequest> :
 
 	protected async Task<PaymentDetailEntity?> GetPaymentDetail(PaymentDetailKeyDto entityKeyDto)
 	{
-		var keyId = Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.PaymentDetails.FindAsync(keyId);
 	}
 

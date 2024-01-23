@@ -150,7 +150,7 @@ internal abstract class RefSecondTestEntityTwoRelationshipsOneToOneToTestRelatio
 
 	protected async Task<SecondTestEntityTwoRelationshipsOneToOneEntity?> GetSecondTestEntityTwoRelationshipsOneToOne(SecondTestEntityTwoRelationshipsOneToOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
 	}
 

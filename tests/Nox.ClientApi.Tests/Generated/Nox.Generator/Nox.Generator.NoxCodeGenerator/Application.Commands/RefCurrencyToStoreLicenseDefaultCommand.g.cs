@@ -195,7 +195,13 @@ internal abstract class RefCurrencyToStoreLicenseDefaultCommandHandlerBase<TRequ
 	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Currencies.FindAsync(keyId);
+		var entity = await DbContext.Currencies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicenseDefault(StoreLicenseKeyDto relatedEntityKeyDto)

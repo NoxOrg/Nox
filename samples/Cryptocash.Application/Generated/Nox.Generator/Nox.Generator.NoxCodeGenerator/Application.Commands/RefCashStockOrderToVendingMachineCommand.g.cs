@@ -150,7 +150,7 @@ internal abstract class RefCashStockOrderToVendingMachineCommandHandlerBase<TReq
 
 	protected async Task<CashStockOrderEntity?> GetCashStockOrder(CashStockOrderKeyDto entityKeyDto)
 	{
-		var keyId = Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.CashStockOrders.FindAsync(keyId);
 	}
 

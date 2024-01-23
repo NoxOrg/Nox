@@ -150,7 +150,7 @@ internal abstract class RefTransactionToCustomerCommandHandlerBase<TRequest> : C
 
 	protected async Task<TransactionEntity?> GetTransaction(TransactionKeyDto entityKeyDto)
 	{
-		var keyId = Dto.TransactionMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.TransactionMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Transactions.FindAsync(keyId);
 	}
 

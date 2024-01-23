@@ -195,7 +195,13 @@ internal abstract class RefCountryToWorkplacesCommandHandlerBase<TRequest> : Com
 	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Countries.FindAsync(keyId);
+		var entity = await DbContext.Countries.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<ClientApi.Domain.Workplace?> GetPhysicalWorkplaces(WorkplaceKeyDto relatedEntityKeyDto)

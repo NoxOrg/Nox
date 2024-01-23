@@ -195,7 +195,13 @@ internal abstract class RefCountryToCustomersCommandHandlerBase<TRequest> : Comm
 	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Countries.FindAsync(keyId);
+		var entity = await DbContext.Countries.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Customers).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.Customer?> GetCountryUsedByCustomers(CustomerKeyDto relatedEntityKeyDto)

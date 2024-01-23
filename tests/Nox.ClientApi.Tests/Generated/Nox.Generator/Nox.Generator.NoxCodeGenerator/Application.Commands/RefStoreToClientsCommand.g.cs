@@ -195,7 +195,13 @@ internal abstract class RefStoreToClientsCommandHandlerBase<TRequest> : CommandB
 	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
 	{
 		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Stores.FindAsync(keyId);
+		var entity = await DbContext.Stores.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Clients).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<ClientApi.Domain.Client?> GetClientsOfStore(ClientKeyDto relatedEntityKeyDto)

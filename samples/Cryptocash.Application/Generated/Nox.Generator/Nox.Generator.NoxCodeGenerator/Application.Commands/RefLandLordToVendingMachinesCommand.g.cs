@@ -195,7 +195,13 @@ internal abstract class RefLandLordToVendingMachinesCommandHandlerBase<TRequest>
 	protected async Task<LandLordEntity?> GetLandLord(LandLordKeyDto entityKeyDto)
 	{
 		var keyId = Dto.LandLordMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.LandLords.FindAsync(keyId);
+		var entity = await DbContext.LandLords.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.VendingMachine?> GetContractedAreasForVendingMachines(VendingMachineKeyDto relatedEntityKeyDto)

@@ -150,7 +150,7 @@ internal abstract class RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueCo
 
 	protected async Task<EntityUniqueConstraintsWithForeignKeyEntity?> GetEntityUniqueConstraintsWithForeignKey(EntityUniqueConstraintsWithForeignKeyKeyDto entityKeyDto)
 	{
-		var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
 	}
 

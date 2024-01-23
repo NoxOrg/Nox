@@ -150,7 +150,7 @@ internal abstract class RefStoreLicenseToStoreCommandHandlerBase<TRequest> : Com
 
 	protected async Task<StoreLicenseEntity?> GetStoreLicense(StoreLicenseKeyDto entityKeyDto)
 	{
-		var keyId = Dto.StoreLicenseMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.StoreLicenseMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.StoreLicenses.FindAsync(keyId);
 	}
 

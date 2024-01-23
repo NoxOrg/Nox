@@ -150,7 +150,7 @@ internal abstract class RefWorkplaceToCountryCommandHandlerBase<TRequest> : Comm
 
 	protected async Task<WorkplaceEntity?> GetWorkplace(WorkplaceKeyDto entityKeyDto)
 	{
-		var keyId = Dto.WorkplaceMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.WorkplaceMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Workplaces.FindAsync(keyId);
 	}
 

@@ -195,7 +195,13 @@ internal abstract class RefCurrencyToCountriesCommandHandlerBase<TRequest> : Com
 	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Currencies.FindAsync(keyId);
+		var entity = await DbContext.Currencies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<Cryptocash.Domain.Country?> GetCurrencyUsedByCountry(CountryKeyDto relatedEntityKeyDto)

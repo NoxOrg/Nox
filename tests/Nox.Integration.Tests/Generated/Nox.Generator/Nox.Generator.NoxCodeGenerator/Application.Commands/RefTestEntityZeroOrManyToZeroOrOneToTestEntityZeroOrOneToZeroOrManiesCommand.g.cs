@@ -195,7 +195,13 @@ internal abstract class RefTestEntityZeroOrManyToZeroOrOneToTestEntityZeroOrOneT
 	protected async Task<TestEntityZeroOrManyToZeroOrOneEntity?> GetTestEntityZeroOrManyToZeroOrOne(TestEntityZeroOrManyToZeroOrOneKeyDto entityKeyDto)
 	{
 		var keyId = Dto.TestEntityZeroOrManyToZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.TestEntityZeroOrManyToZeroOrOnes.FindAsync(keyId);
+		var entity = await DbContext.TestEntityZeroOrManyToZeroOrOnes.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.TestEntityZeroOrOneToZeroOrManies).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany?> GetTestEntityZeroOrOneToZeroOrMany(TestEntityZeroOrOneToZeroOrManyKeyDto relatedEntityKeyDto)

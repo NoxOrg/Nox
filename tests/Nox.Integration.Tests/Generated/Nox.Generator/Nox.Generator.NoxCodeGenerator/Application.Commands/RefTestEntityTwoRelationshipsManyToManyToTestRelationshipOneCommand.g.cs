@@ -195,7 +195,13 @@ internal abstract class RefTestEntityTwoRelationshipsManyToManyToTestRelationshi
 	protected async Task<TestEntityTwoRelationshipsManyToManyEntity?> GetTestEntityTwoRelationshipsManyToMany(TestEntityTwoRelationshipsManyToManyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
+		var entity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.TestRelationshipOne).LoadAsync();
+		}
+
+		return entity;
 	}
 
 	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany?> GetTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToManyKeyDto relatedEntityKeyDto)

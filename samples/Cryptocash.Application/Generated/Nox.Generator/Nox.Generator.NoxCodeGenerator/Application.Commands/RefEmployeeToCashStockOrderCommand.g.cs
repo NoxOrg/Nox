@@ -150,7 +150,7 @@ internal abstract class RefEmployeeToCashStockOrderCommandHandlerBase<TRequest> 
 
 	protected async Task<EmployeeEntity?> GetEmployee(EmployeeKeyDto entityKeyDto)
 	{
-		var keyId = Dto.EmployeeMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.EmployeeMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Employees.FindAsync(keyId);
 	}
 
