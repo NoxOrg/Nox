@@ -1,9 +1,14 @@
 ﻿[
   {
-    "Id": "AW",
     "Name": "Aruba",
     "OfficialName": "Aruba",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 533,
+    "Id": "AW",
     "CountryIsoAlpha3": "ABW",
     "GeoCoords": {
       "Latitude": 12.5,
@@ -38,11 +43,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -262,10 +262,15 @@
     ]
   },
   {
-    "Id": "AI",
     "Name": "Anguilla",
     "OfficialName": "Anguilla",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Anguilla"
+      }
+    ],
     "CountryIsoNumeric": 660,
+    "Id": "AI",
     "CountryIsoAlpha3": "AIA",
     "GeoCoords": {
       "Latitude": 18.25,
@@ -300,11 +305,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -549,10 +549,15 @@
     ]
   },
   {
-    "Id": "AX",
     "Name": "Åland Islands",
     "OfficialName": "Åland Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 248,
+    "Id": "AX",
     "CountryIsoAlpha3": "ALA",
     "GeoCoords": {
       "Latitude": 60.116667,
@@ -587,11 +592,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -851,10 +851,15 @@
     ]
   },
   {
-    "Id": "AL",
     "Name": "Albania",
     "OfficialName": "Republic of Albania",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Tirane"
+      }
+    ],
     "CountryIsoNumeric": 8,
+    "Id": "AL",
     "CountryIsoAlpha3": "ALB",
     "GeoCoords": {
       "Latitude": 41,
@@ -889,11 +894,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -1228,10 +1228,15 @@
     ]
   },
   {
-    "Id": "AD",
     "Name": "Andorra",
     "OfficialName": "Principality of Andorra",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Andorra"
+      }
+    ],
     "CountryIsoNumeric": 20,
+    "Id": "AD",
     "CountryIsoAlpha3": "AND",
     "GeoCoords": {
       "Latitude": 42.5,
@@ -1266,11 +1271,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -1545,10 +1545,15 @@
     ]
   },
   {
-    "Id": "AE",
     "Name": "United Arab Emirates",
     "OfficialName": "United Arab Emirates",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/DUBAI"
+      }
+    ],
     "CountryIsoNumeric": 784,
+    "Id": "AE",
     "CountryIsoAlpha3": "ARE",
     "GeoCoords": {
       "Latitude": 24,
@@ -1577,12 +1582,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/AZZTDA6GzVAnKMVd8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/307763",
+    "StartOfWeek": 0,
     "Population": 9890400,
     "CurrencyId": "AED",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -1617,10 +1622,15 @@
     ]
   },
   {
-    "Id": "AR",
     "Name": "Argentina",
     "OfficialName": "Argentine Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/ARGENTINA/BUENOS_AIRES"
+      }
+    ],
     "CountryIsoNumeric": 32,
+    "Id": "AR",
     "CountryIsoAlpha3": "ARG",
     "GeoCoords": {
       "Latitude": -34,
@@ -1655,7 +1665,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -1970,10 +1979,15 @@
     ]
   },
   {
-    "Id": "AM",
     "Name": "Armenia",
     "OfficialName": "Republic of Armenia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/YEREVAN"
+      }
+    ],
     "CountryIsoNumeric": 51,
+    "Id": "AM",
     "CountryIsoAlpha3": "ARM",
     "GeoCoords": {
       "Latitude": 40,
@@ -2008,7 +2022,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -2313,10 +2326,15 @@
     ]
   },
   {
-    "Id": "AS",
     "Name": "American Samoa",
     "OfficialName": "American Samoa",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Pacific/Pago_Pago"
+      }
+    ],
     "CountryIsoNumeric": 16,
+    "Id": "AS",
     "CountryIsoAlpha3": "ASM",
     "GeoCoords": {
       "Latitude": -14.33333333,
@@ -2333,6 +2351,16 @@
       "PrettyName": "AS",
       "SizeInBytes": 3763
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/Re9ePMjwP1sFCBFA6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2177187",
     "StartOfWeek": 1,
@@ -2341,11 +2369,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "PACIFIC/APIA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -2740,10 +2763,15 @@
     ]
   },
   {
-    "Id": "TF",
     "Name": "French Southern and Antarctic Lands",
     "OfficialName": "Territory of the French Southern and Antarctic Lands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Indian/Kerguelen"
+      }
+    ],
     "CountryIsoNumeric": 260,
+    "Id": "TF",
     "CountryIsoAlpha3": "ATF",
     "GeoCoords": {
       "Latitude": -49.25,
@@ -2778,14 +2806,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "AG",
     "Name": "Antigua and Barbuda",
     "OfficialName": "Antigua and Barbuda",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 28,
+    "Id": "AG",
     "CountryIsoAlpha3": "ATG",
     "GeoCoords": {
       "Latitude": 17.05,
@@ -2820,11 +2852,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -3029,10 +3056,21 @@
     ]
   },
   {
-    "Id": "AU",
     "Name": "Australia",
     "OfficialName": "Commonwealth of Australia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Australia/Brisbane"
+      },
+      {
+        "TimeZoneCode": "Australia/Perth"
+      },
+      {
+        "TimeZoneCode": "Australia/Sydney"
+      }
+    ],
     "CountryIsoNumeric": 36,
+    "Id": "AU",
     "CountryIsoAlpha3": "AUS",
     "GeoCoords": {
       "Latitude": -27,
@@ -3067,17 +3105,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AUSTRALIA/MELBOURNE"
-      },
-      {
-        "TimeZoneCode": "AUSTRALIA/SYDNEY"
-      },
-      {
-        "TimeZoneCode": "AUSTRALIA/WEST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -3252,10 +3279,15 @@
     ]
   },
   {
-    "Id": "AT",
     "Name": "Austria",
     "OfficialName": "Republic of Austria",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 40,
+    "Id": "AT",
     "CountryIsoAlpha3": "AUT",
     "GeoCoords": {
       "Latitude": 47.33333333,
@@ -3290,11 +3322,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -3584,10 +3611,15 @@
     ]
   },
   {
-    "Id": "AZ",
     "Name": "Azerbaijan",
     "OfficialName": "Republic of Azerbaijan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/BAKU"
+      }
+    ],
     "CountryIsoNumeric": 31,
+    "Id": "AZ",
     "CountryIsoAlpha3": "AZE",
     "GeoCoords": {
       "Latitude": 40.5,
@@ -3622,7 +3654,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -3887,10 +3918,15 @@
     ]
   },
   {
-    "Id": "BI",
     "Name": "Burundi",
     "OfficialName": "Republic of Burundi",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/BUJUMBURA"
+      }
+    ],
     "CountryIsoNumeric": 108,
+    "Id": "BI",
     "CountryIsoAlpha3": "BDI",
     "GeoCoords": {
       "Latitude": -3.5,
@@ -3925,11 +3961,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -4099,10 +4130,15 @@
     ]
   },
   {
-    "Id": "BE",
     "Name": "Belgium",
     "OfficialName": "Kingdom of Belgium",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 56,
+    "Id": "BE",
     "CountryIsoAlpha3": "BEL",
     "GeoCoords": {
       "Latitude": 50.83333333,
@@ -4137,11 +4173,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -4416,10 +4447,15 @@
     ]
   },
   {
-    "Id": "BJ",
     "Name": "Benin",
     "OfficialName": "Republic of Benin",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/PORTO-NOVO"
+      }
+    ],
     "CountryIsoNumeric": 204,
+    "Id": "BJ",
     "CountryIsoAlpha3": "BEN",
     "GeoCoords": {
       "Latitude": 9.5,
@@ -4454,11 +4490,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/TUNIS"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -4643,10 +4674,15 @@
     ]
   },
   {
-    "Id": "BF",
     "Name": "Burkina Faso",
     "OfficialName": "Burkina Faso",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/OUAGADOUGOU"
+      }
+    ],
     "CountryIsoNumeric": 854,
+    "Id": "BF",
     "CountryIsoAlpha3": "BFA",
     "GeoCoords": {
       "Latitude": 13,
@@ -4681,11 +4717,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -4885,10 +4916,15 @@
     ]
   },
   {
-    "Id": "BD",
     "Name": "Bangladesh",
     "OfficialName": "People's Republic of Bangladesh",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/DACCA"
+      }
+    ],
     "CountryIsoNumeric": 50,
+    "Id": "BD",
     "CountryIsoAlpha3": "BGD",
     "GeoCoords": {
       "Latitude": 24,
@@ -4917,12 +4953,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/op6gmLbHcvv6rLhH6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/184640",
+    "StartOfWeek": 0,
     "Population": 164689383,
     "CurrencyId": "BDT",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "Language Martyrs' Day",
@@ -5137,10 +5173,15 @@
     ]
   },
   {
-    "Id": "BG",
     "Name": "Bulgaria",
     "OfficialName": "Republic of Bulgaria",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 100,
+    "Id": "BG",
     "CountryIsoAlpha3": "BGR",
     "GeoCoords": {
       "Latitude": 43,
@@ -5175,11 +5216,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -5439,10 +5475,15 @@
     ]
   },
   {
-    "Id": "BH",
     "Name": "Bahrain",
     "OfficialName": "Kingdom of Bahrain",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/BAHRAIN"
+      }
+    ],
     "CountryIsoNumeric": 48,
+    "Id": "BH",
     "CountryIsoAlpha3": "BHR",
     "GeoCoords": {
       "Latitude": 26,
@@ -5477,7 +5518,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -5542,10 +5582,15 @@
     ]
   },
   {
-    "Id": "BS",
     "Name": "Bahamas",
     "OfficialName": "Commonwealth of the Bahamas",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Nassau"
+      }
+    ],
     "CountryIsoNumeric": 44,
+    "Id": "BS",
     "CountryIsoAlpha3": "BHS",
     "GeoCoords": {
       "Latitude": 25.0343,
@@ -5580,11 +5625,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -5809,10 +5849,15 @@
     ]
   },
   {
-    "Id": "BA",
     "Name": "Bosnia and Herzegovina",
     "OfficialName": "Bosnia and Herzegovina",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 70,
+    "Id": "BA",
     "CountryIsoAlpha3": "BIH",
     "GeoCoords": {
       "Latitude": 44,
@@ -5847,11 +5892,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -6116,10 +6156,15 @@
     ]
   },
   {
-    "Id": "BL",
     "Name": "Saint Barthélemy",
     "OfficialName": "Collectivity of Saint Barthélemy",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/St_Barthelemy"
+      }
+    ],
     "CountryIsoNumeric": 652,
+    "Id": "BL",
     "CountryIsoAlpha3": "BLM",
     "GeoCoords": {
       "Latitude": 18.5,
@@ -6136,6 +6181,16 @@
       "PrettyName": "BL",
       "SizeInBytes": 11667
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/Mc7GqH466S7AAk297",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/7552779",
     "StartOfWeek": 1,
@@ -6144,11 +6199,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -6453,10 +6503,15 @@
     ]
   },
   {
-    "Id": "SH",
     "Name": "Saint Helena, Ascension and Tristan da Cunha",
     "OfficialName": "Saint Helena, Ascension and Tristan da Cunha",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "GMT"
+      }
+    ],
     "CountryIsoNumeric": 654,
+    "Id": "SH",
     "CountryIsoAlpha3": "SHN",
     "GeoCoords": {
       "Latitude": -15.95,
@@ -6473,6 +6528,16 @@
       "PrettyName": "SH",
       "SizeInBytes": 2484
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/iv4VxnPzHkjLCJuc6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/4868269#map=13/-15.9657/-5.7120",
     "StartOfWeek": 1,
@@ -6481,11 +6546,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -6645,10 +6705,15 @@
     ]
   },
   {
-    "Id": "BY",
     "Name": "Belarus",
     "OfficialName": "Republic of Belarus",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EUROPE/MINSK"
+      }
+    ],
     "CountryIsoNumeric": 112,
+    "Id": "BY",
     "CountryIsoAlpha3": "BLR",
     "GeoCoords": {
       "Latitude": 53,
@@ -6683,7 +6748,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -6853,10 +6917,15 @@
     ]
   },
   {
-    "Id": "BZ",
     "Name": "Belize",
     "OfficialName": "Belize",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Belize"
+      }
+    ],
     "CountryIsoNumeric": 84,
+    "Id": "BZ",
     "CountryIsoAlpha3": "BLZ",
     "GeoCoords": {
       "Latitude": 17.25,
@@ -6891,11 +6960,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -7110,10 +7174,15 @@
     ]
   },
   {
-    "Id": "BM",
     "Name": "Bermuda",
     "OfficialName": "Bermuda",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 60,
+    "Id": "BM",
     "CountryIsoAlpha3": "BMU",
     "GeoCoords": {
       "Latitude": 32.33333333,
@@ -7148,11 +7217,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -7317,10 +7381,15 @@
     ]
   },
   {
-    "Id": "BO",
     "Name": "Bolivia",
     "OfficialName": "Plurinational State of Bolivia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/LA_PAZ"
+      }
+    ],
     "CountryIsoNumeric": 68,
+    "Id": "BO",
     "CountryIsoAlpha3": "BOL",
     "GeoCoords": {
       "Latitude": -17,
@@ -7355,7 +7424,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -7540,10 +7608,24 @@
     ]
   },
   {
-    "Id": "BR",
     "Name": "Brazil",
     "OfficialName": "Federative Republic of Brazil",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "BRAZIL/ACRE"
+      },
+      {
+        "TimeZoneCode": "BRAZIL/DENORONHA"
+      },
+      {
+        "TimeZoneCode": "BRAZIL/EAST"
+      },
+      {
+        "TimeZoneCode": "BRAZIL/WEST"
+      }
+    ],
     "CountryIsoNumeric": 76,
+    "Id": "BR",
     "CountryIsoAlpha3": "BRA",
     "GeoCoords": {
       "Latitude": -10,
@@ -7578,7 +7660,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -7848,10 +7929,15 @@
     ]
   },
   {
-    "Id": "BB",
     "Name": "Barbados",
     "OfficialName": "Barbados",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Barbados"
+      }
+    ],
     "CountryIsoNumeric": 52,
+    "Id": "BB",
     "CountryIsoAlpha3": "BRB",
     "GeoCoords": {
       "Latitude": 13.16666666,
@@ -7886,11 +7972,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -8105,10 +8186,11 @@
     ]
   },
   {
-    "Id": "BN",
     "Name": "Brunei",
     "OfficialName": "Nation of Brunei, Abode of Peace",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 96,
+    "Id": "BN",
     "CountryIsoAlpha3": "BRN",
     "GeoCoords": {
       "Latitude": 4.5,
@@ -8143,7 +8225,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -8238,10 +8319,15 @@
     ]
   },
   {
-    "Id": "BT",
     "Name": "Bhutan",
     "OfficialName": "Kingdom of Bhutan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/THIMBU"
+      }
+    ],
     "CountryIsoNumeric": 64,
+    "Id": "BT",
     "CountryIsoAlpha3": "BTN",
     "GeoCoords": {
       "Latitude": 27.5,
@@ -8276,14 +8362,14 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "BW",
     "Name": "Botswana",
     "OfficialName": "Republic of Botswana",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 72,
+    "Id": "BW",
     "CountryIsoAlpha3": "BWA",
     "GeoCoords": {
       "Latitude": -22,
@@ -8318,11 +8404,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -8562,10 +8643,81 @@
     ]
   },
   {
-    "Id": "CA",
     "Name": "Canada",
     "OfficialName": "Canada",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Pacific"
+      },
+      {
+        "TimeZoneCode": "America/Whitehorse"
+      },
+      {
+        "TimeZoneCode": "America/Vancouver"
+      },
+      {
+        "TimeZoneCode": "America/Creston"
+      },
+      {
+        "TimeZoneCode": "America/Dawson_Creek"
+      },
+      {
+        "TimeZoneCode": "America/Edmonton"
+      },
+      {
+        "TimeZoneCode": "America/Fort_Nelson"
+      },
+      {
+        "TimeZoneCode": "America/Yellowknife"
+      },
+      {
+        "TimeZoneCode": "America/Inuvik"
+      },
+      {
+        "TimeZoneCode": "America/Rankin_Inlet"
+      },
+      {
+        "TimeZoneCode": "America/Swift_Current"
+      },
+      {
+        "TimeZoneCode": "America/Regina"
+      },
+      {
+        "TimeZoneCode": "America/Winnipeg"
+      },
+      {
+        "TimeZoneCode": "America/Rainy_River"
+      },
+      {
+        "TimeZoneCode": "America/Thunder_Bay"
+      },
+      {
+        "TimeZoneCode": "America/Nipigon"
+      },
+      {
+        "TimeZoneCode": "America/Toronto"
+      },
+      {
+        "TimeZoneCode": "America/Pangnirtung"
+      },
+      {
+        "TimeZoneCode": "America/Iqaluit"
+      },
+      {
+        "TimeZoneCode": "America/Halifax"
+      },
+      {
+        "TimeZoneCode": "America/Goose_Bay"
+      },
+      {
+        "TimeZoneCode": "America/Moncton"
+      },
+      {
+        "TimeZoneCode": "America/St_Johns"
+      }
+    ],
     "CountryIsoNumeric": 124,
+    "Id": "CA",
     "CountryIsoAlpha3": "CAN",
     "GeoCoords": {
       "Latitude": 60,
@@ -8594,31 +8746,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/jmEVLugreeqiZXxbA",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1428125",
+    "StartOfWeek": 0,
     "Population": 38005238,
     "CurrencyId": "CAD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      },
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      },
-      {
-        "TimeZoneCode": "MST"
-      },
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      },
-      {
-        "TimeZoneCode": "US/ALASKA"
-      },
-      {
-        "TimeZoneCode": "US/PACIFIC"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -8893,10 +9026,15 @@
     ]
   },
   {
-    "Id": "CC",
     "Name": "Cocos (Keeling) Islands",
     "OfficialName": "Territory of the Cocos (Keeling) Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Indian/Cocos"
+      }
+    ],
     "CountryIsoNumeric": 166,
+    "Id": "CC",
     "CountryIsoAlpha3": "CCK",
     "GeoCoords": {
       "Latitude": 12.1642,
@@ -8913,6 +9051,16 @@
       "PrettyName": "CC",
       "SizeInBytes": 1989
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/3eCdKVpVfMcZyKcK6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/82636",
     "StartOfWeek": 1,
@@ -8921,7 +9069,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -9091,10 +9238,15 @@
     ]
   },
   {
-    "Id": "CH",
     "Name": "Switzerland",
     "OfficialName": "Swiss Confederation",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 756,
+    "Id": "CH",
     "CountryIsoAlpha3": "CHE",
     "GeoCoords": {
       "Latitude": 47,
@@ -9129,11 +9281,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -9348,10 +9495,15 @@
     ]
   },
   {
-    "Id": "CL",
     "Name": "Chile",
     "OfficialName": "Republic of Chile",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/SANTIAGO"
+      }
+    ],
     "CountryIsoNumeric": 152,
+    "Id": "CL",
     "CountryIsoAlpha3": "CHL",
     "GeoCoords": {
       "Latitude": -30,
@@ -9386,7 +9538,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -9656,10 +9807,15 @@
     ]
   },
   {
-    "Id": "CN",
     "Name": "China",
     "OfficialName": "People's Republic of China",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CST"
+      }
+    ],
     "CountryIsoNumeric": 156,
+    "Id": "CN",
     "CountryIsoAlpha3": "CHN",
     "GeoCoords": {
       "Latitude": 35,
@@ -9694,11 +9850,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -9928,10 +10079,15 @@
     ]
   },
   {
-    "Id": "CI",
     "Name": "Ivory Coast",
     "OfficialName": "Republic of Côte d'Ivoire",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/ABIDJAN"
+      }
+    ],
     "CountryIsoNumeric": 384,
+    "Id": "CI",
     "CountryIsoAlpha3": "CIV",
     "GeoCoords": {
       "Latitude": 8,
@@ -9966,11 +10122,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -10125,10 +10276,15 @@
     ]
   },
   {
-    "Id": "CO",
     "Name": "Colombia",
     "OfficialName": "Republic of Colombia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/BOGOTA"
+      }
+    ],
     "CountryIsoNumeric": 170,
+    "Id": "CO",
     "CountryIsoAlpha3": "COL",
     "GeoCoords": {
       "Latitude": 4,
@@ -10163,7 +10319,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -10468,10 +10623,15 @@
     ]
   },
   {
-    "Id": "KM",
     "Name": "Comoros",
     "OfficialName": "Union of the Comoros",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EAT"
+      }
+    ],
     "CountryIsoNumeric": 174,
+    "Id": "KM",
     "CountryIsoAlpha3": "COM",
     "GeoCoords": {
       "Latitude": -12.16666666,
@@ -10506,11 +10666,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -10590,10 +10745,15 @@
     ]
   },
   {
-    "Id": "CV",
     "Name": "Cape Verde",
     "OfficialName": "Republic of Cabo Verde",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ATLANTIC/CAPE_VERDE"
+      }
+    ],
     "CountryIsoNumeric": 132,
+    "Id": "CV",
     "CountryIsoAlpha3": "CPV",
     "GeoCoords": {
       "Latitude": 16.5388,
@@ -10628,7 +10788,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -10843,10 +11002,15 @@
     ]
   },
   {
-    "Id": "CR",
     "Name": "Costa Rica",
     "OfficialName": "Republic of Costa Rica",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CST"
+      }
+    ],
     "CountryIsoNumeric": 188,
+    "Id": "CR",
     "CountryIsoAlpha3": "CRI",
     "GeoCoords": {
       "Latitude": 10,
@@ -10881,11 +11045,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -11070,10 +11229,11 @@
     ]
   },
   {
-    "Id": "CU",
     "Name": "Cuba",
     "OfficialName": "Republic of Cuba",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 192,
+    "Id": "CU",
     "CountryIsoAlpha3": "CUB",
     "GeoCoords": {
       "Latitude": 21.5,
@@ -11108,11 +11268,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Triumph of the Revolution",
@@ -11252,10 +11407,15 @@
     ]
   },
   {
-    "Id": "CX",
     "Name": "Christmas Island",
     "OfficialName": "Territory of Christmas Island",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Indian/Christmas"
+      }
+    ],
     "CountryIsoNumeric": 162,
+    "Id": "CX",
     "CountryIsoAlpha3": "CXR",
     "GeoCoords": {
       "Latitude": -10.5,
@@ -11290,7 +11450,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -11430,10 +11589,15 @@
     ]
   },
   {
-    "Id": "KY",
     "Name": "Cayman Islands",
     "OfficialName": "Cayman Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Cayman"
+      }
+    ],
     "CountryIsoNumeric": 136,
+    "Id": "KY",
     "CountryIsoAlpha3": "CYM",
     "GeoCoords": {
       "Latitude": 19.3133,
@@ -11468,11 +11632,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -11647,10 +11806,15 @@
     ]
   },
   {
-    "Id": "CY",
     "Name": "Cyprus",
     "OfficialName": "Republic of Cyprus",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 196,
+    "Id": "CY",
     "CountryIsoAlpha3": "CYP",
     "GeoCoords": {
       "Latitude": 35,
@@ -11685,11 +11849,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -11949,10 +12108,15 @@
     ]
   },
   {
-    "Id": "DE",
     "Name": "Germany",
     "OfficialName": "Federal Republic of Germany",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 276,
+    "Id": "DE",
     "CountryIsoAlpha3": "DEU",
     "GeoCoords": {
       "Latitude": 51,
@@ -11987,11 +12151,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -12446,10 +12605,15 @@
     ]
   },
   {
-    "Id": "DJ",
     "Name": "Djibouti",
     "OfficialName": "Republic of Djibouti",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/DJIBOUTI"
+      }
+    ],
     "CountryIsoNumeric": 262,
+    "Id": "DJ",
     "CountryIsoAlpha3": "DJI",
     "GeoCoords": {
       "Latitude": 11.5,
@@ -12484,11 +12648,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -12553,10 +12712,11 @@
     ]
   },
   {
-    "Id": "DM",
     "Name": "Dominica",
     "OfficialName": "Commonwealth of Dominica",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 212,
+    "Id": "DM",
     "CountryIsoAlpha3": "DMA",
     "GeoCoords": {
       "Latitude": 15.41666666,
@@ -12591,11 +12751,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -12815,10 +12970,15 @@
     ]
   },
   {
-    "Id": "DK",
     "Name": "Denmark",
     "OfficialName": "Kingdom of Denmark",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 208,
+    "Id": "DK",
     "CountryIsoAlpha3": "DNK",
     "GeoCoords": {
       "Latitude": 56,
@@ -12853,11 +13013,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -13092,10 +13247,11 @@
     ]
   },
   {
-    "Id": "DO",
     "Name": "Dominican Republic",
     "OfficialName": "Dominican Republic",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 214,
+    "Id": "DO",
     "CountryIsoAlpha3": "DOM",
     "GeoCoords": {
       "Latitude": 19,
@@ -13130,11 +13286,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -13319,10 +13470,11 @@
     ]
   },
   {
-    "Id": "DZ",
     "Name": "Algeria",
     "OfficialName": "People's Democratic Republic of Algeria",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 12,
+    "Id": "DZ",
     "CountryIsoAlpha3": "DZA",
     "GeoCoords": {
       "Latitude": 28,
@@ -13351,16 +13503,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/RsAyAfyaiNVb8DpW8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/192756",
+    "StartOfWeek": 0,
     "Population": 44700000,
     "CurrencyId": "DZD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -13440,10 +13588,11 @@
     ]
   },
   {
-    "Id": "EC",
     "Name": "Ecuador",
     "OfficialName": "Republic of Ecuador",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 218,
+    "Id": "EC",
     "CountryIsoAlpha3": "ECU",
     "GeoCoords": {
       "Latitude": -2,
@@ -13478,7 +13627,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -13723,10 +13871,15 @@
     ]
   },
   {
-    "Id": "EG",
     "Name": "Egypt",
     "OfficialName": "Arab Republic of Egypt",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/CAIRO"
+      }
+    ],
     "CountryIsoNumeric": 818,
+    "Id": "EG",
     "CountryIsoAlpha3": "EGY",
     "GeoCoords": {
       "Latitude": 27,
@@ -13755,16 +13908,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/uoDRhXbsqjG6L7VG7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1473947",
+    "StartOfWeek": 0,
     "Population": 102334403,
     "CurrencyId": "EGP",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Christmas Day",
@@ -13904,10 +14053,11 @@
     ]
   },
   {
-    "Id": "ER",
     "Name": "Eritrea",
     "OfficialName": "State of Eritrea",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 232,
+    "Id": "ER",
     "CountryIsoAlpha3": "ERI",
     "GeoCoords": {
       "Latitude": 15,
@@ -13942,11 +14092,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -14161,10 +14306,15 @@
     ]
   },
   {
-    "Id": "EH",
     "Name": "Western Sahara",
     "OfficialName": "Sahrawi Arab Democratic Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/EL_AAIUN"
+      }
+    ],
     "CountryIsoNumeric": 732,
+    "Id": "EH",
     "CountryIsoAlpha3": "ESH",
     "GeoCoords": {
       "Latitude": 24.5,
@@ -14181,6 +14331,16 @@
       "PrettyName": "EH",
       "SizeInBytes": 1083
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/7nU3mB69vP6zQp7A8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/5441968",
     "StartOfWeek": 1,
@@ -14189,7 +14349,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "Independence Day",
@@ -14269,10 +14428,18 @@
     ]
   },
   {
-    "Id": "ES",
     "Name": "Spain",
     "OfficialName": "Kingdom of Spain",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      },
+      {
+        "TimeZoneCode": "WET"
+      }
+    ],
     "CountryIsoNumeric": 724,
+    "Id": "ES",
     "CountryIsoAlpha3": "ESP",
     "GeoCoords": {
       "Latitude": 40,
@@ -14307,14 +14474,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      },
-      {
-        "TimeZoneCode": "WET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -14574,10 +14733,15 @@
     ]
   },
   {
-    "Id": "EE",
     "Name": "Estonia",
     "OfficialName": "Republic of Estonia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Tallinn"
+      }
+    ],
     "CountryIsoNumeric": 233,
+    "Id": "EE",
     "CountryIsoAlpha3": "EST",
     "GeoCoords": {
       "Latitude": 59,
@@ -14612,11 +14776,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -14981,10 +15140,15 @@
     ]
   },
   {
-    "Id": "ET",
     "Name": "Ethiopia",
     "OfficialName": "Federal Democratic Republic of Ethiopia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/ADDIS_ABABA"
+      }
+    ],
     "CountryIsoNumeric": 231,
+    "Id": "ET",
     "CountryIsoAlpha3": "ETH",
     "GeoCoords": {
       "Latitude": 8,
@@ -15019,11 +15183,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Christmas Day",
@@ -15163,10 +15322,15 @@
     ]
   },
   {
-    "Id": "FI",
     "Name": "Finland",
     "OfficialName": "Republic of Finland",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 246,
+    "Id": "FI",
     "CountryIsoAlpha3": "FIN",
     "GeoCoords": {
       "Latitude": 64,
@@ -15201,11 +15365,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -15480,10 +15639,15 @@
     ]
   },
   {
-    "Id": "FJ",
     "Name": "Fiji",
     "OfficialName": "Republic of Fiji",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/FIJI"
+      }
+    ],
     "CountryIsoNumeric": 242,
+    "Id": "FJ",
     "CountryIsoAlpha3": "FJI",
     "GeoCoords": {
       "Latitude": 17.7134,
@@ -15518,7 +15682,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -15678,10 +15841,15 @@
     ]
   },
   {
-    "Id": "FK",
     "Name": "Falkland Islands",
     "OfficialName": "Falkland Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "UTC"
+      }
+    ],
     "CountryIsoNumeric": 238,
+    "Id": "FK",
     "CountryIsoAlpha3": "FLK",
     "GeoCoords": {
       "Latitude": -51.75,
@@ -15716,14 +15884,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "FR",
     "Name": "France",
     "OfficialName": "French Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 250,
+    "Id": "FR",
     "CountryIsoAlpha3": "FRA",
     "GeoCoords": {
       "Latitude": 46,
@@ -15758,11 +15930,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -15962,10 +16129,15 @@
     ]
   },
   {
-    "Id": "FO",
     "Name": "Faroe Islands",
     "OfficialName": "Faroe Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ATLANTIC/FAROE"
+      }
+    ],
     "CountryIsoNumeric": 234,
+    "Id": "FO",
     "CountryIsoAlpha3": "FRO",
     "GeoCoords": {
       "Latitude": 62,
@@ -16000,11 +16172,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "WET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -16264,10 +16431,15 @@
     ]
   },
   {
-    "Id": "FM",
     "Name": "Micronesia",
     "OfficialName": "Federated States of Micronesia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Pacific/Chuuk"
+      }
+    ],
     "CountryIsoNumeric": 583,
+    "Id": "FM",
     "CountryIsoAlpha3": "FSM",
     "GeoCoords": {
       "Latitude": 6.91666666,
@@ -16302,14 +16474,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "GB",
     "Name": "United Kingdom",
     "OfficialName": "United Kingdom of Great Britain and Northern Ireland",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/London"
+      }
+    ],
     "CountryIsoNumeric": 826,
+    "Id": "GB",
     "CountryIsoAlpha3": "GBR",
     "GeoCoords": {
       "Latitude": 54,
@@ -16344,11 +16520,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -16513,10 +16684,15 @@
     ]
   },
   {
-    "Id": "GE",
     "Name": "Georgia",
     "OfficialName": "Georgia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/TBILISI"
+      }
+    ],
     "CountryIsoNumeric": 268,
+    "Id": "GE",
     "CountryIsoAlpha3": "GEO",
     "GeoCoords": {
       "Latitude": 42,
@@ -16551,7 +16727,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -16811,10 +16986,15 @@
     ]
   },
   {
-    "Id": "GG",
     "Name": "Guernsey",
     "OfficialName": "Bailiwick of Guernsey",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Guernsey"
+      }
+    ],
     "CountryIsoNumeric": 831,
+    "Id": "GG",
     "CountryIsoAlpha3": "GGY",
     "GeoCoords": {
       "Latitude": 49.46666666,
@@ -16849,11 +17029,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -17033,10 +17208,15 @@
     ]
   },
   {
-    "Id": "GH",
     "Name": "Ghana",
     "OfficialName": "Republic of Ghana",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/ACCRA"
+      }
+    ],
     "CountryIsoNumeric": 288,
+    "Id": "GH",
     "CountryIsoAlpha3": "GHA",
     "GeoCoords": {
       "Latitude": 8,
@@ -17071,11 +17251,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -17280,10 +17455,15 @@
     ]
   },
   {
-    "Id": "GI",
     "Name": "Gibraltar",
     "OfficialName": "Gibraltar",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Gibraltar"
+      }
+    ],
     "CountryIsoNumeric": 292,
+    "Id": "GI",
     "CountryIsoAlpha3": "GIB",
     "GeoCoords": {
       "Latitude": 36.13333333,
@@ -17318,11 +17498,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -17567,10 +17742,15 @@
     ]
   },
   {
-    "Id": "GN",
     "Name": "Guinea",
     "OfficialName": "Republic of Guinea",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/CONAKRY"
+      }
+    ],
     "CountryIsoNumeric": 324,
+    "Id": "GN",
     "CountryIsoAlpha3": "GIN",
     "GeoCoords": {
       "Latitude": 11,
@@ -17605,11 +17785,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -17734,10 +17909,15 @@
     ]
   },
   {
-    "Id": "GP",
     "Name": "Guadeloupe",
     "OfficialName": "Guadeloupe",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 312,
+    "Id": "GP",
     "CountryIsoAlpha3": "GLP",
     "GeoCoords": {
       "Latitude": 16.25,
@@ -17772,11 +17952,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -18006,10 +18181,15 @@
     ]
   },
   {
-    "Id": "GM",
     "Name": "Gambia",
     "OfficialName": "Republic of the Gambia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/BANJUL"
+      }
+    ],
     "CountryIsoNumeric": 270,
+    "Id": "GM",
     "CountryIsoAlpha3": "GMB",
     "GeoCoords": {
       "Latitude": 13.46666666,
@@ -18044,11 +18224,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -18203,10 +18378,15 @@
     ]
   },
   {
-    "Id": "GW",
     "Name": "Guinea-Bissau",
     "OfficialName": "Republic of Guinea-Bissau",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/BISSAU"
+      }
+    ],
     "CountryIsoNumeric": 624,
+    "Id": "GW",
     "CountryIsoAlpha3": "GNB",
     "GeoCoords": {
       "Latitude": 12,
@@ -18241,11 +18421,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -18370,10 +18545,15 @@
     ]
   },
   {
-    "Id": "GR",
     "Name": "Greece",
     "OfficialName": "Hellenic Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 300,
+    "Id": "GR",
     "CountryIsoAlpha3": "GRC",
     "GeoCoords": {
       "Latitude": 39,
@@ -18408,11 +18588,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -18642,10 +18817,15 @@
     ]
   },
   {
-    "Id": "GD",
     "Name": "Grenada",
     "OfficialName": "Grenada",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Grenada"
+      }
+    ],
     "CountryIsoNumeric": 308,
+    "Id": "GD",
     "CountryIsoAlpha3": "GRD",
     "GeoCoords": {
       "Latitude": 12.11666666,
@@ -18680,11 +18860,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -18974,10 +19149,18 @@
     ]
   },
   {
-    "Id": "GL",
     "Name": "Greenland",
     "OfficialName": "Greenland",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Godthab"
+      },
+      {
+        "TimeZoneCode": "America/Scoresbysund"
+      }
+    ],
     "CountryIsoNumeric": 304,
+    "Id": "GL",
     "CountryIsoAlpha3": "GRL",
     "GeoCoords": {
       "Latitude": 72,
@@ -19012,14 +19195,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      },
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -19234,10 +19409,15 @@
     ]
   },
   {
-    "Id": "GT",
     "Name": "Guatemala",
     "OfficialName": "Republic of Guatemala",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CST"
+      }
+    ],
     "CountryIsoNumeric": 320,
+    "Id": "GT",
     "CountryIsoAlpha3": "GTM",
     "GeoCoords": {
       "Latitude": 15.5,
@@ -19272,11 +19452,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -19476,10 +19651,15 @@
     ]
   },
   {
-    "Id": "GF",
     "Name": "French Guiana",
     "OfficialName": "Guiana",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/CAYENNE"
+      }
+    ],
     "CountryIsoNumeric": 254,
+    "Id": "GF",
     "CountryIsoAlpha3": "GUF",
     "GeoCoords": {
       "Latitude": 4,
@@ -19514,7 +19694,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -19729,10 +19908,15 @@
     ]
   },
   {
-    "Id": "GU",
     "Name": "Guam",
     "OfficialName": "Guam",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Pacific/Guam"
+      }
+    ],
     "CountryIsoNumeric": 316,
+    "Id": "GU",
     "CountryIsoAlpha3": "GUM",
     "GeoCoords": {
       "Latitude": 13.46666666,
@@ -19767,11 +19951,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -20166,10 +20345,15 @@
     ]
   },
   {
-    "Id": "GY",
     "Name": "Guyana",
     "OfficialName": "Co-operative Republic of Guyana",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/GUYANA"
+      }
+    ],
     "CountryIsoNumeric": 328,
+    "Id": "GY",
     "CountryIsoAlpha3": "GUY",
     "GeoCoords": {
       "Latitude": 5,
@@ -20204,7 +20388,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -20399,10 +20582,15 @@
     ]
   },
   {
-    "Id": "HK",
     "Name": "Hong Kong",
     "OfficialName": "Hong Kong Special Administrative Region of the People's Republ",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Hong_Kong"
+      }
+    ],
     "CountryIsoNumeric": 344,
+    "Id": "HK",
     "CountryIsoAlpha3": "HKG",
     "GeoCoords": {
       "Latitude": 22.267,
@@ -20437,11 +20625,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ASIA/HONG_KONG"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -20731,10 +20914,15 @@
     ]
   },
   {
-    "Id": "HN",
     "Name": "Honduras",
     "OfficialName": "Republic of Honduras",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CST"
+      }
+    ],
     "CountryIsoNumeric": 340,
+    "Id": "HN",
     "CountryIsoAlpha3": "HND",
     "GeoCoords": {
       "Latitude": 15,
@@ -20769,11 +20957,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -21018,10 +21201,15 @@
     ]
   },
   {
-    "Id": "HR",
     "Name": "Croatia",
     "OfficialName": "Republic of Croatia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 191,
+    "Id": "HR",
     "CountryIsoAlpha3": "HRV",
     "GeoCoords": {
       "Latitude": 45.16666666,
@@ -21056,11 +21244,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -21380,10 +21563,15 @@
     ]
   },
   {
-    "Id": "HT",
     "Name": "Haiti",
     "OfficialName": "Republic of Haiti",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/PORT-AU-PRINCE"
+      }
+    ],
     "CountryIsoNumeric": 332,
+    "Id": "HT",
     "CountryIsoAlpha3": "HTI",
     "GeoCoords": {
       "Latitude": 19,
@@ -21418,11 +21606,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Independence Day",
@@ -21712,10 +21895,15 @@
     ]
   },
   {
-    "Id": "HU",
     "Name": "Hungary",
     "OfficialName": "Hungary",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 348,
+    "Id": "HU",
     "CountryIsoAlpha3": "HUN",
     "GeoCoords": {
       "Latitude": 47,
@@ -21750,11 +21938,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -22119,10 +22302,21 @@
     ]
   },
   {
-    "Id": "ID",
     "Name": "Indonesia",
     "OfficialName": "Republic of Indonesia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Jakarta"
+      },
+      {
+        "TimeZoneCode": "Asia/Makassar"
+      },
+      {
+        "TimeZoneCode": "Asia/Jayapura"
+      }
+    ],
     "CountryIsoNumeric": 360,
+    "Id": "ID",
     "CountryIsoAlpha3": "IDN",
     "GeoCoords": {
       "Latitude": -5,
@@ -22157,17 +22351,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "WIB"
-      },
-      {
-        "TimeZoneCode": "WIT"
-      },
-      {
-        "TimeZoneCode": "WITA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -22317,10 +22500,15 @@
     ]
   },
   {
-    "Id": "IM",
     "Name": "Isle of Man",
     "OfficialName": "Isle of Man",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Isle_Of_Man"
+      }
+    ],
     "CountryIsoNumeric": 833,
+    "Id": "IM",
     "CountryIsoAlpha3": "IMN",
     "GeoCoords": {
       "Latitude": 54.25,
@@ -22355,11 +22543,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -22554,10 +22737,15 @@
     ]
   },
   {
-    "Id": "IN",
     "Name": "India",
     "OfficialName": "Republic of India",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Kolkata"
+      }
+    ],
     "CountryIsoNumeric": 356,
+    "Id": "IN",
     "CountryIsoAlpha3": "IND",
     "GeoCoords": {
       "Latitude": 20,
@@ -22592,18 +22780,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "IST"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "IO",
     "Name": "British Indian Ocean Territory",
     "OfficialName": "British Indian Ocean Territory",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "UTC"
+      }
+    ],
     "CountryIsoNumeric": 86,
+    "Id": "IO",
     "CountryIsoAlpha3": "IOT",
     "GeoCoords": {
       "Latitude": -6,
@@ -22620,6 +22808,16 @@
       "PrettyName": "IO",
       "SizeInBytes": 7213
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/bheNucgekVEYozoi6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1993867",
     "StartOfWeek": 1,
@@ -22628,14 +22826,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "IE",
     "Name": "Ireland",
     "OfficialName": "Republic of Ireland",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "WET"
+      }
+    ],
     "CountryIsoNumeric": 372,
+    "Id": "IE",
     "CountryIsoAlpha3": "IRL",
     "GeoCoords": {
       "Latitude": 53,
@@ -22670,11 +22872,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "IST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -22929,10 +23126,15 @@
     ]
   },
   {
-    "Id": "IR",
     "Name": "Iran",
     "OfficialName": "Islamic Republic of Iran",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/TEHRAN"
+      }
+    ],
     "CountryIsoNumeric": 364,
+    "Id": "IR",
     "CountryIsoAlpha3": "IRN",
     "GeoCoords": {
       "Latitude": 32,
@@ -22967,7 +23169,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "Anniversary of Islamic Revolution",
@@ -23122,10 +23323,15 @@
     ]
   },
   {
-    "Id": "IQ",
     "Name": "Iraq",
     "OfficialName": "Republic of Iraq",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/BAGHDAD"
+      }
+    ],
     "CountryIsoNumeric": 368,
+    "Id": "IQ",
     "CountryIsoAlpha3": "IRQ",
     "GeoCoords": {
       "Latitude": 33,
@@ -23154,19 +23360,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/iL8Bmy1sUCW9fUk18",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/304934",
+    "StartOfWeek": 0,
     "Population": 40222503,
     "CurrencyId": "IQD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "IS",
     "Name": "Iceland",
     "OfficialName": "Iceland",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "UTC"
+      }
+    ],
     "CountryIsoNumeric": 352,
+    "Id": "IS",
     "CountryIsoAlpha3": "ISL",
     "GeoCoords": {
       "Latitude": 65,
@@ -23201,11 +23412,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -23630,10 +23836,15 @@
     ]
   },
   {
-    "Id": "IL",
     "Name": "Israel",
     "OfficialName": "State of Israel",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/JERUSALEM"
+      }
+    ],
     "CountryIsoNumeric": 376,
+    "Id": "IL",
     "CountryIsoAlpha3": "ISR",
     "GeoCoords": {
       "Latitude": 31.47,
@@ -23662,16 +23873,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/6UY1AH8XeafVwdC97",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1473946",
+    "StartOfWeek": 0,
     "Population": 9216900,
     "CurrencyId": "ILS",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "IST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Victory in Europe Day",
@@ -23691,10 +23898,15 @@
     ]
   },
   {
-    "Id": "IT",
     "Name": "Italy",
     "OfficialName": "Italian Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Rome"
+      }
+    ],
     "CountryIsoNumeric": 380,
+    "Id": "IT",
     "CountryIsoAlpha3": "ITA",
     "GeoCoords": {
       "Latitude": 42.83333333,
@@ -23729,11 +23941,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -23933,10 +24140,15 @@
     ]
   },
   {
-    "Id": "JM",
     "Name": "Jamaica",
     "OfficialName": "Jamaica",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/JAMAICA"
+      }
+    ],
     "CountryIsoNumeric": 388,
+    "Id": "JM",
     "CountryIsoAlpha3": "JAM",
     "GeoCoords": {
       "Latitude": 18.25,
@@ -23971,11 +24183,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -24155,10 +24362,15 @@
     ]
   },
   {
-    "Id": "JE",
     "Name": "Jersey",
     "OfficialName": "Bailiwick of Jersey",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Jersey"
+      }
+    ],
     "CountryIsoNumeric": 832,
+    "Id": "JE",
     "CountryIsoAlpha3": "JEY",
     "GeoCoords": {
       "Latitude": 49.25,
@@ -24193,11 +24405,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -24377,10 +24584,15 @@
     ]
   },
   {
-    "Id": "JO",
     "Name": "Jordan",
     "OfficialName": "Hashemite Kingdom of Jordan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/AMMAN"
+      }
+    ],
     "CountryIsoNumeric": 400,
+    "Id": "JO",
     "CountryIsoAlpha3": "JOR",
     "GeoCoords": {
       "Latitude": 31,
@@ -24409,19 +24621,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/ko1dzSDKg8Gsi9A98",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/184818",
+    "StartOfWeek": 0,
     "Population": 10203140,
     "CurrencyId": "JOD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "JP",
     "Name": "Japan",
     "OfficialName": "Japan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Tokyo"
+      }
+    ],
     "CountryIsoNumeric": 392,
+    "Id": "JP",
     "CountryIsoAlpha3": "JPN",
     "GeoCoords": {
       "Latitude": 36,
@@ -24456,11 +24673,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "JST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -24825,10 +25037,15 @@
     ]
   },
   {
-    "Id": "KZ",
     "Name": "Kazakhstan",
     "OfficialName": "Republic of Kazakhstan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/ALMATY"
+      }
+    ],
     "CountryIsoNumeric": 398,
+    "Id": "KZ",
     "CountryIsoAlpha3": "KAZ",
     "GeoCoords": {
       "Latitude": 48.0196,
@@ -24863,14 +25080,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "KE",
     "Name": "Kenya",
     "OfficialName": "Republic of Kenya",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/NAIROBI"
+      }
+    ],
     "CountryIsoNumeric": 404,
+    "Id": "KE",
     "CountryIsoAlpha3": "KEN",
     "GeoCoords": {
       "Latitude": 1,
@@ -24905,11 +25126,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -25094,10 +25310,15 @@
     ]
   },
   {
-    "Id": "KG",
     "Name": "Kyrgyzstan",
     "OfficialName": "Kyrgyz Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/BISHKEK"
+      }
+    ],
     "CountryIsoNumeric": 417,
+    "Id": "KG",
     "CountryIsoAlpha3": "KGZ",
     "GeoCoords": {
       "Latitude": 41,
@@ -25132,14 +25353,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "KH",
     "Name": "Cambodia",
     "OfficialName": "Kingdom of Cambodia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/PHNOM_PENH"
+      }
+    ],
     "CountryIsoNumeric": 116,
+    "Id": "KH",
     "CountryIsoAlpha3": "KHM",
     "GeoCoords": {
       "Latitude": 13,
@@ -25174,14 +25399,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "KI",
     "Name": "Kiribati",
     "OfficialName": "Independent and Sovereign Republic of Kiribati",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/TARAWA"
+      }
+    ],
     "CountryIsoNumeric": 296,
+    "Id": "KI",
     "CountryIsoAlpha3": "KIR",
     "GeoCoords": {
       "Latitude": 1.41666666,
@@ -25216,14 +25445,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "KN",
     "Name": "Saint Kitts and Nevis",
     "OfficialName": "Federation of Saint Christopher and Nevis",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 659,
+    "Id": "KN",
     "CountryIsoAlpha3": "KNA",
     "GeoCoords": {
       "Latitude": 17.33333333,
@@ -25258,11 +25491,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -25477,10 +25705,15 @@
     ]
   },
   {
-    "Id": "KR",
     "Name": "South Korea",
     "OfficialName": "Republic of Korea",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Seoul"
+      }
+    ],
     "CountryIsoNumeric": 410,
+    "Id": "KR",
     "CountryIsoAlpha3": "KOR",
     "GeoCoords": {
       "Latitude": 37,
@@ -25515,11 +25748,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "KST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -25704,10 +25932,15 @@
     ]
   },
   {
-    "Id": "KW",
     "Name": "Kuwait",
     "OfficialName": "State of Kuwait",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/KUWAIT"
+      }
+    ],
     "CountryIsoNumeric": 414,
+    "Id": "KW",
     "CountryIsoAlpha3": "KWT",
     "GeoCoords": {
       "Latitude": 29.5,
@@ -25736,19 +25969,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/aqr3aNQjS1BAvksJ7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/305099",
+    "StartOfWeek": 0,
     "Population": 4270563,
     "CurrencyId": "KWD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "LA",
     "Name": "Laos",
     "OfficialName": "Lao People's Democratic Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/VIENTIANE"
+      }
+    ],
     "CountryIsoNumeric": 418,
+    "Id": "LA",
     "CountryIsoAlpha3": "LAO",
     "GeoCoords": {
       "Latitude": 18,
@@ -25783,14 +26021,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "LB",
     "Name": "Lebanon",
     "OfficialName": "Lebanese Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 422,
+    "Id": "LB",
     "CountryIsoAlpha3": "LBN",
     "GeoCoords": {
       "Latitude": 33.83333333,
@@ -25825,18 +26067,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "LR",
     "Name": "Liberia",
     "OfficialName": "Republic of Liberia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/MONROVIA"
+      }
+    ],
     "CountryIsoNumeric": 430,
+    "Id": "LR",
     "CountryIsoAlpha3": "LBR",
     "GeoCoords": {
       "Latitude": 6.5,
@@ -25871,11 +26113,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -26045,10 +26282,15 @@
     ]
   },
   {
-    "Id": "LY",
     "Name": "Libya",
     "OfficialName": "State of Libya",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 434,
+    "Id": "LY",
     "CountryIsoAlpha3": "LBY",
     "GeoCoords": {
       "Latitude": 25,
@@ -26077,16 +26319,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/eLgGnaQWcJEdYRMy5",
     "OpenStreetMapsUrl": "https://openstreetmap.org/relation/192758",
+    "StartOfWeek": 0,
     "Population": 6871287,
     "CurrencyId": "LYD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Revolution Day",
@@ -26166,10 +26404,15 @@
     ]
   },
   {
-    "Id": "LC",
     "Name": "Saint Lucia",
     "OfficialName": "Saint Lucia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 662,
+    "Id": "LC",
     "CountryIsoAlpha3": "LCA",
     "GeoCoords": {
       "Latitude": 13.88333333,
@@ -26204,11 +26447,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -26423,10 +26661,15 @@
     ]
   },
   {
-    "Id": "LI",
     "Name": "Liechtenstein",
     "OfficialName": "Principality of Liechtenstein",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 438,
+    "Id": "LI",
     "CountryIsoAlpha3": "LIE",
     "GeoCoords": {
       "Latitude": 47.26666666,
@@ -26461,11 +26704,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -26845,10 +27083,15 @@
     ]
   },
   {
-    "Id": "LK",
     "Name": "Sri Lanka",
     "OfficialName": "Democratic Socialist Republic of Sri Lanka",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Colombo"
+      }
+    ],
     "CountryIsoNumeric": 144,
+    "Id": "LK",
     "CountryIsoAlpha3": "LKA",
     "GeoCoords": {
       "Latitude": 7,
@@ -26883,14 +27126,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "LS",
     "Name": "Lesotho",
     "OfficialName": "Kingdom of Lesotho",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/MASERU"
+      }
+    ],
     "CountryIsoNumeric": 426,
+    "Id": "LS",
     "CountryIsoAlpha3": "LSO",
     "GeoCoords": {
       "Latitude": -29.5,
@@ -26925,11 +27172,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "SAST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -27099,10 +27341,15 @@
     ]
   },
   {
-    "Id": "LT",
     "Name": "Lithuania",
     "OfficialName": "Republic of Lithuania",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 440,
+    "Id": "LT",
     "CountryIsoAlpha3": "LTU",
     "GeoCoords": {
       "Latitude": 56,
@@ -27137,11 +27384,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -27386,10 +27628,15 @@
     ]
   },
   {
-    "Id": "LU",
     "Name": "Luxembourg",
     "OfficialName": "Grand Duchy of Luxembourg",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 442,
+    "Id": "LU",
     "CountryIsoAlpha3": "LUX",
     "GeoCoords": {
       "Latitude": 49.75,
@@ -27424,11 +27671,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -27628,10 +27870,15 @@
     ]
   },
   {
-    "Id": "LV",
     "Name": "Latvia",
     "OfficialName": "Republic of Latvia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 428,
+    "Id": "LV",
     "CountryIsoAlpha3": "LVA",
     "GeoCoords": {
       "Latitude": 57,
@@ -27666,11 +27913,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -27900,10 +28142,15 @@
     ]
   },
   {
-    "Id": "MO",
     "Name": "Macau",
     "OfficialName": "Macao Special Administrative Region of the People's Republic o",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Macau"
+      }
+    ],
     "CountryIsoNumeric": 446,
+    "Id": "MO",
     "CountryIsoAlpha3": "MAC",
     "GeoCoords": {
       "Latitude": 22.16666666,
@@ -27938,18 +28185,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "MF",
     "Name": "Saint Martin",
     "OfficialName": "Saint Martin",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 663,
+    "Id": "MF",
     "CountryIsoAlpha3": "MAF",
     "GeoCoords": {
       "Latitude": 18.0708,
@@ -27966,6 +28213,16 @@
       "PrettyName": "MF",
       "SizeInBytes": 253
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/P9ho9QuJ9EAR28JEA",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/63064",
     "StartOfWeek": 1,
@@ -27974,11 +28231,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -28193,10 +28445,15 @@
     ]
   },
   {
-    "Id": "MA",
     "Name": "Morocco",
     "OfficialName": "Kingdom of Morocco",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/CASABLANCA"
+      }
+    ],
     "CountryIsoNumeric": 504,
+    "Id": "MA",
     "CountryIsoAlpha3": "MAR",
     "GeoCoords": {
       "Latitude": 32,
@@ -28231,7 +28488,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -28371,10 +28627,15 @@
     ]
   },
   {
-    "Id": "MC",
     "Name": "Monaco",
     "OfficialName": "Principality of Monaco",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 492,
+    "Id": "MC",
     "CountryIsoAlpha3": "MCO",
     "GeoCoords": {
       "Latitude": 43.73333333,
@@ -28409,11 +28670,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -28633,10 +28889,15 @@
     ]
   },
   {
-    "Id": "MD",
     "Name": "Moldova",
     "OfficialName": "Republic of Moldova",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 498,
+    "Id": "MD",
     "CountryIsoAlpha3": "MDA",
     "GeoCoords": {
       "Latitude": 47,
@@ -28671,11 +28932,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -28860,10 +29116,15 @@
     ]
   },
   {
-    "Id": "MG",
     "Name": "Madagascar",
     "OfficialName": "Republic of Madagascar",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EAT"
+      }
+    ],
     "CountryIsoNumeric": 450,
+    "Id": "MG",
     "CountryIsoAlpha3": "MDG",
     "GeoCoords": {
       "Latitude": -20,
@@ -28898,11 +29159,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -29102,10 +29358,15 @@
     ]
   },
   {
-    "Id": "MV",
     "Name": "Maldives",
     "OfficialName": "Republic of the Maldives",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Indian/Maldives"
+      }
+    ],
     "CountryIsoNumeric": 462,
+    "Id": "MV",
     "CountryIsoAlpha3": "MDV",
     "GeoCoords": {
       "Latitude": 3.25,
@@ -29134,19 +29395,45 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/MNAWGq9vEdbZ9vUV7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/536773",
+    "StartOfWeek": 0,
     "Population": 540542,
     "CurrencyId": "MVR",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "MX",
     "Name": "Mexico",
     "OfficialName": "United Mexican States",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/BAJA_SUR"
+      },
+      {
+        "TimeZoneCode": "AMERICA/BAJANORTE"
+      },
+      {
+        "TimeZoneCode": "AMERICA/CHIHUAHUA"
+      },
+      {
+        "TimeZoneCode": "AMERICA/HERMOSILLO"
+      },
+      {
+        "TimeZoneCode": "AMERICA/MAZATLAN"
+      },
+      {
+        "TimeZoneCode": "AMERICA/MEXICO_CITY"
+      },
+      {
+        "TimeZoneCode": "AMERICA/MONTERREY"
+      },
+      {
+        "TimeZoneCode": "AMERICA/TIJUANA"
+      }
+    ],
     "CountryIsoNumeric": 484,
+    "Id": "MX",
     "CountryIsoAlpha3": "MEX",
     "GeoCoords": {
       "Latitude": 23,
@@ -29181,20 +29468,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      },
-      {
-        "TimeZoneCode": "EST"
-      },
-      {
-        "TimeZoneCode": "MST"
-      },
-      {
-        "TimeZoneCode": "PST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -29429,10 +29702,15 @@
     ]
   },
   {
-    "Id": "MH",
     "Name": "Marshall Islands",
     "OfficialName": "Republic of the Marshall Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/MAJURO"
+      }
+    ],
     "CountryIsoNumeric": 584,
+    "Id": "MH",
     "CountryIsoAlpha3": "MHL",
     "GeoCoords": {
       "Latitude": 9,
@@ -29467,14 +29745,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "MK",
     "Name": "North Macedonia",
     "OfficialName": "Republic of North Macedonia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 807,
+    "Id": "MK",
     "CountryIsoAlpha3": "MKD",
     "GeoCoords": {
       "Latitude": 41.83333333,
@@ -29509,11 +29791,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -29928,10 +30205,15 @@
     ]
   },
   {
-    "Id": "ML",
     "Name": "Mali",
     "OfficialName": "Republic of Mali",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/BAMAKO"
+      }
+    ],
     "CountryIsoNumeric": 466,
+    "Id": "ML",
     "CountryIsoAlpha3": "MLI",
     "GeoCoords": {
       "Latitude": 17,
@@ -29966,11 +30248,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -30095,10 +30372,15 @@
     ]
   },
   {
-    "Id": "MT",
     "Name": "Malta",
     "OfficialName": "Republic of Malta",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Malta"
+      }
+    ],
     "CountryIsoNumeric": 470,
+    "Id": "MT",
     "CountryIsoAlpha3": "MLT",
     "GeoCoords": {
       "Latitude": 35.9375,
@@ -30133,11 +30415,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -30352,10 +30629,15 @@
     ]
   },
   {
-    "Id": "MM",
     "Name": "Myanmar",
     "OfficialName": "Republic of the Union of Myanmar",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/RANGOON"
+      }
+    ],
     "CountryIsoNumeric": 104,
+    "Id": "MM",
     "CountryIsoAlpha3": "MMR",
     "GeoCoords": {
       "Latitude": 22,
@@ -30390,14 +30672,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "ME",
     "Name": "Montenegro",
     "OfficialName": "Montenegro",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 499,
+    "Id": "ME",
     "CountryIsoAlpha3": "MNE",
     "GeoCoords": {
       "Latitude": 42.5,
@@ -30432,11 +30718,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -30781,10 +31062,15 @@
     ]
   },
   {
-    "Id": "MN",
     "Name": "Mongolia",
     "OfficialName": "Mongolia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/ULAANBAATAR"
+      }
+    ],
     "CountryIsoNumeric": 496,
+    "Id": "MN",
     "CountryIsoAlpha3": "MNG",
     "GeoCoords": {
       "Latitude": 46,
@@ -30819,14 +31105,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "MP",
     "Name": "Northern Mariana Islands",
     "OfficialName": "Commonwealth of the Northern Mariana Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Pacific/Guam"
+      }
+    ],
     "CountryIsoNumeric": 580,
+    "Id": "MP",
     "CountryIsoAlpha3": "MNP",
     "GeoCoords": {
       "Latitude": 15.2,
@@ -30843,6 +31133,16 @@
       "PrettyName": "MP",
       "SizeInBytes": 9029
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/cpZ67knoRAcfu1417",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/306004",
     "StartOfWeek": 1,
@@ -30851,18 +31151,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "MZ",
     "Name": "Mozambique",
     "OfficialName": "Republic of Mozambique",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CAT"
+      }
+    ],
     "CountryIsoNumeric": 508,
+    "Id": "MZ",
     "CountryIsoAlpha3": "MOZ",
     "GeoCoords": {
       "Latitude": -18.25,
@@ -30897,11 +31197,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -31076,10 +31371,15 @@
     ]
   },
   {
-    "Id": "MS",
     "Name": "Montserrat",
     "OfficialName": "Montserrat",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 500,
+    "Id": "MS",
     "CountryIsoAlpha3": "MSR",
     "GeoCoords": {
       "Latitude": 16.75,
@@ -31114,11 +31414,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -31308,10 +31603,15 @@
     ]
   },
   {
-    "Id": "MQ",
     "Name": "Martinique",
     "OfficialName": "Martinique",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Martinique"
+      }
+    ],
     "CountryIsoNumeric": 474,
+    "Id": "MQ",
     "CountryIsoAlpha3": "MTQ",
     "GeoCoords": {
       "Latitude": 14.666667,
@@ -31346,11 +31646,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -31595,10 +31890,15 @@
     ]
   },
   {
-    "Id": "MU",
     "Name": "Mauritius",
     "OfficialName": "Republic of Mauritius",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "INDIAN/MAURITIUS"
+      }
+    ],
     "CountryIsoNumeric": 480,
+    "Id": "MU",
     "CountryIsoAlpha3": "MUS",
     "GeoCoords": {
       "Latitude": -20.28333333,
@@ -31633,14 +31933,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "MW",
     "Name": "Malawi",
     "OfficialName": "Republic of Malawi",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CAT"
+      }
+    ],
     "CountryIsoNumeric": 454,
+    "Id": "MW",
     "CountryIsoAlpha3": "MWI",
     "GeoCoords": {
       "Latitude": -13.5,
@@ -31675,11 +31979,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -31884,10 +32183,15 @@
     ]
   },
   {
-    "Id": "MY",
     "Name": "Malaysia",
     "OfficialName": "Malaysia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/KUALA_LUMPUR"
+      }
+    ],
     "CountryIsoNumeric": 458,
+    "Id": "MY",
     "CountryIsoAlpha3": "MYS",
     "GeoCoords": {
       "Latitude": 2.5,
@@ -31916,12 +32220,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/qrY1PNeUXGyXDcPy6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2108121",
+    "StartOfWeek": 0,
     "Population": 32365998,
     "CurrencyId": "MYR",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -32101,10 +32405,15 @@
     ]
   },
   {
-    "Id": "YT",
     "Name": "Mayotte",
     "OfficialName": "Department of Mayotte",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Indian/Mayotte"
+      }
+    ],
     "CountryIsoNumeric": 175,
+    "Id": "YT",
     "CountryIsoAlpha3": "MYT",
     "GeoCoords": {
       "Latitude": -12.83333333,
@@ -32121,6 +32430,16 @@
       "PrettyName": "YT",
       "SizeInBytes": 8185
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/1e7MXmfBwQv3TQGF7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1259885",
     "StartOfWeek": 1,
@@ -32129,11 +32448,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -32348,10 +32662,15 @@
     ]
   },
   {
-    "Id": "NA",
     "Name": "Namibia",
     "OfficialName": "Republic of Namibia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/WINDHOEK"
+      }
+    ],
     "CountryIsoNumeric": 516,
+    "Id": "NA",
     "CountryIsoAlpha3": "NAM",
     "GeoCoords": {
       "Latitude": -22,
@@ -32386,11 +32705,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -32903,7 +33217,7 @@
     "Customers": [],
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AFRICA/TUNIS"
+        "TimeZoneCode": "WAT"
       }
     ],
     "Holidays": [
@@ -33015,10 +33329,15 @@
     ]
   },
   {
-    "Id": "NF",
     "Name": "Norfolk Island",
     "OfficialName": "Territory of Norfolk Island",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/NORFOLK"
+      }
+    ],
     "CountryIsoNumeric": 574,
+    "Id": "NF",
     "CountryIsoAlpha3": "NFK",
     "GeoCoords": {
       "Latitude": -29.03333333,
@@ -33035,6 +33354,16 @@
       "PrettyName": "NF",
       "SizeInBytes": 2349
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/pbvtm6XYd1iZbjky5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2574988",
     "StartOfWeek": 1,
@@ -33043,14 +33372,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "NG",
     "Name": "Nigeria",
     "OfficialName": "Federal Republic of Nigeria",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "WAT"
+      }
+    ],
     "CountryIsoNumeric": 566,
+    "Id": "NG",
     "CountryIsoAlpha3": "NGA",
     "GeoCoords": {
       "Latitude": 10,
@@ -33085,11 +33418,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/TUNIS"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -33274,10 +33602,15 @@
     ]
   },
   {
-    "Id": "NI",
     "Name": "Nicaragua",
     "OfficialName": "Republic of Nicaragua",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/MANAGUA"
+      }
+    ],
     "CountryIsoNumeric": 558,
+    "Id": "NI",
     "CountryIsoAlpha3": "NIC",
     "GeoCoords": {
       "Latitude": 13,
@@ -33312,11 +33645,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -33561,10 +33889,15 @@
     ]
   },
   {
-    "Id": "NU",
     "Name": "Niue",
     "OfficialName": "Niue",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/NIUE"
+      }
+    ],
     "CountryIsoNumeric": 570,
+    "Id": "NU",
     "CountryIsoAlpha3": "NIU",
     "GeoCoords": {
       "Latitude": -19.03333333,
@@ -33581,6 +33914,16 @@
       "PrettyName": "NU",
       "SizeInBytes": 1457
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/xFgdzs3E55Rk1y8P9",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1558556",
     "StartOfWeek": 1,
@@ -33589,14 +33932,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "NL",
     "Name": "Netherlands",
     "OfficialName": "Kingdom of the Netherlands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 528,
+    "Id": "NL",
     "CountryIsoAlpha3": "NLD",
     "GeoCoords": {
       "Latitude": 52.5,
@@ -33631,11 +33978,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -33925,10 +34267,15 @@
     ]
   },
   {
-    "Id": "NO",
     "Name": "Norway",
     "OfficialName": "Kingdom of Norway",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 578,
+    "Id": "NO",
     "CountryIsoAlpha3": "NOR",
     "GeoCoords": {
       "Latitude": 62,
@@ -33963,11 +34310,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -34527,10 +34869,15 @@
     ]
   },
   {
-    "Id": "NP",
     "Name": "Nepal",
     "OfficialName": "Federal Democratic Republic of Nepal",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Kathmandu"
+      }
+    ],
     "CountryIsoNumeric": 524,
+    "Id": "NP",
     "CountryIsoAlpha3": "NPL",
     "GeoCoords": {
       "Latitude": 28,
@@ -34559,19 +34906,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/UMj2zpbQp7B5c3yT7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/184633",
+    "StartOfWeek": 0,
     "Population": 29136808,
     "CurrencyId": "NPR",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "NR",
     "Name": "Nauru",
     "OfficialName": "Republic of Nauru",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/NAURU"
+      }
+    ],
     "CountryIsoNumeric": 520,
+    "Id": "NR",
     "CountryIsoAlpha3": "NRU",
     "GeoCoords": {
       "Latitude": -0.53333333,
@@ -34606,14 +34958,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "NZ",
     "Name": "New Zealand",
     "OfficialName": "New Zealand",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "NZST"
+      }
+    ],
     "CountryIsoNumeric": 554,
+    "Id": "NZ",
     "CountryIsoAlpha3": "NZL",
     "GeoCoords": {
       "Latitude": -41,
@@ -34648,11 +35004,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "NZST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -34842,10 +35193,15 @@
     ]
   },
   {
-    "Id": "OM",
     "Name": "Oman",
     "OfficialName": "Sultanate of Oman",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/MUSCAT"
+      }
+    ],
     "CountryIsoNumeric": 512,
+    "Id": "OM",
     "CountryIsoAlpha3": "OMN",
     "GeoCoords": {
       "Latitude": 21,
@@ -34874,19 +35230,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/L2BoXoAwDDwWecnw5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/305138",
+    "StartOfWeek": 0,
     "Population": 5106622,
     "CurrencyId": "OMR",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "PK",
     "Name": "Pakistan",
     "OfficialName": "Islamic Republic of Pakistan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PKT"
+      }
+    ],
     "CountryIsoNumeric": 586,
+    "Id": "PK",
     "CountryIsoAlpha3": "PAK",
     "GeoCoords": {
       "Latitude": 30,
@@ -34921,18 +35282,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "PKT"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "PA",
     "Name": "Panama",
     "OfficialName": "Republic of Panama",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/PANAMA"
+      }
+    ],
     "CountryIsoNumeric": 591,
+    "Id": "PA",
     "CountryIsoAlpha3": "PAN",
     "GeoCoords": {
       "Latitude": 9,
@@ -34967,11 +35328,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -35166,10 +35522,15 @@
     ]
   },
   {
-    "Id": "PN",
     "Name": "Pitcairn Islands",
     "OfficialName": "Pitcairn Group of Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/PITCAIRN"
+      }
+    ],
     "CountryIsoNumeric": 612,
+    "Id": "PN",
     "CountryIsoAlpha3": "PCN",
     "GeoCoords": {
       "Latitude": -25.06666666,
@@ -35186,6 +35547,16 @@
       "PrettyName": "PN",
       "SizeInBytes": 4822
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/XGJMnMAigXjXcxSa7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2185375",
     "StartOfWeek": 1,
@@ -35194,14 +35565,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "PE",
     "Name": "Peru",
     "OfficialName": "Republic of Peru",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/LIMA"
+      }
+    ],
     "CountryIsoNumeric": 604,
+    "Id": "PE",
     "CountryIsoAlpha3": "PER",
     "GeoCoords": {
       "Latitude": -10,
@@ -35236,7 +35611,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -35436,10 +35810,11 @@
     ]
   },
   {
-    "Id": "PH",
     "Name": "Philippines",
     "OfficialName": "Republic of the Philippines",
+    "CountryTimeZones": null,
     "CountryIsoNumeric": 608,
+    "Id": "PH",
     "CountryIsoAlpha3": "PHL",
     "GeoCoords": {
       "Latitude": 13,
@@ -35474,11 +35849,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "PHT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -35888,10 +36258,15 @@
     ]
   },
   {
-    "Id": "PW",
     "Name": "Palau",
     "OfficialName": "Republic of Palau",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/PALAU"
+      }
+    ],
     "CountryIsoNumeric": 585,
+    "Id": "PW",
     "CountryIsoAlpha3": "PLW",
     "GeoCoords": {
       "Latitude": 7.5,
@@ -35926,14 +36301,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "PG",
     "Name": "Papua New Guinea",
     "OfficialName": "Independent State of Papua New Guinea",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/PORT_MORESBY"
+      }
+    ],
     "CountryIsoNumeric": 598,
+    "Id": "PG",
     "CountryIsoAlpha3": "PNG",
     "GeoCoords": {
       "Latitude": -6,
@@ -35968,14 +36347,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "PL",
     "Name": "Poland",
     "OfficialName": "Republic of Poland",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 616,
+    "Id": "PL",
     "CountryIsoAlpha3": "POL",
     "GeoCoords": {
       "Latitude": 52,
@@ -36010,11 +36393,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -36229,10 +36607,15 @@
     ]
   },
   {
-    "Id": "PR",
     "Name": "Puerto Rico",
     "OfficialName": "Commonwealth of Puerto Rico",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "America/Puerto_Rico"
+      }
+    ],
     "CountryIsoNumeric": 630,
+    "Id": "PR",
     "CountryIsoAlpha3": "PRI",
     "GeoCoords": {
       "Latitude": 18.25,
@@ -36249,6 +36632,16 @@
       "PrettyName": "PR",
       "SizeInBytes": 1474
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/sygfDbtwn389wu8x5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/4422604",
     "StartOfWeek": 1,
@@ -36257,11 +36650,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -36746,10 +37134,15 @@
     ]
   },
   {
-    "Id": "KP",
     "Name": "North Korea",
     "OfficialName": "Democratic People's Republic of Korea",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "KST"
+      }
+    ],
     "CountryIsoNumeric": 408,
+    "Id": "KP",
     "CountryIsoAlpha3": "PRK",
     "GeoCoords": {
       "Latitude": 40,
@@ -36784,18 +37177,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "KST"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "PT",
     "Name": "Portugal",
     "OfficialName": "Portuguese Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "WET"
+      }
+    ],
     "CountryIsoNumeric": 620,
+    "Id": "PT",
     "CountryIsoAlpha3": "PRT",
     "GeoCoords": {
       "Latitude": 39.5,
@@ -36830,11 +37223,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "WET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -37094,10 +37482,15 @@
     ]
   },
   {
-    "Id": "PY",
     "Name": "Paraguay",
     "OfficialName": "Republic of Paraguay",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/ASUNCION"
+      }
+    ],
     "CountryIsoNumeric": 600,
+    "Id": "PY",
     "CountryIsoAlpha3": "PRY",
     "GeoCoords": {
       "Latitude": -23,
@@ -37132,7 +37525,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -37347,10 +37739,15 @@
     ]
   },
   {
-    "Id": "PS",
     "Name": "Palestine",
     "OfficialName": "State of Palestine",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 275,
+    "Id": "PS",
     "CountryIsoAlpha3": "PSE",
     "GeoCoords": {
       "Latitude": 31.9,
@@ -37379,23 +37776,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/QvTbkRdmdWEoYAmt5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1703814",
+    "StartOfWeek": 0,
     "Population": 4803269,
     "CurrencyId": "EGP",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "PF",
     "Name": "French Polynesia",
     "OfficialName": "French Polynesia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/TAHITI"
+      }
+    ],
     "CountryIsoNumeric": 258,
+    "Id": "PF",
     "CountryIsoAlpha3": "PYF",
     "GeoCoords": {
       "Latitude": 17.6797,
@@ -37430,14 +37828,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "QA",
     "Name": "Qatar",
     "OfficialName": "State of Qatar",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/QATAR"
+      }
+    ],
     "CountryIsoNumeric": 634,
+    "Id": "QA",
     "CountryIsoAlpha3": "QAT",
     "GeoCoords": {
       "Latitude": 25.5,
@@ -37466,19 +37868,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/ZV76Y49z7LLUZ2KQ6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/305095",
+    "StartOfWeek": 0,
     "Population": 2881060,
     "CurrencyId": "QAR",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "RE",
     "Name": "Réunion",
     "OfficialName": "Réunion Island",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "INDIAN/REUNION"
+      }
+    ],
     "CountryIsoNumeric": 638,
+    "Id": "RE",
     "CountryIsoAlpha3": "REU",
     "GeoCoords": {
       "Latitude": -21.15,
@@ -37495,6 +37902,16 @@
       "PrettyName": "RE",
       "SizeInBytes": 2106
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/wWpBrXsp8UHVbah29",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1785276",
     "StartOfWeek": 1,
@@ -37503,7 +37920,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -37718,10 +38134,15 @@
     ]
   },
   {
-    "Id": "RO",
     "Name": "Romania",
     "OfficialName": "Romania",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Bucharest"
+      }
+    ],
     "CountryIsoNumeric": 642,
+    "Id": "RO",
     "CountryIsoAlpha3": "ROU",
     "GeoCoords": {
       "Latitude": 46,
@@ -37756,11 +38177,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -38065,10 +38481,18 @@
     ]
   },
   {
-    "Id": "RU",
     "Name": "Russia",
     "OfficialName": "Russian Federation",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "MSK"
+      },
+      {
+        "TimeZoneCode": "EET"
+      }
+    ],
     "CountryIsoNumeric": 643,
+    "Id": "RU",
     "CountryIsoAlpha3": "RUS",
     "GeoCoords": {
       "Latitude": 60,
@@ -38103,14 +38527,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      },
-      {
-        "TimeZoneCode": "MSK"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -38265,10 +38681,15 @@
     ]
   },
   {
-    "Id": "RW",
     "Name": "Rwanda",
     "OfficialName": "Republic of Rwanda",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/KIGALI"
+      }
+    ],
     "CountryIsoNumeric": 646,
+    "Id": "RW",
     "CountryIsoAlpha3": "RWA",
     "GeoCoords": {
       "Latitude": -2,
@@ -38303,11 +38724,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -38507,10 +38923,15 @@
     ]
   },
   {
-    "Id": "SA",
     "Name": "Saudi Arabia",
     "OfficialName": "Kingdom of Saudi Arabia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/RIYADH"
+      }
+    ],
     "CountryIsoNumeric": 682,
+    "Id": "SA",
     "CountryIsoAlpha3": "SAU",
     "GeoCoords": {
       "Latitude": 25,
@@ -38539,19 +38960,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/5PSjvdJ1AyaLFRrG9",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/307584",
+    "StartOfWeek": 0,
     "Population": 34813867,
     "CurrencyId": "SAR",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "SN",
     "Name": "Senegal",
     "OfficialName": "Republic of Senegal",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/DAKAR"
+      }
+    ],
     "CountryIsoNumeric": 686,
+    "Id": "SN",
     "CountryIsoAlpha3": "SEN",
     "GeoCoords": {
       "Latitude": 14,
@@ -38586,11 +39012,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -38730,10 +39151,15 @@
     ]
   },
   {
-    "Id": "SG",
     "Name": "Singapore",
     "OfficialName": "Republic of Singapore",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/SINGAPORE"
+      }
+    ],
     "CountryIsoNumeric": 702,
+    "Id": "SG",
     "CountryIsoAlpha3": "SGP",
     "GeoCoords": {
       "Latitude": 1.36666666,
@@ -38768,7 +39194,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -38928,10 +39353,15 @@
     ]
   },
   {
-    "Id": "SJ",
     "Name": "Svalbard and Jan Mayen",
     "OfficialName": "Svalbard og Jan Mayen",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Oslo"
+      }
+    ],
     "CountryIsoNumeric": 744,
+    "Id": "SJ",
     "CountryIsoAlpha3": "SJM",
     "GeoCoords": {
       "Latitude": 78,
@@ -38948,6 +39378,16 @@
       "PrettyName": "SJ",
       "SizeInBytes": 323
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/L2wyyn3cQ16PzQ5J8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1337397",
     "StartOfWeek": 1,
@@ -38956,11 +39396,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -39520,10 +39955,15 @@
     ]
   },
   {
-    "Id": "SB",
     "Name": "Solomon Islands",
     "OfficialName": "Solomon Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/GUADALCANAL"
+      }
+    ],
     "CountryIsoNumeric": 90,
+    "Id": "SB",
     "CountryIsoAlpha3": "SLB",
     "GeoCoords": {
       "Latitude": -8,
@@ -39558,14 +39998,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "SL",
     "Name": "Sierra Leone",
     "OfficialName": "Republic of Sierra Leone",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/FREETOWN"
+      }
+    ],
     "CountryIsoNumeric": 694,
+    "Id": "SL",
     "CountryIsoAlpha3": "SLE",
     "GeoCoords": {
       "Latitude": 8.5,
@@ -39600,11 +40044,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -39744,10 +40183,15 @@
     ]
   },
   {
-    "Id": "SV",
     "Name": "El Salvador",
     "OfficialName": "Republic of El Salvador",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/EL_SALVADOR"
+      }
+    ],
     "CountryIsoNumeric": 222,
+    "Id": "SV",
     "CountryIsoAlpha3": "SLV",
     "GeoCoords": {
       "Latitude": 13.83333333,
@@ -39782,11 +40226,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -40031,10 +40470,15 @@
     ]
   },
   {
-    "Id": "SM",
     "Name": "San Marino",
     "OfficialName": "Republic of San Marino",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 674,
+    "Id": "SM",
     "CountryIsoAlpha3": "SMR",
     "GeoCoords": {
       "Latitude": 43.76666666,
@@ -40069,11 +40513,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -40378,10 +40817,15 @@
     ]
   },
   {
-    "Id": "SO",
     "Name": "Somalia",
     "OfficialName": "Federal Republic of Somalia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/MOGADISHU"
+      }
+    ],
     "CountryIsoNumeric": 706,
+    "Id": "SO",
     "CountryIsoAlpha3": "SOM",
     "GeoCoords": {
       "Latitude": 10,
@@ -40416,11 +40860,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -40485,10 +40924,15 @@
     ]
   },
   {
-    "Id": "PM",
     "Name": "Saint Pierre and Miquelon",
     "OfficialName": "Saint Pierre and Miquelon",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/MIQUELON"
+      }
+    ],
     "CountryIsoNumeric": 666,
+    "Id": "PM",
     "CountryIsoAlpha3": "SPM",
     "GeoCoords": {
       "Latitude": 46.83333333,
@@ -40505,6 +40949,16 @@
       "PrettyName": "PM",
       "SizeInBytes": 14300
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/bUM8Yc8pA8ghyhmt6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/3406826",
     "StartOfWeek": 1,
@@ -40513,7 +40967,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -40713,10 +41166,15 @@
     ]
   },
   {
-    "Id": "RS",
     "Name": "Serbia",
     "OfficialName": "Republic of Serbia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Belgrade"
+      }
+    ],
     "CountryIsoNumeric": 688,
+    "Id": "RS",
     "CountryIsoAlpha3": "SRB",
     "GeoCoords": {
       "Latitude": 44,
@@ -40751,11 +41209,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -41060,10 +41513,15 @@
     ]
   },
   {
-    "Id": "SR",
     "Name": "Suriname",
     "OfficialName": "Republic of Suriname",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/PARAMARIBO"
+      }
+    ],
     "CountryIsoNumeric": 740,
+    "Id": "SR",
     "CountryIsoAlpha3": "SUR",
     "GeoCoords": {
       "Latitude": 4,
@@ -41098,7 +41556,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -41328,10 +41785,15 @@
     ]
   },
   {
-    "Id": "SK",
     "Name": "Slovakia",
     "OfficialName": "Slovak Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 703,
+    "Id": "SK",
     "CountryIsoAlpha3": "SVK",
     "GeoCoords": {
       "Latitude": 48.66666666,
@@ -41366,11 +41828,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -41630,10 +42087,15 @@
     ]
   },
   {
-    "Id": "SI",
     "Name": "Slovenia",
     "OfficialName": "Republic of Slovenia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 705,
+    "Id": "SI",
     "CountryIsoAlpha3": "SVN",
     "GeoCoords": {
       "Latitude": 46.11666666,
@@ -41668,11 +42130,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -42067,10 +42524,15 @@
     ]
   },
   {
-    "Id": "SE",
     "Name": "Sweden",
     "OfficialName": "Kingdom of Sweden",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CET"
+      }
+    ],
     "CountryIsoNumeric": 752,
+    "Id": "SE",
     "CountryIsoAlpha3": "SWE",
     "GeoCoords": {
       "Latitude": 62,
@@ -42105,11 +42567,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -42579,10 +43036,15 @@
     ]
   },
   {
-    "Id": "SZ",
     "Name": "Eswatini",
     "OfficialName": "Kingdom of Eswatini",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/MBABANE"
+      }
+    ],
     "CountryIsoNumeric": 748,
+    "Id": "SZ",
     "CountryIsoAlpha3": "SWZ",
     "GeoCoords": {
       "Latitude": -26.5,
@@ -42599,6 +43061,16 @@
       "PrettyName": "SZ",
       "SizeInBytes": 2570
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/cUY79eqQihFSE8hV6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/88210",
     "StartOfWeek": 1,
@@ -42607,11 +43079,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "SAST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -42841,10 +43308,15 @@
     ]
   },
   {
-    "Id": "SC",
     "Name": "Seychelles",
     "OfficialName": "Republic of Seychelles",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Indian/Mahe"
+      }
+    ],
     "CountryIsoNumeric": 690,
+    "Id": "SC",
     "CountryIsoAlpha3": "SYC",
     "GeoCoords": {
       "Latitude": -4.58333333,
@@ -42879,7 +43351,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -43079,10 +43550,15 @@
     ]
   },
   {
-    "Id": "SY",
     "Name": "Syria",
     "OfficialName": "Syrian Arab Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/DAMASCUS"
+      }
+    ],
     "CountryIsoNumeric": 760,
+    "Id": "SY",
     "CountryIsoAlpha3": "SYR",
     "GeoCoords": {
       "Latitude": 35,
@@ -43117,14 +43593,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "TC",
     "Name": "Turks and Caicos Islands",
     "OfficialName": "Turks and Caicos Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "EST"
+      }
+    ],
     "CountryIsoNumeric": 796,
+    "Id": "TC",
     "CountryIsoAlpha3": "TCA",
     "GeoCoords": {
       "Latitude": 21.75,
@@ -43141,6 +43621,16 @@
       "PrettyName": "TC",
       "SizeInBytes": 2293
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/R8VUDQfwZiFtvmyn8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/547479",
     "StartOfWeek": 1,
@@ -43149,11 +43639,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -43358,10 +43843,15 @@
     ]
   },
   {
-    "Id": "TG",
     "Name": "Togo",
     "OfficialName": "Togolese Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/LOME"
+      }
+    ],
     "CountryIsoNumeric": 768,
+    "Id": "TG",
     "CountryIsoAlpha3": "TGO",
     "GeoCoords": {
       "Latitude": 8,
@@ -43396,11 +43886,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "GMT"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -43570,10 +44055,15 @@
     ]
   },
   {
-    "Id": "TH",
     "Name": "Thailand",
     "OfficialName": "Kingdom of Thailand",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Bangkok"
+      }
+    ],
     "CountryIsoNumeric": 764,
+    "Id": "TH",
     "CountryIsoAlpha3": "THA",
     "GeoCoords": {
       "Latitude": 15,
@@ -43608,7 +44098,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -43883,10 +44372,15 @@
     ]
   },
   {
-    "Id": "TK",
     "Name": "Tokelau",
     "OfficialName": "Tokelau",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/FAKAOFO"
+      }
+    ],
     "CountryIsoNumeric": 772,
+    "Id": "TK",
     "CountryIsoAlpha3": "TKL",
     "GeoCoords": {
       "Latitude": -9,
@@ -43903,6 +44397,16 @@
       "PrettyName": "TK",
       "SizeInBytes": 1418
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/Ap5qN8qien6pT9UN6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2186600",
     "StartOfWeek": 1,
@@ -43911,14 +44415,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "TL",
     "Name": "Timor-Leste",
     "OfficialName": "Democratic Republic of Timor-Leste",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/DILI"
+      }
+    ],
     "CountryIsoNumeric": 626,
+    "Id": "TL",
     "CountryIsoAlpha3": "TLS",
     "GeoCoords": {
       "Latitude": -8.83333333,
@@ -43935,6 +44443,16 @@
       "PrettyName": "TL",
       "SizeInBytes": 1305
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/sFqBC9zjgUXPR1iTA",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/305142",
     "StartOfWeek": 1,
@@ -43943,14 +44461,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "TO",
     "Name": "Tonga",
     "OfficialName": "Kingdom of Tonga",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/TONGATAPU"
+      }
+    ],
     "CountryIsoNumeric": 776,
+    "Id": "TO",
     "CountryIsoAlpha3": "TON",
     "GeoCoords": {
       "Latitude": -20,
@@ -43985,7 +44507,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -44170,10 +44691,15 @@
     ]
   },
   {
-    "Id": "TT",
     "Name": "Trinidad and Tobago",
     "OfficialName": "Republic of Trinidad and Tobago",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 780,
+    "Id": "TT",
     "CountryIsoAlpha3": "TTO",
     "GeoCoords": {
       "Latitude": 10.6918,
@@ -44208,11 +44734,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -44452,10 +44973,15 @@
     ]
   },
   {
-    "Id": "TN",
     "Name": "Tunisia",
     "OfficialName": "Tunisian Republic",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/TUNIS"
+      }
+    ],
     "CountryIsoNumeric": 788,
+    "Id": "TN",
     "CountryIsoAlpha3": "TUN",
     "GeoCoords": {
       "Latitude": 34,
@@ -44490,11 +45016,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -44619,10 +45140,15 @@
     ]
   },
   {
-    "Id": "TR",
     "Name": "Turkey",
     "OfficialName": "Republic of Turkey",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "TURKEY"
+      }
+    ],
     "CountryIsoNumeric": 792,
+    "Id": "TR",
     "CountryIsoAlpha3": "TUR",
     "GeoCoords": {
       "Latitude": 39,
@@ -44657,7 +45183,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -44767,10 +45292,15 @@
     ]
   },
   {
-    "Id": "TV",
     "Name": "Tuvalu",
     "OfficialName": "Tuvalu",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/FUNAFUTI"
+      }
+    ],
     "CountryIsoNumeric": 798,
+    "Id": "TV",
     "CountryIsoAlpha3": "TUV",
     "GeoCoords": {
       "Latitude": -8,
@@ -44805,14 +45335,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "TW",
     "Name": "Taiwan",
     "OfficialName": "Republic of China (Taiwan)",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Asia/Taipei"
+      }
+    ],
     "CountryIsoNumeric": 158,
+    "Id": "TW",
     "CountryIsoAlpha3": "TWN",
     "GeoCoords": {
       "Latitude": 23.5,
@@ -44847,11 +45381,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Founding of the Republic of China",
@@ -45506,10 +46035,15 @@
     ]
   },
   {
-    "Id": "TZ",
     "Name": "Tanzania",
     "OfficialName": "United Republic of Tanzania",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
+      }
+    ],
     "CountryIsoNumeric": 834,
+    "Id": "TZ",
     "CountryIsoAlpha3": "TZA",
     "GeoCoords": {
       "Latitude": -6,
@@ -45544,11 +46078,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -45763,10 +46292,15 @@
     ]
   },
   {
-    "Id": "UG",
     "Name": "Uganda",
     "OfficialName": "Republic of Uganda",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Africa/Kampala"
+      }
+    ],
     "CountryIsoNumeric": 800,
+    "Id": "UG",
     "CountryIsoAlpha3": "UGA",
     "GeoCoords": {
       "Latitude": 1,
@@ -45801,11 +46335,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -46020,10 +46549,18 @@
     ]
   },
   {
-    "Id": "UA",
     "Name": "Ukraine",
     "OfficialName": "Ukraine",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Kiev"
+      },
+      {
+        "TimeZoneCode": "Europe/Simferopol"
+      }
+    ],
     "CountryIsoNumeric": 804,
+    "Id": "UA",
     "CountryIsoAlpha3": "UKR",
     "GeoCoords": {
       "Latitude": 49,
@@ -46058,14 +46595,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "EET"
-      },
-      {
-        "TimeZoneCode": "MSK"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year",
@@ -46320,10 +46849,15 @@
     ]
   },
   {
-    "Id": "UM",
     "Name": "United States Minor Outlying Islands",
     "OfficialName": "United States Minor Outlying Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "SST"
+      }
+    ],
     "CountryIsoNumeric": 581,
+    "Id": "UM",
     "CountryIsoAlpha3": "UMI",
     "GeoCoords": {
       "Latitude": 19.3,
@@ -46340,6 +46874,16 @@
       "PrettyName": "UM",
       "SizeInBytes": 1289
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/hZKnrzgeK69dDyPF8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/6430384",
     "StartOfWeek": 1,
@@ -46348,18 +46892,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "PACIFIC/APIA"
-      }
-    ],
     "Holidays": []
   },
   {
-    "Id": "UY",
     "Name": "Uruguay",
     "OfficialName": "Oriental Republic of Uruguay",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AMERICA/MONTEVIDEO"
+      }
+    ],
     "CountryIsoNumeric": 858,
+    "Id": "UY",
     "CountryIsoAlpha3": "URY",
     "GeoCoords": {
       "Latitude": -33,
@@ -46394,7 +46938,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -46684,10 +47227,30 @@
     ]
   },
   {
-    "Id": "US",
     "Name": "United States",
     "OfficialName": "United States of America",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "HST"
+      },
+      {
+        "TimeZoneCode": "AKST"
+      },
+      {
+        "TimeZoneCode": "MST"
+      },
+      {
+        "TimeZoneCode": "CST"
+      },
+      {
+        "TimeZoneCode": "EST"
+      },
+      {
+        "TimeZoneCode": "PST"
+      }
+    ],
     "CountryIsoNumeric": 840,
+    "Id": "US",
     "CountryIsoAlpha3": "USA",
     "GeoCoords": {
       "Latitude": 38,
@@ -46716,31 +47279,12 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/e8M246zY4BSjkjAv6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/148838#map=2/20.6/-85.8",
+    "StartOfWeek": 0,
     "Population": 329484123,
     "CurrencyId": "USD",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "HST"
-      },
-      {
-        "TimeZoneCode": "AKST"
-      },
-      {
-        "TimeZoneCode": "MST"
-      },
-      {
-        "TimeZoneCode": "US/CENTRAL"
-      },
-      {
-        "TimeZoneCode": "EST"
-      },
-      {
-        "TimeZoneCode": "PST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -47090,10 +47634,15 @@
     ]
   },
   {
-    "Id": "UZ",
     "Name": "Uzbekistan",
     "OfficialName": "Republic of Uzbekistan",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/TASHKENT"
+      }
+    ],
     "CountryIsoNumeric": 860,
+    "Id": "UZ",
     "CountryIsoAlpha3": "UZB",
     "GeoCoords": {
       "Latitude": 41,
@@ -47128,14 +47677,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "VA",
     "Name": "Vatican City",
     "OfficialName": "Vatican City State",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "Europe/Vatican"
+      }
+    ],
     "CountryIsoNumeric": 336,
+    "Id": "VA",
     "CountryIsoAlpha3": "VAT",
     "GeoCoords": {
       "Latitude": 41.9,
@@ -47170,11 +47723,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "CET"
-      }
-    ],
     "Holidays": [
       {
         "Name": "Solemnity of Mary, Mother of God",
@@ -47404,10 +47952,15 @@
     ]
   },
   {
-    "Id": "VC",
     "Name": "Saint Vincent and the Grenadines",
     "OfficialName": "Saint Vincent and the Grenadines",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 670,
+    "Id": "VC",
     "CountryIsoAlpha3": "VCT",
     "GeoCoords": {
       "Latitude": 13.25,
@@ -47442,11 +47995,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -47656,10 +48204,15 @@
     ]
   },
   {
-    "Id": "VG",
     "Name": "British Virgin Islands",
     "OfficialName": "Virgin Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 92,
+    "Id": "VG",
     "CountryIsoAlpha3": "VGB",
     "GeoCoords": {
       "Latitude": 18.431383,
@@ -47694,11 +48247,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -47943,10 +48491,15 @@
     ]
   },
   {
-    "Id": "VI",
     "Name": "United States Virgin Islands",
     "OfficialName": "Virgin Islands of the United States",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AST"
+      }
+    ],
     "CountryIsoNumeric": 850,
+    "Id": "VI",
     "CountryIsoAlpha3": "VIR",
     "GeoCoords": {
       "Latitude": 18.35,
@@ -47963,6 +48516,16 @@
       "PrettyName": "VI",
       "SizeInBytes": 9362
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/mBfreywj8dor6q4m9",
     "OpenStreetMapsUrl": "https://openstreetmap.org/relation/286898",
     "StartOfWeek": 1,
@@ -47971,11 +48534,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "ATLANTIC/BERMUDA"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -48430,10 +48988,15 @@
     ]
   },
   {
-    "Id": "VN",
     "Name": "Vietnam",
     "OfficialName": "Socialist Republic of Vietnam",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/HO_CHI_MINH"
+      }
+    ],
     "CountryIsoNumeric": 704,
+    "Id": "VN",
     "CountryIsoAlpha3": "VNM",
     "GeoCoords": {
       "Latitude": 16.16666666,
@@ -48468,7 +49031,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -48878,10 +49440,15 @@
     ]
   },
   {
-    "Id": "VU",
     "Name": "Vanuatu",
     "OfficialName": "Republic of Vanuatu",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/PORT_VILA"
+      }
+    ],
     "CountryIsoNumeric": 548,
+    "Id": "VU",
     "CountryIsoAlpha3": "VUT",
     "GeoCoords": {
       "Latitude": -16,
@@ -48916,7 +49483,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -49176,10 +49742,15 @@
     ]
   },
   {
-    "Id": "WF",
     "Name": "Wallis and Futuna",
     "OfficialName": "Territory of the Wallis and Futuna Islands",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/WALLIS"
+      }
+    ],
     "CountryIsoNumeric": 876,
+    "Id": "WF",
     "CountryIsoAlpha3": "WLF",
     "GeoCoords": {
       "Latitude": -13.3,
@@ -49196,6 +49767,16 @@
       "PrettyName": "WF",
       "SizeInBytes": 669
     },
+    "CoatOfArmsSvg": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
+    "CoatOfArmsPng": {
+      "Url": "",
+      "PrettyName": "",
+      "SizeInBytes": 0
+    },
     "GoogleMapsUrl": "https://goo.gl/maps/CzVqK74QYtbHv65r5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/3412448",
     "StartOfWeek": 1,
@@ -49204,14 +49785,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "WS",
     "Name": "Samoa",
     "OfficialName": "Independent State of Samoa",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "PACIFIC/SAMOA"
+      }
+    ],
     "CountryIsoNumeric": 882,
+    "Id": "WS",
     "CountryIsoAlpha3": "WSM",
     "GeoCoords": {
       "Latitude": -13.58333333,
@@ -49246,14 +49831,18 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "YE",
     "Name": "Yemen",
     "OfficialName": "Republic of Yemen",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "ASIA/ADEN"
+      }
+    ],
     "CountryIsoNumeric": 887,
+    "Id": "YE",
     "CountryIsoAlpha3": "YEM",
     "GeoCoords": {
       "Latitude": 15,
@@ -49282,19 +49871,24 @@
     },
     "GoogleMapsUrl": "https://goo.gl/maps/WCmE76HKcLideQQw7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/305092",
+    "StartOfWeek": 0,
     "Population": 29825968,
     "CurrencyId": "YER",
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [],
     "Holidays": []
   },
   {
-    "Id": "ZA",
     "Name": "South Africa",
     "OfficialName": "Republic of South Africa",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "AFRICA/JOHANNESBURG"
+      }
+    ],
     "CountryIsoNumeric": 710,
+    "Id": "ZA",
     "CountryIsoAlpha3": "ZAF",
     "GeoCoords": {
       "Latitude": -29,
@@ -49329,11 +49923,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "SAST"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
@@ -49598,10 +50187,15 @@
     ]
   },
   {
-    "Id": "ZM",
     "Name": "Zambia",
     "OfficialName": "Republic of Zambia",
+    "CountryTimeZones": [
+      {
+        "TimeZoneCode": "CAT"
+      }
+    ],
     "CountryIsoNumeric": 894,
+    "Id": "ZM",
     "CountryIsoAlpha3": "ZMB",
     "GeoCoords": {
       "Latitude": -15,
@@ -49636,11 +50230,6 @@
     "Commissions": [],
     "VendingMachines": [],
     "Customers": [],
-    "CountryTimeZones": [
-      {
-        "TimeZoneCode": "AFRICA/DAKAR"
-      }
-    ],
     "Holidays": [
       {
         "Name": "New Year's Day",
