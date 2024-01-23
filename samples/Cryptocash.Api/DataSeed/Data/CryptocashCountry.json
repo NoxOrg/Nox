@@ -29340,7 +29340,7 @@
     "CountryIsoNumeric": 484,
     "CountryTimeZones": [
       {
-        "TimeZoneCode":  "AMERICA/BAHIA"
+        "TimeZoneCode": "AMERICA/BAHIA"
       },
       {
         "TimeZoneCode": "AMERICA/BOA_VISTA"
@@ -31080,7 +31080,7 @@
     "CountryIsoNumeric": 508,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/MAPUTO"
       }
     ],
     "CountryIsoAlpha3": "MOZ",
@@ -31862,7 +31862,7 @@
     "CountryIsoNumeric": 454,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/BLANTYRE"
       }
     ],
     "CountryIsoAlpha3": "MWI",
@@ -33093,7 +33093,7 @@
     "CountryIsoNumeric": 562,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "WAT"
+        "TimeZoneCode": "AFRICA/NIAMEY"
       }
     ],
     "CountryIsoAlpha3": "NER",
@@ -33281,7 +33281,7 @@
     "CountryIsoNumeric": 566,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "WAT"
+        "TimeZoneCode": "AFRICA/NIAMEY"
       }
     ],
     "CountryIsoAlpha3": "NGA",
@@ -34857,7 +34857,10 @@
     "CountryIsoNumeric": 554,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "NZST"
+        "TimeZoneCode": "PACIFIC/AUCKLAND"
+      },
+      {
+        "TimeZoneCode": "PACIFIC/CHATHAM"
       }
     ],
     "CountryIsoAlpha3": "NZL",
@@ -35135,7 +35138,7 @@
     "CountryIsoNumeric": 586,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "PKT"
+        "TimeZoneCode": "ASIA/KARACHI"
       }
     ],
     "CountryIsoAlpha3": "PAK",
@@ -37010,7 +37013,7 @@
     "CountryIsoNumeric": 408,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "KST"
+        "TimeZoneCode": "ASIA/PYONGYANG"
       }
     ],
     "CountryIsoAlpha3": "PRK",
@@ -38347,10 +38350,46 @@
     "CountryIsoNumeric": 643,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "MSK"
+        "TimeZoneCode": "EUROPE/MOSCOW"
       },
       {
-        "TimeZoneCode": "EET"
+        "TimeZoneCode": "EUROPE/KALININGRAD"
+      },
+      {
+        "TimeZoneCode": "EUROPE/SAMARA"
+      },
+      {
+        "TimeZoneCode": "EUROPE/VOLGOGRAD"
+      },
+      {
+        "TimeZoneCode": "ASIA/YEKATERINBURG"
+      },
+      {
+        "TimeZoneCode": "ASIA/OMSK"
+      },
+      {
+        "TimeZoneCode": "ASIA/NOVOSIBIRSK"
+      },
+      {
+        "TimeZoneCode": "ASIA/KRASNOYARSK"
+      },
+      {
+        "TimeZoneCode": "ASIA/IRKUTSK"
+      },
+      {
+        "TimeZoneCode": "ASIA/YAKUTSK"
+      },
+      {
+        "TimeZoneCode": "ASIA/VLADIVOSTOK"
+      },
+      {
+        "TimeZoneCode": "ASIA/MAGADAN"
+      },
+      {
+        "TimeZoneCode": "ASIA/SAKHALIN"
+      },
+      {
+        "TimeZoneCode": "ASIA/KAMCHATKA"
       }
     ],
     "CountryIsoAlpha3": "RUS",
@@ -46655,7 +46694,7 @@
     "CountryIsoNumeric": 581,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "SST"
+        "TimeZoneCode": "PACIFIC/WAKE"
       }
     ],
     "CountryIsoAlpha3": "UMI",
@@ -49226,7 +49265,7 @@
     "CountryIsoNumeric": 548,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "PACIFIC/PORT_VILA"
+        "TimeZoneCode": "PACIFIC/AUCKLAND"
       }
     ],
     "CountryIsoAlpha3": "VUT",
@@ -49963,7 +50002,7 @@
     "CountryIsoNumeric": 894,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CAT"
+        "TimeZoneCode": "AFRICA/LUSAKA"
       }
     ],
     "CountryIsoAlpha3": "ZMB",
