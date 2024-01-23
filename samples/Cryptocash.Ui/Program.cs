@@ -23,7 +23,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddTransient<NavigationHelper>();
-builder.Services.AddSingleton<GlobalDataService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
