@@ -2351,16 +2351,6 @@
       "PrettyName": "AS",
       "SizeInBytes": 3763
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/Re9ePMjwP1sFCBFA6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2177187",
     "StartOfWeek": 1,
@@ -6181,16 +6171,6 @@
       "PrettyName": "BL",
       "SizeInBytes": 11667
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/Mc7GqH466S7AAk297",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/7552779",
     "StartOfWeek": 1,
@@ -6527,16 +6507,6 @@
       "Url": "https://flagcdn.com/w320/sh.png",
       "PrettyName": "SH",
       "SizeInBytes": 2484
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/iv4VxnPzHkjLCJuc6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/4868269#map=13/-15.9657/-5.7120",
@@ -8649,7 +8619,7 @@
     "CountryIsoNumeric": 124,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "America/Pacific"
+        "TimeZoneCode": "AMERICA/NEW_YORK"
       },
       {
         "TimeZoneCode": "America/Whitehorse"
@@ -9050,16 +9020,6 @@
       "Url": "https://flagcdn.com/w320/cc.png",
       "PrettyName": "CC",
       "SizeInBytes": 1989
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/3eCdKVpVfMcZyKcK6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/82636",
@@ -9813,7 +9773,7 @@
     "CountryIsoNumeric": 156,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "ASIA/SHANGHAI"
       }
     ],
     "CountryIsoAlpha3": "CHN",
@@ -10629,7 +10589,7 @@
     "CountryIsoNumeric": 174,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "AFRICA/DAR_ES_SALAAM"
       }
     ],
     "CountryIsoAlpha3": "COM",
@@ -11008,7 +10968,7 @@
     "CountryIsoNumeric": 188,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "AMERICA/COSTA_RICA"
       }
     ],
     "CountryIsoAlpha3": "CRI",
@@ -14330,16 +14290,6 @@
       "Url": "https://flagcdn.com/w320/eh.png",
       "PrettyName": "EH",
       "SizeInBytes": 1083
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/7nU3mB69vP6zQp7A8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/5441968",
@@ -19415,7 +19365,7 @@
     "CountryIsoNumeric": 320,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "AMERICA/GUATEMALA"
       }
     ],
     "CountryIsoAlpha3": "GTM",
@@ -20920,7 +20870,7 @@
     "CountryIsoNumeric": 340,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "AMERICA/TEGUCIGALPA"
       }
     ],
     "CountryIsoAlpha3": "HND",
@@ -22807,16 +22757,6 @@
       "Url": "https://flagcdn.com/w320/io.png",
       "PrettyName": "IO",
       "SizeInBytes": 7213
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/bheNucgekVEYozoi6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1993867",
@@ -28213,16 +28153,6 @@
       "PrettyName": "MF",
       "SizeInBytes": 253
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/P9ho9QuJ9EAR28JEA",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/63064",
     "StartOfWeek": 1,
@@ -29122,7 +29052,7 @@
     "CountryIsoNumeric": 450,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "EAT"
+        "TimeZoneCode": "INDIAN/ANTANANARIVO"
       }
     ],
     "CountryIsoAlpha3": "MDG",
@@ -29410,10 +29340,10 @@
     "CountryIsoNumeric": 484,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AMERICA/BAJA_SUR"
+        "TimeZoneCode":  "AMERICA/BAHIA"
       },
       {
-        "TimeZoneCode": "AMERICA/BAJANORTE"
+        "TimeZoneCode": "AMERICA/BOA_VISTA"
       },
       {
         "TimeZoneCode": "AMERICA/CHIHUAHUA"
@@ -31133,16 +31063,6 @@
       "PrettyName": "MP",
       "SizeInBytes": 9029
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/cpZ67knoRAcfu1417",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/306004",
     "StartOfWeek": 1,
@@ -32430,16 +32350,6 @@
       "PrettyName": "YT",
       "SizeInBytes": 8185
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/1e7MXmfBwQv3TQGF7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1259885",
     "StartOfWeek": 1,
@@ -33354,16 +33264,6 @@
       "PrettyName": "NF",
       "SizeInBytes": 2349
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/pbvtm6XYd1iZbjky5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2574988",
     "StartOfWeek": 1,
@@ -33913,16 +33813,6 @@
       "Url": "https://flagcdn.com/w320/nu.png",
       "PrettyName": "NU",
       "SizeInBytes": 1457
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/xFgdzs3E55Rk1y8P9",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1558556",
@@ -35547,16 +35437,6 @@
       "PrettyName": "PN",
       "SizeInBytes": 4822
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/XGJMnMAigXjXcxSa7",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2185375",
     "StartOfWeek": 1,
@@ -36631,16 +36511,6 @@
       "Url": "https://flagcdn.com/w320/pr.png",
       "PrettyName": "PR",
       "SizeInBytes": 1474
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/sygfDbtwn389wu8x5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/4422604",
@@ -37901,16 +37771,6 @@
       "Url": "https://flagcdn.com/w320/re.png",
       "PrettyName": "RE",
       "SizeInBytes": 2106
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/wWpBrXsp8UHVbah29",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1785276",
@@ -39377,16 +39237,6 @@
       "Url": "https://flagcdn.com/w320/sj.png",
       "PrettyName": "SJ",
       "SizeInBytes": 323
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/L2wyyn3cQ16PzQ5J8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/1337397",
@@ -40948,16 +40798,6 @@
       "Url": "https://flagcdn.com/w320/pm.png",
       "PrettyName": "PM",
       "SizeInBytes": 14300
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/bUM8Yc8pA8ghyhmt6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/3406826",
@@ -43061,16 +42901,6 @@
       "PrettyName": "SZ",
       "SizeInBytes": 2570
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/cUY79eqQihFSE8hV6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/88210",
     "StartOfWeek": 1,
@@ -43620,16 +43450,6 @@
       "Url": "https://flagcdn.com/w320/tc.png",
       "PrettyName": "TC",
       "SizeInBytes": 2293
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/R8VUDQfwZiFtvmyn8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/547479",
@@ -44397,16 +44217,6 @@
       "PrettyName": "TK",
       "SizeInBytes": 1418
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/Ap5qN8qien6pT9UN6",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/2186600",
     "StartOfWeek": 1,
@@ -44442,16 +44252,6 @@
       "Url": "https://flagcdn.com/w320/tl.png",
       "PrettyName": "TL",
       "SizeInBytes": 1305
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/sFqBC9zjgUXPR1iTA",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/305142",
@@ -46874,16 +46674,6 @@
       "PrettyName": "UM",
       "SizeInBytes": 1289
     },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
     "GoogleMapsUrl": "https://goo.gl/maps/hZKnrzgeK69dDyPF8",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/6430384",
     "StartOfWeek": 1,
@@ -47233,22 +47023,22 @@
     "CountryIsoNumeric": 840,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "HST"
+        "TimeZoneCode": "PACIFIC/HONOLULU"
       },
       {
-        "TimeZoneCode": "AKST"
+        "TimeZoneCode": "AMERICA/ANCHORAGE"
       },
       {
-        "TimeZoneCode": "MST"
+        "TimeZoneCode": "AMERICA/DENVER"
       },
       {
-        "TimeZoneCode": "CST"
+        "TimeZoneCode": "AMERICA/CHICAGO"
       },
       {
-        "TimeZoneCode": "EST"
+        "TimeZoneCode": "AMERICA/NEW_YORK"
       },
       {
-        "TimeZoneCode": "PST"
+        "TimeZoneCode": "AMERICA/LOS_ANGELES"
       }
     ],
     "CountryIsoAlpha3": "USA",
@@ -47958,7 +47748,7 @@
     "CountryIsoNumeric": 670,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "AMERICA/ST_VINCENT"
       }
     ],
     "CountryIsoAlpha3": "VCT",
@@ -48497,7 +48287,7 @@
     "CountryIsoNumeric": 850,
     "CountryTimeZones": [
       {
-        "TimeZoneCode": "AST"
+        "TimeZoneCode": "AMERICA/VIRGIN"
       }
     ],
     "CountryIsoAlpha3": "VIR",
@@ -48515,16 +48305,6 @@
       "Url": "https://flagcdn.com/w320/vi.png",
       "PrettyName": "VI",
       "SizeInBytes": 9362
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/mBfreywj8dor6q4m9",
     "OpenStreetMapsUrl": "https://openstreetmap.org/relation/286898",
@@ -49766,16 +49546,6 @@
       "Url": "https://flagcdn.com/w320/wf.png",
       "PrettyName": "WF",
       "SizeInBytes": 669
-    },
-    "CoatOfArmsSvg": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
-    },
-    "CoatOfArmsPng": {
-      "Url": "",
-      "PrettyName": "",
-      "SizeInBytes": 0
     },
     "GoogleMapsUrl": "https://goo.gl/maps/CzVqK74QYtbHv65r5",
     "OpenStreetMapsUrl": "https://www.openstreetmap.org/relation/3412448",
