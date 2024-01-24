@@ -33,6 +33,7 @@
     </MudDrawer>
     <div>
         <main>
+            <Header />
             <article class="content px-4">
                 <PageTitle>@GlobalData.PageTitle</PageTitle>
                 @ChildContent
