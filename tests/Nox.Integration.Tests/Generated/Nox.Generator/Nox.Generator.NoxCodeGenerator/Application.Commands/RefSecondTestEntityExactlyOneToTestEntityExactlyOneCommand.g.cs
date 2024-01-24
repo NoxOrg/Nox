@@ -45,7 +45,7 @@ internal partial class CreateRefSecondTestEntityExactlyOneToTestEntityExactlyOne
 			throw new EntityNotFoundException("SecondTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTestEntityExactlyOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestEntityExactlyOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("TestEntityExactlyOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefSecondTestEntityExactlyOneToTestEntityExactlyOne
 			throw new EntityNotFoundException("SecondTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTestEntityExactlyOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestEntityExactlyOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("TestEntityExactlyOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefSecondTestEntityExactlyOneToTestEntityExactlyOneComma
 
 	protected async Task<SecondTestEntityExactlyOneEntity?> GetSecondTestEntityExactlyOne(SecondTestEntityExactlyOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.SecondTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.SecondTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.TestEntityExactlyOne?> GetTestEntityExactlyOne(TestEntityExactlyOneKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.TestEntityExactlyOne?> GetTestEntityExactlyOneRelationship(TestEntityExactlyOneKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.TestEntityExactlyOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.TestEntityExactlyOnes.FindAsync(relatedKeyId);

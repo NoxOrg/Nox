@@ -45,7 +45,7 @@ internal partial class CreateRefTenantToWorkplacesCommandHandler
 			throw new EntityNotFoundException("Tenant",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetWorkplace(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTenantWorkplaces(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefTenantToWorkplacesCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Workplace>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetWorkplace(keyDto);
+			var relatedEntity = await GetTenantWorkplaces(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Workplace", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefTenantToWorkplacesCommandHandler
 			throw new EntityNotFoundException("Tenant",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetWorkplace(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTenantWorkplaces(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefTenantToWorkplacesCommandHandlerBase<TRequest> : Comm
 	protected async Task<TenantEntity?> GetTenant(TenantKeyDto entityKeyDto)
 	{
 		var keyId = Dto.TenantMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Tenants.FindAsync(keyId);
+		var entity = await DbContext.Tenants.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<ClientApi.Domain.Workplace?> GetWorkplace(WorkplaceKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Workplace?> GetTenantWorkplaces(WorkplaceKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Workplaces.FindAsync(relatedKeyId);

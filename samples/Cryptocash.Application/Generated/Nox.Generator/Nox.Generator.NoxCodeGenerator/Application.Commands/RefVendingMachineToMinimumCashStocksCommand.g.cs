@@ -45,7 +45,7 @@ internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetMinimumCashStock(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("MinimumCashStock",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.MinimumCashStock>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetMinimumCashStock(keyDto);
+			var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("MinimumCashStock", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefVendingMachineToMinimumCashStocksCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetMinimumCashStock(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("MinimumCashStock", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefVendingMachineToMinimumCashStocksCommandHandlerBase<T
 	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
 	{
 		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.VendingMachines.FindAsync(keyId);
+		var entity = await DbContext.VendingMachines.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetMinimumCashStock(MinimumCashStockKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetVendingMachineRequiredMinimumCashStocks(MinimumCashStockKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.MinimumCashStockMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.MinimumCashStocks.FindAsync(relatedKeyId);

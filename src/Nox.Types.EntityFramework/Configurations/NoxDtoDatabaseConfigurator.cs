@@ -11,11 +11,11 @@ namespace Nox.Types.EntityFramework.Configurations;
 
 public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
-    private readonly NoxCodeGenConventions _codeGenConventions;    
+    private readonly NoxCodeGenConventions _codeGenConventions;
     private readonly IEntityDtoSqlQueryBuilderProvider _sqlQueryBuilderProvider;
 
     public NoxDtoDatabaseConfigurator(
-        NoxCodeGenConventions codeGenConventions,        
+        NoxCodeGenConventions codeGenConventions,
         IEntityDtoSqlQueryBuilderProvider sqlQueryBuilderProvider)
     {
         _codeGenConventions = codeGenConventions;
@@ -101,16 +101,35 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     private void ConfigureRelationship(EntityTypeBuilder builder, Entity entity, EntityRelationship relationship)
     {
         var navigationPropertyName = entity.GetNavigationPropertyName(relationship);
-        var reversedNavigationPropertyName = relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
+        var reversedNavigationPropertyName = relationship.IsToItself(relationship.Related.EntityRelationship) ? null : relationship.Related.Entity.GetNavigationPropertyName(relationship.Related.EntityRelationship);
 
         // ManyToMany Currently, configured bi-directionally, shouldn't cause any issues.
         if (relationship.WithMultiEntity &&
             relationship.Related.EntityRelationship.WithMultiEntity)
         {
-            builder
-                .HasMany(navigationPropertyName)
-                .WithMany(reversedNavigationPropertyName)
-                .UsingEntity(x => x.ToTable(relationship.Name));
+            if (relationship.IsToItself(relationship.Related.EntityRelationship))
+            {
+                var entityTypeFullName = _codeGenConventions.GetEntityDtoTypeFullName($"{entity.Name}Dto");
+
+                // We have this case only on the Dto configuration, because the self-referencing relationship is configured appropriately
+                // for entities based on the entity name (the join table column would be entity name + Id). Without this explicit configuration
+                // the Dto would be configured for the enity name + Dto (the join table column would be entity name + Dto + Id) which would cause
+                // runtime errors, since the join table columns would not match.
+                builder
+                    .HasMany(navigationPropertyName)
+                    .WithMany()
+                    .UsingEntity(
+                        relationship.Name,
+                        l => l.HasOne(entityTypeFullName).WithMany().HasForeignKey($"{relationship.Name}Id"),
+                        r => r.HasOne(entityTypeFullName).WithMany().HasForeignKey($"{entity.Name}Id")); // This is the column name that would cause runtime errors if it were not explicitly configured.
+            }
+            else
+            {
+                builder
+                    .HasMany(navigationPropertyName)
+                    .WithMany(reversedNavigationPropertyName)
+                    .UsingEntity(x => x.ToTable(relationship.Name));
+            }
         }
         // OneToOne and OneToMany, setup should be done only on foreign key side
         else if (relationship.WithSingleEntity())

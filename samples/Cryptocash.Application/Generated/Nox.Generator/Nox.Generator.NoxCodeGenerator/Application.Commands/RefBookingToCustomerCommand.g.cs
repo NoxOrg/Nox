@@ -45,7 +45,7 @@ internal partial class CreateRefBookingToCustomerCommandHandler
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingForCustomer(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Customer",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefBookingToCustomerCommandHandler
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCustomer(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingForCustomer(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Customer", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefBookingToCustomerCommandHandlerBase<TRequest> : Comma
 
 	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto)
 	{
-		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Bookings.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Customer?> GetCustomer(CustomerKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Customer?> GetBookingForCustomer(CustomerKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Customers.FindAsync(relatedKeyId);

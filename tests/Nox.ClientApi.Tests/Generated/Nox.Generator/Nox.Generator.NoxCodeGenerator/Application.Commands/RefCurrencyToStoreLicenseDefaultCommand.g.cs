@@ -45,7 +45,7 @@ internal partial class CreateRefCurrencyToStoreLicenseDefaultCommandHandler
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetStoreLicenseDefault(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreLicense",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCurrencyToStoreLicenseDefaultCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.StoreLicense>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetStoreLicense(keyDto);
+			var relatedEntity = await GetStoreLicenseDefault(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("StoreLicense", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCurrencyToStoreLicenseDefaultCommandHandler
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetStoreLicenseDefault(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreLicense", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefCurrencyToStoreLicenseDefaultCommandHandlerBase<TRequ
 	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Currencies.FindAsync(keyId);
+		var entity = await DbContext.Currencies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicense(StoreLicenseKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicenseDefault(StoreLicenseKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.StoreLicenses.FindAsync(relatedKeyId);

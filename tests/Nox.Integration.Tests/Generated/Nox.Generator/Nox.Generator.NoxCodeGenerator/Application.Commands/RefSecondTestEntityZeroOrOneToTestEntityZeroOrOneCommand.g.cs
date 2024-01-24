@@ -45,7 +45,7 @@ internal partial class CreateRefSecondTestEntityZeroOrOneToTestEntityZeroOrOneCo
 			throw new EntityNotFoundException("SecondTestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTestEntityZeroOrOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("TestEntityZeroOrOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefSecondTestEntityZeroOrOneToTestEntityZeroOrOneCo
 			throw new EntityNotFoundException("SecondTestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTestEntityZeroOrOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("TestEntityZeroOrOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefSecondTestEntityZeroOrOneToTestEntityZeroOrOneCommand
 
 	protected async Task<SecondTestEntityZeroOrOneEntity?> GetSecondTestEntityZeroOrOne(SecondTestEntityZeroOrOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.SecondTestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.SecondTestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.SecondTestEntityZeroOrOnes.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.TestEntityZeroOrOne?> GetTestEntityZeroOrOne(TestEntityZeroOrOneKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.TestEntityZeroOrOne?> GetTestEntityZeroOrOneRelationship(TestEntityZeroOrOneKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.TestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.TestEntityZeroOrOnes.FindAsync(relatedKeyId);

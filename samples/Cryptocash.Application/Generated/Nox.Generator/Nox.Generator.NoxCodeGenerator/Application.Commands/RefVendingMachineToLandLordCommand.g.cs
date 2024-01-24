@@ -45,7 +45,7 @@ internal partial class CreateRefVendingMachineToLandLordCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetLandLord(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineContractedAreaLandLord(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("LandLord",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefVendingMachineToLandLordCommandHandler
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetLandLord(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineContractedAreaLandLord(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("LandLord", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefVendingMachineToLandLordCommandHandlerBase<TRequest> 
 
 	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
 	{
-		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.VendingMachines.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.LandLord?> GetLandLord(LandLordKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.LandLord?> GetVendingMachineContractedAreaLandLord(LandLordKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.LandLordMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.LandLords.FindAsync(relatedKeyId);

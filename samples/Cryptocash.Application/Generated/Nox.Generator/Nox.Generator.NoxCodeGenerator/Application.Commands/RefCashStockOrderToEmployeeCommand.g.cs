@@ -45,7 +45,7 @@ internal partial class CreateRefCashStockOrderToEmployeeCommandHandler
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEmployee(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCashStockOrderReviewedByEmployee(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Employee",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefCashStockOrderToEmployeeCommandHandler
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEmployee(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCashStockOrderReviewedByEmployee(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Employee", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefCashStockOrderToEmployeeCommandHandlerBase<TRequest> 
 
 	protected async Task<CashStockOrderEntity?> GetCashStockOrder(CashStockOrderKeyDto entityKeyDto)
 	{
-		var keyId = Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.CashStockOrders.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.Employee?> GetEmployee(EmployeeKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Employee?> GetCashStockOrderReviewedByEmployee(EmployeeKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.EmployeeMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Employees.FindAsync(relatedKeyId);

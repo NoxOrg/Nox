@@ -45,7 +45,7 @@ internal partial class CreateRefCustomerToBookingsCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetBooking(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerRelatedBookings(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Booking",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCustomerToBookingsCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.Booking>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetBooking(keyDto);
+			var relatedEntity = await GetCustomerRelatedBookings(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Booking", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCustomerToBookingsCommandHandler
 			throw new EntityNotFoundException("Customer",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetBooking(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCustomerRelatedBookings(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Booking", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefCustomerToBookingsCommandHandlerBase<TRequest> : Comm
 	protected async Task<CustomerEntity?> GetCustomer(CustomerKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CustomerMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Customers.FindAsync(keyId);
+		var entity = await DbContext.Customers.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<Cryptocash.Domain.Booking?> GetBooking(BookingKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Booking?> GetCustomerRelatedBookings(BookingKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.BookingMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Bookings.FindAsync(relatedKeyId);

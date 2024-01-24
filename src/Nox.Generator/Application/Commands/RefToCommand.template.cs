@@ -53,7 +53,7 @@ internal partial class CreateRef{{entity.Name}}To{{relationshipName}}CommandHand
 			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
-		var relatedEntity = await Get{{relatedEntity.Name}}(request.RelatedEntityKeyDto);
+		var relatedEntity = await Get{{relationship.Name}}(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("{{relatedEntity.Name}}",  $"{{keysToString relatedEntity.Keys 'request.RelatedEntityKeyDto.key'}}");
@@ -95,7 +95,7 @@ internal partial class UpdateRef{{entity.Name}}To{{relationshipName}}CommandHand
 		var relatedEntities = new List<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await Get{{relatedEntity.Name}}(keyDto);
+			var relatedEntity = await Get{{relationship.Name}}(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("{{relatedEntity.Name}}", $"{{keysToString relatedEntity.Keys 'keyDto.key'}}");
@@ -136,7 +136,7 @@ internal partial class DeleteRef{{entity.Name}}To{{relationshipName}}CommandHand
 			throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'request.EntityKeyDto.key'}}");
 		}
 
-		var relatedEntity = await Get{{relatedEntity.Name}}(request.RelatedEntityKeyDto);
+		var relatedEntity = await Get{{relationship.Name}}(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("{{relatedEntity.Name}}", $"{{keysToString relatedEntity.Keys 'request.RelatedEntityKeyDto.key'}}");
@@ -211,10 +211,21 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 		{{- for key in entity.Keys }}
 		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}});
 		{{- end }}
+		{{- if relationship.WithSingleEntity }}		
 		return await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
+		{{- else }}
+		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
+		if(entity is not null)
+		{
+			{{- navigationName = GetNavigationPropertyName entity relationship }}
+			await DbContext.Entry(entity).Collection(x => x.{{navigationName}}).LoadAsync();
+		}
+
+		return entity;
+		{{- end }}
 	}
 
-	protected async Task<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}?> Get{{relatedEntity.Name}}({{relatedEntity.Name}}KeyDto relatedEntityKeyDto)
+	protected async Task<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}?> Get{{relationship.Name}}({{relatedEntity.Name}}KeyDto relatedEntityKeyDto)
 	{
 		{{- for key in relatedEntity.Keys }}
 		var relatedKey{{key.Name}} = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityKeyDto.key{{key.Name}});

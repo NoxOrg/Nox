@@ -1108,7 +1108,6 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        // TODO: FIX THIS TEST ONCE LOCALIZATION IS IMPLEMENTED FOR PATCH
         [Fact]
         public async Task Patch_Description_ShouldUpdateDescriptionOnly()
         {
@@ -1415,6 +1414,31 @@ namespace ClientApi.Tests.Tests.Controllers
             getWorkplaceResponse!.Tenants.Should().HaveCount(2);
             getWorkplaceResponse!.Tenants.Should().Contain(t => t.Id == tenantId1);
             getWorkplaceResponse!.Tenants.Should().Contain(t => t.Id == tenantId2);
+        }
+
+        [Fact]
+        public async Task WhenDeletingTenantRelationsFromWorkplace_RelationNeedsToBeDeleted()
+        {
+            // Arrange
+            var tenantId1 = (await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+                new TenantCreateDto() { Name = _fixture.Create<string>() }))!.Id;
+
+            var tenantId2 = (await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+                new TenantCreateDto() { Name = _fixture.Create<string>() }))!.Id;
+
+            // Act
+            var workplace = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>(), TenantsId = new() { tenantId1, tenantId2 } });
+
+            // Act
+            await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplace!.Id}/Tenants/{tenantId1}/$ref");
+            await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplace!.Id}/Tenants/{tenantId2}/$ref");
+
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplace.Id}?$expand={nameof(WorkplaceDto.Tenants)}");
+
+            // Assert
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Tenants.Should().BeEmpty();
         }
 
         #endregion Many to Many Relations

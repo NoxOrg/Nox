@@ -80,6 +80,18 @@ relationships:
       relationship: zeroOrMany
       entity: Client
 
+    - name: ParentOfStore
+      description: parent stores
+      relationship: zeroOrOne
+      entity: Store
+      refRelationshipName: ParentOfStore
+
+    - name: FranchisesOfStore
+      description: franchise stores
+      relationship: zeroOrMany
+      entity: Store
+      refRelationshipName: FranchisesOfStore
+
 ownedRelationships:
 
   - name: VerifiedEmails

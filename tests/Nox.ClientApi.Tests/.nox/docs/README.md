@@ -308,6 +308,7 @@ Status|Enumeration|Store Status.|Values: System.Collections.Generic.List`1[Nox.T
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode: false
 ClientId|Guid||Required, Foreign Key
+StoreId|Guid||Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -319,6 +320,8 @@ country where the store is located|ZeroOrOne|Country|CountryOfTheStore|Yes|Yes
 Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes|Yes
 License that this store uses|ZeroOrOne|StoreLicense|License|Yes|Yes
 clients of the store|ZeroOrMany|Client|ClientsOfStore|Yes|Yes
+parent stores|ZeroOrOne|Store|ParentOfStore|Yes|Yes
+franchise stores|ZeroOrMany|Store|FranchisesOfStore|Yes|Yes
 
 
 ### Store.EmailAddress (Owned by Store)

@@ -45,7 +45,7 @@ internal partial class CreateRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrM
 			throw new EntityNotFoundException("ThirdTestEntityOneOrMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityZeroOrMany(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityZeroOrManyRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrMany",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrM
 		var relatedEntities = new List<TestWebApp.Domain.ThirdTestEntityZeroOrMany>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetThirdTestEntityZeroOrMany(keyDto);
+			var relatedEntity = await GetThirdTestEntityZeroOrManyRelationship(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrMany", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrM
 			throw new EntityNotFoundException("ThirdTestEntityOneOrMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityZeroOrMany(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityZeroOrManyRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrMany", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManies
 	protected async Task<ThirdTestEntityOneOrManyEntity?> GetThirdTestEntityOneOrMany(ThirdTestEntityOneOrManyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.ThirdTestEntityOneOrManyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.ThirdTestEntityOneOrManies.FindAsync(keyId);
+		var entity = await DbContext.ThirdTestEntityOneOrManies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.ThirdTestEntityZeroOrManies).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrMany?> GetThirdTestEntityZeroOrMany(ThirdTestEntityZeroOrManyKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrMany?> GetThirdTestEntityZeroOrManyRelationship(ThirdTestEntityZeroOrManyKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.ThirdTestEntityZeroOrManies.FindAsync(relatedKeyId);

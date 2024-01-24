@@ -172,6 +172,7 @@ Status|System.Int32|Store Status
 CountryId|System.Int64|The unique identifier
 StoreOwnerId|System.String|
 ClientId|System.Guid|
+StoreId|System.Guid|
 
 
 ### `WorkplaceUpdated`

@@ -45,7 +45,7 @@ internal partial class CreateRefStoreToCountryCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryOfTheStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefStoreToCountryCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCountryOfTheStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefStoreToCountryCommandHandlerBase<TRequest> : CommandB
 
 	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
 	{
-		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Country?> GetCountryOfTheStore(CountryKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);

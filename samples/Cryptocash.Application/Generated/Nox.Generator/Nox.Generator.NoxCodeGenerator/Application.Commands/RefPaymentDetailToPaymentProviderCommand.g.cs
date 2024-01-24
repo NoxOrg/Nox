@@ -45,7 +45,7 @@ internal partial class CreateRefPaymentDetailToPaymentProviderCommandHandler
 			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPaymentProvider(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPaymentDetailsRelatedPaymentProvider(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("PaymentProvider",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefPaymentDetailToPaymentProviderCommandHandler
 			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPaymentProvider(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPaymentDetailsRelatedPaymentProvider(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("PaymentProvider", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefPaymentDetailToPaymentProviderCommandHandlerBase<TReq
 
 	protected async Task<PaymentDetailEntity?> GetPaymentDetail(PaymentDetailKeyDto entityKeyDto)
 	{
-		var keyId = Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.PaymentDetails.FindAsync(keyId);
 	}
 
-	protected async Task<Cryptocash.Domain.PaymentProvider?> GetPaymentProvider(PaymentProviderKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.PaymentProvider?> GetPaymentDetailsRelatedPaymentProvider(PaymentProviderKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.PaymentProviderMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.PaymentProviders.FindAsync(relatedKeyId);

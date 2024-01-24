@@ -45,7 +45,7 @@ internal partial class CreateRefStoreToClientsCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetClient(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetClientsOfStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Client",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefStoreToClientsCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Client>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetClient(keyDto);
+			var relatedEntity = await GetClientsOfStore(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Client", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefStoreToClientsCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetClient(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetClientsOfStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Client", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefStoreToClientsCommandHandlerBase<TRequest> : CommandB
 	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
 	{
 		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Stores.FindAsync(keyId);
+		var entity = await DbContext.Stores.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Clients).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<ClientApi.Domain.Client?> GetClient(ClientKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Client?> GetClientsOfStore(ClientKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.ClientMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Clients.FindAsync(relatedKeyId);

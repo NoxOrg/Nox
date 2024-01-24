@@ -35,9 +35,12 @@ internal static class EntityRelationshipExtensions
         // Single to Single pick Exactly one
         if (relationship.WithSingleEntity && reverseRelationship.WithSingleEntity)
         {
-           return relationship.Relationship == EntityRelationshipType.ExactlyOne;
+            return relationship.Relationship == EntityRelationshipType.ExactlyOne;
         }
-        
+
         throw new NotSupportedException($"Can not define Relationship side to configure in EntityFramework {relationship.Name}");
     }
+
+    public static bool IsToItself(this EntityRelationship thisSide, EntityRelationship otherSize)
+        => thisSide.Entity == otherSize.Entity;
 }

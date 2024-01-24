@@ -20,24 +20,24 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto) : IRequest <bool>;
+public abstract record RefStoreToParentOfStoreCommand(StoreKeyDto EntityKeyDto) : IRequest <bool>;
 
 #region CreateRefTo
 
-public partial record CreateRefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
-	: RefStoreToStoreOwnerCommand(EntityKeyDto);
+public partial record CreateRefStoreToParentOfStoreCommand(StoreKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
+	: RefStoreToParentOfStoreCommand(EntityKeyDto);
 
-internal partial class CreateRefStoreToStoreOwnerCommandHandler
-	: RefStoreToStoreOwnerCommandHandlerBase<CreateRefStoreToStoreOwnerCommand>
+internal partial class CreateRefStoreToParentOfStoreCommandHandler
+	: RefStoreToParentOfStoreCommandHandlerBase<CreateRefStoreToParentOfStoreCommand>
 {
-	public CreateRefStoreToStoreOwnerCommandHandler(
+	public CreateRefStoreToParentOfStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefStoreToStoreOwnerCommand request)
+	protected override async Task<bool> ExecuteAsync(CreateRefStoreToParentOfStoreCommand request)
     {
 		var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
@@ -45,13 +45,13 @@ internal partial class CreateRefStoreToStoreOwnerCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetParentOfStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			throw new RelatedEntityNotFoundException("StoreOwner",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
+			throw new RelatedEntityNotFoundException("Store",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
-		entity.CreateRefToStoreOwner(relatedEntity);
+		entity.CreateRefToParentOfStore(relatedEntity);
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -61,20 +61,20 @@ internal partial class CreateRefStoreToStoreOwnerCommandHandler
 
 #region DeleteRefTo
 
-public record DeleteRefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
-	: RefStoreToStoreOwnerCommand(EntityKeyDto);
+public record DeleteRefStoreToParentOfStoreCommand(StoreKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
+	: RefStoreToParentOfStoreCommand(EntityKeyDto);
 
-internal partial class DeleteRefStoreToStoreOwnerCommandHandler
-	: RefStoreToStoreOwnerCommandHandlerBase<DeleteRefStoreToStoreOwnerCommand>
+internal partial class DeleteRefStoreToParentOfStoreCommandHandler
+	: RefStoreToParentOfStoreCommandHandlerBase<DeleteRefStoreToParentOfStoreCommand>
 {
-	public DeleteRefStoreToStoreOwnerCommandHandler(
+	public DeleteRefStoreToParentOfStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToStoreOwnerCommand request)
+	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToParentOfStoreCommand request)
     {
         var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
@@ -82,13 +82,13 @@ internal partial class DeleteRefStoreToStoreOwnerCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetParentOfStore(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
-			throw new RelatedEntityNotFoundException("StoreOwner", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
+			throw new RelatedEntityNotFoundException("Store", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
 		}
 
-		entity.DeleteRefToStoreOwner(relatedEntity);
+		entity.DeleteRefToParentOfStore(relatedEntity);
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -98,27 +98,27 @@ internal partial class DeleteRefStoreToStoreOwnerCommandHandler
 
 #region DeleteAllRefTo
 
-public record DeleteAllRefStoreToStoreOwnerCommand(StoreKeyDto EntityKeyDto)
-	: RefStoreToStoreOwnerCommand(EntityKeyDto);
+public record DeleteAllRefStoreToParentOfStoreCommand(StoreKeyDto EntityKeyDto)
+	: RefStoreToParentOfStoreCommand(EntityKeyDto);
 
-internal partial class DeleteAllRefStoreToStoreOwnerCommandHandler
-	: RefStoreToStoreOwnerCommandHandlerBase<DeleteAllRefStoreToStoreOwnerCommand>
+internal partial class DeleteAllRefStoreToParentOfStoreCommandHandler
+	: RefStoreToParentOfStoreCommandHandlerBase<DeleteAllRefStoreToParentOfStoreCommand>
 {
-	public DeleteAllRefStoreToStoreOwnerCommandHandler(
+	public DeleteAllRefStoreToParentOfStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToStoreOwnerCommand request)
+	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToParentOfStoreCommand request)
     {
         var entity = await GetStore(request.EntityKeyDto);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		entity.DeleteAllRefToStoreOwner();
+		entity.DeleteAllRefToParentOfStore();
 
 		return await SaveChangesAsync(request, entity);
     }
@@ -126,12 +126,12 @@ internal partial class DeleteAllRefStoreToStoreOwnerCommandHandler
 
 #endregion DeleteAllRefTo
 
-internal abstract class RefStoreToStoreOwnerCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
-	IRequestHandler <TRequest, bool> where TRequest : RefStoreToStoreOwnerCommand
+internal abstract class RefStoreToParentOfStoreCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
+	IRequestHandler <TRequest, bool> where TRequest : RefStoreToParentOfStoreCommand
 {
 	public AppDbContext DbContext { get; }
 
-	public RefStoreToStoreOwnerCommandHandlerBase(
+	public RefStoreToParentOfStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(noxSolution)
@@ -154,10 +154,10 @@ internal abstract class RefStoreToStoreOwnerCommandHandlerBase<TRequest> : Comma
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.StoreOwner?> GetOwnership(StoreOwnerKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.Store?> GetParentOfStore(StoreKeyDto relatedEntityKeyDto)
 	{
-		var relatedKeyId = Dto.StoreOwnerMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.StoreOwners.FindAsync(relatedKeyId);
+		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
+		return await DbContext.Stores.FindAsync(relatedKeyId);
 	}
 
 	protected async Task<bool> SaveChangesAsync(TRequest request, StoreEntity entity)

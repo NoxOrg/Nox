@@ -35,8 +35,9 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
-		: base(repository, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, entityFactory)
+		: base(repository, noxSolution,CountryFactory, StoreOwnerFactory, StoreLicenseFactory, ClientFactory, StoreFactory, entityFactory)
 	{
 	}
 }
@@ -50,6 +51,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 	protected readonly IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	protected CreateStoreCommandHandlerBase(
         IRepository repository,
@@ -58,6 +60,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<ClientApi.Domain.Client, ClientCreateDto, ClientUpdateDto> ClientFactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
 	: base(noxSolution)
 	{
@@ -67,6 +70,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		this.StoreOwnerFactory = StoreOwnerFactory;
 		this.StoreLicenseFactory = StoreLicenseFactory;
 		this.ClientFactory = ClientFactory;
+		this.StoreFactory = StoreFactory;
 	}
 
 	public virtual async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -136,6 +140,41 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			{
 				var relatedEntity = await ClientFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
 				entityToCreate.CreateRefToClients(relatedEntity);
+			}
+		}
+		if(request.EntityDto.ParentOfStoreId is not null)
+		{
+			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.ParentOfStoreId.NonNullValue<System.Guid>());
+			var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToParentOfStore(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("ParentOfStore", request.EntityDto.ParentOfStoreId.NonNullValue<System.Guid>().ToString());
+		}
+		else if(request.EntityDto.ParentOfStore is not null)
+		{
+			var relatedEntity = await StoreFactory.CreateEntityAsync(request.EntityDto.ParentOfStore, request.CultureCode);
+			entityToCreate.CreateRefToParentOfStore(relatedEntity);
+		}
+		if(request.EntityDto.FranchisesOfStoreId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.FranchisesOfStoreId)
+			{
+				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
+				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToFranchisesOfStore(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("FranchisesOfStore", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.FranchisesOfStore)
+			{
+				var relatedEntity = await StoreFactory.CreateEntityAsync(relatedCreateDto, request.CultureCode);
+				entityToCreate.CreateRefToFranchisesOfStore(relatedEntity);
 			}
 		}
 

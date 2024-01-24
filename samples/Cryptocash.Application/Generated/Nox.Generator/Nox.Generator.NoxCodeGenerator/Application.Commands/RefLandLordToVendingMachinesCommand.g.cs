@@ -45,7 +45,7 @@ internal partial class CreateRefLandLordToVendingMachinesCommandHandler
 			throw new EntityNotFoundException("LandLord",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetContractedAreasForVendingMachines(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefLandLordToVendingMachinesCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.VendingMachine>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetVendingMachine(keyDto);
+			var relatedEntity = await GetContractedAreasForVendingMachines(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("VendingMachine", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefLandLordToVendingMachinesCommandHandler
 			throw new EntityNotFoundException("LandLord",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetContractedAreasForVendingMachines(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefLandLordToVendingMachinesCommandHandlerBase<TRequest>
 	protected async Task<LandLordEntity?> GetLandLord(LandLordKeyDto entityKeyDto)
 	{
 		var keyId = Dto.LandLordMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.LandLords.FindAsync(keyId);
+		var entity = await DbContext.LandLords.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<Cryptocash.Domain.VendingMachine?> GetVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.VendingMachine?> GetContractedAreasForVendingMachines(VendingMachineKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.VendingMachines.FindAsync(relatedKeyId);

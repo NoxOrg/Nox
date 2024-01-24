@@ -223,6 +223,57 @@ public abstract partial class StoreBase : AuditableEntityBase, IEtag
     public virtual void DeleteAllRefToClients()
     {
         Clients.Clear();
+    }
+
+    /// <summary>
+    /// Store parent stores ZeroOrOne Stores
+    /// </summary>
+    public virtual Store? ParentOfStore { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Store
+    /// </summary>
+    public Nox.Types.Guid? ParentOfStoreId { get; set; } = null!;
+
+    public virtual void CreateRefToParentOfStore(Store relatedStore)
+    {
+        ParentOfStore = relatedStore;
+    }
+
+    public virtual void DeleteRefToParentOfStore(Store relatedStore)
+    {
+        ParentOfStore = null;
+    }
+
+    public virtual void DeleteAllRefToParentOfStore()
+    {
+        ParentOfStoreId = null;
+    }
+
+    /// <summary>
+    /// Store franchise stores ZeroOrMany Stores
+    /// </summary>
+    public virtual List<Store> FranchisesOfStore { get; private set; } = new();
+
+    public virtual void CreateRefToFranchisesOfStore(Store relatedStore)
+    {
+        FranchisesOfStore.Add(relatedStore);
+    }
+
+    public virtual void UpdateRefToFranchisesOfStore(List<Store> relatedStore)
+    {
+        FranchisesOfStore.Clear();
+        FranchisesOfStore.AddRange(relatedStore);
+    }
+
+    public virtual void DeleteRefToFranchisesOfStore(Store relatedStore)
+    {
+        FranchisesOfStore.Remove(relatedStore);
+    }
+
+    public virtual void DeleteAllRefToFranchisesOfStore()
+    {
+        FranchisesOfStore.Clear();
     }﻿
 
     /// <summary>

@@ -45,7 +45,7 @@ internal partial class CreateRefThirdTestEntityZeroOrOneToThirdTestEntityExactly
 			throw new EntityNotFoundException("ThirdTestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityExactlyOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityExactlyOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefThirdTestEntityZeroOrOneToThirdTestEntityExactly
 			throw new EntityNotFoundException("ThirdTestEntityZeroOrOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityExactlyOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityExactlyOneRelationship(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneCo
 
 	protected async Task<ThirdTestEntityZeroOrOneEntity?> GetThirdTestEntityZeroOrOne(ThirdTestEntityZeroOrOneKeyDto entityKeyDto)
 	{
-		var keyId = Dto.ThirdTestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.ThirdTestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(keyId);
 	}
 
-	protected async Task<TestWebApp.Domain.ThirdTestEntityExactlyOne?> GetThirdTestEntityExactlyOne(ThirdTestEntityExactlyOneKeyDto relatedEntityKeyDto)
+	protected async Task<TestWebApp.Domain.ThirdTestEntityExactlyOne?> GetThirdTestEntityExactlyOneRelationship(ThirdTestEntityExactlyOneKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.ThirdTestEntityExactlyOneMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.ThirdTestEntityExactlyOnes.FindAsync(relatedKeyId);

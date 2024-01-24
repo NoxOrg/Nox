@@ -45,7 +45,7 @@ internal partial class CreateRefCurrencyToCountriesCommandHandler
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCurrencyUsedByCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCurrencyToCountriesCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.Country>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetCountry(keyDto);
+			var relatedEntity = await GetCurrencyUsedByCountry(keyDto);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Country", $"{keyDto.keyId.ToString()}");
@@ -125,7 +125,7 @@ internal partial class DeleteRefCurrencyToCountriesCommandHandler
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCurrencyUsedByCountry(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -195,10 +195,16 @@ internal abstract class RefCurrencyToCountriesCommandHandlerBase<TRequest> : Com
 	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
 	{
 		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
-		return await DbContext.Currencies.FindAsync(keyId);
+		var entity = await DbContext.Currencies.FindAsync(keyId);
+		if(entity is not null)
+		{
+			await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
+		}
+
+		return entity;
 	}
 
-	protected async Task<Cryptocash.Domain.Country?> GetCountry(CountryKeyDto relatedEntityKeyDto)
+	protected async Task<Cryptocash.Domain.Country?> GetCurrencyUsedByCountry(CountryKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.Countries.FindAsync(relatedKeyId);

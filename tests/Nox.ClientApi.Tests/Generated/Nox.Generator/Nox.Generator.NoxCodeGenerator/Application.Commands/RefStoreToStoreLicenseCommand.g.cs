@@ -45,7 +45,7 @@ internal partial class CreateRefStoreToStoreLicenseCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetLicense(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreLicense",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -82,7 +82,7 @@ internal partial class DeleteRefStoreToStoreLicenseCommandHandler
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreLicense(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetLicense(request.RelatedEntityKeyDto);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreLicense", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -150,11 +150,11 @@ internal abstract class RefStoreToStoreLicenseCommandHandlerBase<TRequest> : Com
 
 	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
 	{
-		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
+		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);		
 		return await DbContext.Stores.FindAsync(keyId);
 	}
 
-	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicense(StoreLicenseKeyDto relatedEntityKeyDto)
+	protected async Task<ClientApi.Domain.StoreLicense?> GetLicense(StoreLicenseKeyDto relatedEntityKeyDto)
 	{
 		var relatedKeyId = Dto.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId);
 		return await DbContext.StoreLicenses.FindAsync(relatedKeyId);
