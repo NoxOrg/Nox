@@ -19,7 +19,6 @@ internal class DeleteOwnedCommandGenerator : ApplicationEntityDependentGenerator
                 var ownedEntity = entities.Single(entity => entity.Name == ownedRelationship.Entity);
                 var relationshipName = entity.GetNavigationPropertyName(ownedRelationship);
 
-                var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
                 var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGenConventions)
@@ -28,8 +27,7 @@ internal class DeleteOwnedCommandGenerator : ApplicationEntityDependentGenerator
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
-                    .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
-                    .WithObject("parentKeysFindQuery", parentKeysFindQuery)
+                    .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)                    
                     .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                     .GenerateSourceCodeFromResource(templateName);
             }

@@ -1,21 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-
-using MediatR;
-
-using Nox.Domain;
-using Nox.Abstractions;
-using Nox.Types;
-using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Types.EntityFramework.Types;
-using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
+using Nox.Abstractions;
+using Nox.Domain;
 using Nox.Extensions;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.AspNetCore.Routing.Matching;
+using Nox.Types;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Types;
+using System.Linq.Expressions;
+using System.Net;
+
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -65,7 +61,7 @@ namespace Nox.Infrastructure.Persistence
             var entry = await base.AddAsync(entity, cancellationToken);
             return entry.Entity;
         }
-      
+
         protected virtual async Task HandleDomainEvents()
         {
             var entriesWithDomainEvents = GetEntriesWithDomainEvents();
@@ -114,7 +110,7 @@ namespace Nox.Infrastructure.Persistence
         private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
             where T : class
         {
-            foreach (var navigationEntry in parentEntry.Navigations.Select(n=> n.CurrentValue))
+            foreach (var navigationEntry in parentEntry.Navigations.Select(n => n.CurrentValue))
             {
                 foreach (var ownedEntry in ChangeTracker.Entries<T>())
                 {
@@ -244,13 +240,13 @@ namespace Nox.Infrastructure.Persistence
 
         IQueryable<T> IRepository.Query<T>(params Expression<Func<T, object>>[] includeExpressions) where T : class
         {
-            IQueryable<T> query = Set<T>(); 
-            if(includeExpressions is not null)
+            IQueryable<T> query = Set<T>();
+            if (includeExpressions is not null)
             {
                 foreach (var includeExpression in includeExpressions)
                 {
                     query = query.Include(includeExpression);
-                }                
+                }
             }
             return query;
         }
@@ -259,6 +255,28 @@ namespace Nox.Infrastructure.Persistence
         {
             return Set<T>().FindAsync(keyValues);
         }
+        ValueTask<T?> IRepository.FindAsync<T>(object?[]? keyValues, CancellationToken cancellationToken) where T : class
+        {
+            return Set<T>().FindAsync(keyValues, cancellationToken);
+        }
+        async ValueTask<T?> IRepository.FindAndIncludeAsync<T>(object?[]? keyValues, Expression<Func<T, IEnumerable<object>>> includeExpression, CancellationToken cancellationToken) where T : class
+        {
+            var entity = await Set<T>().FindAsync(keyValues, cancellationToken);
+            if (entity is not null)
+            {
+                await Entry(entity).Collection(includeExpression).LoadAsync(cancellationToken);
+            }
+            return entity;
+        }
+        async ValueTask<T?> IRepository.FindAndIncludeAsync<T>(object?[]? keyValues, Expression<Func<T, object?>> includeExpression, CancellationToken cancellationToken) where T : class
+        {
+            var entity = await Set<T>().FindAsync(keyValues, cancellationToken);
+            if (entity is not null)
+            {
+                await Entry(entity).Reference(includeExpression).LoadAsync(cancellationToken);
+            }
+            return entity;
+        }
 
         async ValueTask<T> IRepository.AddAsync<T>(T entity, CancellationToken cancellationToken)
         {
@@ -266,7 +284,7 @@ namespace Nox.Infrastructure.Persistence
             return entry.Entity;
         }
 
-        void IRepository.Update<T>(T entity) 
+        void IRepository.Update<T>(T entity)
         {
             Update(entity);
         }
@@ -306,7 +324,7 @@ namespace Nox.Infrastructure.Persistence
             {
                 await connection.CloseAsync();
             }
-        }        
+        }
         Task IRepository.SaveChangesAsync(CancellationToken cancellationToken)
         {
             return SaveChangesAsync(cancellationToken);
@@ -319,7 +337,7 @@ namespace Nox.Infrastructure.Persistence
         public void SetStateDetached(object entity)
         {
             Entry(entity).State = EntityState.Detached;
-        }       
+        }
         #endregion
     }
 }

@@ -6,10 +6,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -21,46 +21,47 @@ public partial record DeleteEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDt
 internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandler : DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
 	public DeleteEmployeePhoneNumbersForEmployeeCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{
 	}
 }
 
 internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<DeleteEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <DeleteEmployeePhoneNumbersForEmployeeCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Employees.FindAsync(keyId);
+		
+		var keys = new List<object?>(1);
+		keys.Add(Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId));
+		var parentEntity = await Repository.FindAndIncludeAsync<Employee>(keys.ToArray(), p => p.EmployeePhoneNumbers, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Employee",  "keyId");
 		}
-		await DbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 		var ownedId = Dto.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("EmployeePhoneNumber.EmployeePhoneNumbers",  $"{ownedId.ToString()}");
+			throw new EntityNotFoundException("EmployeePhoneNumber.EmployeePhoneNumbers",  $"ownedId");
 		}
 		parentEntity.EmployeePhoneNumbers.Remove(entity);
+		
 		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
-
-		var result = await DbContext.SaveChangesAsync(cancellationToken);
+		Repository.Delete(entity);
+		await Repository.SaveChangesAsync(cancellationToken);
 
 		return true;
 	}

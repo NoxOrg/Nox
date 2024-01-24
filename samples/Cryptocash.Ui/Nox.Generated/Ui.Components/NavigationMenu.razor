@@ -10,14 +10,8 @@
             Icon="@(item.Icon ?? Icon.DefaultNavigationIcon)"
             IconColor="Color.Inherit" 
             Href="@item.Link" 
-            ActiveClass="navMenu-active">
+            ActiveClass="custom-linkHighlighted">
             @item.Name
         </MudNavLink>
     }
 </MudNavMenu>
-
-<style>
-    .navMenu-active {
-        color: #66ccff;
-    }
-</style>

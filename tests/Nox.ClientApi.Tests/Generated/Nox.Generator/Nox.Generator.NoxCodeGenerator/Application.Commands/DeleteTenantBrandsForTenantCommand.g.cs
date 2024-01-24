@@ -6,10 +6,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -21,46 +21,47 @@ public partial record DeleteTenantBrandsForTenantCommand(TenantKeyDto ParentKeyD
 internal partial class DeleteTenantBrandsForTenantCommandHandler : DeleteTenantBrandsForTenantCommandHandlerBase
 {
 	public DeleteTenantBrandsForTenantCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{
 	}
 }
 
 internal partial class DeleteTenantBrandsForTenantCommandHandlerBase : CommandBase<DeleteTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <DeleteTenantBrandsForTenantCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteTenantBrandsForTenantCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Tenants.FindAsync(keyId);
+		
+		var keys = new List<object?>(1);
+		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
+		var parentEntity = await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(), p => p.TenantBrands, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Tenant",  "keyId");
 		}
-		await DbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
 		var ownedId = Dto.TenantBrandMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("TenantBrand.TenantBrands",  $"{ownedId.ToString()}");
+			throw new EntityNotFoundException("TenantBrand.TenantBrands",  $"ownedId");
 		}
 		parentEntity.TenantBrands.Remove(entity);
+		
 		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Deleted;
-
-		var result = await DbContext.SaveChangesAsync(cancellationToken);
+		Repository.Delete(entity);
+		await Repository.SaveChangesAsync(cancellationToken);
 
 		return true;
 	}
