@@ -2000,13 +2000,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         var updateCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
             new CountryUpdateDto
             {
-                Name = countryResponse!.Name,
-                //WorkplacesId = new List<UInt32>
-                //{
-                //    workplaceResponse2!.Id,
-                //    workplaceResponse4!.Id,
-                //    workplaceResponse5!.Id
-                //}
+                Name = countryResponse!.Name,                
             },
             headers);
 

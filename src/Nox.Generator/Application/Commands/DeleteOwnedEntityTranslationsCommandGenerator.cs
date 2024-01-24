@@ -19,7 +19,6 @@ internal class DeleteOwnedEntityTranslationsCommandGenerator : ApplicationEntity
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var parentPrimaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
-            var parentPrimaryKeysFindQuery = string.Join(separator: ", ", entity.Keys.Select(k => $"parentKey{k.Name}"));
 
             foreach (var ownedRelationship in entity.OwnedRelationships.Where(x => x.Related.Entity.IsOwnedEntity && x.Related.Entity.GetLocalizedAttributes().Any()))
             {
@@ -31,8 +30,7 @@ internal class DeleteOwnedEntityTranslationsCommandGenerator : ApplicationEntity
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
-                    .WithObject("parentPrimaryKeys", parentPrimaryKeys)
-                    .WithObject("parentPrimaryKeysFindQuery", parentPrimaryKeysFindQuery)
+                    .WithObject("parentPrimaryKeys", parentPrimaryKeys)            
                     .GenerateSourceCodeFromResource(templateName);
             }
         }
