@@ -1,7 +1,7 @@
 ﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
 
 {{- func keysToString(keys, prefix = "key")
-	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")	
+	keyNameWithPrefix(name) = (prefix + name)	
 	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
 end -}}
 ﻿// Generated
@@ -12,10 +12,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
@@ -31,40 +31,40 @@ public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{pare
 internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandler : Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
 	public Delete{{relationshipName}}For{{parent.Name}}CommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{
 	}
 }
 
 internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Delete{{relationshipName}}For{{parent.Name}}Command, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(Delete{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-
+		
+		var keys = new List<object?>({{parent.Keys | array.size}});
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
-		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
+		var parentEntity = await Repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(), p => p.{{relationshipName}}, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");
+			throw new EntityNotFoundException("{{parent.Name}}",  "{{parent.Keys | keysToString}}");
 		}
-
-		{{- if isSingleRelationship }}
-		await DbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
+		
+		{{- if isSingleRelationship }}				
 		var entity = parentEntity.{{relationshipName}};
 		if (entity == null)
 		{
@@ -72,11 +72,8 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		}
 
 		parentEntity.DeleteRefTo{{relationshipName}}(entity);
-
-		await OnCompletedAsync(request, entity);
-
-		{{ else }}
-		await DbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
+		
+		{{ else }}		
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
@@ -85,13 +82,12 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		{
 			throw new EntityNotFoundException("{{entity.Name}}.{{relationshipName}}",  $"{{keysToString entity.Keys 'owned'}}");
 		}
-		parentEntity.{{relationshipName}}.Remove(entity);
-		await OnCompletedAsync(request, entity);
-
+		parentEntity.{{relationshipName}}.Remove(entity);		
 		{{- end }}
-		DbContext.Entry(entity).State = EntityState.Deleted;
-
-		var result = await DbContext.SaveChangesAsync(cancellationToken);
+		
+		await OnCompletedAsync(request, entity);
+		Repository.Delete(entity);
+		await Repository.SaveChangesAsync(cancellationToken);
 
 		return true;
 	}

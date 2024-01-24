@@ -6,10 +6,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -22,35 +22,36 @@ public partial record DeleteCountryBarCodeForCountryCommand(CountryKeyDto Parent
 internal partial class DeleteCountryBarCodeForCountryCommandHandler : DeleteCountryBarCodeForCountryCommandHandlerBase
 {
 	public DeleteCountryBarCodeForCountryCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{
 	}
 }
 
 internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteCountryBarCodeForCountryCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
+		var parentEntity = await Repository.FindAndIncludeAsync<Country>(keys.ToArray(), p => p.CountryBarCode, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
-		}
-		await DbContext.Entry(parentEntity).Reference(e => e.CountryBarCode).LoadAsync(cancellationToken);
+			throw new EntityNotFoundException("Country",  "keyId");
+		}				
 		var entity = parentEntity.CountryBarCode;
 		if (entity == null)
 		{
@@ -58,13 +59,12 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 		}
 
 		parentEntity.DeleteRefToCountryBarCode(entity);
-
-		await OnCompletedAsync(request, entity);
-
 		
-		DbContext.Entry(entity).State = EntityState.Deleted;
-
-		var result = await DbContext.SaveChangesAsync(cancellationToken);
+		
+		
+		await OnCompletedAsync(request, entity);
+		Repository.Delete(entity);
+		await Repository.SaveChangesAsync(cancellationToken);
 
 		return true;
 	}

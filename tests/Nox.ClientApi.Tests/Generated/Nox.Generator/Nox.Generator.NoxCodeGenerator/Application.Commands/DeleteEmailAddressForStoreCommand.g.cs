@@ -6,10 +6,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -22,35 +22,36 @@ public partial record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto
 internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAddressForStoreCommandHandlerBase
 {
 	public DeleteEmailAddressForStoreCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{
 	}
 }
 
 internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBase<DeleteEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public DeleteEmailAddressForStoreCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Stores.FindAsync(keyId);
+		
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId));
+		var parentEntity = await Repository.FindAndIncludeAsync<Store>(keys.ToArray(), p => p.EmailAddress, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Store",  $"{keyId.ToString()}");
-		}
-		await DbContext.Entry(parentEntity).Reference(e => e.EmailAddress).LoadAsync(cancellationToken);
+			throw new EntityNotFoundException("Store",  "keyId");
+		}				
 		var entity = parentEntity.EmailAddress;
 		if (entity == null)
 		{
@@ -58,13 +59,12 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		}
 
 		parentEntity.DeleteRefToEmailAddress(entity);
-
-		await OnCompletedAsync(request, entity);
-
 		
-		DbContext.Entry(entity).State = EntityState.Deleted;
-
-		var result = await DbContext.SaveChangesAsync(cancellationToken);
+		
+		
+		await OnCompletedAsync(request, entity);
+		Repository.Delete(entity);
+		await Repository.SaveChangesAsync(cancellationToken);
 
 		return true;
 	}

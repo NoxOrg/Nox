@@ -8,6 +8,10 @@ public interface IRepository
     IQueryable<T> Query<T>(params Expression<Func<T, object>>[] includeExpressions) where T : class, IEntity;
     
     ValueTask<T?> FindAsync<T>(params object?[]? keyValues) where T : class, IEntity;
+    ValueTask<T?> FindAsync<T>(object?[]? keyValues, CancellationToken cancellationToken) where T : class, IEntity;
+    
+    ValueTask<T?> FindAndIncludeAsync<T>(object?[]? keyValues, Expression<Func<T, IEnumerable<object>>> includeExpression, CancellationToken cancellationToken) where T : class, IEntity;
+    ValueTask<T?> FindAndIncludeAsync<T>(object?[]? keyValues, Expression<Func<T, object?>> includeExpression, CancellationToken cancellationToken) where T : class, IEntity;
 
     ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
 
