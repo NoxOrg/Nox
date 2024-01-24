@@ -6,11 +6,11 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 using Nox.Extensions;
-using System.CodeDom;
-using ClientApi.Infrastructure.Persistence;
+
 using ClientApi.Domain;
 using TenantBrandLocalizedEntity = ClientApi.Domain.TenantBrandLocalized;
 
@@ -21,47 +21,45 @@ public partial record  DeleteTenantBrandsTranslationsForTenantCommand(System.UIn
 internal partial class DeleteTenantBrandsTranslationsForTenantCommandHandler : DeleteTenantBrandsTranslationsForTenantCommandHandlerBase
 {
     public DeleteTenantBrandsTranslationsForTenantCommandHandler(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(dbContext, noxSolution)
+           IRepository repository,
+                  NoxSolution noxSolution) : base(repository, noxSolution)
     {
     }
 }
 
 internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBase : CommandCollectionBase<DeleteTenantBrandsTranslationsForTenantCommand, TenantBrandLocalizedEntity>, IRequestHandler<DeleteTenantBrandsTranslationsForTenantCommand, bool>
 {
-    public AppDbContext DbContext { get; }
+    public IRepository Repository { get; }
 
     public DeleteTenantBrandsTranslationsForTenantCommandHandlerBase(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(noxSolution)
+           IRepository repository,
+           NoxSolution noxSolution) : base(noxSolution)
     {
-        DbContext = dbContext;
+        Repository = repository;
     }
 
     public virtual async Task<bool> Handle(DeleteTenantBrandsTranslationsForTenantCommand command, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
-		var parentKeyId = Dto.TenantMetadata.CreateId(command.keyId);
-        var parentEntity = await DbContext.Tenants.FindAsync(parentKeyId);
+        
+        var keys = new List<object?>(1);
+		keys.Add(Dto.TenantMetadata.CreateId(command.keyId));
 
-        EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", $"{parentKeyId.ToString()}");
-
-        await DbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
+        var parentEntity = await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(), p => p.TenantBrands,cancellationToken);
+        EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
         var entityKeys = parentEntity.TenantBrands.Select(x => x.Id).ToList();
-        var entities = await DbContext.TenantBrandsLocalized.Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+        var entities = await Repository.Query<TenantBrandLocalized>().Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
         
         if (!entities.Any())
         {
             throw new EntityLocalizationNotFoundException("Tenant.TenantBrands",  String.Empty, command.CultureCode.ToString());
         }
 
-        await OnCompletedAsync(command, entities);
-
-        DbContext.RemoveRange(entities);
+        Repository.DeleteRange(entities);
+        await OnCompletedAsync(command, entities);        
         
-
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await Repository.SaveChangesAsync(cancellationToken);
         return true;
     }
 }

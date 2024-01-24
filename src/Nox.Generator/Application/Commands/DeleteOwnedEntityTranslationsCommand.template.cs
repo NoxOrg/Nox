@@ -1,5 +1,5 @@
 ﻿{{- func keysToString(keys, prefix = "key")
-	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")	
+	keyNameWithPrefix(name) = (prefix + name)	
 	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
 end -}}
 // Generated
@@ -10,11 +10,11 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 using Nox.Extensions;
-using System.CodeDom;
-using {{codeGenConventions.PersistenceNameSpace}};
+
 using {{codeGenConventions.DomainNameSpace}};
 using {{entity.Name}}LocalizedEntity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized;
 
@@ -25,21 +25,21 @@ public partial record  {{className}}({{parentPrimaryKeys}}, Nox.Types.CultureCod
 internal partial class {{ className}}Handler : {{ className}}HandlerBase
 {
     public {{className}}Handler(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(dbContext, noxSolution)
+           IRepository repository,
+                  NoxSolution noxSolution) : base(repository, noxSolution)
     {
     }
 }
 
 internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingleEntity}}CommandBase{{else}}CommandCollectionBase{{end}}<{{ className}}, {{entity.Name}}LocalizedEntity>, IRequestHandler<{{ className}}, bool>
 {
-    public AppDbContext DbContext { get; }
+    public IRepository Repository { get; }
 
-    public {{ className}}HandlerBase(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(noxSolution)
+    public {{className}}HandlerBase(
+           IRepository repository,
+           NoxSolution noxSolution) : base(noxSolution)
     {
-        DbContext = dbContext;
+        Repository = repository;
     }
 
     public virtual async Task<bool> Handle({{ className}} command, CancellationToken cancellationToken)
@@ -47,36 +47,34 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(command);
         
-        {{- for key in parent.Keys }}
-		var parentKey{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(command.key{{key.Name}});
+        var keys = new List<object?>({{parent.Keys | array.size}});
+		{{- for key in parent.Keys }}
+		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(command.key{{key.Name}}));
 		{{- end }}
-        var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentPrimaryKeysFindQuery}});
-
-        EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", $"{{keysToString parent.Keys 'parentKey' }}");
 
         {{~if relationship.WithSingleEntity ~}}
-        var entity = await DbContext.{{entity.PluralName}}Localized.SingleOrDefaultAsync(x => {{for key in parent.Keys}}x.{{parent.Name}}{{key.Name}} == parentEntity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode, cancellationToken);
-        EntityLocalizationNotFoundException.ThrowIfNull(entity, "{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}", String.Empty, command.{{codeGenConventions.LocalizationCultureField}}.ToString());
+        var parentEntity = await Repository.FindAsync<{{parent.Name}}>(keys.ToArray(), cancellationToken);
+        EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", "{{keysToString parent.Keys 'parentKey' }}");
 
+        var entity = await Repository.Query<{{entity.Name}}Localized>().SingleOrDefaultAsync(x => {{for key in parent.Keys}}x.{{parent.Name}}{{key.Name}} == parentEntity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode, cancellationToken);
+        EntityLocalizationNotFoundException.ThrowIfNull(entity, "{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}", String.Empty, command.{{codeGenConventions.LocalizationCultureField}}.ToString());        
+        Repository.Delete(entity);
         await OnCompletedAsync(command, entity);
-
-        DbContext.Remove(entity);
         {{~else~}}
-        await DbContext.Entry(parentEntity).Collection(p => p.{{GetNavigationPropertyName parent relationship}}).LoadAsync(cancellationToken);
+        var parentEntity = await Repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(), p => p.{{GetNavigationPropertyName parent relationship}},cancellationToken);
+        EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", "{{keysToString parent.Keys 'parentKey' }}");
         var entityKeys = parentEntity.{{GetNavigationPropertyName parent relationship}}.Select(x => x.{{entity.Keys[0].Name}}).ToList();
-        var entities = await DbContext.{{entity.PluralName}}Localized.Where(x => entityKeys.Contains(x.{{entity.Keys[0].Name}}) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+        var entities = await Repository.Query<{{entity.Name}}Localized>().Where(x => entityKeys.Contains(x.{{entity.Keys[0].Name}}) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
         
         if (!entities.Any())
         {
             throw new EntityLocalizationNotFoundException("{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}",  String.Empty, command.{{codeGenConventions.LocalizationCultureField}}.ToString());
         }
 
-        await OnCompletedAsync(command, entities);
-
-        DbContext.RemoveRange(entities);
+        Repository.DeleteRange(entities);
+        await OnCompletedAsync(command, entities);        
         {{end}}
-
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await Repository.SaveChangesAsync(cancellationToken);
         return true;
     }
 }
