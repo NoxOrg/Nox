@@ -41,9 +41,6 @@ internal static class EntityRelationshipExtensions
         throw new NotSupportedException($"Can not define Relationship side to configure in EntityFramework {relationship.Name}");
     }
 
-    public static string? GetNavigationPropertyName(this EntityRelationship thisSide, EntityRelationship otherSize)
-        => IsSelfReferencingRelationshipTo(thisSide, otherSize) ? null : thisSide.Related.Entity.GetNavigationPropertyName(otherSize);
-
-    public static bool IsSelfReferencingRelationshipTo(this EntityRelationship thisSide, EntityRelationship otherSize)
+    public static bool IsToItself(this EntityRelationship thisSide, EntityRelationship otherSize)
         => thisSide.Entity == otherSize.Entity;
 }
