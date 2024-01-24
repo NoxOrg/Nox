@@ -1,11 +1,13 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
 /* Found files ->
-- cryptocash.application.nox.yaml
 - cryptocash.solution.nox.yaml
+- cryptocash.application.nox.yaml
 - cryptocash.domain.nox.yaml
+- cryptocash.infrastructure.nox.yaml
+- cryptocash.presentation.nox.yaml
 - BankNote.entity.nox.yaml
 - Booking.entity.nox.yaml
 - CashStockOrder.entity.nox.yaml
@@ -24,50 +26,14 @@
 - PaymentProvider.entity.nox.yaml
 - Transaction.entity.nox.yaml
 - VendingMachine.entity.nox.yaml
-- cryptocash.infrastructure.nox.yaml
 - cryptocash.dependencies.nox.yaml
-- NoxReferenceData.dataConnection.nox.yaml
 - cryptocash.endpoints.nox.yaml
 - cryptocash.messaging.nox.yaml
 - cryptocash.monitoring.nox.yaml
 - cryptocash.persistence.nox.yaml
-- countriesByName.apiRouteMapping.nox.yaml
 - cryptocash.apiConfiguration.nox.yaml
-- cryptocash.presentation.nox.yaml
-- CustomApiRoutes.md
-- BankNoteDomainEvents.md
-- BookingDomainEvents.md
-- CashStockOrderDomainEvents.md
-- CommissionDomainEvents.md
-- CountryDomainEvents.md
-- CountryTimeZoneDomainEvents.md
-- CurrencyDomainEvents.md
-- CustomerDomainEvents.md
-- EmployeeDomainEvents.md
-- EmployeePhoneNumberDomainEvents.md
-- ExchangeRateDomainEvents.md
-- HolidayDomainEvents.md
-- LandLordDomainEvents.md
-- MinimumCashStockDomainEvents.md
-- PaymentDetailDomainEvents.md
-- PaymentProviderDomainEvents.md
-- TransactionDomainEvents.md
-- VendingMachineDomainEvents.md
-- BookingEndpoints.md
-- CashStockOrderEndpoints.md
-- CommissionEndpoints.md
-- CountryEndpoints.md
-- CurrencyEndpoints.md
-- CustomerEndpoints.md
-- EmployeeEndpoints.md
-- LandLordEndpoints.md
-- MinimumCashStockEndpoints.md
-- PaymentDetailEndpoints.md
-- PaymentProviderEndpoints.md
-- TransactionEndpoints.md
-- VendingMachineEndpoints.md
-- IntegrationEvents.md
-- README.md
+- NoxReferenceData.dataConnection.nox.yaml
+- countriesByName.apiRouteMapping.nox.yaml
 - generator.nox.yaml
 Logging Verbosity Minimal
 SUCCESS.
