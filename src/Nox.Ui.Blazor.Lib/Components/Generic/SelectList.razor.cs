@@ -15,7 +15,7 @@ public partial class SelectList : ComponentBase
 
     public string? CurrentIdList { get; set; }
 
-    public string? DisplaySelectedList { get; set; }
+    public string? DisplaySelectedList => EntityList.Any() ? string.Join(", ", EntityList.Select(Entity => Entity.Name)) : string.Empty;
 
     [Parameter]
     public string? Title { get; set; }
@@ -67,16 +67,7 @@ public partial class SelectList : ComponentBase
                     EntityList.Add(entity);
                 }
             }
-        }
-
-        if (EntityList!.Any())
-        {
-            DisplaySelectedList = string.Join(", ", EntityList.Select(Entity => Entity.Name));
-        }
-        else
-        {
-            DisplaySelectedList = string.Empty;
-        }        
+        }       
 
         await EntityListChanged.InvokeAsync(EntityList);
     }
