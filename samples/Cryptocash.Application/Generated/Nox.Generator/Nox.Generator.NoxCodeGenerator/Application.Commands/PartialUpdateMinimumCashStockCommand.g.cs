@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -23,25 +23,25 @@ public partial record PartialUpdateMinimumCashStockCommand(System.Int64 keyId, D
 internal partial class PartialUpdateMinimumCashStockCommandHandler : PartialUpdateMinimumCashStockCommandHandlerBase
 {
 	public PartialUpdateMinimumCashStockCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
-		: base(dbContext,noxSolution, entityFactory)
+		: base(repository,noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateMinimumCashStockCommandHandlerBase : CommandBase<PartialUpdateMinimumCashStockCommand, MinimumCashStockEntity>, IRequestHandler<PartialUpdateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory { get; }
 	
 	public PartialUpdateMinimumCashStockCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -51,18 +51,17 @@ internal abstract class PartialUpdateMinimumCashStockCommandHandlerBase : Comman
 		await OnExecutingAsync(request);
 		var keyId = Dto.MinimumCashStockMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
+		var entity = await Repository.FindAsync<MinimumCashStock>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("MinimumCashStock",  $"{keyId.ToString()}");
 		}
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		Repository.SetStateModified(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();
 		return new MinimumCashStockKeyDto(entity.Id.Value);
 	}
 }

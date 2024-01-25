@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -23,25 +23,25 @@ public partial record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<
 internal partial class PartialUpdateBookingCommandHandler : PartialUpdateBookingCommandHandlerBase
 {
 	public PartialUpdateBookingCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
-		: base(dbContext,noxSolution, entityFactory)
+		: base(repository,noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<PartialUpdateBookingCommand, BookingEntity>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
 	
 	public PartialUpdateBookingCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -51,18 +51,17 @@ internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<Par
 		await OnExecutingAsync(request);
 		var keyId = Dto.BookingMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.Bookings.FindAsync(keyId);
+		var entity = await Repository.FindAsync<Booking>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Booking",  $"{keyId.ToString()}");
 		}
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		Repository.SetStateModified(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();
 		return new BookingKeyDto(entity.Id.Value);
 	}
 }

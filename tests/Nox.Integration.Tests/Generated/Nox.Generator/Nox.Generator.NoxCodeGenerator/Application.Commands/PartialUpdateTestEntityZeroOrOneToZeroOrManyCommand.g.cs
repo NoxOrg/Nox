@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -23,25 +23,25 @@ public partial record PartialUpdateTestEntityZeroOrOneToZeroOrManyCommand(System
 internal partial class PartialUpdateTestEntityZeroOrOneToZeroOrManyCommandHandler : PartialUpdateTestEntityZeroOrOneToZeroOrManyCommandHandlerBase
 {
 	public PartialUpdateTestEntityZeroOrOneToZeroOrManyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityZeroOrOneToZeroOrManyEntity, TestEntityZeroOrOneToZeroOrManyCreateDto, TestEntityZeroOrOneToZeroOrManyUpdateDto> entityFactory)
-		: base(dbContext,noxSolution, entityFactory)
+		: base(repository,noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateTestEntityZeroOrOneToZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityZeroOrOneToZeroOrManyCommand, TestEntityZeroOrOneToZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityZeroOrOneToZeroOrManyCommand, TestEntityZeroOrOneToZeroOrManyKeyDto>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public IEntityFactory<TestEntityZeroOrOneToZeroOrManyEntity, TestEntityZeroOrOneToZeroOrManyCreateDto, TestEntityZeroOrOneToZeroOrManyUpdateDto> EntityFactory { get; }
 	
 	public PartialUpdateTestEntityZeroOrOneToZeroOrManyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityZeroOrOneToZeroOrManyEntity, TestEntityZeroOrOneToZeroOrManyCreateDto, TestEntityZeroOrOneToZeroOrManyUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -51,18 +51,17 @@ internal abstract class PartialUpdateTestEntityZeroOrOneToZeroOrManyCommandHandl
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityZeroOrOneToZeroOrManyMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.TestEntityZeroOrOneToZeroOrManies.FindAsync(keyId);
+		var entity = await Repository.FindAsync<TestEntityZeroOrOneToZeroOrMany>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityZeroOrOneToZeroOrMany",  $"{keyId.ToString()}");
 		}
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		Repository.SetStateModified(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();
 		return new TestEntityZeroOrOneToZeroOrManyKeyDto(entity.Id.Value);
 	}
 }

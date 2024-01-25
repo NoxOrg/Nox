@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
 using Dto = CryptocashIntegration.Application.Dto;
@@ -23,25 +23,25 @@ public partial record PartialUpdateCountryJsonToTableCommand(System.Int32 keyId,
 internal partial class PartialUpdateCountryJsonToTableCommandHandler : PartialUpdateCountryJsonToTableCommandHandlerBase
 {
 	public PartialUpdateCountryJsonToTableCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> entityFactory)
-		: base(dbContext,noxSolution, entityFactory)
+		: base(repository,noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateCountryJsonToTableCommandHandlerBase : CommandBase<PartialUpdateCountryJsonToTableCommand, CountryJsonToTableEntity>, IRequestHandler<PartialUpdateCountryJsonToTableCommand, CountryJsonToTableKeyDto>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> EntityFactory { get; }
 	
 	public PartialUpdateCountryJsonToTableCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryJsonToTableEntity, CountryJsonToTableCreateDto, CountryJsonToTableUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -51,18 +51,17 @@ internal abstract class PartialUpdateCountryJsonToTableCommandHandlerBase : Comm
 		await OnExecutingAsync(request);
 		var keyId = Dto.CountryJsonToTableMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.CountryJsonToTables.FindAsync(keyId);
+		var entity = await Repository.FindAsync<CountryJsonToTable>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CountryJsonToTable",  $"{keyId.ToString()}");
 		}
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		Repository.SetStateModified(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();
 		return new CountryJsonToTableKeyDto(entity.Id.Value);
 	}
 }

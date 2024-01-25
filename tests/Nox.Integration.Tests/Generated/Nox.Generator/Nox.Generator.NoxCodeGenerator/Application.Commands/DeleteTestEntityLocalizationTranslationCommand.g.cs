@@ -7,9 +7,9 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestEntityLocalizationLocalizedEntity = TestWebApp.Domain.TestEntityLocalizationLocalized;
 
@@ -20,21 +20,21 @@ public partial record  DeleteTestEntityLocalizationTranslationCommand(System.Str
 internal partial class DeleteTestEntityLocalizationTranslationCommandHandler : DeleteTestEntityLocalizationTranslationCommandHandlerBase
 {
     public DeleteTestEntityLocalizationTranslationCommandHandler(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(dbContext, noxSolution)
+           IRepository repository,
+                  NoxSolution noxSolution) : base(repository, noxSolution)
     {
     }
 }
 
 internal abstract class DeleteTestEntityLocalizationTranslationCommandHandlerBase : CommandBase<DeleteTestEntityLocalizationTranslationCommand, TestEntityLocalizationLocalizedEntity>, IRequestHandler<DeleteTestEntityLocalizationTranslationCommand, bool>
 {
-    public AppDbContext DbContext { get; }
+    public IRepository Repository { get; }
 
     public DeleteTestEntityLocalizationTranslationCommandHandlerBase(
-           AppDbContext dbContext,
+           IRepository repository,
                   NoxSolution noxSolution) : base(noxSolution)
     {
-        DbContext = dbContext;
+        Repository = repository;
     }
 
     public virtual async Task<bool> Handle(DeleteTestEntityLocalizationTranslationCommand command, CancellationToken cancellationToken)
@@ -43,17 +43,15 @@ internal abstract class DeleteTestEntityLocalizationTranslationCommandHandlerBas
         await OnExecutingAsync(command);
 		var keyId = Dto.TestEntityLocalizationMetadata.CreateId(command.keyId);
         
-        var entity = await DbContext.TestEntityLocalizations.FindAsync(keyId);
+        var entity = await Repository.FindAsync<TestEntityLocalization>(keyId);
         EntityNotFoundException.ThrowIfNull(entity, "TestEntityLocalization", $"{keyId.ToString()}");
 		
-        var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
+        var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>().FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
         EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "TestEntityLocalization",  $"{keyId.ToString()}", command.CultureCode.ToString());
         
+        Repository.Delete(entityLocalized);
         await OnCompletedAsync(command, entityLocalized);
-        
-        DbContext.Remove(entityLocalized);
-        
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await Repository.SaveChangesAsync(cancellationToken);
         return true;
     }
 }

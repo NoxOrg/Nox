@@ -11,9 +11,9 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{entity.Name}}LocalizedEntity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized;
 
@@ -24,21 +24,21 @@ public partial record  {{className}}({{primaryKeys}}, Nox.Types.CultureCode {{co
 internal partial class {{ className}}Handler : {{ className}}HandlerBase
 {
     public {{ className}}Handler(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(dbContext, noxSolution)
+           IRepository repository,
+                  NoxSolution noxSolution) : base(repository, noxSolution)
     {
     }
 }
 
 internal abstract class {{ className}}HandlerBase : CommandBase<{{ className}}, {{entity.Name}}LocalizedEntity>, IRequestHandler<{{ className}}, bool>
 {
-    public AppDbContext DbContext { get; }
+    public IRepository Repository { get; }
 
     public {{ className}}HandlerBase(
-           AppDbContext dbContext,
+           IRepository repository,
                   NoxSolution noxSolution) : base(noxSolution)
     {
-        DbContext = dbContext;
+        Repository = repository;
     }
 
     public virtual async Task<bool> Handle({{ className}} command, CancellationToken cancellationToken)
@@ -50,17 +50,15 @@ internal abstract class {{ className}}HandlerBase : CommandBase<{{ className}}, 
 		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(command.key{{key.Name}});
 		{{- end }}
         
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
+        var entity = await Repository.FindAsync<{{entity.Name}}>({{primaryKeysFindQuery}});
         EntityNotFoundException.ThrowIfNull(entity, "{{entity.Name}}", $"{{entity.Keys | keysToString}}");
 		
-        var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x =>{{for key in entity.Keys}}x.{{key.Name}} == entity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode);
+        var entityLocalized = await Repository.Query<{{entity.Name}}Localized>().FirstOrDefaultAsync(x =>{{for key in entity.Keys}}x.{{key.Name}} == entity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode);
         EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "{{entity.Name}}",  $"{{entity.Keys | keysToString}}", command.{{codeGenConventions.LocalizationCultureField}}.ToString());
         
+        Repository.Delete(entityLocalized);
         await OnCompletedAsync(command, entityLocalized);
-        
-        DbContext.Remove(entityLocalized);
-        
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await Repository.SaveChangesAsync(cancellationToken);
         return true;
     }
 }

@@ -12,10 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
@@ -28,25 +28,25 @@ public partial record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dicti
 internal partial class PartialUpdate{{entity.Name}}CommandHandler : PartialUpdate{{entity.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{entity.Name}}CommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
-		: base(dbContext,noxSolution, entityFactory)
+		: base(repository,noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
 	
 	public PartialUpdate{{entity.Name}}CommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -59,7 +59,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
 		{{- end }}
 
-		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
+		var entity = await Repository.FindAsync<{{entity.Name}}>({{primaryKeysFindQuery}});
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");
@@ -67,12 +67,11 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		{{- end }}
-
+		{{- end }}		
+		Repository.SetStateModified(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
 }
