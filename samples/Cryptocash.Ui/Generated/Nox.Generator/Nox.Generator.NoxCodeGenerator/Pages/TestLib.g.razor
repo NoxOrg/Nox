@@ -261,7 +261,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditIpAddress @bind-IpAddress="@testIpAddress"
-                                                            Title="Public Ip" />
+                                                            Title="IpAddress" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditCountry Title="Country"
@@ -271,8 +271,12 @@
                                                         <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>                              
                                                     <MudItem xs="6">
-                                                        <Select Title="Entity Exactly One"
+                                                        <Select Title="Select"
                                                             SelectionList="@testGenericEntityList" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <SelectList Title="SelectList"
+                                                                SelectionList="@testGenericEntityList" />
                                                     </MudItem>
                                                 </MudGrid>
                                     </MudItem>
