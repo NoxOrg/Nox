@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -23,25 +23,25 @@ public partial record PartialUpdateClientCommand(System.Guid keyId, Dictionary<s
 internal partial class PartialUpdateClientCommandHandler : PartialUpdateClientCommandHandlerBase
 {
 	public PartialUpdateClientCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
-		: base(dbContext,noxSolution, entityFactory)
+		: base(repository,noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateClientCommandHandlerBase : CommandBase<PartialUpdateClientCommand, ClientEntity>, IRequestHandler<PartialUpdateClientCommand, ClientKeyDto>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> EntityFactory { get; }
 	
 	public PartialUpdateClientCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 		EntityFactory = entityFactory;
 	}
 
@@ -51,18 +51,17 @@ internal abstract class PartialUpdateClientCommandHandlerBase : CommandBase<Part
 		await OnExecutingAsync(request);
 		var keyId = Dto.ClientMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.Clients.FindAsync(keyId);
+		var entity = await Repository.FindAsync<Client>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Client",  $"{keyId.ToString()}");
 		}
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		Repository.SetStateModified(entity);
 		await OnCompletedAsync(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();
 		return new ClientKeyDto(entity.Id.Value);
 	}
 }

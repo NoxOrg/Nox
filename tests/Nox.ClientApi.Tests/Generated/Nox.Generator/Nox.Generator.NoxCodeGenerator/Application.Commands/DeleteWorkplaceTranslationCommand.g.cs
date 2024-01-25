@@ -7,9 +7,9 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using WorkplaceLocalizedEntity = ClientApi.Domain.WorkplaceLocalized;
 
@@ -20,21 +20,21 @@ public partial record  DeleteWorkplaceTranslationCommand(System.Int64 keyId, Nox
 internal partial class DeleteWorkplaceTranslationCommandHandler : DeleteWorkplaceTranslationCommandHandlerBase
 {
     public DeleteWorkplaceTranslationCommandHandler(
-           AppDbContext dbContext,
-                  NoxSolution noxSolution) : base(dbContext, noxSolution)
+           IRepository repository,
+                  NoxSolution noxSolution) : base(repository, noxSolution)
     {
     }
 }
 
 internal abstract class DeleteWorkplaceTranslationCommandHandlerBase : CommandBase<DeleteWorkplaceTranslationCommand, WorkplaceLocalizedEntity>, IRequestHandler<DeleteWorkplaceTranslationCommand, bool>
 {
-    public AppDbContext DbContext { get; }
+    public IRepository Repository { get; }
 
     public DeleteWorkplaceTranslationCommandHandlerBase(
-           AppDbContext dbContext,
+           IRepository repository,
                   NoxSolution noxSolution) : base(noxSolution)
     {
-        DbContext = dbContext;
+        Repository = repository;
     }
 
     public virtual async Task<bool> Handle(DeleteWorkplaceTranslationCommand command, CancellationToken cancellationToken)
@@ -43,17 +43,15 @@ internal abstract class DeleteWorkplaceTranslationCommandHandlerBase : CommandBa
         await OnExecutingAsync(command);
 		var keyId = Dto.WorkplaceMetadata.CreateId(command.keyId);
         
-        var entity = await DbContext.Workplaces.FindAsync(keyId);
+        var entity = await Repository.FindAsync<Workplace>(keyId);
         EntityNotFoundException.ThrowIfNull(entity, "Workplace", $"{keyId.ToString()}");
 		
-        var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
+        var entityLocalized = await Repository.Query<WorkplaceLocalized>().FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);
         EntityLocalizationNotFoundException.ThrowIfNull(entityLocalized, "Workplace",  $"{keyId.ToString()}", command.CultureCode.ToString());
         
+        Repository.Delete(entityLocalized);
         await OnCompletedAsync(command, entityLocalized);
-        
-        DbContext.Remove(entityLocalized);
-        
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await Repository.SaveChangesAsync(cancellationToken);
         return true;
     }
 }
