@@ -5,7 +5,7 @@ using Nox.Ui.Blazor.Lib.Models;
 
 namespace Nox.Ui.Blazor.Lib.Components.Generic;
 
-public partial class SelectList : ComponentBase
+public partial class MultiSelect : ComponentBase
 {
 
     #region Declarations
@@ -54,20 +54,16 @@ public partial class SelectList : ComponentBase
 
         EntityList = new();
 
-        if (selectedIdList.Any())
+        foreach (string currentId in selectedIdList)
         {
-            foreach (string currentId in selectedIdList)
-            {
-                SelectEntityModel? entity = SelectionList.Find(Entity => 
-                !string.IsNullOrWhiteSpace(Entity.Id)
-                && Entity.Id.ToString().Equals(currentId));
+            SelectEntityModel? entity = SelectionList.Find(Entity => 
+            Entity.Id.ToString().Equals(currentId));
 
-                if (entity != null)
-                {
-                    EntityList.Add(entity);
-                }
+            if (entity != null)
+            {
+                EntityList.Add(entity);
             }
-        }       
+        }         
 
         await EntityListChanged.InvokeAsync(EntityList);
     }

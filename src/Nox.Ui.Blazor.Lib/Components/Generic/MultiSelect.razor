@@ -16,11 +16,7 @@
                Text="@DisplaySelectedList">
         @foreach (SelectEntityModel item in SelectionList)
         {
-            if (!string.IsNullOrWhiteSpace(item.Id)
-            && !string.IsNullOrWhiteSpace(item.Name))
-            {
-                <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
-            }            
+            <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>                      
         }
     </MudSelect>
 }
