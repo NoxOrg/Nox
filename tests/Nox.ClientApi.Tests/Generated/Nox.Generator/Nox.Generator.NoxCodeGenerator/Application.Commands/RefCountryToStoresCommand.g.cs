@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefCountryToStoresCommandHandler
 	: RefCountryToStoresCommandHandlerBase<CreateRefCountryToStoresCommand>
 {
 	public CreateRefCountryToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefCountryToStoresCommand request)
+	protected override async Task ExecuteAsync(CreateRefCountryToStoresCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCountry(request.EntityKeyDto);
+		var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoresInTheCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetStoresInTheCountry(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefCountryToStoresCommandHandler
 
 		entity.CreateRefToStores(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefCountryToStoresCommandHandler
 	: RefCountryToStoresCommandHandlerBase<UpdateRefCountryToStoresCommand>
 {
 	public UpdateRefCountryToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefCountryToStoresCommand request)
+	protected override async Task ExecuteAsync(UpdateRefCountryToStoresCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCountry(request.EntityKeyDto);
+		var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCountryToStoresCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Store>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetStoresInTheCountry(keyDto);
+			var relatedEntity = await GetStoresInTheCountry(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Store", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefCountryToStoresCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
 		entity.UpdateRefToStores(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefCountryToStoresCommandHandler
 	: RefCountryToStoresCommandHandlerBase<DeleteRefCountryToStoresCommand>
 {
 	public DeleteRefCountryToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefCountryToStoresCommand request)
+	protected override async Task ExecuteAsync(DeleteRefCountryToStoresCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCountry(request.EntityKeyDto);
+        var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoresInTheCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetStoresInTheCountry(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefCountryToStoresCommandHandler
 
 		entity.DeleteRefToStores(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefCountryToStoresCommandHandler
 	: RefCountryToStoresCommandHandlerBase<DeleteAllRefCountryToStoresCommand>
 {
 	public DeleteAllRefCountryToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefCountryToStoresCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefCountryToStoresCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCountry(request.EntityKeyDto);
+        var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
 		entity.DeleteAllRefToStores();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefCountryToStoresCommandHandler
 internal abstract class RefCountryToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToStoresCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefCountryToStoresCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
-	{
-		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Countries.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<ClientApi.Domain.Store?> GetStoresInTheCountry(StoreKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Stores.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, CountryEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CountryMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Country>(keys.ToArray(), x => x.Stores, cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.Store?> GetStoresInTheCountry(StoreKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Store>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, CountryEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefCommissionToCountryCommandHandler
 	: RefCommissionToCountryCommandHandlerBase<CreateRefCommissionToCountryCommand>
 {
 	public CreateRefCommissionToCountryCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefCommissionToCountryCommand request)
+	protected override async Task ExecuteAsync(CreateRefCommissionToCountryCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCommission(request.EntityKeyDto);
+		var entity = await GetCommission(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Commission",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCommissionFeesForCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCommissionFeesForCountry(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefCommissionToCountryCommandHandler
 
 		entity.CreateRefToCountry(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefCommissionToCountryCommandHandler
 	: RefCommissionToCountryCommandHandlerBase<DeleteRefCommissionToCountryCommand>
 {
 	public DeleteRefCommissionToCountryCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefCommissionToCountryCommand request)
+	protected override async Task ExecuteAsync(DeleteRefCommissionToCountryCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCommission(request.EntityKeyDto);
+        var entity = await GetCommission(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Commission",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCommissionFeesForCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCommissionFeesForCountry(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefCommissionToCountryCommandHandler
 
 		entity.DeleteRefToCountry(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefCommissionToCountryCommandHandler
 	: RefCommissionToCountryCommandHandlerBase<DeleteAllRefCommissionToCountryCommand>
 {
 	public DeleteAllRefCommissionToCountryCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefCommissionToCountryCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefCommissionToCountryCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCommission(request.EntityKeyDto);
+        var entity = await GetCommission(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Commission",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToCountry();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefCommissionToCountryCommandHandler
 internal abstract class RefCommissionToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, CommissionEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCountryCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefCommissionToCountryCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<CommissionEntity?> GetCommission(CommissionKeyDto entityKeyDto)
-	{
-		var keyId = Dto.CommissionMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.Commissions.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.Country?> GetCommissionFeesForCountry(CountryKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Countries.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, CommissionEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<CommissionEntity?> GetCommission(CommissionKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CommissionMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<Commission>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.Country?> GetCommissionFeesForCountry(CountryKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Country>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, CommissionEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

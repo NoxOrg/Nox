@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefVendingMachineToLandLordCommandHandler
 	: RefVendingMachineToLandLordCommandHandlerBase<CreateRefVendingMachineToLandLordCommand>
 {
 	public CreateRefVendingMachineToLandLordCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefVendingMachineToLandLordCommand request)
+	protected override async Task ExecuteAsync(CreateRefVendingMachineToLandLordCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetVendingMachine(request.EntityKeyDto);
+		var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachineContractedAreaLandLord(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineContractedAreaLandLord(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("LandLord",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefVendingMachineToLandLordCommandHandler
 
 		entity.CreateRefToLandLord(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefVendingMachineToLandLordCommandHandler
 	: RefVendingMachineToLandLordCommandHandlerBase<DeleteRefVendingMachineToLandLordCommand>
 {
 	public DeleteRefVendingMachineToLandLordCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefVendingMachineToLandLordCommand request)
+	protected override async Task ExecuteAsync(DeleteRefVendingMachineToLandLordCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetVendingMachine(request.EntityKeyDto);
+        var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachineContractedAreaLandLord(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineContractedAreaLandLord(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("LandLord", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefVendingMachineToLandLordCommandHandler
 
 		entity.DeleteRefToLandLord(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefVendingMachineToLandLordCommandHandler
 	: RefVendingMachineToLandLordCommandHandlerBase<DeleteAllRefVendingMachineToLandLordCommand>
 {
 	public DeleteAllRefVendingMachineToLandLordCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefVendingMachineToLandLordCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefVendingMachineToLandLordCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetVendingMachine(request.EntityKeyDto);
+        var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToLandLord();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefVendingMachineToLandLordCommandHandler
 internal abstract class RefVendingMachineToLandLordCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToLandLordCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefVendingMachineToLandLordCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
-	{
-		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.VendingMachines.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.LandLord?> GetVendingMachineContractedAreaLandLord(LandLordKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.LandLordMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.LandLords.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, VendingMachineEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<VendingMachine>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.LandLord?> GetVendingMachineContractedAreaLandLord(LandLordKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.LandLordMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<LandLord>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefCurrencyToStoreLicenseDefaultCommandHandler
 	: RefCurrencyToStoreLicenseDefaultCommandHandlerBase<CreateRefCurrencyToStoreLicenseDefaultCommand>
 {
 	public CreateRefCurrencyToStoreLicenseDefaultCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefCurrencyToStoreLicenseDefaultCommand request)
+	protected override async Task ExecuteAsync(CreateRefCurrencyToStoreLicenseDefaultCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCurrency(request.EntityKeyDto);
+		var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreLicenseDefault(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetStoreLicenseDefault(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreLicense",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefCurrencyToStoreLicenseDefaultCommandHandler
 
 		entity.CreateRefToStoreLicenseDefault(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefCurrencyToStoreLicenseDefaultCommandHandler
 	: RefCurrencyToStoreLicenseDefaultCommandHandlerBase<UpdateRefCurrencyToStoreLicenseDefaultCommand>
 {
 	public UpdateRefCurrencyToStoreLicenseDefaultCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefCurrencyToStoreLicenseDefaultCommand request)
+	protected override async Task ExecuteAsync(UpdateRefCurrencyToStoreLicenseDefaultCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCurrency(request.EntityKeyDto);
+		var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCurrencyToStoreLicenseDefaultCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.StoreLicense>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetStoreLicenseDefault(keyDto);
+			var relatedEntity = await GetStoreLicenseDefault(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("StoreLicense", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefCurrencyToStoreLicenseDefaultCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
 		entity.UpdateRefToStoreLicenseDefault(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefCurrencyToStoreLicenseDefaultCommandHandler
 	: RefCurrencyToStoreLicenseDefaultCommandHandlerBase<DeleteRefCurrencyToStoreLicenseDefaultCommand>
 {
 	public DeleteRefCurrencyToStoreLicenseDefaultCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefCurrencyToStoreLicenseDefaultCommand request)
+	protected override async Task ExecuteAsync(DeleteRefCurrencyToStoreLicenseDefaultCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCurrency(request.EntityKeyDto);
+        var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetStoreLicenseDefault(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetStoreLicenseDefault(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreLicense", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefCurrencyToStoreLicenseDefaultCommandHandler
 
 		entity.DeleteRefToStoreLicenseDefault(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefCurrencyToStoreLicenseDefaultCommandHandler
 	: RefCurrencyToStoreLicenseDefaultCommandHandlerBase<DeleteAllRefCurrencyToStoreLicenseDefaultCommand>
 {
 	public DeleteAllRefCurrencyToStoreLicenseDefaultCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefCurrencyToStoreLicenseDefaultCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefCurrencyToStoreLicenseDefaultCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCurrency(request.EntityKeyDto);
+        var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
 		entity.DeleteAllRefToStoreLicenseDefault();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefCurrencyToStoreLicenseDefaultCommandHandler
 internal abstract class RefCurrencyToStoreLicenseDefaultCommandHandlerBase<TRequest> : CommandBase<TRequest, CurrencyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToStoreLicenseDefaultCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefCurrencyToStoreLicenseDefaultCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
-	{
-		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Currencies.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicenseDefault(StoreLicenseKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.StoreLicenses.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, CurrencyEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Currency>(keys.ToArray(), x => x.StoreLicenseDefault, cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicenseDefault(StoreLicenseKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<StoreLicense>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, CurrencyEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

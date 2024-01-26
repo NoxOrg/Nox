@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefEmployeeToCashStockOrderCommandHandler
 	: RefEmployeeToCashStockOrderCommandHandlerBase<CreateRefEmployeeToCashStockOrderCommand>
 {
 	public CreateRefEmployeeToCashStockOrderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefEmployeeToCashStockOrderCommand request)
+	protected override async Task ExecuteAsync(CreateRefEmployeeToCashStockOrderCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetEmployee(request.EntityKeyDto);
+		var entity = await GetEmployee(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Employee",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEmployeeReviewingCashStockOrder(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetEmployeeReviewingCashStockOrder(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("CashStockOrder",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefEmployeeToCashStockOrderCommandHandler
 
 		entity.CreateRefToCashStockOrder(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefEmployeeToCashStockOrderCommandHandler
 	: RefEmployeeToCashStockOrderCommandHandlerBase<DeleteRefEmployeeToCashStockOrderCommand>
 {
 	public DeleteRefEmployeeToCashStockOrderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefEmployeeToCashStockOrderCommand request)
+	protected override async Task ExecuteAsync(DeleteRefEmployeeToCashStockOrderCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetEmployee(request.EntityKeyDto);
+        var entity = await GetEmployee(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Employee",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetEmployeeReviewingCashStockOrder(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetEmployeeReviewingCashStockOrder(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("CashStockOrder", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefEmployeeToCashStockOrderCommandHandler
 
 		entity.DeleteRefToCashStockOrder(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefEmployeeToCashStockOrderCommandHandler
 	: RefEmployeeToCashStockOrderCommandHandlerBase<DeleteAllRefEmployeeToCashStockOrderCommand>
 {
 	public DeleteAllRefEmployeeToCashStockOrderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefEmployeeToCashStockOrderCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefEmployeeToCashStockOrderCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetEmployee(request.EntityKeyDto);
+        var entity = await GetEmployee(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Employee",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToCashStockOrder();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefEmployeeToCashStockOrderCommandHandler
 internal abstract class RefEmployeeToCashStockOrderCommandHandlerBase<TRequest> : CommandBase<TRequest, EmployeeEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEmployeeToCashStockOrderCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefEmployeeToCashStockOrderCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<EmployeeEntity?> GetEmployee(EmployeeKeyDto entityKeyDto)
-	{
-		var keyId = Dto.EmployeeMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.Employees.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.CashStockOrder?> GetEmployeeReviewingCashStockOrder(CashStockOrderKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.CashStockOrderMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.CashStockOrders.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, EmployeeEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<EmployeeEntity?> GetEmployee(EmployeeKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.EmployeeMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<Employee>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.CashStockOrder?> GetEmployeeReviewingCashStockOrder(CashStockOrderKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CashStockOrderMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<CashStockOrder>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, EmployeeEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

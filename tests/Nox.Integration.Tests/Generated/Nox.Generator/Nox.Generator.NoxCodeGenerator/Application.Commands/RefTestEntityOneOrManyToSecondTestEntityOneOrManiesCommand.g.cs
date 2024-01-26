@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 	: RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandlerBase<CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand>
 {
 	public CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request)
+	protected override async Task ExecuteAsync(CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetTestEntityOneOrMany(request.EntityKeyDto);
+		var entity = await GetTestEntityOneOrMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOneOrMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetSecondTestEntityOneOrManyRelationship(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetSecondTestEntityOneOrManyRelationship(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityOneOrMany",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 
 		entity.CreateRefToSecondTestEntityOneOrManies(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 	: RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandlerBase<UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand>
 {
 	public UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request)
+	protected override async Task ExecuteAsync(UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetTestEntityOneOrMany(request.EntityKeyDto);
+		var entity = await GetTestEntityOneOrMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOneOrMany",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 		var relatedEntities = new List<TestWebApp.Domain.SecondTestEntityOneOrMany>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetSecondTestEntityOneOrManyRelationship(keyDto);
+			var relatedEntity = await GetSecondTestEntityOneOrManyRelationship(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("SecondTestEntityOneOrMany", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOneOrManies).LoadAsync();
 		entity.UpdateRefToSecondTestEntityOneOrManies(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 	: RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandlerBase<DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand>
 {
 	public DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request)
+	protected override async Task ExecuteAsync(DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetTestEntityOneOrMany(request.EntityKeyDto);
+        var entity = await GetTestEntityOneOrMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOneOrMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetSecondTestEntityOneOrManyRelationship(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetSecondTestEntityOneOrManyRelationship(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityOneOrMany", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManies
 
 		entity.DeleteRefToSecondTestEntityOneOrManies(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrMan
 	: RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandlerBase<DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand>
 {
 	public DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetTestEntityOneOrMany(request.EntityKeyDto);
+        var entity = await GetTestEntityOneOrMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOneOrMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOneOrManies).LoadAsync();
 		entity.DeleteAllRefToSecondTestEntityOneOrManies();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrMan
 internal abstract class RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityOneOrManyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<TestEntityOneOrManyEntity?> GetTestEntityOneOrMany(TestEntityOneOrManyKeyDto entityKeyDto)
-	{
-		var keyId = Dto.TestEntityOneOrManyMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.TestEntityOneOrManies.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOneOrManies).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<TestWebApp.Domain.SecondTestEntityOneOrMany?> GetSecondTestEntityOneOrManyRelationship(SecondTestEntityOneOrManyKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.SecondTestEntityOneOrManyMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.SecondTestEntityOneOrManies.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, TestEntityOneOrManyEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<TestEntityOneOrManyEntity?> GetTestEntityOneOrMany(TestEntityOneOrManyKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.TestEntityOneOrManyMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<TestEntityOneOrMany>(keys.ToArray(), x => x.SecondTestEntityOneOrManies, cancellationToken);
+	}
+
+	protected async Task<TestWebApp.Domain.SecondTestEntityOneOrMany?> GetSecondTestEntityOneOrManyRelationship(SecondTestEntityOneOrManyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.SecondTestEntityOneOrManyMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<SecondTestEntityOneOrMany>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, TestEntityOneOrManyEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

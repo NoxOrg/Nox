@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand>
 {
 	public CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request)
+	protected override async Task ExecuteAsync(CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
+		var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetrelatestoSingleForeignKey(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetrelatestoSingleForeignKey(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 
 		entity.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand>
 {
 	public DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request)
+	protected override async Task ExecuteAsync(DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
+        var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetrelatestoSingleForeignKey(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetrelatestoSingleForeignKey(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefEntityUniqueConstraintsWithForeignKeyToEntityUni
 
 		entity.DeleteRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntity
 	: RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand>
 {
 	public DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto);
+        var entity = await GetEntityUniqueConstraintsWithForeignKey(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToEntityUniqueConstraintsRelatedForeignKey();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefEntityUniqueConstraintsWithForeignKeyToEntity
 internal abstract class RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase<TRequest> : CommandBase<TRequest, EntityUniqueConstraintsWithForeignKeyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueConstraintsRelatedForeignKeyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<EntityUniqueConstraintsWithForeignKeyEntity?> GetEntityUniqueConstraintsWithForeignKey(EntityUniqueConstraintsWithForeignKeyKeyDto entityKeyDto)
-	{
-		var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
-	}
-
-	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey?> GetrelatestoSingleForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.EntityUniqueConstraintsRelatedForeignKeys.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, EntityUniqueConstraintsWithForeignKeyEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<EntityUniqueConstraintsWithForeignKeyEntity?> GetEntityUniqueConstraintsWithForeignKey(EntityUniqueConstraintsWithForeignKeyKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<EntityUniqueConstraintsWithForeignKey>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey?> GetrelatestoSingleForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<EntityUniqueConstraintsRelatedForeignKey>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, EntityUniqueConstraintsWithForeignKeyEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefClientToStoresCommandHandler
 	: RefClientToStoresCommandHandlerBase<CreateRefClientToStoresCommand>
 {
 	public CreateRefClientToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefClientToStoresCommand request)
+	protected override async Task ExecuteAsync(CreateRefClientToStoresCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetClient(request.EntityKeyDto);
+		var entity = await GetClient(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Client",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetClientOf(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetClientOf(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefClientToStoresCommandHandler
 
 		entity.CreateRefToStores(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefClientToStoresCommandHandler
 	: RefClientToStoresCommandHandlerBase<UpdateRefClientToStoresCommand>
 {
 	public UpdateRefClientToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefClientToStoresCommand request)
+	protected override async Task ExecuteAsync(UpdateRefClientToStoresCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetClient(request.EntityKeyDto);
+		var entity = await GetClient(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Client",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefClientToStoresCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Store>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetClientOf(keyDto);
+			var relatedEntity = await GetClientOf(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Store", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefClientToStoresCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
 		entity.UpdateRefToStores(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefClientToStoresCommandHandler
 	: RefClientToStoresCommandHandlerBase<DeleteRefClientToStoresCommand>
 {
 	public DeleteRefClientToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefClientToStoresCommand request)
+	protected override async Task ExecuteAsync(DeleteRefClientToStoresCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetClient(request.EntityKeyDto);
+        var entity = await GetClient(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Client",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetClientOf(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetClientOf(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefClientToStoresCommandHandler
 
 		entity.DeleteRefToStores(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefClientToStoresCommandHandler
 	: RefClientToStoresCommandHandlerBase<DeleteAllRefClientToStoresCommand>
 {
 	public DeleteAllRefClientToStoresCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefClientToStoresCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefClientToStoresCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetClient(request.EntityKeyDto);
+        var entity = await GetClient(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Client",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
 		entity.DeleteAllRefToStores();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefClientToStoresCommandHandler
 internal abstract class RefClientToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, ClientEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefClientToStoresCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefClientToStoresCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<ClientEntity?> GetClient(ClientKeyDto entityKeyDto)
-	{
-		var keyId = Dto.ClientMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Clients.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<ClientApi.Domain.Store?> GetClientOf(StoreKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Stores.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, ClientEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<ClientEntity?> GetClient(ClientKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.ClientMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Client>(keys.ToArray(), x => x.Stores, cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.Store?> GetClientOf(StoreKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Store>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, ClientEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefBookingToTransactionCommandHandler
 	: RefBookingToTransactionCommandHandlerBase<CreateRefBookingToTransactionCommand>
 {
 	public CreateRefBookingToTransactionCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefBookingToTransactionCommand request)
+	protected override async Task ExecuteAsync(CreateRefBookingToTransactionCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetBooking(request.EntityKeyDto);
+		var entity = await GetBooking(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetBookingRelatedTransaction(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingRelatedTransaction(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Transaction",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefBookingToTransactionCommandHandler
 
 		entity.CreateRefToTransaction(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefBookingToTransactionCommandHandler
 	: RefBookingToTransactionCommandHandlerBase<DeleteRefBookingToTransactionCommand>
 {
 	public DeleteRefBookingToTransactionCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefBookingToTransactionCommand request)
+	protected override async Task ExecuteAsync(DeleteRefBookingToTransactionCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetBooking(request.EntityKeyDto);
+        var entity = await GetBooking(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetBookingRelatedTransaction(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetBookingRelatedTransaction(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Transaction", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefBookingToTransactionCommandHandler
 
 		entity.DeleteRefToTransaction(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefBookingToTransactionCommandHandler
 	: RefBookingToTransactionCommandHandlerBase<DeleteAllRefBookingToTransactionCommand>
 {
 	public DeleteAllRefBookingToTransactionCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefBookingToTransactionCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefBookingToTransactionCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetBooking(request.EntityKeyDto);
+        var entity = await GetBooking(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Booking",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToTransaction();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefBookingToTransactionCommandHandler
 internal abstract class RefBookingToTransactionCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToTransactionCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefBookingToTransactionCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto)
-	{
-		var keyId = Dto.BookingMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.Bookings.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.Transaction?> GetBookingRelatedTransaction(TransactionKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Transactions.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, BookingEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<BookingEntity?> GetBooking(BookingKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.BookingMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<Booking>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.Transaction?> GetBookingRelatedTransaction(TransactionKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.TransactionMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Transaction>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, BookingEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

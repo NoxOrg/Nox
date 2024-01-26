@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefStoreToFranchisesOfStoreCommandHandler
 	: RefStoreToFranchisesOfStoreCommandHandlerBase<CreateRefStoreToFranchisesOfStoreCommand>
 {
 	public CreateRefStoreToFranchisesOfStoreCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefStoreToFranchisesOfStoreCommand request)
+	protected override async Task ExecuteAsync(CreateRefStoreToFranchisesOfStoreCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetStore(request.EntityKeyDto);
+		var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetFranchisesOfStore(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetFranchisesOfStore(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefStoreToFranchisesOfStoreCommandHandler
 
 		entity.CreateRefToFranchisesOfStore(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefStoreToFranchisesOfStoreCommandHandler
 	: RefStoreToFranchisesOfStoreCommandHandlerBase<UpdateRefStoreToFranchisesOfStoreCommand>
 {
 	public UpdateRefStoreToFranchisesOfStoreCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefStoreToFranchisesOfStoreCommand request)
+	protected override async Task ExecuteAsync(UpdateRefStoreToFranchisesOfStoreCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetStore(request.EntityKeyDto);
+		var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefStoreToFranchisesOfStoreCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Store>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetFranchisesOfStore(keyDto);
+			var relatedEntity = await GetFranchisesOfStore(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Store", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefStoreToFranchisesOfStoreCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.FranchisesOfStore).LoadAsync();
 		entity.UpdateRefToFranchisesOfStore(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefStoreToFranchisesOfStoreCommandHandler
 	: RefStoreToFranchisesOfStoreCommandHandlerBase<DeleteRefStoreToFranchisesOfStoreCommand>
 {
 	public DeleteRefStoreToFranchisesOfStoreCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToFranchisesOfStoreCommand request)
+	protected override async Task ExecuteAsync(DeleteRefStoreToFranchisesOfStoreCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetStore(request.EntityKeyDto);
+        var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetFranchisesOfStore(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetFranchisesOfStore(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Store", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefStoreToFranchisesOfStoreCommandHandler
 
 		entity.DeleteRefToFranchisesOfStore(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefStoreToFranchisesOfStoreCommandHandler
 	: RefStoreToFranchisesOfStoreCommandHandlerBase<DeleteAllRefStoreToFranchisesOfStoreCommand>
 {
 	public DeleteAllRefStoreToFranchisesOfStoreCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToFranchisesOfStoreCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefStoreToFranchisesOfStoreCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetStore(request.EntityKeyDto);
+        var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.FranchisesOfStore).LoadAsync();
 		entity.DeleteAllRefToFranchisesOfStore();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefStoreToFranchisesOfStoreCommandHandler
 internal abstract class RefStoreToFranchisesOfStoreCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToFranchisesOfStoreCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefStoreToFranchisesOfStoreCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
-	{
-		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Stores.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.FranchisesOfStore).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<ClientApi.Domain.Store?> GetFranchisesOfStore(StoreKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Stores.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, StoreEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Store>(keys.ToArray(), x => x.FranchisesOfStore, cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.Store?> GetFranchisesOfStore(StoreKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Store>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, StoreEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

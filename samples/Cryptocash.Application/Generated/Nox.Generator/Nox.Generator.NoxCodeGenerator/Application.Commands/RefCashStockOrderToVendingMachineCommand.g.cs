@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefCashStockOrderToVendingMachineCommandHandler
 	: RefCashStockOrderToVendingMachineCommandHandlerBase<CreateRefCashStockOrderToVendingMachineCommand>
 {
 	public CreateRefCashStockOrderToVendingMachineCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefCashStockOrderToVendingMachineCommand request)
+	protected override async Task ExecuteAsync(CreateRefCashStockOrderToVendingMachineCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCashStockOrder(request.EntityKeyDto);
+		var entity = await GetCashStockOrder(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCashStockOrderForVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCashStockOrderForVendingMachine(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefCashStockOrderToVendingMachineCommandHandler
 
 		entity.CreateRefToVendingMachine(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefCashStockOrderToVendingMachineCommandHandler
 	: RefCashStockOrderToVendingMachineCommandHandlerBase<DeleteRefCashStockOrderToVendingMachineCommand>
 {
 	public DeleteRefCashStockOrderToVendingMachineCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefCashStockOrderToVendingMachineCommand request)
+	protected override async Task ExecuteAsync(DeleteRefCashStockOrderToVendingMachineCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCashStockOrder(request.EntityKeyDto);
+        var entity = await GetCashStockOrder(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCashStockOrderForVendingMachine(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCashStockOrderForVendingMachine(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("VendingMachine", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefCashStockOrderToVendingMachineCommandHandler
 
 		entity.DeleteRefToVendingMachine(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefCashStockOrderToVendingMachineCommandHandler
 	: RefCashStockOrderToVendingMachineCommandHandlerBase<DeleteAllRefCashStockOrderToVendingMachineCommand>
 {
 	public DeleteAllRefCashStockOrderToVendingMachineCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefCashStockOrderToVendingMachineCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefCashStockOrderToVendingMachineCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCashStockOrder(request.EntityKeyDto);
+        var entity = await GetCashStockOrder(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CashStockOrder",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToVendingMachine();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefCashStockOrderToVendingMachineCommandHandler
 internal abstract class RefCashStockOrderToVendingMachineCommandHandlerBase<TRequest> : CommandBase<TRequest, CashStockOrderEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCashStockOrderToVendingMachineCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefCashStockOrderToVendingMachineCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<CashStockOrderEntity?> GetCashStockOrder(CashStockOrderKeyDto entityKeyDto)
-	{
-		var keyId = Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.CashStockOrders.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.VendingMachine?> GetCashStockOrderForVendingMachine(VendingMachineKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.VendingMachines.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, CashStockOrderEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<CashStockOrderEntity?> GetCashStockOrder(CashStockOrderKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CashStockOrderMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<CashStockOrder>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.VendingMachine?> GetCashStockOrderForVendingMachine(VendingMachineKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.VendingMachineMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<VendingMachine>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, CashStockOrderEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

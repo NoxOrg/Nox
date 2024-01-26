@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefCurrencyToCountriesCommandHandler
 	: RefCurrencyToCountriesCommandHandlerBase<CreateRefCurrencyToCountriesCommand>
 {
 	public CreateRefCurrencyToCountriesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefCurrencyToCountriesCommand request)
+	protected override async Task ExecuteAsync(CreateRefCurrencyToCountriesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCurrency(request.EntityKeyDto);
+		var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCurrencyUsedByCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCurrencyUsedByCountry(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefCurrencyToCountriesCommandHandler
 
 		entity.CreateRefToCountries(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefCurrencyToCountriesCommandHandler
 	: RefCurrencyToCountriesCommandHandlerBase<UpdateRefCurrencyToCountriesCommand>
 {
 	public UpdateRefCurrencyToCountriesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefCurrencyToCountriesCommand request)
+	protected override async Task ExecuteAsync(UpdateRefCurrencyToCountriesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCurrency(request.EntityKeyDto);
+		var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCurrencyToCountriesCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.Country>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetCurrencyUsedByCountry(keyDto);
+			var relatedEntity = await GetCurrencyUsedByCountry(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Country", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefCurrencyToCountriesCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
 		entity.UpdateRefToCountries(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefCurrencyToCountriesCommandHandler
 	: RefCurrencyToCountriesCommandHandlerBase<DeleteRefCurrencyToCountriesCommand>
 {
 	public DeleteRefCurrencyToCountriesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefCurrencyToCountriesCommand request)
+	protected override async Task ExecuteAsync(DeleteRefCurrencyToCountriesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCurrency(request.EntityKeyDto);
+        var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetCurrencyUsedByCountry(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetCurrencyUsedByCountry(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Country", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefCurrencyToCountriesCommandHandler
 
 		entity.DeleteRefToCountries(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefCurrencyToCountriesCommandHandler
 	: RefCurrencyToCountriesCommandHandlerBase<DeleteAllRefCurrencyToCountriesCommand>
 {
 	public DeleteAllRefCurrencyToCountriesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefCurrencyToCountriesCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefCurrencyToCountriesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCurrency(request.EntityKeyDto);
+        var entity = await GetCurrency(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
 		entity.DeleteAllRefToCountries();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefCurrencyToCountriesCommandHandler
 internal abstract class RefCurrencyToCountriesCommandHandlerBase<TRequest> : CommandBase<TRequest, CurrencyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCountriesCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefCurrencyToCountriesCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto)
-	{
-		var keyId = Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Currencies.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<Cryptocash.Domain.Country?> GetCurrencyUsedByCountry(CountryKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Countries.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, CurrencyEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<CurrencyEntity?> GetCurrency(CurrencyKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Currency>(keys.ToArray(), x => x.Countries, cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.Country?> GetCurrencyUsedByCountry(CountryKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Country>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, CurrencyEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

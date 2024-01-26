@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefTenantToWorkplacesCommandHandler
 	: RefTenantToWorkplacesCommandHandlerBase<CreateRefTenantToWorkplacesCommand>
 {
 	public CreateRefTenantToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefTenantToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(CreateRefTenantToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetTenant(request.EntityKeyDto);
+		var entity = await GetTenant(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTenantWorkplaces(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTenantWorkplaces(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefTenantToWorkplacesCommandHandler
 
 		entity.CreateRefToWorkplaces(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefTenantToWorkplacesCommandHandler
 	: RefTenantToWorkplacesCommandHandlerBase<UpdateRefTenantToWorkplacesCommand>
 {
 	public UpdateRefTenantToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefTenantToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(UpdateRefTenantToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetTenant(request.EntityKeyDto);
+		var entity = await GetTenant(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefTenantToWorkplacesCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Workplace>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetTenantWorkplaces(keyDto);
+			var relatedEntity = await GetTenantWorkplaces(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Workplace", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefTenantToWorkplacesCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
 		entity.UpdateRefToWorkplaces(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefTenantToWorkplacesCommandHandler
 	: RefTenantToWorkplacesCommandHandlerBase<DeleteRefTenantToWorkplacesCommand>
 {
 	public DeleteRefTenantToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefTenantToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(DeleteRefTenantToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetTenant(request.EntityKeyDto);
+        var entity = await GetTenant(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTenantWorkplaces(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTenantWorkplaces(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefTenantToWorkplacesCommandHandler
 
 		entity.DeleteRefToWorkplaces(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefTenantToWorkplacesCommandHandler
 	: RefTenantToWorkplacesCommandHandlerBase<DeleteAllRefTenantToWorkplacesCommand>
 {
 	public DeleteAllRefTenantToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefTenantToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefTenantToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetTenant(request.EntityKeyDto);
+        var entity = await GetTenant(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
 		entity.DeleteAllRefToWorkplaces();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefTenantToWorkplacesCommandHandler
 internal abstract class RefTenantToWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, TenantEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTenantToWorkplacesCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefTenantToWorkplacesCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<TenantEntity?> GetTenant(TenantKeyDto entityKeyDto)
-	{
-		var keyId = Dto.TenantMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Tenants.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<ClientApi.Domain.Workplace?> GetTenantWorkplaces(WorkplaceKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Workplaces.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, TenantEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<TenantEntity?> GetTenant(TenantKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.TenantMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(), x => x.Workplaces, cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.Workplace?> GetTenantWorkplaces(WorkplaceKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Workplace>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, TenantEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }
