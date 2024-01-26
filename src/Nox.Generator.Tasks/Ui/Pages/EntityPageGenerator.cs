@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nox.Generator.Tasks.Ui.Pages;
 
-internal class EntityListGenerator : INoxFileGenerator
+internal class EntityPageGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,7 +20,7 @@ internal class EntityListGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Pages.EntityList";
+        var templateName = @"Tasks.Ui.Pages.EntityPage";
         var entities = codeGeneratorState.Solution.Domain.Entities
             .Where(e => !e.IsOwnedEntity && e.Persistence.Read.IsEnabled)
             .OrderBy(e => e.PluralName);
@@ -30,7 +30,7 @@ internal class EntityListGenerator : INoxFileGenerator
 
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
                 .WithFileExtension("razor")
-                .WithClassName($"{entity.PluralName}List")
+                .WithClassName($"{entity.PluralName}")
                 .WithFileNamePrefix($"Ui.Pages")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
