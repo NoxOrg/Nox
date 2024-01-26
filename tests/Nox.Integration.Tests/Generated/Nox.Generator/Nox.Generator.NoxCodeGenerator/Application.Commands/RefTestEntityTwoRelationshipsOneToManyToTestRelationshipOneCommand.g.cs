@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 	: RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandlerBase<CreateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand>
 {
 	public CreateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request)
+	protected override async Task ExecuteAsync(CreateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
+		var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTestRelationshipOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestRelationshipOne(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 
 		entity.CreateRefToTestRelationshipOne(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 	: RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandlerBase<UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand>
 {
 	public UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request)
+	protected override async Task ExecuteAsync(UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
+		var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 		var relatedEntities = new List<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetTestRelationshipOne(keyDto);
+			var relatedEntity = await GetTestRelationshipOne(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.TestRelationshipOne).LoadAsync();
 		entity.UpdateRefToTestRelationshipOne(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 	: RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandlerBase<DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand>
 {
 	public DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request)
+	protected override async Task ExecuteAsync(DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
+        var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetTestRelationshipOne(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetTestRelationshipOne(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefTestEntityTwoRelationshipsOneToManyToTestRelatio
 
 		entity.DeleteRefToTestRelationshipOne(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRela
 	: RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandlerBase<DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand>
 {
 	public DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto);
+        var entity = await GetTestEntityTwoRelationshipsOneToMany(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityTwoRelationshipsOneToMany",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.TestRelationshipOne).LoadAsync();
 		entity.DeleteAllRefToTestRelationshipOne();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefTestEntityTwoRelationshipsOneToManyToTestRela
 internal abstract class RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityTwoRelationshipsOneToManyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefTestEntityTwoRelationshipsOneToManyToTestRelationshipOneCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<TestEntityTwoRelationshipsOneToManyEntity?> GetTestEntityTwoRelationshipsOneToMany(TestEntityTwoRelationshipsOneToManyKeyDto entityKeyDto)
-	{
-		var keyId = Dto.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.TestRelationshipOne).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany?> GetTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToManyKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.SecondTestEntityTwoRelationshipsOneToManies.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, TestEntityTwoRelationshipsOneToManyEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<TestEntityTwoRelationshipsOneToManyEntity?> GetTestEntityTwoRelationshipsOneToMany(TestEntityTwoRelationshipsOneToManyKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<TestEntityTwoRelationshipsOneToMany>(keys.ToArray(), x => x.TestRelationshipOne, cancellationToken);
+	}
+
+	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany?> GetTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToManyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<SecondTestEntityTwoRelationshipsOneToMany>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, TestEntityTwoRelationshipsOneToManyEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

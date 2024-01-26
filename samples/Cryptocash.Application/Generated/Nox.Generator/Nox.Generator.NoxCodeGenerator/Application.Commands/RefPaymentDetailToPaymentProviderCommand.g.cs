@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefPaymentDetailToPaymentProviderCommandHandler
 	: RefPaymentDetailToPaymentProviderCommandHandlerBase<CreateRefPaymentDetailToPaymentProviderCommand>
 {
 	public CreateRefPaymentDetailToPaymentProviderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefPaymentDetailToPaymentProviderCommand request)
+	protected override async Task ExecuteAsync(CreateRefPaymentDetailToPaymentProviderCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetPaymentDetail(request.EntityKeyDto);
+		var entity = await GetPaymentDetail(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPaymentDetailsRelatedPaymentProvider(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPaymentDetailsRelatedPaymentProvider(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("PaymentProvider",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefPaymentDetailToPaymentProviderCommandHandler
 
 		entity.CreateRefToPaymentProvider(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefPaymentDetailToPaymentProviderCommandHandler
 	: RefPaymentDetailToPaymentProviderCommandHandlerBase<DeleteRefPaymentDetailToPaymentProviderCommand>
 {
 	public DeleteRefPaymentDetailToPaymentProviderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefPaymentDetailToPaymentProviderCommand request)
+	protected override async Task ExecuteAsync(DeleteRefPaymentDetailToPaymentProviderCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetPaymentDetail(request.EntityKeyDto);
+        var entity = await GetPaymentDetail(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPaymentDetailsRelatedPaymentProvider(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPaymentDetailsRelatedPaymentProvider(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("PaymentProvider", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefPaymentDetailToPaymentProviderCommandHandler
 
 		entity.DeleteRefToPaymentProvider(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefPaymentDetailToPaymentProviderCommandHandler
 	: RefPaymentDetailToPaymentProviderCommandHandlerBase<DeleteAllRefPaymentDetailToPaymentProviderCommand>
 {
 	public DeleteAllRefPaymentDetailToPaymentProviderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefPaymentDetailToPaymentProviderCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefPaymentDetailToPaymentProviderCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetPaymentDetail(request.EntityKeyDto);
+        var entity = await GetPaymentDetail(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("PaymentDetail",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToPaymentProvider();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefPaymentDetailToPaymentProviderCommandHandler
 internal abstract class RefPaymentDetailToPaymentProviderCommandHandlerBase<TRequest> : CommandBase<TRequest, PaymentDetailEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentDetailToPaymentProviderCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefPaymentDetailToPaymentProviderCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<PaymentDetailEntity?> GetPaymentDetail(PaymentDetailKeyDto entityKeyDto)
-	{
-		var keyId = Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.PaymentDetails.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.PaymentProvider?> GetPaymentDetailsRelatedPaymentProvider(PaymentProviderKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.PaymentProviderMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.PaymentProviders.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, PaymentDetailEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<PaymentDetailEntity?> GetPaymentDetail(PaymentDetailKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<PaymentDetail>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.PaymentProvider?> GetPaymentDetailsRelatedPaymentProvider(PaymentProviderKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.PaymentProviderMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<PaymentProvider>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, PaymentDetailEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

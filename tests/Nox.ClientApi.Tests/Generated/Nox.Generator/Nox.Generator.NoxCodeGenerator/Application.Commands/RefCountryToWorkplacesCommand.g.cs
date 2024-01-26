@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefCountryToWorkplacesCommandHandler
 	: RefCountryToWorkplacesCommandHandlerBase<CreateRefCountryToWorkplacesCommand>
 {
 	public CreateRefCountryToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefCountryToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(CreateRefCountryToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCountry(request.EntityKeyDto);
+		var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPhysicalWorkplaces(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPhysicalWorkplaces(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefCountryToWorkplacesCommandHandler
 
 		entity.CreateRefToWorkplaces(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefCountryToWorkplacesCommandHandler
 	: RefCountryToWorkplacesCommandHandlerBase<UpdateRefCountryToWorkplacesCommand>
 {
 	public UpdateRefCountryToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefCountryToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(UpdateRefCountryToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetCountry(request.EntityKeyDto);
+		var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefCountryToWorkplacesCommandHandler
 		var relatedEntities = new List<ClientApi.Domain.Workplace>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetPhysicalWorkplaces(keyDto);
+			var relatedEntity = await GetPhysicalWorkplaces(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("Workplace", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefCountryToWorkplacesCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
 		entity.UpdateRefToWorkplaces(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefCountryToWorkplacesCommandHandler
 	: RefCountryToWorkplacesCommandHandlerBase<DeleteRefCountryToWorkplacesCommand>
 {
 	public DeleteRefCountryToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefCountryToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(DeleteRefCountryToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCountry(request.EntityKeyDto);
+        var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetPhysicalWorkplaces(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetPhysicalWorkplaces(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Workplace", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefCountryToWorkplacesCommandHandler
 
 		entity.DeleteRefToWorkplaces(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefCountryToWorkplacesCommandHandler
 	: RefCountryToWorkplacesCommandHandlerBase<DeleteAllRefCountryToWorkplacesCommand>
 {
 	public DeleteAllRefCountryToWorkplacesCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefCountryToWorkplacesCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefCountryToWorkplacesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetCountry(request.EntityKeyDto);
+        var entity = await GetCountry(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
 		entity.DeleteAllRefToWorkplaces();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefCountryToWorkplacesCommandHandler
 internal abstract class RefCountryToWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToWorkplacesCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefCountryToWorkplacesCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto)
-	{
-		var keyId = Dto.CountryMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.Countries.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<ClientApi.Domain.Workplace?> GetPhysicalWorkplaces(WorkplaceKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Workplaces.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, CountryEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<CountryEntity?> GetCountry(CountryKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CountryMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<Country>(keys.ToArray(), x => x.Workplaces, cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.Workplace?> GetPhysicalWorkplaces(WorkplaceKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Workplace>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, CountryEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

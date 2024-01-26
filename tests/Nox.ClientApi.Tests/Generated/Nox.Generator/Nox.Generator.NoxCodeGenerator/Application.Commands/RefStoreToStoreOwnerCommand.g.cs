@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefStoreToStoreOwnerCommandHandler
 	: RefStoreToStoreOwnerCommandHandlerBase<CreateRefStoreToStoreOwnerCommand>
 {
 	public CreateRefStoreToStoreOwnerCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefStoreToStoreOwnerCommand request)
+	protected override async Task ExecuteAsync(CreateRefStoreToStoreOwnerCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetStore(request.EntityKeyDto);
+		var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreOwner",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefStoreToStoreOwnerCommandHandler
 
 		entity.CreateRefToStoreOwner(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefStoreToStoreOwnerCommandHandler
 	: RefStoreToStoreOwnerCommandHandlerBase<DeleteRefStoreToStoreOwnerCommand>
 {
 	public DeleteRefStoreToStoreOwnerCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefStoreToStoreOwnerCommand request)
+	protected override async Task ExecuteAsync(DeleteRefStoreToStoreOwnerCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetStore(request.EntityKeyDto);
+        var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetOwnership(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("StoreOwner", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefStoreToStoreOwnerCommandHandler
 
 		entity.DeleteRefToStoreOwner(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefStoreToStoreOwnerCommandHandler
 	: RefStoreToStoreOwnerCommandHandlerBase<DeleteAllRefStoreToStoreOwnerCommand>
 {
 	public DeleteAllRefStoreToStoreOwnerCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefStoreToStoreOwnerCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefStoreToStoreOwnerCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetStore(request.EntityKeyDto);
+        var entity = await GetStore(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToStoreOwner();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefStoreToStoreOwnerCommandHandler
 internal abstract class RefStoreToStoreOwnerCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToStoreOwnerCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefStoreToStoreOwnerCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto)
-	{
-		var keyId = Dto.StoreMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.Stores.FindAsync(keyId);
-	}
-
-	protected async Task<ClientApi.Domain.StoreOwner?> GetOwnership(StoreOwnerKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.StoreOwnerMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.StoreOwners.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, StoreEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<StoreEntity?> GetStore(StoreKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<Store>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<ClientApi.Domain.StoreOwner?> GetOwnership(StoreOwnerKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.StoreOwnerMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<StoreOwner>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, StoreEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

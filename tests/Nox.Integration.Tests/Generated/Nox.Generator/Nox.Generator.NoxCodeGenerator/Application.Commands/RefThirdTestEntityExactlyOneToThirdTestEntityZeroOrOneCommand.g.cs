@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOr
 	: RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandlerBase<CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand>
 {
 	public CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand request)
+	protected override async Task ExecuteAsync(CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetThirdTestEntityExactlyOne(request.EntityKeyDto);
+		var entity = await GetThirdTestEntityExactlyOne(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrOne",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefThirdTestEntityExactlyOneToThirdTestEntityZeroOr
 
 		entity.CreateRefToThirdTestEntityZeroOrOne(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOr
 	: RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandlerBase<DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand>
 {
 	public DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand request)
+	protected override async Task ExecuteAsync(DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetThirdTestEntityExactlyOne(request.EntityKeyDto);
+        var entity = await GetThirdTestEntityExactlyOne(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetThirdTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetThirdTestEntityZeroOrOneRelationship(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrOne", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefThirdTestEntityExactlyOneToThirdTestEntityZeroOr
 
 		entity.DeleteRefToThirdTestEntityZeroOrOne(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZer
 	: RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandlerBase<DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand>
 {
 	public DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetThirdTestEntityExactlyOne(request.EntityKeyDto);
+        var entity = await GetThirdTestEntityExactlyOne(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToThirdTestEntityZeroOrOne();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefThirdTestEntityExactlyOneToThirdTestEntityZer
 internal abstract class RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandlerBase<TRequest> : CommandBase<TRequest, ThirdTestEntityExactlyOneEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefThirdTestEntityExactlyOneToThirdTestEntityZeroOrOneCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<ThirdTestEntityExactlyOneEntity?> GetThirdTestEntityExactlyOne(ThirdTestEntityExactlyOneKeyDto entityKeyDto)
-	{
-		var keyId = Dto.ThirdTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.ThirdTestEntityExactlyOnes.FindAsync(keyId);
-	}
-
-	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrOne?> GetThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOneKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.ThirdTestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, ThirdTestEntityExactlyOneEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<ThirdTestEntityExactlyOneEntity?> GetThirdTestEntityExactlyOne(ThirdTestEntityExactlyOneKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.ThirdTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<ThirdTestEntityExactlyOne>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<TestWebApp.Domain.ThirdTestEntityZeroOrOne?> GetThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOneKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.ThirdTestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<ThirdTestEntityZeroOrOne>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, ThirdTestEntityExactlyOneEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

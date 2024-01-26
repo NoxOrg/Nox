@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<CreateRefVendingMachineToMinimumCashStocksCommand>
 {
 	public CreateRefVendingMachineToMinimumCashStocksCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefVendingMachineToMinimumCashStocksCommand request)
+	protected override async Task ExecuteAsync(CreateRefVendingMachineToMinimumCashStocksCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetVendingMachine(request.EntityKeyDto);
+		var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("MinimumCashStock",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefVendingMachineToMinimumCashStocksCommandHandler
 
 		entity.CreateRefToMinimumCashStocks(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,15 +68,15 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<UpdateRefVendingMachineToMinimumCashStocksCommand>
 {
 	public UpdateRefVendingMachineToMinimumCashStocksCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(UpdateRefVendingMachineToMinimumCashStocksCommand request)
+	protected override async Task ExecuteAsync(UpdateRefVendingMachineToMinimumCashStocksCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetVendingMachine(request.EntityKeyDto);
+		var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
@@ -85,7 +85,7 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 		var relatedEntities = new List<Cryptocash.Domain.MinimumCashStock>();
 		foreach(var keyDto in request.RelatedEntitiesKeysDtos)
 		{
-			var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(keyDto);
+			var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(keyDto, cancellationToken);
 			if (relatedEntity == null)
 			{
 				throw new RelatedEntityNotFoundException("MinimumCashStock", $"{keyDto.keyId.ToString()}");
@@ -93,10 +93,9 @@ internal partial class UpdateRefVendingMachineToMinimumCashStocksCommandHandler
 			relatedEntities.Add(relatedEntity);
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
 		entity.UpdateRefToMinimumCashStocks(relatedEntities);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -111,21 +110,21 @@ internal partial class DeleteRefVendingMachineToMinimumCashStocksCommandHandler
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<DeleteRefVendingMachineToMinimumCashStocksCommand>
 {
 	public DeleteRefVendingMachineToMinimumCashStocksCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefVendingMachineToMinimumCashStocksCommand request)
+	protected override async Task ExecuteAsync(DeleteRefVendingMachineToMinimumCashStocksCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetVendingMachine(request.EntityKeyDto);
+        var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetVendingMachineRequiredMinimumCashStocks(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("MinimumCashStock", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -133,7 +132,7 @@ internal partial class DeleteRefVendingMachineToMinimumCashStocksCommandHandler
 
 		entity.DeleteRefToMinimumCashStocks(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -148,23 +147,22 @@ internal partial class DeleteAllRefVendingMachineToMinimumCashStocksCommandHandl
 	: RefVendingMachineToMinimumCashStocksCommandHandlerBase<DeleteAllRefVendingMachineToMinimumCashStocksCommand>
 {
 	public DeleteAllRefVendingMachineToMinimumCashStocksCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefVendingMachineToMinimumCashStocksCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefVendingMachineToMinimumCashStocksCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetVendingMachine(request.EntityKeyDto);
+        var entity = await GetVendingMachine(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
-		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
 		entity.DeleteAllRefToMinimumCashStocks();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -173,48 +171,44 @@ internal partial class DeleteAllRefVendingMachineToMinimumCashStocksCommandHandl
 internal abstract class RefVendingMachineToMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToMinimumCashStocksCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefVendingMachineToMinimumCashStocksCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto)
-	{
-		var keyId = Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId);
-		var entity = await DbContext.VendingMachines.FindAsync(keyId);
-		if(entity is not null)
-		{
-			await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
-		}
-
-		return entity;
-	}
-
-	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetVendingMachineRequiredMinimumCashStocks(MinimumCashStockKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.MinimumCashStockMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.MinimumCashStocks.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, VendingMachineEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<VendingMachineEntity?> GetVendingMachine(VendingMachineKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId));
+		return await Repository.FindAndIncludeAsync<VendingMachine>(keys.ToArray(), x => x.MinimumCashStocks, cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetVendingMachineRequiredMinimumCashStocks(MinimumCashStockKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.MinimumCashStockMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<MinimumCashStock>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }

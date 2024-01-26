@@ -9,10 +9,10 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Application.Factories;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Exceptions;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -31,21 +31,21 @@ internal partial class CreateRefMinimumCashStockToCurrencyCommandHandler
 	: RefMinimumCashStockToCurrencyCommandHandlerBase<CreateRefMinimumCashStockToCurrencyCommand>
 {
 	public CreateRefMinimumCashStockToCurrencyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(CreateRefMinimumCashStockToCurrencyCommand request)
+	protected override async Task ExecuteAsync(CreateRefMinimumCashStockToCurrencyCommand request, CancellationToken cancellationToken)
     {
-		var entity = await GetMinimumCashStock(request.EntityKeyDto);
+		var entity = await GetMinimumCashStock(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetMinimumCashStockRelatedCurrency(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetMinimumCashStockRelatedCurrency(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Currency",  $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -53,7 +53,7 @@ internal partial class CreateRefMinimumCashStockToCurrencyCommandHandler
 
 		entity.CreateRefToCurrency(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -68,21 +68,21 @@ internal partial class DeleteRefMinimumCashStockToCurrencyCommandHandler
 	: RefMinimumCashStockToCurrencyCommandHandlerBase<DeleteRefMinimumCashStockToCurrencyCommand>
 {
 	public DeleteRefMinimumCashStockToCurrencyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteRefMinimumCashStockToCurrencyCommand request)
+	protected override async Task ExecuteAsync(DeleteRefMinimumCashStockToCurrencyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetMinimumCashStock(request.EntityKeyDto);
+        var entity = await GetMinimumCashStock(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 
-		var relatedEntity = await GetMinimumCashStockRelatedCurrency(request.RelatedEntityKeyDto);
+		var relatedEntity = await GetMinimumCashStockRelatedCurrency(request.RelatedEntityKeyDto, cancellationToken);
 		if (relatedEntity == null)
 		{
 			throw new RelatedEntityNotFoundException("Currency", $"{request.RelatedEntityKeyDto.keyId.ToString()}");
@@ -90,7 +90,7 @@ internal partial class DeleteRefMinimumCashStockToCurrencyCommandHandler
 
 		entity.DeleteRefToCurrency(relatedEntity);
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -105,22 +105,22 @@ internal partial class DeleteAllRefMinimumCashStockToCurrencyCommandHandler
 	: RefMinimumCashStockToCurrencyCommandHandlerBase<DeleteAllRefMinimumCashStockToCurrencyCommand>
 {
 	public DeleteAllRefMinimumCashStockToCurrencyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution)
+		: base(repository, noxSolution)
 	{ }
 
-	protected override async Task<bool> ExecuteAsync(DeleteAllRefMinimumCashStockToCurrencyCommand request)
+	protected override async Task ExecuteAsync(DeleteAllRefMinimumCashStockToCurrencyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await GetMinimumCashStock(request.EntityKeyDto);
+        var entity = await GetMinimumCashStock(request.EntityKeyDto, cancellationToken);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("MinimumCashStock",  $"{request.EntityKeyDto.keyId.ToString()}");
 		}
 		entity.DeleteAllRefToCurrency();
 
-		return await SaveChangesAsync(request, entity);
+		await SaveChangesAsync(request, entity);
     }
 }
 
@@ -129,42 +129,44 @@ internal partial class DeleteAllRefMinimumCashStockToCurrencyCommandHandler
 internal abstract class RefMinimumCashStockToCurrencyCommandHandlerBase<TRequest> : CommandBase<TRequest, MinimumCashStockEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefMinimumCashStockToCurrencyCommand
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 
 	public RefMinimumCashStockToCurrencyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		return await ExecuteAsync(request);
-	}
-
-	protected abstract Task<bool> ExecuteAsync(TRequest request);
-
-	protected async Task<MinimumCashStockEntity?> GetMinimumCashStock(MinimumCashStockKeyDto entityKeyDto)
-	{
-		var keyId = Dto.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId);		
-		return await DbContext.MinimumCashStocks.FindAsync(keyId);
-	}
-
-	protected async Task<Cryptocash.Domain.Currency?> GetMinimumCashStockRelatedCurrency(CurrencyKeyDto relatedEntityKeyDto)
-	{
-		var relatedKeyId = Dto.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId);
-		return await DbContext.Currencies.FindAsync(relatedKeyId);
-	}
-
-	protected async Task<bool> SaveChangesAsync(TRequest request, MinimumCashStockEntity entity)
-	{
-		await OnCompletedAsync(request, entity);
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		await ExecuteAsync(request, cancellationToken);
 		return true;
+	}
+
+	protected abstract Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+
+	protected async Task<MinimumCashStockEntity?> GetMinimumCashStock(MinimumCashStockKeyDto entityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.MinimumCashStockMetadata.CreateId(entityKeyDto.keyId));		
+		return await Repository.FindAsync<MinimumCashStock>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task<Cryptocash.Domain.Currency?> GetMinimumCashStockRelatedCurrency(CurrencyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
+	{
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId));
+		return await Repository.FindAsync<Currency>(keys.ToArray(), cancellationToken);
+	}
+
+	protected async Task SaveChangesAsync(TRequest request, MinimumCashStockEntity entity)
+	{
+		Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 	}
 }
