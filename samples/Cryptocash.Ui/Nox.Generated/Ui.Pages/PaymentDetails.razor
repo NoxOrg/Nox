@@ -1,4 +1,6 @@
-﻿@using Nox.Ui.Blazor.Lib.Services
+﻿@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Services
+@using Cryptocash.Ui.Forms.Add
 
 @namespace Cryptocash.Ui.Pages
 
@@ -10,3 +12,34 @@
 }
 
 <MudText>PaymentDetails</MudText>
+
+<MudGrid Spacing="0">
+    <MudItem xs="12">
+        <MudText>Search section</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <Actions OnAdd="ShowAddDialog" />
+    </MudItem>
+    <AddPaymentDetailForm @bind-IsVisible="showAddDialog" OnSubmit="AddPaymentDetailSubmit" OnCancel="HideAddDialog" />
+</MudGrid>
+
+@code{
+#region ADD
+    private bool showAddDialog = false;
+
+    private void ShowAddDialog()
+    {
+        showAddDialog = true;
+    }
+
+    private void HideAddDialog()
+    {
+        showAddDialog = false;
+    }
+
+    private void AddPaymentDetailSubmit()
+    {
+        showAddDialog = false;
+    }
+#endregion ADD
+}
