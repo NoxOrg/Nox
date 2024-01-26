@@ -1,17 +1,18 @@
-﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiHeaderBase
+﻿@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Services
+
+@namespace {{codeGenConventions.UiNameSpace}}.Components
+@inject GlobalDataService GlobalData
 
 <div class="top-row px-4" style="padding:0px;background-color:white;border-bottom-style:solid;border-bottom-color:#66ccff;border-bottom-width:3px;">
     <table style="width:100%">
         <tr>
             <td style="text-align:left;padding:7px 0px 0px 5px;">
-                <MudImage Src="images/Cryptocash.png" />
+                <MudImage Src="images/{{codeGenConventions.Solution.Name}}.png" />
             </td>
             <td style="display: flex; justify-content: flex-end;">
-                <UiLoginDisplay />
+                <Login />
             </td>
         </tr>
     </table>
 </div>
-
-<MudText Typo="Typo.h6" Style="padding: 20px 0px 0px 25px;">@GlobalData?.CurrentDomainEntity</MudText>

@@ -1,4 +1,9 @@
-﻿<AuthorizeView>
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using MudBlazor
+
+@namespace Nox.Ui.Blazor.Lib.Components.Generic
+
+<AuthorizeView>
     <Authorized>
         <MudIconButton Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Info" Style="padding-top:15px;" />
         <MudText Style="padding:20px 0px 15px 0px;">@context.User.Identity?.Name</MudText>

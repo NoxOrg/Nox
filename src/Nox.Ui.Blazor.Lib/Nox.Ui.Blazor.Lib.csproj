@@ -31,6 +31,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.15" />
 		<PackageReference Include="MudBlazor" Version="6.11.1" />
 	</ItemGroup>
 

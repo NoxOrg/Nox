@@ -1,7 +1,13 @@
 ﻿@using Cryptocash.Application.Dto;
 @using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Services
 
-@page "/Employees"
+@page "/CustomEmployees"
+
+@inject GlobalDataService TestGlobalData
+@{
+    TestGlobalData.PageTitle = "Custom Employees";
+}
 
 @inherits ListEntityPageBase<EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
 

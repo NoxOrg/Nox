@@ -10,9 +10,15 @@
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using MudBlazor
+@using Nox.Ui.Blazor.Lib.Services
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
-@page "/VendingMachines"
+@page "/CustomVendingMachines"
+
+@inject GlobalDataService TestGlobalData
+@{
+    TestGlobalData.PageTitle = "Custom Vending Machines";
+}
 
 @inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto, VendingMachineUpdateDto>
 
