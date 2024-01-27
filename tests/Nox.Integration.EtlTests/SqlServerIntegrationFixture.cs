@@ -28,13 +28,19 @@ public class SqlServerIntegrationFixture
 
         Services.AddSingleton<NoxSolution>(solution);
         Services.AddSingleton(new NoxCodeGenConventions(solution));
-        Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly(), Assembly.GetExecutingAssembly()));
+        Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => 
+            new NoxClientAssemblyProvider(
+                Assembly.GetExecutingAssembly(),
+                Assembly.GetExecutingAssembly(),
+                Assembly.GetExecutingAssembly(),
+                Assembly.GetExecutingAssembly())
+            );
         
         Services.AddNoxIntegrations(opts =>
         {
             opts.WithSqlServerStore();
         });
-        Services.AddNoxMediatR(Assembly.GetExecutingAssembly());
+        Services.AddNoxMediatR(new[] { Assembly.GetExecutingAssembly() });
     }
 
     public void Initialize()
