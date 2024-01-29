@@ -118,12 +118,18 @@ public class CurrencyCodeTests : WorldTestBase
         currencyCode3.Should().Be(CurrencyCode3.From(currencyIsoCode));
     }
 
-    [Fact(Skip = "There are 12 missing Nox.Types.CurrencyCode.")]
+    [Fact]
     public void WhenGettingCurrencyCode3_FromAllReferenceCurrencies_Success()
     {
+        // These don't have numeric codes.
+        var skippedCurrencies = new[] { "BTC", "TVD", "XBT" }; 
+
         // Arrange
         foreach (var currency in World.Currencies)
         {
+            if (skippedCurrencies.Contains(currency.Id))
+                continue;
+
             // Act
             var currencyCode3 = currency.GetCurrencyCode3();
 
