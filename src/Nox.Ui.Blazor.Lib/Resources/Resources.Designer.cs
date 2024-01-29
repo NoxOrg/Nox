@@ -61,6 +61,24 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add {0}.
+        /// </summary>
+        internal static string AddEntity {
+            get {
+                return ResourceManager.GetString("AddEntity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is required..
         /// </summary>
         internal static string FieldIsRequired {

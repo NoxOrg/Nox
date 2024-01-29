@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace {{codeGenConventions.UiNameSpace}}.Forms.Add;
+namespace Cryptocash.Ui.Forms.Add;
 
-public partial class {{className}} : ComponentBase
+public partial class AddCommissionForm : ComponentBase
 {
     [Parameter]
     public EventCallback OnSubmit { get; set; }

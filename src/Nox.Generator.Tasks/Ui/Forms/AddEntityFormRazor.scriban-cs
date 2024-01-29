@@ -1,8 +1,8 @@
-﻿@namespace Cryptocash.Ui.Forms.Add
+﻿@namespace {{codeGenConventions.UiNameSpace}}.Forms.Add
 
 <MudDialog @bind-IsVisible="@IsVisible" Options="@AddDialogOptions">
     <TitleContent>
-        <MudText Typo="Typo.h6">ADD CashStockOrder</MudText>
+        <MudText Typo="Typo.h6">ADD {{entity.Name}}</MudText>
     </TitleContent>
     <DialogContent>
         <MudText>Add Dialog Content</MudText>

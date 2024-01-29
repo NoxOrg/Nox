@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nox.Generator.Tasks.Ui.Forms;
 
-internal class AddEntityFormGenerator : INoxFileGenerator
+internal class AddEntityFormRazorGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,14 +20,14 @@ internal class AddEntityFormGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Forms.AddEntityForm";
+        var templateName = @"Tasks.Ui.Forms.AddEntityFormRazor";
         var entities = codeGeneratorState.Solution.Domain.Entities
             .Where(e => !e.IsOwnedEntity && e.Persistence.Create.IsEnabled);
 
         foreach (var entity in entities)
         {
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
-                .WithFileExtension("razor.cs")
+                .WithFileExtension("razor")
                 .WithClassName($"Add{entity.Name}Form")
                 .WithFileNamePrefix($"Ui.Forms.Add")
                 .WithObject("entity", entity)
