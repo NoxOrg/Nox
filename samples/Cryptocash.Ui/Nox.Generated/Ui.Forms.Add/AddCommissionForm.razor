@@ -1,8 +1,10 @@
-﻿@namespace Cryptocash.Ui.Forms.Add
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+
+@namespace Cryptocash.Ui.Forms.Add
 
 <MudDialog @bind-IsVisible="@IsVisible" Options="@AddDialogOptions">
     <TitleContent>
-        <MudText Typo="Typo.h6">ADD Commission</MudText>
+        <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "Commission")</MudText>
     </TitleContent>
     <DialogContent>
         <MudText>Add Dialog Content</MudText>
@@ -11,12 +13,14 @@
         <MudButton OnClick="@OnCancelClicked"
                    Variant="Variant.Outlined"
                    Color="Color.Info"
-                   Style="Margin:15px;">CANCEL</MudButton>
+                   Style="Margin:15px;">
+            @NoxResources.Cancel.ToUpper()
+        </MudButton>
         <MudButton OnClick="@OnSubmitClicked"
                    Variant="Variant.Filled"
                    Color="Color.Info"
                    Style="Margin:15px;">
-            <MudText>SUBMIT</MudText>
+            <MudText>@NoxResources.Submit.ToUpper()</MudText>
         </MudButton>
     </DialogActions>
 </MudDialog>
