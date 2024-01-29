@@ -15,7 +15,7 @@ public interface IRepository
 
     ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
 
-    void Update<T>(T entity) where T : IEntity;
+    void Update<T>(T entity) where T : notnull;
 
     /// <summary>
     /// Deletes Entity

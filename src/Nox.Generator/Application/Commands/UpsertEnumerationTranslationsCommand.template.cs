@@ -7,12 +7,13 @@ using FluentValidation;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
 using Nox.Types.Abstractions.Extensions;
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
@@ -22,26 +23,25 @@ namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 {{- for enumAtt in enumerationAttributes }}
 
 {{-upsertCommand = 'Upsert' +  (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) + 'TranslationsCommand' }}
-{{-contextProperty = (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) }}
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
 public partial record  {{upsertCommand}}(IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{enumAtt.EntityDtoNameForLocalizedEnumeration}}s) : IRequest<IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>;
 
 internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 {
 	public {{upsertCommand}}Handler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public {{upsertCommand}}HandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>> Handle({{upsertCommand}} command, CancellationToken cancellationToken)
@@ -50,34 +50,37 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{u
 		await OnExecutingAsync(command);
 		
 		var cultureCodes = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		
-		var localizedEntities = await DbContext.{{contextProperty}}Localized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
+		var localizedEntities = await Repository.Query<{{entity.Name}}{{enumAtt.Attribute.Name}}Localized>()
+			.Where(x => cultureCodes.Contains(x.CultureCode))			
+			.ToListAsync(cancellationToken);
 		
 		var entities = new List<{{enumEntity}}>();
-		
-		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		foreach(var dto in command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
 		{
-			var e = new {{enumEntity}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Added;
-			entities.Add(e);
-		});
+            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
+	        if(entity is not null)
+			{
+                entity.Name = dto.Name;
+                entities.Add(entity);
+            }
+			else
+			{
+				var e = new {{enumEntity}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+				await Repository.AddAsync(e, cancellationToken);
+				entities.Add(e);
+			}
+        }
 		
-		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
-		{
-			var e = new {{enumEntity}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Modified;
-			entities.Add(e);
-		});
-		
+		//Update Default in Entity 
 		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
-			var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-			DbContext.Entry(e).State = EntityState.Modified;
+			var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			Repository.Update(e);
 		});
 		
 
 		await OnCompletedAsync(command, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s;
 	}
 }

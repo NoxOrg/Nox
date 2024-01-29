@@ -7,12 +7,13 @@ using FluentValidation;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
 using Nox.Types.Abstractions.Extensions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using CountryEntity = ClientApi.Domain.Country;
@@ -23,19 +24,19 @@ public partial record  UpsertCountriesContinentsTranslationsCommand(IEnumerable<
 internal partial class UpsertCountriesContinentsTranslationsCommandHandler : UpsertCountriesContinentsTranslationsCommandHandlerBase
 {
 	public UpsertCountriesContinentsTranslationsCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertCountriesContinentsTranslationsCommand, CountryContinentLocalized>, IRequestHandler<UpsertCountriesContinentsTranslationsCommand, IEnumerable<CountryContinentLocalizedDto>>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public UpsertCountriesContinentsTranslationsCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<IEnumerable<CountryContinentLocalizedDto>> Handle(UpsertCountriesContinentsTranslationsCommand command, CancellationToken cancellationToken)
@@ -44,34 +45,37 @@ internal abstract class UpsertCountriesContinentsTranslationsCommandHandlerBase 
 		await OnExecutingAsync(command);
 		
 		var cultureCodes = command.CountryContinentLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		
-		var localizedEntities = await DbContext.CountriesContinentsLocalized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
+		var localizedEntities = await Repository.Query<CountryContinentLocalized>()
+			.Where(x => cultureCodes.Contains(x.CultureCode))			
+			.ToListAsync(cancellationToken);
 		
 		var entities = new List<CountryContinentLocalized>();
-		
-		command.CountryContinentLocalizedDtos.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		foreach(var dto in command.CountryContinentLocalizedDtos)
 		{
-			var e = new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Added;
-			entities.Add(e);
-		});
+            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
+	        if(entity is not null)
+			{
+                entity.Name = dto.Name;
+                entities.Add(entity);
+            }
+			else
+			{
+				var e = new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+				await Repository.AddAsync(e, cancellationToken);
+				entities.Add(e);
+			}
+        }
 		
-		command.CountryContinentLocalizedDtos.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
-		{
-			var e = new CountryContinentLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Modified;
-			entities.Add(e);
-		});
-		
+		//Update Default in Entity 
 		command.CountryContinentLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
-			var e = new CountryContinent { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-			DbContext.Entry(e).State = EntityState.Modified;
+			var e = new CountryContinent { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			Repository.Update(e);
 		});
 		
 
 		await OnCompletedAsync(command, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return command.CountryContinentLocalizedDtos;
 	}
 }
