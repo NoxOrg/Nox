@@ -16,8 +16,8 @@ messaging:
     
   $ref: ./messaging/cryptocash.messaging.nox.yaml
 
-monitoring: 
-  $ref: ./messaging/cryptocash.monitoring.nox.yaml
+# monitoring: 
+#   $ref: ./messaging/cryptocash.monitoring.nox.yaml
 
 endpoints:
   

@@ -9,5 +9,6 @@ namespace Nox.Infrastructure
     {
         Assembly ClientAssembly { get; }
         Assembly DomainAssembly { get; }
-    }    
+        Assembly DtoAssembly { get; }
+    }
 }

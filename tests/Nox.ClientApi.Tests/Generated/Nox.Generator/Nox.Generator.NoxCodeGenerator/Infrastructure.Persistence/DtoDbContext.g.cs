@@ -108,7 +108,7 @@ internal abstract partial class DtoDbContextBase : DbContext, Nox.Application.Re
                 optionsBuilder, 
                 "ClientApi",
                 _noxSolution.Infrastructure!.Persistence.DatabaseServer,
-                _clientAssemblyProvider.ClientAssembly.GetName().Name);
+                _clientAssemblyProvider.DtoAssembly.GetName().Name);
             optionsBuilder.AddInterceptors(_interceptors);
         }
     }
@@ -125,16 +125,16 @@ internal abstract partial class DtoDbContextBase : DbContext, Nox.Application.Re
             {
                 var dtoName = entity.Name + "Dto";
 
-                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
+                var type = _clientAssemblyProvider.GetEntityDtoType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                     ?? throw new TypeNotFoundException(dtoName);
 
-                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.ClientAssembly);
+                _noxDtoDatabaseConfigurator.ConfigureDto(modelBuilder.Entity(type).ToTable(entity.Persistence.TableName), entity, _clientAssemblyProvider.DtoAssembly);
 
                 if (entity.IsLocalized)
                 {
                     dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
                     
-                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
+                    type = _clientAssemblyProvider.GetEntityDtoType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
                         ?? throw new TypeNotFoundException(dtoName);
 
                     _noxDtoDatabaseConfigurator.ConfigureLocalizedDto(modelBuilder.Entity(type!), entity);

@@ -7,6 +7,7 @@ using Nox.Application.Behaviors;
 using Nox.Application.Factories;
 using Nox.Application.Providers;
 using Nox.Configuration;
+using Nox.Extensions;
 using Nox.Presentation.Api;
 using Nox.Presentation.Api.Providers;
 using Nox.Types.EntityFramework.Abstractions;
@@ -54,11 +55,11 @@ public static class ServiceCollectionExtension
 
         return services;
     }
-    internal static IServiceCollection AddNoxMediatR(this IServiceCollection services, Assembly serviceAssembly)
+    internal static IServiceCollection AddNoxMediatR(this IServiceCollection services, Assembly[] clientAssemblies)
     {
         // Register all Behaviors - Filtering for example
         services.Scan(scan =>
-          scan.FromAssemblies(serviceAssembly)
+          scan.FromAssemblies(clientAssemblies)
           .AddClasses(classes => classes
                 .AssignableTo(typeof(IPipelineBehavior<,>))
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
@@ -68,7 +69,7 @@ public static class ServiceCollectionExtension
 
         // Register Command Validators, 
         services.Scan(scan =>
-          scan.FromAssemblies(serviceAssembly)
+          scan.FromAssemblies(clientAssemblies)
           .AddClasses(classes => classes
                 .AssignableTo(typeof(IValidator<>))
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
@@ -79,7 +80,7 @@ public static class ServiceCollectionExtension
         return services
             .AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(serviceAssembly);
+                cfg.RegisterServicesFromAssemblies(clientAssemblies);
                 cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>)); //Validation Extensibility
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });

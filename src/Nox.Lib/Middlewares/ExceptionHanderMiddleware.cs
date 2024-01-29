@@ -26,7 +26,7 @@ internal class ExceptionHanderMiddleware
     {
         try
         {
-            await _next(httpContext);
+                await _next(httpContext);
         }
         catch (Exception ex) when (ex is IApplicationException exception)
         {
