@@ -279,6 +279,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetNumber = "15",
             AddressLine1 = "AddressLine1",
             AddressLine2 = "AddressLine2",
+            AddressLine3 = "AddressLine3",
             Route = "Route",
             Locality = "Locality",
             Neighborhood = "Neighborhood",
@@ -296,6 +297,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         actualAddressValue.AddressLine1.Should().Be(expectedAddressValue.AddressLine1);
         actualAddressValue.AddressLine2.Should().Be(expectedAddressValue.AddressLine2);
+        actualAddressValue.AddressLine3.Should().Be(expectedAddressValue.AddressLine3);
         actualAddressValue.Locality.Should().Be(expectedAddressValue.Locality);
         actualAddressValue.Neighborhood.Should().Be(expectedAddressValue.Neighborhood);
         actualAddressValue.PostalCode.Should().Be(expectedAddressValue.PostalCode);

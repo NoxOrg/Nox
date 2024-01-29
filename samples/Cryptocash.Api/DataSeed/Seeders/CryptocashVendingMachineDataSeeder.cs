@@ -34,6 +34,7 @@ internal class CryptocashVendingMachineDataSeeder : DataSeederBase<VendingMachin
             StreetNumber = model.StreetAddress.StreetNumber,
             AddressLine1 = model.StreetAddress.AddressLine1,
             AddressLine2 = model.StreetAddress.AddressLine2,
+            AddressLine3 = model.StreetAddress.AddressLine3,
             Route = model.StreetAddress.Route,
             Locality = model.StreetAddress.Locality,
             Neighborhood = model.StreetAddress.Neighborhood,

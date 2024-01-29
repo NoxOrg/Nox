@@ -25,14 +25,14 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var franchiseStore1 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var franchiseStore2 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
@@ -40,7 +40,7 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             FranchisesOfStoreId = new List<System.Guid> { franchiseStore1!.Id, franchiseStore2!.Id }
         });
@@ -59,21 +59,21 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var franchiseStore1 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!,null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var franchiseStore2 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
@@ -95,21 +95,21 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var franchiseStore1 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var franchiseStore2 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             FranchisesOfStoreId = new List<System.Guid> { franchiseStore1!.Id, franchiseStore2!.Id }
         });
@@ -131,21 +131,21 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var franchiseStore1 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var franchiseStore2 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             FranchisesOfStoreId = new List<System.Guid> { franchiseStore1!.Id, franchiseStore2!.Id }
         });
@@ -167,21 +167,21 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var franchiseStore1 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var franchiseStore2 = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!,null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             FranchisesOfStoreId = new List<System.Guid> { franchiseStore1!.Id, franchiseStore2!.Id }
         });
@@ -207,7 +207,7 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var parentStore = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!,null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
@@ -215,7 +215,7 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             ParentOfStoreId = parentStore!.Id
         });
@@ -234,14 +234,14 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var parentStore = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
@@ -262,14 +262,14 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var parentStore = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             ParentOfStoreId = parentStore!.Id
         });
@@ -291,14 +291,14 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var parentStore = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             ParentOfStoreId = parentStore!.Id
         });
@@ -320,14 +320,14 @@ public class SelfReferencingRelationshipsTests : NoxWebApiTestBase
         var parentStore = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!,null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         });
 
         var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, new StoreCreateDto
         {
             Name = _fixture.Create<string>(),
-            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
+            Address = new StreetAddressDto(null!, "3000 Hillswood Business Park", null!, null!, null!, null!, null!, null!, null!, "KT16 0RS", CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
             ParentOfStoreId = parentStore!.Id
         });

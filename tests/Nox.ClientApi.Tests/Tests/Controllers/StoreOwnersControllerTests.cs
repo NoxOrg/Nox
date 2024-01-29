@@ -205,6 +205,7 @@ namespace ClientApi.Tests.Controllers
                  "3000",
                 "Hillswood Business Park",
                 null!,
+                null!,
                 "Hillswood Drive",
                 "Lyne",
                 null!,
@@ -236,6 +237,7 @@ namespace ClientApi.Tests.Controllers
             var expectedStreetAddressDto = new StreetAddressDto(
                  null!,
                  "3000 Hillswood Business Park",
+                 null!,
                  null!,
                  null!,
                  null!,
@@ -278,6 +280,7 @@ namespace ClientApi.Tests.Controllers
                      null!,
                      null!,
                      null!,
+                     null!,
                      "KT16 0RS",
                      CountryCode.GB),
             };
@@ -307,6 +310,7 @@ namespace ClientApi.Tests.Controllers
                      null!,
                      null!,
                      null!,
+                     null!,
                      CountryCode.GB),
             };
 
@@ -328,6 +332,7 @@ namespace ClientApi.Tests.Controllers
                 StreetAddress = new StreetAddressDto(
                      null!,
                      "3000 Hillswood Business Park",
+                     null!,
                      null!,
                      null!,
                      null!,
@@ -404,6 +409,7 @@ namespace ClientApi.Tests.Controllers
                 Address = new StreetAddressDto(
                      null!,
                      "3000 Hillswood Business Park",
+                     null!,
                      null!,
                      null!,
                      null!,

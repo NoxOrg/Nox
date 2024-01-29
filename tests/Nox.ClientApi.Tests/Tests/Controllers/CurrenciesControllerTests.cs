@@ -71,6 +71,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
+                     null!,
                      "KT16 0RS",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),

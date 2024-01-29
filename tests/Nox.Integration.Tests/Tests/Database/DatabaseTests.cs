@@ -61,6 +61,8 @@ public class DatabaseTests
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
+            AddressLine2 = "AddressLine2",
+            AddressLine3 = "AddressLine3",
             CountryId = Enum.Parse<CountryCode>(countryCode2),
             PostalCode = "61135"
         };
