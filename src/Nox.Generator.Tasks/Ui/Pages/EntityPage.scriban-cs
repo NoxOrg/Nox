@@ -1,0 +1,49 @@
+﻿@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Services
+@using {{codeGenConventions.UiNameSpace}}.Forms.Add
+
+@namespace {{codeGenConventions.UiNameSpace}}.Pages
+
+@page "/{{entity.PluralName}}"
+
+@inject GlobalDataService GlobalData
+@{
+    GlobalData.PageTitle = "{{entity.PluralName}}";
+}
+
+<MudText>{{entity.PluralName}}</MudText>
+
+<MudGrid Spacing="0">
+    <MudItem xs="12">
+        <MudText>Search section</MudText>
+    </MudItem>
+{{- if entity.Persistence.Create.IsEnabled }}
+    <MudItem xs="12">
+        <Actions OnAdd="ShowAddDialog" />
+    </MudItem>
+    <Add{{entity.Name}}Form @bind-IsVisible="showAddDialog" OnSubmit="Add{{entity.Name}}Submit" OnCancel="HideAddDialog" />
+{{- end }}
+</MudGrid>
+
+@code{
+{{- if entity.Persistence.Create.IsEnabled }}
+#region ADD
+    private bool showAddDialog = false;
+
+    private void ShowAddDialog()
+    {
+        showAddDialog = true;
+    }
+
+    private void HideAddDialog()
+    {
+        showAddDialog = false;
+    }
+
+    private void Add{{entity.Name}}Submit()
+    {
+        showAddDialog = false;
+    }
+#endregion ADD
+{{- end }}
+}

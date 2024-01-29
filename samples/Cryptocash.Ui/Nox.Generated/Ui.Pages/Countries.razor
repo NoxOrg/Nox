@@ -1,0 +1,45 @@
+﻿@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Services
+@using Cryptocash.Ui.Forms.Add
+
+@namespace Cryptocash.Ui.Pages
+
+@page "/Countries"
+
+@inject GlobalDataService GlobalData
+@{
+    GlobalData.PageTitle = "Countries";
+}
+
+<MudText>Countries</MudText>
+
+<MudGrid Spacing="0">
+    <MudItem xs="12">
+        <MudText>Search section</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <Actions OnAdd="ShowAddDialog" />
+    </MudItem>
+    <AddCountryForm @bind-IsVisible="showAddDialog" OnSubmit="AddCountrySubmit" OnCancel="HideAddDialog" />
+</MudGrid>
+
+@code{
+#region ADD
+    private bool showAddDialog = false;
+
+    private void ShowAddDialog()
+    {
+        showAddDialog = true;
+    }
+
+    private void HideAddDialog()
+    {
+        showAddDialog = false;
+    }
+
+    private void AddCountrySubmit()
+    {
+        showAddDialog = false;
+    }
+#endregion ADD
+}

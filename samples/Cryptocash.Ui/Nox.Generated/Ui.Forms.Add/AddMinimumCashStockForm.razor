@@ -1,0 +1,26 @@
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+
+@namespace Cryptocash.Ui.Forms.Add
+
+<MudDialog @bind-IsVisible="@IsVisible" Options="@AddDialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "MinimumCashStock")</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText>Add Dialog Content</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@OnCancelClicked"
+                   Variant="Variant.Outlined"
+                   Color="Color.Info"
+                   Style="Margin:15px;">
+            @NoxResources.Cancel.ToUpper()
+        </MudButton>
+        <MudButton OnClick="@OnSubmitClicked"
+                   Variant="Variant.Filled"
+                   Color="Color.Info"
+                   Style="Margin:15px;">
+            <MudText>@NoxResources.Submit.ToUpper()</MudText>
+        </MudButton>
+    </DialogActions>
+</MudDialog>

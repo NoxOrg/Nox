@@ -2,9 +2,9 @@
 using Nox.Solution;
 using System.Linq;
 
-namespace Nox.Generator.Tasks.Ui.Pages;
+namespace Nox.Generator.Tasks.Ui.Forms;
 
-internal class EntityListGenerator : INoxFileGenerator
+internal class AddEntityFormGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,18 +20,16 @@ internal class EntityListGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Pages.EntityList";
+        var templateName = @"Tasks.Ui.Forms.AddEntityForm";
         var entities = codeGeneratorState.Solution.Domain.Entities
-            .Where(e => !e.IsOwnedEntity && e.Persistence.Read.IsEnabled)
-            .OrderBy(e => e.PluralName);
+            .Where(e => !e.IsOwnedEntity && e.Persistence.Create.IsEnabled);
 
         foreach (var entity in entities)
         {
-
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
-                .WithFileExtension("razor")
-                .WithClassName($"{entity.PluralName}List")
-                .WithFileNamePrefix($"Ui.Pages")
+                .WithFileExtension("razor.cs")
+                .WithClassName($"Add{entity.Name}Form")
+                .WithFileNamePrefix($"Ui.Forms.Add")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }
