@@ -1,0 +1,22 @@
+﻿using MudBlazor.Services;
+using Nox.Ui.Blazor.Lib.Services;
+using {{codeGenConventions.UiNameSpace}}.Services;
+
+namespace {{codeGenConventions.UiNameSpace}}.Extensions;
+
+public static class {{className}}
+{
+    public static IServiceCollection AddNoxUi(this IServiceCollection services)
+    {
+        services.AddSingleton<GlobalDataService>();
+        services.AddMudServices();
+        services.AddHttpClient();
+        services.AddScoped<EndpointsProvider>();
+        
+        {{- for entity in entities }}
+        services.AddScoped<{{entity.PluralName}}Service>();
+        {{- end }}
+        
+        return services;
+    }
+}
