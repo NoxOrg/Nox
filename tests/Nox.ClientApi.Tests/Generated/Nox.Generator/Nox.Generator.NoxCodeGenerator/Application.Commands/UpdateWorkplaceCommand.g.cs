@@ -5,14 +5,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
-using FluentValidation;
-using ClientApi.Infrastructure.Persistence;
+
+
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -25,47 +28,48 @@ public partial record UpdateWorkplaceCommand(System.Int64 keyId, WorkplaceUpdate
 internal partial class UpdateWorkplaceCommandHandler : UpdateWorkplaceCommandHandlerBase
 {
 	public UpdateWorkplaceCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWorkplaceCommand, WorkplaceEntity>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto>
 {
-	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;
+	protected IRepository Repository { get; }
+	protected IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory { get; }
 	protected UpdateWorkplaceCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.WorkplaceMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.Workplaces.FindAsync(keyId);
+		var entity = Repository.Query<Workplace>()
+            .Where(x => x.Id == Dto.WorkplaceMetadata.CreateId(request.keyId))
+			.SingleOrDefault();
+		
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Workplace",  "keyId");
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		//Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 
 		return new WorkplaceKeyDto(entity.Id.Value);
 	}

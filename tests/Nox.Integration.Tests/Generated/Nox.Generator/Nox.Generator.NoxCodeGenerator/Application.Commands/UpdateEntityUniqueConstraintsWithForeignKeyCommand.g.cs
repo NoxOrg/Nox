@@ -5,14 +5,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
-using FluentValidation;
-using TestWebApp.Infrastructure.Persistence;
+
+
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -25,47 +28,48 @@ public partial record UpdateEntityUniqueConstraintsWithForeignKeyCommand(System.
 internal partial class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandler : UpdateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase
 {
 	public UpdateEntityUniqueConstraintsWithForeignKeyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal abstract class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase : CommandBase<UpdateEntityUniqueConstraintsWithForeignKeyCommand, EntityUniqueConstraintsWithForeignKeyEntity>, IRequestHandler<UpdateEntityUniqueConstraintsWithForeignKeyCommand, EntityUniqueConstraintsWithForeignKeyKeyDto>
 {
-	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> _entityFactory;
+	protected IRepository Repository { get; }
+	protected IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> EntityFactory { get; }
 	protected UpdateEntityUniqueConstraintsWithForeignKeyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EntityUniqueConstraintsWithForeignKeyEntity, EntityUniqueConstraintsWithForeignKeyCreateDto, EntityUniqueConstraintsWithForeignKeyUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<EntityUniqueConstraintsWithForeignKeyKeyDto> Handle(UpdateEntityUniqueConstraintsWithForeignKeyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.EntityUniqueConstraintsWithForeignKeys.FindAsync(keyId);
+		var entity = Repository.Query<EntityUniqueConstraintsWithForeignKey>()
+            .Where(x => x.Id == Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId))
+			.SingleOrDefault();
+		
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  "keyId");
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		//Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 
 		return new EntityUniqueConstraintsWithForeignKeyKeyDto(entity.Id.Value);
 	}
