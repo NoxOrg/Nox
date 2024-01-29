@@ -5,14 +5,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
-using FluentValidation;
-using ClientApi.Infrastructure.Persistence;
+
+
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -25,47 +28,48 @@ public partial record UpdateClientCommand(System.Guid keyId, ClientUpdateDto Ent
 internal partial class UpdateClientCommandHandler : UpdateClientCommandHandlerBase
 {
 	public UpdateClientCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClientCommand, ClientEntity>, IRequestHandler<UpdateClientCommand, ClientKeyDto>
 {
-	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> _entityFactory;
+	protected IRepository Repository { get; }
+	protected IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> EntityFactory { get; }
 	protected UpdateClientCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientEntity, ClientCreateDto, ClientUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<ClientKeyDto> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.ClientMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.Clients.FindAsync(keyId);
+		var entity = Repository.Query<Client>()
+            .Where(x => x.Id == Dto.ClientMetadata.CreateId(request.keyId))
+			.SingleOrDefault();
+		
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("Client",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Client",  "keyId");
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		//Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 
 		return new ClientKeyDto(entity.Id.Value);
 	}

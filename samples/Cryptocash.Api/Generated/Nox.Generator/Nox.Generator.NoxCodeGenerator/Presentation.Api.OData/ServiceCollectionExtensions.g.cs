@@ -36,6 +36,10 @@ public static class ServiceCollectionExtensions
     {
         // Set the Assembly where Entities are generated
         NoxAssemblyConfiguration.DomainAssembly = typeof(Cryptocash.Domain.Booking).Assembly;
+        // Set the Assembly where Application code is generated
+        NoxAssemblyConfiguration.ApplicationAssembly = typeof(Cryptocash.Application.Services.RelationshipChainValidator).Assembly;
+        // Set the Assembly where Dto's are generated
+        NoxAssemblyConfiguration.DtoAssembly = typeof(Cryptocash.Application.Dto.BookingDto).Assembly;
 
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {

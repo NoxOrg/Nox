@@ -39,6 +39,10 @@ public static class {{className}}
         {{- if solution.Domain != null }}
         // Set the Assembly where Entities are generated
         NoxAssemblyConfiguration.DomainAssembly = typeof({{codeGenConventions.DomainNameSpace}}.{{solution.Domain.Entities[0].Name}}).Assembly;
+        // Set the Assembly where Application code is generated
+        NoxAssemblyConfiguration.ApplicationAssembly = typeof({{codeGenConventions.ApplicationNameSpace}}.Services.RelationshipChainValidator).Assembly;
+        // Set the Assembly where Dto's are generated
+        NoxAssemblyConfiguration.DtoAssembly = typeof({{codeGenConventions.DtoNameSpace}}.{{solution.Domain.Entities[0].Name}}Dto).Assembly;
         {{- end }}
 
         services.AddNoxLib(webApplicationBuilder, configurator =>
