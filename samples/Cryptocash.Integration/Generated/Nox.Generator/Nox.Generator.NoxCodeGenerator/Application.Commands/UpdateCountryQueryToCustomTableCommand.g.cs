@@ -5,14 +5,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
-using FluentValidation;
-using CryptocashIntegration.Infrastructure.Persistence;
+
+
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
 using Dto = CryptocashIntegration.Application.Dto;
@@ -25,47 +28,48 @@ public partial record UpdateCountryQueryToCustomTableCommand(System.Int32 keyId,
 internal partial class UpdateCountryQueryToCustomTableCommandHandler : UpdateCountryQueryToCustomTableCommandHandlerBase
 {
 	public UpdateCountryQueryToCustomTableCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : CommandBase<UpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableEntity>, IRequestHandler<UpdateCountryQueryToCustomTableCommand, CountryQueryToCustomTableKeyDto>
 {
-	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> _entityFactory;
+	protected IRepository Repository { get; }
+	protected IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> EntityFactory { get; }
 	protected UpdateCountryQueryToCustomTableCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQueryToCustomTableEntity, CountryQueryToCustomTableCreateDto, CountryQueryToCustomTableUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryQueryToCustomTableKeyDto> Handle(UpdateCountryQueryToCustomTableCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.CountryQueryToCustomTableMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.CountryQueryToCustomTables.FindAsync(keyId);
+		var entity = Repository.Query<CountryQueryToCustomTable>()
+            .Where(x => x.Id == Dto.CountryQueryToCustomTableMetadata.CreateId(request.keyId))
+			.SingleOrDefault();
+		
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("CountryQueryToCustomTable",  "keyId");
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		//Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 
 		return new CountryQueryToCustomTableKeyDto(entity.Id.Value);
 	}

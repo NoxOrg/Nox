@@ -5,14 +5,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
-using FluentValidation;
-using TestWebApp.Infrastructure.Persistence;
+
+
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -25,47 +28,48 @@ public partial record UpdateTestEntityOneOrManyCommand(System.String keyId, Test
 internal partial class UpdateTestEntityOneOrManyCommandHandler : UpdateTestEntityOneOrManyCommandHandlerBase
 {
 	public UpdateTestEntityOneOrManyCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal abstract class UpdateTestEntityOneOrManyCommandHandlerBase : CommandBase<UpdateTestEntityOneOrManyCommand, TestEntityOneOrManyEntity>, IRequestHandler<UpdateTestEntityOneOrManyCommand, TestEntityOneOrManyKeyDto>
 {
-	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> _entityFactory;
+	protected IRepository Repository { get; }
+	protected IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> EntityFactory { get; }
 	protected UpdateTestEntityOneOrManyCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<TestEntityOneOrManyKeyDto> Handle(UpdateTestEntityOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.TestEntityOneOrManyMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.TestEntityOneOrManies.FindAsync(keyId);
+		var entity = Repository.Query<TestEntityOneOrMany>()
+            .Where(x => x.Id == Dto.TestEntityOneOrManyMetadata.CreateId(request.keyId))
+			.SingleOrDefault();
+		
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("TestEntityOneOrMany",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("TestEntityOneOrMany",  "keyId");
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		//Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 
 		return new TestEntityOneOrManyKeyDto(entity.Id.Value);
 	}

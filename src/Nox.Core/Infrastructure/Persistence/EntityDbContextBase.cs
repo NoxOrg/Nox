@@ -263,8 +263,10 @@ namespace Nox.Infrastructure.Persistence
         {
             var entity = await Set<T>().FindAsync(keyValues, cancellationToken);
             if (entity is not null)
-            {
-                await Entry(entity).Collection(includeExpression).LoadAsync(cancellationToken);
+            {                
+                await Entry(entity)
+                    .Collection(includeExpression)
+                    .LoadAsync(cancellationToken);
             }
             return entity;
         }
