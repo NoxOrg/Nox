@@ -30,6 +30,7 @@ using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Http;
 using Nox.Application.Repositories;
 using Nox.Exceptions;
+using System.Collections.Immutable;
 
 namespace Nox.Configuration
 {
@@ -70,7 +71,7 @@ namespace Nox.Configuration
         }
 
         public INoxOptions WithoutHealthChecks()
-        {            
+        {
             _withHealthChecks = false;
             _healthChecksBuilderAction = null;
             return this;
@@ -91,15 +92,15 @@ namespace Nox.Configuration
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
-                services.AddScoped(typeof(IRepository),serviceProvider => serviceProvider.GetRequiredService<T>());
-                
+                services.AddScoped(typeof(IRepository), serviceProvider => serviceProvider.GetRequiredService<T>());
+
                 services.AddDbContext<D>();
                 services.AddScoped(typeof(IReadOnlyRepository), serviceProvider => serviceProvider.GetRequiredService<D>());
             };
 
             return this;
-        }      
-   
+        }
+
         public INoxOptions WithoutMessagingTransactionalOutbox()
         {
             _configureMassTransitTransactionalOutbox = null;
@@ -157,7 +158,7 @@ namespace Nox.Configuration
         public INoxOptions WithClientAssembly(Assembly clientAssembly)
         {
             ArgumentNullException.ThrowIfNull(clientAssembly);
-            
+
             _clientAssembly = clientAssembly;
 
             return this;
@@ -171,29 +172,40 @@ namespace Nox.Configuration
         }
 
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
-        {         
-            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");            
+        {
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.ApplicationAssembly, "Application is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DtoAssembly, "Dto is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
 
-            var referencedAssemblies = _clientAssembly!
+            var referencedAssemblyNames = _clientAssembly!
                 .GetReferencedAssemblies()
                 .Union(Assembly.GetExecutingAssembly()!.GetReferencedAssemblies())
-                .Distinct();
+                .Distinct().ToImmutableArray();
+                      
 
             // Nox + Entry Assembly
-            var noxAndEntryAssemblies = referencedAssemblies
+            var noxAndEntryAssemblies = referencedAssemblyNames
                 .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
                 .Select(Assembly.Load)
-                .Union(new[] { _clientAssembly! }).ToArray();
+                .Union(new[] { _clientAssembly!, NoxAssemblyConfiguration.DomainAssembly, NoxAssemblyConfiguration.DtoAssembly, NoxAssemblyConfiguration.ApplicationAssembly })
+                .Distinct()
+                .ToArray();
 
             var noxSolution = CreateSolution(services.BuildServiceProvider());
-            
+
             services
                 .AddSingleton(typeof(NoxSolution), noxSolution)
-                .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly, NoxAssemblyConfiguration.DomainAssembly))
+                .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider =>
+                        new NoxClientAssemblyProvider(
+                            _clientAssembly,
+                            NoxAssemblyConfiguration.DomainAssembly,
+                            NoxAssemblyConfiguration.DtoAssembly,
+                            NoxAssemblyConfiguration.ApplicationAssembly))
+
                 .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>()))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
-                .AddNoxMediatR(_clientAssembly)
+                .AddNoxMediatR(noxAndEntryAssemblies)
                 .AddNoxFactories(noxAndEntryAssemblies)
                 .AddEtlBox()
                 .AddNoxProviders()
@@ -206,7 +218,7 @@ namespace Nox.Configuration
             AddLogging(webApplicationBuilder);
             AddSwagger(services);
 
-            if(_withHealthChecks)
+            if (_withHealthChecks)
             {
                 var healthCheckBuilder = services.AddHealthChecks();
                 _healthChecksBuilderAction?.Invoke(healthCheckBuilder);
@@ -258,7 +270,7 @@ namespace Nox.Configuration
                 services.AddSingleton(typeof(INoxDatabaseConfigurator), dbProviderType);
                 services.AddSingleton(typeof(INoxDatabaseProvider), dbProviderType);
 
-                
+
                 _configureRepositories?.Invoke(services);
 
                 services.AddScoped<IInterceptor, LangParamDbCommandInterceptor>();
@@ -312,7 +324,7 @@ namespace Nox.Configuration
         private void AddSwagger(IServiceCollection services)
         {
             if (!_withSwagger) return;
-            
+
             services.AddSwaggerGen(opts =>
             {
                 opts.EnableAnnotations();
@@ -344,13 +356,13 @@ namespace Nox.Configuration
                 .WithSecretsVariableValueProvider(secretsProvider)
                 .Build();
         }
-        
+
         private void AddIntegrations(IServiceCollection services)
         {
             services.AddNoxIntegrations(options =>
             {
                 options.WithSqlServerStore();
             });
-        }       
+        }
     }
 }

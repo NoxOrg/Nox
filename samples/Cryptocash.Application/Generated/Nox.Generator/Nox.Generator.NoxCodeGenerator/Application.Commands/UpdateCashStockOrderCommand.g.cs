@@ -5,14 +5,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
 using Nox.Extensions;
-using FluentValidation;
-using Cryptocash.Infrastructure.Persistence;
+
+
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -25,47 +28,48 @@ public partial record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockO
 internal partial class UpdateCashStockOrderCommandHandler : UpdateCashStockOrderCommandHandlerBase
 {
 	public UpdateCashStockOrderCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<UpdateCashStockOrderCommand, CashStockOrderEntity>, IRequestHandler<UpdateCashStockOrderCommand, CashStockOrderKeyDto>
 {
-	public AppDbContext DbContext { get; }
-	private readonly IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> _entityFactory;
+	protected IRepository Repository { get; }
+	protected IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> EntityFactory { get; }
 	protected UpdateCashStockOrderCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
-		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CashStockOrderKeyDto> Handle(UpdateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.CashStockOrderMetadata.CreateId(request.keyId);
 
-		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
+		var entity = Repository.Query<CashStockOrder>()
+            .Where(x => x.Id == Dto.CashStockOrderMetadata.CreateId(request.keyId))
+			.SingleOrDefault();
+		
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("CashStockOrder",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("CashStockOrder",  "keyId");
 		}
 
-		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		await OnCompletedAsync(request, entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		//Repository.SetStateModified(entity);
+		await OnCompletedAsync(request, entity);		
+		await Repository.SaveChangesAsync();
 
 		return new CashStockOrderKeyDto(entity.Id.Value);
 	}

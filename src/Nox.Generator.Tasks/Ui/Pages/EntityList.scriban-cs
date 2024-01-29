@@ -1,0 +1,12 @@
+﻿@using Nox.Ui.Blazor.Lib.Services
+
+@namespace {{codeGenConventions.UiNameSpace}}.Pages
+
+@page "/{{entity.PluralName}}"
+
+@inject GlobalDataService GlobalData
+@{
+    GlobalData.PageTitle = "{{entity.PluralName}}";
+}
+
+<MudText>{{entity.PluralName}}</MudText>

@@ -3,7 +3,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Tasks.Ui.Components;
 
-internal class NavigationMenuRazor : INoxFileGenerator
+internal class NavigationMenuRazorGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 

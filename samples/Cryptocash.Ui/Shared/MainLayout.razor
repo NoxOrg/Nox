@@ -10,55 +10,9 @@
         .Concat(new List<NavigationItem>
             {
                 new NavigationItem("Test Lib", "TestLib", "<path d=\"M19.8,18.4L14,10.67V6.5l1.35-1.69C15.61,4.48,15.38,4,14.96,4H9.04C8.62,4,8.39,4.48,8.65,4.81L10,6.5v4.17L4.2,18.4 C3.71,19.06,4.18,20,5,20h14C19.82,20,20.29,19.06,19.8,18.4z\"></path>"),
-            })
+                new NavigationItem("Custom Customers", "CustomCustomers"),            
+                new NavigationItem("Custom Employees", "CustomEmployees"),            
+                new NavigationItem("Custom Vending Machines", "CustomVendingMachines"),
+                    })
         .ToList();
 }
-
-@* @inherits MainLayoutBase
-
-<PageTitle>@GlobalData?.CurrentDomainEntity</PageTitle>
-
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
-
-<MudDrawerContainer Class="mud-height-full">
-    <MudDrawer @bind-Open="@DrawerOpen" Fixed="true" Variant="@DrawerVariant.Mini" Color="Color.Dark" Style="position:fixed;">
-        <MudDrawerHeader Style="padding:0px">
-            <table style="width:100%">
-                <tr>
-                    <td style="text-align:right">
-                        @if (DrawerOpen)
-                        {
-                            <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" OnClick="ToggleDrawer" Color="Color.Inherit" Style="padding:18px 20px 0px 0px;margin-top:-11px;"></MudIconButton>
-                        }
-                        else
-                        {
-                            <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="ToggleDrawer" Color="Color.Inherit" Style="padding:18px 15px 0px 0px;margin-top:-11px;"></MudIconButton>
-                        }
-                    </td>
-                </tr>
-            </table>
-        </MudDrawerHeader>
-        @{
-            var customNavigationItems = NavigationMenu.DefaultNavigationItems.ToList();
-            customNavigationItems.AddRange(new List<NavigationItem>
-            {
-                new NavigationItem("Test", "Test", "<path d=\"M19.8,18.4L14,10.67V6.5l1.35-1.69C15.61,4.48,15.38,4,14.96,4H9.04C8.62,4,8.39,4.48,8.65,4.81L10,6.5v4.17L4.2,18.4 C3.71,19.06,4.18,20,5,20h14C19.82,20,20.29,19.06,19.8,18.4z\"></path>"),
-                new NavigationItem("Test Lib", "TestLib", "<path d=\"M19.8,18.4L14,10.67V6.5l1.35-1.69C15.61,4.48,15.38,4,14.96,4H9.04C8.62,4,8.39,4.48,8.65,4.81L10,6.5v4.17L4.2,18.4 C3.71,19.06,4.18,20,5,20h14C19.82,20,20.29,19.06,19.8,18.4z\"></path>"),
-            });
-        }
-        <NavigationMenu NavigationItems="@customNavigationItems" />
-    </MudDrawer>
-    <CascadingValue Value="@GlobalData">        
-        <div>
-            <main>            
-                <UiHeader />
-                <article class="content px-4"> 
-                    @Body
-                </article>
-            </main>
-        </div>
-    </CascadingValue>
-</MudDrawerContainer>
- *@

@@ -4,7 +4,7 @@
 # yaml-language-server: $schema=../../../../../schemas/monitoring.json
 #
   
-provider: ElasticApm
-elasticApmServer: 
-  serverUri: "http://localhost:8200"
-  serviceName: "CryptoCash.Api"
+# provider: ElasticApm
+# elasticApmServer: 
+#   serverUri: "http://localhost:8200"
+#   serviceName: "CryptoCash.Api"

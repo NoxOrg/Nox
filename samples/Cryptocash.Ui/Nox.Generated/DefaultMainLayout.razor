@@ -1,0 +1,58 @@
+﻿@using Cryptocash.Ui.Components;
+@using Nox.Ui.Blazor.Lib.Services;
+
+@namespace Cryptocash.Ui
+
+@inject GlobalDataService GlobalData
+
+@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudDrawerContainer Class="mud-height-full">
+    <MudDrawer @bind-Open="@drawerOpen" Fixed="true" Variant="@DrawerVariant.Mini" Color="Color.Dark" Style="position:fixed;">
+        <MudDrawerHeader Style="padding:0px">
+            <table style="width:100%">
+                <tr>
+                    <td style="text-align:right">
+                        @if (drawerOpen)
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" OnClick="ToggleDrawer" Color="Color.Inherit" Style="padding:18px 20px 0px 0px;margin-top:-11px;"></MudIconButton>
+                        }
+                        else
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="ToggleDrawer" Color="Color.Inherit" Style="padding:18px 15px 0px 0px;margin-top:-11px;"></MudIconButton>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </MudDrawerHeader>
+        <NavigationMenu NavigationItems="@NavigationItems" />
+    </MudDrawer>
+    <div>
+        <main>
+            <Header />
+            <article class="content px-4">
+                <PageTitle>@GlobalData.PageTitle</PageTitle>
+                @ChildContent
+            </article>
+        </main>
+    </div>
+</MudDrawerContainer>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public List<NavigationItem> NavigationItems { get; set; } = NavigationMenu.DefaultNavigationItems.ToList();
+
+    private bool drawerOpen = true;
+
+    private void ToggleDrawer()
+    {
+        drawerOpen = !drawerOpen;
+    }
+}
