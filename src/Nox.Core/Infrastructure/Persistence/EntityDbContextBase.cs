@@ -339,7 +339,7 @@ namespace Nox.Infrastructure.Persistence
         public void SetStateDetached(object entity)
         {
             Entry(entity).State = EntityState.Detached;
-        }
+        }        
         #endregion
     }
 }

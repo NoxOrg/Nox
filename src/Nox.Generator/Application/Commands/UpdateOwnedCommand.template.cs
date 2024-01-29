@@ -3,7 +3,7 @@
    ret (key.Type == "EntityId") ? (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) : (SinglePrimitiveTypeForKey key)
 end -}}
 {{- func keysToString(keys, prefix = "key")
-	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")
+	keyNameWithPrefix(name) = (prefix + name)
 	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
 end -}}
 ﻿// Generated
@@ -12,15 +12,16 @@ end -}}
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Nox.Application.Commands;
 using Nox.Solution;
+using Nox.Domain;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Exceptions;
-using FluentValidation;
-using Microsoft.Extensions.Logging;
-using {{codeGenConventions.PersistenceNameSpace}};
+
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
@@ -34,26 +35,26 @@ public partial record Update{{relationshipName}}For{{parent.Name}}Command({{pare
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
 	public Update{{relationshipName}}For{{parent.Name}}CommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto>
 {
-	private readonly AppDbContext _dbContext;
+	private readonly IRepository _repository;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
 
 	protected Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
+		_repository = repository;
 		_entityFactory = entityFactory;
 	}
 
@@ -62,17 +63,15 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
+		var keys = new List<object?>({{parent.Keys | array.size}});
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
-		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
-		if (parentEntity == null)
-		{
-			throw new EntityNotFoundException("{{parent.Name}}",  $"{{keysToString parent.Keys}}");
-		}
 
-		{{- if relationship.WithSingleEntity }}
-		await _dbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
+		EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}",  "{{keysToString parent.Keys}}");
+
+		{{- if relationship.WithSingleEntity }}		
 		var entity = parentEntity.{{relationshipName}};
 		if (entity is null)
 			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
@@ -80,9 +79,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		{{- else }}
 
-		{{- key = entity.Keys | array.first }}
-		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
-		
+		{{- key = entity.Keys | array.first }}				
 		{{entity.Name}}Entity? entity;
 		if(request.EntityDto.{{key.Name}} is null)
 		{
@@ -104,12 +101,10 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 
 		{{- end }}
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		_repository.SetStateModified(parentEntity);
 		await OnCompletedAsync(request, entity!);
-
-		_dbContext.Entry(parentEntity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await _repository.SaveChangesAsync();
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}

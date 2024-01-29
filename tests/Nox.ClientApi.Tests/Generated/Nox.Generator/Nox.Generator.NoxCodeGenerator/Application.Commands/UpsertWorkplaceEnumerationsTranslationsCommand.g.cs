@@ -7,12 +7,13 @@ using FluentValidation;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
 using Nox.Types.Abstractions.Extensions;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
@@ -23,19 +24,19 @@ public partial record  UpsertWorkplacesOwnershipsTranslationsCommand(IEnumerable
 internal partial class UpsertWorkplacesOwnershipsTranslationsCommandHandler : UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase
 {
 	public UpsertWorkplacesOwnershipsTranslationsCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertWorkplacesOwnershipsTranslationsCommand, WorkplaceOwnershipLocalized>, IRequestHandler<UpsertWorkplacesOwnershipsTranslationsCommand, IEnumerable<WorkplaceOwnershipLocalizedDto>>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<IEnumerable<WorkplaceOwnershipLocalizedDto>> Handle(UpsertWorkplacesOwnershipsTranslationsCommand command, CancellationToken cancellationToken)
@@ -44,34 +45,37 @@ internal abstract class UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase
 		await OnExecutingAsync(command);
 		
 		var cultureCodes = command.WorkplaceOwnershipLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		
-		var localizedEntities = await DbContext.WorkplacesOwnershipsLocalized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
+		var localizedEntities = await Repository.Query<WorkplaceOwnershipLocalized>()
+			.Where(x => cultureCodes.Contains(x.CultureCode))			
+			.ToListAsync(cancellationToken);
 		
 		var entities = new List<WorkplaceOwnershipLocalized>();
-		
-		command.WorkplaceOwnershipLocalizedDtos.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		foreach(var dto in command.WorkplaceOwnershipLocalizedDtos)
 		{
-			var e = new WorkplaceOwnershipLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Added;
-			entities.Add(e);
-		});
+            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
+	        if(entity is not null)
+			{
+                entity.Name = dto.Name;
+                entities.Add(entity);
+            }
+			else
+			{
+				var e = new WorkplaceOwnershipLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+				await Repository.AddAsync(e, cancellationToken);
+				entities.Add(e);
+			}
+        }
 		
-		command.WorkplaceOwnershipLocalizedDtos.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
-		{
-			var e = new WorkplaceOwnershipLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Modified;
-			entities.Add(e);
-		});
-		
+		//Update Default in Entity 
 		command.WorkplaceOwnershipLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
-			var e = new WorkplaceOwnership { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-			DbContext.Entry(e).State = EntityState.Modified;
+			var e = new WorkplaceOwnership { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			Repository.Update(e);
 		});
 		
 
 		await OnCompletedAsync(command, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return command.WorkplaceOwnershipLocalizedDtos;
 	}
 }
