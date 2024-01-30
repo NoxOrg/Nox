@@ -45,6 +45,5 @@ public interface IRepository
     Task<long> GetSequenceNextValueAsync(string sequenceName);
 
     Task SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-    void SetStateModified(object entity);
     void SetStateDetached(object entity);    
 }

@@ -207,7 +207,7 @@ internal abstract class RefCommissionToBookingsCommandHandlerBase<TRequest> : Co
 
 	protected async Task SaveChangesAsync(TRequest request, CommissionEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

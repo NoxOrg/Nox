@@ -9,8 +9,8 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
+using Nox.Domain;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -21,55 +21,53 @@ public partial record PartialUpdateTenantBrandsForTenantCommand(TenantKeyDto Par
 internal partial class PartialUpdateTenantBrandsForTenantCommandHandler: PartialUpdateTenantBrandsForTenantCommandHandlerBase
 {
 	public PartialUpdateTenantBrandsForTenantCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateTenantBrandsForTenantCommandHandlerBase: CommandBase<PartialUpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <PartialUpdateTenantBrandsForTenantCommand, TenantBrandKeyDto>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
+	protected readonly IRepository Repository;
+	protected readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> EntityFactory;
 	
 	protected PartialUpdateTenantBrandsForTenantCommandHandlerBase(
-		AppDbContext dbContext,
+		IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<TenantBrandKeyDto> Handle(PartialUpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Tenants.FindAsync(keyId);
+		var keys = new List<object?>(1);
+		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
+
+		var parentEntity = await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(),e => e.TenantBrands, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Tenant",  "keyId");
 		}
-		await _dbContext.Entry(parentEntity).Collection(p => p.TenantBrands).LoadAsync(cancellationToken);
 		var ownedId = Dto.TenantBrandMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("Tenant.TenantBrands", $"{ownedId.ToString()}");
+			throw new EntityNotFoundException("Tenant.TenantBrands", $"ownedId");
 		}
 
-		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);
-
-		_dbContext.Entry(entity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();		
 
 		return new TenantBrandKeyDto(entity.Id.Value);
 	}

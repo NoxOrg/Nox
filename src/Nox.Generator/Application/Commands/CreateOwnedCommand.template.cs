@@ -21,7 +21,6 @@ using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
@@ -74,7 +73,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
-		Repository.SetStateModified(parentEntity);		
+		Repository.Update(parentEntity);		
 		await Repository.SaveChangesAsync();
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});

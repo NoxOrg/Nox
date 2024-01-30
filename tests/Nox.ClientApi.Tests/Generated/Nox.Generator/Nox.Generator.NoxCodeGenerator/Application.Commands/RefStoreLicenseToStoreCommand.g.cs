@@ -165,7 +165,7 @@ internal abstract class RefStoreLicenseToStoreCommandHandlerBase<TRequest> : Com
 
 	protected async Task SaveChangesAsync(TRequest request, StoreLicenseEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

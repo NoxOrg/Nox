@@ -165,7 +165,7 @@ internal abstract class RefEmployeeToCashStockOrderCommandHandlerBase<TRequest> 
 
 	protected async Task SaveChangesAsync(TRequest request, EmployeeEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

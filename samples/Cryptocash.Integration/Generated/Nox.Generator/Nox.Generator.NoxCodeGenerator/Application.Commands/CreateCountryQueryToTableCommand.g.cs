@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
@@ -15,7 +17,6 @@ using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Domain;
 
-using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 using CryptocashIntegration.Application.Dto;
 using Dto = CryptocashIntegration.Application.Dto;

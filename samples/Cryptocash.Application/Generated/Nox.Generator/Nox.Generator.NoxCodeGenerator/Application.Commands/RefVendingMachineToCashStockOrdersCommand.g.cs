@@ -207,7 +207,7 @@ internal abstract class RefVendingMachineToCashStockOrdersCommandHandlerBase<TRe
 
 	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

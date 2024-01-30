@@ -1,7 +1,7 @@
 ﻿{{- relationshipName = GetNavigationPropertyName parent relationship }}﻿
 
 {{- func keysToString(keys, prefix = "key")
-	keyNameWithPrefix(name) = ("{" + prefix + name + ".ToString()}")
+	keyNameWithPrefix(name) = (prefix + name)
 	ret (keys | array.map "Name" | array.each @keyNameWithPrefix | array.join ", ")
 end -}}
 // Generated
@@ -15,8 +15,8 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
+using Nox.Domain;
 
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
@@ -31,26 +31,26 @@ public partial record PartialUpdate{{relationshipName}}For{{parent.Name}}Command
 internal partial class PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandler: PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <PartialUpdate{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}KeyDto>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
+	protected readonly IRepository Repository;
+	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> EntityFactory;
 	
 	protected PartialUpdate{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
-		AppDbContext dbContext,
+		IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto> Handle(PartialUpdate{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
@@ -58,21 +58,20 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
+		var keys = new List<object?>({{parent.Keys | array.size}});
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
+		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
 
-		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
+		var parentEntity = await Repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");
+			throw new EntityNotFoundException("{{parent.Name}}",  "{{parent.Keys | keysToString}}");
 		}
 
 		{{- if isSingleRelationship }}
-		await _dbContext.Entry(parentEntity).Reference(e => e.{{relationshipName}}).LoadAsync(cancellationToken);
 		var entity = parentEntity.{{relationshipName}};
 		{{ else }}
-		await _dbContext.Entry(parentEntity).Collection(p => p.{{relationshipName}}).LoadAsync(cancellationToken);
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
@@ -84,14 +83,11 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 			throw new EntityNotFoundException("{{parent.Name}}.{{relationshipName}}", {{ownedKeysString}});
 		}
 
-		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);
-
-		_dbContext.Entry(entity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();		
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}

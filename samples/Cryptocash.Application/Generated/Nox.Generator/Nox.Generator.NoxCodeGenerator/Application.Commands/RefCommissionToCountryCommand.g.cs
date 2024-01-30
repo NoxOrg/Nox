@@ -165,7 +165,7 @@ internal abstract class RefCommissionToCountryCommandHandlerBase<TRequest> : Com
 
 	protected async Task SaveChangesAsync(TRequest request, CommissionEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}
