@@ -12,14 +12,84 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
 {
     public override StreetAddressItem Value { get; protected set; } = new();
 
+    /// <summary>
+    /// The maximum length of a street number.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 32.
+    /// </remarks>
     public static readonly ushort StreetNumberMaxLength = 32;
+
+    /// <summary>
+    /// The maximum length for Address Line 1.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 128.
+    /// </remarks>
     public static readonly ushort AddressLine1MaxLength = 128;
+
+    /// <summary>
+    /// The maximum length of the address line 2.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 64.
+    /// </remarks>
     public static readonly ushort AddressLine2MaxLength = 128;
+
+    /// <summary>
+    /// The maximum length of the third line of an address.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 128.
+    /// </remarks>
+    public static readonly ushort AddressLine3MaxLength = 128;
+
+    /// <summary>
+    /// Maximum length allowed for the route part of a street address.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 64.
+    /// </remarks>
     public static readonly ushort RouteMaxLength = 64;
+
+    /// <summary>
+    /// The maximum length of a locality in a street address.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 64.
+    /// </remarks>
     public static readonly ushort LocalityMaxLength = 64;
+
+    /// <summary>
+    /// Maximum length of the neighborhood string in a <see cref="StreetAddress"/>.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 64.
+    /// </remarks>
     public static readonly ushort NeighborhoodMaxLength = 64;
+
+    /// <summary>
+    /// Maximum length of the administrative area 1 string in a <see cref="StreetAddress"/>.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 64.
+    /// </remarks>
     public static readonly ushort AdministrativeArea1MaxLength = 64;
+
+    /// <summary>
+    /// The maximum length of the Administrative Area 2 property in a StreetAddress object.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 64.
+    /// </remarks>
     public static readonly ushort AdministrativeArea2MaxLength = 64;
+
+    /// <summary>
+    /// The maximum length of a postal code.
+    /// </summary>
+    /// <remarks>
+    /// The value of this constant is set to 32.
+    /// </remarks>
     public static readonly ushort PostalCodeMaxLength = 32;
 
     public static StreetAddress From(IStreetAddress value)
@@ -34,6 +104,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
             StreetNumber = value.StreetNumber,
             AddressLine1 = value.AddressLine1,
             AddressLine2 = value.AddressLine2,
+            AddressLine3 = value.AddressLine3,
             Route = value.Route,
             Locality = value.Locality,
             Neighborhood = value.Neighborhood,
@@ -62,6 +133,12 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
     {
         get => Value.AddressLine2;
         private set => Value.AddressLine2 = value;
+    }
+    
+    public string? AddressLine3
+    {
+        get => Value.AddressLine3;
+        private set => Value.AddressLine3 = value;
     }
 
     public string? Route
@@ -151,6 +228,10 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.AddressLine2), $"Could not create a Nox {nameof(StreetAddress)} type with a {nameof(Value.AddressLine2)} with length greater than max allowed length of {AddressLine2MaxLength}."));
         }
+        if (Value.AddressLine3?.Length > AddressLine3MaxLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.AddressLine3), $"Could not create a Nox {nameof(StreetAddress)} type with a {nameof(Value.AddressLine3)} with length greater than max allowed length of {AddressLine3MaxLength}."));
+        }
         if (Value.Route?.Length > RouteMaxLength)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.Route), $"Could not create a Nox {nameof(StreetAddress)} type with a {nameof(Value.Route)} with length greater than max allowed length of {RouteMaxLength}."));
@@ -180,6 +261,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         yield return new KeyValuePair<string, object>(nameof(StreetNumber), StreetNumber!);
         yield return new KeyValuePair<string, object>(nameof(AddressLine1), AddressLine1!);
         yield return new KeyValuePair<string, object>(nameof(AddressLine2), AddressLine2!);
+        yield return new KeyValuePair<string, object>(nameof(AddressLine3), AddressLine3!);
         yield return new KeyValuePair<string, object>(nameof(Route), Route!);
         yield return new KeyValuePair<string, object>(nameof(Locality), Locality!);
         yield return new KeyValuePair<string, object>(nameof(Neighborhood), Neighborhood!);
@@ -191,7 +273,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
 
     public override string ToString()
     {
-        var addressLine = JoinStringParts(" ", Value.AddressLine1, Value.AddressLine2);
+        var addressLine = JoinStringParts(" ", Value.AddressLine1, Value.AddressLine2, Value.AddressLine3);
         var areaLine = JoinStringParts(" ", Value.AdministrativeArea1, Value.AdministrativeArea2, Value.PostalCode);
 
         return JoinStringParts(", ",

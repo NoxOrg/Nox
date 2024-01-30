@@ -36,6 +36,7 @@ public class StoreDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Stores.Address_StreetNumber")
 			.Select("Stores.Address_AddressLine1")
 			.Select("Stores.Address_AddressLine2")
+			.Select("Stores.Address_AddressLine3")
 			.Select("Stores.Address_Route")
 			.Select("Stores.Address_Locality")
 			.Select("Stores.Address_Neighborhood")

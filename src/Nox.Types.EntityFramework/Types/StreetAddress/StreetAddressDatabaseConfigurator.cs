@@ -50,6 +50,10 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
                 x.Property(nameof(StreetAddress.AddressLine2))
                     .HasMaxLength(StreetAddress.AddressLine2MaxLength)
                     .IsRequired(GetRequiredFlag(nameof(StreetAddress.AddressLine2)));
+                
+                x.Property(nameof(StreetAddress.AddressLine3))
+                    .HasMaxLength(StreetAddress.AddressLine3MaxLength)
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.AddressLine3)));
 
                 x.Property(nameof(StreetAddress.Route))
                     .HasMaxLength(StreetAddress.RouteMaxLength)
