@@ -8,13 +8,12 @@ public static class {{className}}
 {
     public static IServiceCollection AddNoxUi(this IServiceCollection services)
     {
-        services.AddSingleton<GlobalDataService>();
         services.AddMudServices();
-        services.AddHttpClient();
-        services.AddScoped<EndpointsProvider>();
+        services.AddSingleton<ApplicationState>();
+        services.AddSingleton<IEndpointsProvider, EndpointsProvider>();
         
         {{- for entity in entities }}
-        services.AddScoped<{{entity.PluralName}}Service>();
+        services.AddHttpClient<I{{entity.PluralName}}Service, {{entity.PluralName}}Service>();
         {{- end }}
         
         return services;

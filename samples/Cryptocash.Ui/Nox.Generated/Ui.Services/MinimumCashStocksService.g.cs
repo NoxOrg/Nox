@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class MinimumCashStocksService : MinimumCashStocksServiceBase
+public interface IMinimumCashStocksService
 {
-    public MinimumCashStocksService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<MinimumCashStockDto>> GetAllAsync();
+    public Task<MinimumCashStockDto?> GetByIdAsync(string id);
+    public Task<MinimumCashStockDto?> CreateAsync(MinimumCashStockCreateDto minimumCashStock);
+    public Task<MinimumCashStockDto?> UpdateAsync(MinimumCashStockUpdateDto minimumCashStock);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class MinimumCashStocksService : MinimumCashStocksServiceBase
+{
+    public MinimumCashStocksService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class MinimumCashStocksServiceBase
+internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStocksService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected MinimumCashStocksServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected MinimumCashStocksServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.MinimumCashStocksUrl;

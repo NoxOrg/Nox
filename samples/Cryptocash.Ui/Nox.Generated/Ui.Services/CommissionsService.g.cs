@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class CommissionsService : CommissionsServiceBase
+public interface ICommissionsService
 {
-    public CommissionsService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<CommissionDto>> GetAllAsync();
+    public Task<CommissionDto?> GetByIdAsync(string id);
+    public Task<CommissionDto?> CreateAsync(CommissionCreateDto commission);
+    public Task<CommissionDto?> UpdateAsync(CommissionUpdateDto commission);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class CommissionsService : CommissionsServiceBase
+{
+    public CommissionsService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class CommissionsServiceBase
+internal abstract partial class CommissionsServiceBase : ICommissionsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected CommissionsServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected CommissionsServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CommissionsUrl;

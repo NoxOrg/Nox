@@ -6,9 +6,9 @@
 
 @page "/{{entity.PluralName}}"
 
-@inject GlobalDataService GlobalData
+@inject ApplicationState AppState
 @{
-    GlobalData.PageTitle = "{{entity.PluralName}}";
+    AppState.PageTitle = "{{entity.PluralName}}";
 }
 
 <MudText>{{entity.PluralName}}</MudText>

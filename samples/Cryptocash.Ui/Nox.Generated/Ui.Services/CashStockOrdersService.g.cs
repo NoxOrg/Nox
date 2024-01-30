@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class CashStockOrdersService : CashStockOrdersServiceBase
+public interface ICashStockOrdersService
 {
-    public CashStockOrdersService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<CashStockOrderDto>> GetAllAsync();
+    public Task<CashStockOrderDto?> GetByIdAsync(string id);
+    public Task<CashStockOrderDto?> CreateAsync(CashStockOrderCreateDto cashStockOrder);
+    public Task<CashStockOrderDto?> UpdateAsync(CashStockOrderUpdateDto cashStockOrder);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class CashStockOrdersService : CashStockOrdersServiceBase
+{
+    public CashStockOrdersService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class CashStockOrdersServiceBase
+internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected CashStockOrdersServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected CashStockOrdersServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CashStockOrdersUrl;

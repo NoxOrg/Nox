@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class EmployeesService : EmployeesServiceBase
+public interface IEmployeesService
 {
-    public EmployeesService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<EmployeeDto>> GetAllAsync();
+    public Task<EmployeeDto?> GetByIdAsync(string id);
+    public Task<EmployeeDto?> CreateAsync(EmployeeCreateDto employee);
+    public Task<EmployeeDto?> UpdateAsync(EmployeeUpdateDto employee);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class EmployeesService : EmployeesServiceBase
+{
+    public EmployeesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class EmployeesServiceBase
+internal abstract partial class EmployeesServiceBase : IEmployeesService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected EmployeesServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected EmployeesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.EmployeesUrl;

@@ -2,7 +2,16 @@
 
 namespace {{codeGenConventions.UiNameSpace}}.Services;
 
-public class {{className}}
+public interface I{{className}}
+{
+    public string BaseUrl { get; }
+    public string BaseUrlWithRoutePrefix { get; }
+    {{- for entity in entities }}
+    public string {{entity.PluralName}}Url { get; }
+    {{- end }}
+}
+
+internal class {{className}} : I{{className}}
 {
     private readonly string _baseUrl;
 

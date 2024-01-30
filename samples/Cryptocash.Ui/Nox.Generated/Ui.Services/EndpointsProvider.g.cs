@@ -2,7 +2,26 @@
 
 namespace Cryptocash.Ui.Services;
 
-public class EndpointsProvider
+public interface IEndpointsProvider
+{
+    public string BaseUrl { get; }
+    public string BaseUrlWithRoutePrefix { get; }
+    public string BookingsUrl { get; }
+    public string CashStockOrdersUrl { get; }
+    public string CommissionsUrl { get; }
+    public string CountriesUrl { get; }
+    public string CurrenciesUrl { get; }
+    public string CustomersUrl { get; }
+    public string EmployeesUrl { get; }
+    public string LandLordsUrl { get; }
+    public string MinimumCashStocksUrl { get; }
+    public string PaymentDetailsUrl { get; }
+    public string PaymentProvidersUrl { get; }
+    public string TransactionsUrl { get; }
+    public string VendingMachinesUrl { get; }
+}
+
+internal class EndpointsProvider : IEndpointsProvider
 {
     private readonly string _baseUrl;
 

@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class CurrenciesService : CurrenciesServiceBase
+public interface ICurrenciesService
 {
-    public CurrenciesService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<CurrencyDto>> GetAllAsync();
+    public Task<CurrencyDto?> GetByIdAsync(string id);
+    public Task<CurrencyDto?> CreateAsync(CurrencyCreateDto currency);
+    public Task<CurrencyDto?> UpdateAsync(CurrencyUpdateDto currency);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class CurrenciesService : CurrenciesServiceBase
+{
+    public CurrenciesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class CurrenciesServiceBase
+internal abstract partial class CurrenciesServiceBase : ICurrenciesService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected CurrenciesServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected CurrenciesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CurrenciesUrl;

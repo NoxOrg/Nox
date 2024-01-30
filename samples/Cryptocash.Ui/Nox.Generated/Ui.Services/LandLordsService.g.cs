@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class LandLordsService : LandLordsServiceBase
+public interface ILandLordsService
 {
-    public LandLordsService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<LandLordDto>> GetAllAsync();
+    public Task<LandLordDto?> GetByIdAsync(string id);
+    public Task<LandLordDto?> CreateAsync(LandLordCreateDto landLord);
+    public Task<LandLordDto?> UpdateAsync(LandLordUpdateDto landLord);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class LandLordsService : LandLordsServiceBase
+{
+    public LandLordsService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class LandLordsServiceBase
+internal abstract partial class LandLordsServiceBase : ILandLordsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected LandLordsServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected LandLordsServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.LandLordsUrl;

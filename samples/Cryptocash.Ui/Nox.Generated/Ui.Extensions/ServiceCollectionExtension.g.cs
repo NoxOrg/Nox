@@ -8,23 +8,22 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddNoxUi(this IServiceCollection services)
     {
-        services.AddSingleton<GlobalDataService>();
         services.AddMudServices();
-        services.AddHttpClient();
-        services.AddScoped<EndpointsProvider>();
-        services.AddScoped<BookingsService>();
-        services.AddScoped<CashStockOrdersService>();
-        services.AddScoped<CommissionsService>();
-        services.AddScoped<CountriesService>();
-        services.AddScoped<CurrenciesService>();
-        services.AddScoped<CustomersService>();
-        services.AddScoped<EmployeesService>();
-        services.AddScoped<LandLordsService>();
-        services.AddScoped<MinimumCashStocksService>();
-        services.AddScoped<PaymentDetailsService>();
-        services.AddScoped<PaymentProvidersService>();
-        services.AddScoped<TransactionsService>();
-        services.AddScoped<VendingMachinesService>();
+        services.AddSingleton<ApplicationState>();
+        services.AddSingleton<IEndpointsProvider, EndpointsProvider>();
+        services.AddHttpClient<IBookingsService, BookingsService>();
+        services.AddHttpClient<ICashStockOrdersService, CashStockOrdersService>();
+        services.AddHttpClient<ICommissionsService, CommissionsService>();
+        services.AddHttpClient<ICountriesService, CountriesService>();
+        services.AddHttpClient<ICurrenciesService, CurrenciesService>();
+        services.AddHttpClient<ICustomersService, CustomersService>();
+        services.AddHttpClient<IEmployeesService, EmployeesService>();
+        services.AddHttpClient<ILandLordsService, LandLordsService>();
+        services.AddHttpClient<IMinimumCashStocksService, MinimumCashStocksService>();
+        services.AddHttpClient<IPaymentDetailsService, PaymentDetailsService>();
+        services.AddHttpClient<IPaymentProvidersService, PaymentProvidersService>();
+        services.AddHttpClient<ITransactionsService, TransactionsService>();
+        services.AddHttpClient<IVendingMachinesService, VendingMachinesService>();
         
         return services;
     }

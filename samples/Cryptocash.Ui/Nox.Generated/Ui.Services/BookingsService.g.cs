@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class BookingsService : BookingsServiceBase
+public interface IBookingsService
 {
-    public BookingsService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<BookingDto>> GetAllAsync();
+    public Task<BookingDto?> GetByIdAsync(string id);
+    public Task<BookingDto?> CreateAsync(BookingCreateDto booking);
+    public Task<BookingDto?> UpdateAsync(BookingUpdateDto booking);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class BookingsService : BookingsServiceBase
+{
+    public BookingsService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class BookingsServiceBase
+internal abstract partial class BookingsServiceBase : IBookingsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected BookingsServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected BookingsServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.BookingsUrl;

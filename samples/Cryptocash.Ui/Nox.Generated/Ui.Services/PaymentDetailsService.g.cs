@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class PaymentDetailsService : PaymentDetailsServiceBase
+public interface IPaymentDetailsService
 {
-    public PaymentDetailsService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<PaymentDetailDto>> GetAllAsync();
+    public Task<PaymentDetailDto?> GetByIdAsync(string id);
+    public Task<PaymentDetailDto?> CreateAsync(PaymentDetailCreateDto paymentDetail);
+    public Task<PaymentDetailDto?> UpdateAsync(PaymentDetailUpdateDto paymentDetail);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class PaymentDetailsService : PaymentDetailsServiceBase
+{
+    public PaymentDetailsService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class PaymentDetailsServiceBase
+internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected PaymentDetailsServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected PaymentDetailsServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.PaymentDetailsUrl;

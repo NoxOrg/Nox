@@ -1,14 +1,14 @@
 ﻿namespace Nox.Ui.Blazor.Lib.Services;
 
-public class GlobalDataService
+public class ApplicationState
 {
     public event Action<string>? PageTitleChanged;
 
     private string _pageTitle = "Home";
 
-    public GlobalDataService() { }
+    public ApplicationState() { }
 
-    public GlobalDataService(string defaultTitle)
+    public ApplicationState(string defaultTitle)
     {
         PageTitle = defaultTitle;
     }

@@ -7,20 +7,29 @@ using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
-public partial class VendingMachinesService : VendingMachinesServiceBase
+public interface IVendingMachinesService
 {
-    public VendingMachinesService(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    public Task<List<VendingMachineDto>> GetAllAsync();
+    public Task<VendingMachineDto?> GetByIdAsync(string id);
+    public Task<VendingMachineDto?> CreateAsync(VendingMachineCreateDto vendingMachine);
+    public Task<VendingMachineDto?> UpdateAsync(VendingMachineUpdateDto vendingMachine);
+    public Task DeleteAsync(string id);
+}
+
+internal partial class VendingMachinesService : VendingMachinesServiceBase
+{
+    public VendingMachinesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
         : base(httpClient, endpointsProvider)
     {
     }
 }
 
-public abstract partial class VendingMachinesServiceBase
+internal abstract partial class VendingMachinesServiceBase : IVendingMachinesService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
 
-    protected VendingMachinesServiceBase(HttpClient httpClient, EndpointsProvider endpointsProvider)
+    protected VendingMachinesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.VendingMachinesUrl;
