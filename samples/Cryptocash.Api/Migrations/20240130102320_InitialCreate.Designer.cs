@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240123134449_InitialCreate")]
+    [Migration("20240130102320_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1807,6 +1807,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
+                            b1.Property<string>("AddressLine3")
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
                             b1.Property<string>("AdministrativeArea1")
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
@@ -1868,6 +1872,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("AddressLine3")
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
@@ -1955,6 +1963,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("AddressLine3")
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
@@ -2153,6 +2165,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("AddressLine3")
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
