@@ -11,7 +11,7 @@ pluralName: Customers
 description: Customer definition and related data
 
 userInterface: 
-  icon: '<path d=\"M14,7h-4C8.9,7,8,7.9,8,9v6h2v7h4v-7h2V9C16,7.9,15.1,7,14,7z\"/><circle cx=\"12\" cy=\"4\" r=\"2\"/>'
+  # icon: '<path d=\"M14,7h-4C8.9,7,8,7.9,8,9v6h2v7h4v-7h2V9C16,7.9,15.1,7,14,7z\"/><circle cx=\"12\" cy=\"4\" r=\"2\"/>'
 
 keys:
 

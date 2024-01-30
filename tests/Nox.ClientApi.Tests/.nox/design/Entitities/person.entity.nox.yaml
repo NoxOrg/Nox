@@ -1,0 +1,152 @@
+﻿#
+# user.entity.nox.yaml
+# 
+# yaml-language-server: $schema=https://noxorg.dev/schemas/entity.json
+#
+
+name: Person
+
+description: Person
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The person unique identifier
+    type: guid
+        
+attributes:
+
+  - name: UserName
+    description: The users's username
+    type: text
+    textTypeOptions:
+      minLength: 20
+      maxLength: 250
+    isRequired: false
+
+  - name: FirstName
+    description: The user's first name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 200
+    isRequired: true
+
+  - name: LastName
+    description: The customer's last name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 200
+    isRequired: true
+
+  - name: TenantId
+    description: Tenant user bellongs to
+    type: number
+    isRequired: true
+
+  - name: TenantBrandId
+    description: Tenant Brand user bellongs to
+    type: guid
+    isRequired: false
+
+  - name: PrimaryEmailAddress
+    description: The user's primary email for MFA
+    type: email
+    isRequired: true
+
+  - name: SecondaryEmailAddress
+    description: The user's secondary email for MFA
+    type: email
+    isRequired: false
+
+  - name: PhoneNumber
+    description: The user's phone number for MFA
+    type: phoneNumber
+    isRequired: false
+
+  - name: PrefferedLanguage
+    description: The user's preferred language
+    type: languageCode
+    isRequired: false
+
+  - name: Status
+    description: The user status
+    type: enumeration
+    enumerationTypeOptions:
+      values:
+        - { id: 1, name: Active}
+        - { id: 2, name: Inactive}        
+      isLocalized: false
+    isRequired: true  
+
+  - name: Type
+    description: The user type
+    type: number   
+    isRequired: true   
+
+  - name: UserProfileId
+    description: The user profile id
+    type: autoNumber
+    autoNumberTypeOptions:
+      startsAt: 20000000
+      incrementsBy: 1
+    isRequired: false
+
+  - name: PreferredLoginMethod
+    description: The preferred method of login
+    type: enumeration
+    enumerationTypeOptions:
+      values:
+        - { id: 1, name: Email}
+        - { id: 2, name: Phone}        
+      isLocalized: false
+    isRequired: true
+
+  - name: HCountryIsoCode
+    description: The user's country code
+    type: countryCode3
+    isRequired: false
+
+  - name: HAcceptedTerms
+    description: The user accepted terms and condition
+    type: boolean
+    isRequired: false
+
+  - name: HEnablePasswordLess
+    description: PasswordLess
+    type: boolean
+    isRequired: false
+
+  - name: HPrimaryEmailAddressVerified
+    description: The user verified primary email address
+    type: boolean
+    isRequired: false
+
+    
+# relationships:
+
+
+ownedRelationships:
+
+  - name: ContactSelection
+    description: user selected contacts
+    relationship: zeroOrOne
+    entity: UserContactSelection
+
+  
+persistence:
+    isAudited: true  
+    schema: dbo
+    create:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    delete:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents

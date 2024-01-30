@@ -1,0 +1,8 @@
+﻿name: Persons
+httpVerb: post
+route: /Tenants/{TenantId}/Persons
+targetUrl: /Persons?TenantId={TenantId}
+requestInput:
+  - name: TenantId
+    description: Tenant Id
+    type: number

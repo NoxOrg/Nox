@@ -48,7 +48,8 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
             { "Currencies", (DataDbContext.Currencies, "Id") },
             { "Tenants", (DataDbContext.Tenants, "Id") },
             { "Clients", (DataDbContext.Clients, "Id") },
-            { "ReferenceNumberEntities", (DataDbContext.ReferenceNumberEntities, "Id") }
+            { "ReferenceNumberEntities", (DataDbContext.ReferenceNumberEntities, "Id") },
+            { "People", (DataDbContext.People, "Id") }
         };
 
         _navigationNameToEntityPluralName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -200,6 +201,12 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         if (entityName.Equals("ReferenceNumberEntities", StringComparison.OrdinalIgnoreCase))
         {
             parsedKey = ReferenceNumberEntityMetadata.CreateId(key);
+            return true;
+        }
+        if (entityName.Equals("People", StringComparison.OrdinalIgnoreCase))
+        {
+            if (!System.Guid.TryParse(key, out var value)) return false;
+            parsedKey = PersonMetadata.CreateId(value);
             return true;
         }
         return false;

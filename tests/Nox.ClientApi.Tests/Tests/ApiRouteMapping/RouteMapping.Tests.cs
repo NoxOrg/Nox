@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 using Nox.Application.Dto;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using PhoneNumbers;
 
 namespace ClientApi.Tests.ApiRouteMapping;
 
@@ -144,6 +145,39 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         //Assert
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
+
+    [Fact]
+    public async Task Test_If_Guid_Will_Work_Properly()
+    {
+        // Arrange
+        var tenant = (await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TenantsUrl,
+            new TenantCreateDto() { Name = _fixture.Create<string>() }));
+
+        var tenantId = tenant?.Id;
+        var test = await PostAsync<PersonCreateDto, PersonDto>($"{Endpoints.TenantsUrl}/{tenantId}/persons", new PersonCreateDto
+        {
+            FirstName = "John",
+            LastName = "Doe",
+            PrimaryEmailAddress = "john.doe@example.com",
+            Status = 1,
+            Type = 1,
+            PreferredLoginMethod = 1,
+            TenantId = (int?)tenantId
+        });
+
+        // Act
+        const string oDataRequest = $"$expand={nameof(WorkplaceDto.Tenants)}";
+        //var result = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.RoutePrefix}/Tenants/{tenantId}/Persons/{test}");
+
+
+
+
+        var result = (await GetODataCollectionResponseAsync<dynamic>($"{Endpoints.RoutePrefix}/Tenants/03B37170-1DA1-42EC-B8A2-118D559CEF81/Users/5c1b8188-ef39-430e-8b4e-e6bf516e2cf5"));
+
+        //Assert
+        //AssertTwoCountriesCase(countryName1, countryName2, result);
+    }
+
 
     [Fact]
     public async Task WhenRoutePutWithParametersWithMultipleSegments_ShouldSucceed()

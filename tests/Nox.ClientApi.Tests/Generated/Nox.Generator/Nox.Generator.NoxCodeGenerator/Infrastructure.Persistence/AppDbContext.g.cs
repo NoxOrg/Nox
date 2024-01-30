@@ -91,6 +91,7 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
     public virtual DbSet<ClientApi.Domain.Tenant> Tenants { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.Client> Clients { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.ReferenceNumberEntity> ReferenceNumberEntities { get; set; } = null!;
+    public virtual DbSet<ClientApi.Domain.Person> People { get; set; } = null!;
     public virtual DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantBrandLocalized> TenantBrandsLocalized { get; set; } = null!;public virtual DbSet<ClientApi.Domain.TenantContactLocalized> TenantContactsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
@@ -99,6 +100,8 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
     public virtual DbSet<DomainNameSpace.WorkplaceOwnershipLocalized> WorkplacesOwnershipsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.WorkplaceType> WorkplacesTypes { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.TenantStatus> TenantsStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.PersonStatus> PeopleStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.PersonPreferredLoginMethod> PeoplePreferredLoginMethods { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -167,5 +170,6 @@ internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistenc
         modelBuilder.Entity<ClientApi.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.Client>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.ReferenceNumberEntity>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Person>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

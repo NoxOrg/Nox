@@ -1,0 +1,13 @@
+﻿name: PersonWithContactSelection
+httpVerb: get
+route: /Tenants/{TenantId}/Persons/{key}/UserContactSelection
+targetUrl: /Persons/{key}/UserContactSelection?TenantId={TenantId}
+requestInput:
+  - name: TenantId
+    description: Tenant Id
+    type: string
+    format: uuid
+  - name: key
+    description: User Id
+    type: string
+    format: uuid

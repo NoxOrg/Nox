@@ -83,6 +83,7 @@ internal abstract partial class DtoDbContextBase : DbContext, Nox.Application.Re
         public virtual DbSet<TenantDto> Tenants { get; set; } = null!;
         public virtual DbSet<ClientDto> Clients { get; set; } = null!;
         public virtual DbSet<ReferenceNumberEntityDto> ReferenceNumberEntities { get; set; } = null!;
+        public virtual DbSet<PersonDto> People { get; set; } = null!;
     public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public virtual DbSet<TenantBrandLocalizedDto> TenantBrandsLocalized { get; set; } = null!;
     public virtual DbSet<TenantContactLocalizedDto> TenantContactsLocalized { get; set; } = null!;
@@ -93,6 +94,8 @@ internal abstract partial class DtoDbContextBase : DbContext, Nox.Application.Re
     public virtual DbSet<DtoNameSpace.WorkplaceOwnershipLocalizedDto> WorkplacesOwnershipsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.WorkplaceTypeDto> WorkplacesTypes { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.TenantStatusDto> TenantsStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.PersonStatusDto> PeopleStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.PersonPreferredLoginMethodDto> PeoplePreferredLoginMethods { get; set; } = null!;
 
     public IQueryable<T> Query<T>() where T : class
     {
@@ -153,5 +156,6 @@ private void ConfigureAuditable(ModelBuilder modelBuilder)
         modelBuilder.Entity<CurrencyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<ClientDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<ReferenceNumberEntityDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<PersonDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }
