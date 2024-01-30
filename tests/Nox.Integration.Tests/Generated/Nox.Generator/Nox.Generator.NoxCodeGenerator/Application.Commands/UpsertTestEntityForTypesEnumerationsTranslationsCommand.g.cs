@@ -50,25 +50,27 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 			.ToListAsync(cancellationToken);
 		
 		var entities = new List<TestEntityForTypesEnumerationTestFieldLocalized>();
-		
-		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		foreach(var dto in command.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
 		{
-			var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			Repository.SetStateAdded(e);
-			entities.Add(e);
-		});
+            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
+	        if(entity is not null)
+			{
+                entity.Name = dto.Name;
+                entities.Add(entity);
+            }
+			else
+			{
+				var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+				await Repository.AddAsync(e, cancellationToken);
+				entities.Add(e);
+			}
+        }
 		
-		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
-		{
-			var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			Repository.SetStateModified(e);
-			entities.Add(e);
-		});
-		
+		//Update Default in Entity 
 		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
-			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-			Repository.SetStateModified(e);
+			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			Repository.Update(e);
 		});
 		
 

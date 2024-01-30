@@ -9,8 +9,8 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
+using Nox.Domain;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -21,55 +21,53 @@ public partial record PartialUpdateEmployeePhoneNumbersForEmployeeCommand(Employ
 internal partial class PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandler: PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
 	public PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase: CommandBase<PartialUpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <PartialUpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberKeyDto>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
+	protected readonly IRepository Repository;
+	protected readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> EntityFactory;
 	
 	protected PartialUpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase(
-		AppDbContext dbContext,
+		IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<EmployeePhoneNumberKeyDto> Handle(PartialUpdateEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Employees.FindAsync(keyId);
+		var keys = new List<object?>(1);
+		keys.Add(Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId));
+
+		var parentEntity = await Repository.FindAndIncludeAsync<Employee>(keys.ToArray(),e => e.EmployeePhoneNumbers, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Employee",  "keyId");
 		}
-		await _dbContext.Entry(parentEntity).Collection(p => p.EmployeePhoneNumbers).LoadAsync(cancellationToken);
 		var ownedId = Dto.EmployeePhoneNumberMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("Employee.EmployeePhoneNumbers", $"{ownedId.ToString()}");
+			throw new EntityNotFoundException("Employee.EmployeePhoneNumbers", $"ownedId");
 		}
 
-		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);
-
-		_dbContext.Entry(entity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();		
 
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}

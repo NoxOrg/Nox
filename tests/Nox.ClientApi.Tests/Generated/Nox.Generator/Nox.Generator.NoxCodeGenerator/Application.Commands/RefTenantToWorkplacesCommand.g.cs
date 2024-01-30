@@ -207,7 +207,7 @@ internal abstract class RefTenantToWorkplacesCommandHandlerBase<TRequest> : Comm
 
 	protected async Task SaveChangesAsync(TRequest request, TenantEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

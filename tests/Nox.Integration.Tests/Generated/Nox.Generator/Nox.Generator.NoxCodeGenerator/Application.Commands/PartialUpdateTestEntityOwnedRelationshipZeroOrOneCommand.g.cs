@@ -58,7 +58,7 @@ internal abstract class PartialUpdateTestEntityOwnedRelationshipZeroOrOneCommand
 		}
 		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);
 
 		await Repository.SaveChangesAsync();

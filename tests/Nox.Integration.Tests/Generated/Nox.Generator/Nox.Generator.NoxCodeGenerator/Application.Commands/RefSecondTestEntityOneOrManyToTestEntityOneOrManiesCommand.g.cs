@@ -207,7 +207,7 @@ internal abstract class RefSecondTestEntityOneOrManyToTestEntityOneOrManiesComma
 
 	protected async Task SaveChangesAsync(TRequest request, SecondTestEntityOneOrManyEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

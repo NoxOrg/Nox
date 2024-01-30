@@ -165,7 +165,7 @@ internal abstract class RefTestEntityExactlyOneToOneOrManyToTestEntityOneOrManyT
 
 	protected async Task SaveChangesAsync(TRequest request, TestEntityExactlyOneToOneOrManyEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

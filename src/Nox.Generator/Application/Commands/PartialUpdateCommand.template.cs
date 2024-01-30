@@ -68,7 +68,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}		
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);
 
 		await Repository.SaveChangesAsync();

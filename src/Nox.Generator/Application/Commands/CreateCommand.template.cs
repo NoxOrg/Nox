@@ -17,9 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-{{- if (entity.Persistence?.IsAudited ?? true)}}
 using Nox.Abstractions;
-{{- end}}
 using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
@@ -28,7 +26,6 @@ using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Domain;
 
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;

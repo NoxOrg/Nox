@@ -165,7 +165,7 @@ internal abstract class RefStoreToCountryCommandHandlerBase<TRequest> : CommandB
 
 	protected async Task SaveChangesAsync(TRequest request, StoreEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}
