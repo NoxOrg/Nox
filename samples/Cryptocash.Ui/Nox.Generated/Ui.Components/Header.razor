@@ -2,13 +2,12 @@
 @using Nox.Ui.Blazor.Lib.Services
 
 @namespace Cryptocash.Ui.Components
-@inject GlobalDataService GlobalData
 
 <div class="top-row px-4" style="padding:0px;background-color:white;border-bottom-style:solid;border-bottom-color:#66ccff;border-bottom-width:3px;">
     <table style="width:100%">
         <tr>
             <td style="text-align:left;padding:7px 0px 0px 5px;">
-                <MudImage Src="images/Cryptocash.png" />
+                <MudImage Height="50" ObjectFit="ObjectFit.Contain" Alt="Logo" Src="images/Cryptocash.png" />
             </td>
             <td style="display: flex; justify-content: flex-end;">
                 <Login />

@@ -36,6 +36,11 @@ public class NoxSolution : YamlConfigNode<NoxSolution>
     [Description("A brief description of the solution with what it's purpose or goals are.")]
     public string? Description { get; internal set; }
 
+    [Title("A logo that represents the application.")]
+    [Description("An optional logo that represents the application as a relative or absolute path.")]
+    [Pattern(Nox.Yaml.Constants.StringWithNoSpacesRegex)]
+    public string? Logo { get; internal set; }
+
     [Title("A short overview or description of the solution.")]
     [Description("A short overview for this solution describing the purpose and responsibility of the solution.")]
     public string? Overview { get; internal set; }
