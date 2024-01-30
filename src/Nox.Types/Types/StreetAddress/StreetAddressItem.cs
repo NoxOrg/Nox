@@ -14,6 +14,6 @@ public class StreetAddressItem
     public string? Neighborhood { get; set; } = string.Empty;
     public string? AdministrativeArea1 { get; set; } = string.Empty;
     public string? AdministrativeArea2 { get; set; } = string.Empty;
-    public string PostalCode { get; set; } = string.Empty;
+    public string? PostalCode { get; set; } = string.Empty;
     public CountryCode CountryId { get; set; }
 }

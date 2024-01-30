@@ -131,7 +131,7 @@ public class StreetAddressTests
     }
 
     [Fact]
-    public void StreetAddress_WhenPostalCodeIsNotSpecified_ThrowsException()
+    public void StreetAddress_WhenPostalCodeIsNotSpecified_ShouldBeValid()
     {
         var action = () => StreetAddress.From(new StreetAddressItem
         {
@@ -144,14 +144,7 @@ public class StreetAddressTests
             CountryId = CountryCode.GB
         });
 
-        action.Should().Throw<NoxTypeValidationException>()
-            .WithMessage(@"The Nox type validation failed with 2 error(s). PropertyName: PostalCode. Error: PostalCode '' for country with ID 'GB' is invalid.
-PropertyName: PostalCode. Error: Could not create a Nox StreetAddress type with an empty PostalCode.")
-            .And.Errors.Should().BeEquivalentTo(new[]
-            {
-                new ValidationFailure("PostalCode", "Could not create a Nox StreetAddress type with an empty PostalCode."),
-                new ValidationFailure("PostalCode", "PostalCode '' for country with ID 'GB' is invalid.")
-            });
+        action.Should().NotThrow();
     }
 
     [Fact]
