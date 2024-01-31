@@ -64,7 +64,7 @@ public class StreetAddressTests
     [InlineData("CH", "1234")]
     [InlineData("UA", "12345")]
     [InlineData("US", "99577-0727")]
-    [InlineData("GB", "BT41 1AA")]
+    [InlineData("GB", "AB12CD")]
     public void StreetAddress_ValidPostalCode_CanBeCreated(string countryCode, string postalCode)
     {
         var address = StreetAddress.From(new StreetAddressItem
@@ -118,7 +118,7 @@ public class StreetAddressTests
             Locality = "Lyne",
             AdministrativeArea1 = "England",
             AdministrativeArea2 = "Surrey",
-            PostalCode = "KT16 0RS",
+            PostalCode = "GIR0AA",
             CountryId = CountryCode.GB
         });
 
