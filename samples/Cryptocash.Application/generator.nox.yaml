@@ -19,7 +19,7 @@ application: true
 applicationDto: false
 
 # Generates persistence, DbContext and model configuration and mapping
-infrastructure: true
+infrastructure: false
 
 # Generates APi's
 presentation: false

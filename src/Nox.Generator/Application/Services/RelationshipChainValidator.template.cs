@@ -6,16 +6,16 @@ using System.Linq.Dynamic.Core;
 
 using Nox.Application.Commands;
 using Nox.Application.Services;
+using Nox.Domain;
 
 using {{codeGenConventions.DtoNameSpace}};
-using {{codeGenConventions.PersistenceNameSpace}};
 using {{codeGenConventions.DomainNameSpace}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Services;
 
 internal partial class {{className}} : {{className}}Base
 {
-    public {{className}}(AppDbContext dataDbContext): base(dataDbContext)
+    public {{className}}(IRepository repository): base(repository)
     {
     
     }
@@ -23,27 +23,27 @@ internal partial class {{className}} : {{className}}Base
 
 internal abstract class {{className}}Base: I{{className}}
 {
-    private readonly Dictionary<string, (object DbSet, string KeyName)> _entityContextPerEntityName;
+    private readonly Dictionary<string, (IQueryable Query, string KeyName)> _entityContextPerEntityName;
 
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName;
 
     private readonly Dictionary<(string EntityPluralName, string NavigationName), bool> _isSingleRelationship;
 
-    public AppDbContext DataDbContext { get; }
+    protected IRepository Repository { get; }
 
 #region Constructor
-    public  {{className}}Base(AppDbContext dataDbContext)
+    public  {{className}}Base(IRepository repository)
     {
-        DataDbContext = dataDbContext;
+        Repository = repository;
 
-        _entityContextPerEntityName = new Dictionary<string, (object DbSet, string KeyName)>(StringComparer.OrdinalIgnoreCase)
+        _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
             {{- for entity in entities }}
-            { "{{entity.PluralName}}", (DataDbContext.{{entity.PluralName}}, "{{entity.Keys[0].Name}}") }{{if !for.last}},{{end}}
+            { "{{entity.PluralName}}", (Repository.Query<{{entity.Name}}>(), "{{entity.Keys[0].Name}}") }{{if !for.last}},{{end}}
             {{- end }}
         };
 
-        _navigationNameToEntityPluralName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase)
         {
             {{- for prop in navigationNameToEntityPluralName }}           
             { "{{prop.Key}}", "{{prop.Value}}" }{{if !for.last}},{{end}}
@@ -64,12 +64,10 @@ internal abstract class {{className}}Base: I{{className}}
         if (!_entityContextPerEntityName.TryGetValue(relationshipChain.EntityName, out var context))
             return false;
 
-        var aggregateDbSet = (IQueryable)context.DbSet;
-
         if (!TryParseKey(relationshipChain.EntityName, relationshipChain.EntityKey, out var aggregateParsedKey))
             return false;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == @0", aggregateParsedKey);
+        var query = context.Query.Where($"{context.KeyName} == @0", aggregateParsedKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
         var previousKeyName = context.KeyName;

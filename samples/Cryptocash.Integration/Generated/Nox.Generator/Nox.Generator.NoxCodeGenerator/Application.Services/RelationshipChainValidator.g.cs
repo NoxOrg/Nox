@@ -6,16 +6,16 @@ using System.Linq.Dynamic.Core;
 
 using Nox.Application.Commands;
 using Nox.Application.Services;
+using Nox.Domain;
 
 using CryptocashIntegration.Application.Dto;
-using CryptocashIntegration.Infrastructure.Persistence;
 using CryptocashIntegration.Domain;
 
 namespace CryptocashIntegration.Application.Services;
 
 internal partial class RelationshipChainValidator : RelationshipChainValidatorBase
 {
-    public RelationshipChainValidator(AppDbContext dataDbContext): base(dataDbContext)
+    public RelationshipChainValidator(IRepository repository): base(repository)
     {
     
     }
@@ -23,27 +23,27 @@ internal partial class RelationshipChainValidator : RelationshipChainValidatorBa
 
 internal abstract class RelationshipChainValidatorBase: IRelationshipChainValidator
 {
-    private readonly Dictionary<string, (object DbSet, string KeyName)> _entityContextPerEntityName;
+    private readonly Dictionary<string, (IQueryable Query, string KeyName)> _entityContextPerEntityName;
 
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName;
 
     private readonly Dictionary<(string EntityPluralName, string NavigationName), bool> _isSingleRelationship;
 
-    public AppDbContext DataDbContext { get; }
+    protected IRepository Repository { get; }
 
 #region Constructor
-    public  RelationshipChainValidatorBase(AppDbContext dataDbContext)
+    public  RelationshipChainValidatorBase(IRepository repository)
     {
-        DataDbContext = dataDbContext;
+        Repository = repository;
 
-        _entityContextPerEntityName = new Dictionary<string, (object DbSet, string KeyName)>(StringComparer.OrdinalIgnoreCase)
+        _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
-            { "CountryQueryToTables", (DataDbContext.CountryQueryToTables, "Id") },
-            { "CountryQueryToCustomTables", (DataDbContext.CountryQueryToCustomTables, "Id") },
-            { "CountryJsonToTables", (DataDbContext.CountryJsonToTables, "Id") }
+            { "CountryQueryToTables", (Repository.Query<CountryQueryToTable>(), "Id") },
+            { "CountryQueryToCustomTables", (Repository.Query<CountryQueryToCustomTable>(), "Id") },
+            { "CountryJsonToTables", (Repository.Query<CountryJsonToTable>(), "Id") }
         };
 
-        _navigationNameToEntityPluralName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase)
         {
         };
 
@@ -58,12 +58,10 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         if (!_entityContextPerEntityName.TryGetValue(relationshipChain.EntityName, out var context))
             return false;
 
-        var aggregateDbSet = (IQueryable)context.DbSet;
-
         if (!TryParseKey(relationshipChain.EntityName, relationshipChain.EntityKey, out var aggregateParsedKey))
             return false;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == @0", aggregateParsedKey);
+        var query = context.Query.Where($"{context.KeyName} == @0", aggregateParsedKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
         var previousKeyName = context.KeyName;
