@@ -68,7 +68,9 @@ public class CurrencyCodeTests : WorldTestBase
         referenceCurrency.Symbol.Should().Be(currencySymbol);
     }
 
+#pragma warning disable xUnit1004 // Test methods should not be skipped
     [Fact(Skip = "There are 29 missing Nox.Reference.Currency")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
     public void WhenGettingReferenceCurrency_FromAllCurrencyCodes_Success()
     {
         // Arrange
@@ -122,12 +124,12 @@ public class CurrencyCodeTests : WorldTestBase
     public void WhenGettingCurrencyCode3_FromAllReferenceCurrencies_Success()
     {
         // These don't have numeric codes.
-        var skippedCurrencies = new[] { "BTC", "TVD", "XBT" }; 
+        var skippedCurrencies = new[] { "BTC", "TVD", "XBT", "WON" }; 
 
         // Arrange
         foreach (var currency in World.Currencies)
         {
-            if (skippedCurrencies.Contains(currency.Id))
+            if (skippedCurrencies.Contains(currency.IsoCode))
                 continue;
 
             // Act
