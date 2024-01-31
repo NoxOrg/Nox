@@ -1,0 +1,40 @@
+﻿// Generated
+
+namespace {{codeGenConventions.UiNameSpace}}.Services;
+
+public interface I{{className}}
+{
+    public string BaseUrl { get; }
+    public string BaseUrlWithRoutePrefix { get; }
+    {{- for entity in entities }}
+    public string {{entity.PluralName}}Url { get; }
+    {{- end }}
+}
+
+internal class {{className}} : I{{className}}
+{
+    private readonly string _baseUrl;
+
+    public EndpointsProvider(IConfiguration configuration)
+    {
+        var baseUrl = configuration?["BaseApiUrl"] ?? string.Empty;
+        _baseUrl = baseUrl.TrimEnd('/');
+    }
+
+    public string BaseUrl
+    {
+        get { return _baseUrl; }
+    }
+
+    public string BaseUrlWithRoutePrefix
+    {
+        get { return $"{BaseUrl}{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}"; }
+    }
+
+    {{- for entity in entities }}
+    public string {{entity.PluralName}}Url
+    {
+        get { return $"{BaseUrlWithRoutePrefix}/{{entity.PluralName}}"; }
+    }
+    {{- end }}
+}

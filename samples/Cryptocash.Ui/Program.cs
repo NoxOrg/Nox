@@ -1,7 +1,7 @@
 using Microsoft.Identity.Web;
 using Cryptocash.Ui.Generated.Data.Helper;
 using System.Text.Json.Serialization;
-using Nox.Ui.Blazor.Lib.Extensions;
+using Cryptocash.Ui.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

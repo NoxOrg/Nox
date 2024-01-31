@@ -1,0 +1,63 @@
+﻿// Generated
+
+#nullable enable
+
+using {{codeGenConventions.DtoNameSpace}};
+using Nox.Ui.Blazor.Lib.Extensions;
+
+namespace {{codeGenConventions.UiNameSpace}}.Services;
+
+public interface I{{className}}
+{
+    public Task<List<{{entity.Name}}Dto>> GetAllAsync();
+    public Task<{{entity.Name}}Dto?> GetByIdAsync(string id);
+    public Task<{{entity.Name}}Dto?> CreateAsync({{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}});
+    public Task<{{entity.Name}}Dto?> UpdateAsync({{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}});
+    public Task DeleteAsync(string id);
+}
+
+internal partial class {{className}} : {{className}}Base
+{
+    public {{className}}(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+        : base(httpClient, endpointsProvider)
+    {
+    }
+}
+
+internal abstract partial class {{className}}Base : I{{className}}
+{
+    private readonly HttpClient _httpClient;
+    private readonly string _apiBaseUrl;
+
+    protected {{className}}Base(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    {
+        _httpClient = httpClient;
+        _apiBaseUrl = endpointsProvider.{{entity.PluralName}}Url;
+    }
+
+    public async Task<List<{{entity.Name}}Dto>> GetAllAsync()
+    {
+        var items = await _httpClient.GetODataCollectionResponseAsync<List<{{entity.Name}}Dto>>(_apiBaseUrl);
+        return items ?? new List<{{entity.Name}}Dto>();
+    }
+
+    public async Task<{{entity.Name}}Dto?> GetByIdAsync(string id)
+    {
+        return await _httpClient.GetODataSimpleResponseAsync<{{entity.Name}}Dto>($"{_apiBaseUrl}/{id}");
+    }
+
+    public async Task<{{entity.Name}}Dto?> CreateAsync({{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}})
+    {
+        return await _httpClient.PostAsync<{{entity.Name}}CreateDto, {{entity.Name}}Dto>(_apiBaseUrl, {{ToLowerFirstChar entity.Name}});
+    }
+
+    public async Task<{{entity.Name}}Dto?> UpdateAsync({{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}})
+    {
+        return await _httpClient.PutAsync<{{entity.Name}}UpdateDto, {{entity.Name}}Dto>(_apiBaseUrl, {{ToLowerFirstChar entity.Name}});
+    }
+
+    public async Task DeleteAsync(string id)
+    {
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+    }
+}
