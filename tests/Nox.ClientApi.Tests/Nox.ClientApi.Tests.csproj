@@ -43,6 +43,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <InputFiles Remove=".nox\design\Entitities\person.entity.nox.yaml" />
+	  <InputFiles Remove=".nox\design\Entitities\usercontactselection.entity.nox.yaml" />
+	  <InputFiles Remove=".nox\design\presentation\apiConfiguration\apiRouteMappings\getPersonByTenantIdAndGuidId.ApiRouteMapping.nox.yaml" />
+	  <InputFiles Remove=".nox\design\presentation\apiConfiguration\apiRouteMappings\getPersonByTenantIdAndGuidIdWithUserContactSelection.ApiRouteMapping.nox.yaml" />
+	  <InputFiles Remove=".nox\design\presentation\apiConfiguration\apiRouteMappings\personsViaTenants.Post.ApiRouteMapping.nox.yaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 

@@ -145,6 +145,33 @@ public partial class RouteMappingTests : NoxWebApiTestBase
         AssertTwoCountriesCase(countryName1, countryName2, result);
     }
 
+
+    [Fact]
+    public async Task WhenRouteWithParametersWithMultipleSegmentsWithGuids_ShouldSucceed()
+    {
+        // Arrange
+        var tenantId = new Guid( "03B37170-1DA1-42EC-B8A2-118D559CEF81");
+        var createdPerson = await PostAsync<PersonCreateDto, PersonDto>($"{Endpoints.TenantsUrl}/{tenantId}/persons", new PersonCreateDto
+        {
+            FirstName = "John",
+            LastName = "Smith",
+            PrimaryEmailAddress = "john.doe@example.com",
+            TenantId = tenantId
+        });
+
+        // Act
+        var result = await GetODataSimpleResponseAsync<PersonDto>($"{Endpoints.TenantsUrl}/{tenantId}/Persons/{createdPerson?.Id}");
+
+
+        //Assert
+        Assert.Equal(tenantId, createdPerson?.TenantId);
+        Assert.Equal("John", createdPerson?.FirstName);
+        Assert.Equal("Smith", createdPerson?.LastName);
+        Assert.Equal("john.doe@example.com", createdPerson?.PrimaryEmailAddress);
+
+    }
+
+
     [Fact]
     public async Task WhenRoutePutWithParametersWithMultipleSegments_ShouldSucceed()
     {

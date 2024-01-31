@@ -51,6 +51,10 @@ domain:
     - $ref: ./Entities/holiday.entity.nox.yaml
   
     - $ref: ./Entities/referencenumber.entity.nox.yaml
+  
+    - $ref: ./Entities/person.entity.nox.yaml
+    
+    - $ref: ./Entities/usercontactselection.entity.nox.yaml
 
     - name: EmailAddress #owned by store
       description: Verified Email Address

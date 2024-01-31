@@ -21,5 +21,8 @@ apiRouteMappings:
   - $ref: ./apiRouteMappings/countriesInPortuguesToWorkplaces.GetRef.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml
   - $ref: ./apiRouteMappings/workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/getPersonByTenantIdAndGuidIdWithUserContactSelection.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/getPersonByTenantIdAndGuidId.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/personsViaTenants.Post.ApiRouteMapping.nox.yaml
   
         
