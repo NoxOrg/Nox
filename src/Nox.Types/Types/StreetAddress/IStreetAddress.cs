@@ -10,7 +10,7 @@ public interface IStreetAddress
     CountryCode CountryId { get; }
     string? Locality { get; }
     string? Neighborhood { get; }
-    string PostalCode { get; }
+    string? PostalCode { get; }
     string? Route { get; }
     string? StreetNumber { get; }
 }

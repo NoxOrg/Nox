@@ -31,7 +31,7 @@ public static class NoxTypeExtensions
         if (noxType.IsCompoundType())
         {
             return noxType.ToMemberInfo()
-                 .GetCustomAttributes<CompoundComponent>()
+                 .GetCustomAttributes<CompoundComponentAttribute>()
                  .ToDictionary(c => c.Name, c => c.UnderlyingType);
         }
         return EmptyComponents;

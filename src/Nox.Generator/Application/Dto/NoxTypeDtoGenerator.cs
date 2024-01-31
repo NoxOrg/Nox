@@ -49,10 +49,10 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
             .WithObject("compoundTypes", compoundTypes)
             .GenerateSourceCodeFromResource(templateName);
     }
-    private static IEnumerable<CompoundComponent> GetNoxTypeCompoundComponents(NoxType noxType)
+    private static IEnumerable<CompoundComponentAttribute> GetNoxTypeCompoundComponents(NoxType noxType)
     {
         return noxType
             .ToMemberInfo()
-            .GetCustomAttributes<CompoundComponent>();
+            .GetCustomAttributes<CompoundComponentAttribute>();
     }
 }

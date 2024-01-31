@@ -18,7 +18,7 @@ using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
 
 namespace {{codeGenConventions.RootNameSpace}}.Infrastructure.Persistence;
 
-internal partial class DtoDbContext : DtoDbContextBase
+public partial class DtoDbContext : DtoDbContextBase
 {
     public DtoDbContext(
       DbContextOptions<DtoDbContext> options,
@@ -38,7 +38,7 @@ internal partial class DtoDbContext : DtoDbContextBase
           interceptors)
     { }
 }
-internal abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repositories.IReadOnlyRepository
+public abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repositories.IReadOnlyRepository
 {
     /// <summary>
     /// The Nox solution configuration.

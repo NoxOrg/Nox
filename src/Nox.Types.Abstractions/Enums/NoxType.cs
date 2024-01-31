@@ -64,7 +64,7 @@ public enum NoxType : uint
     [CompoundComponent("Neighborhood", typeof(string), false)]
     [CompoundComponent("AdministrativeArea1", typeof(string), false)]
     [CompoundComponent("AdministrativeArea2", typeof(string), false)]
-    [CompoundComponent("PostalCode", typeof(string))]
+    [CompoundComponent("PostalCode", typeof(string), false)]
     [CompoundComponent("CountryId", typeof(CountryCode))]
     StreetAddress = 499179285,
 

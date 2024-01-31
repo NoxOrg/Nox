@@ -171,7 +171,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         private set => Value.AdministrativeArea2 = value;
     }
 
-    public string PostalCode
+    public string? PostalCode
     {
         get => Value.PostalCode;
         private set => Value.PostalCode = value;
@@ -210,12 +210,8 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.AddressLine1), $"Could not create a Nox {nameof(StreetAddress)} type with a {nameof(Value.AddressLine1)} with length greater than max allowed length of {AddressLine1MaxLength}."));
         }
-
-        if (string.IsNullOrEmpty(Value.PostalCode))
-        {
-            result.Errors.Add(new ValidationFailure(nameof(Value.PostalCode), $"Could not create a Nox {nameof(StreetAddress)} type with an empty {nameof(Value.PostalCode)}."));
-        }
-        else if (Value.PostalCode.Length > PostalCodeMaxLength)
+        
+        else if (Value.PostalCode != null && Value.PostalCode.Length > PostalCodeMaxLength)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.PostalCode), $"Could not create a Nox {nameof(StreetAddress)} type with a {nameof(Value.PostalCode)} with length greater than max allowed length of {PostalCodeMaxLength}."));
         }
@@ -267,7 +263,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         yield return new KeyValuePair<string, object>(nameof(Neighborhood), Neighborhood!);
         yield return new KeyValuePair<string, object>(nameof(AdministrativeArea1), AdministrativeArea1!);
         yield return new KeyValuePair<string, object>(nameof(AdministrativeArea2), AdministrativeArea2!);
-        yield return new KeyValuePair<string, object>(nameof(PostalCode), PostalCode);
+        yield return new KeyValuePair<string, object>(nameof(PostalCode), PostalCode!);
         yield return new KeyValuePair<string, object>(nameof(CountryId), CountryId);
     }
 

@@ -14,7 +14,7 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
     public StreetAddressDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public StreetAddressDto(System.String streetNumber,System.String addressLine1,System.String addressLine2,System.String addressLine3,System.String route,System.String locality,System.String neighborhood,System.String administrativeArea1,System.String administrativeArea2,System.String postalCode,Nox.Types.CountryCode countryId)
+    public StreetAddressDto(System.String streetNumber, System.String addressLine1, System.String addressLine2, System.String addressLine3, System.String route, System.String locality, System.String neighborhood, System.String administrativeArea1, System.String administrativeArea2, System.String postalCode, Nox.Types.CountryCode countryId)
     {
             StreetNumber = streetNumber;
             AddressLine1 = addressLine1;
@@ -37,7 +37,7 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
     public System.String? Neighborhood { get;set;}
     public System.String? AdministrativeArea1 { get;set;}
     public System.String? AdministrativeArea2 { get;set;}
-    public System.String PostalCode { get;set;}
+    public System.String? PostalCode { get;set;}
     public Nox.Types.CountryCode CountryId { get;set;}
 
 #region UpdateFromDictionary
@@ -82,7 +82,6 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
         }
         if (updatedProperties.TryGetValue("PostalCode", out var updatedPostalCode))
         {
-            ArgumentNullException.ThrowIfNull(updatedPostalCode, "Property 'PostalCode' can't be null.");
             streetAddress.PostalCode = updatedPostalCode;
         }
         if (updatedProperties.TryGetValue("CountryId", out var updatedCountryId))
@@ -101,7 +100,7 @@ public class FileDto: IFile, IWritableFile, INoxCompoundTypeDto
     public FileDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public FileDto(System.String url,System.String prettyName,System.UInt64 sizeInBytes)
+    public FileDto(System.String url, System.String prettyName, System.UInt64 sizeInBytes)
     {
             Url = url;
             PrettyName = prettyName;
@@ -140,7 +139,7 @@ public class TranslatedTextDto: ITranslatedText, IWritableTranslatedText, INoxCo
     public TranslatedTextDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public TranslatedTextDto(System.String cultureCode,System.String phrase)
+    public TranslatedTextDto(System.String cultureCode, System.String phrase)
     {
             CultureCode = cultureCode;
             Phrase = phrase;
@@ -172,7 +171,7 @@ public class VatNumberDto: IVatNumber, IWritableVatNumber, INoxCompoundTypeDto
     public VatNumberDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public VatNumberDto(System.String number,Nox.Types.CountryCode countryCode)
+    public VatNumberDto(System.String number, Nox.Types.CountryCode countryCode)
     {
             Number = number;
             CountryCode = countryCode;
@@ -204,7 +203,7 @@ public class PasswordDto: IPassword, IWritablePassword, INoxCompoundTypeDto
     public PasswordDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public PasswordDto(System.String hashedPassword,System.String salt)
+    public PasswordDto(System.String hashedPassword, System.String salt)
     {
             HashedPassword = hashedPassword;
             Salt = salt;
@@ -236,7 +235,7 @@ public class EntityIdDto: IEntityId, IWritableEntityId, INoxCompoundTypeDto
     public EntityIdDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public EntityIdDto(System.String type,System.UInt32 id)
+    public EntityIdDto(System.String type, System.UInt32 id)
     {
             Type = type;
             Id = id;
@@ -268,7 +267,7 @@ public class MoneyDto: IMoney, IWritableMoney, INoxCompoundTypeDto
     public MoneyDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public MoneyDto(System.Decimal amount,Nox.Types.CurrencyCode currencyCode)
+    public MoneyDto(System.Decimal amount, Nox.Types.CurrencyCode currencyCode)
     {
             Amount = amount;
             CurrencyCode = currencyCode;
@@ -300,7 +299,7 @@ public class ImageDto: IImage, IWritableImage, INoxCompoundTypeDto
     public ImageDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public ImageDto(System.String url,System.String prettyName,System.Int32 sizeInBytes)
+    public ImageDto(System.String url, System.String prettyName, System.Int32 sizeInBytes)
     {
             Url = url;
             PrettyName = prettyName;
@@ -339,7 +338,7 @@ public class HashedTextDto: IHashedText, IWritableHashedText, INoxCompoundTypeDt
     public HashedTextDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public HashedTextDto(System.String hashText,System.String salt)
+    public HashedTextDto(System.String hashText, System.String salt)
     {
             HashText = hashText;
             Salt = salt;
@@ -371,7 +370,7 @@ public class DateTimeRangeDto: IDateTimeRange, IWritableDateTimeRange, INoxCompo
     public DateTimeRangeDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public DateTimeRangeDto(System.DateTimeOffset start,System.DateTimeOffset end)
+    public DateTimeRangeDto(System.DateTimeOffset start, System.DateTimeOffset end)
     {
             Start = start;
             End = end;
@@ -403,7 +402,7 @@ public class LatLongDto: ILatLong, IWritableLatLong, INoxCompoundTypeDto
     public LatLongDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public LatLongDto(System.Double latitude,System.Double longitude)
+    public LatLongDto(System.Double latitude, System.Double longitude)
     {
             Latitude = latitude;
             Longitude = longitude;

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240130102320_InitialCreate")]
+    [Migration("20240130171034_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1833,7 +1833,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1901,7 +1900,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1992,7 +1990,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -2194,7 +2191,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 

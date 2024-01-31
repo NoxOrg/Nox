@@ -1830,7 +1830,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1898,7 +1897,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1989,7 +1987,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -2191,7 +2188,6 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 

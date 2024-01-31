@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Cryptocash.DataSeed.Seeders;
 using Cryptocash.Infrastructure;
-using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.DataSeed;
 
@@ -31,7 +30,7 @@ public static class DataSeedExtensions
         using var scope = app.Services.CreateScope();
 
         // A workaround to ensure the database is created and seeded, since it could not be performed on integration test level
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<Cryptocash.Infrastructure.Persistence.AppDbContext>();
         dbContext.Database.Migrate();
 
         var dataSeeders = scope.ServiceProvider.GetServices<IDataSeeder>();
