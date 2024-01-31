@@ -207,7 +207,7 @@ internal abstract class RefLandLordToVendingMachinesCommandHandlerBase<TRequest>
 
 	protected async Task SaveChangesAsync(TRequest request, LandLordEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

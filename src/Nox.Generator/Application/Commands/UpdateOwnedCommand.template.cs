@@ -102,7 +102,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- end }}
 
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
-		_repository.SetStateModified(parentEntity);
+		_repository.Update(parentEntity);
 		await OnCompletedAsync(request, entity!);
 		await _repository.SaveChangesAsync();
 

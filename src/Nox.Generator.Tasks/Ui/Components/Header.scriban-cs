@@ -7,7 +7,8 @@
     <table style="width:100%">
         <tr>
             <td style="text-align:left;padding:7px 0px 0px 5px;">
-                <MudImage Src="images/{{codeGenConventions.Solution.Name}}.png" />
+                {{- logoSrc = (codeGenConventions.Solution.Logo | string.empty) ? "images/Default.png" :  codeGenConventions.Solution.Logo }}
+                <MudImage Height="50" ObjectFit="ObjectFit.Contain" Alt="Logo" Src="{{logoSrc}}" />
             </td>
             <td style="display: flex; justify-content: flex-end;">
                 <Login />

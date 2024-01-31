@@ -15,7 +15,6 @@ using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -65,7 +64,7 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
-		Repository.SetStateModified(parentEntity);		
+		Repository.Update(parentEntity);		
 		await Repository.SaveChangesAsync();
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);

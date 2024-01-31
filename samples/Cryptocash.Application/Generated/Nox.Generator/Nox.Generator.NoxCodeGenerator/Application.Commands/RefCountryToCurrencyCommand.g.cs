@@ -165,7 +165,7 @@ internal abstract class RefCountryToCurrencyCommandHandlerBase<TRequest> : Comma
 
 	protected async Task SaveChangesAsync(TRequest request, CountryEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

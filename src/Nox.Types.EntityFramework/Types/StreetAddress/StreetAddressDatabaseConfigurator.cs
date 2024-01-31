@@ -12,7 +12,7 @@ namespace Nox.Types.EntityFramework.Types;
 public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     private static readonly NoxType StreetAddressNoxType = NoxType.StreetAddress;
-    private static readonly Dictionary<string, CompoundComponent> ComponentsByPropertyName = GetComponentsByPropertyName();
+    private static readonly Dictionary<string, CompoundComponentAttribute> ComponentsByPropertyName = GetComponentsByPropertyName();
 
     public NoxType ForNoxType => StreetAddressNoxType;
     public bool IsDefault => true;
@@ -50,6 +50,10 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
                 x.Property(nameof(StreetAddress.AddressLine2))
                     .HasMaxLength(StreetAddress.AddressLine2MaxLength)
                     .IsRequired(GetRequiredFlag(nameof(StreetAddress.AddressLine2)));
+                
+                x.Property(nameof(StreetAddress.AddressLine3))
+                    .HasMaxLength(StreetAddress.AddressLine3MaxLength)
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.AddressLine3)));
 
                 x.Property(nameof(StreetAddress.Route))
                     .HasMaxLength(StreetAddress.RouteMaxLength)
@@ -81,11 +85,11 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
         return component?.IsRequired ?? true;
     }
 
-    private static Dictionary<string, CompoundComponent> GetComponentsByPropertyName()
+    private static Dictionary<string, CompoundComponentAttribute> GetComponentsByPropertyName()
     {
         return StreetAddressNoxType
             .ToMemberInfo()
-            .GetCustomAttributes<CompoundComponent>()
+            .GetCustomAttributes<CompoundComponentAttribute>()
             .ToDictionary(x => x.Name, x => x);
     }
 }

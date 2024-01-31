@@ -15,7 +15,6 @@ using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
@@ -65,7 +64,7 @@ internal abstract class CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRela
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
-		Repository.SetStateModified(parentEntity);		
+		Repository.Update(parentEntity);		
 		await Repository.SaveChangesAsync();
 
 		return new SecEntityOwnedRelOneOrManyKeyDto(entity.Id.Value);

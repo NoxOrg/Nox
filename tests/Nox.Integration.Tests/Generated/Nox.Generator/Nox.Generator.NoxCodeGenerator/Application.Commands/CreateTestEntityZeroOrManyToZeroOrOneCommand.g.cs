@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
@@ -16,7 +17,6 @@ using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Domain;
 
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;

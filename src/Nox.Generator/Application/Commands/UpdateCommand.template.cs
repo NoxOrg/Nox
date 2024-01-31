@@ -78,8 +78,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
-
-		//Repository.SetStateModified(entity);
+		
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 

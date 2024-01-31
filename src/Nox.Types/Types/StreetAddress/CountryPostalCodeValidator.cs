@@ -18,8 +18,12 @@ public static class CountryPostalCodeValidator
     /// <param name="countryCode">Input Country Code.</param>
     /// <param name="postalCode">Input Postal Code.</param>
     /// <returns>True if postal code matches pattern.</returns>
-    public static bool IsValid(string countryCode, string postalCode)
+    public static bool IsValid(string countryCode, string? postalCode)
     {
+        if (string.IsNullOrEmpty(postalCode))
+        {
+            return true;
+        }
         if (postalCode.Length > PostCodeMaxLength)
         {
             return false;

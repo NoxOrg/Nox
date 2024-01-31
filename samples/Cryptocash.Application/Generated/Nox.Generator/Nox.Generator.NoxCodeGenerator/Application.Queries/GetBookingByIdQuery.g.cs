@@ -9,7 +9,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using Cryptocash.Application.Dto;
-using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 

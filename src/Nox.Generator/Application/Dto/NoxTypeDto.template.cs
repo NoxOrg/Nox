@@ -17,7 +17,7 @@ public class {{noxType.NoxType}}Dto: I{{noxType.NoxType}}, IWritable{{noxType.No
 
     public {{noxType.NoxType}}Dto(            
             {{- for component in noxType.Components -}}
-            {{component.UnderlyingType}} {{ToLowerFirstChar component.Name}}{{if !for.last}},{{end}}
+            {{component.UnderlyingType}} {{ToLowerFirstChar component.Name}}{{if !for.last}}, {{end}}
             {{- end -}}
     )
     {

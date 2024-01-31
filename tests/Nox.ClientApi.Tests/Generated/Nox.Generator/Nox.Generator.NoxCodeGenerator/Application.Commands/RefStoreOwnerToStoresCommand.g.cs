@@ -207,7 +207,7 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : Comm
 
 	protected async Task SaveChangesAsync(TRequest request, StoreOwnerEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}
