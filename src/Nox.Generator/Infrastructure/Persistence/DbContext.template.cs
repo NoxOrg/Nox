@@ -32,7 +32,7 @@ using {{codeGenConventions.DomainNameSpace}};
 
 namespace {{codeGenConventions.PersistenceNameSpace}};
 
-internal partial class AppDbContext: AppDbContextBase
+public partial class AppDbContext: AppDbContextBase
 {
     public AppDbContext(
            DbContextOptions<AppDbContext> options,
@@ -57,7 +57,7 @@ internal partial class AppDbContext: AppDbContextBase
     {}
 }
 
-internal abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Domain.IRepository
+public abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.EntityDbContextBase, Nox.Domain.IRepository
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

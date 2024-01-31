@@ -9,7 +9,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using ClientApi.Application.Dto;
-using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 

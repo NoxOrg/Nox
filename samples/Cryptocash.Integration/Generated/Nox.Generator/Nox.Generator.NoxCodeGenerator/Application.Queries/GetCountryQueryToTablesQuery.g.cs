@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Queries;
 using Nox.Application.Repositories;
 using CryptocashIntegration.Application.Dto;
-using CryptocashIntegration.Infrastructure.Persistence;
 
 namespace CryptocashIntegration.Application.Queries;
 
