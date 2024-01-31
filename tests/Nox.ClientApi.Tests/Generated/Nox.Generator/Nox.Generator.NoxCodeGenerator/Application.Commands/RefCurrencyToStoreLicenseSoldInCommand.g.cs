@@ -207,7 +207,7 @@ internal abstract class RefCurrencyToStoreLicenseSoldInCommandHandlerBase<TReque
 
 	protected async Task SaveChangesAsync(TRequest request, CurrencyEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

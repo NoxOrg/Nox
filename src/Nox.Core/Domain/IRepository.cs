@@ -15,7 +15,7 @@ public interface IRepository
 
     ValueTask<T> AddAsync<T>(T entity, CancellationToken cancellationToken = default(CancellationToken)) where T : class, IEntity;
 
-    void Update<T>(T entity) where T : IEntity;
+    void Update<T>(T entity) where T : notnull;
 
     /// <summary>
     /// Deletes Entity
@@ -45,6 +45,5 @@ public interface IRepository
     Task<long> GetSequenceNextValueAsync(string sequenceName);
 
     Task SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
-    void SetStateModified(object entity);
     void SetStateDetached(object entity);    
 }

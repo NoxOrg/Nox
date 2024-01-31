@@ -7,14 +7,15 @@ namespace Nox.Types.Tests.Types;
 public class StreetAddressTests
 {
     [Theory]
-    [InlineData("5", "Line1", "", "Locality", "11111", "UA", "", "Line1, Locality, 11111, UA")]
-    [InlineData("5", "Line1", "Line2", "Locality", "11111", "UA", "", "Line1 Line2, Locality, 11111, UA")]
-    [InlineData("5", "Line1", "", "", "11111", "UA", "", "Line1, 11111, UA")]
-    [InlineData("5", "Line1", "Line2", "Locality", "11111", "UA", "KH", "Line1 Line2, Locality, KH 11111, UA")]
+    [InlineData("5", "Line1", "", "","Locality", "11111", "UA", "", "Line1, Locality, 11111, UA")]
+    [InlineData("5", "Line1", "Line2", "Line3","Locality", "11111", "UA", "", "Line1 Line2 Line3, Locality, 11111, UA")]
+    [InlineData("5", "Line1", "", "","", "11111", "UA", "", "Line1, 11111, UA")]
+    [InlineData("5", "Line1", "Line2", "Line3","Locality", "11111", "UA", "KH", "Line1 Line2 Line3, Locality, KH 11111, UA")]
     public void StreetAddress_ToString_ReturnsValidAddress(
         string streetNumber,
         string addressLine1,
         string addressLine2,
+        string addressLine3,
         string locality,
         string postalCode,
         string countryCode,
@@ -26,6 +27,7 @@ public class StreetAddressTests
             StreetNumber = streetNumber,
             AddressLine1 = addressLine1,
             AddressLine2 = addressLine2,
+            AddressLine3 = addressLine3,
             Route = "Route",
             Locality = locality,
             AdministrativeArea1 = administrativeArea1,
@@ -83,6 +85,7 @@ public class StreetAddressTests
             StreetNumber = new string('a', 33),
             AddressLine1 = new string('a', 129),
             AddressLine2 = new string('a', 129),
+            AddressLine3 = new string('a', 129),
             Route = new string('a', 65),
             Locality = new string('a', 65),
             AdministrativeArea1 = new string('a', 65),
@@ -97,6 +100,7 @@ public class StreetAddressTests
                 new ValidationFailure("StreetNumber", "Could not create a Nox StreetAddress type with a StreetNumber with length greater than max allowed length of 32."),
                 new ValidationFailure("AddressLine1", "Could not create a Nox StreetAddress type with a AddressLine1 with length greater than max allowed length of 128."),
                 new ValidationFailure("AddressLine2", "Could not create a Nox StreetAddress type with a AddressLine2 with length greater than max allowed length of 128."),
+                new ValidationFailure("AddressLine3", "Could not create a Nox StreetAddress type with a AddressLine3 with length greater than max allowed length of 128."),
                 new ValidationFailure("Route", "Could not create a Nox StreetAddress type with a Route with length greater than max allowed length of 64."),
                 new ValidationFailure("Locality", "Could not create a Nox StreetAddress type with a Locality with length greater than max allowed length of 64."),
                 new ValidationFailure("AdministrativeArea1", "Could not create a Nox StreetAddress type with a AdministrativeArea1 with length greater than max allowed length of 64."),

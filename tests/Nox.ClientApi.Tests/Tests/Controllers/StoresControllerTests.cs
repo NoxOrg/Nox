@@ -43,6 +43,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
+                     null!,
                      "KT16 0RS",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
@@ -75,6 +76,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     null!,
                     "3000 Hillswood Business Park",
                     null!,
+                     null!,
                      null!,
                      null!,
                      null!,
@@ -123,6 +125,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Address = new StreetAddressDto(
                      null!,
                      "3000 Hillswood Business Park",
+                     null!,
                      null!,
                      null!,
                      null!,
@@ -178,6 +181,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
+                     null!,
                      "KT16 0RS",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
@@ -215,6 +219,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Address = new StreetAddressDto(
                      null!,
                      "3000 Hillswood Business Park",
+                     null!,
                      null!,
                      null!,
                      null!,
@@ -261,6 +266,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Address = new StreetAddressDto(
                     null!,
                     "3000 Hillswood Business Park",
+                    null!,
                     null!,
                     null!,
                     null!,
@@ -377,6 +383,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
+                     null!,
                      "KT16 0RS",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749)
@@ -409,6 +416,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Address = new StreetAddressDto(
                      null!,
                      "3000 Hillswood Business Park",
+                     null!,
                      null!,
                      null!,
                      null!,
@@ -480,6 +488,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Address = new StreetAddressDto(
                      null!,
                      "3000 Hillswood Business Park",
+                     null!,
                      null!,
                     null!,
                      null!,

@@ -81,6 +81,7 @@ public class TestEntityForTypesDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("TestEntityForTypes.StreetAddressTestField_StreetNumber")
 			.Select("TestEntityForTypes.StreetAddressTestField_AddressLine1")
 			.Select("TestEntityForTypes.StreetAddressTestField_AddressLine2")
+			.Select("TestEntityForTypes.StreetAddressTestField_AddressLine3")
 			.Select("TestEntityForTypes.StreetAddressTestField_Route")
 			.Select("TestEntityForTypes.StreetAddressTestField_Locality")
 			.Select("TestEntityForTypes.StreetAddressTestField_Neighborhood")

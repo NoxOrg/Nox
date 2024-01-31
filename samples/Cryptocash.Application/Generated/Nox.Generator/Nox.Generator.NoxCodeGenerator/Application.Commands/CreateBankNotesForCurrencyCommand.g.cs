@@ -15,7 +15,6 @@ using Nox.Exceptions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
@@ -65,7 +64,7 @@ internal abstract class CreateBankNotesForCurrencyCommandHandlerBase : CommandBa
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
-		Repository.SetStateModified(parentEntity);		
+		Repository.Update(parentEntity);		
 		await Repository.SaveChangesAsync();
 
 		return new BankNoteKeyDto(entity.Id.Value);

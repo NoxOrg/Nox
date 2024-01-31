@@ -227,7 +227,7 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 
 	protected async Task SaveChangesAsync(TRequest request, {{entity.Name}}Entity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

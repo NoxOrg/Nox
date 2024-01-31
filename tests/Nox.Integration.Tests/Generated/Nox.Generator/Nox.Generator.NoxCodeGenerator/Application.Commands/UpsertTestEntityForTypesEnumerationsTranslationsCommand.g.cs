@@ -7,12 +7,13 @@ using FluentValidation;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Application.Commands;
+using Nox.Domain;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Extensions;
 using Nox.Types.Abstractions.Extensions;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
@@ -23,19 +24,19 @@ public partial record  UpsertTestEntityForTypesEnumerationTestFieldsTranslations
 internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler : UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase
 {
 	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler(
-        AppDbContext dbContext,
-		NoxSolution noxSolution) : base(dbContext, noxSolution)
+        IRepository repository,
+		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
 internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>
 {
-	public AppDbContext DbContext { get; }
+	public IRepository Repository { get; }
 	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
-		DbContext = dbContext;
+		Repository = repository;
 	}
 
 	public virtual async Task<IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>> Handle(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand command, CancellationToken cancellationToken)
@@ -44,34 +45,37 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 		await OnExecutingAsync(command);
 		
 		var cultureCodes = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		
-		var localizedEntities = await DbContext.TestEntityForTypesEnumerationTestFieldsLocalized.Where(x => cultureCodes.Contains(x.CultureCode)).AsNoTracking().ToListAsync(cancellationToken);
+		var localizedEntities = await Repository.Query<TestEntityForTypesEnumerationTestFieldLocalized>()
+			.Where(x => cultureCodes.Contains(x.CultureCode))			
+			.ToListAsync(cancellationToken);
 		
 		var entities = new List<TestEntityForTypesEnumerationTestFieldLocalized>();
-		
-		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=> !localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
+		foreach(var dto in command.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
 		{
-			var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Added;
-			entities.Add(e);
-		});
+            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
+	        if(entity is not null)
+			{
+                entity.Name = dto.Name;
+                entities.Add(entity);
+            }
+			else
+			{
+				var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
+				await Repository.AddAsync(e, cancellationToken);
+				entities.Add(e);
+			}
+        }
 		
-		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=> localizedEntities.Any(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode))).ForEach(dto =>
-		{
-			var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-			DbContext.Entry(e).State = EntityState.Modified;
-			entities.Add(e);
-		});
-		
+		//Update Default in Entity 
 		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
 		{
-			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };
-			DbContext.Entry(e).State = EntityState.Modified;
+			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			Repository.Update(e);
 		});
 		
 
 		await OnCompletedAsync(command, entities);
-		await DbContext.SaveChangesAsync(cancellationToken);
+		await Repository.SaveChangesAsync(cancellationToken);
 		return command.TestEntityForTypesEnumerationTestFieldLocalizedDtos;
 	}
 }

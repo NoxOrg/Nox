@@ -9,8 +9,8 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
 using Nox.Exceptions;
+using Nox.Domain;
 
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
@@ -21,55 +21,53 @@ public partial record PartialUpdateCountryTimeZonesForCountryCommand(CountryKeyD
 internal partial class PartialUpdateCountryTimeZonesForCountryCommandHandler: PartialUpdateCountryTimeZonesForCountryCommandHandlerBase
 {
 	public PartialUpdateCountryTimeZonesForCountryCommandHandler(
-        AppDbContext dbContext,
+        IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
-		: base(dbContext, noxSolution, entityFactory)
+		: base(repository, noxSolution, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <PartialUpdateCountryTimeZonesForCountryCommand, CountryTimeZoneKeyDto>
 {
-	private readonly AppDbContext _dbContext;
-	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
+	protected readonly IRepository Repository;
+	protected readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> EntityFactory;
 	
 	protected PartialUpdateCountryTimeZonesForCountryCommandHandlerBase(
-		AppDbContext dbContext,
+		IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
 		: base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		Repository = repository;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryTimeZoneKeyDto> Handle(PartialUpdateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
-		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
+		var keys = new List<object?>(1);
+		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
+
+		var parentEntity = await Repository.FindAndIncludeAsync<Country>(keys.ToArray(),e => e.CountryTimeZones, cancellationToken);
 		if (parentEntity == null)
 		{
-			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");
+			throw new EntityNotFoundException("Country",  "keyId");
 		}
-		await _dbContext.Entry(parentEntity).Collection(p => p.CountryTimeZones).LoadAsync(cancellationToken);
 		var ownedId = Dto.CountryTimeZoneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			throw new EntityNotFoundException("Country.CountryTimeZones", $"{ownedId.ToString()}");
+			throw new EntityNotFoundException("Country.CountryTimeZones", $"ownedId");
 		}
 
-		await _entityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		await EntityFactory.PartialUpdateEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);
-
-		_dbContext.Entry(entity).State = EntityState.Modified;
-		
-		var result = await _dbContext.SaveChangesAsync();
+		await Repository.SaveChangesAsync();		
 
 		return new CountryTimeZoneKeyDto(entity.Id.Value);
 	}

@@ -4,6 +4,7 @@ public interface IStreetAddress
 {
     string AddressLine1 { get; }
     string? AddressLine2 { get; }
+    string? AddressLine3 { get; }
     string? AdministrativeArea1 { get; }
     string? AdministrativeArea2 { get; }
     CountryCode CountryId { get; }

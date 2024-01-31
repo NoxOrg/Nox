@@ -207,7 +207,7 @@ internal abstract class RefTestEntityTwoRelationshipsManyToManyToTestRelationshi
 
 	protected async Task SaveChangesAsync(TRequest request, TestEntityTwoRelationshipsManyToManyEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

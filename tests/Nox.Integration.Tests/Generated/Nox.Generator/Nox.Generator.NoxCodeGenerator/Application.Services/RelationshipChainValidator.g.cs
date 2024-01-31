@@ -6,16 +6,16 @@ using System.Linq.Dynamic.Core;
 
 using Nox.Application.Commands;
 using Nox.Application.Services;
+using Nox.Domain;
 
 using TestWebApp.Application.Dto;
-using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Services;
 
 internal partial class RelationshipChainValidator : RelationshipChainValidatorBase
 {
-    public RelationshipChainValidator(AppDbContext dataDbContext): base(dataDbContext)
+    public RelationshipChainValidator(IRepository repository): base(repository)
     {
     
     }
@@ -23,66 +23,66 @@ internal partial class RelationshipChainValidator : RelationshipChainValidatorBa
 
 internal abstract class RelationshipChainValidatorBase: IRelationshipChainValidator
 {
-    private readonly Dictionary<string, (object DbSet, string KeyName)> _entityContextPerEntityName;
+    private readonly Dictionary<string, (IQueryable Query, string KeyName)> _entityContextPerEntityName;
 
     private readonly Dictionary<string, string> _navigationNameToEntityPluralName;
 
     private readonly Dictionary<(string EntityPluralName, string NavigationName), bool> _isSingleRelationship;
 
-    public AppDbContext DataDbContext { get; }
+    protected IRepository Repository { get; }
 
 #region Constructor
-    public  RelationshipChainValidatorBase(AppDbContext dataDbContext)
+    public  RelationshipChainValidatorBase(IRepository repository)
     {
-        DataDbContext = dataDbContext;
+        Repository = repository;
 
-        _entityContextPerEntityName = new Dictionary<string, (object DbSet, string KeyName)>(StringComparer.OrdinalIgnoreCase)
+        _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
-            { "TestEntityZeroOrOnes", (DataDbContext.TestEntityZeroOrOnes, "Id") },
-            { "SecondTestEntityZeroOrOnes", (DataDbContext.SecondTestEntityZeroOrOnes, "Id") },
-            { "TestEntityWithNuids", (DataDbContext.TestEntityWithNuids, "Id") },
-            { "TestEntityOneOrManies", (DataDbContext.TestEntityOneOrManies, "Id") },
-            { "SecondTestEntityOneOrManies", (DataDbContext.SecondTestEntityOneOrManies, "Id") },
-            { "TestEntityZeroOrManies", (DataDbContext.TestEntityZeroOrManies, "Id") },
-            { "SecondTestEntityZeroOrManies", (DataDbContext.SecondTestEntityZeroOrManies, "Id") },
-            { "ThirdTestEntityOneOrManies", (DataDbContext.ThirdTestEntityOneOrManies, "Id") },
-            { "ThirdTestEntityZeroOrManies", (DataDbContext.ThirdTestEntityZeroOrManies, "Id") },
-            { "ThirdTestEntityExactlyOnes", (DataDbContext.ThirdTestEntityExactlyOnes, "Id") },
-            { "ThirdTestEntityZeroOrOnes", (DataDbContext.ThirdTestEntityZeroOrOnes, "Id") },
-            { "TestEntityExactlyOnes", (DataDbContext.TestEntityExactlyOnes, "Id") },
-            { "SecondTestEntityExactlyOnes", (DataDbContext.SecondTestEntityExactlyOnes, "Id") },
-            { "TestEntityZeroOrOneToZeroOrManies", (DataDbContext.TestEntityZeroOrOneToZeroOrManies, "Id") },
-            { "TestEntityZeroOrManyToZeroOrOnes", (DataDbContext.TestEntityZeroOrManyToZeroOrOnes, "Id") },
-            { "TestEntityExactlyOneToOneOrManies", (DataDbContext.TestEntityExactlyOneToOneOrManies, "Id") },
-            { "TestEntityOneOrManyToExactlyOnes", (DataDbContext.TestEntityOneOrManyToExactlyOnes, "Id") },
-            { "TestEntityExactlyOneToZeroOrManies", (DataDbContext.TestEntityExactlyOneToZeroOrManies, "Id") },
-            { "TestEntityZeroOrManyToExactlyOnes", (DataDbContext.TestEntityZeroOrManyToExactlyOnes, "Id") },
-            { "TestEntityOneOrManyToZeroOrManies", (DataDbContext.TestEntityOneOrManyToZeroOrManies, "Id") },
-            { "TestEntityZeroOrManyToOneOrManies", (DataDbContext.TestEntityZeroOrManyToOneOrManies, "Id") },
-            { "TestEntityZeroOrOneToOneOrManies", (DataDbContext.TestEntityZeroOrOneToOneOrManies, "Id") },
-            { "TestEntityOneOrManyToZeroOrOnes", (DataDbContext.TestEntityOneOrManyToZeroOrOnes, "Id") },
-            { "TestEntityZeroOrOneToExactlyOnes", (DataDbContext.TestEntityZeroOrOneToExactlyOnes, "Id") },
-            { "TestEntityExactlyOneToZeroOrOnes", (DataDbContext.TestEntityExactlyOneToZeroOrOnes, "Id") },
-            { "TestEntityOwnedRelationshipExactlyOnes", (DataDbContext.TestEntityOwnedRelationshipExactlyOnes, "Id") },
-            { "TestEntityOwnedRelationshipZeroOrOnes", (DataDbContext.TestEntityOwnedRelationshipZeroOrOnes, "Id") },
-            { "TestEntityOwnedRelationshipOneOrManies", (DataDbContext.TestEntityOwnedRelationshipOneOrManies, "Id") },
-            { "TestEntityOwnedRelationshipZeroOrManies", (DataDbContext.TestEntityOwnedRelationshipZeroOrManies, "Id") },
-            { "TestEntityTwoRelationshipsOneToOnes", (DataDbContext.TestEntityTwoRelationshipsOneToOnes, "Id") },
-            { "SecondTestEntityTwoRelationshipsOneToOnes", (DataDbContext.SecondTestEntityTwoRelationshipsOneToOnes, "Id") },
-            { "TestEntityTwoRelationshipsManyToManies", (DataDbContext.TestEntityTwoRelationshipsManyToManies, "Id") },
-            { "SecondTestEntityTwoRelationshipsManyToManies", (DataDbContext.SecondTestEntityTwoRelationshipsManyToManies, "Id") },
-            { "TestEntityTwoRelationshipsOneToManies", (DataDbContext.TestEntityTwoRelationshipsOneToManies, "Id") },
-            { "SecondTestEntityTwoRelationshipsOneToManies", (DataDbContext.SecondTestEntityTwoRelationshipsOneToManies, "Id") },
-            { "TestEntityForTypes", (DataDbContext.TestEntityForTypes, "Id") },
-            { "TestEntityForUniqueConstraints", (DataDbContext.TestEntityForUniqueConstraints, "Id") },
-            { "EntityUniqueConstraintsWithForeignKeys", (DataDbContext.EntityUniqueConstraintsWithForeignKeys, "Id") },
-            { "EntityUniqueConstraintsRelatedForeignKeys", (DataDbContext.EntityUniqueConstraintsRelatedForeignKeys, "Id") },
-            { "TestEntityLocalizations", (DataDbContext.TestEntityLocalizations, "Id") },
-            { "TestEntityForAutoNumberUsages", (DataDbContext.TestEntityForAutoNumberUsages, "Id") },
-            { "ForReferenceNumbers", (DataDbContext.ForReferenceNumbers, "Id") }
+            { "TestEntityZeroOrOnes", (Repository.Query<TestEntityZeroOrOne>(), "Id") },
+            { "SecondTestEntityZeroOrOnes", (Repository.Query<SecondTestEntityZeroOrOne>(), "Id") },
+            { "TestEntityWithNuids", (Repository.Query<TestEntityWithNuid>(), "Id") },
+            { "TestEntityOneOrManies", (Repository.Query<TestEntityOneOrMany>(), "Id") },
+            { "SecondTestEntityOneOrManies", (Repository.Query<SecondTestEntityOneOrMany>(), "Id") },
+            { "TestEntityZeroOrManies", (Repository.Query<TestEntityZeroOrMany>(), "Id") },
+            { "SecondTestEntityZeroOrManies", (Repository.Query<SecondTestEntityZeroOrMany>(), "Id") },
+            { "ThirdTestEntityOneOrManies", (Repository.Query<ThirdTestEntityOneOrMany>(), "Id") },
+            { "ThirdTestEntityZeroOrManies", (Repository.Query<ThirdTestEntityZeroOrMany>(), "Id") },
+            { "ThirdTestEntityExactlyOnes", (Repository.Query<ThirdTestEntityExactlyOne>(), "Id") },
+            { "ThirdTestEntityZeroOrOnes", (Repository.Query<ThirdTestEntityZeroOrOne>(), "Id") },
+            { "TestEntityExactlyOnes", (Repository.Query<TestEntityExactlyOne>(), "Id") },
+            { "SecondTestEntityExactlyOnes", (Repository.Query<SecondTestEntityExactlyOne>(), "Id") },
+            { "TestEntityZeroOrOneToZeroOrManies", (Repository.Query<TestEntityZeroOrOneToZeroOrMany>(), "Id") },
+            { "TestEntityZeroOrManyToZeroOrOnes", (Repository.Query<TestEntityZeroOrManyToZeroOrOne>(), "Id") },
+            { "TestEntityExactlyOneToOneOrManies", (Repository.Query<TestEntityExactlyOneToOneOrMany>(), "Id") },
+            { "TestEntityOneOrManyToExactlyOnes", (Repository.Query<TestEntityOneOrManyToExactlyOne>(), "Id") },
+            { "TestEntityExactlyOneToZeroOrManies", (Repository.Query<TestEntityExactlyOneToZeroOrMany>(), "Id") },
+            { "TestEntityZeroOrManyToExactlyOnes", (Repository.Query<TestEntityZeroOrManyToExactlyOne>(), "Id") },
+            { "TestEntityOneOrManyToZeroOrManies", (Repository.Query<TestEntityOneOrManyToZeroOrMany>(), "Id") },
+            { "TestEntityZeroOrManyToOneOrManies", (Repository.Query<TestEntityZeroOrManyToOneOrMany>(), "Id") },
+            { "TestEntityZeroOrOneToOneOrManies", (Repository.Query<TestEntityZeroOrOneToOneOrMany>(), "Id") },
+            { "TestEntityOneOrManyToZeroOrOnes", (Repository.Query<TestEntityOneOrManyToZeroOrOne>(), "Id") },
+            { "TestEntityZeroOrOneToExactlyOnes", (Repository.Query<TestEntityZeroOrOneToExactlyOne>(), "Id") },
+            { "TestEntityExactlyOneToZeroOrOnes", (Repository.Query<TestEntityExactlyOneToZeroOrOne>(), "Id") },
+            { "TestEntityOwnedRelationshipExactlyOnes", (Repository.Query<TestEntityOwnedRelationshipExactlyOne>(), "Id") },
+            { "TestEntityOwnedRelationshipZeroOrOnes", (Repository.Query<TestEntityOwnedRelationshipZeroOrOne>(), "Id") },
+            { "TestEntityOwnedRelationshipOneOrManies", (Repository.Query<TestEntityOwnedRelationshipOneOrMany>(), "Id") },
+            { "TestEntityOwnedRelationshipZeroOrManies", (Repository.Query<TestEntityOwnedRelationshipZeroOrMany>(), "Id") },
+            { "TestEntityTwoRelationshipsOneToOnes", (Repository.Query<TestEntityTwoRelationshipsOneToOne>(), "Id") },
+            { "SecondTestEntityTwoRelationshipsOneToOnes", (Repository.Query<SecondTestEntityTwoRelationshipsOneToOne>(), "Id") },
+            { "TestEntityTwoRelationshipsManyToManies", (Repository.Query<TestEntityTwoRelationshipsManyToMany>(), "Id") },
+            { "SecondTestEntityTwoRelationshipsManyToManies", (Repository.Query<SecondTestEntityTwoRelationshipsManyToMany>(), "Id") },
+            { "TestEntityTwoRelationshipsOneToManies", (Repository.Query<TestEntityTwoRelationshipsOneToMany>(), "Id") },
+            { "SecondTestEntityTwoRelationshipsOneToManies", (Repository.Query<SecondTestEntityTwoRelationshipsOneToMany>(), "Id") },
+            { "TestEntityForTypes", (Repository.Query<TestEntityForTypes>(), "Id") },
+            { "TestEntityForUniqueConstraints", (Repository.Query<TestEntityForUniqueConstraints>(), "Id") },
+            { "EntityUniqueConstraintsWithForeignKeys", (Repository.Query<EntityUniqueConstraintsWithForeignKey>(), "Id") },
+            { "EntityUniqueConstraintsRelatedForeignKeys", (Repository.Query<EntityUniqueConstraintsRelatedForeignKey>(), "Id") },
+            { "TestEntityLocalizations", (Repository.Query<TestEntityLocalization>(), "Id") },
+            { "TestEntityForAutoNumberUsages", (Repository.Query<TestEntityForAutoNumberUsages>(), "Id") },
+            { "ForReferenceNumbers", (Repository.Query<ForReferenceNumber>(), "Id") }
         };
 
-        _navigationNameToEntityPluralName = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase)
         {           
             { "secondtestentityzeroorone", "secondtestentityzeroorones" },           
             { "testentityzeroorone", "testentityzeroorones" },           
@@ -165,12 +165,10 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         if (!_entityContextPerEntityName.TryGetValue(relationshipChain.EntityName, out var context))
             return false;
 
-        var aggregateDbSet = (IQueryable)context.DbSet;
-
         if (!TryParseKey(relationshipChain.EntityName, relationshipChain.EntityKey, out var aggregateParsedKey))
             return false;
 
-        var query = aggregateDbSet.Where($"{context.KeyName} == @0", aggregateParsedKey);
+        var query = context.Query.Where($"{context.KeyName} == @0", aggregateParsedKey);
 
         var previousAggregateRoot = relationshipChain.EntityName;
         var previousKeyName = context.KeyName;

@@ -165,7 +165,7 @@ internal abstract class RefPaymentDetailToPaymentProviderCommandHandlerBase<TReq
 
 	protected async Task SaveChangesAsync(TRequest request, PaymentDetailEntity entity)
 	{
-		Repository.SetStateModified(entity);
+		Repository.Update(entity);
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
 	}

@@ -14,11 +14,12 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
     public StreetAddressDto(){ } 
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public StreetAddressDto(System.String streetNumber,System.String addressLine1,System.String addressLine2,System.String route,System.String locality,System.String neighborhood,System.String administrativeArea1,System.String administrativeArea2,System.String postalCode,Nox.Types.CountryCode countryId)
+    public StreetAddressDto(System.String streetNumber,System.String addressLine1,System.String addressLine2,System.String addressLine3,System.String route,System.String locality,System.String neighborhood,System.String administrativeArea1,System.String administrativeArea2,System.String postalCode,Nox.Types.CountryCode countryId)
     {
             StreetNumber = streetNumber;
             AddressLine1 = addressLine1;
             AddressLine2 = addressLine2;
+            AddressLine3 = addressLine3;
             Route = route;
             Locality = locality;
             Neighborhood = neighborhood;
@@ -30,6 +31,7 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
     public System.String? StreetNumber { get;set;}
     public System.String AddressLine1 { get;set;}
     public System.String? AddressLine2 { get;set;}
+    public System.String? AddressLine3 { get;set;}
     public System.String? Route { get;set;}
     public System.String? Locality { get;set;}
     public System.String? Neighborhood { get;set;}
@@ -53,6 +55,10 @@ public class StreetAddressDto: IStreetAddress, IWritableStreetAddress, INoxCompo
         if (updatedProperties.TryGetValue("AddressLine2", out var updatedAddressLine2))
         {
             streetAddress.AddressLine2 = updatedAddressLine2;
+        }
+        if (updatedProperties.TryGetValue("AddressLine3", out var updatedAddressLine3))
+        {
+            streetAddress.AddressLine3 = updatedAddressLine3;
         }
         if (updatedProperties.TryGetValue("Route", out var updatedRoute))
         {

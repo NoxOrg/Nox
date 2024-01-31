@@ -8,6 +8,8 @@ name: Cryptocash
 
 description: A sample solution for the imaginary Crypocash business. 
 
+logo: 'images/Cryptocash.png'
+
 overview: >
   **Crypocash** is a multi-national foreign exchange operator. 
   

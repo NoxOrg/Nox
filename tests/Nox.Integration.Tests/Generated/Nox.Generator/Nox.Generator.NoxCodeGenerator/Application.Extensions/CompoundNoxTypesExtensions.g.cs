@@ -8,7 +8,7 @@ namespace TestWebApp.Application.Dto;
 internal static class CompoundNoxTypesExtensions
 {
     public static StreetAddressDto ToDto(this Nox.Types.StreetAddress StreetAddress)
-        => new(StreetAddress.StreetNumber!, StreetAddress.AddressLine1!, StreetAddress.AddressLine2!, StreetAddress.Route!, StreetAddress.Locality!, StreetAddress.Neighborhood!, StreetAddress.AdministrativeArea1!, StreetAddress.AdministrativeArea2!, StreetAddress.PostalCode!, StreetAddress.CountryId!);
+        => new(StreetAddress.StreetNumber!, StreetAddress.AddressLine1!, StreetAddress.AddressLine2!, StreetAddress.AddressLine3!, StreetAddress.Route!, StreetAddress.Locality!, StreetAddress.Neighborhood!, StreetAddress.AdministrativeArea1!, StreetAddress.AdministrativeArea2!, StreetAddress.PostalCode!, StreetAddress.CountryId!);
 
     public static FileDto ToDto(this Nox.Types.File File)
         => new(File.Url!, File.PrettyName!, File.SizeInBytes!);

@@ -64960,6 +64960,10 @@
             "type": "string",
             "nullable": true
           },
+          "addressLine3": {
+            "type": "string",
+            "nullable": true
+          },
           "route": {
             "type": "string",
             "nullable": true
