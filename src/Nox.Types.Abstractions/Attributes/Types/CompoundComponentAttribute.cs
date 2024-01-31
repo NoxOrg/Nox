@@ -3,13 +3,13 @@
 namespace Nox.Types;
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
-public class CompoundComponent : Attribute
+public class CompoundComponentAttribute : Attribute
 {
     public string Name { get; }
     public Type UnderlyingType { get; }
     public bool IsRequired { get; set; }
 
-    public CompoundComponent(string name, Type type, bool isRequired = true)
+    public CompoundComponentAttribute(string name, Type type, bool isRequired = true)
     {
         Name = name;
         UnderlyingType = type;

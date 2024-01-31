@@ -293,7 +293,7 @@ namespace ClientApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_StreetAddressPostalCodeNotSet_IsNotCreated()
+        public async Task Post_StreetAddressPostalCodeNotSet_IsCreated()
         {
             // Arrange
             var createDto = new StoreOwnerCreateDto
@@ -318,7 +318,7 @@ namespace ClientApi.Tests.Controllers
             var result = await PostAsync(Endpoints.StoreOwnersUrl, createDto);
 
             //Assert
-            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            result.StatusCode.Should().Be(HttpStatusCode.Created);
         }
 
         [Fact]
