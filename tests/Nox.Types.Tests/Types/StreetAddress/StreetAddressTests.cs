@@ -158,7 +158,7 @@ public class StreetAddressTests
             Locality = "Lyne",
             AdministrativeArea1 = "England",
             AdministrativeArea2 = "Surrey",
-            PostalCode = "KT16 0RS",
+            PostalCode = "GIR0AA",
         });
 
         action.Should().Throw<NoxTypeValidationException>()
