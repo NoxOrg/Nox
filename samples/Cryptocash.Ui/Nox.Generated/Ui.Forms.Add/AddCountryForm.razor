@@ -1,6 +1,9 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Cryptocash.Ui.Services
+@using Cryptocash.Application.Dto
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
 
 @namespace Cryptocash.Ui.Forms.Add
 
@@ -13,7 +16,9 @@
     <DialogContent>
         <MudForm Model="@Country">
             <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+                <MudItem xs="12">
+                        <EditText @bind-Text="@Country.Name" Title="Name" TypeOptions="@CountryMetadata.NameTypeOptions" />
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {
