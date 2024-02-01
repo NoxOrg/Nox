@@ -343,6 +343,7 @@
                                 <MudTh>IpAddress</MudTh>
                                 <MudTh>Country</MudTh>
                                 <MudTh>Currency</MudTh>
+                                <MudTh>Email</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -416,6 +417,9 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewCurrency Currency="@testCurrency" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewEmail Email="@testEmail" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>
