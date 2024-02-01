@@ -22,6 +22,12 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Application\Queries\**" />
+	  <EmbeddedResource Remove="Application\Queries\**" />
+	  <None Remove="Application\Queries\**" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="12.1.1" />
@@ -42,8 +48,6 @@
 		<PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
-		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
-		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -136,8 +140,5 @@
 			<Pack>true</Pack>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Application\Queries\" />
 	</ItemGroup>
 </Project>
