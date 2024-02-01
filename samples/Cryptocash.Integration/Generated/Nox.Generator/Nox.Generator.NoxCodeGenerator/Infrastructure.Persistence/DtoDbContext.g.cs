@@ -7,7 +7,6 @@ using Nox;
 using Nox.Solution;
 using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Configuration;
 using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 using CryptocashIntegration.Application.Dto;
