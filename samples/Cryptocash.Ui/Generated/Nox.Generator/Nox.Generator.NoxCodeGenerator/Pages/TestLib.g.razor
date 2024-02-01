@@ -101,6 +101,7 @@
                     new SelectEntityModel("IDA", "Entity A"),
                     new SelectEntityModel("IDB", "Entity B")
                 };
+    string testEmail = "test@email.com";
 
     #endregion
 
@@ -277,6 +278,9 @@
                                                     <MudItem xs="6">
                                                         <MultiSelect Title="SelectList"
                                                                 SelectionList="@testGenericEntityList" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditEmail Title="Email" Email="@testEmail" />
                                                     </MudItem>
                                                 </MudGrid>
                                     </MudItem>
