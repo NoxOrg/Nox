@@ -9,7 +9,7 @@ public partial class EditDayOfWeek : ComponentBase
     #region Declarations
 
     [Parameter]
-    public byte? DayOfWeek { get; set; }
+    public ushort? DayOfWeek { get; set; }
 
     [Parameter]
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
@@ -18,9 +18,9 @@ public partial class EditDayOfWeek : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public EventCallback<byte?> DayOfWeekChanged { get; set; }
+    public EventCallback<ushort?> DayOfWeekChanged { get; set; }
 
-    public static Dictionary<byte, string> DayOfWeekSelectionList { get; set; } = new Dictionary<byte, string>();
+    public static Dictionary<ushort, string> DayOfWeekSelectionList { get; set; } = new();
 
     public string? CurrentDayOfWeekStr { get; set; }
 
@@ -37,7 +37,7 @@ public partial class EditDayOfWeek : ComponentBase
 
             foreach (var CurrentDay in days)
             {
-                DayOfWeekSelectionList?.Add((byte)CurrentDay.I, CurrentDay.M);
+                DayOfWeekSelectionList?.Add((ushort)CurrentDay.I, CurrentDay.M);
             }
         }
 
@@ -46,14 +46,14 @@ public partial class EditDayOfWeek : ComponentBase
                 && DayOfWeek <= 12
                 && DayOfWeekSelectionList?.Count > 0)
         {
-            CurrentDayOfWeekStr = DayOfWeekSelectionList[(byte)DayOfWeek];
+            CurrentDayOfWeekStr = DayOfWeekSelectionList[(ushort)DayOfWeek];
         }
     }
 
     protected async Task OnDayOfWeekChanged(string newValue)
     {
         if (!string.IsNullOrWhiteSpace(newValue)
-            && byte.TryParse(newValue, out byte currentDay) 
+            && ushort.TryParse(newValue, out ushort currentDay) 
             && currentDay >= 0
             && currentDay <= 7)
         {

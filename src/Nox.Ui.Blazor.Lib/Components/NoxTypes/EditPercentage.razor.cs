@@ -9,13 +9,13 @@ public partial class EditPercentage : ComponentBase
     #region Declarations
 
     [Parameter]
-    public decimal? Percentage { get; set; }
+    public float? Percentage { get; set; }
 
     [Parameter]
     public string? Title { get; set; }
 
     [Parameter]
-    public EventCallback<decimal?> PercentageChanged { get; set; }
+    public EventCallback<float?> PercentageChanged { get; set; }
 
     public string ErrorRequiredMessage
     {
@@ -35,9 +35,9 @@ public partial class EditPercentage : ComponentBase
 
     protected async Task OnPercentageChanged(string newValue)
     {
-        if (decimal.TryParse(newValue, out decimal parsedDouble))
+        if (float.TryParse(newValue, out float parsedValue))
         {
-            Percentage = parsedDouble;
+            Percentage = parsedValue;
         }
         else
         {
