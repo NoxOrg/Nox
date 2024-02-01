@@ -1,0 +1,29 @@
+﻿@using MudBlazor
+@inherits ComponentBase
+
+@if (Errors.Any())
+{
+    <MudSimpleTable Style="overflow-x: auto;" Elevation="0" Bordered="false" Dense="true" Outlined="false">
+        <tbody>
+            @foreach (var error in Errors)
+            {
+                @foreach (var errorMsg in error.Value)
+                {                    
+                    <tr>
+                        <td style="border-bottom: none;vertical-align: top;">
+                            <MudText Typo="Typo.subtitle2" Color="@Color.Error">@error.Key</MudText>
+                        </td>
+                        <td style="border-bottom: none;vertical-align: top;">
+                                <MudText Typo="Typo.subtitle2" Color="@Color.Error">@errorMsg</MudText>
+                         </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </MudSimpleTable>
+}
+
+@code {
+    [Parameter]
+    public Dictionary<string, IEnumerable<string>> Errors { get; set; } = new();
+}

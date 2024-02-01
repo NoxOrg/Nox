@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using {{codeGenConventions.DtoNameSpace}};
 
 namespace {{codeGenConventions.UiNameSpace}}.Forms.Add;
 
 public partial class {{className}} : ComponentBase
 {
+    private {{entity.Name}}CreateDto {{entity.Name}} = new();
+    private bool IsLoading = false;
+    private bool HasError = false;
+
     [Parameter]
     public EventCallback OnSubmit { get; set; }
 
@@ -29,11 +34,39 @@ public partial class {{className}} : ComponentBase
 
     private async Task OnSubmitClicked()
     {
-        await OnSubmit.InvokeAsync();
+        try
+        {
+            IsLoading = true;
+            var result = await {{entity.PluralName}}Service.CreateAsync({{entity.Name}});
+
+            if (result is null)
+                HasError = true;
+            else
+            {
+                ResetForm();
+                await OnSubmit.InvokeAsync();
+            }
+        }
+        catch
+        {
+            HasError = true;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     private async Task OnCancelClicked()
     {
+        ResetForm();
         await OnCancel.InvokeAsync();
+    }
+
+    private void ResetForm()
+    {
+        {{entity.Name}} = new {{entity.Name}}CreateDto();
+        HasError = false;
+        IsLoading = false;
     }
 }
