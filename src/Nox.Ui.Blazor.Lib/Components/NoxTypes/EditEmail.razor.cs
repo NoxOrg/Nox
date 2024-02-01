@@ -41,7 +41,7 @@ public partial class EditEmail : ComponentBase
             {
                 Types.Email.From(arg);
             }
-            catch (Exception)
+            catch (NoxTypeValidationException)
             {
                 return String.Format(Resources.Resources.ValidateGeneric, arg, Title ?? string.Empty).Trim();
             }
