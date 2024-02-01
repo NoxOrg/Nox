@@ -26,9 +26,9 @@ public partial class ViewDayOfWeek : ComponentBase
             {
                 var days = Enumerable.Range(0, 6).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat.GetDayName((System.DayOfWeek)i) });
 
-                foreach (var CurrentDay in days)
+                foreach (var day in days)
                 {
-                    DayOfWeekSelectionList?.Add((ushort)CurrentDay.I, CurrentDay.M);
+                    DayOfWeekSelectionList?.Add((ushort)day.I, day.M);
                 }                
             }
 
