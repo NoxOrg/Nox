@@ -11,7 +11,7 @@
                        Editable="true"
                        Placeholder="DisplayPlaceholder"
                        DateFormat="@Format"
-                       Date="@DateTime">
+                       Date="DateTime.HasValue ? DateTime.Value.DateTime : (DateTime?)null">
         </MudDatePicker>
     </MudItem>
     <MudItem xs="12">

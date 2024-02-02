@@ -4,9 +4,7 @@
   "description": "Configuration to create a valid Azure Service Bus Connection, for example: sb://your-servicebus-name.servicebus.windows.net/;SharedAccessKeyName=YourKeyName;SharedAccessKey=YourKey;",
   "type": "object",
   "required": [
-    "endpoint",
-    "sharedAccessKey",
-    "sharedAccessKeyName"
+    "endpoint"
   ],
   "properties": {
     "endpoint": {    
@@ -16,11 +14,25 @@
     },
     "sharedAccessKey": {    
       "title": "The actual security key associated with the shared access key name used to establish secure communication.",
-      "type": "string"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "sharedAccessKeyName": {    
       "title": "The name of the shared access key that provides security credentials for authentication.",
-      "type": "string"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "additionalProperties": false

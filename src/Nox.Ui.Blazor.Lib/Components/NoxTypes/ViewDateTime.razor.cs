@@ -9,7 +9,7 @@ public partial class ViewDateTime : ComponentBase
     #region Declarations
 
     [Parameter]
-    public System.DateTime? DateTime { get; set; }
+    public System.DateTimeOffset? DateTime { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy HH:mm:ss";
