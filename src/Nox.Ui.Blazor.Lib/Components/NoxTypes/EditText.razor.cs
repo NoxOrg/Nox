@@ -35,7 +35,7 @@ public partial class EditText : ComponentBase
     {
         if (arg != null
             && arg.Length < MinLength)
-            return String.Format(Resources.Resources.TextValidateLength, Title, MinLength.ToString()).Trim();
+            return String.Format(Resources.Resources.ValidateTextLength, Title, MinLength.ToString()).Trim();
         return String.Empty;
     }
 }

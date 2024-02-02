@@ -141,7 +141,10 @@
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
-  <data name="TextValidateLength" xml:space="preserve">
+  <data name="ValidateGeneric" xml:space="preserve">
+    <value>{0} is not a valid {1}</value>
+  </data>
+  <data name="ValidateTextLength" xml:space="preserve">
     <value>{0} is required and must be at least {1} characters long</value>
   </data>
 </root>

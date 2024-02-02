@@ -133,11 +133,20 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid {1}.
+        /// </summary>
+        public static string ValidateGeneric {
+            get {
+                return ResourceManager.GetString("ValidateGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is required and must be at least {1} characters long.
         /// </summary>
-        public static string TextValidateLength {
+        public static string ValidateTextLength {
             get {
-                return ResourceManager.GetString("TextValidateLength", resourceCulture);
+                return ResourceManager.GetString("ValidateTextLength", resourceCulture);
             }
         }
     }
