@@ -42,7 +42,7 @@
     decimal? testLength = (decimal)1311.87;
     string testMacAddress = "ddaaccbbeedd";
     decimal? testNumber = (decimal)1223.75;
-    decimal? testPercentage = (decimal)36.67;
+    float? testPercentage = (float)36.67;
     decimal? testTemperature = (decimal)14.33;
     decimal? testVolume = (decimal)85.31;
     decimal? testWeight = (decimal)23.56;    
@@ -102,6 +102,7 @@
                     new SelectEntityModel("IDA", "Entity A"),
                     new SelectEntityModel("IDB", "Entity B")
                 };
+    string testEmail = "test@email.com";
 
     #endregion
 
@@ -279,6 +280,9 @@
                                                         <MultiSelect Title="SelectList"
                                                                 SelectionList="@testGenericEntityList" />
                                                     </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditEmail Title="Email" Email="@testEmail" />
+                                                    </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -340,6 +344,7 @@
                                 <MudTh>IpAddress</MudTh>
                                 <MudTh>Country</MudTh>
                                 <MudTh>Currency</MudTh>
+                                <MudTh>Email</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd Style="vertical-align:top;">
@@ -413,6 +418,9 @@
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewCurrency Currency="@testCurrency" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewEmail Email="@testEmail" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

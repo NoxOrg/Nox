@@ -9,7 +9,7 @@ public partial class ViewPercentage : ComponentBase
     #region Declarations
 
     [Parameter]
-    public decimal? Percentage { get; set; }
+    public float? Percentage { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "#.##";

@@ -1,0 +1,26 @@
+#
+# minimal.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: MinimalService
+
+description: Minimal yaml file for tests
+
+
+infrastructure: 
+  persistence: 
+    databaseServer: 
+      name: NoxEntityStore
+      serverUri: localhost
+      provider: sqlServer
+      user: sa
+      password: Developer*123
+
+  messaging:     
+    integrationEventServer:       
+      name: eventBus
+      provider: azureServiceBus
+      azureServiceBusConfig:
+        endpoint: sb://your-servicebus-name.servicebus.windows.net/

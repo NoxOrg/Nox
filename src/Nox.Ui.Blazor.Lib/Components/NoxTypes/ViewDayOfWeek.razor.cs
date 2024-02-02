@@ -11,12 +11,12 @@ public partial class ViewDayOfWeek : ComponentBase
     #region Declarations
 
     [Parameter]
-    public byte? DayOfWeek { get; set; }
+    public ushort? DayOfWeek { get; set; }
 
     [Parameter]
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
-    public static Dictionary<byte, string> DayOfWeekSelectionList { get; set; } = new Dictionary<byte, string>();
+    public static Dictionary<ushort, string> DayOfWeekSelectionList { get; set; } = new();
 
     public string DisplayDayOfWeek
     {
@@ -26,9 +26,9 @@ public partial class ViewDayOfWeek : ComponentBase
             {
                 var days = Enumerable.Range(0, 6).Select(i => new { I = i, M = CultureInfo.GetCultureInfo(CultureInfo.LCID).DateTimeFormat.GetDayName((System.DayOfWeek)i) });
 
-                foreach (var CurrentDay in days)
+                foreach (var day in days)
                 {
-                    DayOfWeekSelectionList?.Add((byte)CurrentDay.I, CurrentDay.M);
+                    DayOfWeekSelectionList?.Add((ushort)day.I, day.M);
                 }                
             }
 
@@ -37,7 +37,7 @@ public partial class ViewDayOfWeek : ComponentBase
                 && DayOfWeek <= 12
                 && DayOfWeekSelectionList?.Count > 0)
             {
-                return DayOfWeekSelectionList[(byte)DayOfWeek];                
+                return DayOfWeekSelectionList[(ushort)DayOfWeek];                
             }
 
             return String.Empty;
