@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IPaymentProvidersService
 {
-    public Task<List<PaymentProviderDto>> GetAllAsync();
+    public Task<List<PaymentProviderModel>> GetAllAsync();
     public Task<PaymentProviderDto?> GetByIdAsync(string id);
     public Task<PaymentProviderDto?> CreateAsync(PaymentProviderCreateDto paymentProvider);
     public Task<PaymentProviderDto?> UpdateAsync(PaymentProviderUpdateDto paymentProvider);
@@ -18,8 +21,10 @@ public interface IPaymentProvidersService
 
 internal partial class PaymentProvidersService : PaymentProvidersServiceBase
 {
-    public PaymentProvidersService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public PaymentProvidersService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<PaymentProviderModel, PaymentProviderDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<PaymentProviderModel, PaymentProviderDto> _modelConverter;
 
-    protected PaymentProvidersServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected PaymentProvidersServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<PaymentProviderModel, PaymentProviderDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.PaymentProvidersUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<PaymentProviderDto>> GetAllAsync()
+    public async Task<List<PaymentProviderModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<PaymentProviderDto>>(_apiBaseUrl);
-        return items ?? new List<PaymentProviderDto>();
+        if (items is null)
+            return new List<PaymentProviderModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<PaymentProviderDto?> GetByIdAsync(string id)

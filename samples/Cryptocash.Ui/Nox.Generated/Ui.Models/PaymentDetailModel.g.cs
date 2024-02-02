@@ -1,10 +1,10 @@
 ﻿// Generated
 
 #nullable enable
-using Nox.Application.Dto;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+using Nox.Ui.Blazor.Lib.Contracts;
 
-namespace Cryptocash.Application.Dto;
+namespace Cryptocash.Ui.Models;
 
 /// <summary>
 /// Customer payment account related data.
@@ -17,7 +17,7 @@ public partial class PaymentDetailModel : PaymentDetailModelBase
 /// <summary>
 /// Customer payment account related data
 /// </summary>
-public abstract class PaymentDetailModelBase: EntityDtoBase
+public abstract class PaymentDetailModelBase: IEntityModel
 {
 
     /// <summary>

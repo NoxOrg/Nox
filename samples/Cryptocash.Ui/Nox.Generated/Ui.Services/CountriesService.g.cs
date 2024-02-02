@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICountriesService
 {
-    public Task<List<CountryDto>> GetAllAsync();
+    public Task<List<CountryModel>> GetAllAsync();
     public Task<CountryDto?> GetByIdAsync(string id);
     public Task<CountryDto?> CreateAsync(CountryCreateDto country);
     public Task<CountryDto?> UpdateAsync(CountryUpdateDto country);
@@ -18,8 +21,10 @@ public interface ICountriesService
 
 internal partial class CountriesService : CountriesServiceBase
 {
-    public CountriesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public CountriesService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CountryModel, CountryDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class CountriesServiceBase : ICountriesService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<CountryModel, CountryDto> _modelConverter;
 
-    protected CountriesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected CountriesServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CountryModel, CountryDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CountriesUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<CountryDto>> GetAllAsync()
+    public async Task<List<CountryModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CountryDto>>(_apiBaseUrl);
-        return items ?? new List<CountryDto>();
+        if (items is null)
+            return new List<CountryModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<CountryDto?> GetByIdAsync(string id)

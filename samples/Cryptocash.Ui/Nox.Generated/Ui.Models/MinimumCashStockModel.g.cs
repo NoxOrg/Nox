@@ -1,10 +1,10 @@
 ﻿// Generated
 
 #nullable enable
-using Nox.Application.Dto;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+using Nox.Ui.Blazor.Lib.Contracts;
 
-namespace Cryptocash.Application.Dto;
+namespace Cryptocash.Ui.Models;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
@@ -17,7 +17,7 @@ public partial class MinimumCashStockModel : MinimumCashStockModelBase
 /// <summary>
 /// Minimum cash stock required for vending machine
 /// </summary>
-public abstract class MinimumCashStockModelBase: EntityDtoBase
+public abstract class MinimumCashStockModelBase: IEntityModel
 {
 
     /// <summary>

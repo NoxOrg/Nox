@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICurrenciesService
 {
-    public Task<List<CurrencyDto>> GetAllAsync();
+    public Task<List<CurrencyModel>> GetAllAsync();
     public Task<CurrencyDto?> GetByIdAsync(string id);
     public Task<CurrencyDto?> CreateAsync(CurrencyCreateDto currency);
     public Task<CurrencyDto?> UpdateAsync(CurrencyUpdateDto currency);
@@ -18,8 +21,10 @@ public interface ICurrenciesService
 
 internal partial class CurrenciesService : CurrenciesServiceBase
 {
-    public CurrenciesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public CurrenciesService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CurrencyModel, CurrencyDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<CurrencyModel, CurrencyDto> _modelConverter;
 
-    protected CurrenciesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected CurrenciesServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CurrencyModel, CurrencyDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CurrenciesUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<CurrencyDto>> GetAllAsync()
+    public async Task<List<CurrencyModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CurrencyDto>>(_apiBaseUrl);
-        return items ?? new List<CurrencyDto>();
+        if (items is null)
+            return new List<CurrencyModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<CurrencyDto?> GetByIdAsync(string id)

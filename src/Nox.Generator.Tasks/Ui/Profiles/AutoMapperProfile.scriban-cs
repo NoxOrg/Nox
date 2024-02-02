@@ -1,0 +1,23 @@
+﻿using AutoMapper;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+
+using {{codeGenConventions.DtoNameSpace}};
+using {{codeGenConventions.UiNameSpace}}.Models;
+
+namespace {{codeGenConventions.UiNameSpace}}.Profiles;
+
+public class {{className}} : Profile
+{
+    public {{className}}()
+    {
+        //Compound Nox Types
+        {{- for noxType in compoundTypes }}
+        //CreateMap<{{noxType}}Dto, {{noxType}}Model>().ReverseMap();
+        {{- end }}
+
+        //Entities
+        {{- for entity in entities }}
+        CreateMap<{{entity.Name}}Dto, {{entity.Name}}Model>().ReverseMap();
+        {{- end }}
+    }
+}

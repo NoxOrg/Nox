@@ -4,10 +4,10 @@ end -}}
 // Generated
 
 #nullable enable
-using Nox.Application.Dto;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+using Nox.Ui.Blazor.Lib.Contracts;
 
-namespace {{codeGenConventions.DtoNameSpace}};
+namespace {{codeGenConventions.UiNameSpace}}.Models;
 
 /// <summary>
 /// {{entity.Description  | string.rstrip}}.
@@ -20,7 +20,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description  | string.rstrip}}
 /// </summary>
-public abstract class {{className}}Base: EntityDtoBase
+public abstract class {{className}}Base: IEntityModel
 {
 {{- for key in entity.Keys }}
 

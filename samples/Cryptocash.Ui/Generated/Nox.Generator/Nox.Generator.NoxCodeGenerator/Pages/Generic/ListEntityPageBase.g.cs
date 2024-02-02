@@ -12,7 +12,7 @@ using Cryptocash.Application.Dto;
 using AutoMapper;
 using System.Reflection;
 using Nox.Ui.Blazor.Lib.Models;
-using LibModels = Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Types;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
@@ -1084,7 +1084,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             if (CountryEntityData != null
                 && CountryEntityData.EntityList != null)
             {
-                CountryModelData = new List<LibModels.CountryModel>();
+                CountryModelData = new List<CountryModel>();
 
                 foreach (CountryDto currentCountry in CountryEntityData.EntityList)
                 {
@@ -1092,7 +1092,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                         && !String.IsNullOrWhiteSpace(currentCountry.Name)
                         && !String.IsNullOrWhiteSpace(currentCountry.CurrencyId))
                     {
-                        CountryModelData.Add(new LibModels.CountryModel(
+                        CountryModelData.Add(new CountryModel(
                             currentCountry.Id, 
                             currentCountry.Name, 
                             currentCountry.CurrencyId));

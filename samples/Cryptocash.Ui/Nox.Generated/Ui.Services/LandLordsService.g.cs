@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ILandLordsService
 {
-    public Task<List<LandLordDto>> GetAllAsync();
+    public Task<List<LandLordModel>> GetAllAsync();
     public Task<LandLordDto?> GetByIdAsync(string id);
     public Task<LandLordDto?> CreateAsync(LandLordCreateDto landLord);
     public Task<LandLordDto?> UpdateAsync(LandLordUpdateDto landLord);
@@ -18,8 +21,10 @@ public interface ILandLordsService
 
 internal partial class LandLordsService : LandLordsServiceBase
 {
-    public LandLordsService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public LandLordsService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<LandLordModel, LandLordDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class LandLordsServiceBase : ILandLordsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<LandLordModel, LandLordDto> _modelConverter;
 
-    protected LandLordsServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected LandLordsServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<LandLordModel, LandLordDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.LandLordsUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<LandLordDto>> GetAllAsync()
+    public async Task<List<LandLordModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<LandLordDto>>(_apiBaseUrl);
-        return items ?? new List<LandLordDto>();
+        if (items is null)
+            return new List<LandLordModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<LandLordDto?> GetByIdAsync(string id)

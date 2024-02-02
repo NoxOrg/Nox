@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using {{codeGenConventions.DtoNameSpace}};
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using {{codeGenConventions.DtoNameSpace}};
+using {{codeGenConventions.UiNameSpace}}.Models;
 
 namespace {{codeGenConventions.UiNameSpace}}.Services;
 
 public interface I{{className}}
 {
-    public Task<List<{{entity.Name}}Dto>> GetAllAsync();
+    public Task<List<{{entity.Name}}Model>> GetAllAsync();
     public Task<{{entity.Name}}Dto?> GetByIdAsync(string id);
     public Task<{{entity.Name}}Dto?> CreateAsync({{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}});
     public Task<{{entity.Name}}Dto?> UpdateAsync({{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}});
@@ -18,8 +21,10 @@ public interface I{{className}}
 
 internal partial class {{className}} : {{className}}Base
 {
-    public {{className}}(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public {{className}}(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}Dto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class {{className}}Base : I{{className}}
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<{{entity.Name}}Model, {{entity.Name}}Dto> _modelConverter;
 
-    protected {{className}}Base(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected {{className}}Base(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}Dto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.{{entity.PluralName}}Url;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<{{entity.Name}}Dto>> GetAllAsync()
+    public async Task<List<{{entity.Name}}Model>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<{{entity.Name}}Dto>>(_apiBaseUrl);
-        return items ?? new List<{{entity.Name}}Dto>();
+        if (items is null)
+            return new List<{{entity.Name}}Model>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<{{entity.Name}}Dto?> GetByIdAsync(string id)

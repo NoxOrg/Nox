@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using System.Globalization;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;

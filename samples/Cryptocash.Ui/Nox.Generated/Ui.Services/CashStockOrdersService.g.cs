@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICashStockOrdersService
 {
-    public Task<List<CashStockOrderDto>> GetAllAsync();
+    public Task<List<CashStockOrderModel>> GetAllAsync();
     public Task<CashStockOrderDto?> GetByIdAsync(string id);
     public Task<CashStockOrderDto?> CreateAsync(CashStockOrderCreateDto cashStockOrder);
     public Task<CashStockOrderDto?> UpdateAsync(CashStockOrderUpdateDto cashStockOrder);
@@ -18,8 +21,10 @@ public interface ICashStockOrdersService
 
 internal partial class CashStockOrdersService : CashStockOrdersServiceBase
 {
-    public CashStockOrdersService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public CashStockOrdersService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CashStockOrderModel, CashStockOrderDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<CashStockOrderModel, CashStockOrderDto> _modelConverter;
 
-    protected CashStockOrdersServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected CashStockOrdersServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CashStockOrderModel, CashStockOrderDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CashStockOrdersUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<CashStockOrderDto>> GetAllAsync()
+    public async Task<List<CashStockOrderModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CashStockOrderDto>>(_apiBaseUrl);
-        return items ?? new List<CashStockOrderDto>();
+        if (items is null)
+            return new List<CashStockOrderModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<CashStockOrderDto?> GetByIdAsync(string id)

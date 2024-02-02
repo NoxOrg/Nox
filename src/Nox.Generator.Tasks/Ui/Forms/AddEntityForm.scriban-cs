@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+
 using {{codeGenConventions.DtoNameSpace}};
 
 namespace {{codeGenConventions.UiNameSpace}}.Forms.Add;

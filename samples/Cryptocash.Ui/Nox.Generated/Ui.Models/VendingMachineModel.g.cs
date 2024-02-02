@@ -1,10 +1,10 @@
 ﻿// Generated
 
 #nullable enable
-using Nox.Application.Dto;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+using Nox.Ui.Blazor.Lib.Contracts;
 
-namespace Cryptocash.Application.Dto;
+namespace Cryptocash.Ui.Models;
 
 /// <summary>
 /// Vending machine definition and related data.
@@ -17,7 +17,7 @@ public partial class VendingMachineModel : VendingMachineModelBase
 /// <summary>
 /// Vending machine definition and related data
 /// </summary>
-public abstract class VendingMachineModelBase: EntityDtoBase
+public abstract class VendingMachineModelBase: IEntityModel
 {
 
     /// <summary>

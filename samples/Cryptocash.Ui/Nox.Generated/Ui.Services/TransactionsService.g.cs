@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ITransactionsService
 {
-    public Task<List<TransactionDto>> GetAllAsync();
+    public Task<List<TransactionModel>> GetAllAsync();
     public Task<TransactionDto?> GetByIdAsync(string id);
     public Task<TransactionDto?> CreateAsync(TransactionCreateDto transaction);
     public Task<TransactionDto?> UpdateAsync(TransactionUpdateDto transaction);
@@ -18,8 +21,10 @@ public interface ITransactionsService
 
 internal partial class TransactionsService : TransactionsServiceBase
 {
-    public TransactionsService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public TransactionsService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<TransactionModel, TransactionDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<TransactionModel, TransactionDto> _modelConverter;
 
-    protected TransactionsServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected TransactionsServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<TransactionModel, TransactionDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.TransactionsUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<TransactionDto>> GetAllAsync()
+    public async Task<List<TransactionModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<TransactionDto>>(_apiBaseUrl);
-        return items ?? new List<TransactionDto>();
+        if (items is null)
+            return new List<TransactionModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<TransactionDto?> GetByIdAsync(string id)

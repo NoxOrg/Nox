@@ -1,10 +1,10 @@
 ﻿// Generated
 
 #nullable enable
-using Nox.Application.Dto;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+using Nox.Ui.Blazor.Lib.Contracts;
 
-namespace Cryptocash.Application.Dto;
+namespace Cryptocash.Ui.Models;
 
 /// <summary>
 /// Exchange commission rate and amount.
@@ -17,7 +17,7 @@ public partial class CommissionModel : CommissionModelBase
 /// <summary>
 /// Exchange commission rate and amount
 /// </summary>
-public abstract class CommissionModelBase: EntityDtoBase
+public abstract class CommissionModelBase: IEntityModel
 {
 
     /// <summary>

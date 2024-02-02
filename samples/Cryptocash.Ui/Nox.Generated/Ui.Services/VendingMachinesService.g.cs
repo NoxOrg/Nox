@@ -2,14 +2,17 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IVendingMachinesService
 {
-    public Task<List<VendingMachineDto>> GetAllAsync();
+    public Task<List<VendingMachineModel>> GetAllAsync();
     public Task<VendingMachineDto?> GetByIdAsync(string id);
     public Task<VendingMachineDto?> CreateAsync(VendingMachineCreateDto vendingMachine);
     public Task<VendingMachineDto?> UpdateAsync(VendingMachineUpdateDto vendingMachine);
@@ -18,8 +21,10 @@ public interface IVendingMachinesService
 
 internal partial class VendingMachinesService : VendingMachinesServiceBase
 {
-    public VendingMachinesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public VendingMachinesService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<VendingMachineModel, VendingMachineDto> modelConverter)
+        : base(httpClient, endpointsProvider, modelConverter)
     {
     }
 }
@@ -28,17 +33,24 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<VendingMachineModel, VendingMachineDto> _modelConverter;
 
-    protected VendingMachinesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected VendingMachinesServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<VendingMachineModel, VendingMachineDto> modelConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.VendingMachinesUrl;
+        _modelConverter = modelConverter;
     }
 
-    public async Task<List<VendingMachineDto>> GetAllAsync()
+    public async Task<List<VendingMachineModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<VendingMachineDto>>(_apiBaseUrl);
-        return items ?? new List<VendingMachineDto>();
+        if (items is null)
+            return new List<VendingMachineModel>();
+
+        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
     }
 
     public async Task<VendingMachineDto?> GetByIdAsync(string id)
