@@ -48,8 +48,9 @@ internal class YamlReferenceResolver
     {
         if (!_filesAndContent.ContainsKey(sourceName))
         {
-            throw new NoxYamlException($"Referenced yaml content does not exist in the dictionry for key '{sourceName}'");
+            throw new NoxYamlException($"Referenced yaml content does not exist in the dictionary for key '{sourceName}'");
         }
+        var sourceFolder = Path.GetDirectoryName(sourceName);
         using var sourceLines = _filesAndContent[sourceName].Invoke();
 
         var lineNumber = 0;
@@ -72,8 +73,10 @@ internal class YamlReferenceResolver
                 continue;
             }
 
-            var includePath = Path.GetFileName(match.Groups["refvalue"].Value); // strip path from $ref
-
+            var includePath = match.Groups["refvalue"].Value; // strip path from $ref
+            includePath = Path.GetFullPath(Path.Combine(sourceFolder!, includePath));
+            
+            
             if (!_filesAndContent.ContainsKey(includePath))
             {
                 throw new NoxYamlException($"Referenced yaml file does not exist for reference: {includePath} (in '{sourceName}' line {lineNumber}).");

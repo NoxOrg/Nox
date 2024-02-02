@@ -23,7 +23,7 @@ domain:
   $ref: ./domain/cryptocash.domain.nox.yaml
 
 infrastructure:
-  $ref: ./infratructure/cryptocash.infrastructure.nox.yaml
+  $ref: ./infrastructure/cryptocash.infrastructure.nox.yaml
 
 application:
   $ref: ./application/cryptocash.application.nox.yaml

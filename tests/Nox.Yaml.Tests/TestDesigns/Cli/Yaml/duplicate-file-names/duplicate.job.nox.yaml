@@ -1,0 +1,11 @@
+- id: test
+  name: Run Test workflow
+  $ref: ./job1/steps.nox.yaml
+  display:
+    success: Completed run test workflow
+    
+- id: test2
+  name: Run Test workflow
+  $ref: ./job2/steps.nox.yaml
+  display:
+    success: Completed run test workflow

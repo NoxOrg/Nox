@@ -1,0 +1,15 @@
+# Test Workflow
+
+name: Test Workflow
+
+cli:
+  branch: test
+  command: workflow
+  commandAlias: wf
+  description: "|wf - Run a test workflow."
+  examples:
+    - ["test workflow", "--path <designFolder>"]
+    - ["test wf", "--path <designFolder>"]
+
+jobs:
+  $ref: ./duplicate.job.nox.yaml

@@ -38,6 +38,21 @@
 		<AdditionalFiles Update="TestDesigns\Cli\Yaml\nested-reference\ref.steps.nox.yaml">
 		  <LinkBase>Design/</LinkBase>
 		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\duplicate-file-names\nested-test.workflow.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\duplicate-file-names\nested.job.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\duplicate-file-names\nested.steps.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\duplicate-file-names\job1\steps.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\duplicate-file-names\job2\steps.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -48,20 +48,6 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
     public YamlConfigurationReader<TFullType,TVarsOnlyType> WithYamlFilesAndContent(IDictionary<string, Func<TextReader>> yamlFilesAndContent)
     {
-        // Check for duplicate file names
-        var _duplicates = yamlFilesAndContent
-            .Select(kv => new { FileName = Path.GetFileName(kv.Key), Path = kv.Key})
-            .GroupBy(e => e.FileName)
-            .Where(g => g.Count() > 1)
-            .SelectMany(g => g)
-            .Select(o => o.Path)
-            .ToList();
-
-        if (_duplicates.Count > 0)
-        {
-            DeterministicThrow($"Duplicate file names exist. File names need to be unique in a solution definition [{string.Join(",",_duplicates)}]");
-        }
-
         _yamlFilesAndContent = yamlFilesAndContent
             .ToDictionary(kv => Path.GetFileName(kv.Key), kv => kv.Value, StringComparer.OrdinalIgnoreCase);
 
@@ -335,16 +321,10 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
         var files = Directory.GetFiles(path!, "*.yaml", SearchOption.AllDirectories);
 
-        // If we have duplicates in the directory tree, just include files in the top folder
-        if (files.Select(f => Path.GetFileName(f).ToLower()).Distinct().Count() < files.Length)
-        {
-            files = Directory.GetFiles(path!, "*.yaml", SearchOption.TopDirectoryOnly);
-        }
-
-        _rootFileAndContentKey = Path.GetFileName(_yamlFilePath);
+        _rootFileAndContentKey = _yamlFilePath;
 
         return files.ToDictionary(
-            f => Path.GetFileName(f),
+            f => f,
             f => new Func<TextReader>(() => new StreamReader(f)),
             StringComparer.OrdinalIgnoreCase
         );
@@ -415,6 +395,5 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
             throw new NoxYamlException(message);
         }
     }
-
 }
 
