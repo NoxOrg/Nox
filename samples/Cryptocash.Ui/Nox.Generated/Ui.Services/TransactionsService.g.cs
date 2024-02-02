@@ -13,9 +13,9 @@ namespace Cryptocash.Ui.Services;
 public interface ITransactionsService
 {
     public Task<List<TransactionModel>> GetAllAsync();
-    public Task<TransactionDto?> GetByIdAsync(string id);
-    public Task<TransactionDto?> CreateAsync(TransactionCreateDto transaction);
-    public Task<TransactionDto?> UpdateAsync(TransactionUpdateDto transaction);
+    public Task<TransactionModel?> GetByIdAsync(string id);
+    public Task<TransactionModel?> CreateAsync(TransactionModel transaction);
+    public Task<TransactionModel?> UpdateAsync(TransactionModel transaction);
     public Task DeleteAsync(string id);
 }
 
@@ -23,8 +23,10 @@ internal partial class TransactionsService : TransactionsServiceBase
 {
     public TransactionsService(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<TransactionModel, TransactionDto> modelConverter)
-        : base(httpClient, endpointsProvider, modelConverter)
+        IModelConverter<TransactionModel, TransactionDto> dtoConverter,
+        IModelConverter<TransactionModel, TransactionCreateDto> createDtoConverter,
+        IModelConverter<TransactionModel, TransactionUpdateDto> updateDtoConverter)
+        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
     {
     }
 }
@@ -33,39 +35,45 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
-    private readonly IModelConverter<TransactionModel, TransactionDto> _modelConverter;
+    private readonly IModelConverter<TransactionModel, TransactionDto> _dtoConverter;
+    private readonly IModelConverter<TransactionModel, TransactionCreateDto> _createDtoConverter;
+    private readonly IModelConverter<TransactionModel, TransactionUpdateDto> _updateDtoConverter;
 
     protected TransactionsServiceBase(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<TransactionModel, TransactionDto> modelConverter)
+        IModelConverter<TransactionModel, TransactionDto> dtoConverter,
+        IModelConverter<TransactionModel, TransactionCreateDto> createDtoConverter,
+        IModelConverter<TransactionModel, TransactionUpdateDto> updateDtoConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.TransactionsUrl;
-        _modelConverter = modelConverter;
+        _dtoConverter = dtoConverter;
+        _createDtoConverter = createDtoConverter;
+        _updateDtoConverter = updateDtoConverter;
     }
 
     public async Task<List<TransactionModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<TransactionDto>>(_apiBaseUrl);
-        if (items is null)
-            return new List<TransactionModel>();
-
-        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
+        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<TransactionModel>();
     }
 
-    public async Task<TransactionDto?> GetByIdAsync(string id)
+    public async Task<TransactionModel?> GetByIdAsync(string id)
     {
-        return await _httpClient.GetODataSimpleResponseAsync<TransactionDto>($"{_apiBaseUrl}/{id}");
+        var item = await _httpClient.GetODataSimpleResponseAsync<TransactionDto>($"{_apiBaseUrl}/{id}");
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<TransactionDto?> CreateAsync(TransactionCreateDto transaction)
+    public async Task<TransactionModel?> CreateAsync(TransactionModel transaction)
     {
-        return await _httpClient.PostAsync<TransactionCreateDto, TransactionDto>(_apiBaseUrl, transaction);
+        var item = await _httpClient.PostAsync<TransactionCreateDto, TransactionDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(transaction));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<TransactionDto?> UpdateAsync(TransactionUpdateDto transaction)
+    public async Task<TransactionModel?> UpdateAsync(TransactionModel transaction)
     {
-        return await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl, transaction);
+        var item = await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(transaction));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
     public async Task DeleteAsync(string id)

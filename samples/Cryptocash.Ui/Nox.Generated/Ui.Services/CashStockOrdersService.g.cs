@@ -13,9 +13,9 @@ namespace Cryptocash.Ui.Services;
 public interface ICashStockOrdersService
 {
     public Task<List<CashStockOrderModel>> GetAllAsync();
-    public Task<CashStockOrderDto?> GetByIdAsync(string id);
-    public Task<CashStockOrderDto?> CreateAsync(CashStockOrderCreateDto cashStockOrder);
-    public Task<CashStockOrderDto?> UpdateAsync(CashStockOrderUpdateDto cashStockOrder);
+    public Task<CashStockOrderModel?> GetByIdAsync(string id);
+    public Task<CashStockOrderModel?> CreateAsync(CashStockOrderModel cashStockOrder);
+    public Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder);
     public Task DeleteAsync(string id);
 }
 
@@ -23,8 +23,10 @@ internal partial class CashStockOrdersService : CashStockOrdersServiceBase
 {
     public CashStockOrdersService(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<CashStockOrderModel, CashStockOrderDto> modelConverter)
-        : base(httpClient, endpointsProvider, modelConverter)
+        IModelConverter<CashStockOrderModel, CashStockOrderDto> dtoConverter,
+        IModelConverter<CashStockOrderModel, CashStockOrderCreateDto> createDtoConverter,
+        IModelConverter<CashStockOrderModel, CashStockOrderUpdateDto> updateDtoConverter)
+        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
     {
     }
 }
@@ -33,39 +35,45 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
-    private readonly IModelConverter<CashStockOrderModel, CashStockOrderDto> _modelConverter;
+    private readonly IModelConverter<CashStockOrderModel, CashStockOrderDto> _dtoConverter;
+    private readonly IModelConverter<CashStockOrderModel, CashStockOrderCreateDto> _createDtoConverter;
+    private readonly IModelConverter<CashStockOrderModel, CashStockOrderUpdateDto> _updateDtoConverter;
 
     protected CashStockOrdersServiceBase(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<CashStockOrderModel, CashStockOrderDto> modelConverter)
+        IModelConverter<CashStockOrderModel, CashStockOrderDto> dtoConverter,
+        IModelConverter<CashStockOrderModel, CashStockOrderCreateDto> createDtoConverter,
+        IModelConverter<CashStockOrderModel, CashStockOrderUpdateDto> updateDtoConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CashStockOrdersUrl;
-        _modelConverter = modelConverter;
+        _dtoConverter = dtoConverter;
+        _createDtoConverter = createDtoConverter;
+        _updateDtoConverter = updateDtoConverter;
     }
 
     public async Task<List<CashStockOrderModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CashStockOrderDto>>(_apiBaseUrl);
-        if (items is null)
-            return new List<CashStockOrderModel>();
-
-        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
+        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CashStockOrderModel>();
     }
 
-    public async Task<CashStockOrderDto?> GetByIdAsync(string id)
+    public async Task<CashStockOrderModel?> GetByIdAsync(string id)
     {
-        return await _httpClient.GetODataSimpleResponseAsync<CashStockOrderDto>($"{_apiBaseUrl}/{id}");
+        var item = await _httpClient.GetODataSimpleResponseAsync<CashStockOrderDto>($"{_apiBaseUrl}/{id}");
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CashStockOrderDto?> CreateAsync(CashStockOrderCreateDto cashStockOrder)
+    public async Task<CashStockOrderModel?> CreateAsync(CashStockOrderModel cashStockOrder)
     {
-        return await _httpClient.PostAsync<CashStockOrderCreateDto, CashStockOrderDto>(_apiBaseUrl, cashStockOrder);
+        var item = await _httpClient.PostAsync<CashStockOrderCreateDto, CashStockOrderDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(cashStockOrder));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CashStockOrderDto?> UpdateAsync(CashStockOrderUpdateDto cashStockOrder)
+    public async Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder)
     {
-        return await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl, cashStockOrder);
+        var item = await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(cashStockOrder));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
     public async Task DeleteAsync(string id)

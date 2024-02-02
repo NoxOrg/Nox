@@ -13,9 +13,9 @@ namespace Cryptocash.Ui.Services;
 public interface ICommissionsService
 {
     public Task<List<CommissionModel>> GetAllAsync();
-    public Task<CommissionDto?> GetByIdAsync(string id);
-    public Task<CommissionDto?> CreateAsync(CommissionCreateDto commission);
-    public Task<CommissionDto?> UpdateAsync(CommissionUpdateDto commission);
+    public Task<CommissionModel?> GetByIdAsync(string id);
+    public Task<CommissionModel?> CreateAsync(CommissionModel commission);
+    public Task<CommissionModel?> UpdateAsync(CommissionModel commission);
     public Task DeleteAsync(string id);
 }
 
@@ -23,8 +23,10 @@ internal partial class CommissionsService : CommissionsServiceBase
 {
     public CommissionsService(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<CommissionModel, CommissionDto> modelConverter)
-        : base(httpClient, endpointsProvider, modelConverter)
+        IModelConverter<CommissionModel, CommissionDto> dtoConverter,
+        IModelConverter<CommissionModel, CommissionCreateDto> createDtoConverter,
+        IModelConverter<CommissionModel, CommissionUpdateDto> updateDtoConverter)
+        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
     {
     }
 }
@@ -33,39 +35,45 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
-    private readonly IModelConverter<CommissionModel, CommissionDto> _modelConverter;
+    private readonly IModelConverter<CommissionModel, CommissionDto> _dtoConverter;
+    private readonly IModelConverter<CommissionModel, CommissionCreateDto> _createDtoConverter;
+    private readonly IModelConverter<CommissionModel, CommissionUpdateDto> _updateDtoConverter;
 
     protected CommissionsServiceBase(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<CommissionModel, CommissionDto> modelConverter)
+        IModelConverter<CommissionModel, CommissionDto> dtoConverter,
+        IModelConverter<CommissionModel, CommissionCreateDto> createDtoConverter,
+        IModelConverter<CommissionModel, CommissionUpdateDto> updateDtoConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CommissionsUrl;
-        _modelConverter = modelConverter;
+        _dtoConverter = dtoConverter;
+        _createDtoConverter = createDtoConverter;
+        _updateDtoConverter = updateDtoConverter;
     }
 
     public async Task<List<CommissionModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CommissionDto>>(_apiBaseUrl);
-        if (items is null)
-            return new List<CommissionModel>();
-
-        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
+        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CommissionModel>();
     }
 
-    public async Task<CommissionDto?> GetByIdAsync(string id)
+    public async Task<CommissionModel?> GetByIdAsync(string id)
     {
-        return await _httpClient.GetODataSimpleResponseAsync<CommissionDto>($"{_apiBaseUrl}/{id}");
+        var item = await _httpClient.GetODataSimpleResponseAsync<CommissionDto>($"{_apiBaseUrl}/{id}");
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CommissionDto?> CreateAsync(CommissionCreateDto commission)
+    public async Task<CommissionModel?> CreateAsync(CommissionModel commission)
     {
-        return await _httpClient.PostAsync<CommissionCreateDto, CommissionDto>(_apiBaseUrl, commission);
+        var item = await _httpClient.PostAsync<CommissionCreateDto, CommissionDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(commission));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CommissionDto?> UpdateAsync(CommissionUpdateDto commission)
+    public async Task<CommissionModel?> UpdateAsync(CommissionModel commission)
     {
-        return await _httpClient.PutAsync<CommissionUpdateDto, CommissionDto>(_apiBaseUrl, commission);
+        var item = await _httpClient.PutAsync<CommissionUpdateDto, CommissionDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(commission));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
     public async Task DeleteAsync(string id)

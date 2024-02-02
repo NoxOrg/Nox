@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddLandLordForm : ComponentBase
 {
-    private LandLordCreateDto LandLord = new();
+    private LandLordModel LandLord = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -66,7 +66,7 @@ public partial class AddLandLordForm : ComponentBase
 
     private void ResetForm()
     {
-        LandLord = new LandLordCreateDto();
+        LandLord = new();
         HasError = false;
         IsLoading = false;
     }

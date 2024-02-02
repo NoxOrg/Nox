@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-using {{codeGenConventions.DtoNameSpace}};
+using {{codeGenConventions.UiNameSpace}}.Models;
 
 namespace {{codeGenConventions.UiNameSpace}}.Forms.Add;
 
 public partial class {{className}} : ComponentBase
 {
-    private {{entity.Name}}CreateDto {{entity.Name}} = new();
+    private {{entity.Name}}Model {{entity.Name}} = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -66,7 +66,7 @@ public partial class {{className}} : ComponentBase
 
     private void ResetForm()
     {
-        {{entity.Name}} = new {{entity.Name}}CreateDto();
+        {{entity.Name}} = new();
         HasError = false;
         IsLoading = false;
     }

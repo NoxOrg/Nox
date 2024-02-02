@@ -18,6 +18,8 @@ public class {{className}} : Profile
         //Entities
         {{- for entity in entities }}
         CreateMap<{{entity.Name}}Dto, {{entity.Name}}Model>().ReverseMap();
+        CreateMap<{{entity.Name}}CreateDto, {{entity.Name}}Model>().ReverseMap();
+        CreateMap<{{entity.Name}}UpdateDto, {{entity.Name}}Model>().ReverseMap();
         {{- end }}
     }
 }

@@ -13,9 +13,9 @@ namespace Cryptocash.Ui.Services;
 public interface ICustomersService
 {
     public Task<List<CustomerModel>> GetAllAsync();
-    public Task<CustomerDto?> GetByIdAsync(string id);
-    public Task<CustomerDto?> CreateAsync(CustomerCreateDto customer);
-    public Task<CustomerDto?> UpdateAsync(CustomerUpdateDto customer);
+    public Task<CustomerModel?> GetByIdAsync(string id);
+    public Task<CustomerModel?> CreateAsync(CustomerModel customer);
+    public Task<CustomerModel?> UpdateAsync(CustomerModel customer);
     public Task DeleteAsync(string id);
 }
 
@@ -23,8 +23,10 @@ internal partial class CustomersService : CustomersServiceBase
 {
     public CustomersService(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<CustomerModel, CustomerDto> modelConverter)
-        : base(httpClient, endpointsProvider, modelConverter)
+        IModelConverter<CustomerModel, CustomerDto> dtoConverter,
+        IModelConverter<CustomerModel, CustomerCreateDto> createDtoConverter,
+        IModelConverter<CustomerModel, CustomerUpdateDto> updateDtoConverter)
+        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
     {
     }
 }
@@ -33,39 +35,45 @@ internal abstract partial class CustomersServiceBase : ICustomersService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
-    private readonly IModelConverter<CustomerModel, CustomerDto> _modelConverter;
+    private readonly IModelConverter<CustomerModel, CustomerDto> _dtoConverter;
+    private readonly IModelConverter<CustomerModel, CustomerCreateDto> _createDtoConverter;
+    private readonly IModelConverter<CustomerModel, CustomerUpdateDto> _updateDtoConverter;
 
     protected CustomersServiceBase(HttpClient httpClient, 
         IEndpointsProvider endpointsProvider,
-        IModelConverter<CustomerModel, CustomerDto> modelConverter)
+        IModelConverter<CustomerModel, CustomerDto> dtoConverter,
+        IModelConverter<CustomerModel, CustomerCreateDto> createDtoConverter,
+        IModelConverter<CustomerModel, CustomerUpdateDto> updateDtoConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CustomersUrl;
-        _modelConverter = modelConverter;
+        _dtoConverter = dtoConverter;
+        _createDtoConverter = createDtoConverter;
+        _updateDtoConverter = updateDtoConverter;
     }
 
     public async Task<List<CustomerModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CustomerDto>>(_apiBaseUrl);
-        if (items is null)
-            return new List<CustomerModel>();
-
-        return items.Select(i => _modelConverter.ConvertToModel(i)).ToList();
+        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CustomerModel>();
     }
 
-    public async Task<CustomerDto?> GetByIdAsync(string id)
+    public async Task<CustomerModel?> GetByIdAsync(string id)
     {
-        return await _httpClient.GetODataSimpleResponseAsync<CustomerDto>($"{_apiBaseUrl}/{id}");
+        var item = await _httpClient.GetODataSimpleResponseAsync<CustomerDto>($"{_apiBaseUrl}/{id}");
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CustomerDto?> CreateAsync(CustomerCreateDto customer)
+    public async Task<CustomerModel?> CreateAsync(CustomerModel customer)
     {
-        return await _httpClient.PostAsync<CustomerCreateDto, CustomerDto>(_apiBaseUrl, customer);
+        var item = await _httpClient.PostAsync<CustomerCreateDto, CustomerDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(customer));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CustomerDto?> UpdateAsync(CustomerUpdateDto customer)
+    public async Task<CustomerModel?> UpdateAsync(CustomerModel customer)
     {
-        return await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl, customer);
+        var item = await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(customer));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
     public async Task DeleteAsync(string id)

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddCountryForm : ComponentBase
 {
-    private CountryCreateDto Country = new();
+    private CountryModel Country = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -66,7 +66,7 @@ public partial class AddCountryForm : ComponentBase
 
     private void ResetForm()
     {
-        Country = new CountryCreateDto();
+        Country = new();
         HasError = false;
         IsLoading = false;
     }

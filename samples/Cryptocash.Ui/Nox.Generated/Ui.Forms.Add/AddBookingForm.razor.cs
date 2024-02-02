@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddBookingForm : ComponentBase
 {
-    private BookingCreateDto Booking = new();
+    private BookingModel Booking = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -66,7 +66,7 @@ public partial class AddBookingForm : ComponentBase
 
     private void ResetForm()
     {
-        Booking = new BookingCreateDto();
+        Booking = new();
         HasError = false;
         IsLoading = false;
     }
