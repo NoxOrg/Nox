@@ -12,6 +12,7 @@
 @using MudBlazor
 @using System.Globalization;
 @using Nox.Ui.Blazor.Lib.Models
+@using LibModels = Nox.Ui.Blazor.Lib.Models
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 @using Nox.Ui.Blazor.Lib.Services;
 
@@ -67,31 +68,31 @@
         PostalCode = "PostalCode",
         CountryId = Nox.Types.CountryCode.GB
     };
-    List<CountryModel> testCountryList = new List<CountryModel>()
+    List<LibModels.CountryModel> testCountryList = new List<LibModels.CountryModel>()
     {
-        new CountryModel("GB", "Great Britain", "GBP")
+        new LibModels.CountryModel("GB", "Great Britain", "GBP")
     };
     LatLongModel testLatLong = new LatLongModel(51.509865, -0.118092);
     string testIpAddress = "100.100.100.100";
-    CountryModel testCountry = new CountryModel()
+    LibModels.CountryModel testCountry = new LibModels.CountryModel()
                 {
                     Id = "GB",
                     Name = "United Kingdom"
                 };
-    List<CurrencyModel> testCurrencySelectionList = new List<CurrencyModel>()
+    List<LibModels.CurrencyModel> testCurrencySelectionList = new List<LibModels.CurrencyModel>()
                 {
-                    new CurrencyModel()
+                    new LibModels.CurrencyModel()
                     {
                         Id = "GBP",
                         Name = "British Pound"
                     },
-                    new CurrencyModel()
+                    new LibModels.CurrencyModel()
                     {
                         Id = "CHF",
                         Name = "Swiss Franc"
                     }                               
                 };
-    CurrencyModel testCurrency = new CurrencyModel()
+    LibModels.CurrencyModel testCurrency = new LibModels.CurrencyModel()
                         {
                             Id = "GBP",
                             Name = "British Pound"

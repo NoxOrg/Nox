@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Nox.Ui.Blazor.Lib.Models;
 using System.Globalization;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
@@ -12,10 +13,7 @@ public partial class EditDateTimeRange : ComponentBase
     public DateRange? DateTimeRange { get; set; }
 
     [Parameter]
-    public System.DateTime? DateTimeStart { get; set; }
-
-    [Parameter]
-    public System.DateTime? DateTimeEnd { get; set; }
+    public DateTimeRangeModel DateTimeRangeModel { get; set; } = new();
 
     [Parameter]
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
@@ -27,10 +25,7 @@ public partial class EditDateTimeRange : ComponentBase
     public string Format { get; set; } = "dd/MM/yyyy";
 
     [Parameter]
-    public EventCallback<System.DateTime?> DateTimeStartChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<System.DateTime?> DateTimeEndChanged { get; set; }
+    public EventCallback<DateTimeRangeModel?> DateTimeRangeModelChanged { get; set; }
 
     [Parameter]
     public int? HourStart { get; set; }
@@ -139,31 +134,28 @@ public partial class EditDateTimeRange : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
-        if (DateTimeStart.HasValue)
-        {
-            HourStart = DateTimeStart.Value.Hour;
-            MinuteStart = DateTimeStart.Value.Minute;
-            SecondStart = DateTimeStart.Value.Second;
-            MillisecondStart = DateTimeStart.Value.Millisecond;
+        if (DateTimeRangeModel is null)
+            return;
 
-            CurrentHourStartStr = HourStart.ToString();
-            CurrentMinuteStartStr = MinuteStart.ToString();
-            CurrentSecondStartStr = SecondStart.ToString();
-            CurrentMillisecondStartStr = MillisecondStart.ToString();
-        }
+        HourStart = DateTimeRangeModel.Start.Hour;
+        MinuteStart = DateTimeRangeModel.Start.Minute;
+        SecondStart = DateTimeRangeModel.Start.Second;
+        MillisecondStart = DateTimeRangeModel.Start.Millisecond;
 
-        if (DateTimeEnd.HasValue)
-        {
-            HourEnd = DateTimeEnd.Value.Hour;
-            MinuteEnd = DateTimeEnd.Value.Minute;
-            SecondEnd = DateTimeEnd.Value.Second;
-            MillisecondEnd = DateTimeEnd.Value.Millisecond;
+        CurrentHourStartStr = HourStart.ToString();
+        CurrentMinuteStartStr = MinuteStart.ToString();
+        CurrentSecondStartStr = SecondStart.ToString();
+        CurrentMillisecondStartStr = MillisecondStart.ToString();
 
-            CurrentHourEndStr = HourEnd.ToString();
-            CurrentMinuteEndStr = MinuteEnd.ToString();
-            CurrentSecondEndStr = SecondEnd.ToString();
-            CurrentMillisecondEndStr = MillisecondEnd.ToString();
-        }
+        HourEnd = DateTimeRangeModel.End.Hour;
+        MinuteEnd = DateTimeRangeModel.End.Minute;
+        SecondEnd = DateTimeRangeModel.End.Second;
+        MillisecondEnd = DateTimeRangeModel.End.Millisecond;
+
+        CurrentHourEndStr = HourEnd.ToString();
+        CurrentMinuteEndStr = MinuteEnd.ToString();
+        CurrentSecondEndStr = SecondEnd.ToString();
+        CurrentMillisecondEndStr = MillisecondEnd.ToString();
     }
 
     protected async Task OnDateTimeRangeChanged(string newValue)
@@ -179,12 +171,12 @@ public partial class EditDateTimeRange : ComponentBase
             {
                 if (System.DateTime.TryParse(tempDateRangeList[0], CultureInfo, out System.DateTime currentDateTimeStart))
                 {
-                    DateTimeStart = currentDateTimeStart;
+                    DateTimeRangeModel.Start = currentDateTimeStart;
 
-                    HourStart = DateTimeStart.Value.Hour;
-                    MinuteStart = DateTimeStart.Value.Minute;
-                    SecondStart = DateTimeStart.Value.Second;
-                    MillisecondStart = DateTimeStart.Value.Millisecond;
+                    HourStart = DateTimeRangeModel.Start.Hour;
+                    MinuteStart = DateTimeRangeModel.Start.Minute;
+                    SecondStart = DateTimeRangeModel.Start.Second;
+                    MillisecondStart = DateTimeRangeModel.Start.Millisecond;
 
                     CurrentHourStartStr = HourStart.ToString();
                     CurrentMinuteStartStr = MinuteStart.ToString();
@@ -194,12 +186,12 @@ public partial class EditDateTimeRange : ComponentBase
 
                 if (System.DateTime.TryParse(tempDateRangeList[1], CultureInfo, out System.DateTime currentDateTimeEnd))
                 {
-                    DateTimeEnd = currentDateTimeEnd;
+                    DateTimeRangeModel.End = currentDateTimeEnd;
 
-                    HourEnd = DateTimeEnd.Value.Hour;
-                    MinuteEnd = DateTimeEnd.Value.Minute;
-                    SecondEnd = DateTimeEnd.Value.Second;
-                    MillisecondEnd = DateTimeEnd.Value.Millisecond;
+                    HourEnd = DateTimeRangeModel.End.Hour;
+                    MinuteEnd = DateTimeRangeModel.End.Minute;
+                    SecondEnd = DateTimeRangeModel.End.Second;
+                    MillisecondEnd = DateTimeRangeModel.End.Millisecond;
 
                     CurrentHourEndStr = HourEnd.ToString();
                     CurrentMinuteEndStr = MinuteEnd.ToString();
@@ -380,33 +372,29 @@ public partial class EditDateTimeRange : ComponentBase
 
     protected async Task UpdateDateTimeRange()
     {
-        if (DateTimeStart != null)
+        if (DateTimeRangeModel is not null)
         {
-            DateTimeStart = new (DateTimeStart.Value.Year, 
-                DateTimeStart.Value.Month, 
-                DateTimeStart.Value.Day, 
+            DateTimeRangeModel.Start = new (DateTimeRangeModel.Start.Year,
+                DateTimeRangeModel.Start.Month,
+                DateTimeRangeModel.Start.Day, 
                 (HourStart ?? 0), 
                 (MinuteStart ?? 0), 
                 (SecondStart ?? 0), 
                 (MillisecondStart ?? 0), 
-                DateTimeKind.Unspecified);
-        }
+                TimeSpan.Zero);
 
-        if (DateTimeEnd != null)
-        {
-            DateTimeEnd = new (DateTimeEnd.Value.Year, 
-                DateTimeEnd.Value.Month, 
-                DateTimeEnd.Value.Day, 
+            DateTimeRangeModel.End = new (DateTimeRangeModel.End.Year,
+                DateTimeRangeModel.End.Month,
+                DateTimeRangeModel.End.Day, 
                 (HourEnd ?? 0), 
                 (MinuteEnd ?? 0), 
                 (SecondEnd ?? 0), 
                 (MillisecondEnd ?? 0),
-                DateTimeKind.Unspecified);
+                TimeSpan.Zero);
+
+            DateTimeRange = new DateRange(DateTimeRangeModel.Start.DateTime, DateTimeRangeModel.End.DateTime);
         }
 
-        DateTimeRange = new DateRange(DateTimeStart, DateTimeEnd);
-
-        await DateTimeStartChanged.InvokeAsync(DateTimeStart);
-        await DateTimeEndChanged.InvokeAsync(DateTimeEnd);
+        await DateTimeRangeModelChanged.InvokeAsync(DateTimeRangeModel);
     }
 }
