@@ -19,14 +19,22 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
         configuration.UsingAzureServiceBus((context, cfg) =>
         {
             AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
+                
+            if (string.IsNullOrWhiteSpace(config.SharedAccessKey) || string.IsNullOrWhiteSpace(config.SharedAccessKeyName))
+            {
+                cfg.Host(new Uri(config.Endpoint));
+            }
+            else
+            {
+                var connectionString = $"Endpoint={config.Endpoint};SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
+                cfg.Host(connectionString);
+            }
 
-            var connectionString = $"Endpoint={config.Endpoint};SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
-
-            cfg.Host(connectionString);
             cfg.ConfigureEndpoints(context);
             cfg.UseRawJsonSerializer();
             cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
-        });        
+        });
+
         return configuration;
     }
 }
