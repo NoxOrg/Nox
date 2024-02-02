@@ -1,5 +1,4 @@
-﻿using Nox.Types;
-namespace Nox.Ui.Blazor.Lib.Models.NoxTypes;
+﻿namespace Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 public class LatLongModel
 {

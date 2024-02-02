@@ -12,7 +12,7 @@ public class {{className}} : Profile
     {
         //Compound Nox Types
         {{- for noxType in compoundTypes }}
-        //CreateMap<{{noxType}}Dto, {{noxType}}Model>().ReverseMap();
+        CreateMap<{{noxType}}Dto, {{noxType}}Model>().ReverseMap();
         {{- end }}
 
         //Entities

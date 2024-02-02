@@ -1,4 +1,5 @@
 ﻿using Nox.Types;
+
 namespace Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 public class MoneyModel

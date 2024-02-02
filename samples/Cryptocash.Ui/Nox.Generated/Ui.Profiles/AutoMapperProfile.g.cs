@@ -11,17 +11,17 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         //Compound Nox Types
-        //CreateMap<StreetAddressDto, StreetAddressModel>().ReverseMap();
-        //CreateMap<FileDto, FileModel>().ReverseMap();
-        //CreateMap<TranslatedTextDto, TranslatedTextModel>().ReverseMap();
-        //CreateMap<VatNumberDto, VatNumberModel>().ReverseMap();
-        //CreateMap<PasswordDto, PasswordModel>().ReverseMap();
-        //CreateMap<EntityIdDto, EntityIdModel>().ReverseMap();
-        //CreateMap<MoneyDto, MoneyModel>().ReverseMap();
-        //CreateMap<ImageDto, ImageModel>().ReverseMap();
-        //CreateMap<HashedTextDto, HashedTextModel>().ReverseMap();
-        //CreateMap<DateTimeRangeDto, DateTimeRangeModel>().ReverseMap();
-        //CreateMap<LatLongDto, LatLongModel>().ReverseMap();
+        CreateMap<StreetAddressDto, StreetAddressModel>().ReverseMap();
+        CreateMap<FileDto, FileModel>().ReverseMap();
+        CreateMap<TranslatedTextDto, TranslatedTextModel>().ReverseMap();
+        CreateMap<VatNumberDto, VatNumberModel>().ReverseMap();
+        CreateMap<PasswordDto, PasswordModel>().ReverseMap();
+        CreateMap<EntityIdDto, EntityIdModel>().ReverseMap();
+        CreateMap<MoneyDto, MoneyModel>().ReverseMap();
+        CreateMap<ImageDto, ImageModel>().ReverseMap();
+        CreateMap<HashedTextDto, HashedTextModel>().ReverseMap();
+        CreateMap<DateTimeRangeDto, DateTimeRangeModel>().ReverseMap();
+        CreateMap<LatLongDto, LatLongModel>().ReverseMap();
 
         //Entities
         CreateMap<BookingDto, BookingModel>().ReverseMap();

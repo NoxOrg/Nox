@@ -18,20 +18,20 @@ public static class ServiceCollectionExtension
         services.AddAutoMapper(typeof(ServiceCollectionExtension), typeof(AutoMapperProfile));
         services.AddScoped(typeof(IModelConverter<,>), typeof(ModelConverter<,>));
         
-        
-                services.AddHttpClient<IBookingsService, BookingsService>();
-                services.AddHttpClient<ICashStockOrdersService, CashStockOrdersService>();
-                services.AddHttpClient<ICommissionsService, CommissionsService>();
-                services.AddHttpClient<ICountriesService, CountriesService>();
-                services.AddHttpClient<ICurrenciesService, CurrenciesService>();
-                services.AddHttpClient<ICustomersService, CustomersService>();
-                services.AddHttpClient<IEmployeesService, EmployeesService>();
-                services.AddHttpClient<ILandLordsService, LandLordsService>();
-                services.AddHttpClient<IMinimumCashStocksService, MinimumCashStocksService>();
-                services.AddHttpClient<IPaymentDetailsService, PaymentDetailsService>();
-                services.AddHttpClient<IPaymentProvidersService, PaymentProvidersService>();
-                services.AddHttpClient<ITransactionsService, TransactionsService>();
-                services.AddHttpClient<IVendingMachinesService, VendingMachinesService>();
+        //EntityServices
+        services.AddHttpClient<IBookingsService, BookingsService>();
+        services.AddHttpClient<ICashStockOrdersService, CashStockOrdersService>();
+        services.AddHttpClient<ICommissionsService, CommissionsService>();
+        services.AddHttpClient<ICountriesService, CountriesService>();
+        services.AddHttpClient<ICurrenciesService, CurrenciesService>();
+        services.AddHttpClient<ICustomersService, CustomersService>();
+        services.AddHttpClient<IEmployeesService, EmployeesService>();
+        services.AddHttpClient<ILandLordsService, LandLordsService>();
+        services.AddHttpClient<IMinimumCashStocksService, MinimumCashStocksService>();
+        services.AddHttpClient<IPaymentDetailsService, PaymentDetailsService>();
+        services.AddHttpClient<IPaymentProvidersService, PaymentProvidersService>();
+        services.AddHttpClient<ITransactionsService, TransactionsService>();
+        services.AddHttpClient<IVendingMachinesService, VendingMachinesService>();
         
         return services;
     }
