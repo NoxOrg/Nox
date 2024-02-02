@@ -1,0 +1,16 @@
+steps:
+  - name: Delete files in a local folder
+    id: del-files
+    uses: file/delete-files@v1
+    with:
+      folder: /home/jan/test
+      search-pattern: delete*.txt
+    display:
+      success: Deleted the files
+      error: Unable to delete the files (${{ steps.del-files.error-message }})
+
+  - name: Store a variable
+    id: store-var
+    uses: core/add-variables@v1
+    with:
+      "my-variable": Hello world

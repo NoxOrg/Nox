@@ -32,6 +32,12 @@
 		<AdditionalFiles Include="TestDesigns/**/*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\nested-reference\ref-test.workflow.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Cli\Yaml\nested-reference\ref.steps.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
 	</ItemGroup>
 
 	<ItemGroup>

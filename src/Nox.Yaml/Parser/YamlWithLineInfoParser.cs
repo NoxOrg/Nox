@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Core;
+﻿using System.ComponentModel.Design;
+using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 
 namespace Nox.Yaml.Parser;
@@ -72,6 +73,28 @@ internal static class YamlWithLineInfoParser
                         parser.MoveNext();
                     }
                 }
+                
+                else if (parser.Current is SequenceStart) //nested array
+                {
+                    while (parser.Current is not SequenceEnd)
+                    {
+                        parser.MoveNext();
+                        var valueList = new List<object>();
+                        while (parser.Current is not SequenceEnd)
+                        {
+                            if (parser.Current is Scalar element)
+                            {
+                                valueList.Add(element.Value);
+                                parser.MoveNext();
+                            }
+                        }
+                        objList.Add(valueList);
+                        parser.MoveNext();
+                    }
+                    
+                    
+                }
+                
                 result[keyEvent.Value] = new(objList.ToArray(), yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
             }
             else
