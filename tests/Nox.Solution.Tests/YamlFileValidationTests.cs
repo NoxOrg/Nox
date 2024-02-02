@@ -81,6 +81,16 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void AzureServiceBus_AzureServiceBusConfig_WhenSharedAccessKeyAndSharedAccessKeyNameAreSpecified_IsValid()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/valid-messaging.azureservicebus.specified-shared-access-key-and-key-name.solution.nox.yaml")
+            .Build();
+
+        action.Should().NotThrow();
+    }
+
+    [Fact]
     public void Deserialize_WithNoxYamlSerializer_ThrowsException()
     {
         var files = new Dictionary<string, Func<TextReader>>()
