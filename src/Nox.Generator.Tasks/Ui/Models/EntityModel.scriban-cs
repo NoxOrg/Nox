@@ -1,0 +1,46 @@
+﻿{{- func attributeType(attribute)
+	ret IsNoxTypeSimpleType attribute.Type ? componentsInfo[attribute.Name].ComponentType : (attribute.Type + "Model")
+end -}}
+// Generated
+
+#nullable enable
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
+using Nox.Ui.Blazor.Lib.Contracts;
+
+namespace {{codeGenConventions.UiNameSpace}}.Models;
+
+/// <summary>
+/// {{entity.Description  | string.rstrip}}.
+/// </summary>
+public partial class {{className}} : {{className}}Base
+{
+
+}
+
+/// <summary>
+/// {{entity.Description  | string.rstrip}}
+/// </summary>
+public abstract class {{className}}Base: IEntityModel
+{
+{{- for key in entity.Keys }}
+
+    /// <summary>
+    /// {{key.Description  | string.rstrip}}
+    /// </summary>    
+    {{- if key.Type == "EntityId" }}
+    public virtual {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}? {{key.Name}} { get; set; }
+    {{- else }}
+    public virtual {{SinglePrimitiveTypeForKey key}}? {{key.Name}} { get; set; }
+    {{- end}}
+{{- end }}
+{{- for attribute in entity.Attributes }}
+    {{- if !IsNoxTypeCreatable attribute.Type || !IsNoxTypeUpdatable attribute.Type }}
+    {{ continue; }}
+    {{- end}}
+
+    /// <summary>
+    /// {{attribute.Description  | string.rstrip}}     
+    /// </summary>
+    public virtual {{attributeType attribute}}? {{attribute.Name}} { get; set; }
+{{- end }}
+}

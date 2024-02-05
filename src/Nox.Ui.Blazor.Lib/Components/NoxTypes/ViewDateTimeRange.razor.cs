@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using System.Globalization;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
@@ -9,10 +10,7 @@ public partial class ViewDateTimeRange : ComponentBase
     #region Declarations
 
     [Parameter]
-    public System.DateTime? DateTimeStart { get; set; }
-
-    [Parameter]
-    public System.DateTime? DateTimeEnd { get; set; }
+    public DateTimeRangeModel? DateTimeRangeModel { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy HH:mm:ss";
@@ -26,10 +24,9 @@ public partial class ViewDateTimeRange : ComponentBase
     {
         get
         {
-            if (DateTimeStart != null
-                && DateTimeEnd != null)
+            if (DateTimeRangeModel is not null)
             {
-                return $"Start: {DateTimeStart?.ToString(Format, CultureInfo)} End: {DateTimeEnd?.ToString(Format, CultureInfo)}";
+                return $"Start: {DateTimeRangeModel.Start.ToString(Format, CultureInfo)} End: {DateTimeRangeModel.End.ToString(Format, CultureInfo)}";
             }
 
             return String.Empty;

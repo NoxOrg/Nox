@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nox.Types;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 

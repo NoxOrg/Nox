@@ -1,5 +1,6 @@
 ﻿using Nox.Types;
-namespace Nox.Ui.Blazor.Lib.Models;
+
+namespace Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 public class StreetAddressModel
 {
@@ -23,5 +24,5 @@ public class StreetAddressModel
 
     public string? CountryIdStr { get; set; }
 
-    public Nox.Types.CountryCode? CountryId { get; set; }
+    public CountryCode? CountryId { get; set; }
 }

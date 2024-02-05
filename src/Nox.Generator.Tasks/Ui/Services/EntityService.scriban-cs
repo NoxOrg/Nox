@@ -2,24 +2,31 @@
 
 #nullable enable
 
-using {{codeGenConventions.DtoNameSpace}};
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using {{codeGenConventions.DtoNameSpace}};
+using {{codeGenConventions.UiNameSpace}}.Models;
 
 namespace {{codeGenConventions.UiNameSpace}}.Services;
 
 public interface I{{className}}
 {
-    public Task<List<{{entity.Name}}Dto>> GetAllAsync();
-    public Task<{{entity.Name}}Dto?> GetByIdAsync(string id);
-    public Task<{{entity.Name}}Dto?> CreateAsync({{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}});
-    public Task<{{entity.Name}}Dto?> UpdateAsync({{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}});
+    public Task<List<{{entity.Name}}Model>> GetAllAsync();
+    public Task<{{entity.Name}}Model?> GetByIdAsync(string id);
+    public Task<{{entity.Name}}Model?> CreateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
+    public Task<{{entity.Name}}Model?> UpdateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
     public Task DeleteAsync(string id);
 }
 
 internal partial class {{className}} : {{className}}Base
 {
-    public {{className}}(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public {{className}}(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}Dto> dtoConverter,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}CreateDto> createDtoConverter,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}UpdateDto> updateDtoConverter)
+        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
     {
     }
 }
@@ -28,32 +35,45 @@ internal abstract partial class {{className}}Base : I{{className}}
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<{{entity.Name}}Model, {{entity.Name}}Dto> _dtoConverter;
+    private readonly IModelConverter<{{entity.Name}}Model, {{entity.Name}}CreateDto> _createDtoConverter;
+    private readonly IModelConverter<{{entity.Name}}Model, {{entity.Name}}UpdateDto> _updateDtoConverter;
 
-    protected {{className}}Base(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected {{className}}Base(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}Dto> dtoConverter,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}CreateDto> createDtoConverter,
+        IModelConverter<{{entity.Name}}Model, {{entity.Name}}UpdateDto> updateDtoConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.{{entity.PluralName}}Url;
+        _dtoConverter = dtoConverter;
+        _createDtoConverter = createDtoConverter;
+        _updateDtoConverter = updateDtoConverter;
     }
 
-    public async Task<List<{{entity.Name}}Dto>> GetAllAsync()
+    public async Task<List<{{entity.Name}}Model>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<{{entity.Name}}Dto>>(_apiBaseUrl);
-        return items ?? new List<{{entity.Name}}Dto>();
+        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<{{entity.Name}}Model>();
     }
 
-    public async Task<{{entity.Name}}Dto?> GetByIdAsync(string id)
+    public async Task<{{entity.Name}}Model?> GetByIdAsync(string id)
     {
-        return await _httpClient.GetODataSimpleResponseAsync<{{entity.Name}}Dto>($"{_apiBaseUrl}/{id}");
+        var item = await _httpClient.GetODataSimpleResponseAsync<{{entity.Name}}Dto>($"{_apiBaseUrl}/{id}");
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<{{entity.Name}}Dto?> CreateAsync({{entity.Name}}CreateDto {{ToLowerFirstChar entity.Name}})
+    public async Task<{{entity.Name}}Model?> CreateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}})
     {
-        return await _httpClient.PostAsync<{{entity.Name}}CreateDto, {{entity.Name}}Dto>(_apiBaseUrl, {{ToLowerFirstChar entity.Name}});
+        var item = await _httpClient.PostAsync<{{entity.Name}}CreateDto, {{entity.Name}}Dto>(_apiBaseUrl, _createDtoConverter.ConvertToDto({{ToLowerFirstChar entity.Name}}));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<{{entity.Name}}Dto?> UpdateAsync({{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}})
+    public async Task<{{entity.Name}}Model?> UpdateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}})
     {
-        return await _httpClient.PutAsync<{{entity.Name}}UpdateDto, {{entity.Name}}Dto>(_apiBaseUrl, {{ToLowerFirstChar entity.Name}});
+        var item = await _httpClient.PutAsync<{{entity.Name}}UpdateDto, {{entity.Name}}Dto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto({{ToLowerFirstChar entity.Name}}));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
     public async Task DeleteAsync(string id)

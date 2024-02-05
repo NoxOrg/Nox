@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Cryptocash.Application.Dto;
+
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddCommissionForm : ComponentBase
 {
-    private CommissionCreateDto Commission = new();
+    private CommissionModel Commission = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -65,7 +66,7 @@ public partial class AddCommissionForm : ComponentBase
 
     private void ResetForm()
     {
-        Commission = new CommissionCreateDto();
+        Commission = new();
         HasError = false;
         IsLoading = false;
     }
