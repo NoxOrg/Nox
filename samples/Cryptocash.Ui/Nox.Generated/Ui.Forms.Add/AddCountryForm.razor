@@ -1,9 +1,7 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
-@using Cryptocash.Ui.Services
-@using Cryptocash.Application.Dto
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
-
+@using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
 
@@ -15,9 +13,58 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@Country">
-            <MudGrid>
-                <MudItem xs="12">
-                        <EditText @bind-Text="@Country.Name" Title="Name" TypeOptions="@CountryMetadata.NameTypeOptions" />
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditText @bind-Text="Country.Name" />
+                                        <!-- Title="Name" TypeOptions="@CountryMetadata.NameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Country.OfficialName" />
+                                        <!-- Title="OfficialName" TypeOptions="@CountryMetadata.OfficialNameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditCountryNumber @bind-CountryNumber="Country.CountryIsoNumeric" />
+                                        <!-- Title="CountryIsoNumeric" TypeOptions="@CountryMetadata.CountryIsoNumericTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditCountryCode3 @bind-CountryCode3="Country.CountryIsoAlpha3" />
+                                        <!-- Title="CountryIsoAlpha3" TypeOptions="@CountryMetadata.CountryIsoAlpha3TypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditLatLong @bind-LatLong="Country.GeoCoords" />
+                                        <!-- Title="GeoCoords" TypeOptions="@CountryMetadata.GeoCoordsTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Country.FlagEmoji" />
+                                        <!-- Title="FlagEmoji" TypeOptions="@CountryMetadata.FlagEmojiTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditImage @bind-Image="Country.FlagSvg" />
+                                        <!-- Title="FlagSvg" TypeOptions="@CountryMetadata.FlagSvgTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditImage @bind-Image="Country.FlagPng" />
+                                        <!-- Title="FlagPng" TypeOptions="@CountryMetadata.FlagPngTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditImage @bind-Image="Country.CoatOfArmsSvg" />
+                                        <!-- Title="CoatOfArmsSvg" TypeOptions="@CountryMetadata.CoatOfArmsSvgTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditImage @bind-Image="Country.CoatOfArmsPng" />
+                                        <!-- Title="CoatOfArmsPng" TypeOptions="@CountryMetadata.CoatOfArmsPngTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditUrl @bind-Url="Country.GoogleMapsUrl" />
+                                        <!-- Title="GoogleMapsUrl" TypeOptions="@CountryMetadata.GoogleMapsUrlTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditUrl @bind-Url="Country.OpenStreetMapsUrl" />
+                                        <!-- Title="OpenStreetMapsUrl" TypeOptions="@CountryMetadata.OpenStreetMapsUrlTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDayOfWeek @bind-DayOfWeek="Country.StartOfWeek" />
+                                        <!-- Title="StartOfWeek" TypeOptions="@CountryMetadata.StartOfWeekTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            
         </MudForm>

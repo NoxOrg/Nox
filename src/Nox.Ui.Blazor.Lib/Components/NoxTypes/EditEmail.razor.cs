@@ -16,7 +16,7 @@ public partial class EditEmail : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public EventCallback<string> TextChanged { get; set; }
+    public EventCallback<string> EmailChanged { get; set; }
 
     [Parameter]
     public int MaxLength { get; set; } = 255;
@@ -30,7 +30,7 @@ public partial class EditEmail : ComponentBase
     {
         Email = newValue;
 
-        await TextChanged.InvokeAsync(Email);
+        await EmailChanged.InvokeAsync(Email);
     }
 
     public string Validate(string arg)

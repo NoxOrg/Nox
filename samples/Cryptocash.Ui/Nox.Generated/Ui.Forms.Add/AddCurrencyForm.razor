@@ -1,5 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +13,55 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@Currency">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditText @bind-Text="Currency.Name" />
+                                        <!-- Title="Name" TypeOptions="@CurrencyMetadata.NameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditCurrencyNumber @bind-CurrencyNumber="Currency.CurrencyIsoNumeric" />
+                                        <!-- Title="CurrencyIsoNumeric" TypeOptions="@CurrencyMetadata.CurrencyIsoNumericTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.Symbol" />
+                                        <!-- Title="Symbol" TypeOptions="@CurrencyMetadata.SymbolTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.ThousandsSeparator" />
+                                        <!-- Title="ThousandsSeparator" TypeOptions="@CurrencyMetadata.ThousandsSeparatorTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.DecimalSeparator" />
+                                        <!-- Title="DecimalSeparator" TypeOptions="@CurrencyMetadata.DecimalSeparatorTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditBoolean @bind-Boolean="Currency.SpaceBetweenAmountAndSymbol" />
+                                        <!-- Title="SpaceBetweenAmountAndSymbol" TypeOptions="@CurrencyMetadata.SpaceBetweenAmountAndSymbolTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditBoolean @bind-Boolean="Currency.SymbolOnLeft" />
+                                        <!-- Title="SymbolOnLeft" TypeOptions="@CurrencyMetadata.SymbolOnLeftTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.MajorName" />
+                                        <!-- Title="MajorName" TypeOptions="@CurrencyMetadata.MajorNameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.MajorSymbol" />
+                                        <!-- Title="MajorSymbol" TypeOptions="@CurrencyMetadata.MajorSymbolTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.MinorName" />
+                                        <!-- Title="MinorName" TypeOptions="@CurrencyMetadata.MinorNameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Currency.MinorSymbol" />
+                                        <!-- Title="MinorSymbol" TypeOptions="@CurrencyMetadata.MinorSymbolTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditMoney @bind-Money="Currency.MinorToMajorValue" />
+                                        <!-- Title="MinorToMajorValue" TypeOptions="@CurrencyMetadata.MinorToMajorValueTypeOptions" /> -->
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {

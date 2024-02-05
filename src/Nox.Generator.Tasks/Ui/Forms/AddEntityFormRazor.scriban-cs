@@ -1,5 +1,10 @@
-﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+﻿{{- func showOnCreate(attribute)
+	ret attribute.UserInterface?.ShowOnCreateForm == true
+end -}}
+
+@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using {{codeGenConventions.UiNameSpace}}.Services
 
 @namespace {{codeGenConventions.UiNameSpace}}.Forms.Add
@@ -12,8 +17,20 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@{{entity.Name}}">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+            {{- for attribute in entity.Attributes }}
+                {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
+                {{- continue; }}
+                {{- end }}
+
+                {{- if attribute.Type == 'Number' }}
+                {{- continue; }}
+                {{- end }}
+                <MudItem>
+                    <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" />
+                                        <!-- Title="{{attribute.Name}}" TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" /> -->
+                </MudItem>
+            {{- end }}
             </MudGrid>            
         </MudForm>
         @if (HasError) {

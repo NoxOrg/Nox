@@ -1,5 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +13,15 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@PaymentProvider">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditText @bind-Text="PaymentProvider.PaymentProviderName" />
+                                        <!-- Title="PaymentProviderName" TypeOptions="@PaymentProviderMetadata.PaymentProviderNameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="PaymentProvider.PaymentProviderType" />
+                                        <!-- Title="PaymentProviderType" TypeOptions="@PaymentProviderMetadata.PaymentProviderTypeTypeOptions" /> -->
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {

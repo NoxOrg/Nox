@@ -1,5 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +13,23 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@Transaction">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditText @bind-Text="Transaction.TransactionType" />
+                                        <!-- Title="TransactionType" TypeOptions="@TransactionMetadata.TransactionTypeTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDateTime @bind-DateTime="Transaction.ProcessedOnDateTime" />
+                                        <!-- Title="ProcessedOnDateTime" TypeOptions="@TransactionMetadata.ProcessedOnDateTimeTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditMoney @bind-Money="Transaction.Amount" />
+                                        <!-- Title="Amount" TypeOptions="@TransactionMetadata.AmountTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Transaction.Reference" />
+                                        <!-- Title="Reference" TypeOptions="@TransactionMetadata.ReferenceTypeOptions" /> -->
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {

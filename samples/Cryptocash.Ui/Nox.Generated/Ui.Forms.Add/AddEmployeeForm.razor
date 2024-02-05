@@ -1,5 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +13,31 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@Employee">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditText @bind-Text="Employee.FirstName" />
+                                        <!-- Title="FirstName" TypeOptions="@EmployeeMetadata.FirstNameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditText @bind-Text="Employee.LastName" />
+                                        <!-- Title="LastName" TypeOptions="@EmployeeMetadata.LastNameTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditEmail @bind-Email="Employee.EmailAddress" />
+                                        <!-- Title="EmailAddress" TypeOptions="@EmployeeMetadata.EmailAddressTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditStreetAddress @bind-StreetAddress="Employee.Address" />
+                                        <!-- Title="Address" TypeOptions="@EmployeeMetadata.AddressTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDate @bind-Date="Employee.FirstWorkingDay" />
+                                        <!-- Title="FirstWorkingDay" TypeOptions="@EmployeeMetadata.FirstWorkingDayTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDate @bind-Date="Employee.LastWorkingDay" />
+                                        <!-- Title="LastWorkingDay" TypeOptions="@EmployeeMetadata.LastWorkingDayTypeOptions" /> -->
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {

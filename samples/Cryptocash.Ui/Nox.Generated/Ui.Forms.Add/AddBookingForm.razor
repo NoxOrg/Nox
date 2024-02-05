@@ -1,5 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +13,35 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@Booking">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditMoney @bind-Money="Booking.AmountFrom" />
+                                        <!-- Title="AmountFrom" TypeOptions="@BookingMetadata.AmountFromTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditMoney @bind-Money="Booking.AmountTo" />
+                                        <!-- Title="AmountTo" TypeOptions="@BookingMetadata.AmountToTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDateTimeRange @bind-DateTimeRange="Booking.RequestedPickUpDate" />
+                                        <!-- Title="RequestedPickUpDate" TypeOptions="@BookingMetadata.RequestedPickUpDateTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDateTimeRange @bind-DateTimeRange="Booking.PickedUpDateTime" />
+                                        <!-- Title="PickedUpDateTime" TypeOptions="@BookingMetadata.PickedUpDateTimeTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDateTime @bind-DateTime="Booking.ExpiryDateTime" />
+                                        <!-- Title="ExpiryDateTime" TypeOptions="@BookingMetadata.ExpiryDateTimeTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDateTime @bind-DateTime="Booking.CancelledDateTime" />
+                                        <!-- Title="CancelledDateTime" TypeOptions="@BookingMetadata.CancelledDateTimeTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditVatNumber @bind-VatNumber="Booking.VatNumber" />
+                                        <!-- Title="VatNumber" TypeOptions="@BookingMetadata.VatNumberTypeOptions" /> -->
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {
