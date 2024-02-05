@@ -1,0 +1,30 @@
+#
+# countrybarcode.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: CountryBarCode
+description: Bar code for country
+
+# keys: Owned ZeroOrOne or ExactlyOne can not have defined keys
+attributes:
+
+  - name: BarCodeName
+    description: Bar code name
+    type: text
+    textTypeOptions:
+      minLength: 1
+      maxLength: 63
+    isRequired: true
+
+  - name: BarCodeNumber
+    description: Bar code number
+    type: number
+
+persistence:
+    isAudited: false
+    
+events: 
+  - name: BarcodeGeneratedEvent
+    description: Barcode generated event

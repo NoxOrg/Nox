@@ -1,0 +1,159 @@
+#
+# Booking.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: Booking
+
+description: Exchange booking and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Booking unique identifier 
+    type: guid 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: AmountFrom
+    description: Booking's amount exchanged from
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: AmountTo
+    description: Booking's amount exchanged to
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: RequestedPickUpDate
+    description: Booking's requested pick up date
+    type: dateTimeRange   
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: PickedUpDateTime
+    description: Booking's actual pick up date
+    type: dateTimeRange   
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: ExpiryDateTime
+    description: Booking's expiry date
+    type: dateTime  
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: CancelledDateTime
+    description: Booking's cancelled date
+    type: dateTime  
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Status
+    description: Booking's status
+    type: formula  
+    formulaTypeOptions:
+      expression: 'CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked"))' 
+      returns: string
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: VatNumber
+    description: Booking's related vat number
+    type: vatNumber  
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:   
+    
+  - name: BookingForCustomer
+    description: for
+    relationship: exactlyOne
+    entity: Customer
+
+  - name: BookingRelatedVendingMachine
+    description: related to
+    relationship: exactlyOne
+    entity: VendingMachine
+
+  - name: BookingFeesForCommission
+    description: fees for
+    relationship: exactlyOne
+    entity: Commission
+
+  - name: BookingRelatedTransaction
+    description: related to
+    relationship: exactlyOne
+    entity: Transaction 
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

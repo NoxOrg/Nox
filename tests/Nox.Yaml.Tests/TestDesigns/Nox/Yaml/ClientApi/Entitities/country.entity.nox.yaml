@@ -1,0 +1,160 @@
+#
+# customer.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Country
+
+description: Country Entity
+    Country representation for the Client API tests
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The unique identifier 
+    type: autoNumber
+    autoNumberTypeOptions:
+      startsAt: 10
+      incrementsBy: 5
+
+attributes:
+
+  - name: Name
+    description: >
+        The Country Name    
+        Set a unique name for the country
+        Do not use abbreviations
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      label: Country Name
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: false
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: false
+
+  - name: Population
+    description: Population
+        Number of People living in the country
+    type: number    
+    isRequired: false
+    numberTypeOptions:
+      maxValue: 1500000000
+
+  - name: CountryDebt
+    description: The Money
+    type: money    
+    isRequired: false
+    moneyTypeOptions:
+      minValue: 100000
+
+  - name: DebtPerCapita
+    description: national debt per person
+    type: formula
+    formulaTypeOptions:
+      returns: double
+      expression: "(CountryDebt is null || Population is null) ? null : CountryDebt.Amount / Population.Value"
+
+
+  - name: CapitalCityLocation
+    description: The capital location
+    type: latLong
+
+  - name: FirstLanguageCode
+    description: First Official Language
+    type: languageCode    
+    isRequired: false
+
+  - name: ShortDescription
+    description: The Formula
+    type: formula
+    formulaTypeOptions:
+      returns: string
+      expression: $"{Name} has a population of {Population} people."
+
+  - name: CountryIsoNumeric
+    description: Country's iso number id
+    type: countryNumber     
+    isRequired: false
+
+  - name: CountryIsoAlpha3
+    description: Country's iso alpha3 id
+    type: countryCode3     
+    isRequired: false
+
+  - name: GoogleMapsUrl
+    description: Country's map via google maps
+    type: url     
+    isRequired: false
+
+  - name: StartOfWeek
+    description: Country's start of week day
+    type: dayOfWeek     
+    isRequired: false
+
+  - name: Continent
+    description: Country Continent
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1, name: Europe} 
+        - { id: 2, name: Asia}
+        - { id: 3, name: Africa} 
+        - { id: 4, name: America} 
+        - { id: 5, name: Oceania} 
+      isLocalized: true
+    isRequired: false
+
+ownedRelationships:
+
+  - name: CountryShortNames
+    description: is also know as
+    relationship: zeroOrMany
+    entity: CountryLocalName
+
+  - name: CountryBarCode
+    description: is also coded as
+    relationship: zeroOrOne
+    entity: CountryBarCode
+
+  - name: CountryTimeZone
+    description: uses
+    relationship: zeroOrMany
+    entity: CountryTimeZone
+
+  - name: CountryOwnedHolidays
+    description: owned
+    relationship: zeroOrMany
+    entity: Holiday
+
+relationships:
+
+    - name: PhysicalWorkplaces
+      description: Country workplaces
+      relationship: zeroOrMany
+      entity: Workplace
+
+    - name: StoresInTheCountry
+      description: Country stores
+      relationship: zeroOrMany
+      entity: Store
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    delete:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents

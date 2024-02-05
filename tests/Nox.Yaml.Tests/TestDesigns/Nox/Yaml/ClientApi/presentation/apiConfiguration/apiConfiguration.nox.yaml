@@ -1,0 +1,25 @@
+#
+# cryptocash.apiConfiguration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/apiConfiguration.json
+#
+
+apiRouteMappings:
+
+  - $ref: ./apiRouteMappings/countryByName.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countryByName.queryString.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/getTwoSeqSegProperties.nox.yaml
+  - $ref: ./apiRouteMappings/countriesInPortugues.Get.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countriesInPortugues.Post.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countriesInPortugues.GetById.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countriesInPortugues.Patch.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countriesInPortuguesToWorkplaces.PostRef.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/countriesInPortuguesToWorkplaces.GetRef.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml
+  - $ref: ./apiRouteMappings/workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml
+  
+        

@@ -1,0 +1,115 @@
+#
+# customer.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Store
+
+description: Stores
+
+keys:
+
+  - name: Id
+    type: guid
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: Store Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: Address
+    description: Street Address
+    type: streetAddress
+    isRequired: true
+
+  - name: Location
+    description: Location
+    type: latLong
+    isRequired: true
+
+  - name: OpeningDay
+    description: Opening day
+    type: dateTime
+    isRequired: false
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Status
+    description: Store Status
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1, name: Construction} 
+        - { id: 2, name: LicensePermit}
+        - { id: 3, name: Opened} 
+        - { id: 4, name: Closed} 
+      isLocalized: false
+    isRequired: false
+
+relationships:
+
+    - name: CountryOfTheStore
+      description: country where the store is located
+      relationship: zeroOrOne
+      entity: Country
+
+    - name: Ownership
+      description: Owner of the Store
+      relationship: zeroOrOne
+      entity: StoreOwner
+
+    - name: License
+      description: License that this store uses
+      relationship: zeroOrOne
+      entity: StoreLicense
+
+    - name: ClientsOfStore
+      description: clients of the store
+      relationship: zeroOrMany
+      entity: Client
+
+    - name: ParentOfStore
+      description: parent stores
+      relationship: zeroOrOne
+      entity: Store
+      refRelationshipName: ParentOfStore
+
+    - name: FranchisesOfStore
+      description: franchise stores
+      relationship: zeroOrMany
+      entity: Store
+      refRelationshipName: FranchisesOfStore
+
+ownedRelationships:
+
+  - name: VerifiedEmails
+    description: Verified emails
+    relationship: zeroOrOne #todo make exactly one when dto are ready
+    entity: EmailAddress
+    apiGenerateRelatedEndpoint: false
+    
+persistence:
+    isAudited: true
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

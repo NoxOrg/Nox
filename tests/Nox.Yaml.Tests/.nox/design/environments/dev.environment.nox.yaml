@@ -1,0 +1,9 @@
+#
+# dev.environment.nox.yaml
+#
+# yaml-language-server: $schema=../../../Schemas/environment.json
+#
+
+name: dev
+description: Environment used by development team during coding and testing
+isProduction: false

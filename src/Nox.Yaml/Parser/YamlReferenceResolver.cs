@@ -73,10 +73,8 @@ internal class YamlReferenceResolver
                 continue;
             }
 
-            var includePath = match.Groups["refvalue"].Value; // strip path from $ref
-            includePath = Path.GetFullPath(Path.Combine(sourceFolder!, includePath));
-            
-            
+            var includePath = Path.GetFileName(match.Groups["refvalue"].Value); // strip path from $ref
+
             if (!_filesAndContent.ContainsKey(includePath))
             {
                 throw new NoxYamlException($"Referenced yaml file does not exist for reference: {includePath} (in '{sourceName}' line {lineNumber}).");

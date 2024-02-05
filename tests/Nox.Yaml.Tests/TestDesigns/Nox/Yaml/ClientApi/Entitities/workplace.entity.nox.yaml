@@ -1,0 +1,101 @@
+#
+# workplace.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Workplace
+
+description: Workplace
+
+keys:
+
+  - name: Id
+    type: autoNumber
+    description: Workplace unique identifier
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: Workplace Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: ReferenceNumber
+    description: Workplace Code
+    type: referenceNumber
+    referenceNumberTypeOptions:
+      startsAt: 10
+      incrementsBy: 5
+      prefix: "WP-"
+      suffixCheckSumDigit: true
+    isRequired: false
+
+  - name: Description
+    description: Workplace Description
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 255
+      isLocalized: true
+    isRequired: false
+
+  - name: Greeting
+    description: The Formula
+    type: formula
+    formulaTypeOptions:
+      expression: "$\"Hello, {Name.Value}!\""
+      returns: string
+
+  - name: Ownership
+    description: Workplace Ownership
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1000, name: "Fully Owned" } 
+        - { id: 4000, name: "Partner Managed" }
+        - { id: 5000, name: "Franchise" }
+      isLocalized: true
+    isRequired: false
+
+  - name: Type
+    description: Workplace Type
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1000, name: "Business Centre" } 
+        - { id: 2000, name: "Business Lounge" }
+        - { id: 3000, name: "Meeting Room Centre" }
+        - { id: 7000, name: "Airport Location" }
+      isLocalized: false
+    isRequired: false
+
+relationships:
+
+    - name: BelongsToCountry
+      description: Workplace country
+      relationship: zeroOrOne
+      entity: Country
+
+    - name: TenantsInWorkplace
+      description: Actve Tenants in the workplace
+      relationship: zeroOrMany
+      entity: Tenant
+
+persistence:
+    isAudited: true
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

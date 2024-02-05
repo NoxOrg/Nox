@@ -29,6 +29,130 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<AdditionalFiles Include=".nox\design\application\cryptocash.application.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\application\integrations\CountrySync.integration.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\cryptocash.solution.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\cryptocash.domain.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\BankNote.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Booking.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\CashStockOrder.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Commission.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Country.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\CountryTimeZone.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Currency.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Customer.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Employee.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\EmployeePhoneNumber.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\ExchangeRate.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Holiday.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Landlord.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\MinimumCashStock.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\PaymentDetail.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\PaymentProvider.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\Transaction.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\domain\entities\VendingMachine.entity.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\environments\dev.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\environments\prod.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\environments\test.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\environments\uat.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\infrastructure\cryptocash.infrastructure.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\infrastructure\dependencies\cryptocash.dependencies.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\infrastructure\dependencies\dataConnections\NoxReferenceData.dataConnection.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\infrastructure\messaging\cryptocash.messaging.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+		<AdditionalFiles Include=".nox\design\infrastructure\persistence\cryptocash.persistence.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
 		<AdditionalFiles Include="TestDesigns/**/*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
@@ -57,6 +181,114 @@
 
 	<ItemGroup>
 		<Folder Include="TestDesigns\Nox\Yaml\cryptoCash\environments\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\clientapi.solution.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\client.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\country-time-zone.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\country.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\countrybarcode.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\countrylocalname.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\countryqualityoflifeindex.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\currency.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\holiday.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\ratingprogram.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\referencenumber.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\store-license.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\store-owner.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\store.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\tenant-brand.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\tenant-contact.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\tenant.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\Entitities\workplace.entity.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiConfiguration.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countries.encodedTargetUrl.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countriesInPortugues.Get.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countriesInPortugues.GetById.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countriesInPortugues.Patch.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countriesInPortugues.Post.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countriesInPortuguesToWorkplaces.GetRef.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countriesInPortuguesToWorkplaces.PostRef.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countryByName.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countryByName.queryString.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countryByNameOdataFiltering.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\getTwoSeqSegProperties.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\apiConfiguration\apiRouteMappings\workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
+	  <InputFiles Include="TestDesigns\Nox\Yaml\ClientApi\presentation\presentation.nox.yaml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </InputFiles>
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,33 @@
+#
+# countrydescription.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: CountryQualityOfLifeIndex
+description: Country Quality Of Life Index
+
+keys:
+
+  - name: CountryId
+    type: entityId
+    isRequired: true
+    entityIdTypeOptions:
+      entity: Country
+   
+  - name: Id
+    isRequired: true
+    description: The unique identifier 
+    type: autoNumber
+
+attributes:
+
+  - name: IndexRating
+    description: Rating Index
+    type: number
+    isRequired: true
+    numberTypeOptions:
+      minValue: 1
+
+persistence:
+    isAudited: false

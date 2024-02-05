@@ -1,0 +1,72 @@
+#
+# Landlord.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: LandLord
+
+description: Landlord related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Landlord unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Name
+    description: Landlord name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Address
+    description: Landlord's street address
+    type: streetAddress
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+
+  - name: ContractedAreasForVendingMachines
+    description: leases an area to house
+    relationship: zeroOrMany
+    entity: VendingMachine
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainEventsOnly
+    delete:
+        isEnabled: true
+        raiseEvents: domainEventsOnly

@@ -63,4 +63,41 @@ public class YamlConfigurationBuilderTests
         sample.Name.Should().Be("Cryptocash");
     }
 
+    [Fact]
+    public void YamlConfigurationReader_Reads_Nox_Using_CryptoCash_from_design_folder()
+    {
+        // Arrange
+
+        var reader = new YamlConfigurationReader<TestDesigns.Nox.Models.NoxSolution,NoxSolutionBasicsOnly>()
+            .WithSearchPath("./.nox/design")
+            .WithSearchFromExecutionFolder("./.nox/design");
+
+        // Act
+
+        var sample = reader.Read();
+
+        // Assert
+
+        sample.Should().NotBeNull();
+        sample.Name.Should().Be("Cryptocash");
+    }
+    
+    [Fact]
+    public void YamlConfigurationReader_Reads_Nox_Using_ClientApi_files()
+    {
+        // Arrange
+
+        var reader = new YamlConfigurationReader<TestDesigns.Nox.Models.NoxSolution,NoxSolutionBasicsOnly>()
+            .WithFile("./TestDesigns/Nox/Yaml/ClientApi/clientapi.solution.nox.yaml");
+
+        // Act
+
+        var sample = reader.Read();
+
+        // Assert
+
+        sample.Should().NotBeNull();
+        sample.Name.Should().Be("Cryptocash");
+    }
+
 }

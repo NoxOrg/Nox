@@ -1,0 +1,51 @@
+#
+# ExchangeRate.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../Schemas/entity.json
+#
+
+name: ExchangeRate
+
+description: Exchange rate and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Exchange rate unique identifier 
+    type: autoNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: EffectiveRate
+    description: Exchange rate conversion amount
+    type: number     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: EffectiveAt
+    description: Exchange rate conversion amount
+    type: dateTime     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+persistence:
+    isAudited: false

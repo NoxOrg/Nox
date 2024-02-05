@@ -39,7 +39,6 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
     private readonly List<IYamlTypeConverter> _yamlTypeConverters = new();
 
-
     public YamlConfigurationReader<TFullType,TVarsOnlyType> WithFile(string yamlFilePath)
     {
         _yamlFilePath = Path.GetFullPath(yamlFilePath);
@@ -48,6 +47,20 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
     public YamlConfigurationReader<TFullType,TVarsOnlyType> WithYamlFilesAndContent(IDictionary<string, Func<TextReader>> yamlFilesAndContent)
     {
+        // Check for duplicate file names
+        var _duplicates = yamlFilesAndContent
+            .Select(kv => new { FileName = Path.GetFileName(kv.Key), Path = kv.Key})
+            .GroupBy(e => e.FileName)
+            .Where(g => g.Count() > 1)
+            .SelectMany(g => g)
+            .Select(o => o.Path)
+            .ToList();
+
+        if (_duplicates.Count > 0)
+        {
+            DeterministicThrow($"Duplicate file names exist. File names need to be unique in a solution definition [{string.Join(",",_duplicates)}]");
+        }
+
         _yamlFilesAndContent = yamlFilesAndContent
             .ToDictionary(kv => Path.GetFileName(kv.Key), kv => kv.Value, StringComparer.OrdinalIgnoreCase);
 
@@ -123,12 +136,13 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         _mustThrowIfYamlNotFound = false;
         return this;
     }
-
+    
     public YamlConfigurationReader<TFullType, TVarsOnlyType> WithYamlTypeConverter(IYamlTypeConverter yamlTypeConverter)
     {
         _yamlTypeConverters.Add(yamlTypeConverter);
         return this;
     }
+
     public TFullType Read()
     {
         ResolveAndValidateFilesAndContent();
@@ -226,7 +240,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
     private TFullType ResolveAndLoadConfiguration()
     {
-        var yamlRefResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!, _yamlTypeConverters);
+        var yamlRefResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
 
         var variablesOnlyObject = VariablesDeserializer.Deserialize<TVarsOnlyType>(yamlRefResolver.ToYamlString());
         
@@ -277,7 +291,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
         {
             var matchPattern = _yamlFilePath?.WildCardToRegex() ?? _filePattern.WildCardToRegex();
 
-            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled,TimeSpan.FromMilliseconds(150));
+            var regex = new Regex(matchPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             var solutionFiles = _yamlFilesAndContent
                 .Where(kv => regex.IsMatch(kv.Key))
@@ -321,10 +335,16 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
         var files = Directory.GetFiles(path!, "*.yaml", SearchOption.AllDirectories);
 
-        _rootFileAndContentKey = _yamlFilePath;
+        // If we have duplicates in the directory tree, just include files in the top folder
+        if (files.Select(f => Path.GetFileName(f).ToLower()).Distinct().Count() < files.Length)
+        {
+            files = Directory.GetFiles(path!, "*.yaml", SearchOption.TopDirectoryOnly);
+        }
+
+        _rootFileAndContentKey = Path.GetFileName(_yamlFilePath);
 
         return files.ToDictionary(
-            f => f,
+            f => Path.GetFileName(f),
             f => new Func<TextReader>(() => new StreamReader(f)),
             StringComparer.OrdinalIgnoreCase
         );
@@ -395,5 +415,6 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
             throw new NoxYamlException(message);
         }
     }
+
 }
 

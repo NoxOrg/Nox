@@ -49,12 +49,6 @@ public class NoxSolutionBuilder
         _configurationReader.AllowMissingSolutionYaml();
         return this;
     }
-    
-    public NoxSolutionBuilder AllowDuplicateFileNames()
-    {
-        _configurationReader.AllowDuplicateFileNames();
-        return this;
-    }
 
     public NoxSolutionBuilder WithSecretsVariableValueProvider(SecretsVariableValueProvider<NoxSolutionBasicsOnly> secretVariableValueProvider)
     {

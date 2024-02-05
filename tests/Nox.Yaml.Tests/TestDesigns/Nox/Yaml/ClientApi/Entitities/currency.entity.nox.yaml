@@ -1,0 +1,59 @@
+#
+# currency.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+
+name: Currency
+
+description: Currency and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Currency unique identifier 
+    type: currencyCode3
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Name
+    description: Currency's name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false
+
+  - name: Symbol
+    description: Currency's symbol
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false
+
+relationships:
+
+    - name: StoreLicenseDefault
+      description: List of store licenses where this currency is a default one
+      relationship: oneOrMany
+      entity: StoreLicense
+      refRelationshipName: DefaultCurrency
+      apiGenerateRelatedEndpoint: false
+      apiGenerateReferenceEndpoint: false
+
+    - name: StoreLicenseSoldIn
+      description: List of store licenses that were sold in this currency
+      relationship: oneOrMany
+      entity: StoreLicense
+      refRelationshipName: SoldInCurrency
+      apiGenerateRelatedEndpoint: false
+      apiGenerateReferenceEndpoint: false
