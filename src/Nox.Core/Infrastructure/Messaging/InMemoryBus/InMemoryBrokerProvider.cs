@@ -13,7 +13,7 @@ public class InMemoryBrokerProvider : IMessageBrokerProvider
     {
         _noxSolution = noxSolution;
     }
-    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration)
+    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration, string environmentName)
     {
         configuration.UsingInMemory((context, cfg) =>
         {
@@ -21,7 +21,7 @@ public class InMemoryBrokerProvider : IMessageBrokerProvider
 
             cfg.UseRawJsonSerializer();
 
-            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name, environmentName));
         });
         return configuration;
     }
