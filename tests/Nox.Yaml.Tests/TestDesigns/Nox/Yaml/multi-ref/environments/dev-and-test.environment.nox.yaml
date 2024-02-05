@@ -1,0 +1,11 @@
+#
+# dev-and-test.environment.nox.yaml
+#
+
+- name: dev
+  description: Environment used by development team during coding and testing
+  isProduction: false
+  
+- name: test
+  description: Environment used by quality assurance team and regression testing workloads.
+  isProduction: false

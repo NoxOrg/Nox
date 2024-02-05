@@ -6,7 +6,7 @@
 
 name: Cryptocash
 
-description: A sample solution for the imaginary Cryptocash business. 
+description: A sample solution for the imaginary Cryptocash business.
 
 overview: >
   **Cryptocash** is a multi-national foreign exchange operator. 
@@ -19,17 +19,7 @@ overview: >
   managing physical stock levels at the ATM's and
   the managing the pricing and fees associated with cash transacting.
 
-domain:
-  $ref: ./domain/cryptocash.domain.nox.yaml
-
-infrastructure:
-  $ref: ./infratructure/cryptocash.infrastructure.nox.yaml
-
-application:
-  $ref: ./application/cryptocash.application.nox.yaml
-
 environments:
-  - $ref: ./environments/dev.environment.nox.yaml
-  - $ref: ./environments/test.environment.nox.yaml
+  - $ref: ./environments/dev-and-test.environment.nox.yaml
   - $ref: ./environments/uat.environment.nox.yaml
   - $ref: ./environments/prod.environment.nox.yaml

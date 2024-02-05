@@ -60,5 +60,7 @@ public class CliYamlConfigurationBuilderTests
         workflow.Jobs[0].Name.Should().Be("Run Test workflow");
         workflow.Jobs[0].Steps.Should().NotBeNull();
         workflow.Jobs[0].Steps.Count.Should().Be(2);
+        workflow.Jobs[0].Steps[0].Id.Should().Be("del-files");
+        workflow.Jobs[0].Steps[1].Id.Should().Be("store-var");
     }
 }

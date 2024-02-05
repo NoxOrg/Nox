@@ -62,5 +62,24 @@ public class YamlConfigurationBuilderTests
         sample.Should().NotBeNull();
         sample.Name.Should().Be("Cryptocash");
     }
+    
+    [Fact]
+    public void YamlConfigurationReader_Reads_multi_mapping_references()
+    {
+        // Arrange
+
+        var reader = new YamlConfigurationReader<TestDesigns.Nox.Models.NoxSolution,NoxSolutionBasicsOnly>()
+            .WithFile("./TestDesigns/Nox/Yaml/multi-ref/multi-ref.solution.nox.yaml");
+
+        // Act
+
+        var sample = reader.Read();
+
+        // Assert
+
+        sample.Should().NotBeNull();
+        sample.Name.Should().Be("Cryptocash");
+    }
+    
 
 }

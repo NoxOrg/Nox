@@ -32,6 +32,18 @@
 		<AdditionalFiles Include="TestDesigns/**/*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Nox\Yaml\multi-ref\environments\dev.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Nox\Yaml\multi-ref\environments\prod.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Nox\Yaml\multi-ref\environments\test.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
+		<AdditionalFiles Update="TestDesigns\Nox\Yaml\multi-ref\environments\uat.environment.nox.yaml">
+		  <LinkBase>Design/</LinkBase>
+		</AdditionalFiles>
 	</ItemGroup>
 
 	<ItemGroup>
