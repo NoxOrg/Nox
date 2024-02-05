@@ -48,7 +48,7 @@ internal class YamlReferenceResolver
     {
         if (!_filesAndContent.ContainsKey(sourceName))
         {
-            throw new NoxYamlException($"Referenced yaml content does not exist in the dictionry for key '{sourceName}'");
+            throw new NoxYamlException($"Referenced yaml content does not exist in the dictionary for key '{sourceName}'");
         }
         using var sourceLines = _filesAndContent[sourceName].Invoke();
 
