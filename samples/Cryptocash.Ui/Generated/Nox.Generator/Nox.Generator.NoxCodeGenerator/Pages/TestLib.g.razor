@@ -56,6 +56,7 @@
     DateTime? testDateEnd = DateTime.Now.AddHours(23);
     DateTimeRangeModel testDateTimeRangeModel = new() { Start = DateTime.Now, End = DateTime.Now.AddHours(23) };
     byte testDayOfWeek = 1;
+    string? testCountryCode3 = "UKR";
     StreetAddressModel testStreetAddress = new StreetAddressModel()
     {
         StreetNumber = "StreetNumber",
@@ -266,10 +267,10 @@
                                                         <EditIpAddress @bind-IpAddress="@testIpAddress"
                                                             Title="IpAddress" />
                                                     </MudItem>
-                                                    <MudItem xs="6">
-                                                        <EditCountry Title="Country"
-                                                            CountrySelectionList="@testCountryList" />
-                                                    </MudItem>
+                                                <MudItem xs="6">
+                                                    <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" />
+                                                    <MudText>TestCountryCode3: @testCountryCode3</MudText>
+                                                </MudItem>
                                                     <MudItem xs="6">
                                                         <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>                              

@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CountryCode3 : ValueObject<string, CountryCode3>
 {
-    private static readonly HashSet<string> _countryCode3s = new()
+    public static readonly HashSet<string> Values = new()
     {
         "AFG", "ALA", "ALB", "DZA", "ASM", "AND", "AGO", "AIA", "ATA", "ATG", "ARG", "ARM", "ABW", "AUS", "AUT",
         "AZE", "BHS", "BHR", "BGD", "BRB", "BLR", "BEL", "BLZ", "BEN", "BMU", "BTN", "BOL", "BIH", "BWA", "BVT",
@@ -35,7 +35,7 @@ public sealed class CountryCode3 : ValueObject<string, CountryCode3>
     {
         var result = base.Validate();
 
-        if(!_countryCode3s.Contains(Value))
+        if(!Values.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CountryCode3 type with unsupported value '{Value}'."));
         }
