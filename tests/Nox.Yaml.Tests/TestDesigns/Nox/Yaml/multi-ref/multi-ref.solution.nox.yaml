@@ -20,6 +20,6 @@ overview: >
   the managing the pricing and fees associated with cash transacting.
 
 environments:
-  - $ref: ./environments/dev-and-test.environment.nox.yaml
-  - $ref: ./environments/uat.environment.nox.yaml
-  - $ref: ./environments/prod.environment.nox.yaml
+  $ref: ./environments/dev-and-test.environment.nox.yaml
+  $ref: ./environments/uat.environment.nox.yaml
+  $ref: ./environments/prod.environment.nox.yaml

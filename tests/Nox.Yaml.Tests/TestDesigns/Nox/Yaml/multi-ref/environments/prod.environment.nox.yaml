@@ -4,6 +4,6 @@
 # yaml-language-server: $schema=../../../Schemas/environment.json
 #
 
-name: prod
-description: The live production environment used by end-users
-isProduction: true
+- name: prod
+  description: The live production environment used by end-users
+  isProduction: true

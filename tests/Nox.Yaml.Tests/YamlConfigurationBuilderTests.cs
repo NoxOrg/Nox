@@ -79,6 +79,12 @@ public class YamlConfigurationBuilderTests
 
         sample.Should().NotBeNull();
         sample.Name.Should().Be("Cryptocash");
+        sample.Environments.Should().NotBeNull();
+        sample.Environments!.Count.Should().Be(4);
+        sample.Environments[0].Name.Should().Be("dev");
+        sample.Environments[1].Name.Should().Be("test");
+        sample.Environments[2].Name.Should().Be("uat");
+        sample.Environments[3].Name.Should().Be("prod");
     }
     
 
