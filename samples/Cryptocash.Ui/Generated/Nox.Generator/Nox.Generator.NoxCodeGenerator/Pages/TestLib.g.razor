@@ -53,7 +53,6 @@
     byte testMonth = 1;
     int testYear = 2024;
     DateTime? testDate = DateTime.Now;
-    DateTime? testDateEnd = DateTime.Now.AddHours(23);
     DateTimeRangeModel testDateTimeRangeModel = new() { Start = DateTime.Now, End = DateTime.Now.AddHours(23) };
     byte testDayOfWeek = 1;
     StreetAddressModel testStreetAddress = new StreetAddressModel()
@@ -177,7 +176,8 @@
                                                         <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditNumber Title="Number" Number="@testNumber" Minimum="0" Maximum="2000" Format="#,##0.##" />
+                                                        <EditNumber T="decimal" Title="Number" @bind-Number="@testNumber" Minimum="0" Maximum="2000"/>
+                                                        <MudText>TestNumber: @testNumber</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" />
@@ -223,9 +223,7 @@
                                                             TitleSecond="Second" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditDateTimeRange 
-                                                            DateTimeStart="@testDate"
-                                                            DateTimeEnd="@testDateEnd"
+                                                        <EditDateTimeRange DateTimeRange="@testDateTimeRangeModel"
                                                             DisplayMinute="true"
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
