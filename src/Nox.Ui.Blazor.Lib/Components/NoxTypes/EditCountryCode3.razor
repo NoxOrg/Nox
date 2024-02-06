@@ -9,7 +9,7 @@
            RequiredError="@ErrorRequiredMessage"
            TextChanged="OnCountryCode3Changed"
            @bind-Value="CountryCode3">
-    @foreach (string countryCode in CountryCodes)
+    @foreach (var countryCode in CountryCodes)
     {
         <MudSelectItem Value="@countryCode">@countryCode</MudSelectItem>
     }

@@ -57,6 +57,7 @@
     DateTimeRangeModel testDateTimeRangeModel = new() { Start = DateTime.Now, End = DateTime.Now.AddHours(23) };
     byte testDayOfWeek = 1;
     string? testCountryCode3 = "UKR";
+    ushort? testCountryNumber = null;
     StreetAddressModel testStreetAddress = new StreetAddressModel()
     {
         StreetNumber = "StreetNumber",
@@ -223,7 +224,7 @@
                                                             TitleMinute="Minute"
                                                             TitleSecond="Second" />
                                                     </MudItem>
-                                                    <MudItem xs="6">
+                                                    @* <MudItem xs="6">
                                                         <EditDateTimeRange 
                                                             DateTimeStart="@testDate"
                                                             DateTimeEnd="@testDateEnd"
@@ -238,7 +239,7 @@
                                                             TitleHourEnd="End Hour"
                                                             TitleMinuteEnd="End Minute"
                                                             TitleSecondEnd="End Second" />
-                                                    </MudItem>
+                                                    </MudItem> *@
                                                     <MudItem xs="6">
                                                         <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" />
                                                     </MudItem>
@@ -267,10 +268,14 @@
                                                         <EditIpAddress @bind-IpAddress="@testIpAddress"
                                                             Title="IpAddress" />
                                                     </MudItem>
-                                                <MudItem xs="6">
-                                                    <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" />
-                                                    <MudText>TestCountryCode3: @testCountryCode3</MudText>
-                                                </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" />
+                                                        <MudText>TestCountryCode3: @testCountryCode3</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCountryNumber Title="CountryNumber" @bind-CountryNumber="testCountryNumber" />
+                                                        <MudText>testCountryNumber: @testCountryNumber</MudText>
+                                                    </MudItem>
                                                     <MudItem xs="6">
                                                         <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
                                                     </MudItem>                              

@@ -1,12 +1,17 @@
 ﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
 
-<MudNumericField Label="@Title"
-                 Variant="Variant.Outlined"
-                 FullWidth="true"
-                 Clearable="true"
-                 HideSpinButtons="true"
-                 Required="@Required"
-                 RequiredError="@ErrorRequiredMessage"
-                 TextChanged="@OnCountryNumberChanged"
-                 @bind-Value="CountryNumber" />
+<MudSelect T="ushort?"
+           Label="@Title"
+           Variant="Variant.Outlined"
+           FullWidth="true"
+           Clearable="true"
+           Required="@Required"
+           RequiredError="@ErrorRequiredMessage"
+           TextChanged="OnCountryNumberChanged"
+           @bind-Value="CountryNumber">
+    @foreach (var countryNumber in CountryNumbers)
+    {
+        <MudSelectItem T="ushort?" Value="(ushort?)countryNumber" />
+    }
+</MudSelect>
