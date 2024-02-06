@@ -58,6 +58,7 @@
     byte testDayOfWeek = 1;
     string? testCountryCode3 = "UKR";
     ushort? testCountryNumber = null;
+    short? testCurrencyNumber = null;
     StreetAddressModel testStreetAddress = new StreetAddressModel()
     {
         StreetNumber = "StreetNumber",
@@ -277,7 +278,8 @@
                                                         <MudText>testCountryNumber: @testCountryNumber</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
+                                                        <EditCurrencyNumber Title="Currency" @bind-CurrencyNumber="@testCurrencyNumber" />
+                                                    <MudText>testCurrencyNumber: @testCurrencyNumber </MudText>
                                                     </MudItem>                              
                                                     <MudItem xs="6">
                                                         <Select Title="Select"

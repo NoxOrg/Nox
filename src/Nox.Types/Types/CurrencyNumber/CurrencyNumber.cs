@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Nox.Types;
 
@@ -10,8 +10,7 @@ namespace Nox.Types;
 [Serializable]
 public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
 {
-    private static readonly HashSet<short> _currencyNumbers = new()
-    {
+    public static readonly ImmutableHashSet<short> Values = ImmutableHashSet.Create<short>(
         784,971,8,51,532,973,32,36,533,944,977,52,50,975,48,108,60,96,68,984,
         986,44,64,72,933,84,124,976,947,756,948,990,152,170,970,188,931,192,
         132,203,262,208,214,12,818,232,230,978,242,238,826,981,936,292,270,
@@ -23,7 +22,7 @@ public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
         788,776,949,780,901,834,980,800,840,997,940,858,927,860,926,928,704,
         548,882,950,961,959,955,956,957,958,951,960,952,964,953,962,994,963,
         965,999,886,710,967,932
-    };
+    );
 
     /// <summary>
     /// Validates the <see cref="CurrencyNumber"/> object.
@@ -33,7 +32,7 @@ public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
     {
         var result = base.Validate();
 
-        if (!_currencyNumbers.Contains(Value))
+        if (!Values.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CurrencyNumber type with unsupported value '{Value}'."));
         }
