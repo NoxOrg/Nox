@@ -12,13 +12,13 @@ namespace Nox.Infrastructure.Messaging
     {
         public readonly string _platformId;
         public readonly string _name;
-        public readonly string __topicNamePrefix;
+        public readonly string _topicNamePrefix;
 
         public CustomEntityNameFormatter(string platformId, string name, string environmentName)
         {
             _platformId = platformId;
             _name = name;
-            __topicNamePrefix = string.Equals(environmentName, Environments.Production, StringComparison.InvariantCultureIgnoreCase)
+            _topicNamePrefix = string.Equals(environmentName, Environments.Production, StringComparison.InvariantCultureIgnoreCase)
                 ? string.Empty : $"{environmentName.ToLower()}.";
         }
 
@@ -38,7 +38,7 @@ namespace Nox.Infrastructure.Messaging
                 throw new IntegrationEventDomainContextNullException($"Integration event {messageType.Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.DomainContext)} specified.");
             }
 
-            return $"{__topicNamePrefix}{_platformId}.{_name}.{integrationEventAttribute.DomainContext}";
+            return $"{_topicNamePrefix}{_platformId}.{_name}.{integrationEventAttribute.DomainContext}";
         }
     }
 }
