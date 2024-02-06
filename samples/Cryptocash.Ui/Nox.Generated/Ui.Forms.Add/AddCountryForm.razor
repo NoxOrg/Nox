@@ -15,56 +15,60 @@
         <MudForm Model="@Country">
             <MudGrid Style="margin-top:15px;">
                 <MudItem>
-                    <EditText @bind-Text="Country.Name" />
+                    <EditText @bind-Text="Country.Name"/>
                                         <!-- Title="Name" TypeOptions="@CountryMetadata.NameTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditText @bind-Text="Country.OfficialName" />
+                    <EditText @bind-Text="Country.OfficialName"/>
                                         <!-- Title="OfficialName" TypeOptions="@CountryMetadata.OfficialNameTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditCountryNumber @bind-CountryNumber="Country.CountryIsoNumeric" />
+                    <EditCountryNumber @bind-CountryNumber="Country.CountryIsoNumeric"/>
                                         <!-- Title="CountryIsoNumeric" TypeOptions="@CountryMetadata.CountryIsoNumericTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditCountryCode3 @bind-CountryCode3="Country.CountryIsoAlpha3" />
+                    <EditCountryCode3 @bind-CountryCode3="Country.CountryIsoAlpha3"/>
                                         <!-- Title="CountryIsoAlpha3" TypeOptions="@CountryMetadata.CountryIsoAlpha3TypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditLatLong @bind-LatLong="Country.GeoCoords" />
+                    <EditLatLong @bind-LatLong="Country.GeoCoords"/>
                                         <!-- Title="GeoCoords" TypeOptions="@CountryMetadata.GeoCoordsTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditText @bind-Text="Country.FlagEmoji" />
+                    <EditText @bind-Text="Country.FlagEmoji"/>
                                         <!-- Title="FlagEmoji" TypeOptions="@CountryMetadata.FlagEmojiTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditImage @bind-Image="Country.FlagSvg" />
+                    <EditImage @bind-Image="Country.FlagSvg"/>
                                         <!-- Title="FlagSvg" TypeOptions="@CountryMetadata.FlagSvgTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditImage @bind-Image="Country.FlagPng" />
+                    <EditImage @bind-Image="Country.FlagPng"/>
                                         <!-- Title="FlagPng" TypeOptions="@CountryMetadata.FlagPngTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditImage @bind-Image="Country.CoatOfArmsSvg" />
+                    <EditImage @bind-Image="Country.CoatOfArmsSvg"/>
                                         <!-- Title="CoatOfArmsSvg" TypeOptions="@CountryMetadata.CoatOfArmsSvgTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditImage @bind-Image="Country.CoatOfArmsPng" />
+                    <EditImage @bind-Image="Country.CoatOfArmsPng"/>
                                         <!-- Title="CoatOfArmsPng" TypeOptions="@CountryMetadata.CoatOfArmsPngTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditUrl @bind-Url="Country.GoogleMapsUrl" />
+                    <EditUrl @bind-Url="Country.GoogleMapsUrl"/>
                                         <!-- Title="GoogleMapsUrl" TypeOptions="@CountryMetadata.GoogleMapsUrlTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditUrl @bind-Url="Country.OpenStreetMapsUrl" />
+                    <EditUrl @bind-Url="Country.OpenStreetMapsUrl"/>
                                         <!-- Title="OpenStreetMapsUrl" TypeOptions="@CountryMetadata.OpenStreetMapsUrlTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditDayOfWeek @bind-DayOfWeek="Country.StartOfWeek" />
+                    <EditDayOfWeek @bind-DayOfWeek="Country.StartOfWeek"/>
                                         <!-- Title="StartOfWeek" TypeOptions="@CountryMetadata.StartOfWeekTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditNumber @bind-Number="Country.Population" T="Int32"/>
+                                        <!-- Title="Population" TypeOptions="@CountryMetadata.PopulationTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            
         </MudForm>

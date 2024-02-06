@@ -15,15 +15,15 @@
         <MudForm Model="@CashStockOrder">
             <MudGrid Style="margin-top:15px;">
                 <MudItem>
-                    <EditMoney @bind-Money="CashStockOrder.Amount" />
+                    <EditMoney @bind-Money="CashStockOrder.Amount"/>
                                         <!-- Title="Amount" TypeOptions="@CashStockOrderMetadata.AmountTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditDate @bind-Date="CashStockOrder.RequestedDeliveryDate" />
+                    <EditDate @bind-Date="CashStockOrder.RequestedDeliveryDate"/>
                                         <!-- Title="RequestedDeliveryDate" TypeOptions="@CashStockOrderMetadata.RequestedDeliveryDateTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditDateTime @bind-DateTime="CashStockOrder.DeliveryDateTime" />
+                    <EditDateTime @bind-DateTime="CashStockOrder.DeliveryDateTime"/>
                                         <!-- Title="DeliveryDateTime" TypeOptions="@CashStockOrderMetadata.DeliveryDateTimeTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            

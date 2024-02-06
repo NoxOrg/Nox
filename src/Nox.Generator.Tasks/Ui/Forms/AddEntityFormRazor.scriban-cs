@@ -1,6 +1,9 @@
 ﻿{{- func showOnCreate(attribute)
 	ret attribute.UserInterface?.ShowOnCreateForm == true
 end -}}
+{{- func attributePrimitiveType(attribute)
+	ret componentsInfo[attribute.Name].ComponentType | string.remove 'System.'
+end -}}
 
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
@@ -22,12 +25,9 @@ end -}}
                 {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
                 {{- continue; }}
                 {{- end }}
-
-                {{- if attribute.Type == 'Number' }}
-                {{- continue; }}
-                {{- end }}
                 <MudItem>
-                    <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" />
+                    <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" 
+                        {{- if attribute.Type == "Number" }} T="{{attributePrimitiveType attribute}}"{{ end -}}/>
                                         <!-- Title="{{attribute.Name}}" TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" /> -->
                 </MudItem>
             {{- end }}
