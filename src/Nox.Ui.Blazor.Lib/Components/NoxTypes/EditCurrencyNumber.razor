@@ -1,0 +1,13 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Nox.Ui.Blazor.Lib.Models
+@using MudBlazor
+
+<MudNumericField Label="@Title"
+                 Variant="Variant.Outlined"
+                 FullWidth="true"
+                 Clearable="true"
+                 HideSpinButtons="true"
+                 Required="@Required"
+                 RequiredError="@ErrorRequiredMessage"
+                 TextChanged="@OnCurrencyNumberChanged"
+                 @bind-Value="CurrencyNumber" />

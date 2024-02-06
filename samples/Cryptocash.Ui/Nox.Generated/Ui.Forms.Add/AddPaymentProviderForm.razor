@@ -1,36 +1,27 @@
-﻿{{- func showOnCreate(attribute)
-	ret attribute.UserInterface?.ShowOnCreateForm == true
-end -}}
-
-@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using {{codeGenConventions.UiNameSpace}}.Services
+@using Cryptocash.Ui.Services
 
-@namespace {{codeGenConventions.UiNameSpace}}.Forms.Add
+@namespace Cryptocash.Ui.Forms.Add
 
-@inject I{{entity.PluralName}}Service {{entity.PluralName}}Service
+@inject IPaymentProvidersService PaymentProvidersService
 
 <MudDialog @bind-IsVisible="@IsVisible" Options="@AddDialogOptions">
     <TitleContent>
-        <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "{{entity.Name}}")</MudText>
+        <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "PaymentProvider")</MudText>
     </TitleContent>
     <DialogContent>
-        <MudForm Model="@{{entity.Name}}">
+        <MudForm Model="@PaymentProvider">
             <MudGrid Style="margin-top:15px;">
-            {{- for attribute in entity.Attributes }}
-                {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
-                {{- continue; }}
-                {{- end }}
-
-                {{- if attribute.Type == 'Number' }}
-                {{- continue; }}
-                {{- end }}
                 <MudItem>
-                    <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" />
-                                        <!-- Title="{{attribute.Name}}" TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" /> -->
+                    <EditText @bind-Text="PaymentProvider.PaymentProviderName" />
+                                        <!-- Title="PaymentProviderName" TypeOptions="@PaymentProviderMetadata.PaymentProviderNameTypeOptions" /> -->
                 </MudItem>
-            {{- end }}
+                <MudItem>
+                    <EditText @bind-Text="PaymentProvider.PaymentProviderType" />
+                                        <!-- Title="PaymentProviderType" TypeOptions="@PaymentProviderMetadata.PaymentProviderTypeTypeOptions" /> -->
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {
