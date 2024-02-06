@@ -13,13 +13,14 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
         _noxSolution = noxSolution;
     }
 
-    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, 
-        IBusRegistrationConfigurator configuration)
+    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig,
+        IBusRegistrationConfigurator configuration,
+        string environmentName)
     {
         configuration.UsingAzureServiceBus((context, cfg) =>
         {
             AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
-                
+
             if (string.IsNullOrWhiteSpace(config.SharedAccessKey) || string.IsNullOrWhiteSpace(config.SharedAccessKeyName))
             {
                 cfg.Host(new Uri(config.Endpoint));
@@ -32,7 +33,7 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
 
             cfg.ConfigureEndpoints(context);
             cfg.UseRawJsonSerializer();
-            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name, environmentName));
         });
 
         return configuration;
