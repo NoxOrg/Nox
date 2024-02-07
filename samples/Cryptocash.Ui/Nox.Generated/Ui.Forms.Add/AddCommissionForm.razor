@@ -1,6 +1,8 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -14,13 +16,13 @@
     <DialogContent>
         <MudForm Model="@Commission">
             <MudGrid Style="margin-top:15px;">
-                <MudItem>
-                    <EditPercentage @bind-Percentage="Commission.Rate"/>
-                                        <!-- Title="Rate" TypeOptions="@CommissionMetadata.RateTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditPercentage @bind-Percentage="Commission.Rate" 
+                        Title="Rate"/>
                 </MudItem>
-                <MudItem>
-                    <EditDateTime @bind-DateTime="Commission.EffectiveAt"/>
-                                        <!-- Title="EffectiveAt" TypeOptions="@CommissionMetadata.EffectiveAtTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditDateTime @bind-DateTime="Commission.EffectiveAt" 
+                        Title="EffectiveAt"/>
                 </MudItem>
             </MudGrid>            
         </MudForm>

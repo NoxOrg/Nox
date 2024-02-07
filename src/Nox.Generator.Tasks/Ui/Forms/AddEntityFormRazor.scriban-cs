@@ -8,6 +8,8 @@ end -}}
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using {{codeGenConventions.UiNameSpace}}.Services
 
 @namespace {{codeGenConventions.UiNameSpace}}.Forms.Add
@@ -25,10 +27,12 @@ end -}}
                 {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
                 {{- continue; }}
                 {{- end }}
-                <MudItem>
+                <MudItem xs="12">
                     <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" 
-                        {{- if attribute.Type == "Number" }} T="{{attributePrimitiveType attribute}}"{{ end -}}/>
-                                        <!-- Title="{{attribute.Name}}" TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" /> -->
+                        Title="{{attribute.Name}}" 
+                        {{- if attribute.Type == "Number" }} T="{{attributePrimitiveType attribute}}"{{ end }}
+                        {{- if attributesWithTypeOptions | array.contains attribute.Name }} TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" {{ end -}}
+                        />
                 </MudItem>
             {{- end }}
             </MudGrid>            
