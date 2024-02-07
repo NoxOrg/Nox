@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nox.Types;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
@@ -16,7 +17,10 @@ public partial class EditNumber<T> : ComponentBase where T : struct
     public decimal? Minimum { get; set; }
 
     [Parameter]
-    public decimal? Maximum { get; set; }
+    public decimal Maximum { get; set; } = 100;
+
+    [Parameter]
+    public uint DecimalDigits { get; set; } = 2;
 
     [Parameter]
     public bool Required { get; set; }
@@ -32,7 +36,20 @@ public partial class EditNumber<T> : ComponentBase where T : struct
         }
     }
 
+    [Parameter]
+    public NumberTypeOptions? TypeOptions { get; set; }
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            Minimum = TypeOptions.MinValue;
+            Maximum = TypeOptions.MaxValue;
+            DecimalDigits = TypeOptions.DecimalDigits;
+        }
+    }
 
     protected async Task OnNumberChanged(string newValue)
     {

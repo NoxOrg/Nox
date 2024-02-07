@@ -16,9 +16,6 @@ public partial class EditTemperature : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public TemperatureUnit TemperatureUnit { get; set; } = TemperatureUnit.Celsius;
-
-    [Parameter]
     public EventCallback<Decimal?> TemperatureChanged { get; set; }
 
     public string ErrorRequiredMessage
@@ -35,7 +32,25 @@ public partial class EditTemperature : ComponentBase
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    [Parameter]
+    public TemperatureTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public TemperatureTypeUnit Units { get; set; } = TemperatureTypeUnit.Celsius;
+
+    [Parameter]
+    public TemperatureTypeUnit PersistAs { get; set; } = TemperatureTypeUnit.Celsius;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            Units = TypeOptions.Units;
+            PersistAs = TypeOptions.PersistAs;
+        }
+    }
 
     protected async Task OnTemperatureChanged(string newValue)
     {
@@ -58,12 +73,12 @@ public partial class EditTemperature : ComponentBase
             return AdornmentIcon;
         }
 
-        if (TemperatureUnit == TemperatureUnit.Fahrenheit)
+        if (Units == TemperatureTypeUnit.Fahrenheit)
         {
             return Icon.TemperatureUnit_Fahrenheit;
         }
 
-        if (TemperatureUnit == TemperatureUnit.Celsius)
+        if (Units == TemperatureTypeUnit.Celsius)
         {
             return Icon.TemperatureUnit_Celsius;
         }

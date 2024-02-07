@@ -16,9 +16,6 @@ public partial class EditWeight : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public WeightUnit WeightUnit { get; set; } = WeightUnit.Kilogram;
-
-    [Parameter]
     public EventCallback<decimal?> WeightChanged { get; set; }
 
     public string ErrorRequiredMessage
@@ -35,7 +32,33 @@ public partial class EditWeight : ComponentBase
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    [Parameter]
+    public WeightTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public WeightTypeUnit Units { get; set; } = WeightTypeUnit.Kilogram;
+
+    [Parameter]
+    public WeightTypeUnit PersistAs { get; set; } = WeightTypeUnit.Kilogram;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            Units = TypeOptions.Units;
+            PersistAs = TypeOptions.PersistAs;
+        }
+    }
 
     protected async Task OnWeightChanged(string newValue)
     {
@@ -58,12 +81,12 @@ public partial class EditWeight : ComponentBase
             return AdornmentIcon;
         }
 
-        if (WeightUnit == WeightUnit.Pound)
+        if (Units == WeightTypeUnit.Pound)
         {
             return Icon.WeightUnit_Pound;
         }
 
-        if (WeightUnit == WeightUnit.Kilogram)
+        if (Units == WeightTypeUnit.Kilogram)
         {
             return Icon.WeightUnit_Kilogram;
         }

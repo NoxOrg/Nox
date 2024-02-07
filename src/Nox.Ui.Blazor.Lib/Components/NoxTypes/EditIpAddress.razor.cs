@@ -43,11 +43,9 @@ public partial class EditIpAddress : ComponentBase
 
     public IMask DisplayMask()
     {
-        switch (Type.Trim().ToLower())
+        return Type.Trim().ToLower() switch
         {
-            case "ipv4":
-            default:
-                return RegexMask.IPv4();
-        }
+            _ => RegexMask.IPv4(),
+        };
     }
 }

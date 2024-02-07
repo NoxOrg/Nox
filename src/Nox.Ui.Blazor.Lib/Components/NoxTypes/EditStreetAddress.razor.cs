@@ -59,7 +59,7 @@ public partial class EditStreetAddress : ComponentBase
     }
 
     [Parameter]
-    public string? TitleStreetNumber { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string? TitleAddressLine1 { get; set; }

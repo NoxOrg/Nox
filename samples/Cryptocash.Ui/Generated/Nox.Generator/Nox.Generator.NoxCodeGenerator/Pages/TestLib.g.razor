@@ -45,7 +45,7 @@
     float? testPercentage = (float)36.67;
     decimal? testTemperature = (decimal)14.33;
     decimal? testVolume = (decimal)85.31;
-    decimal? testWeight = (decimal)23.56;    
+    decimal? testWeight = (decimal)23.56;
     int testHour = 11;
     int testMinute = 22;
     int testSecond = 33;
@@ -161,16 +161,16 @@
                                                         <EditMoney Title="Money" Money="@testMoney" Currency="testMoney.CurrencyCode" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditArea Title="Area" Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                                        <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditBoolean Title="Boolean" Boolean="@testBoolean" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditDistance Title="Distance" Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                                        <EditDistance Title="Distance" Distance="@testDistance" Units="Nox.Types.DistanceTypeUnit.Kilometer" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditLength Title="Length" Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
+                                                        <EditLength Title="Length" Length="@testLength" Units="Nox.Types.LengthTypeUnit.Meter" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" />
@@ -183,13 +183,13 @@
                                                         <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditTemperature Title="Temperature" Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
+                                                        <EditTemperature Title="Temperature" Temperature="@testTemperature" Units="Nox.Types.TemperatureTypeUnit.Celsius" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditVolume Title="Volume" Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
+                                                        <EditVolume Title="Volume" Volume="@testVolume" Units="Nox.Types.VolumeTypeUnit.CubicMeter" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditWeight Title="Weight" Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
+                                                    <EditWeight Title="Weight" Weight="@testWeight" Units="Nox.Types.WeightTypeUnit.Kilogram" />
                                                     </MudItem> 
                                                     <MudItem xs="6">
                                                         <EditTime
@@ -197,7 +197,7 @@
                                                             DisplaySecond="true" 
                                                             DisplayMillisecond="false" 
                                                             CultureInfo="@testCultureInfo"                                                            
-                                                            TitleHour="Hour"
+                                                            Title="Hour"
                                                             TitleMinute="Minute"
                                                             TitleSecond="Second"/>
                                                     </MudItem>                                                    
@@ -217,7 +217,7 @@
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
                                                             CultureInfo="@testCultureInfo"
-                                                            TitleDateTime="DateTime"
+                                                            Title="DateTime"
                                                             TitleHour="Hour"
                                                             TitleMinute="Minute"
                                                             TitleSecond="Second" />
@@ -228,7 +228,7 @@
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
                                                             CultureInfo="@testCultureInfo"
-                                                            TitleDateTimeRange="DateTimeRange"
+                                                            Title="DateTimeRange"
                                                             TitleHourStart="Start Hour"
                                                             TitleMinuteStart="Start Minute"
                                                             TitleSecondStart="Start Second"
@@ -241,7 +241,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditStreetAddress @bind-StreetAddress="@testStreetAddress"
-                                                            TitleStreetNumber="StreetNumber"
+                                                            Title="StreetNumber"
                                                             TitleAddressLine1="AddressLine1"
                                                             TitleAddressLine2="AddressLine2"
                                                             TitleRoute="Route"
@@ -255,7 +255,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditLatLong @bind-Latlong="@testLatLong"
-                                                            TitleLatitude="Latitude"
+                                                            Title="Latitude"
                                                             TitleLongitude="Longitude"
                                                             Format="#.########"
                                                             DisplayGoogleMap="false" />
@@ -359,10 +359,10 @@
                                     <ViewBoolean Boolean="@testBoolean" TitleTrue="True" TitleFalse="False" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
-                                    <ViewDistance Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                    <ViewDistance Distance="@testDistance" Units="Nox.Types.DistanceTypeUnit.Kilometer" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
-                                    <ViewLength Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
+                                    <ViewLength Length="@testLength" Units="Nox.Types.LengthTypeUnit.Meter" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewMacAddress MacAddress="@testMacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
@@ -374,13 +374,13 @@
                                     <ViewPercentage Percentage="@testPercentage" />                                    
                                 </MudTd> 
                                 <MudTd Style="vertical-align:top;">
-                                    <ViewTemperature Temperature="@testTemperature" TemperatureUnit="Nox.Types.TemperatureUnit.Celsius" />
+                                    <ViewTemperature Temperature="@testTemperature" Units="Nox.Types.TemperatureTypeUnit.Celsius" />
                                 </MudTd>                                
                                 <MudTd Style="vertical-align:top;">
-                                    <ViewVolume Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
+                                    <ViewVolume Volume="@testVolume" Units="Nox.Types.VolumeTypeUnit.CubicMeter" />
                                 </MudTd>  
                                 <MudTd Style="vertical-align:top;">
-                                    <ViewWeight Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
+                                    <ViewWeight Weight="@testWeight" Units="Nox.Types.WeightTypeUnit.Kilogram" />
                                 </MudTd>                                
                                 <MudTd Style="vertical-align:top;">
                                     <ViewTime Hour="@testHour" Minute="@testMinute" Second="@testSecond" CultureInfo="@testCultureInfo" Format="HH:mm:ss"/>

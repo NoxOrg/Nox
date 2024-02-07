@@ -18,6 +18,15 @@ public partial class EditYear : ComponentBase
     [Parameter]
     public EventCallback<int?> YearChanged { get; set; }
 
+    [Parameter]
+    public bool AllowFutureOnly { get; set; } = false;
+
+    [Parameter]
+    public ushort MinValue { get; set; } = 0;
+
+    [Parameter]
+    public ushort MaxValue { get; set; } = 9999;
+
     public string ErrorRequiredMessage
     {
         get
@@ -26,9 +35,22 @@ public partial class EditYear : ComponentBase
         }
     }
 
-    private readonly string Format = "####";
+    public readonly string Format = "####";
+
+    [Parameter]
+    public YearTypeOptions? TypeOptions { get; set; }
 
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            AllowFutureOnly = TypeOptions.AllowFutureOnly;
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+        }
+    }
 
     protected async Task OnYearChanged(string newValue)
     {
