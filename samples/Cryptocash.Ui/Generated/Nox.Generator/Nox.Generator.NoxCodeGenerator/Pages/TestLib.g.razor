@@ -176,7 +176,8 @@
                                                         <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditNumber Title="Number" Number="@testNumber" MinValue="0" MaxValue="2000" Format="#,##0.##" />
+                                                        <EditNumber T="decimal" Title="Number" @bind-Number="@testNumber" Minimum="0" Maximum="2000" />
+                                                        <MudText>TestNumber: @testNumber</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" />
@@ -222,8 +223,7 @@
                                                             TitleSecond="Second" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditDateTimeRange 
-                                                            DateTimeRange="@testDateTimeRangeModel"
+                                                    <EditDateTimeRange DateTimeRange="@testDateTimeRangeModel"
                                                             DisplayMinute="true"
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
