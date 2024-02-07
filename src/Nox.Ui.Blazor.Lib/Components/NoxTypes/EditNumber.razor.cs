@@ -19,10 +19,13 @@ public partial class EditNumber : ComponentBase
     public string Format { get; set; } = "#,##0.##";
 
     [Parameter]
-    public decimal? Minimum { get; set; }
+    public decimal MinValue { get; set; } = 0;
 
     [Parameter]
-    public decimal? Maximum { get; set; }
+    public decimal MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public uint DecimalDigits { get; set; } = 2;
 
     [Parameter]
     public EventCallback<decimal?> NumberChanged { get; set; }
@@ -35,7 +38,20 @@ public partial class EditNumber : ComponentBase
         }
     }
 
+    [Parameter]
+    public NumberTypeOptions? TypeOptions { get; set; }
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            DecimalDigits = TypeOptions.DecimalDigits;
+        }
+    }
 
     protected async Task OnNumberChanged(string newValue)
     {

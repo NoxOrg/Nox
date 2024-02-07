@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nox.Types;
 using System.Globalization;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
@@ -15,7 +16,7 @@ public partial class EditDateTime : ComponentBase
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
     [Parameter]
-    public string? TitleDateTime { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy HH:mm:ss";
@@ -72,6 +73,18 @@ public partial class EditDateTime : ComponentBase
 
     public static Dictionary<int, string> MillisecondSelectionList { get; set; } = new Dictionary<int, string>();
 
+    [Parameter]
+    public DateTimeTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public bool AllowFutureOnly { get; set; } = false;
+
+    [Parameter]
+    public DateTimeOffset MinValue { get; set; }
+
+    [Parameter]
+    public DateTimeOffset MaxValue { get; set; }
+
     #endregion
 
     static EditDateTime()
@@ -98,6 +111,13 @@ public partial class EditDateTime : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
+        if (TypeOptions is not null)
+        {
+            AllowFutureOnly = TypeOptions.AllowFutureOnly;
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+        }
+
         if (DateTime.HasValue)
         {
             SetDateTime(DateTime);

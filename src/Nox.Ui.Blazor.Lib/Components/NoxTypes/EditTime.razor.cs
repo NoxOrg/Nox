@@ -35,7 +35,7 @@ public partial class EditTime : ComponentBase
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
     [Parameter]
-    public string? TitleHour { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string? TitleMinute { get; set; }
@@ -74,7 +74,25 @@ public partial class EditTime : ComponentBase
 
     public static Dictionary<int, string> MillisecondSelectionList { get; set; } = new Dictionary<int, string>();
 
+    [Parameter]
+    public TimeTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public long MinTimeTicks { get; set; } = 0;
+
+    [Parameter]
+    public long MaxTimeTicks { get; set; } = 9999;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinTimeTicks = TypeOptions.MinTimeTicks;
+            MaxTimeTicks = TypeOptions.MaxTimeTicks;
+        }
+    }
 
     static EditTime()
     {
