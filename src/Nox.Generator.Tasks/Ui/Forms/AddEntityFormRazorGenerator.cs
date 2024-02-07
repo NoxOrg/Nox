@@ -1,5 +1,6 @@
 ﻿using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types.Extensions;
 using System.Linq;
 
 namespace Nox.Generator.Tasks.Ui.Forms;
@@ -26,11 +27,17 @@ internal class AddEntityFormRazorGenerator : INoxFileGenerator
 
         foreach (var entity in entities)
         {
+            var componentsInfo = entity.Attributes
+               .ToDictionary(r => r.Name, key => new {
+                   ComponentType = key.Type.GetComponents(key).FirstOrDefault().Value
+               });
+
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
                 .WithFileExtension("razor")
                 .WithClassName($"Add{entity.Name}Form")
                 .WithFileNamePrefix($"Ui.Forms.Add")
                 .WithObject("entity", entity)
+                .WithObject("componentsInfo", componentsInfo)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

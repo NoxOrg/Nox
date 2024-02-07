@@ -15,19 +15,19 @@
         <MudForm Model="@Transaction">
             <MudGrid Style="margin-top:15px;">
                 <MudItem>
-                    <EditText @bind-Text="Transaction.TransactionType" />
+                    <EditText @bind-Text="Transaction.TransactionType"/>
                                         <!-- Title="TransactionType" TypeOptions="@TransactionMetadata.TransactionTypeTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditDateTime @bind-DateTime="Transaction.ProcessedOnDateTime" />
+                    <EditDateTime @bind-DateTime="Transaction.ProcessedOnDateTime"/>
                                         <!-- Title="ProcessedOnDateTime" TypeOptions="@TransactionMetadata.ProcessedOnDateTimeTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditMoney @bind-Money="Transaction.Amount" />
+                    <EditMoney @bind-Money="Transaction.Amount"/>
                                         <!-- Title="Amount" TypeOptions="@TransactionMetadata.AmountTypeOptions" /> -->
                 </MudItem>
                 <MudItem>
-                    <EditText @bind-Text="Transaction.Reference" />
+                    <EditText @bind-Text="Transaction.Reference"/>
                                         <!-- Title="Reference" TypeOptions="@TransactionMetadata.ReferenceTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            
