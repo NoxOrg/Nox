@@ -68,7 +68,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
 			{
 				var relatedKey = Dto.PaymentDetailMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<PaymentDetail>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.PaymentDetail>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToPaymentDetails(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<PaymentProvider>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.PaymentProvider>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new PaymentProviderKeyDto(entityToCreate.Id.Value);
 	}

@@ -53,7 +53,7 @@ internal abstract class CreateEmployeePhoneNumbersForEmployeeCommandHandlerBase 
 		await OnExecutingAsync(request);
 		var keyId = Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<Employee> (keyId);
+		var parentEntity = await Repository.FindAsync<Cryptocash.Domain.Employee> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Employee",  $"{keyId.ToString()}");

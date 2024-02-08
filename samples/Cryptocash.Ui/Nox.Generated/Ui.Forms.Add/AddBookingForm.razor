@@ -1,5 +1,8 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +15,35 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@Booking">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem xs="12">
+                    <EditMoney @bind-Money="Booking.AmountFrom" 
+                        Title="AmountFrom"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditMoney @bind-Money="Booking.AmountTo" 
+                        Title="AmountTo"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditDateTimeRange @bind-DateTimeRange="Booking.RequestedPickUpDate" 
+                        Title="RequestedPickUpDate"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditDateTimeRange @bind-DateTimeRange="Booking.PickedUpDateTime" 
+                        Title="PickedUpDateTime"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditDateTime @bind-DateTime="Booking.ExpiryDateTime" 
+                        Title="ExpiryDateTime"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditDateTime @bind-DateTime="Booking.CancelledDateTime" 
+                        Title="CancelledDateTime"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditVatNumber @bind-VatNumber="Booking.VatNumber" 
+                        Title="VatNumber"/>
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {

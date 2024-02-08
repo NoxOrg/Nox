@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Cryptocash.Application.Dto;
+
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddEmployeeForm : ComponentBase
 {
-    private EmployeeCreateDto Employee = new();
+    private EmployeeModel Employee = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -65,7 +66,7 @@ public partial class AddEmployeeForm : ComponentBase
 
     private void ResetForm()
     {
-        Employee = new EmployeeCreateDto();
+        Employee = new();
         HasError = false;
         IsLoading = false;
     }

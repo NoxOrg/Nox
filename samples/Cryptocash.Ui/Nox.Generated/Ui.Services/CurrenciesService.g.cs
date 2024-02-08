@@ -2,24 +2,31 @@
 
 #nullable enable
 
-using Cryptocash.Application.Dto;
+using Nox.Ui.Blazor.Lib.Contracts;
 using Nox.Ui.Blazor.Lib.Extensions;
+
+using Cryptocash.Application.Dto;
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICurrenciesService
 {
-    public Task<List<CurrencyDto>> GetAllAsync();
-    public Task<CurrencyDto?> GetByIdAsync(string id);
-    public Task<CurrencyDto?> CreateAsync(CurrencyCreateDto currency);
-    public Task<CurrencyDto?> UpdateAsync(CurrencyUpdateDto currency);
+    public Task<List<CurrencyModel>> GetAllAsync();
+    public Task<CurrencyModel?> GetByIdAsync(string id);
+    public Task<CurrencyModel?> CreateAsync(CurrencyModel currency);
+    public Task<CurrencyModel?> UpdateAsync(CurrencyModel currency);
     public Task DeleteAsync(string id);
 }
 
 internal partial class CurrenciesService : CurrenciesServiceBase
 {
-    public CurrenciesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
-        : base(httpClient, endpointsProvider)
+    public CurrenciesService(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CurrencyModel, CurrencyDto> dtoConverter,
+        IModelConverter<CurrencyModel, CurrencyCreateDto> createDtoConverter,
+        IModelConverter<CurrencyModel, CurrencyUpdateDto> updateDtoConverter)
+        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
     {
     }
 }
@@ -28,32 +35,45 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
+    private readonly IModelConverter<CurrencyModel, CurrencyDto> _dtoConverter;
+    private readonly IModelConverter<CurrencyModel, CurrencyCreateDto> _createDtoConverter;
+    private readonly IModelConverter<CurrencyModel, CurrencyUpdateDto> _updateDtoConverter;
 
-    protected CurrenciesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+    protected CurrenciesServiceBase(HttpClient httpClient, 
+        IEndpointsProvider endpointsProvider,
+        IModelConverter<CurrencyModel, CurrencyDto> dtoConverter,
+        IModelConverter<CurrencyModel, CurrencyCreateDto> createDtoConverter,
+        IModelConverter<CurrencyModel, CurrencyUpdateDto> updateDtoConverter)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.CurrenciesUrl;
+        _dtoConverter = dtoConverter;
+        _createDtoConverter = createDtoConverter;
+        _updateDtoConverter = updateDtoConverter;
     }
 
-    public async Task<List<CurrencyDto>> GetAllAsync()
+    public async Task<List<CurrencyModel>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CurrencyDto>>(_apiBaseUrl);
-        return items ?? new List<CurrencyDto>();
+        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CurrencyModel>();
     }
 
-    public async Task<CurrencyDto?> GetByIdAsync(string id)
+    public async Task<CurrencyModel?> GetByIdAsync(string id)
     {
-        return await _httpClient.GetODataSimpleResponseAsync<CurrencyDto>($"{_apiBaseUrl}/{id}");
+        var item = await _httpClient.GetODataSimpleResponseAsync<CurrencyDto>($"{_apiBaseUrl}/{id}");
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CurrencyDto?> CreateAsync(CurrencyCreateDto currency)
+    public async Task<CurrencyModel?> CreateAsync(CurrencyModel currency)
     {
-        return await _httpClient.PostAsync<CurrencyCreateDto, CurrencyDto>(_apiBaseUrl, currency);
+        var item = await _httpClient.PostAsync<CurrencyCreateDto, CurrencyDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(currency));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task<CurrencyDto?> UpdateAsync(CurrencyUpdateDto currency)
+    public async Task<CurrencyModel?> UpdateAsync(CurrencyModel currency)
     {
-        return await _httpClient.PutAsync<CurrencyUpdateDto, CurrencyDto>(_apiBaseUrl, currency);
+        var item = await _httpClient.PutAsync<CurrencyUpdateDto, CurrencyDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(currency));
+        return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
     public async Task DeleteAsync(string id)

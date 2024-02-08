@@ -46,7 +46,7 @@ internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBas
         var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(command.keyId));
 
-        var parentEntity = await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(), p => p.TenantBrands,cancellationToken);
+        var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(), p => p.TenantBrands,cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
         var entityKeys = parentEntity.TenantBrands.Select(x => x.Id).ToList();
         var entities = await Repository.Query<TenantBrandLocalized>().Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);

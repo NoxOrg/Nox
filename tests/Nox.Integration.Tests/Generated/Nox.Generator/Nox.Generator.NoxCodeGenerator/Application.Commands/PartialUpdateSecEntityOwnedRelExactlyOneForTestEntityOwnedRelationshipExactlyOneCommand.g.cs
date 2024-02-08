@@ -52,7 +52,7 @@ internal abstract class PartialUpdateSecEntityOwnedRelExactlyOneForTestEntityOwn
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<TestEntityOwnedRelationshipExactlyOne>(keys.ToArray(),e => e.SecEntityOwnedRelExactlyOne, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne>(keys.ToArray(),e => e.SecEntityOwnedRelExactlyOne, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne",  "keyId");

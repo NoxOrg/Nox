@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityForAutoNumberUsages>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityForAutoNumberUsages>()
             .Where(x => x.Id == Dto.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

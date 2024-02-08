@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
 public partial class EditGoogleMap : ComponentBase
 {
     #region Declarations
+
+    [Parameter]
+    public string? Title { get; set; }
 
     [Inject]
     public IJSRuntime? JSRuntime { get; set; }

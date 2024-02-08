@@ -55,7 +55,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Country>()
+		var entity = Repository.Query<ClientApi.Domain.Country>()
             .Where(x => x.Id == Dto.CountryMetadata.CreateId(request.keyId))
 			.Include(e => e.CountryLocalNames)
 			.Include(e => e.CountryBarCode)

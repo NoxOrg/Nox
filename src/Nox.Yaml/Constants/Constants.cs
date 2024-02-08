@@ -10,6 +10,8 @@ public class Constants
 
     public const string StringWithNoSpacesRegex = @"^[^\s]*$";
 
+    public const string CronExpressionRegex = @"(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7})";
+
     // Variable prefixes
 
     public const string EnvironmentVariablesKey = "env";

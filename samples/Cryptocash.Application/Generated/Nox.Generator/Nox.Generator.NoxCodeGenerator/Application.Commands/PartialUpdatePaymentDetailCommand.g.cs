@@ -51,7 +51,7 @@ internal abstract class PartialUpdatePaymentDetailCommandHandlerBase : CommandBa
 		await OnExecutingAsync(request);
 		var keyId = Dto.PaymentDetailMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<PaymentDetail>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.PaymentDetail>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("PaymentDetail",  $"{keyId.ToString()}");

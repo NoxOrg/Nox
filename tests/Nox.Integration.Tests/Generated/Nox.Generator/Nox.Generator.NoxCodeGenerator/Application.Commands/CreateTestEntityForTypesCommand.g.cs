@@ -61,7 +61,7 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityForTypes>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityForTypes>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityForTypesKeyDto(entityToCreate.Id.Value);
 	}

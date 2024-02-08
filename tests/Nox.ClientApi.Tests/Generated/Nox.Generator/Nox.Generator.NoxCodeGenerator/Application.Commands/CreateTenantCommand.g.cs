@@ -68,7 +68,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
 			{
 				var relatedKey = Dto.WorkplaceMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Workplace>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Workplace>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToWorkplaces(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreateTenantCommandHandlerBase : CommandBase<CreateTenan
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Tenant>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Tenant>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TenantKeyDto(entityToCreate.Id.Value);
 	}

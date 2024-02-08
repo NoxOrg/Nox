@@ -43,7 +43,7 @@ internal abstract class DeleteTestEntityLocalizationTranslationCommandHandlerBas
         await OnExecutingAsync(command);
 		var keyId = Dto.TestEntityLocalizationMetadata.CreateId(command.keyId);
         
-        var entity = await Repository.FindAsync<TestEntityLocalization>(keyId);
+        var entity = await Repository.FindAsync<TestWebApp.Domain.TestEntityLocalization>(keyId);
         EntityNotFoundException.ThrowIfNull(entity, "TestEntityLocalization", $"{keyId.ToString()}");
 		
         var entityLocalized = await Repository.Query<TestEntityLocalizationLocalized>().FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nox.Types;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
@@ -57,6 +57,21 @@ public partial class EditMoney : ComponentBase
         }
     }
 
+    [Parameter]
+    public MoneyTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public decimal MinValue { get; set; } = 0;
+
+    [Parameter]
+    public decimal MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public int DecimalDigits { get; set; } = 100;
+
+    [Parameter]
+    public CurrencyCode DefaultCurrency { get; set; }
+
     #endregion
 
     /// <summary>
@@ -64,6 +79,14 @@ public partial class EditMoney : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            DecimalDigits = TypeOptions.DecimalDigits;
+            DefaultCurrency = TypeOptions.DefaultCurrency;
+        }
+
         if (Money != null)
         {
             Amount = Money.Amount;

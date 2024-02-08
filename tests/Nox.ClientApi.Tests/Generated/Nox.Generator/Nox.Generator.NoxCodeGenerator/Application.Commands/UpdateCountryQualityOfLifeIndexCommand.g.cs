@@ -55,7 +55,7 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<CountryQualityOfLifeIndex>()
+		var entity = Repository.Query<ClientApi.Domain.CountryQualityOfLifeIndex>()
             .Where(x => x.CountryId == Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId))
             .Where(x => x.Id == Dto.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId))
 			.SingleOrDefault();

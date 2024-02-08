@@ -48,7 +48,7 @@ internal abstract class DeleteTransactionByIdCommandHandlerBase : CommandCollect
 		{
 			var keyId = Dto.TransactionMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Transaction>(keyId);
+			var entity = await Repository.FindAsync<TransactionEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Transaction",  $"{keyId.ToString()}");

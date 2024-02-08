@@ -153,14 +153,14 @@ internal abstract class RefTransactionToBookingCommandHandlerBase<TRequest> : Co
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TransactionMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<Transaction>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Transaction>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.Booking?> GetTransactionForBooking(BookingKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.BookingMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Booking>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Booking>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, TransactionEntity entity)

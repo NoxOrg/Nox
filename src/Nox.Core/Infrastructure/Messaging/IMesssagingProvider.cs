@@ -8,6 +8,6 @@ namespace Nox.Infrastructure.Messaging
     {
         MessageBrokerProvider Provider { get; }
 
-        IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration);
+        IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration, string environmentName);
     }
 }

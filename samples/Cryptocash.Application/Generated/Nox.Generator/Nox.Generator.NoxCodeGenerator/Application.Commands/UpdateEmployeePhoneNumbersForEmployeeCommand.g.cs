@@ -58,7 +58,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		var keys = new List<object?>(1);
 		keys.Add(Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Employee>(keys.ToArray(),e => e.EmployeePhoneNumbers, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Employee>(keys.ToArray(),e => e.EmployeePhoneNumbers, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Employee",  "keyId");				
 		EmployeePhoneNumberEntity? entity;
 		if(request.EntityDto.Id is null)

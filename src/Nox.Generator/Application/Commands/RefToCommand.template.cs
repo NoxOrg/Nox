@@ -209,10 +209,10 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 		keys.Add(Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityKeyDto.key{{key.Name}}));
 		{{- end }}
 		{{- if relationship.WithSingleEntity }}		
-		return await Repository.FindAsync<{{entity.Name}}>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>(keys.ToArray(), cancellationToken);
 		{{- else }}
 		{{- navigationName = GetNavigationPropertyName entity relationship }}
-		return await Repository.FindAndIncludeAsync<{{entity.Name}}>(keys.ToArray(), x => x.{{navigationName}}, cancellationToken);
+		return await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>(keys.ToArray(), x => x.{{navigationName}}, cancellationToken);
 		{{- end }}
 	}
 
@@ -222,7 +222,7 @@ internal abstract class Ref{{entity.Name}}To{{relationshipName}}CommandHandlerBa
 		{{- for key in relatedEntity.Keys }}
 		keys.Add(Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityKeyDto.key{{key.Name}}));
 		{{- end }}
-		return await Repository.FindAsync<{{relatedEntity.Name}}>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, {{entity.Name}}Entity entity)

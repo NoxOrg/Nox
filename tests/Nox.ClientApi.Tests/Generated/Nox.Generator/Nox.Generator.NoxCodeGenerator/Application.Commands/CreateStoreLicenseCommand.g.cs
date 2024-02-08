@@ -70,7 +70,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		if(request.EntityDto.StoreId is not null)
 		{
 			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Store>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStore(relatedEntity);
 			else
@@ -84,7 +84,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		if(request.EntityDto.DefaultCurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToDefaultCurrency(relatedEntity);
 			else
@@ -98,7 +98,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		if(request.EntityDto.SoldInCurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToSoldInCurrency(relatedEntity);
 			else
@@ -111,7 +111,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<StoreLicense>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.StoreLicense>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new StoreLicenseKeyDto(entityToCreate.Id.Value);
 	}

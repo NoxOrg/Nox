@@ -48,7 +48,7 @@ internal abstract class DeleteClientByIdCommandHandlerBase : CommandCollectionBa
 		{
 			var keyId = Dto.ClientMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Client>(keyId);
+			var entity = await Repository.FindAsync<ClientEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Client",  $"{keyId.ToString()}");

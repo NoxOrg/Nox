@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Cryptocash.Application.Dto;
+
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddPaymentDetailForm : ComponentBase
 {
-    private PaymentDetailCreateDto PaymentDetail = new();
+    private PaymentDetailModel PaymentDetail = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -65,7 +66,7 @@ public partial class AddPaymentDetailForm : ComponentBase
 
     private void ResetForm()
     {
-        PaymentDetail = new PaymentDetailCreateDto();
+        PaymentDetail = new();
         HasError = false;
         IsLoading = false;
     }

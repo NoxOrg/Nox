@@ -38,9 +38,9 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
-            { "CountryQueryToTables", (Repository.Query<CountryQueryToTable>(), "Id") },
-            { "CountryQueryToCustomTables", (Repository.Query<CountryQueryToCustomTable>(), "Id") },
-            { "CountryJsonToTables", (Repository.Query<CountryJsonToTable>(), "Id") }
+            { "CountryQueryToTables", (Repository.Query<CryptocashIntegration.Domain.CountryQueryToTable>(), "Id") },
+            { "CountryQueryToCustomTables", (Repository.Query<CryptocashIntegration.Domain.CountryQueryToCustomTable>(), "Id") },
+            { "CountryJsonToTables", (Repository.Query<CryptocashIntegration.Domain.CountryJsonToTable>(), "Id") }
         };
 
         _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase)

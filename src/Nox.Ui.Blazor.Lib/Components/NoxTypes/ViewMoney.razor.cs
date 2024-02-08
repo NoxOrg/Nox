@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 

@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Http;
 using Nox.Application.Repositories;
 using Nox.Exceptions;
 using System.Collections.Immutable;
+using Microsoft.Extensions.Hosting;
 
 namespace Nox.Configuration
 {
@@ -211,7 +212,7 @@ namespace Nox.Configuration
                 .AddNoxProviders()
                 .AddNoxDtos();
 
-            AddNoxMessaging(services, noxSolution);
+            AddNoxMessaging(services, noxSolution, webApplicationBuilder?.Environment?.EnvironmentName ?? Environments.Development);
             AddNoxDatabase(services, noxSolution, noxAndEntryAssemblies);
             AddIntegrations(services);
 
@@ -295,7 +296,7 @@ namespace Nox.Configuration
             }
         }
 
-        private void AddNoxMessaging(IServiceCollection services, NoxSolution noxSolution)
+        private void AddNoxMessaging(IServiceCollection services, NoxSolution noxSolution, string environmentName)
         {
             if (noxSolution.Infrastructure?.Messaging?.IntegrationEventServer is null)
             {
@@ -315,7 +316,7 @@ namespace Nox.Configuration
                     //MessageBrokerProvider.AmazonSqs => throw new NotImplementedException(),
                     _ => throw new NotImplementedException()
                 };
-                messageBrokerProvider.ConfigureMassTransit(messagingConfig, x);
+                messageBrokerProvider.ConfigureMassTransit(messagingConfig, x, environmentName);
 
                 _configureMassTransitTransactionalOutbox?.Invoke(x, noxSolution.Infrastructure.Persistence!.DatabaseServer.Provider);
             });

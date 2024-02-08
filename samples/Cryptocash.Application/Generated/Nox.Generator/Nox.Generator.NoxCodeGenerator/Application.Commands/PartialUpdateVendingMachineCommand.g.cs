@@ -51,7 +51,7 @@ internal abstract class PartialUpdateVendingMachineCommandHandlerBase : CommandB
 		await OnExecutingAsync(request);
 		var keyId = Dto.VendingMachineMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<VendingMachine>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.VendingMachine>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("VendingMachine",  $"{keyId.ToString()}");

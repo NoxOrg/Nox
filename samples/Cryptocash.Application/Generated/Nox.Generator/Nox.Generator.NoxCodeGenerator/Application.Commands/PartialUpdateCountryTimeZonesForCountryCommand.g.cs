@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCountryTimeZonesForCountryCommandHandlerBas
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<Country>(keys.ToArray(),e => e.CountryTimeZones, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Country>(keys.ToArray(),e => e.CountryTimeZones, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");

@@ -1,0 +1,11 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"                 
+              Required="@Required"
+              RequiredError="@ErrorRequiredMessage"
+              TextChanged="@OnCountryCode3Changed"
+              @bind-Value="CountryCode3" />

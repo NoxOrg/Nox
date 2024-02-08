@@ -12,7 +12,7 @@ public partial class ViewLength : ComponentBase
     public Decimal? Length { get; set; }
 
     [Parameter]
-    public LengthUnit LengthUnit { get; set; } = LengthUnit.Meter;
+    public LengthTypeUnit Units { get; set; } = LengthTypeUnit.Meter;
 
     [Parameter]
     public string Format { get; set; } = "#,##0.##";
@@ -34,12 +34,12 @@ public partial class ViewLength : ComponentBase
 
     private string DisplayLengthUnit()
     {
-        if (LengthUnit == LengthUnit.Foot)
+        if (Units == LengthTypeUnit.Foot)
         {
             return LengthUnit.Foot.Symbol;
         }
 
-        if (LengthUnit == LengthUnit.Meter)
+        if (Units == LengthTypeUnit.Meter)
         {
             return LengthUnit.Meter.Symbol;
         }

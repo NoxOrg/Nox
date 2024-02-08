@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nox.Generator.Tasks.Ui.Components;
 
-internal class ServiceCollectionExtension : INoxFileGenerator
+internal class ServiceCollectionExtensionGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 

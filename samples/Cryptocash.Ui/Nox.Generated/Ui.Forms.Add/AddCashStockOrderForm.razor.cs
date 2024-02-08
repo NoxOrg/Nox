@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Cryptocash.Application.Dto;
+
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddCashStockOrderForm : ComponentBase
 {
-    private CashStockOrderCreateDto CashStockOrder = new();
+    private CashStockOrderModel CashStockOrder = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -65,7 +66,7 @@ public partial class AddCashStockOrderForm : ComponentBase
 
     private void ResetForm()
     {
-        CashStockOrder = new CashStockOrderCreateDto();
+        CashStockOrder = new();
         HasError = false;
         IsLoading = false;
     }

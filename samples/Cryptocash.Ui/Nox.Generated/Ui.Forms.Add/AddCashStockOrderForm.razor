@@ -1,5 +1,8 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -12,8 +15,19 @@
     </TitleContent>
     <DialogContent>
         <MudForm Model="@CashStockOrder">
-            <MudGrid>
-                <MudItem xs="12">Attributes placeholder</MudItem>
+            <MudGrid Style="margin-top:15px;">
+                <MudItem xs="12">
+                    <EditMoney @bind-Money="CashStockOrder.Amount" 
+                        Title="Amount"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditDate @bind-Date="CashStockOrder.RequestedDeliveryDate" 
+                        Title="RequestedDeliveryDate"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <EditDateTime @bind-DateTime="CashStockOrder.DeliveryDateTime" 
+                        Title="DeliveryDateTime"/>
+                </MudItem>
             </MudGrid>            
         </MudForm>
         @if (HasError) {

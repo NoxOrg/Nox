@@ -59,7 +59,7 @@ internal abstract class PartialUpdate{{entity.Name}}CommandHandlerBase : Command
 		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
 		{{- end }}
 
-		var entity = await Repository.FindAsync<{{entity.Name}}>({{primaryKeysFindQuery}});
+		var entity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>({{primaryKeysFindQuery}});
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");

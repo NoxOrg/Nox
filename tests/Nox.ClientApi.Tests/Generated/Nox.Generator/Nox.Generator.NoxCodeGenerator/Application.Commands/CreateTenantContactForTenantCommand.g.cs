@@ -53,7 +53,7 @@ internal abstract class CreateTenantContactForTenantCommandHandlerBase : Command
 		await OnExecutingAsync(request);
 		var keyId = Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<Tenant> (keyId);
+		var parentEntity = await Repository.FindAsync<ClientApi.Domain.Tenant> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");

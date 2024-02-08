@@ -195,14 +195,14 @@ internal abstract class RefCountryToWorkplacesCommandHandlerBase<TRequest> : Com
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<Country>(keys.ToArray(), x => x.Workplaces, cancellationToken);
+		return await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), x => x.Workplaces, cancellationToken);
 	}
 
 	protected async Task<ClientApi.Domain.Workplace?> GetPhysicalWorkplaces(WorkplaceKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.WorkplaceMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Workplace>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.Workplace>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, CountryEntity entity)

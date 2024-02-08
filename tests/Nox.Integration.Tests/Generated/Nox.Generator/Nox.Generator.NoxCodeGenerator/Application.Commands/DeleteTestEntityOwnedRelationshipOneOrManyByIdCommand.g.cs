@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityOwnedRelationshipOneOrManyByIdCommandHan
 		{
 			var keyId = Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<TestEntityOwnedRelationshipOneOrMany>(keyId);
+			var entity = await Repository.FindAsync<TestEntityOwnedRelationshipOneOrManyEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  $"{keyId.ToString()}");

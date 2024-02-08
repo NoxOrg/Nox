@@ -195,14 +195,14 @@ internal abstract class RefCurrencyToMinimumCashStocksCommandHandlerBase<TReques
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<Currency>(keys.ToArray(), x => x.MinimumCashStocks, cancellationToken);
+		return await Repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(), x => x.MinimumCashStocks, cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetCurrencyUsedByMinimumCashStocks(MinimumCashStockKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.MinimumCashStockMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<MinimumCashStock>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.MinimumCashStock>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, CurrencyEntity entity)

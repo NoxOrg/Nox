@@ -38,19 +38,19 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
-            { "Bookings", (Repository.Query<Booking>(), "Id") },
-            { "Commissions", (Repository.Query<Commission>(), "Id") },
-            { "Countries", (Repository.Query<Country>(), "Id") },
-            { "Currencies", (Repository.Query<Currency>(), "Id") },
-            { "Customers", (Repository.Query<Customer>(), "Id") },
-            { "PaymentDetails", (Repository.Query<PaymentDetail>(), "Id") },
-            { "Transactions", (Repository.Query<Transaction>(), "Id") },
-            { "Employees", (Repository.Query<Employee>(), "Id") },
-            { "LandLords", (Repository.Query<LandLord>(), "Id") },
-            { "MinimumCashStocks", (Repository.Query<MinimumCashStock>(), "Id") },
-            { "PaymentProviders", (Repository.Query<PaymentProvider>(), "Id") },
-            { "VendingMachines", (Repository.Query<VendingMachine>(), "Id") },
-            { "CashStockOrders", (Repository.Query<CashStockOrder>(), "Id") }
+            { "Bookings", (Repository.Query<Cryptocash.Domain.Booking>(), "Id") },
+            { "Commissions", (Repository.Query<Cryptocash.Domain.Commission>(), "Id") },
+            { "Countries", (Repository.Query<Cryptocash.Domain.Country>(), "Id") },
+            { "Currencies", (Repository.Query<Cryptocash.Domain.Currency>(), "Id") },
+            { "Customers", (Repository.Query<Cryptocash.Domain.Customer>(), "Id") },
+            { "PaymentDetails", (Repository.Query<Cryptocash.Domain.PaymentDetail>(), "Id") },
+            { "Transactions", (Repository.Query<Cryptocash.Domain.Transaction>(), "Id") },
+            { "Employees", (Repository.Query<Cryptocash.Domain.Employee>(), "Id") },
+            { "LandLords", (Repository.Query<Cryptocash.Domain.LandLord>(), "Id") },
+            { "MinimumCashStocks", (Repository.Query<Cryptocash.Domain.MinimumCashStock>(), "Id") },
+            { "PaymentProviders", (Repository.Query<Cryptocash.Domain.PaymentProvider>(), "Id") },
+            { "VendingMachines", (Repository.Query<Cryptocash.Domain.VendingMachine>(), "Id") },
+            { "CashStockOrders", (Repository.Query<Cryptocash.Domain.CashStockOrder>(), "Id") }
         };
 
         _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase)

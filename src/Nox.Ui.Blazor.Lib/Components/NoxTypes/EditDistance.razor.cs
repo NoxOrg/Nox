@@ -16,9 +16,6 @@ public partial class EditDistance : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public DistanceUnit DistanceUnit { get; set; } = DistanceUnit.Kilometer;
-
-    [Parameter]
     public EventCallback<decimal?> DistanceChanged { get; set; }
 
     public string ErrorRequiredMessage
@@ -35,7 +32,29 @@ public partial class EditDistance : ComponentBase
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    [Parameter]
+    public DistanceTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public DistanceTypeUnit Units { get; set; } = DistanceTypeUnit.Kilometer;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            Units = TypeOptions.Units;
+        }
+    }
 
     protected async Task OnDistanceChanged(string newValue)
     {
@@ -59,12 +78,12 @@ public partial class EditDistance : ComponentBase
             return AdornmentIcon;
         }
 
-        if (DistanceUnit == DistanceUnit.Mile)
+        if (Units == DistanceTypeUnit.Mile)
         {
             return Icon.DistanceUnit_Mile;
         }
 
-        if (DistanceUnit == DistanceUnit.Kilometer)
+        if (Units == DistanceTypeUnit.Kilometer)
         {
             return Icon.DistanceUnit_Kilometer;
         }

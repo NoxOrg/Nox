@@ -31,7 +31,25 @@ public partial class EditPercentage : ComponentBase
     [Parameter]
     public string AdornmentIcon { get; set; } = Icon.Percentage;
 
+    [Parameter]
+    public PercentageTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+        }
+    }
 
     protected async Task OnPercentageChanged(string newValue)
     {

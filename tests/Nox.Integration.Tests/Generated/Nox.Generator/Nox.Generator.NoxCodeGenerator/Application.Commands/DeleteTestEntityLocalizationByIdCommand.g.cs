@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityLocalizationByIdCommandHandlerBase : Com
 		{
 			var keyId = Dto.TestEntityLocalizationMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<TestEntityLocalization>(keyId);
+			var entity = await Repository.FindAsync<TestEntityLocalizationEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("TestEntityLocalization",  $"{keyId.ToString()}");

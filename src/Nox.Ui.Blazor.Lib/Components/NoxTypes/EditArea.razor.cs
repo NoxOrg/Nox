@@ -15,9 +15,6 @@ public partial class EditArea : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public AreaUnit AreaUnit { get; set; } = AreaUnit.SquareMeter;
-
-    [Parameter]
     public EventCallback<Decimal?> AreaChanged { get; set; }
 
     public string ErrorRequiredMessage
@@ -34,7 +31,29 @@ public partial class EditArea : ComponentBase
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    [Parameter]
+    public AreaTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public AreaTypeUnit Units { get; set; } = AreaTypeUnit.SquareMeter;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            Units = TypeOptions.Units;
+        }
+    }
 
     protected async Task OnAreaChanged(string newValue)
     {
@@ -57,12 +76,12 @@ public partial class EditArea : ComponentBase
             return AdornmentIcon;
         }
 
-        if (AreaUnit == AreaUnit.SquareFoot)
+        if (Units == AreaTypeUnit.SquareFoot)
         {
             return Icon.AreaUnit_SquareFoot;
         }
 
-        if (AreaUnit == AreaUnit.SquareMeter)
+        if (Units == AreaTypeUnit.SquareMeter)
         {
             return Icon.AreaUnit_SquareMeter;
         }

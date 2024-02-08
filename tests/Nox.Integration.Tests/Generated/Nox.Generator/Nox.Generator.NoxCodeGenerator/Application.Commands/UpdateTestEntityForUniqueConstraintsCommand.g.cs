@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityForUniqueConstraints>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityForUniqueConstraints>()
             .Where(x => x.Id == Dto.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

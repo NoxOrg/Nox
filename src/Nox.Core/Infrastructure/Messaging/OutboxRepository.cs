@@ -28,7 +28,8 @@ namespace Nox.Infrastructure.Messaging
             _logger = logger;
             _userProvider = userProvider;
             _noxSolution = noxSolution;
-            _messagePrefix = hostEnvironment.EnvironmentName == Environments.Production ? string.Empty : $"{hostEnvironment.EnvironmentName.ToLower()}.";
+            _messagePrefix = string.Equals(hostEnvironment.EnvironmentName, Environments.Production, StringComparison.InvariantCultureIgnoreCase)
+                ? string.Empty : $"{hostEnvironment.EnvironmentName.ToLower()}.";
         }
 
         public async Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent

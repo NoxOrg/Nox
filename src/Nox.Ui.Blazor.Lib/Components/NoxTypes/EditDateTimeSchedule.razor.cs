@@ -5,5 +5,6 @@ namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
 public partial class EditDateTimeSchedule : ComponentBase
 {
-
+    [Parameter]
+    public string? Title { get; set; }
 }

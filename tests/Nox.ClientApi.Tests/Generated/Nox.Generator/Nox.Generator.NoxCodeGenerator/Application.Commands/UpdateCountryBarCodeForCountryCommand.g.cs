@@ -58,7 +58,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Country>(keys.ToArray(),e => e.CountryBarCode, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(),e => e.CountryBarCode, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country",  "keyId");		
 		var entity = parentEntity.CountryBarCode;
 		if (entity is null)

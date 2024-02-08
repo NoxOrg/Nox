@@ -70,7 +70,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.VendingMachineId is not null)
 		{
 			var relatedKey = Dto.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.VendingMachine>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToVendingMachine(relatedEntity);
 			else
@@ -84,7 +84,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.EmployeeId is not null)
 		{
 			var relatedKey = Dto.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<Employee>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Employee>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEmployee(relatedEntity);
 			else
@@ -97,7 +97,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<CashStockOrder>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.CashStockOrder>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CashStockOrderKeyDto(entityToCreate.Id.Value);
 	}

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Cryptocash.Application.Dto;
+
+using Cryptocash.Ui.Models;
 
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddTransactionForm : ComponentBase
 {
-    private TransactionCreateDto Transaction = new();
+    private TransactionModel Transaction = new();
     private bool IsLoading = false;
     private bool HasError = false;
 
@@ -65,7 +66,7 @@ public partial class AddTransactionForm : ComponentBase
 
     private void ResetForm()
     {
-        Transaction = new TransactionCreateDto();
+        Transaction = new();
         HasError = false;
         IsLoading = false;
     }

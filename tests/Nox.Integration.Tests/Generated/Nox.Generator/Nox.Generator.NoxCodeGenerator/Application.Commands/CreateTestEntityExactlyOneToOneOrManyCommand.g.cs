@@ -66,7 +66,7 @@ internal abstract class CreateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 		if(request.EntityDto.TestEntityOneOrManyToExactlyOneId is not null)
 		{
 			var relatedKey = Dto.TestEntityOneOrManyToExactlyOneMetadata.CreateId(request.EntityDto.TestEntityOneOrManyToExactlyOneId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<TestEntityOneOrManyToExactlyOne>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.TestEntityOneOrManyToExactlyOne>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestEntityOneOrManyToExactlyOne(relatedEntity);
 			else
@@ -79,7 +79,7 @@ internal abstract class CreateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityExactlyOneToOneOrMany>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityExactlyOneToOneOrMany>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityExactlyOneToOneOrManyKeyDto(entityToCreate.Id.Value);
 	}

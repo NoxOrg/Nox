@@ -48,7 +48,7 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandCo
 		{
 			var keyId = Dto.MinimumCashStockMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<MinimumCashStock>(keyId);
+			var entity = await Repository.FindAsync<MinimumCashStockEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("MinimumCashStock",  $"{keyId.ToString()}");

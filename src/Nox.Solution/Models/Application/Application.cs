@@ -1,3 +1,4 @@
+using Nox.Solution.Models.Application.Jobs;
 using Nox.Yaml.Attributes;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ public class Application
     [Description("The collection of events that this application can raise to the outside world.")]
     [AdditionalProperties(false)]
     public IReadOnlyList<IntegrationEvent> IntegrationEvents { get; internal set; } = Array.Empty<IntegrationEvent>();
+
+    [Title("The Jobs that this application runs.")]    
+    [AdditionalProperties(false)]
+    [UniqueItemProperties(nameof(Job.Name))]
+    public IReadOnlyList<Job> Jobs { get; internal set; } = Array.Empty<Job>();
 
     public Localization Localization { get; internal set; } = new Localization();
 }

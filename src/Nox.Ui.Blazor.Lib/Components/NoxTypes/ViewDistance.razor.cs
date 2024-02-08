@@ -12,7 +12,7 @@ public partial class ViewDistance : ComponentBase
     public Decimal? Distance { get; set; }
 
     [Parameter]
-    public DistanceUnit DistanceUnit { get; set; } = DistanceUnit.Kilometer;
+    public DistanceTypeUnit Units { get; set; } = DistanceTypeUnit.Kilometer;
 
     [Parameter]
     public string Format { get; set; } = "#,##0.##";
@@ -33,12 +33,12 @@ public partial class ViewDistance : ComponentBase
 
     private string DisplayDistanceUnit()
     {
-        if (DistanceUnit == DistanceUnit.Kilometer)
+        if (Units == DistanceTypeUnit.Kilometer)
         {
             return DistanceUnit.Kilometer.Symbol;
         }
 
-        if (DistanceUnit == DistanceUnit.Mile)
+        if (Units == DistanceTypeUnit.Mile)
         {
             return DistanceUnit.Mile.Symbol;
         }

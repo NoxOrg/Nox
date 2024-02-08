@@ -49,7 +49,7 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandColle
 			var keyStoreId = Dto.RatingProgramMetadata.CreateStoreId(keyDto.keyStoreId);
 			var keyId = Dto.RatingProgramMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<RatingProgram>(keyStoreId, keyId);
+			var entity = await Repository.FindAsync<RatingProgramEntity>(keyStoreId, keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("RatingProgram",  $"{keyStoreId.ToString()}, {keyId.ToString()}");

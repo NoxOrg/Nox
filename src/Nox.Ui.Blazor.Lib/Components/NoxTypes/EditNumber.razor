@@ -1,14 +1,16 @@
-﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using MudBlazor
+﻿@using MudBlazor
+@typeparam T
 
-<MudNumericField Label="@Title"
-                 Variant="Variant.Outlined"
-                 FullWidth="true"
-                 Clearable="true"
-                 Required="true"
-                 RequiredError="@ErrorRequiredMessage"
-                 Format="@Format"
-                 TextChanged="OnNumberChanged"
-                 Min="@Minimum"
-                 Max="@Maximum"
-                 Value="Number" />
+@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+<MudTextField InputType="InputType.Number"
+              Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="@Required"
+              RequiredError="@ErrorRequiredMessage"              
+              TextChanged="OnNumberChanged"
+              Min="@Minimum"
+              Max="@Maximum"
+              @bind-Value="Number" />

@@ -55,7 +55,7 @@ internal abstract class UpdateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<EntityUniqueConstraintsWithForeignKey>()
+		var entity = Repository.Query<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>()
             .Where(x => x.Id == Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		
