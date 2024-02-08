@@ -52,7 +52,7 @@ internal abstract class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
 		var keyCountryId = Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
 		var keyId = Dto.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<CountryQualityOfLifeIndex>(keyCountryId, keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.CountryQualityOfLifeIndex>(keyCountryId, keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CountryQualityOfLifeIndex",  $"{keyCountryId.ToString()}, {keyId.ToString()}");

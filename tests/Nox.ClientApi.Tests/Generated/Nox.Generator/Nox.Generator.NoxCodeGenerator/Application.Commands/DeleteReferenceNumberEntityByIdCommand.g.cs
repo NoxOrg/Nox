@@ -48,7 +48,7 @@ internal abstract class DeleteReferenceNumberEntityByIdCommandHandlerBase : Comm
 		{
 			var keyId = Dto.ReferenceNumberEntityMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<ReferenceNumberEntity>(keyId);
+			var entity = await Repository.FindAsync<ReferenceNumberEntityEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("ReferenceNumberEntity",  $"{keyId.ToString()}");

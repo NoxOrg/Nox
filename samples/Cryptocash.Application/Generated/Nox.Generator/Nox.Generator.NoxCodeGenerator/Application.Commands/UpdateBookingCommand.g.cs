@@ -55,7 +55,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Booking>()
+		var entity = Repository.Query<Cryptocash.Domain.Booking>()
             .Where(x => x.Id == Dto.BookingMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

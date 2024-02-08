@@ -48,7 +48,7 @@ internal abstract class DeleteCashStockOrderByIdCommandHandlerBase : CommandColl
 		{
 			var keyId = Dto.CashStockOrderMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<CashStockOrder>(keyId);
+			var entity = await Repository.FindAsync<CashStockOrderEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("CashStockOrder",  $"{keyId.ToString()}");

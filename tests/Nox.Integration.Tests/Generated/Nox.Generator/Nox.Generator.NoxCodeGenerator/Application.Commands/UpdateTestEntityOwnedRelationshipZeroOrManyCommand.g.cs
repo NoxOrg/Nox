@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityOwnedRelationshipZeroOrMany>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany>()
             .Where(x => x.Id == Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.keyId))
 			.Include(e => e.SecEntityOwnedRelZeroOrManies)
 			.SingleOrDefault();

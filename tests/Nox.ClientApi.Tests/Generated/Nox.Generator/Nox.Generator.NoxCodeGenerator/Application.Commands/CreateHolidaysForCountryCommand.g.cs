@@ -53,7 +53,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 		await OnExecutingAsync(request);
 		var keyId = Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<Country> (keyId);
+		var parentEntity = await Repository.FindAsync<ClientApi.Domain.Country> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");

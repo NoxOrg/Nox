@@ -48,7 +48,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandCollec
 		{
 			var keyId = Dto.StoreLicenseMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<StoreLicense>(keyId);
+			var entity = await Repository.FindAsync<StoreLicenseEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("StoreLicense",  $"{keyId.ToString()}");

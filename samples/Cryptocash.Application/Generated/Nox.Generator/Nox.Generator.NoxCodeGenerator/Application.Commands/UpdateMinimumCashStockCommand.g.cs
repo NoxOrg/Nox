@@ -55,7 +55,7 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<MinimumCashStock>()
+		var entity = Repository.Query<Cryptocash.Domain.MinimumCashStock>()
             .Where(x => x.Id == Dto.MinimumCashStockMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

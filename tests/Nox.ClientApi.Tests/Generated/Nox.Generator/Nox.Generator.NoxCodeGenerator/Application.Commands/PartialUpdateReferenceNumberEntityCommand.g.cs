@@ -51,7 +51,7 @@ internal abstract class PartialUpdateReferenceNumberEntityCommandHandlerBase : C
 		await OnExecutingAsync(request);
 		var keyId = Dto.ReferenceNumberEntityMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<ReferenceNumberEntity>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.ReferenceNumberEntity>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("ReferenceNumberEntity",  $"{keyId.ToString()}");

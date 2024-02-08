@@ -195,14 +195,14 @@ internal abstract class RefTestEntityTwoRelationshipsManyToManyToTestRelationshi
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<TestEntityTwoRelationshipsManyToMany>(keys.ToArray(), x => x.TestRelationshipTwo, cancellationToken);
+		return await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>(keys.ToArray(), x => x.TestRelationshipTwo, cancellationToken);
 	}
 
 	protected async Task<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany?> GetTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToManyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<SecondTestEntityTwoRelationshipsManyToMany>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, TestEntityTwoRelationshipsManyToManyEntity entity)

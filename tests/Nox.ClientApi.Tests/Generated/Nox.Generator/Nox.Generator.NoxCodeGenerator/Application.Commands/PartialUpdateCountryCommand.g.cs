@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCountryCommandHandlerBase : CommandBase<Par
 		await OnExecutingAsync(request);
 		var keyId = Dto.CountryMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Country>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.Country>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");

@@ -66,7 +66,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		if(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId is not null)
 		{
 			var relatedKey = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(request.EntityDto.EntityUniqueConstraintsRelatedForeignKeyId.NonNullValue<System.Int32>());
-			var relatedEntity = await Repository.FindAsync<EntityUniqueConstraintsRelatedForeignKey>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEntityUniqueConstraintsRelatedForeignKey(relatedEntity);
 			else
@@ -79,7 +79,7 @@ internal abstract class CreateEntityUniqueConstraintsWithForeignKeyCommandHandle
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<EntityUniqueConstraintsWithForeignKey>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new EntityUniqueConstraintsWithForeignKeyKeyDto(entityToCreate.Id.Value);
 	}

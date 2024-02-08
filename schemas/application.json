@@ -101,6 +101,35 @@
       },
       "additionalProperties": false
     },
+    "jobs": {    
+      "title": "The Jobs that this application runs.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "job.json" },
+          {
+            "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
     "localization": {    
       "anyOf": [
         { "$ref": "localization.json" },

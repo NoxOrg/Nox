@@ -49,7 +49,7 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 			var keyCountryId = Dto.CountryQualityOfLifeIndexMetadata.CreateCountryId(keyDto.keyCountryId);
 			var keyId = Dto.CountryQualityOfLifeIndexMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<CountryQualityOfLifeIndex>(keyCountryId, keyId);
+			var entity = await Repository.FindAsync<CountryQualityOfLifeIndexEntity>(keyCountryId, keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("CountryQualityOfLifeIndex",  $"{keyCountryId.ToString()}, {keyId.ToString()}");

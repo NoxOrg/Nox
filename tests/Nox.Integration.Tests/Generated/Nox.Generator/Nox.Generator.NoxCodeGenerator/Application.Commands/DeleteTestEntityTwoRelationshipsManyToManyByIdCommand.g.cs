@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityTwoRelationshipsManyToManyByIdCommandHan
 		{
 			var keyId = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<TestEntityTwoRelationshipsManyToMany>(keyId);
+			var entity = await Repository.FindAsync<TestEntityTwoRelationshipsManyToManyEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("TestEntityTwoRelationshipsManyToMany",  $"{keyId.ToString()}");

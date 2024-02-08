@@ -195,14 +195,14 @@ internal abstract class RefWorkplaceToTenantsCommandHandlerBase<TRequest> : Comm
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.WorkplaceMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<Workplace>(keys.ToArray(), x => x.Tenants, cancellationToken);
+		return await Repository.FindAndIncludeAsync<ClientApi.Domain.Workplace>(keys.ToArray(), x => x.Tenants, cancellationToken);
 	}
 
 	protected async Task<ClientApi.Domain.Tenant?> GetTenantsInWorkplace(TenantKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Tenant>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.Tenant>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, WorkplaceEntity entity)

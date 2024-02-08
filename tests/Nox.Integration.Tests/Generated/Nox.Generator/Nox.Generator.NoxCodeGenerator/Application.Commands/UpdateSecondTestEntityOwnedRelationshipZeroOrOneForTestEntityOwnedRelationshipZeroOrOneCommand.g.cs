@@ -58,7 +58,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<TestEntityOwnedRelationshipZeroOrOne>(keys.ToArray(),e => e.SecondTestEntityOwnedRelationshipZeroOrOne, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne>(keys.ToArray(),e => e.SecondTestEntityOwnedRelationshipZeroOrOne, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "TestEntityOwnedRelationshipZeroOrOne",  "keyId");		
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne;
 		if (entity is null)

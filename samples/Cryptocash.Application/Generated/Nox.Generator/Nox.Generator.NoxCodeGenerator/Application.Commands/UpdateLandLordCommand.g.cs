@@ -55,7 +55,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<LandLord>()
+		var entity = Repository.Query<Cryptocash.Domain.LandLord>()
             .Where(x => x.Id == Dto.LandLordMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

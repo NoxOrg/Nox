@@ -72,7 +72,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.CountriesId)
 			{
 				var relatedKey = Dto.CountryMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Country>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCountries(relatedEntity);
@@ -93,7 +93,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.MinimumCashStocksId)
 			{
 				var relatedKey = Dto.MinimumCashStockMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<MinimumCashStock>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.MinimumCashStock>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
@@ -111,7 +111,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Currency>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.Currency>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);
 	}

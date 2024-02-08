@@ -48,7 +48,7 @@ internal abstract class DeleteThirdTestEntityOneOrManyByIdCommandHandlerBase : C
 		{
 			var keyId = Dto.ThirdTestEntityOneOrManyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<ThirdTestEntityOneOrMany>(keyId);
+			var entity = await Repository.FindAsync<ThirdTestEntityOneOrManyEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("ThirdTestEntityOneOrMany",  $"{keyId.ToString()}");

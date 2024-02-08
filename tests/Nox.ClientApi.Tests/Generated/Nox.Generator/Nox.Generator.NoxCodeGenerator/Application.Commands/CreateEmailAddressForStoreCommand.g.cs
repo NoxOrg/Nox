@@ -53,7 +53,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		await OnExecutingAsync(request);
 		var keyId = Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<Store> (keyId);
+		var parentEntity = await Repository.FindAsync<ClientApi.Domain.Store> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Store",  $"{keyId.ToString()}");

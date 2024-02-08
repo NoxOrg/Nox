@@ -47,7 +47,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId));
-		var parentEntity = await Repository.FindAndIncludeAsync<Store>(keys.ToArray(), p => p.EmailAddress, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Store>(keys.ToArray(), p => p.EmailAddress, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Store",  "keyId");

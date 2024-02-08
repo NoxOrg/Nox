@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityForTypes>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityForTypes>()
             .Where(x => x.Id == Dto.TestEntityForTypesMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

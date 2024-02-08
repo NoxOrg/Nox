@@ -51,7 +51,7 @@ internal abstract class PartialUpdateStoreLicenseCommandHandlerBase : CommandBas
 		await OnExecutingAsync(request);
 		var keyId = Dto.StoreLicenseMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<StoreLicense>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.StoreLicense>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("StoreLicense",  $"{keyId.ToString()}");

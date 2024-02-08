@@ -195,14 +195,14 @@ internal abstract class RefTestEntityOneOrManyToZeroOrOneToTestEntityZeroOrOneTo
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOneOrManyToZeroOrOneMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<TestEntityOneOrManyToZeroOrOne>(keys.ToArray(), x => x.TestEntityZeroOrOneToOneOrManies, cancellationToken);
+		return await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne>(keys.ToArray(), x => x.TestEntityZeroOrOneToOneOrManies, cancellationToken);
 	}
 
 	protected async Task<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany?> GetTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrManyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityZeroOrOneToOneOrManyMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<TestEntityZeroOrOneToOneOrMany>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, TestEntityOneOrManyToZeroOrOneEntity entity)

@@ -58,7 +58,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Currency>(keys.ToArray(),e => e.ExchangeRates, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(),e => e.ExchangeRates, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Currency",  "keyId");				
 		ExchangeRateEntity? entity;
 		if(request.EntityDto.Id is null)

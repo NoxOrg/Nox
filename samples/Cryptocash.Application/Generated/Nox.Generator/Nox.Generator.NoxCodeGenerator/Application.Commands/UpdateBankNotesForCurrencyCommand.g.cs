@@ -58,7 +58,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Currency>(keys.ToArray(),e => e.BankNotes, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(),e => e.BankNotes, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Currency",  "keyId");				
 		BankNoteEntity? entity;
 		if(request.EntityDto.Id is null)

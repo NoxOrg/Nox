@@ -51,7 +51,7 @@ internal abstract class PartialUpdateForReferenceNumberCommandHandlerBase : Comm
 		await OnExecutingAsync(request);
 		var keyId = Dto.ForReferenceNumberMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<ForReferenceNumber>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.ForReferenceNumber>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("ForReferenceNumber",  $"{keyId.ToString()}");

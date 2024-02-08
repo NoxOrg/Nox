@@ -55,7 +55,7 @@ internal abstract class UpdateReferenceNumberEntityCommandHandlerBase : CommandB
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<ReferenceNumberEntity>()
+		var entity = Repository.Query<ClientApi.Domain.ReferenceNumberEntity>()
             .Where(x => x.Id == Dto.ReferenceNumberEntityMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

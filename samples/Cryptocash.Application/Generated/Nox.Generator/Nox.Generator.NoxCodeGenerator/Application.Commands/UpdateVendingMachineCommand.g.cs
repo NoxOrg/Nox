@@ -55,7 +55,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<VendingMachine>()
+		var entity = Repository.Query<Cryptocash.Domain.VendingMachine>()
             .Where(x => x.Id == Dto.VendingMachineMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

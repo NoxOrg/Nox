@@ -46,7 +46,7 @@ internal partial class DeleteBankNotesForCurrencyCommandHandlerBase : CommandBas
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId));
-		var parentEntity = await Repository.FindAndIncludeAsync<Currency>(keys.ToArray(), p => p.BankNotes, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(), p => p.BankNotes, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Currency",  "keyId");

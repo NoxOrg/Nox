@@ -58,7 +58,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Country>(keys.ToArray(),e => e.CountryLocalNames, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(),e => e.CountryLocalNames, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country",  "keyId");				
 		CountryLocalNameEntity? entity;
 		if(request.EntityDto.Id is null)

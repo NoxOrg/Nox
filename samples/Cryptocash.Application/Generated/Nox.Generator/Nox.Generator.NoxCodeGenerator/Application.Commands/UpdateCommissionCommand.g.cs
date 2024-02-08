@@ -55,7 +55,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Commission>()
+		var entity = Repository.Query<Cryptocash.Domain.Commission>()
             .Where(x => x.Id == Dto.CommissionMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

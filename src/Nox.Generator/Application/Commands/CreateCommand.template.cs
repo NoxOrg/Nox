@@ -93,14 +93,14 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 
 			{{- key = array.first relatedEntity.Keys }}
 			var relatedKey = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
-			var relatedEntity = await Repository.FindAsync<{{relatedEntity.Name}}>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}>(relatedKey);
 			
 			{{- else }}
 
 			{{- for key in relatedEntity.Keys }}
 			var relatedKey{{key.Name}} = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationshipName}}Id!.key{{key.Name}});
 			{{- end }}
-			var relatedEntity = await Repository.FindAsync<{{relatedEntity.Name}}>({{relatedEntity.Keys | array.map "Name" | keysQuery}});
+			var relatedEntity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}>({{relatedEntity.Keys | array.map "Name" | keysQuery}});
 			
 			{{- end }}
 			if(relatedEntity is not null)
@@ -121,7 +121,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 			foreach(var relatedId in request.EntityDto.{{relationshipName}}Id)
 			{
 				var relatedKey = Dto.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
-				var relatedEntity = await Repository.FindAsync<{{relatedEntity.Name}}>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{relatedEntity.Name}}>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
@@ -141,7 +141,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	{{- end }}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<{{entity.Name}}>(entityToCreate);
+		await Repository.AddAsync<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
 	}

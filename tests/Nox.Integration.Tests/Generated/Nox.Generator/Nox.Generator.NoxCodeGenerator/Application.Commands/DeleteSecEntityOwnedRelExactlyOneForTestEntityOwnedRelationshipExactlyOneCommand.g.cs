@@ -47,7 +47,7 @@ internal partial class DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.ParentKeyDto.keyId));
-		var parentEntity = await Repository.FindAndIncludeAsync<TestEntityOwnedRelationshipExactlyOne>(keys.ToArray(), p => p.SecEntityOwnedRelExactlyOne, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne>(keys.ToArray(), p => p.SecEntityOwnedRelExactlyOne, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne",  "keyId");

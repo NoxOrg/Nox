@@ -58,7 +58,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Tenant>(keys.ToArray(),e => e.TenantBrands, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(),e => e.TenantBrands, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant",  "keyId");				
 		TenantBrandEntity? entity;
 		if(request.EntityDto.Id is null)

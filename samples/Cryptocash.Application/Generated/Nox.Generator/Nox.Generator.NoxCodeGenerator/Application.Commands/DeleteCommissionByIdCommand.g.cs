@@ -48,7 +48,7 @@ internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandCollecti
 		{
 			var keyId = Dto.CommissionMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Commission>(keyId);
+			var entity = await Repository.FindAsync<CommissionEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Commission",  $"{keyId.ToString()}");
