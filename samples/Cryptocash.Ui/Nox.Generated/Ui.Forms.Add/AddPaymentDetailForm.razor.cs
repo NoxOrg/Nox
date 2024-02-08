@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
+using Cryptocash.Ui.Models;
+
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddPaymentDetailForm : ComponentBase
 {
+    private PaymentDetailModel PaymentDetail = new();
+    private bool IsLoading = false;
+    private bool HasError = false;
+
     [Parameter]
     public EventCallback OnSubmit { get; set; }
 
@@ -29,11 +35,39 @@ public partial class AddPaymentDetailForm : ComponentBase
 
     private async Task OnSubmitClicked()
     {
-        await OnSubmit.InvokeAsync();
+        try
+        {
+            IsLoading = true;
+            var result = await PaymentDetailsService.CreateAsync(PaymentDetail);
+
+            if (result is null)
+                HasError = true;
+            else
+            {
+                ResetForm();
+                await OnSubmit.InvokeAsync();
+            }
+        }
+        catch
+        {
+            HasError = true;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
 
     private async Task OnCancelClicked()
     {
+        ResetForm();
         await OnCancel.InvokeAsync();
+    }
+
+    private void ResetForm()
+    {
+        PaymentDetail = new();
+        HasError = false;
+        IsLoading = false;
     }
 }

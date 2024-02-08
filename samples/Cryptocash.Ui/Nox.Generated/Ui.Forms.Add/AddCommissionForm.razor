@@ -1,13 +1,33 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
+
+@inject ICommissionsService CommissionsService
 
 <MudDialog @bind-IsVisible="@IsVisible" Options="@AddDialogOptions">
     <TitleContent>
         <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "Commission")</MudText>
     </TitleContent>
     <DialogContent>
-        <MudText>Add Dialog Content</MudText>
+        <MudForm Model="@Commission">
+            <MudGrid Style="margin-top:15px;">
+                <MudItem>
+                    <EditPercentage @bind-Percentage="Commission.Rate"/>
+                                        <!-- Title="Rate" TypeOptions="@CommissionMetadata.RateTypeOptions" /> -->
+                </MudItem>
+                <MudItem>
+                    <EditDateTime @bind-DateTime="Commission.EffectiveAt"/>
+                                        <!-- Title="EffectiveAt" TypeOptions="@CommissionMetadata.EffectiveAtTypeOptions" /> -->
+                </MudItem>
+            </MudGrid>            
+        </MudForm>
+        @if (HasError) {
+            <ErrorSummary />
+            <MudText Color="Color.Error">ERROR</MudText>
+        }
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="@OnCancelClicked"
@@ -19,8 +39,13 @@
         <MudButton OnClick="@OnSubmitClicked"
                    Variant="Variant.Filled"
                    Color="Color.Info"
-                   Style="Margin:15px;">
+                   Style="Margin:15px;"
+                   Disabled="@IsLoading">
             <MudText>@NoxResources.Submit.ToUpper()</MudText>
+            @if (IsLoading)
+            {
+                <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" />
+            }
         </MudButton>
     </DialogActions>
 </MudDialog>
