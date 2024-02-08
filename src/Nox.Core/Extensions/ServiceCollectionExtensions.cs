@@ -26,7 +26,7 @@ namespace Nox.Extensions
                 _ => throw new NotImplementedException()
             };
 
-            services.AddNoxJobs(noxEntryAssemblies, DatabaseServerProvider.SqlServer, connectionString);
+            services.AddNoxJobs(noxEntryAssemblies, noxSolution.Infrastructure!.Persistence!.DatabaseServer.Provider, connectionString);
 
             return services;
         }
