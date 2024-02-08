@@ -2,31 +2,24 @@
 
 #nullable enable
 
-using Nox.Ui.Blazor.Lib.Contracts;
-using Nox.Ui.Blazor.Lib.Extensions;
-
 using Cryptocash.Application.Dto;
-using Cryptocash.Ui.Models;
+using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IPaymentProvidersService
 {
-    public Task<List<PaymentProviderModel>> GetAllAsync();
-    public Task<PaymentProviderModel?> GetByIdAsync(string id);
-    public Task<PaymentProviderModel?> CreateAsync(PaymentProviderModel paymentProvider);
-    public Task<PaymentProviderModel?> UpdateAsync(PaymentProviderModel paymentProvider);
+    public Task<List<PaymentProviderDto>> GetAllAsync();
+    public Task<PaymentProviderDto?> GetByIdAsync(string id);
+    public Task<PaymentProviderDto?> CreateAsync(PaymentProviderCreateDto paymentProvider);
+    public Task<PaymentProviderDto?> UpdateAsync(PaymentProviderUpdateDto paymentProvider);
     public Task DeleteAsync(string id);
 }
 
 internal partial class PaymentProvidersService : PaymentProvidersServiceBase
 {
-    public PaymentProvidersService(HttpClient httpClient, 
-        IEndpointsProvider endpointsProvider,
-        IModelConverter<PaymentProviderModel, PaymentProviderDto> dtoConverter,
-        IModelConverter<PaymentProviderModel, PaymentProviderCreateDto> createDtoConverter,
-        IModelConverter<PaymentProviderModel, PaymentProviderUpdateDto> updateDtoConverter)
-        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
+    public PaymentProvidersService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+        : base(httpClient, endpointsProvider)
     {
     }
 }
@@ -35,45 +28,32 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
-    private readonly IModelConverter<PaymentProviderModel, PaymentProviderDto> _dtoConverter;
-    private readonly IModelConverter<PaymentProviderModel, PaymentProviderCreateDto> _createDtoConverter;
-    private readonly IModelConverter<PaymentProviderModel, PaymentProviderUpdateDto> _updateDtoConverter;
 
-    protected PaymentProvidersServiceBase(HttpClient httpClient, 
-        IEndpointsProvider endpointsProvider,
-        IModelConverter<PaymentProviderModel, PaymentProviderDto> dtoConverter,
-        IModelConverter<PaymentProviderModel, PaymentProviderCreateDto> createDtoConverter,
-        IModelConverter<PaymentProviderModel, PaymentProviderUpdateDto> updateDtoConverter)
+    protected PaymentProvidersServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.PaymentProvidersUrl;
-        _dtoConverter = dtoConverter;
-        _createDtoConverter = createDtoConverter;
-        _updateDtoConverter = updateDtoConverter;
     }
 
-    public async Task<List<PaymentProviderModel>> GetAllAsync()
+    public async Task<List<PaymentProviderDto>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<PaymentProviderDto>>(_apiBaseUrl);
-        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<PaymentProviderModel>();
+        return items ?? new List<PaymentProviderDto>();
     }
 
-    public async Task<PaymentProviderModel?> GetByIdAsync(string id)
+    public async Task<PaymentProviderDto?> GetByIdAsync(string id)
     {
-        var item = await _httpClient.GetODataSimpleResponseAsync<PaymentProviderDto>($"{_apiBaseUrl}/{id}");
-        return item != null ? _dtoConverter.ConvertToModel(item) : null;
+        return await _httpClient.GetODataSimpleResponseAsync<PaymentProviderDto>($"{_apiBaseUrl}/{id}");
     }
 
-    public async Task<PaymentProviderModel?> CreateAsync(PaymentProviderModel paymentProvider)
+    public async Task<PaymentProviderDto?> CreateAsync(PaymentProviderCreateDto paymentProvider)
     {
-        var item = await _httpClient.PostAsync<PaymentProviderCreateDto, PaymentProviderDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(paymentProvider));
-        return item != null ? _dtoConverter.ConvertToModel(item) : null;
+        return await _httpClient.PostAsync<PaymentProviderCreateDto, PaymentProviderDto>(_apiBaseUrl, paymentProvider);
     }
 
-    public async Task<PaymentProviderModel?> UpdateAsync(PaymentProviderModel paymentProvider)
+    public async Task<PaymentProviderDto?> UpdateAsync(PaymentProviderUpdateDto paymentProvider)
     {
-        var item = await _httpClient.PutAsync<PaymentProviderUpdateDto, PaymentProviderDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(paymentProvider));
-        return item != null ? _dtoConverter.ConvertToModel(item) : null;
+        return await _httpClient.PutAsync<PaymentProviderUpdateDto, PaymentProviderDto>(_apiBaseUrl, paymentProvider);
     }
 
     public async Task DeleteAsync(string id)

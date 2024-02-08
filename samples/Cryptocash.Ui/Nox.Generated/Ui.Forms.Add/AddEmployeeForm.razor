@@ -1,49 +1,13 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
-@using Nox.Ui.Blazor.Lib.Components.Generic
-@using Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
-
-@inject IEmployeesService EmployeesService
 
 <MudDialog @bind-IsVisible="@IsVisible" Options="@AddDialogOptions">
     <TitleContent>
         <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "Employee")</MudText>
     </TitleContent>
     <DialogContent>
-        <MudForm Model="@Employee">
-            <MudGrid Style="margin-top:15px;">
-                <MudItem>
-                    <EditText @bind-Text="Employee.FirstName"/>
-                                        <!-- Title="FirstName" TypeOptions="@EmployeeMetadata.FirstNameTypeOptions" /> -->
-                </MudItem>
-                <MudItem>
-                    <EditText @bind-Text="Employee.LastName"/>
-                                        <!-- Title="LastName" TypeOptions="@EmployeeMetadata.LastNameTypeOptions" /> -->
-                </MudItem>
-                <MudItem>
-                    <EditEmail @bind-Email="Employee.EmailAddress"/>
-                                        <!-- Title="EmailAddress" TypeOptions="@EmployeeMetadata.EmailAddressTypeOptions" /> -->
-                </MudItem>
-                <MudItem>
-                    <EditStreetAddress @bind-StreetAddress="Employee.Address"/>
-                                        <!-- Title="Address" TypeOptions="@EmployeeMetadata.AddressTypeOptions" /> -->
-                </MudItem>
-                <MudItem>
-                    <EditDate @bind-Date="Employee.FirstWorkingDay"/>
-                                        <!-- Title="FirstWorkingDay" TypeOptions="@EmployeeMetadata.FirstWorkingDayTypeOptions" /> -->
-                </MudItem>
-                <MudItem>
-                    <EditDate @bind-Date="Employee.LastWorkingDay"/>
-                                        <!-- Title="LastWorkingDay" TypeOptions="@EmployeeMetadata.LastWorkingDayTypeOptions" /> -->
-                </MudItem>
-            </MudGrid>            
-        </MudForm>
-        @if (HasError) {
-            <ErrorSummary />
-            <MudText Color="Color.Error">ERROR</MudText>
-        }
+        <MudText>Add Dialog Content</MudText>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="@OnCancelClicked"
@@ -55,13 +19,8 @@
         <MudButton OnClick="@OnSubmitClicked"
                    Variant="Variant.Filled"
                    Color="Color.Info"
-                   Style="Margin:15px;"
-                   Disabled="@IsLoading">
+                   Style="Margin:15px;">
             <MudText>@NoxResources.Submit.ToUpper()</MudText>
-            @if (IsLoading)
-            {
-                <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" />
-            }
         </MudButton>
     </DialogActions>
 </MudDialog>

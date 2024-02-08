@@ -1,16 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-using Cryptocash.Ui.Models;
-
 namespace Cryptocash.Ui.Forms.Add;
 
 public partial class AddTransactionForm : ComponentBase
 {
-    private TransactionModel Transaction = new();
-    private bool IsLoading = false;
-    private bool HasError = false;
-
     [Parameter]
     public EventCallback OnSubmit { get; set; }
 
@@ -35,39 +29,11 @@ public partial class AddTransactionForm : ComponentBase
 
     private async Task OnSubmitClicked()
     {
-        try
-        {
-            IsLoading = true;
-            var result = await TransactionsService.CreateAsync(Transaction);
-
-            if (result is null)
-                HasError = true;
-            else
-            {
-                ResetForm();
-                await OnSubmit.InvokeAsync();
-            }
-        }
-        catch
-        {
-            HasError = true;
-        }
-        finally
-        {
-            IsLoading = false;
-        }
+        await OnSubmit.InvokeAsync();
     }
 
     private async Task OnCancelClicked()
     {
-        ResetForm();
         await OnCancel.InvokeAsync();
-    }
-
-    private void ResetForm()
-    {
-        Transaction = new();
-        HasError = false;
-        IsLoading = false;
     }
 }

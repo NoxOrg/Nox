@@ -2,31 +2,24 @@
 
 #nullable enable
 
-using Nox.Ui.Blazor.Lib.Contracts;
-using Nox.Ui.Blazor.Lib.Extensions;
-
 using Cryptocash.Application.Dto;
-using Cryptocash.Ui.Models;
+using Nox.Ui.Blazor.Lib.Extensions;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IVendingMachinesService
 {
-    public Task<List<VendingMachineModel>> GetAllAsync();
-    public Task<VendingMachineModel?> GetByIdAsync(string id);
-    public Task<VendingMachineModel?> CreateAsync(VendingMachineModel vendingMachine);
-    public Task<VendingMachineModel?> UpdateAsync(VendingMachineModel vendingMachine);
+    public Task<List<VendingMachineDto>> GetAllAsync();
+    public Task<VendingMachineDto?> GetByIdAsync(string id);
+    public Task<VendingMachineDto?> CreateAsync(VendingMachineCreateDto vendingMachine);
+    public Task<VendingMachineDto?> UpdateAsync(VendingMachineUpdateDto vendingMachine);
     public Task DeleteAsync(string id);
 }
 
 internal partial class VendingMachinesService : VendingMachinesServiceBase
 {
-    public VendingMachinesService(HttpClient httpClient, 
-        IEndpointsProvider endpointsProvider,
-        IModelConverter<VendingMachineModel, VendingMachineDto> dtoConverter,
-        IModelConverter<VendingMachineModel, VendingMachineCreateDto> createDtoConverter,
-        IModelConverter<VendingMachineModel, VendingMachineUpdateDto> updateDtoConverter)
-        : base(httpClient, endpointsProvider, dtoConverter, createDtoConverter, updateDtoConverter)
+    public VendingMachinesService(HttpClient httpClient, IEndpointsProvider endpointsProvider)
+        : base(httpClient, endpointsProvider)
     {
     }
 }
@@ -35,45 +28,32 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiBaseUrl;
-    private readonly IModelConverter<VendingMachineModel, VendingMachineDto> _dtoConverter;
-    private readonly IModelConverter<VendingMachineModel, VendingMachineCreateDto> _createDtoConverter;
-    private readonly IModelConverter<VendingMachineModel, VendingMachineUpdateDto> _updateDtoConverter;
 
-    protected VendingMachinesServiceBase(HttpClient httpClient, 
-        IEndpointsProvider endpointsProvider,
-        IModelConverter<VendingMachineModel, VendingMachineDto> dtoConverter,
-        IModelConverter<VendingMachineModel, VendingMachineCreateDto> createDtoConverter,
-        IModelConverter<VendingMachineModel, VendingMachineUpdateDto> updateDtoConverter)
+    protected VendingMachinesServiceBase(HttpClient httpClient, IEndpointsProvider endpointsProvider)
     {
         _httpClient = httpClient;
         _apiBaseUrl = endpointsProvider.VendingMachinesUrl;
-        _dtoConverter = dtoConverter;
-        _createDtoConverter = createDtoConverter;
-        _updateDtoConverter = updateDtoConverter;
     }
 
-    public async Task<List<VendingMachineModel>> GetAllAsync()
+    public async Task<List<VendingMachineDto>> GetAllAsync()
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<VendingMachineDto>>(_apiBaseUrl);
-        return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<VendingMachineModel>();
+        return items ?? new List<VendingMachineDto>();
     }
 
-    public async Task<VendingMachineModel?> GetByIdAsync(string id)
+    public async Task<VendingMachineDto?> GetByIdAsync(string id)
     {
-        var item = await _httpClient.GetODataSimpleResponseAsync<VendingMachineDto>($"{_apiBaseUrl}/{id}");
-        return item != null ? _dtoConverter.ConvertToModel(item) : null;
+        return await _httpClient.GetODataSimpleResponseAsync<VendingMachineDto>($"{_apiBaseUrl}/{id}");
     }
 
-    public async Task<VendingMachineModel?> CreateAsync(VendingMachineModel vendingMachine)
+    public async Task<VendingMachineDto?> CreateAsync(VendingMachineCreateDto vendingMachine)
     {
-        var item = await _httpClient.PostAsync<VendingMachineCreateDto, VendingMachineDto>(_apiBaseUrl, _createDtoConverter.ConvertToDto(vendingMachine));
-        return item != null ? _dtoConverter.ConvertToModel(item) : null;
+        return await _httpClient.PostAsync<VendingMachineCreateDto, VendingMachineDto>(_apiBaseUrl, vendingMachine);
     }
 
-    public async Task<VendingMachineModel?> UpdateAsync(VendingMachineModel vendingMachine)
+    public async Task<VendingMachineDto?> UpdateAsync(VendingMachineUpdateDto vendingMachine)
     {
-        var item = await _httpClient.PutAsync<VendingMachineUpdateDto, VendingMachineDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(vendingMachine));
-        return item != null ? _dtoConverter.ConvertToModel(item) : null;
+        return await _httpClient.PutAsync<VendingMachineUpdateDto, VendingMachineDto>(_apiBaseUrl, vendingMachine);
     }
 
     public async Task DeleteAsync(string id)
