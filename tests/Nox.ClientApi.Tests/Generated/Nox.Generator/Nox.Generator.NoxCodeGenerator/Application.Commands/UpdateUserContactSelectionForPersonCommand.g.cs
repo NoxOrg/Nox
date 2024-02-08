@@ -58,7 +58,7 @@ internal partial class UpdateUserContactSelectionForPersonCommandHandlerBase : C
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PersonMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Person>(keys.ToArray(),e => e.UserContactSelection, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Person>(keys.ToArray(),e => e.UserContactSelection, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Person",  "keyId");		
 		var entity = parentEntity.UserContactSelection;
 		if (entity is null)

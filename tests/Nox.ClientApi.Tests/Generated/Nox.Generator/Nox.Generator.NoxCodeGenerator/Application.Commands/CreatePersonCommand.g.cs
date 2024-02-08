@@ -61,7 +61,7 @@ internal abstract class CreatePersonCommandHandlerBase : CommandBase<CreatePerso
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Person>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Person>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new PersonKeyDto(entityToCreate.Id.Value);
 	}

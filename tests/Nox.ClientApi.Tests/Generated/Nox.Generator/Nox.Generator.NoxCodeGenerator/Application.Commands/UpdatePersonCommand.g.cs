@@ -55,7 +55,7 @@ internal abstract class UpdatePersonCommandHandlerBase : CommandBase<UpdatePerso
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Person>()
+		var entity = Repository.Query<ClientApi.Domain.Person>()
             .Where(x => x.Id == Dto.PersonMetadata.CreateId(request.keyId))
 			.Include(e => e.UserContactSelection)
 			.SingleOrDefault();

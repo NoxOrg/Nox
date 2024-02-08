@@ -52,7 +52,7 @@ internal abstract class PartialUpdateUserContactSelectionForPersonCommandHandler
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PersonMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<Person>(keys.ToArray(),e => e.UserContactSelection, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Person>(keys.ToArray(),e => e.UserContactSelection, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Person",  "keyId");

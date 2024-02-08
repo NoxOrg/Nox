@@ -51,7 +51,7 @@ internal abstract class PartialUpdatePersonCommandHandlerBase : CommandBase<Part
 		await OnExecutingAsync(request);
 		var keyId = Dto.PersonMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Person>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.Person>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Person",  $"{keyId.ToString()}");

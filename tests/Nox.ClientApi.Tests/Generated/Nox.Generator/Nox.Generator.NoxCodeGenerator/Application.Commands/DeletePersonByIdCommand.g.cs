@@ -48,7 +48,7 @@ internal abstract class DeletePersonByIdCommandHandlerBase : CommandCollectionBa
 		{
 			var keyId = Dto.PersonMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Person>(keyId);
+			var entity = await Repository.FindAsync<PersonEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Person",  $"{keyId.ToString()}");

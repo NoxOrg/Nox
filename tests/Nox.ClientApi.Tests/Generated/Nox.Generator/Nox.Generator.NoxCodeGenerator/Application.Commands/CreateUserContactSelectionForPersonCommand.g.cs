@@ -53,7 +53,7 @@ internal abstract class CreateUserContactSelectionForPersonCommandHandlerBase : 
 		await OnExecutingAsync(request);
 		var keyId = Dto.PersonMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<Person> (keyId);
+		var parentEntity = await Repository.FindAsync<ClientApi.Domain.Person> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Person",  $"{keyId.ToString()}");
