@@ -48,7 +48,7 @@ internal abstract class DeleteTenantByIdCommandHandlerBase : CommandCollectionBa
 		{
 			var keyId = Dto.TenantMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Tenant>(keyId);
+			var entity = await Repository.FindAsync<TenantEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");

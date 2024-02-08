@@ -52,7 +52,7 @@ internal abstract class PartialUpdateTenantContactForTenantCommandHandlerBase: C
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(),e => e.TenantContact, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(),e => e.TenantContact, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  "keyId");

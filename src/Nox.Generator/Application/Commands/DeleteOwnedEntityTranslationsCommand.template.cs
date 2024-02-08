@@ -53,15 +53,15 @@ internal abstract class {{ className}}HandlerBase : {{if relationship.WithSingle
 		{{- end }}
 
         {{~if relationship.WithSingleEntity ~}}
-        var parentEntity = await Repository.FindAsync<{{parent.Name}}>(keys.ToArray(), cancellationToken);
+        var parentEntity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(), cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", "{{keysToString parent.Keys 'parentKey' }}");
 
-        var entity = await Repository.Query<{{entity.Name}}Localized>().SingleOrDefaultAsync(x => {{for key in parent.Keys}}x.{{parent.Name}}{{key.Name}} == parentEntity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode, cancellationToken);
+        var entity = await Repository.Query<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized>().SingleOrDefaultAsync(x => {{for key in parent.Keys}}x.{{parent.Name}}{{key.Name}} == parentEntity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode, cancellationToken);
         EntityLocalizationNotFoundException.ThrowIfNull(entity, "{{parent.Name}}.{{GetNavigationPropertyName parent relationship}}", String.Empty, command.{{codeGenConventions.LocalizationCultureField}}.ToString());        
         Repository.Delete(entity);
         await OnCompletedAsync(command, entity);
         {{~else~}}
-        var parentEntity = await Repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(), p => p.{{GetNavigationPropertyName parent relationship}},cancellationToken);
+        var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(), p => p.{{GetNavigationPropertyName parent relationship}},cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", "{{keysToString parent.Keys 'parentKey' }}");
         var entityKeys = parentEntity.{{GetNavigationPropertyName parent relationship}}.Select(x => x.{{entity.Keys[0].Name}}).ToList();
         var entities = await Repository.Query<{{entity.Name}}Localized>().Where(x => entityKeys.Contains(x.{{entity.Keys[0].Name}}) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);

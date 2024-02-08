@@ -68,7 +68,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
 
-		var parentEntity = await _repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}",  "{{keysToString parent.Keys}}");
 
 		{{- if relationship.WithSingleEntity }}		

@@ -66,7 +66,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		if(request.EntityDto.CashStockOrderId is not null)
 		{
 			var relatedKey = Dto.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>());
-			var relatedEntity = await Repository.FindAsync<CashStockOrder>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.CashStockOrder>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCashStockOrder(relatedEntity);
 			else
@@ -79,7 +79,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Employee>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.Employee>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);
 	}

@@ -51,7 +51,7 @@ internal abstract class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<TestEntityForAutoNumberUsages>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.TestEntityForAutoNumberUsages>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityForAutoNumberUsages",  $"{keyId.ToString()}");

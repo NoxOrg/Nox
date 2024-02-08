@@ -52,7 +52,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<Store>(keys.ToArray(),e => e.EmailAddress, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Store>(keys.ToArray(),e => e.EmailAddress, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Store",  "keyId");

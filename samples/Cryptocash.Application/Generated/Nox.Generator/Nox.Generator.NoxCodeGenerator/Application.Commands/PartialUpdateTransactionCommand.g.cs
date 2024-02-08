@@ -51,7 +51,7 @@ internal abstract class PartialUpdateTransactionCommandHandlerBase : CommandBase
 		await OnExecutingAsync(request);
 		var keyId = Dto.TransactionMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Transaction>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.Transaction>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Transaction",  $"{keyId.ToString()}");

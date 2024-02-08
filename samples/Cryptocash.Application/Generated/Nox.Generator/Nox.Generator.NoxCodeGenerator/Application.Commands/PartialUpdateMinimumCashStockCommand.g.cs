@@ -51,7 +51,7 @@ internal abstract class PartialUpdateMinimumCashStockCommandHandlerBase : Comman
 		await OnExecutingAsync(request);
 		var keyId = Dto.MinimumCashStockMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<MinimumCashStock>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.MinimumCashStock>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("MinimumCashStock",  $"{keyId.ToString()}");

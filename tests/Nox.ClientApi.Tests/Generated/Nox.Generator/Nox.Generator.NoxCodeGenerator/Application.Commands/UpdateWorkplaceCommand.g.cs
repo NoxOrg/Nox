@@ -55,7 +55,7 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Workplace>()
+		var entity = Repository.Query<ClientApi.Domain.Workplace>()
             .Where(x => x.Id == Dto.WorkplaceMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

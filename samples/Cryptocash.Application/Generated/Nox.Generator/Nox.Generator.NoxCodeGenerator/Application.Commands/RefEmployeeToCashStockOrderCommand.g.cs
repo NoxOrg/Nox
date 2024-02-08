@@ -153,14 +153,14 @@ internal abstract class RefEmployeeToCashStockOrderCommandHandlerBase<TRequest> 
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.EmployeeMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<Employee>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Employee>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.CashStockOrder?> GetEmployeeReviewingCashStockOrder(CashStockOrderKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CashStockOrderMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<CashStockOrder>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.CashStockOrder>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, EmployeeEntity entity)

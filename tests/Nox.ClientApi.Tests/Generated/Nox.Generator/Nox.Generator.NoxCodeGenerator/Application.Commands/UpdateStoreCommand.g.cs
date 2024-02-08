@@ -55,7 +55,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Store>()
+		var entity = Repository.Query<ClientApi.Domain.Store>()
             .Where(x => x.Id == Dto.StoreMetadata.CreateId(request.keyId))
 			.Include(e => e.EmailAddress)
 			.SingleOrDefault();

@@ -55,7 +55,7 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<PaymentProvider>()
+		var entity = Repository.Query<Cryptocash.Domain.PaymentProvider>()
             .Where(x => x.Id == Dto.PaymentProviderMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

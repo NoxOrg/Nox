@@ -153,14 +153,14 @@ internal abstract class RefEntityUniqueConstraintsWithForeignKeyToEntityUniqueCo
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<EntityUniqueConstraintsWithForeignKey>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey?> GetrelatestoSingleForeignKey(EntityUniqueConstraintsRelatedForeignKeyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<EntityUniqueConstraintsRelatedForeignKey>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.EntityUniqueConstraintsRelatedForeignKey>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, EntityUniqueConstraintsWithForeignKeyEntity entity)

@@ -153,14 +153,14 @@ internal abstract class RefTestEntityZeroOrOneToSecondTestEntityZeroOrOneCommand
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityZeroOrOneMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<TestEntityZeroOrOne>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.TestEntityZeroOrOne>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<TestWebApp.Domain.SecondTestEntityZeroOrOne?> GetSecondTestEntityZeroOrOneRelationship(SecondTestEntityZeroOrOneKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.SecondTestEntityZeroOrOneMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<SecondTestEntityZeroOrOne>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.SecondTestEntityZeroOrOne>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, TestEntityZeroOrOneEntity entity)

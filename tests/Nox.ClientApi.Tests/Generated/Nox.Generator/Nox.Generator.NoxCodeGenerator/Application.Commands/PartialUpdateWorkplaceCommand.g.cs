@@ -51,7 +51,7 @@ internal abstract class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<P
 		await OnExecutingAsync(request);
 		var keyId = Dto.WorkplaceMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Workplace>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.Workplace>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}");

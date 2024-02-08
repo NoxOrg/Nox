@@ -55,7 +55,7 @@ internal abstract class UpdateForReferenceNumberCommandHandlerBase : CommandBase
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<ForReferenceNumber>()
+		var entity = Repository.Query<TestWebApp.Domain.ForReferenceNumber>()
             .Where(x => x.Id == Dto.ForReferenceNumberMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

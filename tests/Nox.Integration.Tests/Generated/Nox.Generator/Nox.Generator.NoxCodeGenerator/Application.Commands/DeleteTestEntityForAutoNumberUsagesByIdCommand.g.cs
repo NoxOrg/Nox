@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 		{
 			var keyId = Dto.TestEntityForAutoNumberUsagesMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<TestEntityForAutoNumberUsages>(keyId);
+			var entity = await Repository.FindAsync<TestEntityForAutoNumberUsagesEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("TestEntityForAutoNumberUsages",  $"{keyId.ToString()}");

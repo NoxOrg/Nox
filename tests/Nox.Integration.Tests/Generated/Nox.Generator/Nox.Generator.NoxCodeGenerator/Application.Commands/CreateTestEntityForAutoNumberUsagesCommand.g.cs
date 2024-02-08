@@ -61,7 +61,7 @@ internal abstract class CreateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityForAutoNumberUsages>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityForAutoNumberUsages>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityForAutoNumberUsagesKeyDto(entityToCreate.Id.Value);
 	}

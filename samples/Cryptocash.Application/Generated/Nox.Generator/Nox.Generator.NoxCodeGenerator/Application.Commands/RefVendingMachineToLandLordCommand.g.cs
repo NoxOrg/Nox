@@ -153,14 +153,14 @@ internal abstract class RefVendingMachineToLandLordCommandHandlerBase<TRequest> 
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<VendingMachine>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.VendingMachine>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.LandLord?> GetVendingMachineContractedAreaLandLord(LandLordKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.LandLordMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<LandLord>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.LandLord>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)

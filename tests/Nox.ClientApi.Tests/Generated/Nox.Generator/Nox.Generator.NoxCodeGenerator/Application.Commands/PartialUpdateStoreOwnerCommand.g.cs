@@ -51,7 +51,7 @@ internal abstract class PartialUpdateStoreOwnerCommandHandlerBase : CommandBase<
 		await OnExecutingAsync(request);
 		var keyId = Dto.StoreOwnerMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<StoreOwner>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.StoreOwner>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("StoreOwner",  $"{keyId.ToString()}");

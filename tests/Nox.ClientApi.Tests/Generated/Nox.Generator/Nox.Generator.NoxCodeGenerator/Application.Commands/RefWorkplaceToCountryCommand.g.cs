@@ -153,14 +153,14 @@ internal abstract class RefWorkplaceToCountryCommandHandlerBase<TRequest> : Comm
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.WorkplaceMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<Workplace>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.Workplace>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<ClientApi.Domain.Country?> GetBelongsToCountry(CountryKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Country>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.Country>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, WorkplaceEntity entity)

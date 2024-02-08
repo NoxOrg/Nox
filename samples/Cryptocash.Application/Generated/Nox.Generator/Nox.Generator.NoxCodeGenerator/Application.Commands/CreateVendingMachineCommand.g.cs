@@ -82,7 +82,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -96,7 +96,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		if(request.EntityDto.LandLordId is not null)
 		{
 			var relatedKey = Dto.LandLordMetadata.CreateId(request.EntityDto.LandLordId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<LandLord>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.LandLord>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToLandLord(relatedEntity);
 			else
@@ -112,7 +112,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
 				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Booking>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToBookings(relatedEntity);
@@ -133,7 +133,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			foreach(var relatedId in request.EntityDto.CashStockOrdersId)
 			{
 				var relatedKey = Dto.CashStockOrderMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<CashStockOrder>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.CashStockOrder>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCashStockOrders(relatedEntity);
@@ -154,7 +154,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			foreach(var relatedId in request.EntityDto.MinimumCashStocksId)
 			{
 				var relatedKey = Dto.MinimumCashStockMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<MinimumCashStock>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.MinimumCashStock>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToMinimumCashStocks(relatedEntity);
@@ -172,7 +172,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<VendingMachine>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.VendingMachine>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new VendingMachineKeyDto(entityToCreate.Id.Value);
 	}

@@ -72,7 +72,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.VendingMachine>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToVendingMachines(relatedEntity);
@@ -91,7 +91,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		if(request.EntityDto.CurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCurrency(relatedEntity);
 			else
@@ -104,7 +104,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<MinimumCashStock>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.MinimumCashStock>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new MinimumCashStockKeyDto(entityToCreate.Id.Value);
 	}

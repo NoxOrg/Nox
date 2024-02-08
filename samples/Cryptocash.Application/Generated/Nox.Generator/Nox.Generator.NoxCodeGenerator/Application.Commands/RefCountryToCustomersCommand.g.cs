@@ -195,14 +195,14 @@ internal abstract class RefCountryToCustomersCommandHandlerBase<TRequest> : Comm
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<Country>(keys.ToArray(), x => x.Customers, cancellationToken);
+		return await Repository.FindAndIncludeAsync<Cryptocash.Domain.Country>(keys.ToArray(), x => x.Customers, cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.Customer?> GetCountryUsedByCustomers(CustomerKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Customer>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Customer>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, CountryEntity entity)

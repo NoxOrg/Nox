@@ -61,7 +61,7 @@ internal abstract class CreateTestEntityLocalizationCommandHandlerBase : Command
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityLocalization>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityLocalization>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityLocalizationKeyDto(entityToCreate.Id.Value);
 	}

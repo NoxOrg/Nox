@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Defines a Job to be executed by the application",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "name",
+    "description",
+    "recurrentCronExpression"
+  ],
+  "properties": {
+    "name": {    
+      "title": "The Name of the Job. Contains no spaces.",
+      "description": "Unique Name of the job used for job identification, code generation, logs and monitoring",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "The Job description.",
+      "type": "string"
+    },
+    "recurrentCronExpression": {    
+      "title": "The job scheduler in a Cron Expression format",
+      "description": "A Job is executed recurrently by setting up this expression",
+      "type": "string",
+      "pattern": "(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\\d+(ns|us|µs|ms|s|m|h))+)|((((\\d+,)+\\d+|(\\d+(\\/|-)\\d+)|\\d+|\\*) ?){5,7})"
+    }
+  },
+  "additionalProperties": false
+}

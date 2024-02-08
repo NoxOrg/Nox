@@ -153,14 +153,14 @@ internal abstract class RefSecondTestEntityExactlyOneToTestEntityExactlyOneComma
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.SecondTestEntityExactlyOneMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<SecondTestEntityExactlyOne>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.SecondTestEntityExactlyOne>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<TestWebApp.Domain.TestEntityExactlyOne?> GetTestEntityExactlyOneRelationship(TestEntityExactlyOneKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityExactlyOneMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<TestEntityExactlyOne>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<TestWebApp.Domain.TestEntityExactlyOne>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, SecondTestEntityExactlyOneEntity entity)

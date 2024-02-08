@@ -68,7 +68,7 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 			foreach(var relatedId in request.EntityDto.StoresId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Store>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStores(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreateClientCommandHandlerBase : CommandBase<CreateClien
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Client>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Client>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new ClientKeyDto(entityToCreate.Id.Value);
 	}

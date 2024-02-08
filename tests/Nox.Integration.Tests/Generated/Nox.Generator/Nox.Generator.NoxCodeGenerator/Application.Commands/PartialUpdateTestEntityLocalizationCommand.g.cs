@@ -51,7 +51,7 @@ internal abstract class PartialUpdateTestEntityLocalizationCommandHandlerBase : 
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityLocalizationMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<TestEntityLocalization>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.TestEntityLocalization>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityLocalization",  $"{keyId.ToString()}");

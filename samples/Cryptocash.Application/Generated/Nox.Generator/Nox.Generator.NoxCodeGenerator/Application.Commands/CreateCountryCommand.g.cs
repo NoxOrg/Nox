@@ -78,7 +78,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		if(request.EntityDto.CurrencyId is not null)
 		{
 			var relatedKey = Dto.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Currency>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Currency>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCurrency(relatedEntity);
 			else
@@ -94,7 +94,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.CommissionsId)
 			{
 				var relatedKey = Dto.CommissionMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Commission>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Commission>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCommissions(relatedEntity);
@@ -115,7 +115,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.VendingMachine>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToVendingMachines(relatedEntity);
@@ -136,7 +136,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.CustomersId)
 			{
 				var relatedKey = Dto.CustomerMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Customer>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToCustomers(relatedEntity);
@@ -154,7 +154,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Country>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.Country>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);
 	}

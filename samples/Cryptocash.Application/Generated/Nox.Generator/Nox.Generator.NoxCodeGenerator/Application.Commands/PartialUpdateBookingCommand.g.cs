@@ -51,7 +51,7 @@ internal abstract class PartialUpdateBookingCommandHandlerBase : CommandBase<Par
 		await OnExecutingAsync(request);
 		var keyId = Dto.BookingMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Booking>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.Booking>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Booking",  $"{keyId.ToString()}");

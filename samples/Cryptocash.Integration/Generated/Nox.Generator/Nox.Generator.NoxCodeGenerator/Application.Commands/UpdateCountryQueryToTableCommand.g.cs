@@ -55,7 +55,7 @@ internal abstract class UpdateCountryQueryToTableCommandHandlerBase : CommandBas
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<CountryQueryToTable>()
+		var entity = Repository.Query<CryptocashIntegration.Domain.CountryQueryToTable>()
             .Where(x => x.Id == Dto.CountryQueryToTableMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

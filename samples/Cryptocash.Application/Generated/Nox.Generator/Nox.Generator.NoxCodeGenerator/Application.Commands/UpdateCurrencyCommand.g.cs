@@ -55,7 +55,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Currency>()
+		var entity = Repository.Query<Cryptocash.Domain.Currency>()
             .Where(x => x.Id == Dto.CurrencyMetadata.CreateId(request.keyId))
 			.Include(e => e.BankNotes)
 			.Include(e => e.ExchangeRates)

@@ -55,7 +55,7 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<RatingProgram>()
+		var entity = Repository.Query<ClientApi.Domain.RatingProgram>()
             .Where(x => x.StoreId == Dto.RatingProgramMetadata.CreateStoreId(request.keyStoreId))
             .Where(x => x.Id == Dto.RatingProgramMetadata.CreateId(request.keyId))
 			.SingleOrDefault();

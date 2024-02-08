@@ -72,7 +72,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.WorkplacesId)
 			{
 				var relatedKey = Dto.WorkplaceMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Workplace>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Workplace>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToWorkplaces(relatedEntity);
@@ -93,7 +93,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			foreach(var relatedId in request.EntityDto.StoresId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Store>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStores(relatedEntity);
@@ -111,7 +111,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Country>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Country>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);
 	}

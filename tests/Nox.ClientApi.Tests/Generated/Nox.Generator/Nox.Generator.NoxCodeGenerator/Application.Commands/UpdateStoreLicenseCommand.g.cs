@@ -55,7 +55,7 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<StoreLicense>()
+		var entity = Repository.Query<ClientApi.Domain.StoreLicense>()
             .Where(x => x.Id == Dto.StoreLicenseMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		
