@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nox.Types;
 using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
@@ -58,7 +59,7 @@ public partial class EditStreetAddress : ComponentBase
     }
 
     [Parameter]
-    public string? TitleStreetNumber { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string? TitleAddressLine1 { get; set; }

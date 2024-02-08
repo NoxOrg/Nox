@@ -14,9 +14,6 @@ public partial class EditVolume : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public VolumeUnit VolumeUnit { get; set; } = VolumeUnit.CubicMeter;
-
-    [Parameter]
     public EventCallback<decimal?> VolumeChanged { get; set; }
 
     public string ErrorRequiredMessage
@@ -33,7 +30,33 @@ public partial class EditVolume : ComponentBase
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    [Parameter]
+    public VolumeTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public VolumeTypeUnit Units { get; set; } = VolumeTypeUnit.CubicMeter;
+
+    [Parameter]
+    public VolumeTypeUnit PersistAs { get; set; } = VolumeTypeUnit.CubicMeter;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            Units = TypeOptions.Unit;
+            PersistAs = TypeOptions.PersistAs;
+        }
+    }
 
     protected async Task OnVolumeChanged(string newValue)
     {
@@ -56,12 +79,12 @@ public partial class EditVolume : ComponentBase
             return AdornmentIcon;
         }
 
-        if (VolumeUnit == VolumeUnit.CubicFoot)
+        if (Units == VolumeTypeUnit.CubicFoot)
         {
             return Icon.VolumeUnit_CubicFoot;
         }
 
-        if (VolumeUnit == VolumeUnit.CubicMeter)
+        if (Units == VolumeTypeUnit.CubicMeter)
         {
             return Icon.VolumeUnit_CubicMeter;
         }

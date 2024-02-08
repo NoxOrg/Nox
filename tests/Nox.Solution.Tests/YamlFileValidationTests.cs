@@ -43,6 +43,54 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void AzureServiceBus_AzureServiceBusConfig_WhenSharedAcccessKeyIsSpecified_SharedAccessKeyName_Is_Required()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/invalid-messaging.azureservicebus.missing-shared-access-key-name.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "Either both fields SharedAccessKey and SharedAccessKeyName must be set, or none of them should be set."
+            );
+    }
+
+    [Fact]
+    public void AzureServiceBus_AzureServiceBusConfig_WhenSharedAcccessKeyNameIsSpecified_SharedAccessKey_Is_Required()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/invalid-messaging.azureservicebus.missing-shared-access-key.solution.nox.yaml")
+            .Build();
+
+        action.Should().ThrowExactly<NoxYamlValidationException>()
+            .Which.Errors.Select(x => x.ErrorMessage)
+            .Should().BeEquivalentTo(
+                "Either both fields SharedAccessKey and SharedAccessKeyName must be set, or none of them should be set."
+            );
+    }
+
+    [Fact]
+    public void AzureServiceBus_AzureServiceBusConfig_WhenUsingManagedIdentity_IsValid()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/valid-messaging.azureservicebus.not-specified-shared-access-key-and-key-name.solution.nox.yaml")
+            .Build();
+
+        action.Should().NotThrow();
+    }
+
+    [Fact]
+    public void AzureServiceBus_AzureServiceBusConfig_WhenSharedAccessKeyAndSharedAccessKeyNameAreSpecified_IsValid()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .WithFile($"./files/valid-messaging.azureservicebus.specified-shared-access-key-and-key-name.solution.nox.yaml")
+            .Build();
+
+        action.Should().NotThrow();
+    }
+
+    [Fact]
     public void Deserialize_WithNoxYamlSerializer_ThrowsException()
     {
         var files = new Dictionary<string, Func<TextReader>>()

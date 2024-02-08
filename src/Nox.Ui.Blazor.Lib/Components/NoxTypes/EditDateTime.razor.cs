@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nox.Types;
 using System.Globalization;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
@@ -9,19 +10,19 @@ public partial class EditDateTime : ComponentBase
     #region Declarations
 
     [Parameter]
-    public System.DateTime? DateTime { get; set; }
+    public DateTimeOffset? DateTime { get; set; }
 
     [Parameter]
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
     [Parameter]
-    public string? TitleDateTime { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy HH:mm:ss";
 
     [Parameter]
-    public EventCallback<System.DateTime?> DateTimeChanged { get; set; }
+    public EventCallback<DateTimeOffset?> DateTimeChanged { get; set; }
 
     [Parameter]
     public int? Hour { get; set; }
@@ -72,6 +73,18 @@ public partial class EditDateTime : ComponentBase
 
     public static Dictionary<int, string> MillisecondSelectionList { get; set; } = new Dictionary<int, string>();
 
+    [Parameter]
+    public DateTimeTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public bool AllowFutureOnly { get; set; } = false;
+
+    [Parameter]
+    public DateTimeOffset MinValue { get; set; }
+
+    [Parameter]
+    public DateTimeOffset MaxValue { get; set; }
+
     #endregion
 
     static EditDateTime()
@@ -98,6 +111,13 @@ public partial class EditDateTime : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
+        if (TypeOptions is not null)
+        {
+            AllowFutureOnly = TypeOptions.AllowFutureOnly;
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+        }
+
         if (DateTime.HasValue)
         {
             SetDateTime(DateTime);
@@ -141,7 +161,7 @@ public partial class EditDateTime : ComponentBase
         }
     }
 
-    private void SetDateTime(System.DateTime? currentDate)
+    private void SetDateTime(DateTimeOffset? currentDate)
     {
         if (currentDate.HasValue)
         {
@@ -247,8 +267,8 @@ public partial class EditDateTime : ComponentBase
                 (Hour ?? 0), 
                 (Minute ?? 0), 
                 (Second ?? 0), 
-                (Millisecond ?? 0), 
-                DateTimeKind.Unspecified);
+                (Millisecond ?? 0),
+                TimeSpan.Zero);
         }
 
         await DateTimeChanged.InvokeAsync(DateTime);

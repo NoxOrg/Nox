@@ -16,9 +16,6 @@ public partial class EditLength : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
-    public LengthUnit LengthUnit { get; set; } = LengthUnit.Meter;
-
-    [Parameter]
     public EventCallback<Decimal?> LengthChanged { get; set; }
 
     public string ErrorRequiredMessage
@@ -35,7 +32,29 @@ public partial class EditLength : ComponentBase
     [Parameter]
     public string? AdornmentIcon { get; set; }
 
+    [Parameter]
+    public LengthTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public LengthTypeUnit Units { get; set; } = LengthTypeUnit.Meter;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+            Units = TypeOptions.Units;
+        }
+    }
 
     protected async Task OnLengthChanged(string newValue)
     {
@@ -58,12 +77,12 @@ public partial class EditLength : ComponentBase
             return AdornmentIcon;
         }
 
-        if (LengthUnit == LengthUnit.Foot)
+        if (Units == LengthTypeUnit.Foot)
         {
             return Icon.LengthUnit_Foot;
         }
 
-        if (LengthUnit == LengthUnit.Meter)
+        if (Units == LengthTypeUnit.Meter)
         {
             return Icon.LengthUnit_Meter;
         }

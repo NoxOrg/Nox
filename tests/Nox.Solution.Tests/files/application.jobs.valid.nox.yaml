@@ -1,0 +1,21 @@
+#
+# application.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing application
+
+application:
+
+  jobs:
+    - name: job1
+      description: job1
+      recurrentCronExpression: "*/5 * * * *" # every 5 minutes
+
+    - name: job2
+      description: job2
+      recurrentCronExpression: "0 0 * * *" # every day at midnight

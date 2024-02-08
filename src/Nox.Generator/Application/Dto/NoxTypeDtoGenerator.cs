@@ -36,7 +36,7 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
            .Where(noxType => noxType.IsCompoundType())
            .Select(noxType =>
            {
-               var noxTypeComponents = GetNoxTypeCompoundComponents(noxType);
+               var noxTypeComponents = GetNoxTypeCompoundComponentAttributes(noxType);
                return new { NoxType = noxType, Components = noxTypeComponents };
            })
            .ToArray();
@@ -49,7 +49,7 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
             .WithObject("compoundTypes", compoundTypes)
             .GenerateSourceCodeFromResource(templateName);
     }
-    private static IEnumerable<CompoundComponentAttribute> GetNoxTypeCompoundComponents(NoxType noxType)
+    private static IEnumerable<CompoundComponentAttribute> GetNoxTypeCompoundComponentAttributes(NoxType noxType)
     {
         return noxType
             .ToMemberInfo()

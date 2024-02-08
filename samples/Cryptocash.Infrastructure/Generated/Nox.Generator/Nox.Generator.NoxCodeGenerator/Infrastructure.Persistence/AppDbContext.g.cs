@@ -22,7 +22,6 @@ using Nox.Extensions;
 using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Solution;
-using Nox.Configuration;
 using Nox.Infrastructure;
 
 using DomainNameSpace = Cryptocash.Domain;

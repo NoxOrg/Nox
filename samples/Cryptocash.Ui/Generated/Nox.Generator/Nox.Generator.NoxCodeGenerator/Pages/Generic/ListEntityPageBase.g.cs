@@ -12,9 +12,8 @@ using Cryptocash.Application.Dto;
 using AutoMapper;
 using System.Reflection;
 using Nox.Ui.Blazor.Lib.Models;
+using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Types;
-using YamlDotNet.Core.Tokens;
-using Nox.Reference;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -221,7 +220,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <summary>
         /// Property CountryModelData used to store Country list data in preparation for selection
         /// </summary>
-        public List<CountryModel>? CountryModelData { get; set; }
+        public List<Nox.Ui.Blazor.Lib.Models.CountryModel>? CountryModelData { get; set; }
 
         /// <summary>
         /// Property CountryEntityData used to store Country list data in preparation for selection

@@ -9,13 +9,13 @@ public partial class EditPercentage : ComponentBase
     #region Declarations
 
     [Parameter]
-    public decimal? Percentage { get; set; }
+    public float? Percentage { get; set; }
 
     [Parameter]
     public string? Title { get; set; }
 
     [Parameter]
-    public EventCallback<decimal?> PercentageChanged { get; set; }
+    public EventCallback<float?> PercentageChanged { get; set; }
 
     public string ErrorRequiredMessage
     {
@@ -31,13 +31,31 @@ public partial class EditPercentage : ComponentBase
     [Parameter]
     public string AdornmentIcon { get; set; } = Icon.Percentage;
 
+    [Parameter]
+    public PercentageTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public double MinValue { get; set; } = 0;
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+        }
+    }
 
     protected async Task OnPercentageChanged(string newValue)
     {
-        if (decimal.TryParse(newValue, out decimal parsedDouble))
+        if (float.TryParse(newValue, out float parsedValue))
         {
-            Percentage = parsedDouble;
+            Percentage = parsedValue;
         }
         else
         {

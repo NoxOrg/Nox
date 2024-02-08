@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nox.Types;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
@@ -22,7 +23,19 @@ public partial class EditText : ComponentBase
     [Parameter]
     public int MinLength { get; set; } = 0;
 
+    [Parameter]
+    public TextTypeOptions? TypeOptions { get; set; }
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MaxLength = (int)TypeOptions.MaxLength;
+            MinLength = (int)TypeOptions.MinLength;
+        }
+    }
 
     protected async Task OnTextChanged(string newValue)
     {
@@ -35,7 +48,7 @@ public partial class EditText : ComponentBase
     {
         if (arg != null
             && arg.Length < MinLength)
-            return String.Format(Resources.Resources.TextValidateLength, Title, MinLength.ToString()).Trim();
+            return String.Format(Resources.Resources.ValidateTextLength, Title, MinLength.ToString()).Trim();
         return String.Empty;
     }
 }

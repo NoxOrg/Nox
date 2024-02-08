@@ -410,7 +410,7 @@ public partial class RelatedEndpointsRouteMappingTests : NoxWebApiTestBase
                  null!,
                  null!,
                  null!,
-                 "KT16 0RS",
+                 "GIR0AA",
                  Nox.Types.CountryCode.GB),
             Location = new LatLongDto(51.3728033, -0.5389749),
         };

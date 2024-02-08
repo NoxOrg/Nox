@@ -1,0 +1,6 @@
+- id: test
+  name: Run Test workflow
+  $ref: ./nested.steps.nox.yaml
+
+  display:
+    success: Completed run test workflow

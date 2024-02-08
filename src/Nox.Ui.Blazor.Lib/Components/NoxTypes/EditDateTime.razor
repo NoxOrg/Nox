@@ -3,15 +3,15 @@
 
 <MudGrid>
     <MudItem xs="12">
-        <MudDatePicker Label="@TitleDateTime"
+        <MudDatePicker Label="@Title"
                        Variant="Variant.Outlined"
                        Required="true"
-                       RequiredError="@ErrorRequiredMessage(TitleDateTime)"
+                       RequiredError="@ErrorRequiredMessage(Title)"
                        TextChanged="OnDateTimeChanged"
                        Editable="true"
                        Placeholder="DisplayPlaceholder"
                        DateFormat="@Format"
-                       Date="@DateTime">
+                       Date="DateTime.HasValue ? DateTime.Value.DateTime : (DateTime?)null">
         </MudDatePicker>
     </MudItem>
     <MudItem xs="12">

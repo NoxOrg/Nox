@@ -13,7 +13,7 @@ public partial class ViewWeight : ComponentBase
     public decimal? Weight { get; set; }
 
     [Parameter]
-    public WeightUnit WeightUnit { get; set; } = WeightUnit.Kilogram;
+    public WeightTypeUnit Units { get; set; } = WeightTypeUnit.Kilogram;
 
     [Parameter]
     public string Format { get; set; } = "#,##0.##";
@@ -34,12 +34,12 @@ public partial class ViewWeight : ComponentBase
 
     private string DisplayWeightUnit()
     {
-        if (WeightUnit == WeightUnit.Pound)
+        if (Units == WeightTypeUnit.Pound)
         {
             return WeightUnit.Pound.Symbol;
         }
 
-        if (WeightUnit == WeightUnit.Kilogram)
+        if (Units == WeightTypeUnit.Kilogram)
         {
             return WeightUnit.Kilogram.Symbol;
         }

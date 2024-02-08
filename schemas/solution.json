@@ -57,6 +57,19 @@
         }
       ]
     },
+    "logo": {    
+      "title": "A logo that represents the application.",
+      "description": "An optional logo that represents the application as a relative or absolute path.",
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "overview": {    
       "title": "A short overview or description of the solution.",
       "description": "A short overview for this solution describing the purpose and responsibility of the solution.",

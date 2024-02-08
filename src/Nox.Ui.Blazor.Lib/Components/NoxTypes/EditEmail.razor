@@ -1,4 +1,12 @@
 ﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
 
-<MudText>Placeholder Email</MudText>
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="@Required"
+              MaxLength="@MaxLength"
+              Validation="@(new Func<string, string>(Validate))"
+              TextChanged="OnTextChanged"
+              Value="@Email" />

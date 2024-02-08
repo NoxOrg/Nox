@@ -211,7 +211,7 @@ namespace ClientApi.Tests.Controllers
                 null!,
                 "England",
                 "Surrey",
-                "KT16 0RS",
+                "GIR0AA",
                 CountryCode.GB);
 
             var createDto = new StoreOwnerCreateDto
@@ -244,7 +244,7 @@ namespace ClientApi.Tests.Controllers
                  null!,
                  null!,
                  null!,
-                 "KT16 0RS",
+                 "GIR0AA",
                  CountryCode.GB);
 
             var createDto = new StoreOwnerCreateDto
@@ -281,7 +281,7 @@ namespace ClientApi.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "KT16 0RS",
+                     "GIR0AA",
                      CountryCode.GB),
             };
 
@@ -339,7 +339,7 @@ namespace ClientApi.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "KT16 0RS",
+                     "GIR0AA",
                     (CountryCode)0),
             };
 
@@ -416,7 +416,7 @@ namespace ClientApi.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "KT16 0RS",
+                     "GIR0AA",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
