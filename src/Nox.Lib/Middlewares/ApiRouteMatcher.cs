@@ -101,13 +101,15 @@ internal class ApiRouteMatcher
                 var segmentIndex = -1;
                 if (i + 1 < _segmentSpanCoords.Length)
                     segmentIndex = routeToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i + 1].StartPos.._segmentSpanCoords[i + 1].EndPos], StringComparison.OrdinalIgnoreCase);
-
-
-                var paramEnd = i + 1 < _segmentSpanCoords.Length
-                    ? segmentIndex > -1 ? segmentIndex + paramStart 
-                    : routeToMatchSpan.Length
-                    : routeToMatchSpan.Length;
-
+                
+                var paramEnd = routeToMatchSpan.Length; //default value
+                if (i + 1 < _segmentSpanCoords.Length)
+                {
+                    if (segmentIndex > -1)
+                    {
+                        paramEnd = segmentIndex + paramStart;
+                    } 
+                }
 
                 if (paramEnd < 0)
                 {
