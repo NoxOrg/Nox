@@ -53,7 +53,7 @@
     byte testMonth = 1;
     int testYear = 2024;
     DateTime? testDate = DateTime.Now;
-    DateTimeRangeModel testDateTimeRangeModel = new() { Start = DateTime.Now, End = DateTime.Now.AddHours(23) };
+    DateTimeRangeModel? testDateTimeRangeModel = null;
     byte testDayOfWeek = 1;
     StreetAddressModel testStreetAddress = new StreetAddressModel()
     {
@@ -223,7 +223,7 @@
                                                             TitleSecond="Second" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditDateTimeRange DateTimeRange="@testDateTimeRangeModel"
+                                                        <EditDateTimeRange @bind-DateTimeRange="@testDateTimeRangeModel"
                                                             DisplayMinute="true"
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
@@ -235,6 +235,9 @@
                                                             TitleHourEnd="End Hour"
                                                             TitleMinuteEnd="End Minute"
                                                             TitleSecondEnd="End Second" />
+                                                        <MudText>testDateTimeRangeModel: @testDateTimeRangeModel</MudText>
+                                                        <MudText>testDateTimeRangeModel.Start: @testDateTimeRangeModel?.Start</MudText>
+                                                        <MudText>testDateTimeRangeModel.End: @testDateTimeRangeModel?.End</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" />
