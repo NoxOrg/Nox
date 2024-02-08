@@ -39,7 +39,7 @@ internal abstract class {{className}}Base: I{{className}}
         _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
             {{- for entity in entities }}
-            { "{{entity.PluralName}}", (Repository.Query<{{entity.Name}}>(), "{{entity.Keys[0].Name}}") }{{if !for.last}},{{end}}
+            { "{{entity.PluralName}}", (Repository.Query<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>(), "{{entity.Keys[0].Name}}") }{{if !for.last}},{{end}}
             {{- end }}
         };
 
