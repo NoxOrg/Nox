@@ -50,7 +50,7 @@ internal abstract class {{ className}}HandlerBase : CommandBase<{{ className}}, 
 		var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(command.key{{key.Name}});
 		{{- end }}
         
-        var entity = await Repository.FindAsync<{{entity.Name}}>({{primaryKeysFindQuery}});
+        var entity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>({{primaryKeysFindQuery}});
         EntityNotFoundException.ThrowIfNull(entity, "{{entity.Name}}", $"{{entity.Keys | keysToString}}");
 		
         var entityLocalized = await Repository.Query<{{entity.Name}}Localized>().FirstOrDefaultAsync(x =>{{for key in entity.Keys}}x.{{key.Name}} == entity.{{key.Name}} && {{end}}x.CultureCode == command.CultureCode);

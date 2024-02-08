@@ -48,7 +48,7 @@ internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdComma
 		{
 			var keyId = Dto.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<SecondTestEntityTwoRelationshipsOneToMany>(keyId);
+			var entity = await Repository.FindAsync<SecondTestEntityTwoRelationshipsOneToManyEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToMany",  $"{keyId.ToString()}");

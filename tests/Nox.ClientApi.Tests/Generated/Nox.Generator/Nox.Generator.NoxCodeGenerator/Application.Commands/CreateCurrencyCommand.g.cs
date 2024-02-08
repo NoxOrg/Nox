@@ -68,7 +68,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.StoreLicenseDefaultId)
 			{
 				var relatedKey = Dto.StoreLicenseMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<StoreLicense>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.StoreLicense>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStoreLicenseDefault(relatedEntity);
@@ -89,7 +89,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			foreach(var relatedId in request.EntityDto.StoreLicenseSoldInId)
 			{
 				var relatedKey = Dto.StoreLicenseMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<StoreLicense>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.StoreLicense>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToStoreLicenseSoldIn(relatedEntity);
@@ -107,7 +107,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Currency>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Currency>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);
 	}

@@ -51,7 +51,7 @@ internal abstract class PartialUpdateLandLordCommandHandlerBase : CommandBase<Pa
 		await OnExecutingAsync(request);
 		var keyId = Dto.LandLordMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<LandLord>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.LandLord>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("LandLord",  $"{keyId.ToString()}");

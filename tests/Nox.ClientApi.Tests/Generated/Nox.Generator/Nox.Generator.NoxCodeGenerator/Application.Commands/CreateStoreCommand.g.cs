@@ -82,7 +82,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
-			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -96,7 +96,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.StoreOwnerId is not null)
 		{
 			var relatedKey = Dto.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<StoreOwner>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.StoreOwner>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStoreOwner(relatedEntity);
 			else
@@ -110,7 +110,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.StoreLicenseId is not null)
 		{
 			var relatedKey = Dto.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
-			var relatedEntity = await Repository.FindAsync<StoreLicense>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.StoreLicense>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToStoreLicense(relatedEntity);
 			else
@@ -126,7 +126,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			foreach(var relatedId in request.EntityDto.ClientsId)
 			{
 				var relatedKey = Dto.ClientMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Client>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Client>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToClients(relatedEntity);
@@ -145,7 +145,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		if(request.EntityDto.ParentOfStoreId is not null)
 		{
 			var relatedKey = Dto.StoreMetadata.CreateId(request.EntityDto.ParentOfStoreId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Store>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToParentOfStore(relatedEntity);
 			else
@@ -161,7 +161,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			foreach(var relatedId in request.EntityDto.FranchisesOfStoreId)
 			{
 				var relatedKey = Dto.StoreMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Store>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Store>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToFranchisesOfStore(relatedEntity);
@@ -179,7 +179,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Store>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Store>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);
 	}

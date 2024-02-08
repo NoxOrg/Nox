@@ -195,14 +195,14 @@ internal abstract class RefVendingMachineToCashStockOrdersCommandHandlerBase<TRe
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<VendingMachine>(keys.ToArray(), x => x.CashStockOrders, cancellationToken);
+		return await Repository.FindAndIncludeAsync<Cryptocash.Domain.VendingMachine>(keys.ToArray(), x => x.CashStockOrders, cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.CashStockOrder?> GetVendingMachineRelatedCashStockOrders(CashStockOrderKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CashStockOrderMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<CashStockOrder>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.CashStockOrder>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)

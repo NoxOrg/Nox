@@ -68,7 +68,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 			foreach(var relatedId in request.EntityDto.ThirdTestEntityZeroOrManiesId)
 			{
 				var relatedKey = Dto.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<ThirdTestEntityZeroOrMany>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.ThirdTestEntityZeroOrMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToThirdTestEntityZeroOrManies(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<ThirdTestEntityOneOrMany>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.ThirdTestEntityOneOrMany>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new ThirdTestEntityOneOrManyKeyDto(entityToCreate.Id.Value);
 	}

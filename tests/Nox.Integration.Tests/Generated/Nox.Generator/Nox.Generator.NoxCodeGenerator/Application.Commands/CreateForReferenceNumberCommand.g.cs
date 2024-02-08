@@ -61,7 +61,7 @@ internal abstract class CreateForReferenceNumberCommandHandlerBase : CommandBase
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<ForReferenceNumber>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.ForReferenceNumber>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new ForReferenceNumberKeyDto(entityToCreate.Id.Value);
 	}

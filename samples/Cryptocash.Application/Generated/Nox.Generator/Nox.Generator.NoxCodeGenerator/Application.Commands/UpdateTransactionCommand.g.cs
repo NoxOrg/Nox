@@ -55,7 +55,7 @@ internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<Update
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Transaction>()
+		var entity = Repository.Query<Cryptocash.Domain.Transaction>()
             .Where(x => x.Id == Dto.TransactionMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

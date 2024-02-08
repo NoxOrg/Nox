@@ -195,14 +195,14 @@ internal abstract class RefVendingMachineToMinimumCashStocksCommandHandlerBase<T
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<VendingMachine>(keys.ToArray(), x => x.MinimumCashStocks, cancellationToken);
+		return await Repository.FindAndIncludeAsync<Cryptocash.Domain.VendingMachine>(keys.ToArray(), x => x.MinimumCashStocks, cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.MinimumCashStock?> GetVendingMachineRequiredMinimumCashStocks(MinimumCashStockKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.MinimumCashStockMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<MinimumCashStock>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.MinimumCashStock>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)

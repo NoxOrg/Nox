@@ -55,7 +55,7 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<StoreOwner>()
+		var entity = Repository.Query<ClientApi.Domain.StoreOwner>()
             .Where(x => x.Id == Dto.StoreOwnerMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

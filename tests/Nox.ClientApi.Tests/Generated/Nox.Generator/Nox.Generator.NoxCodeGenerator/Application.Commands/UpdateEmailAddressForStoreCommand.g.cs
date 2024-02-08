@@ -58,7 +58,7 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Store>(keys.ToArray(),e => e.EmailAddress, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Store>(keys.ToArray(),e => e.EmailAddress, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Store",  "keyId");		
 		var entity = parentEntity.EmailAddress;
 		if (entity is null)

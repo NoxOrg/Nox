@@ -51,7 +51,7 @@ internal abstract class PartialUpdateSecEntityOwnedRelOneOrManiesForTestEntityOw
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<TestEntityOwnedRelationshipOneOrMany>(keys.ToArray(),e => e.SecEntityOwnedRelOneOrManies, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany>(keys.ToArray(),e => e.SecEntityOwnedRelOneOrManies, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  "keyId");

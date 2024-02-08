@@ -70,7 +70,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
-			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -86,7 +86,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 			foreach(var relatedId in request.EntityDto.TenantsId)
 			{
 				var relatedKey = Dto.TenantMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Tenant>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<ClientApi.Domain.Tenant>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTenants(relatedEntity);
@@ -104,7 +104,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Workplace>(entityToCreate);
+		await Repository.AddAsync<ClientApi.Domain.Workplace>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}

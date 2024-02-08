@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCommissionCommandHandlerBase : CommandBase<
 		await OnExecutingAsync(request);
 		var keyId = Dto.CommissionMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Commission>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.Commission>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Commission",  $"{keyId.ToString()}");

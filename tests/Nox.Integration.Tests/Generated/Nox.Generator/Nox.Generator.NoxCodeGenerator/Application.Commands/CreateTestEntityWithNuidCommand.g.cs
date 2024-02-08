@@ -61,7 +61,7 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityWithNuid>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityWithNuid>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityWithNuidKeyDto(entityToCreate.Id.Value);
 	}

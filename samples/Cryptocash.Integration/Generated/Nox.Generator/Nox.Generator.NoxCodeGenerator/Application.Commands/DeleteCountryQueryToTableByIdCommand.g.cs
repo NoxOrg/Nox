@@ -48,7 +48,7 @@ internal abstract class DeleteCountryQueryToTableByIdCommandHandlerBase : Comman
 		{
 			var keyId = Dto.CountryQueryToTableMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<CountryQueryToTable>(keyId);
+			var entity = await Repository.FindAsync<CountryQueryToTableEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("CountryQueryToTable",  $"{keyId.ToString()}");

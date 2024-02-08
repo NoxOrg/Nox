@@ -153,14 +153,14 @@ internal abstract class RefTransactionToCustomerCommandHandlerBase<TRequest> : C
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TransactionMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<Transaction>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Transaction>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.Customer?> GetTransactionForCustomer(CustomerKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CustomerMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Customer>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Customer>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, TransactionEntity entity)

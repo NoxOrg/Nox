@@ -53,7 +53,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipZeroOrOneForTestE
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<TestEntityOwnedRelationshipZeroOrOne> (keyId);
+		var parentEntity = await Repository.FindAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrOne",  $"{keyId.ToString()}");

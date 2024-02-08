@@ -55,7 +55,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Tenant>()
+		var entity = Repository.Query<ClientApi.Domain.Tenant>()
             .Where(x => x.Id == Dto.TenantMetadata.CreateId(request.keyId))
 			.Include(e => e.TenantBrands)
 			.Include(e => e.TenantContact)

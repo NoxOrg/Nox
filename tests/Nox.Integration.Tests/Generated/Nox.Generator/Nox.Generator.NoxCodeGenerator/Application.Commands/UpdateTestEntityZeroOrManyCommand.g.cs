@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityZeroOrMany>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityZeroOrMany>()
             .Where(x => x.Id == Dto.TestEntityZeroOrManyMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

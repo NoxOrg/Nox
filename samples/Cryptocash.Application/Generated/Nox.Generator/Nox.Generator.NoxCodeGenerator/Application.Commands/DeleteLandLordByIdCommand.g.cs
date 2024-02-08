@@ -48,7 +48,7 @@ internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandCollection
 		{
 			var keyId = Dto.LandLordMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<LandLord>(keyId);
+			var entity = await Repository.FindAsync<LandLordEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("LandLord",  $"{keyId.ToString()}");

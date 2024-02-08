@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCustomerCommandHandlerBase : CommandBase<Pa
 		await OnExecutingAsync(request);
 		var keyId = Dto.CustomerMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Customer>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.Customer>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Customer",  $"{keyId.ToString()}");

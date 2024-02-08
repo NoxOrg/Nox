@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCountryQueryToTableCommandHandlerBase : Com
 		await OnExecutingAsync(request);
 		var keyId = Dto.CountryQueryToTableMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<CountryQueryToTable>(keyId);
+		var entity = await Repository.FindAsync<CryptocashIntegration.Domain.CountryQueryToTable>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CountryQueryToTable",  $"{keyId.ToString()}");

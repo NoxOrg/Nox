@@ -58,7 +58,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- for key in parent.Keys }}
 		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
-		var parentEntity = await Repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(), p => p.{{relationshipName}}, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(), p => p.{{relationshipName}}, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("{{parent.Name}}",  "{{parent.Keys | keysToString}}");

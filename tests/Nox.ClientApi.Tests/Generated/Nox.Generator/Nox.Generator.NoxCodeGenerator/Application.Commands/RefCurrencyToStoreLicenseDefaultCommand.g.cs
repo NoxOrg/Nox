@@ -195,14 +195,14 @@ internal abstract class RefCurrencyToStoreLicenseDefaultCommandHandlerBase<TRequ
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<Currency>(keys.ToArray(), x => x.StoreLicenseDefault, cancellationToken);
+		return await Repository.FindAndIncludeAsync<ClientApi.Domain.Currency>(keys.ToArray(), x => x.StoreLicenseDefault, cancellationToken);
 	}
 
 	protected async Task<ClientApi.Domain.StoreLicense?> GetStoreLicenseDefault(StoreLicenseKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreLicenseMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<StoreLicense>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.StoreLicense>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, CurrencyEntity entity)

@@ -153,14 +153,14 @@ internal abstract class RefCountryToCurrencyCommandHandlerBase<TRequest> : Comma
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<Country>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Country>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.Currency?> GetCountryUsedByCurrency(CurrencyKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Currency>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Currency>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, CountryEntity entity)

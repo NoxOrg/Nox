@@ -51,7 +51,7 @@ internal abstract class PartialUpdateSecondTestEntityTwoRelationshipsOneToOneCom
 		await OnExecutingAsync(request);
 		var keyId = Dto.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<SecondTestEntityTwoRelationshipsOneToOne>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsOneToOne",  $"{keyId.ToString()}");

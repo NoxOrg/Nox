@@ -48,7 +48,7 @@ internal abstract class DeleteEntityUniqueConstraintsRelatedForeignKeyByIdComman
 		{
 			var keyId = Dto.EntityUniqueConstraintsRelatedForeignKeyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<EntityUniqueConstraintsRelatedForeignKey>(keyId);
+			var entity = await Repository.FindAsync<EntityUniqueConstraintsRelatedForeignKeyEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("EntityUniqueConstraintsRelatedForeignKey",  $"{keyId.ToString()}");

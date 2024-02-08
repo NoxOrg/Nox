@@ -61,7 +61,7 @@ internal abstract class CreateCountryQueryToCustomTableCommandHandlerBase : Comm
 		var entityToCreate = await EntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<CountryQueryToCustomTable>(entityToCreate);
+		await Repository.AddAsync<CryptocashIntegration.Domain.CountryQueryToCustomTable>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CountryQueryToCustomTableKeyDto(entityToCreate.Id.Value);
 	}

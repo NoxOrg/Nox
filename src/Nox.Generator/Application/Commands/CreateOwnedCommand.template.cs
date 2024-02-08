@@ -62,7 +62,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		var key{{key.Name}} = Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
-		var parentEntity = await Repository.FindAsync<{{parent.Name}}> ({{parentKeysFindQuery}});
+		var parentEntity = await Repository.FindAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}> ({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("{{parent.Name}}",  $"{{parent.Keys | keysToString}}");

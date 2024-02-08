@@ -153,14 +153,14 @@ internal abstract class RefStoreLicenseToStoreCommandHandlerBase<TRequest> : Com
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreLicenseMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<StoreLicense>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.StoreLicense>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<ClientApi.Domain.Store?> GetStoreWithLicense(StoreKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Store>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.Store>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, StoreLicenseEntity entity)

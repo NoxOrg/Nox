@@ -48,7 +48,7 @@ internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandColl
 		{
 			var keyId = Dto.VendingMachineMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<VendingMachine>(keyId);
+			var entity = await Repository.FindAsync<VendingMachineEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("VendingMachine",  $"{keyId.ToString()}");

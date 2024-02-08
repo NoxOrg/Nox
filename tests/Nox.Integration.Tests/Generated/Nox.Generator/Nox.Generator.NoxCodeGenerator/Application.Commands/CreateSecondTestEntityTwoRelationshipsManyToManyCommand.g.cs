@@ -68,7 +68,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 			foreach(var relatedId in request.EntityDto.TestRelationshipOneOnOtherSideId)
 			{
 				var relatedKey = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<TestEntityTwoRelationshipsManyToMany>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
@@ -89,7 +89,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 			foreach(var relatedId in request.EntityDto.TestRelationshipTwoOnOtherSideId)
 			{
 				var relatedKey = Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<TestEntityTwoRelationshipsManyToMany>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
@@ -107,7 +107,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<SecondTestEntityTwoRelationshipsManyToMany>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new SecondTestEntityTwoRelationshipsManyToManyKeyDto(entityToCreate.Id.Value);
 	}

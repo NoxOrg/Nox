@@ -63,7 +63,7 @@ internal abstract class PartialUpdate{{relationshipName}}For{{parent.Name}}Comma
 		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
 
-		var parentEntity = await Repository.FindAndIncludeAsync<{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("{{parent.Name}}",  "{{parent.Keys | keysToString}}");

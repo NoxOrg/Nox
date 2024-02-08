@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCountryJsonToTableCommandHandlerBase : Comm
 		await OnExecutingAsync(request);
 		var keyId = Dto.CountryJsonToTableMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<CountryJsonToTable>(keyId);
+		var entity = await Repository.FindAsync<CryptocashIntegration.Domain.CountryJsonToTable>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CountryJsonToTable",  $"{keyId.ToString()}");

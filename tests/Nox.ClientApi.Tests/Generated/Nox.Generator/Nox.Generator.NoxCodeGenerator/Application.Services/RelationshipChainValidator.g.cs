@@ -38,18 +38,17 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
 
         _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
-            { "Countries", (Repository.Query<Country>(), "Id") },
-            { "RatingPrograms", (Repository.Query<RatingProgram>(), "StoreId") },
-            { "CountryQualityOfLifeIndices", (Repository.Query<CountryQualityOfLifeIndex>(), "CountryId") },
-            { "Stores", (Repository.Query<Store>(), "Id") },
-            { "Workplaces", (Repository.Query<Workplace>(), "Id") },
-            { "StoreOwners", (Repository.Query<StoreOwner>(), "Id") },
-            { "StoreLicenses", (Repository.Query<StoreLicense>(), "Id") },
-            { "Currencies", (Repository.Query<Currency>(), "Id") },
-            { "Tenants", (Repository.Query<Tenant>(), "Id") },
-            { "Clients", (Repository.Query<Client>(), "Id") },
-            { "ReferenceNumberEntities", (Repository.Query<ReferenceNumberEntity>(), "Id") },
-            { "People", (Repository.Query<Person>(), "Id") }
+            { "Countries", (Repository.Query<ClientApi.Domain.Country>(), "Id") },
+            { "RatingPrograms", (Repository.Query<ClientApi.Domain.RatingProgram>(), "StoreId") },
+            { "CountryQualityOfLifeIndices", (Repository.Query<ClientApi.Domain.CountryQualityOfLifeIndex>(), "CountryId") },
+            { "Stores", (Repository.Query<ClientApi.Domain.Store>(), "Id") },
+            { "Workplaces", (Repository.Query<ClientApi.Domain.Workplace>(), "Id") },
+            { "StoreOwners", (Repository.Query<ClientApi.Domain.StoreOwner>(), "Id") },
+            { "StoreLicenses", (Repository.Query<ClientApi.Domain.StoreLicense>(), "Id") },
+            { "Currencies", (Repository.Query<ClientApi.Domain.Currency>(), "Id") },
+            { "Tenants", (Repository.Query<ClientApi.Domain.Tenant>(), "Id") },
+            { "Clients", (Repository.Query<ClientApi.Domain.Client>(), "Id") },
+            { "ReferenceNumberEntities", (Repository.Query<ClientApi.Domain.ReferenceNumberEntity>(), "Id") }
         };
 
         _navigationNameToEntityPluralName = new(StringComparer.OrdinalIgnoreCase)
@@ -199,12 +198,6 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         if (entityName.Equals("ReferenceNumberEntities", StringComparison.OrdinalIgnoreCase))
         {
             parsedKey = ReferenceNumberEntityMetadata.CreateId(key);
-            return true;
-        }
-        if (entityName.Equals("People", StringComparison.OrdinalIgnoreCase))
-        {
-            if (!System.Guid.TryParse(key, out var value)) return false;
-            parsedKey = PersonMetadata.CreateId(value);
             return true;
         }
         return false;
