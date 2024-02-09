@@ -59,34 +59,34 @@ public partial class EditStreetAddress : ComponentBase
     }
 
     [Parameter]
-    public string? Title { get; set; }
+    public string? Title { get; set; } = Resources.Resources.TitleStreetAddress;
 
     [Parameter]
-    public string? TitleAddressLine1 { get; set; } = "Address Line 1";
+    public string? TitleAddressLine1 { get; set; } = Resources.Resources.TitleAddressLine1;
 
     [Parameter]
-    public string? TitleAddressLine2 { get; set; } = "Address Line 2";
+    public string? TitleAddressLine2 { get; set; } = Resources.Resources.TitleAddressLine2;
 
     [Parameter]
-    public string? TitleRoute { get; set; } = "Route";
+    public string? TitleRoute { get; set; } = Resources.Resources.TitleRoute;
 
     [Parameter]
-    public string? TitleLocality { get; set; } = "Locality";
+    public string? TitleLocality { get; set; } = Resources.Resources.TitleLocality;
 
     [Parameter]
-    public string? TitleNeighborhood { get; set; } = "Neighborhood";
+    public string? TitleNeighborhood { get; set; } = Resources.Resources.TitleNeighborhood;
 
     [Parameter]
-    public string? TitleAdministrativeArea1 { get; set; } = "Administrative Area 1";
+    public string? TitleAdministrativeArea1 { get; set; } = Resources.Resources.TitleAdministrativeArea1;
 
     [Parameter]
-    public string? TitleAdministrativeArea2 { get; set; } = "Administrative Area 2";
+    public string? TitleAdministrativeArea2 { get; set; } = Resources.Resources.TitleAdministrativeArea2;
 
     [Parameter]
-    public string? TitlePostalCode { get; set; } = "Postal Code";
+    public string? TitlePostalCode { get; set; } = Resources.Resources.TitlePostalCode;
 
     [Parameter]
-    public string? TitleCountryId { get; set; } = "CountryId";
+    public string? TitleCountryId { get; set; } = Resources.Resources.TitleCountryId;
 
     [Parameter]
     public List<CountryModel> CountrySelectionList { get; set; } = new();
