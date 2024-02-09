@@ -178,6 +178,15 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currency Code.
+        /// </summary>
+        public static string TitleCurrencyCode {
+            get {
+                return ResourceManager.GetString("TitleCurrencyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DateTime Range.
         /// </summary>
         public static string TitleDateTimeRange {

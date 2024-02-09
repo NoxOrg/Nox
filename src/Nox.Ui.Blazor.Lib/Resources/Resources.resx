@@ -156,6 +156,9 @@
   <data name="TitleCountryId" xml:space="preserve">
     <value>CountryId</value>
   </data>
+  <data name="TitleCurrencyCode" xml:space="preserve">
+    <value>Currency Code</value>
+  </data>
   <data name="TitleDateTimeRange" xml:space="preserve">
     <value>DateTime Range</value>
   </data>

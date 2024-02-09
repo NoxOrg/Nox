@@ -158,7 +158,9 @@
                                                         <EditText Title="Text" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditMoney Title="Money" Money="@testMoney" Currency="testMoney.CurrencyCode" />
+                                                        <EditMoney Title="Money" @bind-Money="@testMoney"/>
+                                                        <MudText>money.amount: @testMoney.Amount</MudText>
+                                                        <MudText>money.CurrencyCode: @testMoney.CurrencyCode</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" />
