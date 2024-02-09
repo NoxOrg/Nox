@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Immutable;
 
 namespace Nox.Types;
 /// <summary>
@@ -6,8 +6,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CountryCode3 : ValueObject<string, CountryCode3>
 {
-    private static readonly HashSet<string> _countryCode3s = new()
-    {
+    public static readonly ImmutableHashSet<string> Values = ImmutableHashSet.Create<string>(
         "AFG", "ALA", "ALB", "DZA", "ASM", "AND", "AGO", "AIA", "ATA", "ATG", "ARG", "ARM", "ABW", "AUS", "AUT",
         "AZE", "BHS", "BHR", "BGD", "BRB", "BLR", "BEL", "BLZ", "BEN", "BMU", "BTN", "BOL", "BIH", "BWA", "BVT",
         "BRA", "VGB", "IOT", "BRN", "BGR", "BFA", "BDI", "KHM", "CMR", "CAN", "CPV", "CYM", "CAF", "TCD", "CHL",
@@ -25,7 +24,7 @@ public sealed class CountryCode3 : ValueObject<string, CountryCode3>
         "SUR", "SJM", "SWZ", "SWE", "CHE", "SYR", "TWN", "TJK", "TZA", "THA", "TLS", "TGO", "TKL", "TON", "TTO",
         "TUN", "TUR", "TKM", "TCA", "TUV", "UGA", "UKR", "ARE", "GBR", "USA", "UMI", "URY", "UZB", "VUT", "VEN",
         "VNM", "VIR", "WLF", "ESH", "YEM", "ZMB", "ZWE"
-    };
+    );
 
     /// <summary>
     /// <inheritdoc/>
@@ -35,7 +34,7 @@ public sealed class CountryCode3 : ValueObject<string, CountryCode3>
     {
         var result = base.Validate();
 
-        if(!_countryCode3s.Contains(Value))
+        if(!Values.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CountryCode3 type with unsupported value '{Value}'."));
         }
