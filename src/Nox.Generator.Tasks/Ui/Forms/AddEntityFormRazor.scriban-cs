@@ -8,7 +8,7 @@ end -}}
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using Cryptocash.Application.Dto
+@using {{codeGenConventions.DtoNameSpace}}
 
 @using {{codeGenConventions.UiNameSpace}}.Services
 

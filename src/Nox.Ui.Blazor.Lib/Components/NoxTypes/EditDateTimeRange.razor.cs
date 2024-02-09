@@ -41,13 +41,13 @@ public partial class EditDateTimeRange : ComponentBase
     public int? MillisecondStart { get; set; }
 
     [Parameter]
-    public string? TitleHourStart { get; set; }
+    public string? TitleHourStart { get; set; } = "Start Hour";
 
     [Parameter]
-    public string? TitleMinuteStart { get; set; }
+    public string? TitleMinuteStart { get; set; } = "Start Minute";
 
     [Parameter]
-    public string? TitleSecondStart { get; set; }
+    public string? TitleSecondStart { get; set; } = "Start Second";
 
     [Parameter]
     public string? TitleMillisecondStart { get; set; }
@@ -73,13 +73,13 @@ public partial class EditDateTimeRange : ComponentBase
     public int? MillisecondEnd { get; set; }
 
     [Parameter]
-    public string? TitleHourEnd { get; set; }
+    public string? TitleHourEnd { get; set; } = "End Hour";
 
     [Parameter]
-    public string? TitleMinuteEnd { get; set; }
+    public string? TitleMinuteEnd { get; set; } = "End Minute";
 
     [Parameter]
-    public string? TitleSecondEnd { get; set; }
+    public string? TitleSecondEnd { get; set; } = "End Second";
 
     [Parameter]
     public string? TitleMillisecondEnd { get; set; }
@@ -174,51 +174,52 @@ public partial class EditDateTimeRange : ComponentBase
         CurrentMillisecondEndStr = MillisecondEnd.ToString();
     }
 
-protected async Task OnDateTimeRangeChanged(string newValue)
-{
-    if (!String.IsNullOrWhiteSpace(newValue)
-        && newValue.Contains(';'))
+    protected async Task OnDateTimeRangeChanged(string newValue)
     {
-        string tempDateRangeStr = newValue.Replace("]", String.Empty).Replace("[", String.Empty);
-
-        List<string> tempDateRangeList = tempDateRangeStr.Split(';').ToList();
-
-        if (tempDateRangeList.Count == 2)
+        if (!String.IsNullOrWhiteSpace(newValue)
+            && newValue.Contains(';'))
         {
-            if (System.DateTime.TryParse(tempDateRangeList[0], CultureInfo, out System.DateTime currentDateTimeStart))
+            string tempDateRangeStr = newValue.Replace("]", String.Empty).Replace("[", String.Empty);
+
+            List<string> tempDateRangeList = tempDateRangeStr.Split(';').ToList();
+
+            if (tempDateRangeList.Count == 2)
             {
-                DateTimeRange.Start = currentDateTimeStart;
+                DateTimeRange ??= new();
+                if (System.DateTime.TryParse(tempDateRangeList[0], CultureInfo, out System.DateTime currentDateTimeStart))
+                {
+                    DateTimeRange.Start = currentDateTimeStart;
 
-                HourStart = DateTimeRange.Start.Hour;
-                MinuteStart = DateTimeRange.Start.Minute;
-                SecondStart = DateTimeRange.Start.Second;
-                MillisecondStart = DateTimeRange.Start.Millisecond;
+                    HourStart = DateTimeRange.Start.Hour;
+                    MinuteStart = DateTimeRange.Start.Minute;
+                    SecondStart = DateTimeRange.Start.Second;
+                    MillisecondStart = DateTimeRange.Start.Millisecond;
 
-                CurrentHourStartStr = HourStart.ToString();
-                CurrentMinuteStartStr = MinuteStart.ToString();
-                CurrentSecondStartStr = SecondStart.ToString();
-                CurrentMillisecondStartStr = MillisecondStart.ToString();
+                    CurrentHourStartStr = HourStart.ToString();
+                    CurrentMinuteStartStr = MinuteStart.ToString();
+                    CurrentSecondStartStr = SecondStart.ToString();
+                    CurrentMillisecondStartStr = MillisecondStart.ToString();
+                }
+
+                if (System.DateTime.TryParse(tempDateRangeList[1], CultureInfo, out System.DateTime currentDateTimeEnd))
+                {
+                    DateTimeRange.End = currentDateTimeEnd;
+
+                    HourEnd = DateTimeRange.End.Hour;
+                    MinuteEnd = DateTimeRange.End.Minute;
+                    SecondEnd = DateTimeRange.End.Second;
+                    MillisecondEnd = DateTimeRange.End.Millisecond;
+
+                    CurrentHourEndStr = HourEnd.ToString();
+                    CurrentMinuteEndStr = MinuteEnd.ToString();
+                    CurrentSecondEndStr = SecondEnd.ToString();
+                    CurrentMillisecondEndStr = MillisecondEnd.ToString();
+                }
+
+                await UpdateDateTimeRange();
             }
-
-            if (System.DateTime.TryParse(tempDateRangeList[1], CultureInfo, out System.DateTime currentDateTimeEnd))
-            {
-                DateTimeRange.End = currentDateTimeEnd;
-
-                HourEnd = DateTimeRange.End.Hour;
-                MinuteEnd = DateTimeRange.End.Minute;
-                SecondEnd = DateTimeRange.End.Second;
-                MillisecondEnd = DateTimeRange.End.Millisecond;
-
-                CurrentHourEndStr = HourEnd.ToString();
-                CurrentMinuteEndStr = MinuteEnd.ToString();
-                CurrentSecondEndStr = SecondEnd.ToString();
-                CurrentMillisecondEndStr = MillisecondEnd.ToString();
-            }
-
-            await UpdateDateTimeRange();
         }
     }
-}
 
 protected static string ErrorRequiredMessage(string? currentTitle)
     {
