@@ -13,7 +13,7 @@ public partial class ViewVolume : ComponentBase
     public Decimal? Volume { get; set; }
 
     [Parameter]
-    public VolumeUnit VolumeUnit { get; set; } = VolumeUnit.CubicMeter;
+    public VolumeTypeUnit Units { get; set; } = VolumeTypeUnit.CubicMeter;
 
     [Parameter]
     public string Format { get; set; } = "#,##0.##";
@@ -35,12 +35,12 @@ public partial class ViewVolume : ComponentBase
 
     private string DisplayVolumeUnit()
     {
-        if (VolumeUnit == VolumeUnit.CubicMeter)
+        if (Units == VolumeTypeUnit.CubicMeter)
         {
             return VolumeUnit.CubicMeter.Symbol;
         }
 
-        if (VolumeUnit == VolumeUnit.CubicFoot)
+        if (Units == VolumeTypeUnit.CubicFoot)
         {
             return VolumeUnit.CubicFoot.Symbol;
         }

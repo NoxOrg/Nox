@@ -58,7 +58,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country",  "keyId");				
 		HolidayEntity? entity;
 		if(request.EntityDto.Id is null)

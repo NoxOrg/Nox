@@ -55,7 +55,7 @@ internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<Upda
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<PaymentDetail>()
+		var entity = Repository.Query<Cryptocash.Domain.PaymentDetail>()
             .Where(x => x.Id == Dto.PaymentDetailMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

@@ -20,7 +20,7 @@ public partial class EditLatLong : ComponentBase
     public bool DisplayGoogleMap { get; set; } = false;
 
     [Parameter]
-    public string? TitleLatitude { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string? TitleLongitude { get; set; }
@@ -47,7 +47,7 @@ public partial class EditLatLong : ComponentBase
 
     protected async Task OnLatitudeChanged(string newValue)
     {
-        if (double.TryParse(newValue, out double parsedDouble)) 
+        if (double.TryParse(newValue, out double parsedDouble))
         {
             CurrentLatitude = parsedDouble;
 
@@ -60,7 +60,7 @@ public partial class EditLatLong : ComponentBase
             LatLong = new LatLongModel((double)CurrentLatitude, useLongitude);
 
             await LatLongChanged.InvokeAsync(LatLong);
-        } 
+        }
     }
 
     protected async Task OnLongitudeChanged(string newValue)
@@ -78,7 +78,7 @@ public partial class EditLatLong : ComponentBase
             LatLong = new LatLongModel(useLatitude, (double)CurrentLongitude);
 
             await LatLongChanged.InvokeAsync(LatLong);
-        }  
+        }
     }
 
     protected async Task OnLatLongChanged(LatLongModel newValue)

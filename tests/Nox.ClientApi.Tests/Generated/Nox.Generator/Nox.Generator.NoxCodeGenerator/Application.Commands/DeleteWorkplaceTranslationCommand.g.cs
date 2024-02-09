@@ -43,7 +43,7 @@ internal abstract class DeleteWorkplaceTranslationCommandHandlerBase : CommandBa
         await OnExecutingAsync(command);
 		var keyId = Dto.WorkplaceMetadata.CreateId(command.keyId);
         
-        var entity = await Repository.FindAsync<Workplace>(keyId);
+        var entity = await Repository.FindAsync<ClientApi.Domain.Workplace>(keyId);
         EntityNotFoundException.ThrowIfNull(entity, "Workplace", $"{keyId.ToString()}");
 		
         var entityLocalized = await Repository.Query<WorkplaceLocalized>().FirstOrDefaultAsync(x =>x.Id == entity.Id && x.CultureCode == command.CultureCode);

@@ -48,7 +48,7 @@ internal abstract class DeleteCountryJsonToTableByIdCommandHandlerBase : Command
 		{
 			var keyId = Dto.CountryJsonToTableMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<CountryJsonToTable>(keyId);
+			var entity = await Repository.FindAsync<CountryJsonToTableEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("CountryJsonToTable",  $"{keyId.ToString()}");

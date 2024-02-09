@@ -62,7 +62,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandCol
 			var key{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(keyDto.key{{key.Name}});
 			{{- end }}		
 
-			var entity = await Repository.FindAsync<{{entity.Name}}>({{entity.Keys | array.map "Name" | keysQuery}});
+			var entity = await Repository.FindAsync<{{entity.Name}}Entity>({{entity.Keys | array.map "Name" | keysQuery}});
 			if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
 			{
 				throw new EntityNotFoundException("{{entity.Name}}",  $"{{entity.Keys | keysToString}}");

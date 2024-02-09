@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.TestHost;
+using MongoDB.Driver.Core.Configuration;
 using Nox;
 using Nox.Infrastructure;
 using Nox.Solution;
@@ -21,6 +22,17 @@ public class TestDatabaseInstanceService : IAsyncLifetime, ITestDatabaseService
 
     private NoxAppClient _noxAppClient = null!;
 
+    public TestDatabaseInstanceService()
+    {
+        ConnectionString = DbProviderKind switch
+        {
+            DatabaseServerProvider.Postgres => "Host=localhost; Database=clientapitests; Username=dev; Password=12345",
+            DatabaseServerProvider.SqlServer => "Data Source=localhost;TrustServerCertificate=true;Initial Catalog=clientapitests;User ID=sa;password=Developer*123;",
+            _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
+        };
+    }
+
+    public string ConnectionString { get; private set; }
     public NoxAppClient GetNoxClient(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
     {
         if (_noxAppClient == null)
@@ -52,11 +64,9 @@ public class TestDatabaseInstanceService : IAsyncLifetime, ITestDatabaseService
         return Task.CompletedTask;
 
     }
-
     public Task DisposeAsync()
     {
         return Task.CompletedTask;
     }
-
     public DatabaseServerProvider GetDatabaseServerProvider() => DbProviderKind;
 }

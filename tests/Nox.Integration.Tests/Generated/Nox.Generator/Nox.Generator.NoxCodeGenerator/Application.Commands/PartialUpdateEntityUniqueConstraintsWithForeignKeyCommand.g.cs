@@ -51,7 +51,7 @@ internal abstract class PartialUpdateEntityUniqueConstraintsWithForeignKeyComman
 		await OnExecutingAsync(request);
 		var keyId = Dto.EntityUniqueConstraintsWithForeignKeyMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<EntityUniqueConstraintsWithForeignKey>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.EntityUniqueConstraintsWithForeignKey>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("EntityUniqueConstraintsWithForeignKey",  $"{keyId.ToString()}");

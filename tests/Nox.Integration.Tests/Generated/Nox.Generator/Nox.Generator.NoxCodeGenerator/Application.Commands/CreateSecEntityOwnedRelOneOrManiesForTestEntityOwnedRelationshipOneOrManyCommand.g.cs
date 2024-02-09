@@ -53,7 +53,7 @@ internal abstract class CreateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRela
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<TestEntityOwnedRelationshipOneOrMany> (keyId);
+		var parentEntity = await Repository.FindAsync<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  $"{keyId.ToString()}");

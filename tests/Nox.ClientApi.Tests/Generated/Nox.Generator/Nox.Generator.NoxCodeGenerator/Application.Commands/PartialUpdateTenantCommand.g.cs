@@ -51,7 +51,7 @@ internal abstract class PartialUpdateTenantCommandHandlerBase : CommandBase<Part
 		await OnExecutingAsync(request);
 		var keyId = Dto.TenantMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Tenant>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.Tenant>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  $"{keyId.ToString()}");

@@ -48,7 +48,7 @@ internal abstract class DeleteCurrencyByIdCommandHandlerBase : CommandCollection
 		{
 			var keyId = Dto.CurrencyMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Currency>(keyId);
+			var entity = await Repository.FindAsync<CurrencyEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");

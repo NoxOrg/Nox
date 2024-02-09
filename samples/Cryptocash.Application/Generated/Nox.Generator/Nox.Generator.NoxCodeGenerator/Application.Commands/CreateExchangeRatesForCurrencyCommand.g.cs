@@ -53,7 +53,7 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 		await OnExecutingAsync(request);
 		var keyId = Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
-		var parentEntity = await Repository.FindAsync<Currency> (keyId);
+		var parentEntity = await Repository.FindAsync<Cryptocash.Domain.Currency> (keyId);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");

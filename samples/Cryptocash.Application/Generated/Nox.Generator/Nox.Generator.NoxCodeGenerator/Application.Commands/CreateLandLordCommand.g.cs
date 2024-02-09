@@ -68,7 +68,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Dto.VendingMachineMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<VendingMachine>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.VendingMachine>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToVendingMachines(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<LandLord>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.LandLord>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new LandLordKeyDto(entityToCreate.Id.Value);
 	}

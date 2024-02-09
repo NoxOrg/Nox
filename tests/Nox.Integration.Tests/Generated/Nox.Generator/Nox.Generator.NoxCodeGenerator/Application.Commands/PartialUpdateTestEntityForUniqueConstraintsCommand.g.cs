@@ -51,7 +51,7 @@ internal abstract class PartialUpdateTestEntityForUniqueConstraintsCommandHandle
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<TestEntityForUniqueConstraints>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.TestEntityForUniqueConstraints>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityForUniqueConstraints",  $"{keyId.ToString()}");

@@ -8,6 +8,9 @@ public partial class EditGoogleMap : ComponentBase
 {
     #region Declarations
 
+    [Parameter]
+    public string? Title { get; set; }
+
     [Inject]
     public IJSRuntime? JSRuntime { get; set; }
 

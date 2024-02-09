@@ -58,7 +58,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<{{entity.Name}}>()
+		var entity = Repository.Query<{{codeGenConventions.DomainNameSpace}}.{{entity.Name}}>()
 			{{- for key in entity.Keys}}
             .Where(x => x.{{key.Name}} == Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}}))
             {{- end }}            

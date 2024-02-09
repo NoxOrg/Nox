@@ -80,7 +80,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			foreach(var relatedId in request.EntityDto.PaymentDetailsId)
 			{
 				var relatedKey = Dto.PaymentDetailMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<PaymentDetail>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.PaymentDetail>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToPaymentDetails(relatedEntity);
@@ -101,7 +101,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
 				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Booking>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToBookings(relatedEntity);
@@ -122,7 +122,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			foreach(var relatedId in request.EntityDto.TransactionsId)
 			{
 				var relatedKey = Dto.TransactionMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Transaction>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Transaction>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTransactions(relatedEntity);
@@ -141,7 +141,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -154,7 +154,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Customer>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.Customer>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CustomerKeyDto(entityToCreate.Id.Value);
 	}

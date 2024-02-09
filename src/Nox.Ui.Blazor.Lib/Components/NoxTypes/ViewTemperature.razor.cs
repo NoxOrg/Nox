@@ -12,7 +12,7 @@ public partial class ViewTemperature : ComponentBase
     public decimal? Temperature { get; set; }
 
     [Parameter]
-    public TemperatureUnit TemperatureUnit { get; set; } = TemperatureUnit.Celsius;
+    public TemperatureTypeUnit Units { get; set; } = TemperatureTypeUnit.Celsius;
 
     [Parameter]
     public string Format { get; set; } = "#.##";
@@ -33,12 +33,12 @@ public partial class ViewTemperature : ComponentBase
 
     private string DisplayTemperatureUnit()
     {
-        if (TemperatureUnit == TemperatureUnit.Fahrenheit)
+        if (Units == TemperatureTypeUnit.Fahrenheit)
         {
             return TemperatureUnit.Fahrenheit.Symbol;
         }
 
-        if (TemperatureUnit == TemperatureUnit.Celsius)
+        if (Units == TemperatureTypeUnit.Celsius)
         {
             return TemperatureUnit.Celsius.Symbol;
         }

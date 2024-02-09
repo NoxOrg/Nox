@@ -153,14 +153,14 @@ internal abstract class RefPaymentDetailToPaymentProviderCommandHandlerBase<TReq
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PaymentDetailMetadata.CreateId(entityKeyDto.keyId));		
-		return await Repository.FindAsync<PaymentDetail>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.PaymentDetail>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.PaymentProvider?> GetPaymentDetailsRelatedPaymentProvider(PaymentProviderKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PaymentProviderMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<PaymentProvider>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.PaymentProvider>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, PaymentDetailEntity entity)

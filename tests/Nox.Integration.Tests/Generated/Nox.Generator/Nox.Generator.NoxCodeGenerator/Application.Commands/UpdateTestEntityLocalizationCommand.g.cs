@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityLocalization>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityLocalization>()
             .Where(x => x.Id == Dto.TestEntityLocalizationMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

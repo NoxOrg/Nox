@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBa
 		{
 			var keyId = Dto.TestEntityForUniqueConstraintsMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<TestEntityForUniqueConstraints>(keyId);
+			var entity = await Repository.FindAsync<TestEntityForUniqueConstraintsEntity>(keyId);
 			if (entity == null)
 			{
 				throw new EntityNotFoundException("TestEntityForUniqueConstraints",  $"{keyId.ToString()}");

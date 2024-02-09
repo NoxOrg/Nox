@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCashStockOrderCommandHandlerBase : CommandB
 		await OnExecutingAsync(request);
 		var keyId = Dto.CashStockOrderMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<CashStockOrder>(keyId);
+		var entity = await Repository.FindAsync<Cryptocash.Domain.CashStockOrder>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CashStockOrder",  $"{keyId.ToString()}");

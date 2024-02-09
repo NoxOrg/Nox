@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCountryQueryToCustomTableCommandHandlerBase
 		await OnExecutingAsync(request);
 		var keyId = Dto.CountryQueryToCustomTableMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<CountryQueryToCustomTable>(keyId);
+		var entity = await Repository.FindAsync<CryptocashIntegration.Domain.CountryQueryToCustomTable>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("CountryQueryToCustomTable",  $"{keyId.ToString()}");

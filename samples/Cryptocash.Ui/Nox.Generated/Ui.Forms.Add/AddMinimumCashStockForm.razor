@@ -1,6 +1,8 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -14,9 +16,9 @@
     <DialogContent>
         <MudForm Model="@MinimumCashStock">
             <MudGrid Style="margin-top:15px;">
-                <MudItem>
-                    <EditMoney @bind-Money="MinimumCashStock.Amount" />
-                                        <!-- Title="Amount" TypeOptions="@MinimumCashStockMetadata.AmountTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditMoney @bind-Money="MinimumCashStock.Amount" 
+                        Title="Amount"/>
                 </MudItem>
             </MudGrid>            
         </MudForm>

@@ -52,7 +52,7 @@ internal abstract class PartialUpdateRatingProgramCommandHandlerBase : CommandBa
 		var keyStoreId = Dto.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
 		var keyId = Dto.RatingProgramMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<RatingProgram>(keyStoreId, keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.RatingProgram>(keyStoreId, keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("RatingProgram",  $"{keyStoreId.ToString()}, {keyId.ToString()}");

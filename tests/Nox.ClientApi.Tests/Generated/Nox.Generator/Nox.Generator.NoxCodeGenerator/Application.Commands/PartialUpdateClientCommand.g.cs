@@ -51,7 +51,7 @@ internal abstract class PartialUpdateClientCommandHandlerBase : CommandBase<Part
 		await OnExecutingAsync(request);
 		var keyId = Dto.ClientMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Client>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.Client>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Client",  $"{keyId.ToString()}");

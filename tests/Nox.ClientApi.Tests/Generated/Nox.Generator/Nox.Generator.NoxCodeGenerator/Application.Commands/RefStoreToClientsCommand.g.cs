@@ -195,14 +195,14 @@ internal abstract class RefStoreToClientsCommandHandlerBase<TRequest> : CommandB
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<Store>(keys.ToArray(), x => x.Clients, cancellationToken);
+		return await Repository.FindAndIncludeAsync<ClientApi.Domain.Store>(keys.ToArray(), x => x.Clients, cancellationToken);
 	}
 
 	protected async Task<ClientApi.Domain.Client?> GetClientsOfStore(ClientKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.ClientMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Client>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<ClientApi.Domain.Client>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, StoreEntity entity)

@@ -3,13 +3,13 @@
 
 <MudGrid>
     <MudItem xs="12">
-        <MudDateRangePicker Label="@TitleDateTimeRange"
+        <MudDateRangePicker Label="@Title"
                             Variant="Variant.Outlined"
                             Required="true"
-                            RequiredError="@ErrorRequiredMessage(TitleDateTimeRange)"
+                            RequiredError="@ErrorRequiredMessage(Title)"
                             TextChanged="OnDateTimeRangeChanged"
                             DateFormat="@Format"
-                            DateRange="@DateTimeRangeInternal">
+                            @bind-DateRange="@DateTimeRangeInternal">
         </MudDateRangePicker>
     </MudItem>
     <MudItem xs="12">

@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityOwnedRelationshipExactlyOne>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne>()
             .Where(x => x.Id == Dto.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.keyId))
 			.Include(e => e.SecEntityOwnedRelExactlyOne)
 			.SingleOrDefault();

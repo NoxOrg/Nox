@@ -70,7 +70,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Customer>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
@@ -84,7 +84,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		if(request.EntityDto.PaymentProviderId is not null)
 		{
 			var relatedKey = Dto.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<PaymentProvider>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.PaymentProvider>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 			else
@@ -97,7 +97,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<PaymentDetail>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.PaymentDetail>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new PaymentDetailKeyDto(entityToCreate.Id.Value);
 	}

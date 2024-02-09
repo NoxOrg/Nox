@@ -51,7 +51,7 @@ internal abstract class PartialUpdateCurrencyCommandHandlerBase : CommandBase<Pa
 		await OnExecutingAsync(request);
 		var keyId = Dto.CurrencyMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<Currency>(keyId);
+		var entity = await Repository.FindAsync<ClientApi.Domain.Currency>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("Currency",  $"{keyId.ToString()}");

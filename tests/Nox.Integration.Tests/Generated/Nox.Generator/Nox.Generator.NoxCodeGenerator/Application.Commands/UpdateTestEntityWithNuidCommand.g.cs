@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityWithNuidCommandHandlerBase : CommandBase
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityWithNuid>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityWithNuid>()
             .Where(x => x.Id == Dto.TestEntityWithNuidMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Nox.Types;
 using System.Globalization;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
@@ -22,7 +23,25 @@ public partial class EditDate : ComponentBase
     [Parameter]
     public EventCallback<System.DateTime?> DateChanged { get; set; }
 
+    [Parameter]
+    public DateTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public System.DateTime MinValue { get; set; }
+
+    [Parameter]
+    public System.DateTime MaxValue { get; set; }
+
     #endregion
+
+    protected override void OnInitialized()
+    {
+        if (TypeOptions is not null)
+        {
+            MinValue = TypeOptions.MinValue;
+            MaxValue = TypeOptions.MaxValue;
+        }
+    }
 
     protected async Task OnDateChanged(string newValue)
     {

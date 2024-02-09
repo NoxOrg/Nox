@@ -51,7 +51,7 @@ internal abstract class PartialUpdateSecondTestEntityTwoRelationshipsManyToManyC
 		await OnExecutingAsync(request);
 		var keyId = Dto.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<SecondTestEntityTwoRelationshipsManyToMany>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("SecondTestEntityTwoRelationshipsManyToMany",  $"{keyId.ToString()}");

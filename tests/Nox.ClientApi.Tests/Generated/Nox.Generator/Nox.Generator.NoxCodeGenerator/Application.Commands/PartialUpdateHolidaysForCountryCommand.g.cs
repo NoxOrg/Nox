@@ -51,7 +51,7 @@ internal abstract class PartialUpdateHolidaysForCountryCommandHandlerBase: Comma
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await Repository.FindAndIncludeAsync<Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");

@@ -48,7 +48,7 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandCollectio
 		{
 			var keyId = Dto.WorkplaceMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Workplace>(keyId);
+			var entity = await Repository.FindAsync<WorkplaceEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Workplace",  $"{keyId.ToString()}");

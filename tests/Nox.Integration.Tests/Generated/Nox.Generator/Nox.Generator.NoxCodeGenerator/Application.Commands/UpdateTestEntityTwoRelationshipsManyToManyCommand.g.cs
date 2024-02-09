@@ -55,7 +55,7 @@ internal abstract class UpdateTestEntityTwoRelationshipsManyToManyCommandHandler
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<TestEntityTwoRelationshipsManyToMany>()
+		var entity = Repository.Query<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>()
             .Where(x => x.Id == Dto.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

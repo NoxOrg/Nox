@@ -68,7 +68,7 @@ internal abstract class CreateTestEntityZeroOrManyToOneOrManyCommandHandlerBase 
 			foreach(var relatedId in request.EntityDto.TestEntityOneOrManyToZeroOrManiesId)
 			{
 				var relatedKey = Dto.TestEntityOneOrManyToZeroOrManyMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<TestEntityOneOrManyToZeroOrMany>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.TestEntityOneOrManyToZeroOrMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToTestEntityOneOrManyToZeroOrManies(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreateTestEntityZeroOrManyToOneOrManyCommandHandlerBase 
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityZeroOrManyToOneOrMany>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityZeroOrManyToOneOrManyKeyDto(entityToCreate.Id.Value);
 	}

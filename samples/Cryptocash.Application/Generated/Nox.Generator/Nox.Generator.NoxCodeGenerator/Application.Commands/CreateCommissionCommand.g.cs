@@ -70,7 +70,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		if(request.EntityDto.CountryId is not null)
 		{
 			var relatedKey = Dto.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
-			var relatedEntity = await Repository.FindAsync<Country>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Country>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
@@ -86,7 +86,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 			foreach(var relatedId in request.EntityDto.BookingsId)
 			{
 				var relatedKey = Dto.BookingMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Booking>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToBookings(relatedEntity);
@@ -104,7 +104,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Commission>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.Commission>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);
 	}

@@ -55,7 +55,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Customer>()
+		var entity = Repository.Query<Cryptocash.Domain.Customer>()
             .Where(x => x.Id == Dto.CustomerMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

@@ -6,12 +6,12 @@
     @if (HourSelectionList != null && HourSelectionList.Count > 0)
     {
         <MudItem xs="@GetSpacingWidth">
-            <MudSelect Label="@TitleHour"
+            <MudSelect Label="@Title"
                        Variant="Variant.Outlined"
                        FullWidth="true"
                        Clearable="true"
                        Required="true"
-                       RequiredError="@ErrorRequiredMessage(TitleHour)"
+                       RequiredError="@ErrorRequiredMessage(Title)"
                        TextChanged="OnHourChanged"
                        Value="@CurrentHourStr"
                        OnClearButtonClick="OnClearHour">

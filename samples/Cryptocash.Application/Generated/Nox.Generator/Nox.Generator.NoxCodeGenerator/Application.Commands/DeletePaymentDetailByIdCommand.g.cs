@@ -48,7 +48,7 @@ internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandColle
 		{
 			var keyId = Dto.PaymentDetailMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<PaymentDetail>(keyId);
+			var entity = await Repository.FindAsync<PaymentDetailEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("PaymentDetail",  $"{keyId.ToString()}");

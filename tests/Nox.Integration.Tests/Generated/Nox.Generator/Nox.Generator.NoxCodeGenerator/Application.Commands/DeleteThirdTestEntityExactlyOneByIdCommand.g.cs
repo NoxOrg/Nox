@@ -48,7 +48,7 @@ internal abstract class DeleteThirdTestEntityExactlyOneByIdCommandHandlerBase : 
 		{
 			var keyId = Dto.ThirdTestEntityExactlyOneMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<ThirdTestEntityExactlyOne>(keyId);
+			var entity = await Repository.FindAsync<ThirdTestEntityExactlyOneEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("ThirdTestEntityExactlyOne",  $"{keyId.ToString()}");

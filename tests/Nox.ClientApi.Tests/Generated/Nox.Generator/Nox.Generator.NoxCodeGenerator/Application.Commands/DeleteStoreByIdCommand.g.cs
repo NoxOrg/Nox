@@ -48,7 +48,7 @@ internal abstract class DeleteStoreByIdCommandHandlerBase : CommandCollectionBas
 		{
 			var keyId = Dto.StoreMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Store>(keyId);
+			var entity = await Repository.FindAsync<StoreEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Store",  $"{keyId.ToString()}");

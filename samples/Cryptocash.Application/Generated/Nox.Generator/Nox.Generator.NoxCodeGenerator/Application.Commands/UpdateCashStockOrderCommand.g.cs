@@ -55,7 +55,7 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<CashStockOrder>()
+		var entity = Repository.Query<Cryptocash.Domain.CashStockOrder>()
             .Where(x => x.Id == Dto.CashStockOrderMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

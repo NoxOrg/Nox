@@ -55,7 +55,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Country>()
+		var entity = Repository.Query<Cryptocash.Domain.Country>()
             .Where(x => x.Id == Dto.CountryMetadata.CreateId(request.keyId))
 			.Include(e => e.CountryTimeZones)
 			.Include(e => e.Holidays)

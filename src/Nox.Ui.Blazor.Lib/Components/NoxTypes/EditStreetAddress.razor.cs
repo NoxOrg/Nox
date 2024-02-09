@@ -59,34 +59,34 @@ public partial class EditStreetAddress : ComponentBase
     }
 
     [Parameter]
-    public string? TitleStreetNumber { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
-    public string? TitleAddressLine1 { get; set; }
+    public string? TitleAddressLine1 { get; set; } = "Address Line 1";
 
     [Parameter]
-    public string? TitleAddressLine2 { get; set; }
+    public string? TitleAddressLine2 { get; set; } = "Address Line 2";
 
     [Parameter]
-    public string? TitleRoute { get; set; }
+    public string? TitleRoute { get; set; } = "Route";
 
     [Parameter]
-    public string? TitleLocality { get; set; }
+    public string? TitleLocality { get; set; } = "Locality";
 
     [Parameter]
-    public string? TitleNeighborhood { get; set; }
+    public string? TitleNeighborhood { get; set; } = "Neighborhood";
 
     [Parameter]
-    public string? TitleAdministrativeArea1 { get; set; }
+    public string? TitleAdministrativeArea1 { get; set; } = "Administrative Area 1";
 
     [Parameter]
-    public string? TitleAdministrativeArea2 { get; set; }
+    public string? TitleAdministrativeArea2 { get; set; } = "Administrative Area 2";
 
     [Parameter]
-    public string? TitlePostalCode { get; set; }
+    public string? TitlePostalCode { get; set; } = "Postal Code";
 
     [Parameter]
-    public string? TitleCountryId { get; set; }
+    public string? TitleCountryId { get; set; } = "CountryId";
 
     [Parameter]
     public List<CountryModel> CountrySelectionList { get; set; } = new();

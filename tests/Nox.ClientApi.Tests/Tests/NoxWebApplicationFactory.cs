@@ -9,6 +9,8 @@ using Nox.Solution;
 using Nox.Infrastructure;
 using SqlKata.Compilers;
 using Nox;
+using Nox.Extensions;
+using System.Reflection;
 
 namespace ClientApi.Tests;
 
@@ -46,6 +48,17 @@ public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
             {
                 //Override Db Provider and set container connection string
                 RemoveIfExists(services, typeof(INoxDatabaseProvider));
+
+                //For now we just support SQL Server
+                //Our Strategy for creating the database in incompatable, because db is only created after services and app build
+                //so hangfire is not able to create its schema
+                //if (TestDatabaseContainerService.DbProviderKind == DatabaseServerProvider.SqlServer)
+                //{
+                //    services.AddNoxJobs(
+                //        new Assembly[] { typeof(NoxWebApplicationFactory).Assembly },
+                //        TestDatabaseContainerService.DbProviderKind,
+                //        _databaseService.ConnectionString);
+                //}
 
                 services.AddSingleton(sp =>
                 {

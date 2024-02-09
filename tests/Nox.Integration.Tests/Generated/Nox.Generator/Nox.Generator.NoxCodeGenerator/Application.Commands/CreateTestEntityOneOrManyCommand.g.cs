@@ -68,7 +68,7 @@ internal abstract class CreateTestEntityOneOrManyCommandHandlerBase : CommandBas
 			foreach(var relatedId in request.EntityDto.SecondTestEntityOneOrManiesId)
 			{
 				var relatedKey = Dto.SecondTestEntityOneOrManyMetadata.CreateId(relatedId);
-				var relatedEntity = await Repository.FindAsync<SecondTestEntityOneOrMany>(relatedKey);
+				var relatedEntity = await Repository.FindAsync<TestWebApp.Domain.SecondTestEntityOneOrMany>(relatedKey);
 
 				if(relatedEntity is not null)
 					entityToCreate.CreateRefToSecondTestEntityOneOrManies(relatedEntity);
@@ -86,7 +86,7 @@ internal abstract class CreateTestEntityOneOrManyCommandHandlerBase : CommandBas
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<TestEntityOneOrMany>(entityToCreate);
+		await Repository.AddAsync<TestWebApp.Domain.TestEntityOneOrMany>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TestEntityOneOrManyKeyDto(entityToCreate.Id.Value);
 	}

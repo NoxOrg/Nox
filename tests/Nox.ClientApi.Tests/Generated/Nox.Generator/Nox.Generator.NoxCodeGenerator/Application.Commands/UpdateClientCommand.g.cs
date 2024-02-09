@@ -55,7 +55,7 @@ internal abstract class UpdateClientCommandHandlerBase : CommandBase<UpdateClien
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Client>()
+		var entity = Repository.Query<ClientApi.Domain.Client>()
             .Where(x => x.Id == Dto.ClientMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		

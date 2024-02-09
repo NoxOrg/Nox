@@ -195,14 +195,14 @@ internal abstract class RefVendingMachineToBookingsCommandHandlerBase<TRequest> 
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.VendingMachineMetadata.CreateId(entityKeyDto.keyId));
-		return await Repository.FindAndIncludeAsync<VendingMachine>(keys.ToArray(), x => x.Bookings, cancellationToken);
+		return await Repository.FindAndIncludeAsync<Cryptocash.Domain.VendingMachine>(keys.ToArray(), x => x.Bookings, cancellationToken);
 	}
 
 	protected async Task<Cryptocash.Domain.Booking?> GetVendingMachineRelatedBookings(BookingKeyDto relatedEntityKeyDto, CancellationToken cancellationToken)
 	{
 		var keys = new List<object?>(1);
 		keys.Add(Dto.BookingMetadata.CreateId(relatedEntityKeyDto.keyId));
-		return await Repository.FindAsync<Booking>(keys.ToArray(), cancellationToken);
+		return await Repository.FindAsync<Cryptocash.Domain.Booking>(keys.ToArray(), cancellationToken);
 	}
 
 	protected async Task SaveChangesAsync(TRequest request, VendingMachineEntity entity)

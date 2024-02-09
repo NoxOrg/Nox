@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityForTypesByIdCommandHandlerBase : Command
 		{
 			var keyId = Dto.TestEntityForTypesMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<TestEntityForTypes>(keyId);
+			var entity = await Repository.FindAsync<TestEntityForTypesEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("TestEntityForTypes",  $"{keyId.ToString()}");

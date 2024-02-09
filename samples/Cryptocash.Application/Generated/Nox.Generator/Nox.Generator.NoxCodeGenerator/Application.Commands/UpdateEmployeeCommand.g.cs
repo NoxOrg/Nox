@@ -55,7 +55,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<Employee>()
+		var entity = Repository.Query<Cryptocash.Domain.Employee>()
             .Where(x => x.Id == Dto.EmployeeMetadata.CreateId(request.keyId))
 			.Include(e => e.EmployeePhoneNumbers)
 			.SingleOrDefault();

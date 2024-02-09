@@ -51,7 +51,7 @@ internal abstract class PartialUpdateTestEntityForTypesCommandHandlerBase : Comm
 		await OnExecutingAsync(request);
 		var keyId = Dto.TestEntityForTypesMetadata.CreateId(request.keyId);
 
-		var entity = await Repository.FindAsync<TestEntityForTypes>(keyId);
+		var entity = await Repository.FindAsync<TestWebApp.Domain.TestEntityForTypes>(keyId);
 		if (entity == null)
 		{
 			throw new EntityNotFoundException("TestEntityForTypes",  $"{keyId.ToString()}");

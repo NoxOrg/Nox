@@ -46,10 +46,10 @@ internal abstract class DeleteTenantContactTranslationsForTenantCommandHandlerBa
         var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(command.keyId));
 
-        var parentEntity = await Repository.FindAsync<Tenant>(keys.ToArray(), cancellationToken);
+        var parentEntity = await Repository.FindAsync<ClientApi.Domain.Tenant>(keys.ToArray(), cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
 
-        var entity = await Repository.Query<TenantContactLocalized>().SingleOrDefaultAsync(x => x.TenantId == parentEntity.Id && x.CultureCode == command.CultureCode, cancellationToken);
+        var entity = await Repository.Query<ClientApi.Domain.TenantContactLocalized>().SingleOrDefaultAsync(x => x.TenantId == parentEntity.Id && x.CultureCode == command.CultureCode, cancellationToken);
         EntityLocalizationNotFoundException.ThrowIfNull(entity, "Tenant.TenantContact", String.Empty, command.CultureCode.ToString());        
         Repository.Delete(entity);
         await OnCompletedAsync(command, entity);

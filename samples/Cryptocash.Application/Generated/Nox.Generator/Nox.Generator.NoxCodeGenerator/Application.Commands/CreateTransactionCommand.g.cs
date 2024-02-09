@@ -70,7 +70,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		if(request.EntityDto.CustomerId is not null)
 		{
 			var relatedKey = Dto.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<Customer>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Customer>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
@@ -84,7 +84,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		if(request.EntityDto.BookingId is not null)
 		{
 			var relatedKey = Dto.BookingMetadata.CreateId(request.EntityDto.BookingId.NonNullValue<System.Guid>());
-			var relatedEntity = await Repository.FindAsync<Booking>(relatedKey);
+			var relatedEntity = await Repository.FindAsync<Cryptocash.Domain.Booking>(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBooking(relatedEntity);
 			else
@@ -97,7 +97,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		await Repository.AddAsync<Transaction>(entityToCreate);
+		await Repository.AddAsync<Cryptocash.Domain.Transaction>(entityToCreate);
 		await Repository.SaveChangesAsync();
 		return new TransactionKeyDto(entityToCreate.Id.Value);
 	}

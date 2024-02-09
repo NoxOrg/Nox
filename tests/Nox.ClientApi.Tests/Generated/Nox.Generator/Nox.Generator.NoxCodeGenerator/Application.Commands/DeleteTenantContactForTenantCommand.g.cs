@@ -47,7 +47,7 @@ internal partial class DeleteTenantContactForTenantCommandHandlerBase : CommandB
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
-		var parentEntity = await Repository.FindAndIncludeAsync<Tenant>(keys.ToArray(), p => p.TenantContact, cancellationToken);
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(), p => p.TenantContact, cancellationToken);
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  "keyId");

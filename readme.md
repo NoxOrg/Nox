@@ -29,6 +29,7 @@ Nox pivots around the concept of a *solution definition*. This solution describe
 - Extract, transform and load (ETL) definitions from any database, file or API with bulk-load and merge support.
 - A task scheduler for running recurring tasks at periodic intervals (using Hangfire).
 - Automated DevOps including testing and deployment.
+- [Nox.Yaml](src/readme.md) is a dotnet standard wrapper to YamlDotnet that takes the pain out of using YAML configuration files for your projects.
 
 # Contributing to the Nox library
 

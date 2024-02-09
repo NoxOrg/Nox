@@ -48,7 +48,7 @@ internal abstract class DeleteCountryByIdCommandHandlerBase : CommandCollectionB
 		{
 			var keyId = Dto.CountryMetadata.CreateId(keyDto.keyId);		
 
-			var entity = await Repository.FindAsync<Country>(keyId);
+			var entity = await Repository.FindAsync<CountryEntity>(keyId);
 			if (entity == null || entity.IsDeleted == true)
 			{
 				throw new EntityNotFoundException("Country",  $"{keyId.ToString()}");

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Nox.Types;
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using System.Globalization;
 
@@ -19,7 +20,7 @@ public partial class EditDateTimeRange : ComponentBase
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
     [Parameter]
-    public string? TitleDateTimeRange { get; set; }
+    public string? Title { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy";
@@ -40,13 +41,13 @@ public partial class EditDateTimeRange : ComponentBase
     public int? MillisecondStart { get; set; }
 
     [Parameter]
-    public string? TitleHourStart { get; set; }
+    public string? TitleHourStart { get; set; } = "Start Hour";
 
     [Parameter]
-    public string? TitleMinuteStart { get; set; }
+    public string? TitleMinuteStart { get; set; } = "Start Minute";
 
     [Parameter]
-    public string? TitleSecondStart { get; set; }
+    public string? TitleSecondStart { get; set; } = "Start Second";
 
     [Parameter]
     public string? TitleMillisecondStart { get; set; }
@@ -72,13 +73,13 @@ public partial class EditDateTimeRange : ComponentBase
     public int? MillisecondEnd { get; set; }
 
     [Parameter]
-    public string? TitleHourEnd { get; set; }
+    public string? TitleHourEnd { get; set; } = "End Hour";
 
     [Parameter]
-    public string? TitleMinuteEnd { get; set; }
+    public string? TitleMinuteEnd { get; set; } = "End Minute";
 
     [Parameter]
-    public string? TitleSecondEnd { get; set; }
+    public string? TitleSecondEnd { get; set; } = "End Second";
 
     [Parameter]
     public string? TitleMillisecondEnd { get; set; }
@@ -108,6 +109,15 @@ public partial class EditDateTimeRange : ComponentBase
 
     public static Dictionary<int, string> MillisecondSelectionList { get; set; } = new Dictionary<int, string>();
 
+    [Parameter]
+    public DateTimeRangeTypeOptions? TypeOptions { get; set; }
+
+    [Parameter]
+    public DateTimeOffset? MinStartValue { get; set; }
+
+    [Parameter]
+    public DateTimeOffset? MaxEndValue { get; set; }
+
     #endregion
 
     static EditDateTimeRange()
@@ -134,6 +144,12 @@ public partial class EditDateTimeRange : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
+        if (TypeOptions is not null)
+        {
+            MinStartValue = TypeOptions.MinStartValue;
+            MaxEndValue = TypeOptions.MaxEndValue;
+        }
+
         if (DateTimeRange is null)
             return;
 
@@ -169,6 +185,7 @@ public partial class EditDateTimeRange : ComponentBase
 
             if (tempDateRangeList.Count == 2)
             {
+                DateTimeRange ??= new();
                 if (System.DateTime.TryParse(tempDateRangeList[0], CultureInfo, out System.DateTime currentDateTimeStart))
                 {
                     DateTimeRange.Start = currentDateTimeStart;
@@ -204,7 +221,7 @@ public partial class EditDateTimeRange : ComponentBase
         }
     }
 
-    protected static string ErrorRequiredMessage(string? currentTitle)
+protected static string ErrorRequiredMessage(string? currentTitle)
     {
         return string.Format(Resources.Resources.FieldIsRequired, currentTitle).Trim();
     }
@@ -376,19 +393,19 @@ public partial class EditDateTimeRange : ComponentBase
         {
             DateTimeRange.Start = new (DateTimeRange.Start.Year,
                 DateTimeRange.Start.Month,
-                DateTimeRange.Start.Day, 
-                (HourStart ?? 0), 
-                (MinuteStart ?? 0), 
-                (SecondStart ?? 0), 
-                (MillisecondStart ?? 0), 
+                DateTimeRange.Start.Day,
+                (HourStart ?? 0),
+                (MinuteStart ?? 0),
+                (SecondStart ?? 0),
+                (MillisecondStart ?? 0),
                 TimeSpan.Zero);
 
             DateTimeRange.End = new (DateTimeRange.End.Year,
                 DateTimeRange.End.Month,
-                DateTimeRange.End.Day, 
-                (HourEnd ?? 0), 
-                (MinuteEnd ?? 0), 
-                (SecondEnd ?? 0), 
+                DateTimeRange.End.Day,
+                (HourEnd ?? 0),
+                (MinuteEnd ?? 0),
+                (SecondEnd ?? 0),
                 (MillisecondEnd ?? 0),
                 TimeSpan.Zero);
 

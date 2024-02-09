@@ -1,6 +1,8 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -14,17 +16,17 @@
     <DialogContent>
         <MudForm Model="@PaymentDetail">
             <MudGrid Style="margin-top:15px;">
-                <MudItem>
-                    <EditText @bind-Text="PaymentDetail.PaymentAccountName" />
-                                        <!-- Title="PaymentAccountName" TypeOptions="@PaymentDetailMetadata.PaymentAccountNameTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditText @bind-Text="PaymentDetail.PaymentAccountName" 
+                        Title="PaymentAccountName" TypeOptions="@PaymentDetailMetadata.PaymentAccountNameTypeOptions" />
                 </MudItem>
-                <MudItem>
-                    <EditText @bind-Text="PaymentDetail.PaymentAccountNumber" />
-                                        <!-- Title="PaymentAccountNumber" TypeOptions="@PaymentDetailMetadata.PaymentAccountNumberTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditText @bind-Text="PaymentDetail.PaymentAccountNumber" 
+                        Title="PaymentAccountNumber" TypeOptions="@PaymentDetailMetadata.PaymentAccountNumberTypeOptions" />
                 </MudItem>
-                <MudItem>
-                    <EditText @bind-Text="PaymentDetail.PaymentAccountSortCode" />
-                                        <!-- Title="PaymentAccountSortCode" TypeOptions="@PaymentDetailMetadata.PaymentAccountSortCodeTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditText @bind-Text="PaymentDetail.PaymentAccountSortCode" 
+                        Title="PaymentAccountSortCode" TypeOptions="@PaymentDetailMetadata.PaymentAccountSortCodeTypeOptions" />
                 </MudItem>
             </MudGrid>            
         </MudForm>

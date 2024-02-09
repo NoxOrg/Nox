@@ -1,10 +1,15 @@
 ﻿{{- func showOnCreate(attribute)
 	ret attribute.UserInterface?.ShowOnCreateForm == true
 end -}}
+{{- func attributePrimitiveType(attribute)
+	ret componentsInfo[attribute.Name].ComponentType | string.remove 'System.'
+end -}}
 
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using {{codeGenConventions.DtoNameSpace}}
+
 @using {{codeGenConventions.UiNameSpace}}.Services
 
 @namespace {{codeGenConventions.UiNameSpace}}.Forms.Add
@@ -22,13 +27,12 @@ end -}}
                 {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
                 {{- continue; }}
                 {{- end }}
-
-                {{- if attribute.Type == 'Number' }}
-                {{- continue; }}
-                {{- end }}
-                <MudItem>
-                    <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" />
-                                        <!-- Title="{{attribute.Name}}" TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" /> -->
+                <MudItem xs="12">
+                    <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" 
+                        Title="{{attribute.Name}}" 
+                        {{- if attribute.Type == "Number" }} T="{{attributePrimitiveType attribute}}"{{ end }}
+                        {{- if attributesWithTypeOptions | array.contains attribute.Name }} TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" {{ end -}}
+                        />
                 </MudItem>
             {{- end }}
             </MudGrid>            

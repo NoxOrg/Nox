@@ -55,7 +55,7 @@ internal abstract class UpdateCountryQueryToCustomTableCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
 
-		var entity = Repository.Query<CountryQueryToCustomTable>()
+		var entity = Repository.Query<CryptocashIntegration.Domain.CountryQueryToCustomTable>()
             .Where(x => x.Id == Dto.CountryQueryToCustomTableMetadata.CreateId(request.keyId))
 			.SingleOrDefault();
 		
