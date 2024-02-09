@@ -13,6 +13,7 @@ using Nox.Middlewares;
 using Nox.Solution;
 using Microsoft.Extensions.Logging;
 using Elastic.Apm.NetCoreAll;
+using Nox.Extensions;
 
 namespace Nox;
 
@@ -127,9 +128,12 @@ internal class NoxUseOptions : INoxUseOptions
 
         ConfigureMonitoring(builder, solution);
 
+
         var hostingEnvironment = builder
             .ApplicationServices
             .GetRequiredService<IHostEnvironment>();
+
+        builder.UseNoxJobs(hostingEnvironment);
 
         var isDevelopment = hostingEnvironment.IsDevelopment();
         if (isDevelopment)

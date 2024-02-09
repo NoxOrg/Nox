@@ -1,5 +1,4 @@
 ﻿using DotNet.Testcontainers.Containers;
-using FluentAssertions.Common;
 using Microsoft.AspNetCore.TestHost;
 using Nox;
 using Nox.Infrastructure;
@@ -17,16 +16,16 @@ namespace ClientApi.Tests;
 public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
 {
 #if DEBUG
-    //To change DatabaseProvider just replace DbProviderKind.
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
 #else
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
 #endif
 
-    private Func<string> _connectionStringGetter = () => string.Empty;
     private DockerContainer? _dockerContainer;
 
     private NoxAppClient _noxAppClient = null!;
+
+    public string ConnectionString { get; private set; } = string.Empty;
 
     public NoxAppClient GetNoxClient(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
     {
@@ -46,21 +45,18 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         INoxClientAssemblyProvider noxClientAssemblyProvider)
     {
-        string connectionString = _connectionStringGetter();
-        if (DbProviderKind == DatabaseServerProvider.SqlServer)
-        {
-            connectionString = connectionString.Replace("master", "clientapi");
-        }
         return DbProviderKind switch
         {
-            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState),
-            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState),
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(ConnectionString, configurations, noxSolutionCodeGeneratorState),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(ConnectionString, configurations, noxSolutionCodeGeneratorState),
             _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }
 
     public async Task InitializeAsync()
     {
+        Func<string> GetConnectionString;
+
         switch (DbProviderKind)
         {
             case DatabaseServerProvider.Postgres:
@@ -73,7 +69,7 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
                   .WithCleanUp(true)
                   .Build();
 
-                _connectionStringGetter = postgreContainer.GetConnectionString;
+                GetConnectionString = postgreContainer.GetConnectionString;
                 _dockerContainer = postgreContainer;
 
                 break;
@@ -84,7 +80,7 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
                 .WithCleanUp(true)
                 .Build();
 
-                _connectionStringGetter = sqlContainer.GetConnectionString;
+                GetConnectionString = ()=> sqlContainer.GetConnectionString().Replace("master", "clientapi"); ;
                 _dockerContainer = sqlContainer;
 
                 break;
@@ -94,6 +90,8 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         }
 
         await _dockerContainer.StartAsync();
+
+        ConnectionString = GetConnectionString();
     }
 
     public Task DisposeAsync()

@@ -32,6 +32,7 @@ using Nox.Application.Repositories;
 using Nox.Exceptions;
 using System.Collections.Immutable;
 using Microsoft.Extensions.Hosting;
+using Nox.Extensions;
 
 namespace Nox.Configuration
 {
@@ -45,6 +46,7 @@ namespace Nox.Configuration
 
         private bool _withNoxLogging = true;
         private bool _withHealthChecks = true;
+        private bool _withNoxJobs = true;
         private bool _withSwagger = true;
 
         public INoxOptions WithoutNoxLogging()
@@ -67,14 +69,18 @@ namespace Nox.Configuration
             _healthChecksBuilderAction = healthChecksBuilder;
             _withHealthChecks = true;
             return this;
-
-
         }
 
         public INoxOptions WithoutHealthChecks()
         {
             _withHealthChecks = false;
             _healthChecksBuilderAction = null;
+            return this;
+        }
+
+        public INoxOptions WithoutNoxJobs()
+        {
+            _withNoxJobs = false;
             return this;
         }
 
@@ -218,6 +224,8 @@ namespace Nox.Configuration
 
             AddLogging(webApplicationBuilder);
             AddSwagger(services);
+
+            if(_withNoxJobs) services.AddNoxJobs(noxAndEntryAssemblies, noxSolution);
 
             if (_withHealthChecks)
             {
@@ -364,6 +372,6 @@ namespace Nox.Configuration
             {
                 options.WithSqlServerStore();
             });
-        }
+        }       
     }
 }
