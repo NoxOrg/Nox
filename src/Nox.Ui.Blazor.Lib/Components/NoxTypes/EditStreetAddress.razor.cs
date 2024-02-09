@@ -31,32 +31,7 @@ public partial class EditStreetAddress : ComponentBase
 
     public string? CurrentPostalCode { get; set; }
 
-    public string? CurrentCountryIdStr { get; set; }
-
-    private Nox.Types.CountryCode? _CurrentCountryId { get; set; }
-
-    public Nox.Types.CountryCode? CurrentCountryId
-    {
-        get
-        {
-            if (_CurrentCountryId != null)
-            {
-                return _CurrentCountryId;
-            }
-
-            if (!String.IsNullOrWhiteSpace(CurrentCountryIdStr)
-                && Enum.IsDefined(typeof(Nox.Types.CountryCode), CurrentCountryIdStr))
-            {
-                return (Nox.Types.CountryCode?)Enum.Parse(typeof(Nox.Types.CountryCode), CurrentCountryIdStr);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        set { _CurrentCountryId = value; }
-    }
+    public CountryCode? CurrentCountryId { get; set; }
 
     [Parameter]
     public string? Title { get; set; } = Resources.Resources.TitleStreetAddress;
@@ -89,7 +64,7 @@ public partial class EditStreetAddress : ComponentBase
     public string? TitleCountryId { get; set; } = Resources.Resources.TitleCountryId;
 
     [Parameter]
-    public List<CountryModel> CountrySelectionList { get; set; } = new();
+    public List<CountryCode> CountrySelectionList { get; set; } = Enum.GetValues(typeof(CountryCode)).Cast<CountryCode>().ToList();
 
     [Parameter]
     public EventCallback<StreetAddressModel> StreetAddressChanged { get; set; }
@@ -139,7 +114,7 @@ public partial class EditStreetAddress : ComponentBase
             CurrentAdministrativeArea1 = StreetAddress.AdministrativeArea1;
             CurrentAdministrativeArea2 = StreetAddress.AdministrativeArea2;
             CurrentPostalCode = StreetAddress.PostalCode;
-            CurrentCountryIdStr = StreetAddress.CountryId.ToString();
+            CurrentCountryId = StreetAddress.CountryId;
         }
     }
 
@@ -226,7 +201,10 @@ public partial class EditStreetAddress : ComponentBase
 
     protected async Task OnCountryIdChanged(string newValue)
     {
-        CurrentCountryIdStr = newValue;
+        if (Enum.TryParse(newValue, out CountryCode countryCode))
+        {
+            CurrentCountryId = countryCode;
+        }
 
         RefreshStreetAddress();
 
