@@ -40,6 +40,11 @@ public interface INoxOptions
     INoxOptions WithoutNoxLogging();
 
     /// <summary>
+    /// Disable default Nox Jobs
+    /// </summary>
+    INoxOptions WithoutNoxJobs();
+
+    /// <summary>
     /// Get Nox Serilog Configuration to add custom configuration
     /// This will enable default Nox Logging
     /// </summary>

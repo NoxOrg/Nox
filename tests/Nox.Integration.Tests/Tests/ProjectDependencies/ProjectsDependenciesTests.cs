@@ -120,9 +120,11 @@ namespace Nox.Tests.ProjectDependencies
             var projectDependencies =
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxTypesExtensionsProject.Id);
 
-            projectDependencies.Should().HaveCount(1);
+            projectDependencies.Should().HaveCount(3);
 
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
+            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesAbstractionsProject.Id.Id).Should().NotBeNull();
+            //Nox.Yaml
         }
 
         #endregion Nox.Types.Extensions
@@ -134,11 +136,13 @@ namespace Nox.Tests.ProjectDependencies
             var projectDependencies =
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxUIBlazorProject.Id);
 
-            projectDependencies.Should().HaveCount(2,"Nox UI Blazor Lib is C# component used by a generated Blazor Client UI, and can only reference and use Nox.Types. " +
+            projectDependencies.Should().HaveCount(4,"Nox UI Blazor Lib is C# component used by a generated Blazor Client UI, and can only reference and use Nox.Types. " +
                 "Can not reference Nox.Core, for example, since does not run a instance of Service API, but only consumes it");
 
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
+            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesAbstractionsProject.Id.Id).Should().NotBeNull();
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesExtensionsProject.Id.Id).Should().NotBeNull();
+            //Nox.Yaml
 
         }
         #endregion
