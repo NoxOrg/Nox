@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Nox.Types;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
@@ -23,6 +22,8 @@ public partial class EditCountryCode3 : ComponentBase
             return string.Format(Resources.Resources.FieldIsRequired, Title).Trim();
         }
     }
+
+    private List<string> CountryCodes { get; set; } = Nox.Types.CountryCode3.Values.ToList();
 
     protected async Task OnCountryCode3Changed(string newValue)
     {

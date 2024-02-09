@@ -1,4 +1,4 @@
-﻿﻿@using Cryptocash.Ui
+@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
 @using Cryptocash.Application.Dto;
@@ -53,8 +53,11 @@
     byte testMonth = 1;
     int testYear = 2024;
     DateTime? testDate = DateTime.Now;
-    DateTimeRangeModel? testDateTimeRangeModel = null;
+    DateTimeRangeModel testDateTimeRangeModel = new() { Start = DateTime.Now, End = DateTime.Now.AddHours(23) };
     byte testDayOfWeek = 1;
+    string? testCountryCode3 = "UKR";
+    ushort? testCountryNumber = null;
+    short? testCurrencyNumber = null;
     StreetAddressModel testStreetAddress = new StreetAddressModel()
     {
         StreetNumber = "StreetNumber",
@@ -78,19 +81,6 @@
                 {
                     Id = "GB",
                     Name = "United Kingdom"
-                };
-    List<CurrencyModel> testCurrencySelectionList = new List<CurrencyModel>()
-                {
-                    new CurrencyModel()
-                    {
-                        Id = "GBP",
-                        Name = "British Pound"
-                    },
-                    new CurrencyModel()
-                    {
-                        Id = "CHF",
-                        Name = "Swiss Franc"
-                    }                               
                 };
     CurrencyModel testCurrency = new CurrencyModel()
                         {
@@ -260,11 +250,16 @@
                                                             Title="IpAddress" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCountry Title="Country"
-                                                            CountrySelectionList="@testCountryList" />
+                                                        <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" />
+                                                        <MudText>TestCountryCode3: @testCountryCode3</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCurrency Title="Currency" CurrencySelectionList="@testCurrencySelectionList" />
+                                                        <EditCountryNumber Title="CountryNumber" @bind-CountryNumber="testCountryNumber" />
+                                                        <MudText>testCountryNumber: @testCountryNumber</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCurrencyNumber Title="Currency" @bind-CurrencyNumber="@testCurrencyNumber" />
+                                                    <MudText>testCurrencyNumber: @testCurrencyNumber </MudText>
                                                     </MudItem>                              
                                                     <MudItem xs="6">
                                                         <Select Title="Select"

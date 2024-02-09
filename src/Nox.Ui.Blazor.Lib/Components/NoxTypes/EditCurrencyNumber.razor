@@ -2,12 +2,17 @@
 @using Nox.Ui.Blazor.Lib.Models
 @using MudBlazor
 
-<MudNumericField Label="@Title"
-                 Variant="Variant.Outlined"
-                 FullWidth="true"
-                 Clearable="true"
-                 HideSpinButtons="true"
-                 Required="@Required"
-                 RequiredError="@ErrorRequiredMessage"
-                 TextChanged="@OnCurrencyNumberChanged"
-                 @bind-Value="CurrencyNumber" />
+<MudSelect T="short?"
+           Label="@Title"
+           Variant="Variant.Outlined"
+           FullWidth="true"
+           Clearable="true"
+           Required="@Required"
+           RequiredError="@ErrorRequiredMessage"
+           TextChanged="OnCurrencyNumberChanged"
+           @bind-Value="CurrencyNumber">
+    @foreach (var number in CurrencyNumbers)
+    {
+        <MudSelectItem T="short?" Value="(short?)number" />
+    }
+</MudSelect>
