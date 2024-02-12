@@ -122,17 +122,10 @@ application:
       - en-US
     defaultCulture: en-US 
 
-  dataTransferObjects:
-    - name: TempDto
-      description: Temp Dto added to help Generator Compile
-      attributes:
-        - name: Id
-          description: Identity
-          type: text
-          textTypeOptions:
-            casing: lower
-            maxLength: 2
-            minLength: 2
+  jobs:
+    - name: HelloWorld
+      description: HelloWorld
+      recurrentCronExpression: "*/1 * * * *" # every 1 minutes
 
 presentation: 
 

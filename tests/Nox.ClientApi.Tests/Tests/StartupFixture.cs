@@ -28,6 +28,7 @@ public class StartupFixture
         {
             // No Transactional Outbox in tests
             noxOptions.WithoutMessagingTransactionalOutbox();
+            noxOptions.WithoutNoxJobs();
 #if RELEASE
             noxOptions.WithoutNoxLogging();
 #endif
