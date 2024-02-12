@@ -23,6 +23,15 @@ end -}}
     <DialogContent>
         <MudForm Model="@{{entity.Name}}">
             <MudGrid Style="margin-top:15px;">
+            {{- for key in entity.Keys }}
+                {{- if !IsNoxTypeCreatable key.Type || !(showOnCreate key) }}
+                {{- continue; }}
+                {{- end }}
+                <MudItem xs="12">
+                    <Edit{{key.Type}} @bind-{{key.Type}}="{{entity.Name}}.{{key.Name}}" 
+                        Title="{{key.Name}}" />
+                </MudItem>
+            {{- end }}
             {{- for attribute in entity.Attributes }}
                 {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
                 {{- continue; }}

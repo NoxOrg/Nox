@@ -17,6 +17,10 @@
         <MudForm Model="@Booking">
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
+                    <EditGuid @bind-Guid="Booking.Id" 
+                        Title="Id" />
+                </MudItem>
+                <MudItem xs="12">
                     <EditMoney @bind-Money="Booking.AmountFrom" 
                         Title="AmountFrom"/>
                 </MudItem>
