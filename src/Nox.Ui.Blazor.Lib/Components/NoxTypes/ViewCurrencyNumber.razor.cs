@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Nox.Types;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public partial class ViewFormula : ComponentBase
+public partial class ViewCurrencyNumber : ComponentBase
 {
     [Parameter]
-    public string? Formula { get; set; }
+    public short? CurrencyNumber { get; set; }
 }

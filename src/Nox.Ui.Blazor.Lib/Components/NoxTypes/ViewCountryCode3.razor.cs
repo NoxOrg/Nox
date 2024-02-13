@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Nox.Types;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public partial class ViewFormula : ComponentBase
+public partial class ViewCountryCode3 : ComponentBase
 {
     [Parameter]
-    public string? Formula { get; set; }
+    public string? CountryCode3 { get; set; }
 }
