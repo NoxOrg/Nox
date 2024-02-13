@@ -21,7 +21,7 @@ keys:
       showInSearchResults: never
       canSearch: true
       canFilter: false
-      showOnCreateForm: false
+      showOnCreateForm: true
       showOnUpdateForm: true
 
 attributes:

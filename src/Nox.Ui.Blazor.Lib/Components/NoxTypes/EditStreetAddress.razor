@@ -1,5 +1,6 @@
 ﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
+@using Nox.Types
 @using Nox.Ui.Blazor.Lib.Models
 
 <MudGrid>
@@ -79,23 +80,18 @@
                       MaxLength="@MaxLengthPostalCode"
                       Value="CurrentPostalCode" />
     </MudItem>
-
-    @if (CountrySelectionList.Any())
-    {
-        <MudItem xs="6">
-            <MudSelect Label="@TitleCountryId"
-                       Variant="Variant.Outlined"
-                       Clearable="true"
-                       Required="true"
-                       RequiredError="@ErrorRequiredMessage(TitleCountryId)"
-                       TextChanged="OnCountryIdChanged"
-                       Value="CurrentCountryIdStr">
-                @foreach (CountryModel item in CountrySelectionList)
-                {
-                    <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
-                }
-            </MudSelect>
-        </MudItem>
-    }
-
+    <MudItem xs="6">
+        <MudSelect Label="@TitleCountryId"
+                    Variant="Variant.Outlined"
+                    Clearable="true"
+                    Required="true"
+                    RequiredError="@ErrorRequiredMessage(TitleCountryId)"
+                    TextChanged="OnCountryIdChanged"
+                   @bind-Value="CurrentCountryId">
+            @foreach (var item in CountrySelectionList)
+            {
+                <MudSelectItem T="CountryCode?" Value="(CountryCode?)item" />
+            }
+        </MudSelect>
+    </MudItem>
 </MudGrid>

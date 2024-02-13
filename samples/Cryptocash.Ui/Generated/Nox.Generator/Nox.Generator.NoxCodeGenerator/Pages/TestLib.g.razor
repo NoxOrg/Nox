@@ -148,7 +148,9 @@
                                                         <EditText Title="Text" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditMoney Title="Money" Money="@testMoney" Currency="testMoney.CurrencyCode" />
+                                                        <EditMoney Title="Money" @bind-Money="@testMoney"/>
+                                                        <MudText>money.amount: @testMoney.Amount</MudText>
+                                                        <MudText>money.CurrencyCode: @testMoney.CurrencyCode</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" />
@@ -234,17 +236,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditStreetAddress @bind-StreetAddress="@testStreetAddress"
-                                                            Title="StreetNumber"
-                                                            TitleAddressLine1="AddressLine1"
-                                                            TitleAddressLine2="AddressLine2"
-                                                            TitleRoute="Route"
-                                                            TitleLocality="Locality"
-                                                            TitleNeighborhood="Neighborhood"
-                                                            TitleAdministrativeArea1="AdministrativeArea1"
-                                                            TitleAdministrativeArea2="AdministrativeArea2"
-                                                            TitlePostalCode="PostalCode"
-                                                            TitleCountryId="CountryId"
-                                                            CountrySelectionList="@testCountryList" />
+                                                            Title="StreetNumber" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditLatLong @bind-Latlong="@testLatLong"
