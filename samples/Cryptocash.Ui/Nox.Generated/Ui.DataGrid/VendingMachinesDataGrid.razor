@@ -1,0 +1,53 @@
+﻿@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject IVendingMachinesService VendingMachinesService
+
+<MudTable T="VendingMachineModel" 
+          Items="@VendingMachines" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>MacAddress</MudTh>
+        <MudTh>PublicIp</MudTh>
+        <MudTh>GeoLocation</MudTh>
+        <MudTh>StreetAddress</MudTh>
+        <MudTh>SerialNumber</MudTh>
+        <MudTh>InstallationFootPrint</MudTh>
+        <MudTh>RentPerSquareMetre</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <ViewMacAddress MacAddress="@context.MacAddress" />
+        </MudTd>
+        <MudTd>
+            <ViewIpAddress IpAddress="@context.PublicIp" />
+        </MudTd>
+        <MudTd>
+            <ViewLatLong LatLong="@context.GeoLocation" />
+        </MudTd>
+        <MudTd>
+            <ViewStreetAddress StreetAddress="@context.StreetAddress" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.SerialNumber" />
+        </MudTd>
+        <MudTd>
+            <ViewArea Area="@context.InstallationFootPrint" />
+        </MudTd>
+        <MudTd>
+            <ViewMoney Money="@context.RentPerSquareMetre" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">No Results Found</MudText>
+    </NoRecordsContent>
+</MudTable>

@@ -1,0 +1,77 @@
+﻿@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject ICurrenciesService CurrenciesService
+
+<MudTable T="CurrencyModel" 
+          Items="@Currencies" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>CurrencyIsoNumeric</MudTh>
+        <MudTh>Symbol</MudTh>
+        <MudTh>ThousandsSeparator</MudTh>
+        <MudTh>DecimalSeparator</MudTh>
+        <MudTh>SpaceBetweenAmountAndSymbol</MudTh>
+        <MudTh>SymbolOnLeft</MudTh>
+        <MudTh>DecimalDigits</MudTh>
+        <MudTh>MajorName</MudTh>
+        <MudTh>MajorSymbol</MudTh>
+        <MudTh>MinorName</MudTh>
+        <MudTh>MinorSymbol</MudTh>
+        <MudTh>MinorToMajorValue</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <ViewText Text="@context.Name" />
+        </MudTd>
+        <MudTd>
+            <ViewCurrencyNumber CurrencyNumber="@context.CurrencyIsoNumeric" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.Symbol" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.ThousandsSeparator" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.DecimalSeparator" />
+        </MudTd>
+        <MudTd>
+            <ViewBoolean Boolean="@context.SpaceBetweenAmountAndSymbol" />
+        </MudTd>
+        <MudTd>
+            <ViewBoolean Boolean="@context.SymbolOnLeft" />
+        </MudTd>
+        <MudTd>
+            <ViewNumber Number="@context.DecimalDigits" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.MajorName" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.MajorSymbol" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.MinorName" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.MinorSymbol" />
+        </MudTd>
+        <MudTd>
+            <ViewMoney Money="@context.MinorToMajorValue" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">No Results Found</MudText>
+    </NoRecordsContent>
+</MudTable>

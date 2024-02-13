@@ -1,6 +1,7 @@
 ﻿@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Services
 @using {{codeGenConventions.UiNameSpace}}.Forms.Add
+@using {{codeGenConventions.UiNameSpace}}.DataGrid
 
 @namespace {{codeGenConventions.UiNameSpace}}.Pages
 
@@ -22,6 +23,11 @@
         <Actions OnAdd="ShowAddDialog" />
     </MudItem>
     <Add{{entity.Name}}Form @bind-IsVisible="showAddDialog" OnSubmit="Add{{entity.Name}}Submit" OnCancel="HideAddDialog" />
+{{- end }}
+{{- if entity.Persistence.Read.IsEnabled }}
+    <MudItem xs="12">
+        <{{entity.PluralName}}DataGrid />
+    </MudItem>
 {{- end }}
 </MudGrid>
 

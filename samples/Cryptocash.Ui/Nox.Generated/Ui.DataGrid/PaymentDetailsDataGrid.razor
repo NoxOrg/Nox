@@ -1,0 +1,37 @@
+﻿@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject IPaymentDetailsService PaymentDetailsService
+
+<MudTable T="PaymentDetailModel" 
+          Items="@PaymentDetails" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>PaymentAccountName</MudTh>
+        <MudTh>PaymentAccountNumber</MudTh>
+        <MudTh>PaymentAccountSortCode</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <ViewText Text="@context.PaymentAccountName" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.PaymentAccountNumber" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.PaymentAccountSortCode" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">No Results Found</MudText>
+    </NoRecordsContent>
+</MudTable>

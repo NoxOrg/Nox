@@ -1,6 +1,7 @@
 ﻿@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Services
 @using Cryptocash.Ui.Forms.Add
+@using Cryptocash.Ui.DataGrid
 
 @namespace Cryptocash.Ui.Pages
 
@@ -21,6 +22,9 @@
         <Actions OnAdd="ShowAddDialog" />
     </MudItem>
     <AddCountryForm @bind-IsVisible="showAddDialog" OnSubmit="AddCountrySubmit" OnCancel="HideAddDialog" />
+    <MudItem xs="12">
+        <CountriesDataGrid />
+    </MudItem>
 </MudGrid>
 
 @code{

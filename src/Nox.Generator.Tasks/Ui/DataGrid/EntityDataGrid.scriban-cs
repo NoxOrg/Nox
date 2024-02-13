@@ -1,0 +1,24 @@
+﻿using Microsoft.AspNetCore.Components;
+
+using {{codeGenConventions.UiNameSpace}}.Models;
+
+namespace {{codeGenConventions.UiNameSpace}}.DataGrid;
+
+public partial class {{className}} : ComponentBase
+{
+    private List<{{entity.Name}}Model> {{entity.PluralName}} = new(); 
+    private bool IsLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            IsLoading = true;
+            {{entity.PluralName}} = await {{entity.PluralName}}Service.GetAllAsync();
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+}
