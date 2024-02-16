@@ -54,11 +54,7 @@ public abstract class BookingModelBase: IEntityModel
     /// Booking's cancelled date     
     /// </summary>
     public virtual System.DateTimeOffset? CancelledDateTime { get; set; }
-
-    /// <summary>
-    /// Booking's status     
-    /// </summary>
-    public virtual System.String? Status { get; set; }
+    
 
     /// <summary>
     /// Booking's related vat number     

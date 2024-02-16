@@ -1,8 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using Cryptocash.Application.Dto
-
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -16,33 +14,33 @@
     <DialogContent>
         <MudForm Model="@VendingMachine">
             <MudGrid Style="margin-top:15px;">
-                <MudItem xs="12">
-                    <EditMacAddress @bind-MacAddress="VendingMachine.MacAddress" 
-                        Title="MacAddress"/>
+                <MudItem>
+                    <EditMacAddress @bind-MacAddress="VendingMachine.MacAddress"/>
+                                        <!-- Title="MacAddress" TypeOptions="@VendingMachineMetadata.MacAddressTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditIpAddress @bind-IpAddress="VendingMachine.PublicIp" 
-                        Title="PublicIp"/>
+                <MudItem>
+                    <EditIpAddress @bind-IpAddress="VendingMachine.PublicIp"/>
+                                        <!-- Title="PublicIp" TypeOptions="@VendingMachineMetadata.PublicIpTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditLatLong @bind-LatLong="VendingMachine.GeoLocation" 
-                        Title="GeoLocation"/>
+                <MudItem>
+                    <EditLatLong @bind-LatLong="VendingMachine.GeoLocation"/>
+                                        <!-- Title="GeoLocation" TypeOptions="@VendingMachineMetadata.GeoLocationTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditStreetAddress @bind-StreetAddress="VendingMachine.StreetAddress" 
-                        Title="StreetAddress"/>
+                <MudItem>
+                    <EditStreetAddress @bind-StreetAddress="VendingMachine.StreetAddress"/>
+                                        <!-- Title="StreetAddress" TypeOptions="@VendingMachineMetadata.StreetAddressTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditText @bind-Text="VendingMachine.SerialNumber" 
-                        Title="SerialNumber" TypeOptions="@VendingMachineMetadata.SerialNumberTypeOptions" />
+                <MudItem>
+                    <EditText @bind-Text="VendingMachine.SerialNumber"/>
+                                        <!-- Title="SerialNumber" TypeOptions="@VendingMachineMetadata.SerialNumberTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditArea @bind-Area="VendingMachine.InstallationFootPrint" 
-                        Title="InstallationFootPrint"/>
+                <MudItem>
+                    <EditArea @bind-Area="VendingMachine.InstallationFootPrint"/>
+                                        <!-- Title="InstallationFootPrint" TypeOptions="@VendingMachineMetadata.InstallationFootPrintTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditMoney @bind-Money="VendingMachine.RentPerSquareMetre" 
-                        Title="RentPerSquareMetre"/>
+                <MudItem>
+                    <EditMoney @bind-Money="VendingMachine.RentPerSquareMetre"/>
+                                        <!-- Title="RentPerSquareMetre" TypeOptions="@VendingMachineMetadata.RentPerSquareMetreTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            
         </MudForm>
