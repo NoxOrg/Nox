@@ -1,8 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using Cryptocash.Application.Dto
-
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -16,37 +14,33 @@
     <DialogContent>
         <MudForm Model="@Booking">
             <MudGrid Style="margin-top:15px;">
-                <MudItem xs="12">
-                    <EditGuid @bind-Guid="Booking.Id" 
-                        Title="Id" />
+                <MudItem>
+                    <EditMoney @bind-Money="Booking.AmountFrom"/>
+                                        <!-- Title="AmountFrom" TypeOptions="@BookingMetadata.AmountFromTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditMoney @bind-Money="Booking.AmountFrom" 
-                        Title="AmountFrom"/>
+                <MudItem>
+                    <EditMoney @bind-Money="Booking.AmountTo"/>
+                                        <!-- Title="AmountTo" TypeOptions="@BookingMetadata.AmountToTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditMoney @bind-Money="Booking.AmountTo" 
-                        Title="AmountTo"/>
+                <MudItem>
+                    <EditDateTimeRange @bind-DateTimeRange="Booking.RequestedPickUpDate"/>
+                                        <!-- Title="RequestedPickUpDate" TypeOptions="@BookingMetadata.RequestedPickUpDateTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditDateTimeRange @bind-DateTimeRange="Booking.RequestedPickUpDate" 
-                        Title="RequestedPickUpDate"/>
+                <MudItem>
+                    <EditDateTimeRange @bind-DateTimeRange="Booking.PickedUpDateTime"/>
+                                        <!-- Title="PickedUpDateTime" TypeOptions="@BookingMetadata.PickedUpDateTimeTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditDateTimeRange @bind-DateTimeRange="Booking.PickedUpDateTime" 
-                        Title="PickedUpDateTime"/>
+                <MudItem>
+                    <EditDateTime @bind-DateTime="Booking.ExpiryDateTime"/>
+                                        <!-- Title="ExpiryDateTime" TypeOptions="@BookingMetadata.ExpiryDateTimeTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditDateTime @bind-DateTime="Booking.ExpiryDateTime" 
-                        Title="ExpiryDateTime"/>
+                <MudItem>
+                    <EditDateTime @bind-DateTime="Booking.CancelledDateTime"/>
+                                        <!-- Title="CancelledDateTime" TypeOptions="@BookingMetadata.CancelledDateTimeTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditDateTime @bind-DateTime="Booking.CancelledDateTime" 
-                        Title="CancelledDateTime"/>
-                </MudItem>
-                <MudItem xs="12">
-                    <EditVatNumber @bind-VatNumber="Booking.VatNumber" 
-                        Title="VatNumber"/>
+                <MudItem>
+                    <EditVatNumber @bind-VatNumber="Booking.VatNumber"/>
+                                        <!-- Title="VatNumber" TypeOptions="@BookingMetadata.VatNumberTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            
         </MudForm>

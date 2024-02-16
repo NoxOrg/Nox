@@ -1,0 +1,15 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="true"
+              MaxLength="@MaxLength"
+              Lines="@Lines"
+              MaxLines="@MaxLines"
+              AutoGrow="true"
+              Validation="@(new Func<string, string>(ValidateLength))"
+              TextChanged="OnTextChanged"                
+              Value="Text" />

@@ -1,8 +1,6 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
-@using Cryptocash.Application.Dto
-
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -16,25 +14,25 @@
     <DialogContent>
         <MudForm Model="@Customer">
             <MudGrid Style="margin-top:15px;">
-                <MudItem xs="12">
-                    <EditText @bind-Text="Customer.FirstName" 
-                        Title="FirstName" TypeOptions="@CustomerMetadata.FirstNameTypeOptions" />
+                <MudItem>
+                    <EditText @bind-Text="Customer.FirstName"/>
+                                        <!-- Title="FirstName" TypeOptions="@CustomerMetadata.FirstNameTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditText @bind-Text="Customer.LastName" 
-                        Title="LastName" TypeOptions="@CustomerMetadata.LastNameTypeOptions" />
+                <MudItem>
+                    <EditText @bind-Text="Customer.LastName"/>
+                                        <!-- Title="LastName" TypeOptions="@CustomerMetadata.LastNameTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditEmail @bind-Email="Customer.EmailAddress" 
-                        Title="EmailAddress"/>
+                <MudItem>
+                    <EditEmail @bind-Email="Customer.EmailAddress"/>
+                                        <!-- Title="EmailAddress" TypeOptions="@CustomerMetadata.EmailAddressTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditStreetAddress @bind-StreetAddress="Customer.Address" 
-                        Title="Address"/>
+                <MudItem>
+                    <EditStreetAddress @bind-StreetAddress="Customer.Address"/>
+                                        <!-- Title="Address" TypeOptions="@CustomerMetadata.AddressTypeOptions" /> -->
                 </MudItem>
-                <MudItem xs="12">
-                    <EditPhoneNumber @bind-PhoneNumber="Customer.MobileNumber" 
-                        Title="MobileNumber"/>
+                <MudItem>
+                    <EditPhoneNumber @bind-PhoneNumber="Customer.MobileNumber"/>
+                                        <!-- Title="MobileNumber" TypeOptions="@CustomerMetadata.MobileNumberTypeOptions" /> -->
                 </MudItem>
             </MudGrid>            
         </MudForm>

@@ -39,9 +39,5 @@ public abstract class CashStockOrderModelBase: IEntityModel
     /// Order delivery date     
     /// </summary>
     public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
-
-    /// <summary>
-    /// Order status     
-    /// </summary>
-    public virtual System.String? Status { get; set; }
+    
 }
