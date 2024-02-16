@@ -1,4 +1,5 @@
 using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions;
 
@@ -14,7 +15,8 @@ public static class PhoneNumberExtensions
     /// <returns>The reference phone number information.</returns>
     public static PhoneNumberInfo GetReferencePhoneNumberInfo(this PhoneNumber phoneNumber)
     {
-        var phoneNumberInfo = World.PhoneNumbers.GetPhoneNumberInfo(phoneNumber.Value);
+        using var worldContext = new WorldContext();
+        var phoneNumberInfo = worldContext.PhoneNumbers.GetPhoneNumberInfo(phoneNumber.Value);
         return phoneNumberInfo;
     }
 }

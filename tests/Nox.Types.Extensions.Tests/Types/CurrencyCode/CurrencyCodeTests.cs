@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions.Tests.Types;
 
@@ -94,7 +95,8 @@ public class CurrencyCodeTests : WorldTestBase
     public void WhenGettingCurrencyCode_WithValidReferenceCurrency_ThenReturnsCurrencyCode(string currencyIsoCode)
     {
         // Arrange
-        var referenceCurrency = World.Currencies.GetByIsoCode(currencyIsoCode);
+        using var worldContext = new WorldContext();
+        var referenceCurrency = worldContext.GetCurrenciesQuery().GetByIsoCode(currencyIsoCode);
 
         // Act
         var currencyCode = referenceCurrency!.GetCurrencyCode();
@@ -110,7 +112,8 @@ public class CurrencyCodeTests : WorldTestBase
     public void WhenGettingCurrencyCode3_WithValidReferenceCurrency_ThenReturnsCurrencyCode3(string currencyIsoCode)
     {
         // Arrange
-        var referenceCurrency = World.Currencies.GetByIsoCode(currencyIsoCode);
+        using var worldContext = new WorldContext();
+        var referenceCurrency = worldContext.GetCurrenciesQuery().GetByIsoCode(currencyIsoCode);
 
         // Act
         var currencyCode3 = referenceCurrency!.GetCurrencyCode3();
@@ -124,10 +127,10 @@ public class CurrencyCodeTests : WorldTestBase
     public void WhenGettingCurrencyCode3_FromAllReferenceCurrencies_Success()
     {
         // These don't have numeric codes.
-        var skippedCurrencies = new[] { "BTC", "TVD", "XBT", "WON" }; 
-
+        var skippedCurrencies = new[] { "BTC", "TVD", "XBT", "WON" };
+        using var worldContext = new WorldContext();
         // Arrange
-        foreach (var currency in World.Currencies)
+        foreach (var currency in worldContext.GetCurrenciesQuery())
         {
             if (skippedCurrencies.Contains(currency.IsoCode))
                 continue;

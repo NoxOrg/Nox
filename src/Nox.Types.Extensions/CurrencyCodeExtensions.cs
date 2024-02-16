@@ -1,4 +1,5 @@
 ﻿using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions;
 
@@ -9,13 +10,20 @@ public static class CurrencyCodeExtensions
 
     public static CurrencyCode3 GetCurrencyCode3(this Currency referenceCurrency)
         => CurrencyCode3.From(referenceCurrency.IsoCode)!;
-
+      
     public static Currency GetReferenceCurrency(this Money money)
-        => World.Currencies.GetByIsoCode(money.CurrencyCode.ToString())!;
-
+    {
+        using var worldContext = new WorldContext();
+        return worldContext.GetCurrenciesQuery().GetByIsoCode(money.CurrencyCode.ToString())!;
+    }
     public static Currency GetReferenceCurrency(this CurrencyCode currencyCode)
-       => World.Currencies.GetByIsoCode(currencyCode.ToString())!;
-
+    {
+        using var worldContext = new WorldContext();
+        return worldContext.GetCurrenciesQuery().GetByIsoCode(currencyCode.ToString())!; 
+    }
     public static Currency GetReferenceCurrency(this CurrencyCode3 currencyCode)
-        => World.Currencies.GetByIsoCode(currencyCode.Value)!;
+    {
+        using var worldContext = new WorldContext();
+        return worldContext.GetCurrenciesQuery().GetByIsoCode(currencyCode.Value)!;
+    }
 }

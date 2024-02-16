@@ -1,5 +1,6 @@
 using GeoTimeZone;
 using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions;
 
@@ -12,10 +13,11 @@ public static class TimeZoneCodeExtensions
     /// Gets the reference <see cref="TimeZoneCode"/> based on the provided <see cref="TimeZoneCode"/>.
     /// </summary>
     /// <param name="timeZoneCode">The <see cref="TimeZoneCode"/> to get the reference <see cref="TimeZoneCode"/> for.</param>
-    /// <returns>The reference <see cref="TimeZoneCode"/>.</returns>
+    /// <returns>The reference <see cref="TimeZoneCode"/>.</returns>    
     public static Reference.TimeZone GetReferenceTimeZone(this TimeZoneCode timeZoneCode)
     {
-        return World.TimeZones.GetById(timeZoneCode.Value)!;
+        using var worldContext = new WorldContext();
+        return worldContext.GetTimeZonesQuery().GetById(timeZoneCode.Value)!;
     }
 
     /// <summary>

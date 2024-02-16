@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions.Tests.Types.TimeZoneCode;
 
@@ -33,8 +34,9 @@ public class TimeZoneCodeExtensionsTests: WorldTestBase
     public void WhenGettingTimeZoneCode_WithValidReferenceTimeZone_ThenReturnsTimeZoneCode(string timeZone)
     {
         // Arrange
+        using var worldContext = new WorldContext();
         // Act
-        var referenceTimeZone = World.TimeZones.FirstOrDefault(tz=> tz.Code ==timeZone)!;
+        var referenceTimeZone = worldContext.GetTimeZonesQuery().FirstOrDefault(tz=> tz.Code ==timeZone)!;
         var timeZoneCode = referenceTimeZone.GetTimeZoneCode();
 
         // Assert

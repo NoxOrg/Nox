@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions.Tests.Types.LanguageCode;
 
@@ -9,7 +10,8 @@ public class LanguageExtensionsTests : WorldTestBase
     public void GetReferenceLanguageCode_ValidIsoLanguage_ReturnsExpectedLanguageCode()
     {
         //Arrange
-        var languageHasIsoCode = World.Languages.FirstOrDefault(x => x.Iso_639_1 != null)!;
+        using var worldContext = new WorldContext();
+        var languageHasIsoCode = worldContext.GetLanguagesQuery().FirstOrDefault(x => x.Iso_639_1 != null)!;
        
         //Act & Assert
         languageHasIsoCode.GetLanguageCode().Should()
@@ -21,7 +23,8 @@ public class LanguageExtensionsTests : WorldTestBase
     public void GetReferenceLanguageCode_NullLanguage_ThrowsArgumentNullException()
     {
         //Arrange
-        var languageHasNoIsoCode = World.Languages.FirstOrDefault(x => x.Iso_639_1 == null)!;
+        using var worldContext = new WorldContext();
+        var languageHasNoIsoCode = worldContext.GetLanguagesQuery().FirstOrDefault(x => x.Iso_639_1 == null)!;
 
         //Act & Assert
         var action = new Action(() => languageHasNoIsoCode!.GetLanguageCode());
