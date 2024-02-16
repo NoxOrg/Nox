@@ -1,5 +1,5 @@
 using FluentAssertions;
-using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions.Tests.Types.CultureCode;
 
@@ -13,7 +13,8 @@ public class CultureExtensionsTests : WorldTestBase
     {
         // Arrange Act
         var cultureCode = Nox.Types.CultureCode.From(cultureEnum);
-        var culture = World.Cultures.FirstOrDefault(c=> c.Name == cultureCode.Value);
+        using var worldContext = new WorldContext();
+        var culture = worldContext.GetCulturesQuery().FirstOrDefault(c=> c.Name == cultureCode.Value);
         
         // Assert
         culture.Should().NotBeNull();

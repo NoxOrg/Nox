@@ -12,7 +12,7 @@ public class CountryNumberExtensionsTests : WorldTestBase
     {
         // Arrange
         // Act
-        var country = CountryNumber.From(ushort.Parse(countryNumber)).GetReferenceCountry();
+        var country = CountryNumber.From(ushort.Parse(countryNumber)).GetReferenceCountry(country => country.Names);
 
         // Assert
         country.Should().NotBeNull();

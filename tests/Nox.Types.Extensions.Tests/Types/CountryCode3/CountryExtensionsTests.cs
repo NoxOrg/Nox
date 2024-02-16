@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Nox.Reference;
+using Nox.Reference.Data.World;
 
 namespace Nox.Types.Extensions.Tests.Types;
 
@@ -12,7 +13,8 @@ public partial class CountryExtensionsTests : WorldTestBase
     public void WhenGettingCountryCode3_WithValidCountry_ThenReturnsCountryCode3(string countryCode)
     {
         // Arrange
-        var country = World.Countries.GetByAlpha3Code(countryCode)!;
+        using var worldContext = new WorldContext();
+        var country = worldContext.GetCountriesQuery().GetByAlpha3Code(countryCode)!;
 
         // Act
         var countryCode3 = country.GetCountryCode3();
