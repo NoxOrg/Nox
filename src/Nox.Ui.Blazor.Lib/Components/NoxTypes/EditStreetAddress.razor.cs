@@ -31,65 +31,40 @@ public partial class EditStreetAddress : ComponentBase
 
     public string? CurrentPostalCode { get; set; }
 
-    public string? CurrentCountryIdStr { get; set; }
-
-    private Nox.Types.CountryCode? _CurrentCountryId { get; set; }
-
-    public Nox.Types.CountryCode? CurrentCountryId
-    {
-        get
-        {
-            if (_CurrentCountryId != null)
-            {
-                return _CurrentCountryId;
-            }
-
-            if (!String.IsNullOrWhiteSpace(CurrentCountryIdStr)
-                && Enum.IsDefined(typeof(Nox.Types.CountryCode), CurrentCountryIdStr))
-            {
-                return (Nox.Types.CountryCode?)Enum.Parse(typeof(Nox.Types.CountryCode), CurrentCountryIdStr);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        set { _CurrentCountryId = value; }
-    }
+    public CountryCode? CurrentCountryId { get; set; }
 
     [Parameter]
-    public string? Title { get; set; }
+    public string? Title { get; set; } = Resources.Resources.TitleStreetAddress;
 
     [Parameter]
-    public string? TitleAddressLine1 { get; set; } = "Address Line 1";
+    public string? TitleAddressLine1 { get; set; } = Resources.Resources.TitleAddressLine1;
 
     [Parameter]
-    public string? TitleAddressLine2 { get; set; } = "Address Line 2";
+    public string? TitleAddressLine2 { get; set; } = Resources.Resources.TitleAddressLine2;
 
     [Parameter]
-    public string? TitleRoute { get; set; } = "Route";
+    public string? TitleRoute { get; set; } = Resources.Resources.TitleRoute;
 
     [Parameter]
-    public string? TitleLocality { get; set; } = "Locality";
+    public string? TitleLocality { get; set; } = Resources.Resources.TitleLocality;
 
     [Parameter]
-    public string? TitleNeighborhood { get; set; } = "Neighborhood";
+    public string? TitleNeighborhood { get; set; } = Resources.Resources.TitleNeighborhood;
 
     [Parameter]
-    public string? TitleAdministrativeArea1 { get; set; } = "Administrative Area 1";
+    public string? TitleAdministrativeArea1 { get; set; } = Resources.Resources.TitleAdministrativeArea1;
 
     [Parameter]
-    public string? TitleAdministrativeArea2 { get; set; } = "Administrative Area 2";
+    public string? TitleAdministrativeArea2 { get; set; } = Resources.Resources.TitleAdministrativeArea2;
 
     [Parameter]
-    public string? TitlePostalCode { get; set; } = "Postal Code";
+    public string? TitlePostalCode { get; set; } = Resources.Resources.TitlePostalCode;
 
     [Parameter]
-    public string? TitleCountryId { get; set; } = "CountryId";
+    public string? TitleCountryId { get; set; } = Resources.Resources.TitleCountryId;
 
     [Parameter]
-    public List<CountryModel> CountrySelectionList { get; set; } = new();
+    public List<CountryCode> CountrySelectionList { get; set; } = Enum.GetValues(typeof(CountryCode)).Cast<CountryCode>().ToList();
 
     [Parameter]
     public EventCallback<StreetAddressModel> StreetAddressChanged { get; set; }
@@ -139,7 +114,7 @@ public partial class EditStreetAddress : ComponentBase
             CurrentAdministrativeArea1 = StreetAddress.AdministrativeArea1;
             CurrentAdministrativeArea2 = StreetAddress.AdministrativeArea2;
             CurrentPostalCode = StreetAddress.PostalCode;
-            CurrentCountryIdStr = StreetAddress.CountryId.ToString();
+            CurrentCountryId = StreetAddress.CountryId;
         }
     }
 
@@ -226,7 +201,10 @@ public partial class EditStreetAddress : ComponentBase
 
     protected async Task OnCountryIdChanged(string newValue)
     {
-        CurrentCountryIdStr = newValue;
+        if (Enum.TryParse(newValue, out CountryCode countryCode))
+        {
+            CurrentCountryId = countryCode;
+        }
 
         RefreshStreetAddress();
 

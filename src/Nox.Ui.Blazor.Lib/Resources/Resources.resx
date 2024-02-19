@@ -138,8 +138,71 @@
   <data name="LogOut" xml:space="preserve">
     <value>Log Out</value>
   </data>
+  <data name="NoResultsFound" xml:space="preserve">
+    <value>No Results Found</value>
+  </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="TitleAddressLine1" xml:space="preserve">
+    <value>Address Line 1</value>
+  </data>
+  <data name="TitleAddressLine2" xml:space="preserve">
+    <value>Address Line 2</value>
+  </data>
+  <data name="TitleAdministrativeArea1" xml:space="preserve">
+    <value>Administrative Area 1</value>
+  </data>
+  <data name="TitleAdministrativeArea2" xml:space="preserve">
+    <value>Administrative Area 2</value>
+  </data>
+  <data name="TitleCountryId" xml:space="preserve">
+    <value>CountryId</value>
+  </data>
+  <data name="TitleCurrencyCode" xml:space="preserve">
+    <value>Currency Code</value>
+  </data>
+  <data name="TitleDateTimeRange" xml:space="preserve">
+    <value>DateTime Range</value>
+  </data>
+  <data name="TitleEndHour" xml:space="preserve">
+    <value>End Hour</value>
+  </data>
+  <data name="TitleEndMillisecond" xml:space="preserve">
+    <value>End Millisecond</value>
+  </data>
+  <data name="TitleEndMinute" xml:space="preserve">
+    <value>End Minute</value>
+  </data>
+  <data name="TitleEndSecond" xml:space="preserve">
+    <value>End Second</value>
+  </data>
+  <data name="TitleLocality" xml:space="preserve">
+    <value>Locality</value>
+  </data>
+  <data name="TitleNeighborhood" xml:space="preserve">
+    <value>Neighborhood</value>
+  </data>
+  <data name="TitlePostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="TitleRoute" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="TitleStartHour" xml:space="preserve">
+    <value>Start Hour</value>
+  </data>
+  <data name="TitleStartMillisecond" xml:space="preserve">
+    <value>Start Millisecond</value>
+  </data>
+  <data name="TitleStartMinute" xml:space="preserve">
+    <value>Start Minute</value>
+  </data>
+  <data name="TitleStartSecond" xml:space="preserve">
+    <value>Start Second</value>
+  </data>
+  <data name="TitleStreetAddress" xml:space="preserve">
+    <value>Street Address</value>
   </data>
   <data name="ValidateGeneric" xml:space="preserve">
     <value>{0} is not a valid {1}</value>

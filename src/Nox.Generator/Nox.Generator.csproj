@@ -61,7 +61,7 @@
 		<PackageReference Include="YamlDotNet" Version="15.1.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="FluentValidation" Version="11.9.0" PrivateAssets="all" GeneratePathProperty="true" />
-		<PackageReference Include="System.Text.Json" Version="8.0.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="System.Text.Json" Version="8.0.2" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Scriban" Version="5.9.1" IncludeAssets="Build" />
 	</ItemGroup>
 	

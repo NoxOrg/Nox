@@ -12,7 +12,7 @@ public class CountryCode2ExtensionsTests : WorldTestBase
     {
         // Arrange
         // Act
-        var country = CountryCode2.From(countryCode2).GetReferenceCountry();
+        var country = CountryCode2.From(countryCode2).GetReferenceCountry(country =>country.Names);
 
         // Assert
         country.Should().NotBeNull();

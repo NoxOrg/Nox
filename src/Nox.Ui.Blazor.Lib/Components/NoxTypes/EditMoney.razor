@@ -1,17 +1,31 @@
 ﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
 
-<MudNumericField Label="@Title"
-              Variant="Variant.Outlined"
-              FullWidth="true"
-              Clearable="true"
-              Required="false"
-              RequiredError="@ErrorRequiredMessage"              
-              MaxLength="63"
-              TextChanged="OnMoneyChanged"
-              Min="0"
-              Format="@Format"
-              Adornment="Adornment.Start"
-              AdornmentText="@DisplayCurrencySymbol"
-              Disabled="IsDisabled"
-              Value="Amount" />
+<MudItem xs=12>
+    <MudGrid>
+        <MudItem xs="6">
+            <MudNumericField Label="@Title"
+                             Variant="Variant.Outlined"
+                             FullWidth="true"
+                             Clearable="true"
+                             Required="false"
+                             RequiredError="@ErrorRequiredMessage"
+                             Min="@MinValue"
+                             Max="@MaxValue"
+                             Format="@Format"
+                             TextChanged="@OnAmountChanged"
+                             @bind-Value="Money.Amount" />
+        </MudItem>
+        <MudItem xs="6">
+            <MudSelect @bind-Value="@Money.CurrencyCode"
+                       Label="@TitleCurrencyCode"
+                       Variant="Variant.Outlined"
+                       TextChanged="OnCurrencyCodeChanged">
+                @foreach (var currency in CurrencyCodes)
+                {
+                    <MudSelectItem Value="@currency">@currency</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+    </MudGrid>
+</MudItem>

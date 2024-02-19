@@ -34,7 +34,7 @@ public abstract class {{className}}Base: IEntityModel
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
-    {{- if !IsNoxTypeCreatable attribute.Type || !IsNoxTypeUpdatable attribute.Type }}
+    {{- if !IsNoxTypeCreatable attribute.Type && !IsNoxTypeUpdatable attribute.Type && !IsNoxTypeReadable attribute.Type }}
     {{ continue; }}
     {{- end}}
 

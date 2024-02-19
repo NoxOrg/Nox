@@ -10,7 +10,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using TestWebApp.Application.Dto;
-using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 

@@ -10,23 +10,13 @@ public partial class EditMoney : ComponentBase
     #region Declarations
 
     [Parameter]
-    public MoneyModel? Money { get; set; }
-
-    public decimal Amount { get; set; }
-
-    public bool IsDisabled
-    {
-        get
-        {
-            return Currency == null;
-        }            
-    }
-
-    [Parameter]
-    public CurrencyCode? Currency { get; set; }
+    public MoneyModel Money { get; set; } = new();
 
     [Parameter]
     public string? Title { get; set; }
+
+    [Parameter]
+    public string? TitleCurrencyCode { get; set; } = Resources.Resources.TitleCurrencyCode;
 
     [Parameter]
     public EventCallback<MoneyModel> MoneyChanged { get; set; }
@@ -42,32 +32,20 @@ public partial class EditMoney : ComponentBase
     [Parameter]
     public string Format { get; set; } = "#,##0.##";
 
-    public string DisplayCurrencySymbol
-    {
-        get
-        {
-            if (Currency != null)
-            {
-                string? rtnCurrencyStr = Currency.ToString();
-
-                return rtnCurrencyStr!;
-            }
-
-            return string.Empty;
-        }
-    }
+    [Parameter]
+    public List<CurrencyCode> CurrencyCodes { get; set; } = Enum.GetValues(typeof(CurrencyCode)).Cast<CurrencyCode>().ToList();
 
     [Parameter]
     public MoneyTypeOptions? TypeOptions { get; set; }
 
     [Parameter]
-    public decimal MinValue { get; set; } = 0;
+    public decimal MinValue { get; set; }
 
     [Parameter]
-    public decimal MaxValue { get; set; } = 100;
+    public decimal MaxValue { get; set; }
 
     [Parameter]
-    public int DecimalDigits { get; set; } = 100;
+    public int DecimalDigits { get; set; }
 
     [Parameter]
     public CurrencyCode DefaultCurrency { get; set; }
@@ -79,42 +57,33 @@ public partial class EditMoney : ComponentBase
     /// </summary>
     protected override void OnInitialized()
     {
-        if (TypeOptions is not null)
-        {
-            MinValue = TypeOptions.MinValue;
-            MaxValue = TypeOptions.MaxValue;
-            DecimalDigits = TypeOptions.DecimalDigits;
-            DefaultCurrency = TypeOptions.DefaultCurrency;
-        }
+        TypeOptions ??= new();
+        MinValue = TypeOptions.MinValue;
+        MaxValue = TypeOptions.MaxValue;
+        DecimalDigits = TypeOptions.DecimalDigits;
+        DefaultCurrency = TypeOptions.DefaultCurrency;
 
-        if (Money != null)
-        {
-            Amount = Money.Amount;
-        }
+        Money ??= new() { CurrencyCode = DefaultCurrency };
     }
 
-    protected async Task OnMoneyChanged(string newValue)
+    private async Task OnAmountChanged(string newValue)
     {
-        if (!string.IsNullOrWhiteSpace(newValue))
+        if (decimal.TryParse(newValue, out decimal parsedValue))
         {
-            _ = decimal.TryParse(newValue, out decimal parsedDouble);
-
-            Amount = parsedDouble;
-        }
-        else
-        {
-            Amount = 0;
+            Money.Amount = parsedValue;
         }
 
-        if (Currency != null)
-        {
-            Money = new MoneyModel()
-            {
-                Amount = Amount,
-                CurrencyCode = (CurrencyCode)Currency
-            };
+        await MoneyChanged.InvokeAsync(Money);
+    }
 
-            await MoneyChanged.InvokeAsync(Money);
-        }            
+    private async Task OnCurrencyCodeChanged(string newValue)
+    {
+        if (Enum.TryParse(newValue, out CurrencyCode currency))
+        {
+
+            Money.CurrencyCode = currency;
+        }
+
+        await MoneyChanged.InvokeAsync(Money);
     }
 }

@@ -10,7 +10,7 @@ public partial class ViewDateTimeRange : ComponentBase
     #region Declarations
 
     [Parameter]
-    public DateTimeRangeModel? DateTimeRangeModel { get; set; }
+    public DateTimeRangeModel? DateTimeRange { get; set; }
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy HH:mm:ss";
@@ -24,9 +24,9 @@ public partial class ViewDateTimeRange : ComponentBase
     {
         get
         {
-            if (DateTimeRangeModel is not null)
+            if (DateTimeRange is not null)
             {
-                return $"Start: {DateTimeRangeModel.Start.ToString(Format, CultureInfo)} End: {DateTimeRangeModel.End.ToString(Format, CultureInfo)}";
+                return $"Start: {DateTimeRange.Start.ToString(Format, CultureInfo)} End: {DateTimeRange.End.ToString(Format, CultureInfo)}";
             }
 
             return String.Empty;

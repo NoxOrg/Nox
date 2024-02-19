@@ -20,7 +20,7 @@ public partial class EditDateTimeRange : ComponentBase
     public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentCulture;
 
     [Parameter]
-    public string? Title { get; set; }
+    public string? Title { get; set; } = Resources.Resources.TitleDateTimeRange;
 
     [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy";
@@ -41,16 +41,16 @@ public partial class EditDateTimeRange : ComponentBase
     public int? MillisecondStart { get; set; }
 
     [Parameter]
-    public string? TitleHourStart { get; set; } = "Start Hour";
+    public string? TitleHourStart { get; set; } = Resources.Resources.TitleStartHour;
 
     [Parameter]
-    public string? TitleMinuteStart { get; set; } = "Start Minute";
+    public string? TitleMinuteStart { get; set; } = Resources.Resources.TitleStartMinute;
 
     [Parameter]
-    public string? TitleSecondStart { get; set; } = "Start Second";
+    public string? TitleSecondStart { get; set; } = Resources.Resources.TitleStartSecond;
 
     [Parameter]
-    public string? TitleMillisecondStart { get; set; }
+    public string? TitleMillisecondStart { get; set; } = Resources.Resources.TitleStartMillisecond;
 
     public string? CurrentHourStartStr { get; set; }
 
@@ -73,16 +73,16 @@ public partial class EditDateTimeRange : ComponentBase
     public int? MillisecondEnd { get; set; }
 
     [Parameter]
-    public string? TitleHourEnd { get; set; } = "End Hour";
+    public string? TitleHourEnd { get; set; } = Resources.Resources.TitleEndHour;
 
     [Parameter]
-    public string? TitleMinuteEnd { get; set; } = "End Minute";
+    public string? TitleMinuteEnd { get; set; } = Resources.Resources.TitleEndMinute;
 
     [Parameter]
-    public string? TitleSecondEnd { get; set; } = "End Second";
+    public string? TitleSecondEnd { get; set; } = Resources.Resources.TitleEndSecond;
 
     [Parameter]
-    public string? TitleMillisecondEnd { get; set; }
+    public string? TitleMillisecondEnd { get; set; } = Resources.Resources.TitleEndMillisecond;
 
     public string? CurrentHourEndStr { get; set; }
 

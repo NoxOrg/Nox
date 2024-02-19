@@ -148,7 +148,9 @@
                                                         <EditText Title="Text" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditMoney Title="Money" Money="@testMoney" Currency="testMoney.CurrencyCode" />
+                                                        <EditMoney Title="Money" @bind-Money="@testMoney"/>
+                                                        <MudText>money.amount: @testMoney.Amount</MudText>
+                                                        <MudText>money.CurrencyCode: @testMoney.CurrencyCode</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" />
@@ -234,17 +236,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditStreetAddress @bind-StreetAddress="@testStreetAddress"
-                                                            Title="StreetNumber"
-                                                            TitleAddressLine1="AddressLine1"
-                                                            TitleAddressLine2="AddressLine2"
-                                                            TitleRoute="Route"
-                                                            TitleLocality="Locality"
-                                                            TitleNeighborhood="Neighborhood"
-                                                            TitleAdministrativeArea1="AdministrativeArea1"
-                                                            TitleAdministrativeArea2="AdministrativeArea2"
-                                                            TitlePostalCode="PostalCode"
-                                                            TitleCountryId="CountryId"
-                                                            CountrySelectionList="@testCountryList" />
+                                                            Title="StreetNumber" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditLatLong @bind-Latlong="@testLatLong"
@@ -280,6 +272,9 @@
                                                     <MudItem xs="6">
                                                         <EditEmail Title="Email" Email="@testEmail" />
                                                     </MudItem>
+                                                <MudItem xs="6">
+                                                    <EditTextMultiline Title="TextMultiline" Text="testText" Lines="1" MaxLines="3" />
+                                                </MudItem>
                                                 </MudGrid>
                                     </MudItem>
                                     <MudItem xs="12">
@@ -396,7 +391,7 @@
                                     <ViewDateTime DateTime="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
-                                    <ViewDateTimeRange DateTimeRangeModel="testDateTimeRangeModel" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                    <ViewDateTimeRange DateTimeRange="testDateTimeRangeModel" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
                                 </MudTd>
                                 <MudTd Style="vertical-align:top;">
                                     <ViewDayOfWeek DayOfWeek="@testDayOfWeek" CultureInfo="@testCultureInfo" />

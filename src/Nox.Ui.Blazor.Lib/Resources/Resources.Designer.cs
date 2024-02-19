@@ -124,11 +124,200 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Results Found.
+        /// </summary>
+        public static string NoResultsFound {
+            get {
+                return ResourceManager.GetString("NoResultsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 1.
+        /// </summary>
+        public static string TitleAddressLine1 {
+            get {
+                return ResourceManager.GetString("TitleAddressLine1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address Line 2.
+        /// </summary>
+        public static string TitleAddressLine2 {
+            get {
+                return ResourceManager.GetString("TitleAddressLine2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrative Area 1.
+        /// </summary>
+        public static string TitleAdministrativeArea1 {
+            get {
+                return ResourceManager.GetString("TitleAdministrativeArea1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrative Area 2.
+        /// </summary>
+        public static string TitleAdministrativeArea2 {
+            get {
+                return ResourceManager.GetString("TitleAdministrativeArea2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CountryId.
+        /// </summary>
+        public static string TitleCountryId {
+            get {
+                return ResourceManager.GetString("TitleCountryId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency Code.
+        /// </summary>
+        public static string TitleCurrencyCode {
+            get {
+                return ResourceManager.GetString("TitleCurrencyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DateTime Range.
+        /// </summary>
+        public static string TitleDateTimeRange {
+            get {
+                return ResourceManager.GetString("TitleDateTimeRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Hour.
+        /// </summary>
+        public static string TitleEndHour {
+            get {
+                return ResourceManager.GetString("TitleEndHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Millisecond.
+        /// </summary>
+        public static string TitleEndMillisecond {
+            get {
+                return ResourceManager.GetString("TitleEndMillisecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Minute.
+        /// </summary>
+        public static string TitleEndMinute {
+            get {
+                return ResourceManager.GetString("TitleEndMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Second.
+        /// </summary>
+        public static string TitleEndSecond {
+            get {
+                return ResourceManager.GetString("TitleEndSecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locality.
+        /// </summary>
+        public static string TitleLocality {
+            get {
+                return ResourceManager.GetString("TitleLocality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neighborhood.
+        /// </summary>
+        public static string TitleNeighborhood {
+            get {
+                return ResourceManager.GetString("TitleNeighborhood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Postal Code.
+        /// </summary>
+        public static string TitlePostalCode {
+            get {
+                return ResourceManager.GetString("TitlePostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Route.
+        /// </summary>
+        public static string TitleRoute {
+            get {
+                return ResourceManager.GetString("TitleRoute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Hour.
+        /// </summary>
+        public static string TitleStartHour {
+            get {
+                return ResourceManager.GetString("TitleStartHour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Millisecond.
+        /// </summary>
+        public static string TitleStartMillisecond {
+            get {
+                return ResourceManager.GetString("TitleStartMillisecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Minute.
+        /// </summary>
+        public static string TitleStartMinute {
+            get {
+                return ResourceManager.GetString("TitleStartMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Second.
+        /// </summary>
+        public static string TitleStartSecond {
+            get {
+                return ResourceManager.GetString("TitleStartSecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Street Address.
+        /// </summary>
+        public static string TitleStreetAddress {
+            get {
+                return ResourceManager.GetString("TitleStreetAddress", resourceCulture);
             }
         }
         

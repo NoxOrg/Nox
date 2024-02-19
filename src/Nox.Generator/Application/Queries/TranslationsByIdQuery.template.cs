@@ -10,7 +10,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
-using {{codeGenConventions.PersistenceNameSpace}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Queries;
 
