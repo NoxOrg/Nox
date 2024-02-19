@@ -1,0 +1,42 @@
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject ITransactionsService TransactionsService
+
+<MudTable T="TransactionModel" 
+          Items="@Transactions" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>TransactionType</MudTh>
+        <MudTh>ProcessedOnDateTime</MudTh>
+        <MudTh>Amount</MudTh>
+        <MudTh>Reference</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <ViewText Text="@context.TransactionType" />
+        </MudTd>
+        <MudTd>
+            <ViewDateTime DateTime="@context.ProcessedOnDateTime" />
+        </MudTd>
+        <MudTd>
+            <ViewMoney Money="@context.Amount" />
+        </MudTd>
+        <MudTd>
+            <ViewText Text="@context.Reference" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
+    </NoRecordsContent>
+</MudTable>
