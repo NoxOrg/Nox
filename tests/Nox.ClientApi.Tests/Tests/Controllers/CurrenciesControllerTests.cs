@@ -72,7 +72,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "EC1A 1BB",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
