@@ -1,6 +1,8 @@
 ﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Cryptocash.Application.Dto
+
 @using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Forms.Add
@@ -14,29 +16,29 @@
     <DialogContent>
         <MudForm Model="@Employee">
             <MudGrid Style="margin-top:15px;">
-                <MudItem>
-                    <EditText @bind-Text="Employee.FirstName"/>
-                                        <!-- Title="FirstName" TypeOptions="@EmployeeMetadata.FirstNameTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditText @bind-Text="Employee.FirstName" 
+                        Title="FirstName" TypeOptions="@EmployeeMetadata.FirstNameTypeOptions" />
                 </MudItem>
-                <MudItem>
-                    <EditText @bind-Text="Employee.LastName"/>
-                                        <!-- Title="LastName" TypeOptions="@EmployeeMetadata.LastNameTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditText @bind-Text="Employee.LastName" 
+                        Title="LastName" TypeOptions="@EmployeeMetadata.LastNameTypeOptions" />
                 </MudItem>
-                <MudItem>
-                    <EditEmail @bind-Email="Employee.EmailAddress"/>
-                                        <!-- Title="EmailAddress" TypeOptions="@EmployeeMetadata.EmailAddressTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditEmail @bind-Email="Employee.EmailAddress" 
+                        Title="EmailAddress"/>
                 </MudItem>
-                <MudItem>
-                    <EditStreetAddress @bind-StreetAddress="Employee.Address"/>
-                                        <!-- Title="Address" TypeOptions="@EmployeeMetadata.AddressTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditStreetAddress @bind-StreetAddress="Employee.Address" 
+                        Title="Address"/>
                 </MudItem>
-                <MudItem>
-                    <EditDate @bind-Date="Employee.FirstWorkingDay"/>
-                                        <!-- Title="FirstWorkingDay" TypeOptions="@EmployeeMetadata.FirstWorkingDayTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditDate @bind-Date="Employee.FirstWorkingDay" 
+                        Title="FirstWorkingDay"/>
                 </MudItem>
-                <MudItem>
-                    <EditDate @bind-Date="Employee.LastWorkingDay"/>
-                                        <!-- Title="LastWorkingDay" TypeOptions="@EmployeeMetadata.LastWorkingDayTypeOptions" /> -->
+                <MudItem xs="12">
+                    <EditDate @bind-Date="Employee.LastWorkingDay" 
+                        Title="LastWorkingDay"/>
                 </MudItem>
             </MudGrid>            
         </MudForm>

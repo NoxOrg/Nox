@@ -74,6 +74,9 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
           additionalArguments: '/showConfig'
 
+      - name: Restore
+        run: dotnet restore Nox.sln
+
       - name: Build Nox.Generator.Tasks
         run: dotnet build ./src/Nox.Generator.Tasks #ensure that generatortask is build and copied to the output so CryptoCash.UI can use it as a task (not a dependency)
         
