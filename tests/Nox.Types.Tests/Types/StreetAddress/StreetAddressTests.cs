@@ -11,6 +11,7 @@ public class StreetAddressTests
     [InlineData("5", "Line1", "Line2", "Line3","Locality", "11111", "UA", "", "Line1 Line2 Line3, Locality, 11111, UA")]
     [InlineData("5", "Line1", "", "","", "11111", "UA", "", "Line1, 11111, UA")]
     [InlineData("5", "Line1", "Line2", "Line3","Locality", "11111", "UA", "KH", "Line1 Line2 Line3, Locality, KH 11111, UA")]
+#pragma warning disable S107 // Methods should not have too many parameters
     public void StreetAddress_ToString_ReturnsValidAddress(
         string streetNumber,
         string addressLine1,
@@ -21,6 +22,7 @@ public class StreetAddressTests
         string countryCode,
         string administrativeArea1,
         string expectedAddress)
+#pragma warning restore S107 // Methods should not have too many parameters
     {
         var address = StreetAddress.From(new StreetAddressItem
         {
@@ -118,7 +120,7 @@ public class StreetAddressTests
             Locality = "Lyne",
             AdministrativeArea1 = "England",
             AdministrativeArea2 = "Surrey",
-            PostalCode = "GIR0AA",
+            PostalCode = "KT16 0RS",
             CountryId = CountryCode.GB
         });
 

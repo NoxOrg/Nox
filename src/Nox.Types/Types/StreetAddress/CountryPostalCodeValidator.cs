@@ -8,7 +8,7 @@ namespace Nox.Types;
 /// <summary>
 /// Validates Postal Code against country postal code formats.
 /// </summary>
-public static class CountryPostalCodeValidator
+internal static class CountryPostalCodeValidator
 {
     private const int PostCodeMaxLength = 15;
 
@@ -115,7 +115,7 @@ public static class CountryPostalCodeValidator
             ("FR", @"^(\d{5})$"),
             ("GA", @"^\d{2}\s[a-zA-Z-_ ]\s\d{2}$"),
             ("GB",
-                @"^(([A-Z]\d{2}[A-Z]{2})|([A-Z]\d{3}[A-Z]{2})|([A-Z]{2}\d{2}[A-Z]{2})|([A-Z]{2}\d{3}[A-Z]{2})|([A-Z]\d[A-Z]\d[A-Z]{2})|([A-Z]{2}\d[A-Z]\d[A-Z]{2})|(GIR0AA))$"),
+                @"^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})$"),
             ("GE", @"^(\d{4})$"),
             ("GF", @"^((97|98)3\d{2})$"),
             ("GG",
