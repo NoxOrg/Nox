@@ -99,8 +99,13 @@ internal class ApiRouteMatcher
 
                 //First, we need to check if the route contains the segment or not
                 var segmentIndex = -1;
+                var segmentExists = false;
                 if (i + 1 < _segmentSpanCoords.Length)
+                {
                     segmentIndex = routeToMatchSpan[paramStart..].IndexOf(routePatternSpan[_segmentSpanCoords[i + 1].StartPos.._segmentSpanCoords[i + 1].EndPos], StringComparison.OrdinalIgnoreCase);
+                    if (segmentIndex > -1)
+                        segmentExists = true;
+                }
                 
                 var paramEnd = routeToMatchSpan.Length; //default value
                 if (i + 1 < _segmentSpanCoords.Length && segmentIndex > -1)
@@ -108,7 +113,7 @@ internal class ApiRouteMatcher
                     paramEnd = segmentIndex + paramStart;
                 }
 
-                if (paramEnd < 0)
+                if (paramEnd < 0 || i + 1 < _segmentSpanCoords.Length && !segmentExists)
                 {
                     return false;
                 }
