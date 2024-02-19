@@ -44,7 +44,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "EC1A 1BB",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 EmailAddress = expectedEmail,
@@ -82,7 +82,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "EC1A 1BB",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 EmailAddress = new EmailAddressUpsertDto() { Email = "test@gmail.com", IsVerified = false },
@@ -132,7 +132,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "W1P 1HQ",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 // we are not allowing this for now, create a related entity
@@ -182,7 +182,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "EC1A 1BB",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 StoreLicenseId = licensePostResponse!.Id
@@ -226,7 +226,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "EC1A 1BB",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 StoreLicenseId = _fixture.Create<int>()
@@ -273,7 +273,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     null!,
                     null!,
                     null!,
-                    "GIR0AA",
+                    "EC1A 1BB",
                     CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 StoreLicenseId = licensePostResponse!.Id
@@ -384,7 +384,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "CR2 6XH",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749)
             });
@@ -423,7 +423,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "DN55 1PT",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 EmailAddress = new EmailAddressUpsertDto
@@ -495,7 +495,7 @@ namespace ClientApi.Tests.Tests.Controllers
                      null!,
                      null!,
                      null!,
-                     "GIR0AA",
+                     "M60 1NW",
                      CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
