@@ -58,9 +58,9 @@ public class {{className}} : IEntityDtoSqlQueryBuilder
 			{{- end}}
 			{{- for attribute in entityAttributes}}
 			{{- if isLocalizedText attribute}}
-			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEntityTableName}}].[{{attribute.Name}}], (N'[' + COALESCE([{{entityTableName}}].[{{attribute.Name}}], N'')) + N']') AS [{{attribute.Name}}]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\", ('##OPEN##' || COALESCE(\"{{entityTableName}}\".\"{{attribute.Name}}\", '')) || '##CLOSE##') AS \"{{attribute.Name}}\""))
+			.ForSqlServer(q => q.SelectRaw("COALESCE([{{localizedEntityTableName}}].[{{attribute.Name}}], CASE WHEN [{{entityTableName}}].[{{attribute.Name}}] IS NULL THEN N'' ELSE N'[' + [{{entityTableName}}].[{{attribute.Name}}] + N']' END) AS [{{attribute.Name}}]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\",CASE WHEN \"{{entityTableName}}\".\"{{attribute.Name}}\" IS NULL THEN '' ELSE '##OPEN##' || \"{{entityTableName}}\".\"{{attribute.Name}}\" || '##CLOSE##' END) AS \"{{attribute.Name}}\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"{{localizedEntityTableName}}\".\"{{attribute.Name}}\",CASE WHEN \"{{entityTableName}}\".\"{{attribute.Name}}\" IS NULL THEN '' ELSE '##OPEN##' || \"{{entityTableName}}\".\"{{attribute.Name}}\" || '##CLOSE##' END) AS \"{{attribute.Name}}\""))
 			{{- else if isEnum attribute}}
 			.Select("{{enumTableName attribute.Name}}.Name as {{attribute.Name}}Name")
 			{{- end}}

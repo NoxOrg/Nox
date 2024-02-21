@@ -32,9 +32,9 @@ public class TenantContactDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("TenantContacts.TenantId")
 			.Select("TenantContacts.Name")
 			.Select("TenantContacts.Email")
-			.ForSqlServer(q => q.SelectRaw("COALESCE([TenantContactsLocalized].[Description], (N'[' + COALESCE([TenantContacts].[Description], N'')) + N']') AS [Description]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TenantContactsLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"TenantContacts\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"TenantContactsLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"TenantContacts\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
+			.ForSqlServer(q => q.SelectRaw("COALESCE([TenantContactsLocalized].[Description], CASE WHEN [TenantContacts].[Description] IS NULL THEN N'' ELSE N'[' + [TenantContacts].[Description] + N']' END) AS [Description]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TenantContactsLocalized\".\"Description\",CASE WHEN \"TenantContacts\".\"Description\" IS NULL THEN '' ELSE '##OPEN##' || \"TenantContacts\".\"Description\" || '##CLOSE##' END) AS \"Description\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"TenantContactsLocalized\".\"Description\",CASE WHEN \"TenantContacts\".\"Description\" IS NULL THEN '' ELSE '##OPEN##' || \"TenantContacts\".\"Description\" || '##CLOSE##' END) AS \"Description\""))
 			.LeftJoin(TenantContactLocalizedQuery(), j => j.On("TenantContactsLocalized.TenantId", "TenantContacts.TenantId"));
 	}
 	
