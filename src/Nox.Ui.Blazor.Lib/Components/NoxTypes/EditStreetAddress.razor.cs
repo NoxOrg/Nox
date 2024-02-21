@@ -13,6 +13,9 @@ public partial class EditStreetAddress : ComponentBase
     [Parameter]
     public StreetAddressModel? StreetAddress { get; set; }
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
     public string? CurrentStreetNumber { get; set; }
 
     public string? CurrentAddressLine1 { get; set; }

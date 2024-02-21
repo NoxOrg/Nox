@@ -26,6 +26,9 @@ public partial class EditDateTimeRange : ComponentBase
     public string Format { get; set; } = "dd/MM/yyyy";
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<DateTimeRangeModel?> DateTimeRangeChanged { get; set; }
 
     [Parameter]

@@ -235,37 +235,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <summary>
         /// Property LandLordEntityData used to store LandLord list data in preparation for selection
         /// </summary>
-        public List<SelectEntityModel>? LandLordEntityData { get; set; }
-
-        /// <summary>
-        /// Property GoogleMapApiKey to define Api security key
-        /// </summary>
-        public string? GoogleMapApiKey { get; set; }
-
-        /// <summary>
-        /// Property GoogleMapJsUrl to define access to Google Maps Js
-        /// </summary>
-        public string? GoogleMapJsUrl
-        {
-            get
-            {
-                if (!String.IsNullOrWhiteSpace(GoogleMapApiKey))
-                {
-                    return $"https://maps.googleapis.com/maps/api/js?key={GoogleMapApiKey}&callback=initMap&v=weekly";
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Property DisplayGoogleMap to define if Google Maps can be displayed
-        /// </summary>
-        public bool DisplayGoogleMap { 
-            get
-            {
-                return !String.IsNullOrWhiteSpace(GoogleMapJsUrl);
-            } 
-        }
+        public List<SelectEntityModel>? LandLordEntityData { get; set; }       
 
         #endregion
 

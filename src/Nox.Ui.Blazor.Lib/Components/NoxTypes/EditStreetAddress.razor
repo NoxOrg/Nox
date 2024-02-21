@@ -8,6 +8,7 @@
         <MudTextField Label="@Title"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnStreetNumberChanged"
                       MaxLength="@MaxLengthStreetNumber"
                       Value="CurrentStreetNumber" />
@@ -17,6 +18,7 @@
                       Variant="Variant.Outlined"
                       Clearable="true"
                       Required="true"
+                      Disabled="@Disabled"
                       RequiredError="@ErrorRequiredMessage(TitleAddressLine1)"
                       TextChanged="OnAddressLine1Changed"
                       MaxLength="@MaxLengthAddressLine1"
@@ -26,6 +28,7 @@
         <MudTextField Label="@TitleAddressLine2"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnAddressLine2Changed"
                       MaxLength="@MaxLengthAddressLine2"
                       Value="CurrentAddressLine2" />
@@ -34,6 +37,7 @@
         <MudTextField Label="@TitleRoute"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnRouteChanged"
                       MaxLength="@MaxLengthRoute"
                       Value="CurrentRoute" />
@@ -42,6 +46,7 @@
         <MudTextField Label="@TitleLocality"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnLocalityChanged"
                       MaxLength="@MaxLengthLocality"
                       Value="CurrentLocality" />
@@ -50,6 +55,7 @@
         <MudTextField Label="@TitleNeighborhood"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnNeighborhoodChanged"
                       MaxLength="@MaxLengthNeighborhood"
                       Value="CurrentNeighborhood" />
@@ -58,6 +64,7 @@
         <MudTextField Label="@TitleAdministrativeArea1"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnAdministrativeArea1Changed"
                       MaxLength="@MaxLengthAdministrativeArea1"
                       Value="CurrentAdministrativeArea1" />
@@ -66,6 +73,7 @@
         <MudTextField Label="@TitleAdministrativeArea2"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Disabled="@Disabled"
                       TextChanged="OnAdministrativeArea2Changed"
                       MaxLength="@MaxLengthAdministrativeArea2"
                       Value="CurrentAdministrativeArea2" />
@@ -75,6 +83,7 @@
                       Variant="Variant.Outlined"
                       Clearable="true"
                       Required="true"
+                      Disabled="@Disabled"
                       RequiredError="@ErrorRequiredMessage(TitlePostalCode)"
                       TextChanged="OnPostalCodeChanged"
                       MaxLength="@MaxLengthPostalCode"
@@ -85,6 +94,7 @@
                     Variant="Variant.Outlined"
                     Clearable="true"
                     Required="true"
+                    Disabled="@Disabled"
                     RequiredError="@ErrorRequiredMessage(TitleCountryId)"
                     TextChanged="OnCountryIdChanged"
                    @bind-Value="CurrentCountryId">

@@ -20,6 +20,9 @@ public partial class EditMonth : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<byte?> MonthChanged { get; set; }
 
     public static Dictionary<byte, string> MonthSelectionList { get; set; } = new Dictionary<byte, string>();

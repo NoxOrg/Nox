@@ -16,6 +16,9 @@ public partial class EditDistance : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<decimal?> DistanceChanged { get; set; }
 
     public string ErrorRequiredMessage

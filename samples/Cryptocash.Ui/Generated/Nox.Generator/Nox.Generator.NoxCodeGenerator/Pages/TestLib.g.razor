@@ -93,6 +93,7 @@
                     new SelectEntityModel("IDB", "Entity B")
                 };
     string testEmail = "test@email.com";
+    bool testDisabled = true;
 
     #endregion
 
@@ -104,7 +105,7 @@
                                   Label="Search"
                                   Variant="Variant.Outlined"
                                   FullWidth="true"
-                                  Clearable="true"
+                                  Clearable="true"                                                                    
                                   OnClearButtonClick="@(() => ClearMainSearchFilterList())"
                                   OnKeyUp="@(e=>SearchEnterSubmit(e))"
                                   Placeholder="@CurrentApiUiService!.SearchLabel"></MudTextField>
@@ -145,62 +146,63 @@
                                     <MudItem xs="12">
                                                 <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="6">
-                                                        <EditText Title="Text" />
+                                                    <EditText Title="Text" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditMoney Title="Money" @bind-Money="@testMoney"/>
+                                                    <EditMoney Title="Money" @bind-Money="@testMoney" Disabled="@testDisabled" />
                                                         <MudText>money.amount: @testMoney.Amount</MudText>
                                                         <MudText>money.CurrencyCode: @testMoney.CurrencyCode</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" />
+                                                        <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditBoolean Title="Boolean" Boolean="@testBoolean" />
+                                                        <EditBoolean Title="Boolean" Boolean="@testBoolean" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditDistance Title="Distance" Distance="@testDistance" Units="Nox.Types.DistanceTypeUnit.Kilometer" />
+                                                        <EditDistance Title="Distance" Distance="@testDistance" Units="Nox.Types.DistanceTypeUnit.Kilometer" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditLength Title="Length" Length="@testLength" Units="Nox.Types.LengthTypeUnit.Meter" />
+                                                        <EditLength Title="Length" Length="@testLength" Units="Nox.Types.LengthTypeUnit.Meter" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" />
+                                                        <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditNumber T="decimal" Title="Number" @bind-Number="@testNumber" Minimum="0" Maximum="2000"/>
+                                                        <EditNumber T="decimal" Title="Number" @bind-Number="@testNumber" Minimum="0" Maximum="2000" Disabled="@testDisabled"/>
                                                         <MudText>TestNumber: @testNumber</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" />
+                                                        <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditTemperature Title="Temperature" Temperature="@testTemperature" Units="Nox.Types.TemperatureTypeUnit.Celsius" />
+                                                        <EditTemperature Title="Temperature" Temperature="@testTemperature" Units="Nox.Types.TemperatureTypeUnit.Celsius" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditVolume Title="Volume" Volume="@testVolume" Units="Nox.Types.VolumeTypeUnit.CubicMeter" />
+                                                        <EditVolume Title="Volume" Volume="@testVolume" Units="Nox.Types.VolumeTypeUnit.CubicMeter" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                    <EditWeight Title="Weight" Weight="@testWeight" Units="Nox.Types.WeightTypeUnit.Kilogram" />
+                                                    <EditWeight Title="Weight" Weight="@testWeight" Units="Nox.Types.WeightTypeUnit.Kilogram" Disabled="@testDisabled" />
                                                     </MudItem> 
                                                     <MudItem xs="6">
                                                         <EditTime
                                                             DisplayMinute="true" 
                                                             DisplaySecond="true" 
                                                             DisplayMillisecond="false" 
+                                                            Disabled="@testDisabled"
                                                             CultureInfo="@testCultureInfo"                                                            
                                                             Title="Hour"
                                                             TitleMinute="Minute"
                                                             TitleSecond="Second"/>
                                                     </MudItem>                                                    
                                                     <MudItem xs="6">
-                                                        <EditMonth Title="Month" Month="@testMonth" CultureInfo="testCultureInfo" />
+                                                        <EditMonth Title="Month" Month="@testMonth" CultureInfo="testCultureInfo" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditYear Title="Year" Year="@testYear" />
+                                                        <EditYear Title="Year" Year="@testYear" Disabled="@testDisabled" />
                                                     </MudItem>                                                      
                                                     <MudItem xs="6">
-                                                        <EditDate Title="Date" Date="@testDate" CultureInfo="testCultureInfo" />
+                                                    <EditDate Title="Date" Date="@testDate" CultureInfo="testCultureInfo" Disabled="@testDisabled" />
                                                     </MudItem>                                                    
                                                     <MudItem xs="6">
                                                         <EditDateTime 
@@ -208,6 +210,7 @@
                                                             DisplayMinute="true"
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
+                                                            Disabled="@testDisabled"
                                                             CultureInfo="@testCultureInfo"
                                                             Title="DateTime"
                                                             TitleHour="Hour"
@@ -219,6 +222,7 @@
                                                             DisplayMinute="true"
                                                             DisplaySecond="false"
                                                             DisplayMillisecond="false"
+                                                                       Disabled="@testDisabled"
                                                             CultureInfo="@testCultureInfo"
                                                             Title="DateTimeRange"
                                                             TitleHourStart="Start Hour"
@@ -232,48 +236,48 @@
                                                         <MudText>testDateTimeRangeModel.End: @testDateTimeRangeModel?.End</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" />
+                                                        <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditStreetAddress @bind-StreetAddress="@testStreetAddress"
-                                                            Title="StreetNumber" />
+                                                                       Title="StreetNumber" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditLatLong @bind-Latlong="@testLatLong"
                                                             Title="Latitude"
                                                             TitleLongitude="Longitude"
                                                             Format="#.########"
-                                                            DisplayGoogleMap="false" />
+                                                            Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <EditIpAddress @bind-IpAddress="@testIpAddress"
-                                                            Title="IpAddress" />
+                                                            Title="IpAddress" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" />
+                                                        <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" Disabled="@testDisabled" />
                                                         <MudText>TestCountryCode3: @testCountryCode3</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCountryNumber Title="CountryNumber" @bind-CountryNumber="testCountryNumber" />
+                                                    <EditCountryNumber Title="CountryNumber" @bind-CountryNumber="testCountryNumber" Disabled="@testDisabled" />
                                                         <MudText>testCountryNumber: @testCountryNumber</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCurrencyNumber Title="Currency" @bind-CurrencyNumber="@testCurrencyNumber" />
+                                                    <EditCurrencyNumber Title="Currency" @bind-CurrencyNumber="@testCurrencyNumber" Disabled="@testDisabled" />
                                                     <MudText>testCurrencyNumber: @testCurrencyNumber </MudText>
                                                     </MudItem>                              
                                                     <MudItem xs="6">
                                                         <Select Title="Select"
-                                                            SelectionList="@testGenericEntityList" />
+                                                            SelectionList="@testGenericEntityList" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <MultiSelect Title="SelectList"
-                                                                SelectionList="@testGenericEntityList" />
+                                                                SelectionList="@testGenericEntityList" Disabled="@testDisabled" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditEmail Title="Email" Email="@testEmail" />
+                                                        <EditEmail Title="Email" Email="@testEmail" Disabled="@testDisabled" />
                                                     </MudItem>
                                                 <MudItem xs="6">
-                                                    <EditTextMultiline Title="TextMultiline" Text="testText" Lines="1" MaxLines="3" />
+                                                    <EditTextMultiline Title="TextMultiline" Text="testText" Lines="1" MaxLines="3" Disabled="@testDisabled" />
                                                 </MudItem>
                                                 </MudGrid>
                                     </MudItem>
@@ -454,8 +458,3 @@ else
         border-bottom-width: 3px;
     }
 </style>
-
-@if (DisplayGoogleMap)
-{
-    <script src="@GoogleMapJsUrl" defer></script>
-}

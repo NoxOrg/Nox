@@ -7,6 +7,8 @@
                          Variant="Variant.Outlined"
                          Clearable="true"
                          Required="true"
+                         Disabled="@Disabled"
+                         HideSpinButtons="@HideSpinButtons"
                          RequiredError="@ErrorRequiredMessage(Title)"
                          TextChanged="OnLatitudeChanged"
                          Format="@Format"
@@ -17,16 +19,11 @@
                          Variant="Variant.Outlined"
                          Clearable="true"
                          Required="true"
+                         Disabled="@Disabled"
+                         HideSpinButtons="@HideSpinButtons"
                          RequiredError="@ErrorRequiredMessage(TitleLongitude)"
                          TextChanged="OnLongitudeChanged"
                          Format="@Format"
                          Value="CurrentLongitude" />
     </MudItem>
 </MudGrid>
-
-@if (DisplayGoogleMap)
-{
-    <div style="margin-top:30px;">
-        <EditGoogleMap LatLong="LatLong" LatLongChanged="OnLatLongChanged" />
-    </div>
-}

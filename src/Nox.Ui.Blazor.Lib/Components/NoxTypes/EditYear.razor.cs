@@ -16,6 +16,12 @@ public partial class EditYear : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool HideSpinButtons { get; set; } = true;
+
+    [Parameter]
     public EventCallback<int?> YearChanged { get; set; }
 
     [Parameter]
