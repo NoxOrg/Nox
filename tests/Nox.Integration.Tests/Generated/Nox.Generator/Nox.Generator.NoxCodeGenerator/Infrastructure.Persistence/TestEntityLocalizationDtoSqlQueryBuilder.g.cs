@@ -31,9 +31,9 @@ public class TestEntityLocalizationDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilde
 		return new Query("TestEntityLocalizations")
 			.Select("TestEntityLocalizations.Id")
 			.Select("TestEntityLocalizations.NumberField")
-			.ForSqlServer(q => q.SelectRaw("COALESCE([TestEntityLocalizationsLocalized].[TextFieldToLocalize], (N'[' + COALESCE([TestEntityLocalizations].[TextFieldToLocalize], N'')) + N']') AS [TextFieldToLocalize]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\", ('##OPEN##' || COALESCE(\"TestEntityLocalizations\".\"TextFieldToLocalize\", '')) || '##CLOSE##') AS \"TextFieldToLocalize\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\", ('##OPEN##' || COALESCE(\"TestEntityLocalizations\".\"TextFieldToLocalize\", '')) || '##CLOSE##') AS \"TextFieldToLocalize\""))
+			.ForSqlServer(q => q.SelectRaw("COALESCE([TestEntityLocalizationsLocalized].[TextFieldToLocalize], CASE WHEN [TestEntityLocalizations].[TextFieldToLocalize] IS NULL THEN N'' ELSE N'[' + [TestEntityLocalizations].[TextFieldToLocalize] + N']' END) AS [TextFieldToLocalize]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\",CASE WHEN \"TestEntityLocalizations\".\"TextFieldToLocalize\" IS NULL THEN '' ELSE '##OPEN##' || \"TestEntityLocalizations\".\"TextFieldToLocalize\" || '##CLOSE##' END) AS \"TextFieldToLocalize\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"TestEntityLocalizationsLocalized\".\"TextFieldToLocalize\",CASE WHEN \"TestEntityLocalizations\".\"TextFieldToLocalize\" IS NULL THEN '' ELSE '##OPEN##' || \"TestEntityLocalizations\".\"TextFieldToLocalize\" || '##CLOSE##' END) AS \"TextFieldToLocalize\""))
 			.Select("TestEntityLocalizations.DeletedAtUtc")
 			.Select("TestEntityLocalizations.Etag")
 			.LeftJoin(TestEntityLocalizationLocalizedQuery(), j => j.On("TestEntityLocalizationsLocalized.Id", "TestEntityLocalizations.Id"));
