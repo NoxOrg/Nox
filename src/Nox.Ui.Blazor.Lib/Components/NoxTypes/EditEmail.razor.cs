@@ -16,6 +16,9 @@ public partial class EditEmail : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<string> EmailChanged { get; set; }
 
     [Parameter]

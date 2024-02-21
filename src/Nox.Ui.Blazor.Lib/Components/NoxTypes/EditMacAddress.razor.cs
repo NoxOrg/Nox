@@ -17,6 +17,9 @@ public partial class EditMacAddress : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<string> MacAddressChanged { get; set; }
 
     public string ErrorRequiredMessage

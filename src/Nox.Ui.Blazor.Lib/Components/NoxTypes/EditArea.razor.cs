@@ -17,6 +17,9 @@ public partial class EditArea : ComponentBase
     [Parameter]
     public EventCallback<Decimal?> AreaChanged { get; set; }
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
     public string ErrorRequiredMessage
     {
         get

@@ -32,6 +32,9 @@ public partial class EditDate : ComponentBase
     [Parameter]
     public System.DateTime MaxValue { get; set; }
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
     #endregion
 
     protected override void OnInitialized()

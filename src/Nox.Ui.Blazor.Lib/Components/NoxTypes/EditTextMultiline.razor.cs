@@ -15,6 +15,9 @@ public partial class EditTextMultiline : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<string> TextChanged { get; set; }
 
     [Parameter]

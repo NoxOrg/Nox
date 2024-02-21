@@ -18,6 +18,9 @@ public partial class EditBoolean : ComponentBase
     [Parameter]
     public EventCallback<bool?> BooleanChanged { get; set; }
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
     #endregion
 
     protected async Task OnBooleanChanged(bool? newValue)

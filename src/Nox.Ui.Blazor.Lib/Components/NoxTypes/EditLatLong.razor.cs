@@ -17,7 +17,10 @@ public partial class EditLatLong : ComponentBase
     public double? CurrentLongitude { get; set; }
 
     [Parameter]
-    public bool DisplayGoogleMap { get; set; } = false;
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool HideSpinButtons { get; set; } = true;
 
     [Parameter]
     public string? Title { get; set; }

@@ -13,6 +13,9 @@ public partial class EditCountryCode3 : ComponentBase
     public bool Required { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<string?> CountryCode3Changed { get; set; }
 
     public string ErrorRequiredMessage

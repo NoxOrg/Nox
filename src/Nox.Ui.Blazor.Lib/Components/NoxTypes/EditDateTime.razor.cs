@@ -19,6 +19,9 @@ public partial class EditDateTime : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public string Format { get; set; } = "dd/MM/yyyy HH:mm:ss";
 
     [Parameter]

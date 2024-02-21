@@ -127,41 +127,16 @@
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
-                                                <MudGrid Style="margin-top:15px;">
-                                                    @if(DisplayGoogleMap){
-                                                        <MudItem xs=12 sm=6>
-                                                            <EditLatLong @bind-Latlong="CurrentAddEntityLatLong"
-                                                                             TitleLatitude="Latitude"
-                                                                             TitleLongitude="Longitude"
-                                                                             Format="#.########"
-                                                                             DisplayGoogleMap="DisplayGoogleMap" />
-                                                        </MudItem>
-                                                        <MudItem xs=12 sm=6>
-                                                            <EditStreetAddress @bind-StreetAddress="CurrentAddEntityStreetAddress"
-                                                                                   TitleStreetNumber="StreetNumber"
-                                                                                   TitleAddressLine1="AddressLine1"
-                                                                                   TitleAddressLine2="AddressLine2"
-                                                                                   TitleRoute="Route"
-                                                                                   TitleLocality="Locality"
-                                                                                   TitleNeighborhood="Neighborhood"
-                                                                                   TitleAdministrativeArea1="AdministrativeArea1"
-                                                                                   TitleAdministrativeArea2="AdministrativeArea2"
-                                                                                   TitlePostalCode="PostalCode"
-                                                                                   TitleCountryId="CountryId" />
-                                                        </MudItem>
-                                                    }
-                                                    else
-                                                    {
+                                                <MudGrid Style="margin-top:15px;">                                                    
                                                         <MudItem xs=12>
                                                             <EditLatLong @bind-Latlong="CurrentAddEntityLatLong"
-                                                                             TitleLatitude="Latitude"
+                                                                             Title="Latitude"
                                                                              TitleLongitude="Longitude"
-                                                                             Format="#.########"
-                                                                             DisplayGoogleMap="DisplayGoogleMap" />
+                                                                             Format="#.########" />
                                                         </MudItem>
                                                         <MudItem xs=12>
                                                             <EditStreetAddress @bind-StreetAddress="CurrentAddEntityStreetAddress"
-                                                                                   TitleStreetNumber="StreetNumber"
+                                                                                   Title="StreetNumber"
                                                                                    TitleAddressLine1="AddressLine1"
                                                                                    TitleAddressLine2="AddressLine2"
                                                                                    TitleRoute="Route"
@@ -171,8 +146,7 @@
                                                                                    TitleAdministrativeArea2="AdministrativeArea2"
                                                                                    TitlePostalCode="PostalCode"
                                                                                    TitleCountryId="CountryId"/>
-                                                        </MudItem>
-                                                    }                                                  
+                                                        </MudItem>                                                
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -253,42 +227,16 @@
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
-                                                <MudGrid Style="margin-top:15px;">
-                                                    @if (DisplayGoogleMap)
-                                                    {
-                                                        <MudItem xs=12 sm=6>
-                                                            <EditLatLong @bind-Latlong="CurrentEditEntityLatLong"
-                                                                             TitleLatitude="Latitude"
-                                                                             TitleLongitude="Longitude"
-                                                                             Format="#.########"
-                                                                             DisplayGoogleMap="DisplayGoogleMap" />
-                                                        </MudItem>
-                                                        <MudItem xs=12 sm=6>
-                                                            <EditStreetAddress @bind-StreetAddress="CurrentEditEntityStreetAddress"
-                                                                                   TitleStreetNumber="StreetNumber"
-                                                                                   TitleAddressLine1="AddressLine1"
-                                                                                   TitleAddressLine2="AddressLine2"
-                                                                                   TitleRoute="Route"
-                                                                                   TitleLocality="Locality"
-                                                                                   TitleNeighborhood="Neighborhood"
-                                                                                   TitleAdministrativeArea1="AdministrativeArea1"
-                                                                                   TitleAdministrativeArea2="AdministrativeArea2"
-                                                                                   TitlePostalCode="PostalCode"
-                                                                                   TitleCountryId="CountryId"/>
-                                                        </MudItem>
-                                                    }
-                                                    else
-                                                    {
+                                                <MudGrid Style="margin-top:15px;">                                                    
                                                         <MudItem xs=12>
                                                             <EditLatLong @bind-Latlong="CurrentEditEntityLatLong"
-                                                                             TitleLatitude="Latitude"
+                                                                             Title="Latitude"
                                                                              TitleLongitude="Longitude"
-                                                                             Format="#.########"
-                                                                             DisplayGoogleMap="DisplayGoogleMap" />
+                                                                             Format="#.########" />
                                                         </MudItem>
                                                         <MudItem xs=12>
                                                             <EditStreetAddress @bind-StreetAddress="CurrentEditEntityStreetAddress"
-                                                                               TitleStreetNumber="StreetNumber"
+                                                                               Title="StreetNumber"
                                                                                TitleAddressLine1="AddressLine1"
                                                                                TitleAddressLine2="AddressLine2"
                                                                                TitleRoute="Route"
@@ -299,7 +247,6 @@
                                                                                TitlePostalCode="PostalCode"
                                                                                TitleCountryId="CountryId" />
                                                         </MudItem>
-                                                    }
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -648,8 +595,3 @@ else
         border-bottom-width: 3px;
     }
 </style>
-
-@if (DisplayGoogleMap)
-{
-    <script src="@GoogleMapJsUrl" defer></script>
-}

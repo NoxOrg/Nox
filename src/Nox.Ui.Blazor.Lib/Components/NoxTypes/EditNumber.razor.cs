@@ -14,6 +14,9 @@ public partial class EditNumber<T> : ComponentBase where T : struct
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public decimal? Minimum { get; set; }
 
     [Parameter]
