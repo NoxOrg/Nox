@@ -16,6 +16,7 @@ internal static class CountryLocalNameExtensions
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.Name, (dto) => dto.Name =entity!.Name!.Value);
         dto.SetIfNotNull(entity?.NativeName, (dto) => dto.NativeName =entity!.NativeName!.Value);
+        dto.SetIfNotNull(entity?.Description, (dto) => dto.Description =entity!.Description!.Value);
 
         return dto;
     }

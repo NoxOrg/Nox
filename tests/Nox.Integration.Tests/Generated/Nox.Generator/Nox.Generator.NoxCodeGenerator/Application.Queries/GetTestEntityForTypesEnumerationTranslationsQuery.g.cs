@@ -9,7 +9,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using DtoNameSpace = TestWebApp.Application.Dto;
-using PersistenceNameSpace = TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 public partial record GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery() : IRequest<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>;

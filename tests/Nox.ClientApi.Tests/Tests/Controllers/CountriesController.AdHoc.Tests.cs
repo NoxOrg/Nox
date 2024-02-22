@@ -4,6 +4,8 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Controllers;
 
@@ -389,7 +391,56 @@ public partial class CountriesControllerAdHocTests : NoxWebApiTestBase
 		queryResult.Should().BeSuccessful();
 	}
 
-	[Fact]
+    [Fact]
+    public async Task WhenPutOWnedLocalized_ShouldUpdateOwnedLocalized()
+    {
+        // Arrange
+        var createDtoDefaultLanguage = new CountryCreateDto
+        {
+            Name = "Portugal",
+            Population = 1_000_000,
+            CountryDebt = new MoneyDto(200_000, CurrencyCode.USD),
+            CountryLocalNames = new List<CountryLocalNameUpsertDto>()
+            {
+                new CountryLocalNameUpsertDto() { Name = "Iberia", Description = "en-Us1" },
+                new CountryLocalNameUpsertDto() { Name = "Lusitania" , Description = "en-Us2"}
+            }
+        };
+        var updateDefaultLanguage = new CountryUpdateDto
+        {
+            Name = "Germany",
+            Population = 1_000_000,
+            CountryDebt = new MoneyDto(200_000, CurrencyCode.USD),
+            CountryLocalNames = new List<CountryLocalNameUpsertDto>()
+            {
+                new CountryLocalNameUpsertDto() { Name = "Iberia", Description = "de-DE1" },
+                new CountryLocalNameUpsertDto() { Name = "Lusitania" , Description = "de-DE2"}
+            }
+        };
+		
+		// Act
+		var resultDefault = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDtoDefaultLanguage);      
+        var headers = CreateHeaders(new[] { CreateAcceptLanguageHeader("de-DE"), CreateEtagHeader(resultDefault!.Etag) });
+        var country = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{resultDefault!.Id}");
+
+		updateDefaultLanguage.CountryLocalNames[0].Id = country!.CountryLocalNames[0].Id;
+        updateDefaultLanguage.CountryLocalNames[1].Id = country!.CountryLocalNames[1].Id;
+
+        await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{resultDefault!.Id}", updateDefaultLanguage, headers);
+
+		// Assert        
+        var countryDefault = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{resultDefault!.Id}");
+        headers = CreateHeaders(new[] { CreateAcceptLanguageHeader("de-DE") });
+        var countryGerman = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{resultDefault!.Id}", headers);
+
+		countryDefault!.CountryLocalNames[0].Description.Should().Be("en-Us1");
+        countryDefault!.CountryLocalNames[1].Description.Should().Be("en-Us2");
+
+        countryGerman!.CountryLocalNames[0].Description.Should().Be("de-DE1");
+        countryGerman!.CountryLocalNames[1].Description.Should().Be("de-DE2");
+    }
+
+    [Fact]
 	public async Task Delete_WhenTryingToGetOwnedEntities_ReturnsNotFound()
 	{
 		// Arrange
