@@ -235,6 +235,32 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Countries/CountryContinentsLocalized`
   - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.
+## Localized Endpoints
+
+- **PUT** `/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}` 
+    - Description: Update or create value of CountryLocalNameLocalized for a specific Country. Requires a payload with the new value of CountryLocalNameLocalizedUpsertDto.
+
+- **DELETE** `/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}` 
+    - Description: Delete the localized values of CountryLocalNameLocalized for a specific culture code in Country.
+
+- **PUT** `/api/v1/Countries/{key}/CountryBarCodeLocalized/{cultureCode}` 
+    - Description: Update or create value of CountryBarCodeLocalized for a specific Country. Requires a payload with the new value of CountryBarCodeLocalizedUpsertDto.
+
+- **DELETE** `/api/v1/Countries/{key}/CountryBarCodeLocalized/{cultureCode}` 
+    - Description: Delete the localized values of CountryBarCodeLocalized for a specific culture code in Country.
+
+- **PUT** `/api/v1/Countries/{key}/CountryTimeZonesLocalized/{cultureCode}` 
+    - Description: Update or create value of CountryTimeZoneLocalized for a specific Country. Requires a payload with the new value of CountryTimeZoneLocalizedUpsertDto.
+
+- **DELETE** `/api/v1/Countries/{key}/CountryTimeZonesLocalized/{cultureCode}` 
+    - Description: Delete the localized values of CountryTimeZoneLocalized for a specific culture code in Country.
+
+- **PUT** `/api/v1/Countries/{key}/HolidaysLocalized/{cultureCode}` 
+    - Description: Update or create value of HolidayLocalized for a specific Country. Requires a payload with the new value of HolidayLocalizedUpsertDto.
+
+- **DELETE** `/api/v1/Countries/{key}/HolidaysLocalized/{cultureCode}` 
+    - Description: Delete the localized values of HolidayLocalized for a specific culture code in Country.
+
 
 ## Other Related Endpoints
 
