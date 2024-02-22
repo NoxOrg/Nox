@@ -125,16 +125,32 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             Dto.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        createDto.CountryTimeZones?.ForEach(async dto =>
+        //createDto.CountryTimeZones?.ForEach(async dto =>
+        //{
+        //    var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToCountryTimeZones(countryTimeZone);
+        //});
+        if(createDto.CountryTimeZones is not null)
         {
-            var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToCountryTimeZones(countryTimeZone);
-        });
-        createDto.Holidays?.ForEach(async dto =>
+            foreach (var dto in createDto.CountryTimeZones)
+            {
+                var countryTimeZone = CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToCountryTimeZones(countryTimeZone);
+            }
+        }
+        //createDto.Holidays?.ForEach(async dto =>
+        //{
+        //    var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToHolidays(holiday);
+        //});
+        if(createDto.Holidays is not null)
         {
-            var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToHolidays(holiday);
-        });        
+            foreach (var dto in createDto.Holidays)
+            {
+                var holiday = HolidayFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToHolidays(holiday);
+            }
+        }        
         return await Task.FromResult(entity);
     }
 

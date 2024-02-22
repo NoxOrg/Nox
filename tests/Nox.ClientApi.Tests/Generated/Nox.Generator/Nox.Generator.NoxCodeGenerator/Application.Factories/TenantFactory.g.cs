@@ -101,11 +101,19 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
 		entity.EnsureId();
-        createDto.TenantBrands?.ForEach(async dto =>
+        //createDto.TenantBrands?.ForEach(async dto =>
+        //{
+        //    var tenantBrand = await TenantBrandFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToTenantBrands(tenantBrand);
+        //});
+        if(createDto.TenantBrands is not null)
         {
-            var tenantBrand = await TenantBrandFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToTenantBrands(tenantBrand);
-        });
+            foreach (var dto in createDto.TenantBrands)
+            {
+                var tenantBrand = TenantBrandFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToTenantBrands(tenantBrand);
+            }
+        }
         if (createDto.TenantContact is not null)
         {
             var tenantContact = await TenantContactFactory.CreateEntityAsync(createDto.TenantContact, cultureCode);

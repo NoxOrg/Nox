@@ -28,7 +28,19 @@ internal class ExceptionHanderMiddleware
         {
                 await _next(httpContext);
         }
-        catch (Exception ex) when (ex is IApplicationException exception)
+        catch (Exception ex) when (ex.InnerException is IApplicationException exception)
+        {
+            _logger.LogError(ex, "Error occurred during request: {Path}",httpContext.Request?.Path);
+
+            await CommonHandleExceptionAsync(
+                httpContext,
+                ex,
+                exception.ErrorCode,
+                exception.ErrorDetails,
+                exception.StatusCode,
+                webHostEnvironment.IsDevelopment());
+        }
+        catch (Exception ex) when (ex is IApplicationException exception) 
         {
             await CommonHandleExceptionAsync(
                 httpContext, 
@@ -37,7 +49,7 @@ internal class ExceptionHanderMiddleware
                 exception.ErrorDetails, 
                 exception.StatusCode,
                 webHostEnvironment.IsDevelopment());
-        }
+        }        
         catch (Exception ex)
         {
             await CommonHandleExceptionAsync(

@@ -192,11 +192,19 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {{- for relationship in entity.OwnedRelationships }}
         {{- relationshipName = GetNavigationPropertyName entity relationship }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        createDto.{{relationshipName}}?.ForEach(async dto =>
+        //createDto.{{relationshipName}}?.ForEach(async dto =>
+        //{
+        //    var {{ToLowerFirstChar relationship.Entity}} = await {{relationship.Entity}}Factory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
+        //});
+        if(createDto.{{relationshipName}} is not null)
         {
-            var {{ToLowerFirstChar relationship.Entity}} = await {{relationship.Entity}}Factory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
-        });
+            foreach (var dto in createDto.{{relationshipName}})
+            {
+                var {{ToLowerFirstChar relationship.Entity}} = {{relationship.Entity}}Factory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
+            }
+        }
             {{- else}}
         if (createDto.{{relationshipName}} is not null)
         {

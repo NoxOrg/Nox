@@ -124,26 +124,50 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             Dto.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        createDto.CountryLocalNames?.ForEach(async dto =>
+        //createDto.CountryLocalNames?.ForEach(async dto =>
+        //{
+        //    var countryLocalName = await CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToCountryLocalNames(countryLocalName);
+        //});
+        if(createDto.CountryLocalNames is not null)
         {
-            var countryLocalName = await CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToCountryLocalNames(countryLocalName);
-        });
+            foreach (var dto in createDto.CountryLocalNames)
+            {
+                var countryLocalName = CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToCountryLocalNames(countryLocalName);
+            }
+        }
         if (createDto.CountryBarCode is not null)
         {
             var countryBarCode = await CountryBarCodeFactory.CreateEntityAsync(createDto.CountryBarCode, cultureCode);
             entity.CreateRefToCountryBarCode(countryBarCode);
         }
-        createDto.CountryTimeZones?.ForEach(async dto =>
+        //createDto.CountryTimeZones?.ForEach(async dto =>
+        //{
+        //    var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToCountryTimeZones(countryTimeZone);
+        //});
+        if(createDto.CountryTimeZones is not null)
         {
-            var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToCountryTimeZones(countryTimeZone);
-        });
-        createDto.Holidays?.ForEach(async dto =>
+            foreach (var dto in createDto.CountryTimeZones)
+            {
+                var countryTimeZone = CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToCountryTimeZones(countryTimeZone);
+            }
+        }
+        //createDto.Holidays?.ForEach(async dto =>
+        //{
+        //    var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToHolidays(holiday);
+        //});
+        if(createDto.Holidays is not null)
         {
-            var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToHolidays(holiday);
-        });        
+            foreach (var dto in createDto.Holidays)
+            {
+                var holiday = HolidayFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToHolidays(holiday);
+            }
+        }        
         return await Task.FromResult(entity);
     }
 
