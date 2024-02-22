@@ -16,6 +16,12 @@ public partial class EditWeight : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool HideSpinButtons { get; set; } = true;
+
+    [Parameter]
     public EventCallback<decimal?> WeightChanged { get; set; }
 
     public string ErrorRequiredMessage

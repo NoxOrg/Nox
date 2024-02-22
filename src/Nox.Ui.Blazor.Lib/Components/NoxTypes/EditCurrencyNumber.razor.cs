@@ -9,8 +9,12 @@ public partial class EditCurrencyNumber : ComponentBase
 
     [Parameter]
     public string? Title { get; set; }
+
     [Parameter]
     public bool Required { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; } = false;
 
     [Parameter]
     public EventCallback<short?> CurrencyNumberChanged { get; set; }

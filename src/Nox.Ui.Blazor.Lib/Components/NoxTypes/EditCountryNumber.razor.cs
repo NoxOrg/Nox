@@ -13,6 +13,9 @@ public partial class EditCountryNumber : ComponentBase
     public bool Required { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public EventCallback<ushort?> CountryNumberChanged { get; set; }
 
     private List<ushort> CountryNumbers { get; set; } = Nox.Types.CountryNumber.Values.ToList();

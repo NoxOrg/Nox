@@ -9,7 +9,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using DtoNameSpace = ClientApi.Application.Dto;
-using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 public partial record GetTenantsStatusesQuery(Nox.Types.CultureCode cultureCode) : IRequest<IQueryable<DtoNameSpace.TenantStatusDto>>;

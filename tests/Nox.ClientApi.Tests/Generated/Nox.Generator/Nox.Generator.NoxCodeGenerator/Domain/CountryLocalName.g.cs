@@ -69,6 +69,12 @@ public abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
     /// </summary>
     /// <remarks>Optional.</remarks>   
     public Nox.Types.Text? NativeName { get;  set; } = null!;
+
+    /// <summary>
+    /// Description    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Text? Description { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
@@ -97,5 +103,18 @@ public abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
         InternalDomainEvents.Clear();
     }
 
+        /// <summary>
+        /// CountryLocalName localized entities.
+        /// </summary>
+        public virtual List<CountryLocalNameLocalized> LocalizedCountryLocalNames  { get; private set; } = new();
     
+    
+    	/// <summary>
+    	/// Creates a new CountryLocalNameLocalized entity.
+    	/// </summary>
+        public virtual void CreateRefToLocalizedCountryLocalNames(CountryLocalNameLocalized relatedCountryLocalNameLocalized)
+    	{
+    		LocalizedCountryLocalNames.Add(relatedCountryLocalNameLocalized);
+    	}
+        
 }

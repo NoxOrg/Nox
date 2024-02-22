@@ -16,6 +16,12 @@ public partial class EditMoney : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool HideSpinButtons { get; set; } = true;
+
+    [Parameter]
     public string? TitleCurrencyCode { get; set; } = Resources.Resources.TitleCurrencyCode;
 
     [Parameter]

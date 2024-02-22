@@ -9,7 +9,6 @@ using Nox.Application.Queries;
 using Nox.Application.Repositories;
 
 using DtoNameSpace = {{codeGenConventions.DtoNameSpace}};
-using PersistenceNameSpace = {{codeGenConventions.PersistenceNameSpace}};
 
 namespace {{codeGenConventions.ApplicationQueriesNameSpace}};
 

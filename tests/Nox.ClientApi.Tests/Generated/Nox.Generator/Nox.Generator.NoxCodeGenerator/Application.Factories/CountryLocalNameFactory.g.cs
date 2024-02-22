@@ -28,16 +28,28 @@ internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
 {
     public CountryLocalNameFactory
     (
-    ) : base()
+        IRepository repository,
+        IEntityLocalizedFactory<CountryLocalNameLocalized, CountryLocalNameEntity, CountryLocalNameUpsertDto> countryLocalNameLocalizedFactory,
+        NoxSolution noxSolution
+    ) : base(repository, countryLocalNameLocalizedFactory, noxSolution)
     {}
 }
 
 internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto>
 {
+    private readonly Nox.Types.CultureCode _defaultCultureCode;
+    protected readonly IEntityLocalizedFactory<CountryLocalNameLocalized, CountryLocalNameEntity, CountryLocalNameUpsertDto> CountryLocalNameLocalizedFactory;
+    private readonly IRepository _repository;
 
     public CountryLocalNameFactoryBase(
+        IRepository repository,
+        IEntityLocalizedFactory<CountryLocalNameLocalized, CountryLocalNameEntity, CountryLocalNameUpsertDto> countryLocalNameLocalizedFactory,
+        NoxSolution noxSolution
         )
     {
+        _repository = repository;
+        CountryLocalNameLocalizedFactory = countryLocalNameLocalizedFactory;
+        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     public virtual async Task<CountryLocalNameEntity> CreateEntityAsync(CountryLocalNameUpsertDto createDto, Nox.Types.CultureCode cultureCode)
@@ -45,6 +57,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
+            CountryLocalNameLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
             return entity;
         }
         catch (NoxTypeValidationException ex)
@@ -58,6 +71,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         try
         {
             await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
+            await CountryLocalNameLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -70,7 +84,8 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-            await Task.CompletedTask;
+            await CountryLocalNameLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
+        
         }
         catch (NoxTypeValidationException ex)
         {
@@ -86,6 +101,8 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
             Dto.CountryLocalNameMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("NativeName", () => entity.SetIfNotNull(createDto.NativeName, (entity) => entity.NativeName = 
             Dto.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
+            Dto.CountryLocalNameMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -102,6 +119,14 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         else
         {
             exceptionCollector.Collect("NativeName",() =>entity.NativeName = Dto.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>()));
+        }
+        if(IsDefaultCultureCode(cultureCode)) if(updateDto.Description is null)
+        {
+             entity.Description = null;
+        }
+        else
+        {
+            exceptionCollector.Collect("Description",() =>entity.Description = Dto.CountryLocalNameMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
@@ -128,6 +153,17 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
                 exceptionCollector.Collect("NativeName",() =>entity.NativeName = Dto.CountryLocalNameMetadata.CreateNativeName(NativeNameUpdateValue));
             }
         }
+
+        if (IsDefaultCultureCode(cultureCode) && updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
+        {
+            if (DescriptionUpdateValue == null) { entity.Description = null; }
+            else
+            {
+                exceptionCollector.Collect("Description",() =>entity.Description = Dto.CountryLocalNameMetadata.CreateDescription(DescriptionUpdateValue));
+            }
+        }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
+    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }

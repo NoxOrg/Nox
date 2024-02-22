@@ -38,6 +38,9 @@ public partial class EditTime : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
     public string? TitleMinute { get; set; }
 
     [Parameter]

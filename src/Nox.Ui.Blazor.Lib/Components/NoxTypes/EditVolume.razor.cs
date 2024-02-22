@@ -14,6 +14,12 @@ public partial class EditVolume : ComponentBase
     public string? Title { get; set; }
 
     [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool HideSpinButtons { get; set; } = true;
+
+    [Parameter]
     public EventCallback<decimal?> VolumeChanged { get; set; }
 
     public string ErrorRequiredMessage

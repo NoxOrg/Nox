@@ -31,9 +31,9 @@ public class TenantBrandDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 		return new Query("TenantBrands")
 			.Select("TenantBrands.Id")
 			.Select("TenantBrands.Name")
-			.ForSqlServer(q => q.SelectRaw("COALESCE([TenantBrandsLocalized].[Description], (N'[' + COALESCE([TenantBrands].[Description], N'')) + N']') AS [Description]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TenantBrandsLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"TenantBrands\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"TenantBrandsLocalized\".\"Description\", ('##OPEN##' || COALESCE(\"TenantBrands\".\"Description\", '')) || '##CLOSE##') AS \"Description\""))
+			.ForSqlServer(q => q.SelectRaw("COALESCE([TenantBrandsLocalized].[Description], CASE WHEN [TenantBrands].[Description] IS NULL THEN N'' ELSE N'[' + [TenantBrands].[Description] + N']' END) AS [Description]"))
+			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"TenantBrandsLocalized\".\"Description\",CASE WHEN \"TenantBrands\".\"Description\" IS NULL THEN '' ELSE '##OPEN##' || \"TenantBrands\".\"Description\" || '##CLOSE##' END) AS \"Description\""))
+			.ForSqlite(q => q.SelectRaw("COALESCE(\"TenantBrandsLocalized\".\"Description\",CASE WHEN \"TenantBrands\".\"Description\" IS NULL THEN '' ELSE '##OPEN##' || \"TenantBrands\".\"Description\" || '##CLOSE##' END) AS \"Description\""))
 			.Select("TenantBrands.TenantId")
 			.LeftJoin(TenantBrandLocalizedQuery(), j => j.On("TenantBrandsLocalized.Id", "TenantBrands.Id"));
 	}

@@ -33,6 +33,12 @@ attributes:
       maxLength: 63
     isRequired: false
 
+  - name: Description
+    description: Description
+    type: text
+    textTypeOptions:
+      isLocalized: true
+
 persistence:
     isAudited: false
     create:

@@ -42,6 +42,8 @@ public abstract class CountryLocalNameDtoBase : EntityDtoBase
     
         if (this.NativeName is not null)
             CollectValidationExceptions("NativeName", () => CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
+        if (this.Description is not null)
+            CollectValidationExceptions("Description", () => CountryLocalNameMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result);
 
         return result;
     }
@@ -63,4 +65,10 @@ public abstract class CountryLocalNameDtoBase : EntityDtoBase
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.String? NativeName { get; set; }
+
+    /// <summary>
+    /// Description     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.String? Description { get; set; }
 }
