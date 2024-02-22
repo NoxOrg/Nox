@@ -41,4 +41,10 @@ public abstract class CountryLocalNameUpsertDtoBase: EntityDtoBase
     /// </summary>
     /// <remarks>Optional.</remarks>
     public virtual System.String? NativeName { get; set; }
+
+    /// <summary>
+    /// Description     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual System.String? Description { get; set; }
 }

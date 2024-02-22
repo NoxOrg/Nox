@@ -55,6 +55,8 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 		builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CountryLocalNameLocalizedDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CountryLocalNameDto>().Function("CountryLocalNamesLocalized").ReturnsCollection<DtoNameSpace.CountryLocalNameLocalizedDto>();
 
 		builder.EntityType<CountryBarCodeDto>().HasKey(e => new {  });
 

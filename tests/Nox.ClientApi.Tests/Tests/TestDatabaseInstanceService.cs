@@ -14,7 +14,7 @@ namespace ClientApi.Tests;
 /// </summary>
 public class TestDatabaseInstanceService : IAsyncLifetime, ITestDatabaseService
 {
-#if DEBUG    
+#if DEBUG
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
 #else
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
