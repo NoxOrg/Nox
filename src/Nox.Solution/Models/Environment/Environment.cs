@@ -21,4 +21,8 @@ public class Environment
     [Title("Whether this environment is a production environment (true) or not (false).")]
     [Description("Specifies whether this environment is used for production or not. Affects how devops processes and the NOX runtime is configured.")]
     public bool IsProduction { get; internal set; } = false;
+    
+    [Title("Whether this environment disaster recovery mirror (true) or not (false).")]
+    [Description("Specifies whether this environment has an instance in the disaster recovery environment. Affects how devops processes are configured.")]
+    public bool IsDisasterRecovery { get; internal set; } = false;
 }

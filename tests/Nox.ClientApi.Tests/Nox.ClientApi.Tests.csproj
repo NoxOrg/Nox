@@ -48,6 +48,7 @@
 
 	<ItemGroup>
 		<Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
+		<Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Application.Dto.Meta\" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoFixture.AutoMoq" Version="4.18.1" />
