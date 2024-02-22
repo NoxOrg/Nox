@@ -3560,6 +3560,21 @@ public enum Culture
     [DisplayName("zh")]
     zh,
     /// <summary>
+    /// Chinese (Hong Kong)
+    /// </summary>
+    [DisplayName("zh-HK")]
+    zh_HK,
+    /// <summary>
+    /// Chinese (People's Republic of China)
+    /// </summary>
+    [DisplayName("zh-CN")]
+    zh_CN,
+    /// <summary>
+    /// Chinese (Taiwan)
+    /// </summary>
+    [DisplayName("zh-TW")]
+    zh_TW,
+    /// <summary>
     /// Chinese (Simplified)
     /// </summary>
     [DisplayName("zh-Hans")]
