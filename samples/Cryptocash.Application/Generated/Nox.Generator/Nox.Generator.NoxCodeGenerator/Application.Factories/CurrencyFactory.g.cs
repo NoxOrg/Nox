@@ -123,16 +123,32 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             Dto.CurrencyMetadata.CreateMinorToMajorValue(createDto.MinorToMajorValue.NonNullValue<MoneyDto>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        createDto.BankNotes?.ForEach(async dto =>
+        //createDto.BankNotes?.ForEach(async dto =>
+        //{
+        //    var bankNote = await BankNoteFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToBankNotes(bankNote);
+        //});
+        if(createDto.BankNotes is not null)
         {
-            var bankNote = await BankNoteFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToBankNotes(bankNote);
-        });
-        createDto.ExchangeRates?.ForEach(async dto =>
+            foreach (var dto in createDto.BankNotes)
+            {
+                var bankNote = BankNoteFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToBankNotes(bankNote);
+            }
+        }
+        //createDto.ExchangeRates?.ForEach(async dto =>
+        //{
+        //    var exchangeRate = await ExchangeRateFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToExchangeRates(exchangeRate);
+        //});
+        if(createDto.ExchangeRates is not null)
         {
-            var exchangeRate = await ExchangeRateFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToExchangeRates(exchangeRate);
-        });        
+            foreach (var dto in createDto.ExchangeRates)
+            {
+                var exchangeRate = ExchangeRateFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToExchangeRates(exchangeRate);
+            }
+        }        
         return await Task.FromResult(entity);
     }
 

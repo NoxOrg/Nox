@@ -105,11 +105,19 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         entity.EnsureId(createDto.Id);
-        createDto.EmployeePhoneNumbers?.ForEach(async dto =>
+        //createDto.EmployeePhoneNumbers?.ForEach(async dto =>
+        //{
+        //    var employeePhoneNumber = await EmployeePhoneNumberFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToEmployeePhoneNumbers(employeePhoneNumber);
+        //});
+        if(createDto.EmployeePhoneNumbers is not null)
         {
-            var employeePhoneNumber = await EmployeePhoneNumberFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToEmployeePhoneNumbers(employeePhoneNumber);
-        });        
+            foreach (var dto in createDto.EmployeePhoneNumbers)
+            {
+                var employeePhoneNumber = EmployeePhoneNumberFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToEmployeePhoneNumbers(employeePhoneNumber);
+            }
+        }        
         return await Task.FromResult(entity);
     }
 

@@ -95,11 +95,19 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
             Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField(createDto.TextTestField.NonNullValue<System.String>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        createDto.SecEntityOwnedRelOneOrManies?.ForEach(async dto =>
+        //createDto.SecEntityOwnedRelOneOrManies?.ForEach(async dto =>
+        //{
+        //    var secEntityOwnedRelOneOrMany = await SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateRefToSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
+        //});
+        if(createDto.SecEntityOwnedRelOneOrManies is not null)
         {
-            var secEntityOwnedRelOneOrMany = await SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(dto, cultureCode);
-            entity.CreateRefToSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
-        });        
+            foreach (var dto in createDto.SecEntityOwnedRelOneOrManies)
+            {
+                var secEntityOwnedRelOneOrMany = SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateRefToSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
+            }
+        }        
         return await Task.FromResult(entity);
     }
 
