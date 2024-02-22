@@ -166,6 +166,7 @@ Member|Type|Description|Info
 Id|AutoNumber|The unique identifier.|Required, Primary Key
 Name|Text|Local name.|Required, MinLength: 4, MaxLength: 63
 NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
+Description|Text|Description.|IsLocalized: true
 
 
 

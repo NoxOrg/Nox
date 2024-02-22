@@ -15,6 +15,7 @@ Member|Type|Description
 Id|AutoNumber|The unique identifier
 Name|Text|Local name
 NativeName|Text|Local name in native tongue
+Description|Text|Description
 
 
 ### `CountryLocalNameUpdated`
@@ -28,6 +29,7 @@ Member|Type|Description
 Id|AutoNumber|The unique identifier
 Name|Text|Local name
 NativeName|Text|Local name in native tongue
+Description|Text|Description
 
 
 ### `CountryLocalNameDeleted`
@@ -41,4 +43,5 @@ Member|Type|Description
 Id|AutoNumber|The unique identifier
 Name|Text|Local name
 NativeName|Text|Local name in native tongue
+Description|Text|Description
 
