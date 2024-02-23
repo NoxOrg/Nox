@@ -1,0 +1,49 @@
+﻿@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Services
+@using Cryptocash.Ui.Forms.Add
+@using Cryptocash.Ui.DataGrid
+
+@namespace Cryptocash.Ui.Pages
+
+@page "/VendingMachines"
+
+@inject ApplicationState AppState
+@{
+    AppState.PageTitle = "VendingMachines";
+}
+
+<MudText>VendingMachines</MudText>
+
+<MudGrid Spacing="0">
+    <MudItem xs="12">
+        <MudText>Search section</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <Actions OnAdd="ShowAddDialog" />
+    </MudItem>
+    <AddVendingMachineForm @bind-IsVisible="showAddDialog" OnSubmit="AddVendingMachineSubmit" OnCancel="HideAddDialog" />
+    <MudItem xs="12">
+        <VendingMachinesDataGrid />
+    </MudItem>
+</MudGrid>
+
+@code{
+#region ADD
+    private bool showAddDialog = false;
+
+    private void ShowAddDialog()
+    {
+        showAddDialog = true;
+    }
+
+    private void HideAddDialog()
+    {
+        showAddDialog = false;
+    }
+
+    private void AddVendingMachineSubmit()
+    {
+        showAddDialog = false;
+    }
+#endregion ADD
+}
