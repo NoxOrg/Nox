@@ -40,6 +40,8 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<ClientPartialUpdateDto>();
         builder.ComplexType<HolidayUpsertDto>();
         builder.ComplexType<ReferenceNumberEntityPartialUpdateDto>();
+        builder.ComplexType<PersonPartialUpdateDto>();
+        builder.ComplexType<UserContactSelectionUpsertDto>();
         builder.ComplexType<EmailAddressUpsertDto>();
 
         builder.EntitySet<CountryDto>("Countries");
@@ -139,6 +141,14 @@ internal static class ODataServiceCollectionExtensions
 		builder.EntityType<ReferenceNumberEntityDto>().HasKey(e => new { e.Id });
         builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ReferenceNumberEntityDto>().Ignore(e => e.Etag);
+
+        builder.EntitySet<PersonDto>("People");
+		builder.EntityType<PersonDto>().HasKey(e => new { e.Id });
+        builder.EntityType<PersonDto>().ContainsOptional(e => e.UserContactSelection).AutoExpand = true;
+        builder.EntityType<PersonDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<PersonDto>().Ignore(e => e.Etag);
+
+		builder.EntityType<UserContactSelectionDto>().HasKey(e => new {  });
 
 		builder.EntityType<EmailAddressDto>().HasKey(e => new {  }); 
         // Setup Enumeration End Points

@@ -1,0 +1,42 @@
+﻿#
+# usercontactselection.entity.nox.yaml
+# 
+# yaml-language-server: $schema=https://noxorg.dev/schemas/entity.json
+#
+
+name: UserContactSelection
+
+description: User Contacts
+
+
+attributes:
+
+  - name: ContactId
+    description: Contact Id that user switched to
+    type: guid    
+    isRequired: true
+
+  - name: AccountId
+    description: Account Id that user switched to
+    type: guid    
+    isRequired: true
+
+  - name: SelectedDate
+    description: selected date
+    type: dateTime    
+    isRequired: true
+
+  
+persistence:
+    isAudited: false #Owned Entity  
+    schema: dbo
+    create:
+        isEnabled: false
+        raiseEvents: domainAndIntegrationEvents
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: domainAndIntegrationEvents
+    delete:
+        isEnabled: false

@@ -12,6 +12,7 @@
 //  - countryqualityoflifeindex.entity.nox.yaml
 //  - currency.entity.nox.yaml
 //  - holiday.entity.nox.yaml
+//  - person.entity.nox.yaml
 //  - ratingprogram.entity.nox.yaml
 //  - referencenumber.entity.nox.yaml
 //  - store-license.entity.nox.yaml
@@ -20,6 +21,7 @@
 //  - tenant-brand.entity.nox.yaml
 //  - tenant-contact.entity.nox.yaml
 //  - tenant.entity.nox.yaml
+//  - usercontactselection.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
 //  - countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
@@ -33,7 +35,10 @@
 //  - countryByName.queryString.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering.ApiRouteMapping.nox.yaml
 //  - countryByNameOdataFiltering3Segments.ApiRouteMapping.nox.yaml
+//  - getPersonByTenantIdAndGuidId.ApiRouteMapping.nox.yaml
+//  - getPersonByTenantIdAndGuidIdWithUserContactSelection.ApiRouteMapping.nox.yaml
 //  - getTwoSeqSegProperties.nox.yaml
+//  - personsViaTenants.Post.ApiRouteMapping.nox.yaml
 //  - putRefCountryToWorkplace3Segments.ApiRouteMapping.nox.yaml
 //  - workplacesViaTenants.Delete.ApiRouteMapping.nox.yaml
 //  - workplacesViaTenants.Patch.ApiRouteMapping.nox.yaml

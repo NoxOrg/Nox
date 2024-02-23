@@ -82,6 +82,7 @@ public abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repo
         public virtual DbSet<TenantDto> Tenants { get; set; } = null!;
         public virtual DbSet<ClientDto> Clients { get; set; } = null!;
         public virtual DbSet<ReferenceNumberEntityDto> ReferenceNumberEntities { get; set; } = null!;
+        public virtual DbSet<PersonDto> People { get; set; } = null!;
     public virtual DbSet<CountryLocalNameLocalizedDto> CountryLocalNamesLocalized { get; set; } = null!;
     public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public virtual DbSet<TenantBrandLocalizedDto> TenantBrandsLocalized { get; set; } = null!;
@@ -153,5 +154,6 @@ private void ConfigureAuditable(ModelBuilder modelBuilder)
         modelBuilder.Entity<CurrencyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<ClientDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<ReferenceNumberEntityDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<PersonDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }
