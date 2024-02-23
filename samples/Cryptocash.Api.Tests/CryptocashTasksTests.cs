@@ -1,3 +1,4 @@
+#if DEBUG
 using Nox.Generator.Tasks;
 
 namespace Cryptocash.Tests;
@@ -7,7 +8,7 @@ public class CryptocashTasksTests
     [Fact]
     public void GeneratorTaskTest()
     {
-#if DEBUG
+
         var outputFolder = Path.Combine("..", "..", "..", "..", "Cryptocash.Ui", "Nox.Generated");
         var designFolder = Path.Combine("..", "..", "..", "..", ".nox");
         var generatorYamlPath = Path.Combine("..", "..", "..", "..", "Cryptocash.Ui", "generator.nox.yaml");
@@ -22,7 +23,6 @@ public class CryptocashTasksTests
             noxYamls.Select(filePath => Path.GetFullPath(filePath)).ToList(), 
             Path.GetFullPath(outputFolder));
         fileGenerator.GenerateFiles();
-#endif
     }
-
 }
+#endif
