@@ -40,6 +40,8 @@ public static class ServiceCollectionExtensions
         NoxAssemblyConfiguration.ApplicationAssembly = typeof(TestWebApp.Application.Services.RelationshipChainValidator).Assembly;
         // Set the Assembly where Dto's are generated
         NoxAssemblyConfiguration.DtoAssembly = typeof(TestWebApp.Application.Dto.TestEntityZeroOrOneDto).Assembly;
+        // Set the Assembly where infrastructure is generated
+        NoxAssemblyConfiguration.InfrastructureAssembly = typeof(TestWebApp.Infrastructure.Persistence.AppDbContext).Assembly;
 
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {

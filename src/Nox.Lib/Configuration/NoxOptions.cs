@@ -180,9 +180,10 @@ namespace Nox.Configuration
 
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
         {
-            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
-            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.ApplicationAssembly, "Application is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
-            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DtoAssembly, "Dto is not being generated in any client assembly. Review the generator.nox.yaml coonfiguration");
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml configuration");
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.ApplicationAssembly, "Application is not being generated in any client assembly. Review the generator.nox.yaml configuration");
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DtoAssembly, "Dto is not being generated in any client assembly. Review the generator.nox.yaml configuration");
+            InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.InfrastructureAssembly, "Infrastreucture is not being generated in any client assembly. Review the generator.nox.yaml configuration");
 
             var referencedAssemblyNames = _clientAssembly!
                 .GetReferencedAssemblies()
@@ -194,7 +195,13 @@ namespace Nox.Configuration
             var noxAndEntryAssemblies = referencedAssemblyNames
                 .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
                 .Select(Assembly.Load)
-                .Union(new[] { _clientAssembly!, NoxAssemblyConfiguration.DomainAssembly, NoxAssemblyConfiguration.DtoAssembly, NoxAssemblyConfiguration.ApplicationAssembly })
+                .Union(new[] { 
+                    _clientAssembly!, 
+                    NoxAssemblyConfiguration.DomainAssembly,
+                    NoxAssemblyConfiguration.DtoAssembly,
+                    NoxAssemblyConfiguration.ApplicationAssembly,
+                    NoxAssemblyConfiguration.InfrastructureAssembly
+                })
                 .Distinct()
                 .ToArray();
 
@@ -207,8 +214,8 @@ namespace Nox.Configuration
                             _clientAssembly,
                             NoxAssemblyConfiguration.DomainAssembly,
                             NoxAssemblyConfiguration.DtoAssembly,
-                            NoxAssemblyConfiguration.ApplicationAssembly))
-
+                            NoxAssemblyConfiguration.ApplicationAssembly,
+                            NoxAssemblyConfiguration.InfrastructureAssembly))
                 .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>()))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
