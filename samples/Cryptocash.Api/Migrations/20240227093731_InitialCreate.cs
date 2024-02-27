@@ -80,7 +80,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_Employees", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,7 +137,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LandLords", x => x.Id);
+                    table.PrimaryKey("PK_LandLords", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,7 +209,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentProviders", x => x.Id);
+                    table.PrimaryKey("PK_PaymentProviders", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                 });
 
             migrationBuilder.CreateTable(
@@ -375,7 +378,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Commissions", x => x.Id);
+                    table.PrimaryKey("PK_Commissions", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_Commissions_Countries_CountryId",
                         column: x => x.CountryId,
@@ -437,7 +441,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_Customers_Countries_CountryId",
                         column: x => x.CountryId,
@@ -506,7 +511,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VendingMachines", x => x.Id);
+                    table.PrimaryKey("PK_VendingMachines", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_VendingMachines_Countries_CountryId",
                         column: x => x.CountryId,
@@ -590,7 +596,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_Bookings_Commissions_CommissionId",
                         column: x => x.CommissionId,
@@ -696,7 +703,8 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Transactions", x => x.Id);
+                    table.PrimaryKey("PK_Transactions", x => x.Id)
+                        .Annotation("SqlServer:Clustered", false);
                     table.ForeignKey(
                         name: "FK_Transactions_Bookings_BookingId",
                         column: x => x.BookingId,

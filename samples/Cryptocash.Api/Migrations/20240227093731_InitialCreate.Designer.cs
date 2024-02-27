@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240130171034_InitialCreate")]
+    [Migration("20240227093731_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -119,6 +119,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.HasIndex("CommissionId");
 
@@ -268,6 +270,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.HasIndex("CountryId");
 
@@ -594,6 +598,8 @@ namespace Cryptocash.Api.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
                     b.HasIndex("CountryId");
 
                     b.ToTable("Customers", (string)null);
@@ -672,6 +678,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.ToTable("Employees", (string)null);
                 });
@@ -818,6 +826,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.ToTable("LandLords", (string)null);
                 });
@@ -1032,6 +1042,8 @@ namespace Cryptocash.Api.Migrations
 
                     b.HasKey("Id");
 
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+
                     b.ToTable("PaymentProviders", (string)null);
                 });
 
@@ -1107,6 +1119,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.HasIndex("BookingId")
                         .IsUnique();
@@ -1197,6 +1211,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.HasKey("Id");
+
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
 
                     b.HasIndex("CountryId");
 
