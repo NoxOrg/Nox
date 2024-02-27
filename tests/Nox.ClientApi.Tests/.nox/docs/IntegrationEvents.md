@@ -13,6 +13,12 @@ This document provides information about Integration Events. Integration Events 
     - [StoreUpdated](#StoreUpdated)
     - [WorkplaceUpdated](#WorkplaceUpdated)
     - [StoreOwnerCreated](#StoreOwnerCreated)
+    - [PersonCreated](#PersonCreated)
+    - [PersonUpdated](#PersonUpdated)
+    - [PersonDeleted](#PersonDeleted)
+
+    - [UserContactSelectionCreated](#UserContactSelectionCreated)
+    - [UserContactSelectionUpdated](#UserContactSelectionUpdated)
 - [Custom Integration Events](#custom-integration-events)
     - [CountryPopulationHigherThan100M](#CountryPopulationHigherThan100M)
 
@@ -261,6 +267,169 @@ VatNumber|VatNumberDto|Vat Number
 StreetAddress|StreetAddressDto|Street Address
 LocalGreeting|TranslatedTextDto|Owner Greeting
 Notes|System.String|Notes
+
+
+### `PersonCreated`
+
+**Description:**
+This event is triggered when a new Person is created.
+
+**Topic:** Person
+
+#### Envelope Attributes
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.Person.v1.0.PersonCreated
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/Person/v1.0/PersonCreated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+
+Attribute|Type|Description
+---------|----|-----------
+Person|[Person](#Person-Attributes)|Person
+
+### `PersonUpdated`
+
+**Description:**
+This event is triggered when an existing Person is updated.
+
+**Topic:** Person
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.Person.v1.0.PersonUpdated
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/Person/v1.0/PersonUpdated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+
+Attribute|Type|Description
+---------|----|-----------
+Person|[Person](#Person-Attributes)|Person
+
+### `PersonDeleted`
+
+**Description:**
+This event is triggered when an entity Person is deleted.
+
+**Topic:** Person
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.Person.v1.0.PersonDeleted
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/Person/v1.0/PersonDeleted.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+Attribute|Type|Description
+---------|----|-----------
+Person|[Person](#Person-Attributes)|Person
+
+
+
+
+### `Person Attributes`
+Member|Type|Description
+------|----|-----------
+Id|System.Guid|The person unique identifier
+FirstName|System.String|The user's first name
+LastName|System.String|The customer's last name
+TenantId|System.Guid|Tenant user bellongs to
+PrimaryEmailAddress|System.String|The user's primary email for MFA
+
+
+### `UserContactSelectionCreated`
+
+**Description:**
+This event is triggered when a new UserContactSelection is created.
+
+**Topic:** UserContactSelection
+
+#### Envelope Attributes
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.UserContactSelection.v1.0.UserContactSelectionCreated
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/UserContactSelection/v1.0/UserContactSelectionCreated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+
+Attribute|Type|Description
+---------|----|-----------
+UserContactSelection|[UserContactSelection](#UserContactSelection-Attributes)|User Contacts
+
+### `UserContactSelectionUpdated`
+
+**Description:**
+This event is triggered when an existing UserContactSelection is updated.
+
+**Topic:** UserContactSelection
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://Nox-Tests.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|Nox-Tests.ClientApi.UserContactSelection.v1.0.UserContactSelectionUpdated
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://Nox-Tests.com/schemas/ClientApi/UserContactSelection/v1.0/UserContactSelectionUpdated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+
+Attribute|Type|Description
+---------|----|-----------
+UserContactSelection|[UserContactSelection](#UserContactSelection-Attributes)|User Contacts
+
+
+
+
+### `UserContactSelection Attributes`
+Member|Type|Description
+------|----|-----------
+ContactId|System.Guid|Contact Id that user switched to
+AccountId|System.Guid|Account Id that user switched to
+SelectedDate|System.DateTimeOffset|selected date
 
 ## Custom Integration Events
 

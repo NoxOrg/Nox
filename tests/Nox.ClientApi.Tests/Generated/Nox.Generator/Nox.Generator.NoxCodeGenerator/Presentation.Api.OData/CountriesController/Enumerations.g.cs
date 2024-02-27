@@ -1,7 +1,8 @@
 ﻿// Generated
-
-using System.Collections.Generic;
 #nullable enable
+using System.Collections.Generic;
+using Microsoft.AspNetCore.OData.Query;
+
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 
@@ -19,8 +20,9 @@ public abstract partial class CountriesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsQuery(_cultureCode));                        
         return Ok(result);        
     }
-    [HttpGet("/api/v1/Countries/CountryContinentsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> GetContinentsLocalizedNonConventional()
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/Continents/Languages")]
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> GetContinentsLanguagesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsTranslationsQuery());                        
         return Ok(result);        

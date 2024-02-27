@@ -62,8 +62,24 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         return data!.Value;
     }
+    /// <summary>
+    ///  Get collection result from a non Odata EndPoint
+    /// </summary>
+    public async Task<TResult?> GetResponseAsync<TResult>(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null)
+    {
+        using var httpClient = CreateHttpClient();
 
-   
+        AddHeaders(httpClient, headers ?? new());
+
+        var result = await httpClient.GetAsync(requestUrl);
+        result.EnsureSuccessStatusCode();
+
+        var content = await result.Content.ReadAsStringAsync();
+        var data = DeserializeResponse<TResult>(content);
+
+        return data;
+    }
+
     /// <summary>
     ///  Get single result from Odata End Point
     ///  Asserts is a valid Odata Response

@@ -1,9 +1,10 @@
 // Generated
 
-using System.Collections.Generic;
-
 {{- cultureCode = ToLowerFirstChar codeGenConventions.LocalizationCultureField}}
 #nullable enable
+using System.Collections.Generic;
+using Microsoft.AspNetCore.OData.Query;
+
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 
@@ -25,8 +26,9 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     
     {{- if (enumAtt.Attribute.EnumerationTypeOptions.IsLocalized) }}
     {{-}}
-    [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Get{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional()
+    [EnableQuery]
+    [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/Languages")]
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Get{{Pluralize (enumAtt.Attribute.Name)}}LanguagesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsQuery());                        
         return Ok(result);        

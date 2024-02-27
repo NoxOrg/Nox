@@ -33,6 +33,12 @@ This document provides information about custom API routes. Custom API routes ar
 
 - [PatchWorkplaceViaTenant](#PatchWorkplaceViaTenant)
 
+- [PersonWithContactSelection](#PersonWithContactSelection)
+
+- [PersonWithKey](#PersonWithKey)
+
+- [Persons](#Persons)
+
 ### CountriesByName
 - **GET** `/api/v1/CountriesByName/{Count}`
   - Description: Get country names in alphabetical order.
@@ -92,3 +98,15 @@ This document provides information about custom API routes. Custom API routes ar
 ### PatchWorkplaceViaTenant
 - **PATCH** `/api/v1/Tenants/{TenantId}/Workplaces/{key}`
   - Description: Patch workplace via Tenant
+
+### PersonWithContactSelection
+- **GET** `/api/v1/Tenants/{TenantId}/Persons/{key}/UserContactSelection`
+  - Description: 
+
+### PersonWithKey
+- **GET** `/api/v1/Tenants/{TenantId}/Persons/{key}`
+  - Description: 
+
+### Persons
+- **POST** `/api/v1/Tenants/{TenantId}/Persons`
+  - Description: 
