@@ -43,6 +43,8 @@ public static class {{className}}
         NoxAssemblyConfiguration.ApplicationAssembly = typeof({{codeGenConventions.ApplicationNameSpace}}.Services.RelationshipChainValidator).Assembly;
         // Set the Assembly where Dto's are generated
         NoxAssemblyConfiguration.DtoAssembly = typeof({{codeGenConventions.DtoNameSpace}}.{{solution.Domain.Entities[0].Name}}Dto).Assembly;
+        // Set the Assembly where infrastructure is generated
+        NoxAssemblyConfiguration.InfrastructureAssembly = typeof({{codeGenConventions.PersistenceNameSpace}}.AppDbContext).Assembly;
         {{- end }}
 
         services.AddNoxLib(webApplicationBuilder, configurator =>
