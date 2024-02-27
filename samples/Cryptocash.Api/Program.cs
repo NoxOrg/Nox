@@ -24,7 +24,15 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-   app.SeedDataIfRequired();
+    try
+    {
+        app.SeedDataIfRequired();
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "Error seeding data");
+        throw;
+    }   
 }
 
 app.UseHttpsRedirection();

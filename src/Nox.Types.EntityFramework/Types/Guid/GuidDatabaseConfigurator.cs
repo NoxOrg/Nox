@@ -11,7 +11,7 @@ public class GuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public NoxType ForNoxType => NoxType.Guid;
     public virtual bool IsDefault => true;
 
-    public void ConfigureEntityProperty(
+    public virtual void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         NoxTypeDatabaseConfiguration property,
         Entity entity,
