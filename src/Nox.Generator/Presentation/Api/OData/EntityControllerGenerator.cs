@@ -292,13 +292,15 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateChildrenPut(NoxSolution solution, EntityRelationship relationship, Entity parent, CodeBuilder code)
     {
-        var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
+        var child = relationship.Related.Entity;
+        var childType = isSingleRelationship ? $"{child.Name}UpsertDto" : $"{child.Name}UpsertDto[]";
+        var childName = isSingleRelationship ? child.Name : child.PluralName;
         var navigationName = parent.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{navigationName}(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
-            $"[FromBody] {child.Name}UpsertDto {child.Name.ToLowerFirstChar()})");
+            $"[FromBody] {childType} {childName.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -310,17 +312,18 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"{child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-        code.AppendLine();
+                $"{childName.ToLowerFirstChar()}, _cultureCode, etag));");
 
         if (isSingleRelationship)
+        {
+            code.AppendLine();
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
                 $".{navigationName};");
-        else
-            code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updatedKey);");
+        }
+
         code.AppendLine();
-        code.AppendLine($"return Ok(child);");
+        code.AppendLine($"return Ok({(isSingleRelationship ? "child" : "")});");
 
         code.EndBlock();
         code.AppendLine();

@@ -22,7 +22,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto>;
+public partial record UpdateEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, IEnumerable<EmployeePhoneNumberUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
 
 internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandler : UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandler : Upd
 	}
 }
 
-internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberKeyDto>
+internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumbersForEmployeeCommand, bool>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<EmployeePhoneNumberKeyDto> Handle(UpdateEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(UpdateEmployeePhoneNumbersForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,27 +60,33 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 
 		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Employee>(keys.ToArray(),e => e.EmployeePhoneNumbers, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Employee",  "keyId");				
-		EmployeePhoneNumberEntity? entity;
-		if(request.EntityDto.Id is null)
+		List<EmployeePhoneNumberEntity> entities = new(); // count
+		foreach(var entityDto in request.EntitiesDto)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var ownedId =Dto.EmployeePhoneNumberMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-			entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
-			if (entity is null)
-				throw new EntityNotFoundException("EmployeePhoneNumber",  $"ownedId");
+			EmployeePhoneNumberEntity? entity;
+			if(entityDto.Id is null)
+			{
+				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+			}
 			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+			{
+				var ownedId = Dto.EmployeePhoneNumberMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
+				entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
+				if (entity is null)
+					throw new EntityNotFoundException("EmployeePhoneNumber",  $"ownedId");
+				else
+					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+			}
+
+			entities.Add(entity);
 		}
 
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		await OnCompletedAsync(request, entity!);
+		//await OnCompletedAsync(request, entity!); // fix
 		await _repository.SaveChangesAsync();
 
-		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
+		return true;
 	}
 	
 	private async Task<EmployeePhoneNumberEntity> CreateEntityAsync(EmployeePhoneNumberUpsertDto upsertDto, EmployeeEntity parent, Nox.Types.CultureCode cultureCode)

@@ -78,7 +78,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrands(System.UInt32 key, [FromBody] TenantBrandUpsertDto tenantBrand)
+    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrands(System.UInt32 key, [FromBody] TenantBrandUpsertDto[] tenantBrands)
     {
         if (!ModelState.IsValid)
         {
@@ -86,11 +86,9 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), tenantBrand, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), tenantBrands, _cultureCode, etag));
         
-        var child = await TryGetTenantBrands(key, updatedKey);
-        
-        return Ok(child);
+        return Ok();
     }
     
     public virtual async Task<ActionResult> PatchToTenantBrands(System.UInt32 key, [FromBody] Delta<TenantBrandUpsertDto> tenantBrand)

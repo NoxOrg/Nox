@@ -22,7 +22,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto>;
+public partial record UpdateHolidaysForCountryCommand(CountryKeyDto ParentKeyDto, IEnumerable<HolidayUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
 
 internal partial class UpdateHolidaysForCountryCommandHandler : UpdateHolidaysForCountryCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateHolidaysForCountryCommandHandler : UpdateHolidaysFo
 	}
 }
 
-internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<UpdateHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidaysForCountryCommand, HolidayKeyDto>
+internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<UpdateHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidaysForCountryCommand, bool>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<HolidayKeyDto> Handle(UpdateHolidaysForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(UpdateHolidaysForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,27 +60,35 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandBase<
 
 		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country",  "keyId");				
-		HolidayEntity? entity;
-		if(request.EntityDto.Id is null)
+		List<HolidayEntity> entities = new(request.EntitiesDto.Count());
+		foreach(var entityDto in request.EntitiesDto)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var ownedId =Dto.HolidayMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Guid>());
-			entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
-			if (entity is null)
-				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
+			HolidayEntity? entity;
+			if(entityDto.Id is null)
+			{
+				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+			}
 			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+			{
+				var ownedId = Dto.HolidayMetadata.CreateId(entityDto.Id.NonNullValue<System.Guid>());
+				entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
+				if (entity is null)
+					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				else
+					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+			}
+
+			entities.Add(entity);
 		}
 
+		parentEntity.UpdateRefToHolidays(entities);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		await OnCompletedAsync(request, entity!);
+		_repository.DeleteOwned<HolidayEntity>(parentEntity.Holidays.Where(oe => !entities.Exists(e => e.Id == oe.Id)).ToList());
+		//await OnCompletedAsync(request, entity!); // second parameter of CommandBase must be a IEntity, but we have a collection of entities
 		await _repository.SaveChangesAsync();
 
-		return new HolidayKeyDto(entity.Id.Value);
+		return true; // Should we return bool or list of entity ids or parent id?
 	}
 	
 	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)

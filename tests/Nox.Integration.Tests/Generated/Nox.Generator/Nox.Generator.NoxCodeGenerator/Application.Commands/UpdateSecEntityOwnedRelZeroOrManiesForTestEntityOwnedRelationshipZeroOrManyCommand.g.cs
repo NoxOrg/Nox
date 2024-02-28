@@ -22,7 +22,7 @@ using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyKeyDto ParentKeyDto, SecEntityOwnedRelZeroOrManyUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecEntityOwnedRelZeroOrManyKeyDto>;
+public partial record UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyKeyDto ParentKeyDto, IEnumerable<SecEntityOwnedRelZeroOrManyUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
 
 internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandler : UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRela
 	}
 }
 
-internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecEntityOwnedRelZeroOrManyEntity>, IRequestHandler <UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecEntityOwnedRelZeroOrManyKeyDto>
+internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecEntityOwnedRelZeroOrManyEntity>, IRequestHandler <UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, bool>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<SecEntityOwnedRelZeroOrManyEntity, SecEntityOwnedRelZeroOrManyUpsertDto, SecEntityOwnedRelZeroOrManyUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRela
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecEntityOwnedRelZeroOrManyKeyDto> Handle(UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,27 +60,33 @@ internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRela
 
 		var parentEntity = await _repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany>(keys.ToArray(),e => e.SecEntityOwnedRelZeroOrManies, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "TestEntityOwnedRelationshipZeroOrMany",  "keyId");				
-		SecEntityOwnedRelZeroOrManyEntity? entity;
-		if(request.EntityDto.Id is null)
+		List<SecEntityOwnedRelZeroOrManyEntity> entities = new(); // count
+		foreach(var entityDto in request.EntitiesDto)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var ownedId =Dto.SecEntityOwnedRelZeroOrManyMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.String>());
-			entity = parentEntity.SecEntityOwnedRelZeroOrManies.SingleOrDefault(x => x.Id == ownedId);
-			if (entity is null)
-				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
+			SecEntityOwnedRelZeroOrManyEntity? entity;
+			if(entityDto.Id is null)
+			{
+				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+			}
 			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+			{
+				var ownedId = Dto.SecEntityOwnedRelZeroOrManyMetadata.CreateId(entityDto.Id.NonNullValue<System.String>());
+				entity = parentEntity.SecEntityOwnedRelZeroOrManies.SingleOrDefault(x => x.Id == ownedId);
+				if (entity is null)
+					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				else
+					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+			}
+
+			entities.Add(entity);
 		}
 
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		await OnCompletedAsync(request, entity!);
+		//await OnCompletedAsync(request, entity!); // fix
 		await _repository.SaveChangesAsync();
 
-		return new SecEntityOwnedRelZeroOrManyKeyDto(entity.Id.Value);
+		return true;
 	}
 	
 	private async Task<SecEntityOwnedRelZeroOrManyEntity> CreateEntityAsync(SecEntityOwnedRelZeroOrManyUpsertDto upsertDto, TestEntityOwnedRelationshipZeroOrManyEntity parent, Nox.Types.CultureCode cultureCode)
@@ -95,6 +101,6 @@ public class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZe
 {
     public UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyValidator()
     {		
-		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
+		RuleForEach(x => x.EntitiesDto).Must(x => x.Id is not null).WithMessage("Id is required.");
     }
 }

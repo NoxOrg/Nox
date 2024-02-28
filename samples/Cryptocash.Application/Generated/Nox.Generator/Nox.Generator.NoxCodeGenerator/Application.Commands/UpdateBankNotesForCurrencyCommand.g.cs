@@ -22,7 +22,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto>;
+public partial record UpdateBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, IEnumerable<BankNoteUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
 
 internal partial class UpdateBankNotesForCurrencyCommandHandler : UpdateBankNotesForCurrencyCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandler : UpdateBankNote
 	}
 }
 
-internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBase<UpdateBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler <UpdateBankNotesForCurrencyCommand, BankNoteKeyDto>
+internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBase<UpdateBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler <UpdateBankNotesForCurrencyCommand, bool>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<BankNoteKeyDto> Handle(UpdateBankNotesForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(UpdateBankNotesForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,27 +60,33 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandBas
 
 		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(),e => e.BankNotes, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Currency",  "keyId");				
-		BankNoteEntity? entity;
-		if(request.EntityDto.Id is null)
+		List<BankNoteEntity> entities = new(); // count
+		foreach(var entityDto in request.EntitiesDto)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var ownedId =Dto.BankNoteMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-			entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
-			if (entity is null)
-				throw new EntityNotFoundException("BankNote",  $"ownedId");
+			BankNoteEntity? entity;
+			if(entityDto.Id is null)
+			{
+				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+			}
 			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+			{
+				var ownedId = Dto.BankNoteMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
+				entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
+				if (entity is null)
+					throw new EntityNotFoundException("BankNote",  $"ownedId");
+				else
+					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+			}
+
+			entities.Add(entity);
 		}
 
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		await OnCompletedAsync(request, entity!);
+		//await OnCompletedAsync(request, entity!); // fix
 		await _repository.SaveChangesAsync();
 
-		return new BankNoteKeyDto(entity.Id.Value);
+		return true;
 	}
 	
 	private async Task<BankNoteEntity> CreateEntityAsync(BankNoteUpsertDto upsertDto, CurrencyEntity parent, Nox.Types.CultureCode cultureCode)

@@ -78,7 +78,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbers(System.Guid key, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
+    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumbers(System.Guid key, [FromBody] EmployeePhoneNumberUpsertDto[] employeePhoneNumbers)
     {
         if (!ModelState.IsValid)
         {
@@ -86,11 +86,10 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumbers, _cultureCode, etag));
         
-        var child = await TryGetEmployeePhoneNumbers(key, updatedKey);
         
-        return Ok(child);
+        return Ok();
     }
     
     public virtual async Task<ActionResult> PatchToEmployeePhoneNumbers(System.Guid key, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
