@@ -59,6 +59,11 @@ erDiagram
     }
     ReferenceNumberEntity {
     }
+    Person {
+    }
+    Person||--o|UserContactSelection : "user selected contacts"
+    UserContactSelection {
+    }
     EmailAddress {
     }
 
@@ -248,6 +253,45 @@ Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
 List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|No|No
 List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|No|No
+
+
+### Person
+
+Person. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
+
+[Endpoints](./endpoints/PersonEndpoints.md)
+
+[Domain Events](./domainEvents/PersonDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|Guid|The person unique identifier.|Required, Primary Key
+FirstName|Text|The user's first name.|Required, MinLength: 4, MaxLength: 200
+LastName|Text|The customer's last name.|Required, MinLength: 4, MaxLength: 200
+TenantId|Guid|Tenant user bellongs to.|Required
+PrimaryEmailAddress|Email|The user's primary email for MFA.|Required
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
+
+
+
+
+### Person.UserContactSelection (Owned by Person)
+
+User Contacts.
+
+[Domain Events](./domainEvents/UserContactSelectionDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+ContactId|Guid|Contact Id that user switched to.|Required
+AccountId|Guid|Account Id that user switched to.|Required
+SelectedDate|DateTime|selected date.|Required
+
+
 
 
 ### RatingProgram

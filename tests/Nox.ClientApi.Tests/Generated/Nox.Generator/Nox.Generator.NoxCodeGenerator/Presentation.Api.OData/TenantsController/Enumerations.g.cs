@@ -1,7 +1,8 @@
 ﻿// Generated
-
-using System.Collections.Generic;
 #nullable enable
+using System.Collections.Generic;
+using Microsoft.AspNetCore.OData.Query;
+
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 

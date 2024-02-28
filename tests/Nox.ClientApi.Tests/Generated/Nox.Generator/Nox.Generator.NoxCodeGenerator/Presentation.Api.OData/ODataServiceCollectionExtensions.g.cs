@@ -155,11 +155,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>()
                             .Collection
                             .Function("CountryContinents")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>();
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>();        
+        //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<CountryDto>()
-                            .Collection
-                            .Function("CountryContinentsLocalized")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentLocalizedDto>(); 
+                .Collection
+                .Function("CountryContinentsLocalized")                
+                .ReturnsCollection<DtoNameSpace.CountryContinentLocalizedDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection
@@ -169,11 +170,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>()
                             .Collection
                             .Function("WorkplaceOwnerships")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();        
+        //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<WorkplaceDto>()
-                            .Collection
-                            .Function("WorkplaceOwnershipsLocalized")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
+                .Collection
+                .Function("WorkplaceOwnershipsLocalized")                
+                .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<WorkplaceDto>()
                             .Collection

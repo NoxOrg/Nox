@@ -79,12 +79,13 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<{{enumeration.Entity.Name}}Dto>()
                             .Collection
                             .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}")
-                            .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
-        {{- if enumeration.Attribute.EnumerationTypeOptions.IsLocalized }}
+                            .ReturnsCollection<DtoNameSpace.{{enumeration.EntityNameForEnumeration}}>();
+        {{- if enumeration.Attribute.EnumerationTypeOptions.IsLocalized }}        
+        //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<{{enumeration.Entity.Name}}Dto>()
-                            .Collection
-                            .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}Localized")
-                            .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForLocalizedEnumeration}}>();
+                .Collection
+                .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}Localized")                
+                .ReturnsCollection<DtoNameSpace.{{enumeration.EntityNameForLocalizedEnumeration}}>();
         {{- end }}
         {{- end }}
 
