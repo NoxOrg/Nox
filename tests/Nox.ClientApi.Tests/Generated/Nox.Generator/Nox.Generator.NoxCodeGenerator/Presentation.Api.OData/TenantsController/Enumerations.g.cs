@@ -14,7 +14,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class TenantsControllerBase
 {
-    [HttpGet("/api/v1/Tenants/TenantStatuses")]
+    [HttpGet("/api/v1/Tenants/Statuses")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TenantStatusDto>>> GetStatusesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTenantsStatusesQuery(_cultureCode));                        

@@ -310,7 +310,7 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Store.
-- **GET** `/api/v1/Stores/StoreStatuses`
+- **GET** `/api/v1/Stores/Statuses`
   - **Description**: Retrieve non-conventional values of Statuses for a specific Store.
 
 ## Other Related Endpoints

@@ -154,7 +154,7 @@ internal static class ODataServiceCollectionExtensions
         // Setup Enumeration End Points
         builder.EntityType<CountryDto>()
                             .Collection
-                            .Function("CountryContinents")
+                            .Function("Continents")
                             .ReturnsCollection<DtoNameSpace.CountryContinentDto>();        
         //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<CountryDto>()
@@ -164,12 +164,12 @@ internal static class ODataServiceCollectionExtensions
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection
-                            .Function("StoreStatuses")
+                            .Function("Statuses")
                             .ReturnsCollection<DtoNameSpace.StoreStatusDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<WorkplaceDto>()
                             .Collection
-                            .Function("WorkplaceOwnerships")
+                            .Function("Ownerships")
                             .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();        
         //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<WorkplaceDto>()
@@ -179,12 +179,12 @@ internal static class ODataServiceCollectionExtensions
         // Setup Enumeration End Points
         builder.EntityType<WorkplaceDto>()
                             .Collection
-                            .Function("WorkplaceTypes")
+                            .Function("Types")
                             .ReturnsCollection<DtoNameSpace.WorkplaceTypeDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<TenantDto>()
                             .Collection
-                            .Function("TenantStatuses")
+                            .Function("Statuses")
                             .ReturnsCollection<DtoNameSpace.TenantStatusDto>();
 
        

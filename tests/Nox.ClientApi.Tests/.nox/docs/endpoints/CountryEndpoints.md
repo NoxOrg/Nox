@@ -224,7 +224,7 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
-- **GET** `/api/v1/Countries/CountryContinents`
+- **GET** `/api/v1/Countries/Continents`
   - **Description**: Retrieve non-conventional values of Continents for a specific Country.
   
 - **GET** `/api/v1/Countries/CountryContinentsLocalized`
