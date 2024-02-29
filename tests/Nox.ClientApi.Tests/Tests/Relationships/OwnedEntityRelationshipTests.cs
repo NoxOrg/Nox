@@ -1,7 +1,6 @@
-﻿using AutoFixture;
-using ClientApi.Application.Dto;
+﻿using ClientApi.Application.Dto;
 using FluentAssertions;
-using Nox.Types;
+using Nox.Application.Dto;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Relationships;
@@ -19,7 +18,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
     #region ToMany
 
     [Fact]
-    public async Task WhenUpdatingCountryTimeZones_Existing_AllShouldBeUpdated()
+    public async Task WhenUpdatingCountryTimeZones_WithAllExisting_AllShouldBeUpdated()
     {
         // Arrange
         var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
@@ -37,12 +36,15 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         var etag = CreateEtagHeader(country!.Etag);
 
         // Act
-        var updateDto = new CountryTimeZoneUpsertDto[]
+        var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>
         {
-            new() { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
-            new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
-            new() { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
-            new() { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" }
+            Value = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
+                new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
+                new() { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
+                new() { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" }
+            }
         };
 
         await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag);
@@ -50,22 +52,169 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         // Assert
         var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
 
-        updatedCountry!.CountryTimeZones!.Find(c => c.Id == "EST")!.Name.Should().Be("Eastern Standard Time");
-        updatedCountry.CountryTimeZones.Find(c => c.Id == "CST")!.Name.Should().Be("Central Standard Time");
-        updatedCountry.CountryTimeZones.Find(c => c.Id == "MST")!.Name.Should().Be("Mountain Standard Time");
-        updatedCountry.CountryTimeZones.Find(c => c.Id == "PST")!.Name.Should().Be("Pacific Standard Time");
+        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
+        {
+            new CountryTimeZoneDto { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" },
+        });
     }
 
     [Fact]
-    public async Task WhenUpdatingCountryTimeZones_ExistingAndNew_ExistingShouldBeUpdatedAndNewShouldBeCreated()
+    public async Task WhenUpdatingCountryTimeZones_WithExistingAndNew_ExistingShouldBeUpdatedAndNewShouldBeCreated()
     {
-        await Task.CompletedTask;
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>
+        {
+            Value = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
+                new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
+                new() { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
+                new() { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" }
+            }
+        };
+
+        await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag);
+
+        // Assert
+        var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
+        
+        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
+        {
+            new CountryTimeZoneDto {Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" },
+        });
     }
 
     [Fact]
-    public async Task WhenUpdatingCountryTimeZones_ExistingAndRemoved_ExistingShouldBeUpdatedAndRemovedShouldBeDeleted()
+    public async Task WhenUpdatingCountryTimeZones_WithExistingAndRemoved_OnlyExistingShouldBeUpdated()
     {
-        await Task.CompletedTask;
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK" },
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>
+        {
+            Value = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
+                new() { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
+                new() { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" },
+            }
+        };
+
+        await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag);
+
+        // Assert
+        var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
+
+        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
+        {
+            new CountryTimeZoneDto { Id = "AMERICA/NEW_YORK" },
+            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES", Name = "Pacific Standard Time" },
+        });
+    }
+
+    [Fact]
+    public async Task WhenUpdatingCountryTimeZones_WithEmptyCollection_NoChangesShouldBeMade()
+    {
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK" },
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>();
+
+        await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag);
+
+        // Assert
+        var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
+
+        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
+        {
+            new CountryTimeZoneDto { Id = "AMERICA/NEW_YORK" },
+            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO" },
+            new CountryTimeZoneDto { Id = "AMERICA/DENVER" },
+            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES" },
+        });
+    }
+
+    [Fact]
+    public async Task WhenUpdatingCountryTimeZones_WithNull_NoChangesShouldBeMade()
+    {
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK" },
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        EntityDtoCollection<CountryTimeZoneUpsertDto>? updateDto = null;
+
+        await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag);
+
+        // Assert
+        var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
+
+        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
+        {
+            new CountryTimeZoneDto { Id = "AMERICA/NEW_YORK" },
+            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO" },
+            new CountryTimeZoneDto { Id = "AMERICA/DENVER" },
+            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES" },
+        });
     }
 
     #endregion

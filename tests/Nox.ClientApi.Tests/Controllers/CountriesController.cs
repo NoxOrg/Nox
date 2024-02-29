@@ -6,6 +6,8 @@ using ClientApi.Application.Commands;
 using ClientApi.Application.Queries;
 using ClientApi.Tests;
 using Microsoft.AspNetCore.OData.Results;
+using Microsoft.AspNetCore.OData.Routing.Attributes;
+using Microsoft.AspNetCore.OData.Formatter;
 
 namespace ClientApi.Presentation.Api.OData;
 

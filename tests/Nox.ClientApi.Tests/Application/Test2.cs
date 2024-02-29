@@ -17,40 +17,40 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
+using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 using CountryEntity = ClientApi.Domain.Country;
 
-namespace ClientApi.Application.Commands2;
+namespace ClientApi.Application.Commands1;
 
-public partial record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryBarCodeKeyDto>;
+public partial record UpdateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, IEnumerable<CountryTimeZoneUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<CountryTimeZoneKeyDto>>;
 
-internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCountryBarCodeForCountryCommandHandlerBase
+internal partial class UpdateCountryTimeZonesForCountryCommandHandler : UpdateCountryTimeZonesForCountryCommandHandlerBase
 {
-    public UpdateCountryBarCodeForCountryCommandHandler(
+    public UpdateCountryTimeZonesForCountryCommandHandler(
         IRepository repository,
         NoxSolution noxSolution,
-        IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> entityFactory)
+        IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
         : base(repository, noxSolution, entityFactory)
     {
     }
 }
 
-internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler<UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto>
+internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : CommandCollectionBase<UpdateCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler<UpdateCountryTimeZonesForCountryCommand, IEnumerable<CountryTimeZoneKeyDto>>
 {
     private readonly IRepository _repository;
-    private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
+    private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
 
-    protected UpdateCountryBarCodeForCountryCommandHandlerBase(
+    protected UpdateCountryTimeZonesForCountryCommandHandlerBase(
         IRepository repository,
         NoxSolution noxSolution,
-        IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> entityFactory)
+        IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
         : base(noxSolution)
     {
         _repository = repository;
         _entityFactory = entityFactory;
     }
 
-    public virtual async Task<CountryBarCodeKeyDto> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+    public virtual async Task<IEnumerable<CountryTimeZoneKeyDto>> Handle(UpdateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         await OnExecutingAsync(request);
@@ -58,26 +58,52 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
         var keys = new List<object?>(1);
         keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-        var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), e => e.CountryBarCode, cancellationToken);
+        var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), e => e.CountryTimeZones, cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "Country", "keyId");
-        var entity = parentEntity.CountryBarCode;
-        if (entity is null)
-            entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-        else
-            await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+        List<CountryTimeZoneEntity> entities = new(request.EntitiesDto.Count());
+        foreach (var entityDto in request.EntitiesDto)
+        {
+            CountryTimeZoneEntity? entity;
+            if (entityDto.Id is null)
+            {
+                entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+            }
+            else
+            {
+                var ownedId = Dto.CountryTimeZoneMetadata.CreateId(entityDto.Id.NonNullValue<System.String>());
+                entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
+                if (entity is null)
+                    entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+                else
+                    await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
 
-        parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+                parentEntity.DeleteRefToCountryTimeZones(entity);
+            }
+
+            parentEntity.CreateRefToCountryTimeZones(entity);
+            entities.Add(entity);
+        }
+
+        parentEntity.Etag = request.Etag ?? System.Guid.Empty;
         _repository.Update(parentEntity);
-        await OnCompletedAsync(request, entity!);
+        await OnCompletedAsync(request, entities!);
         await _repository.SaveChangesAsync();
 
-        return new CountryBarCodeKeyDto();
+        return entities.Select(entity => new CountryTimeZoneKeyDto(entity.Id.Value));
     }
 
-    private async Task<CountryBarCodeEntity> CreateEntityAsync(CountryBarCodeUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
+    private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
     {
         var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-        parent.CreateRefToCountryBarCode(entity);
+        parent.CreateRefToCountryTimeZones(entity);
         return entity;
+    }
+}
+
+public class UpdateCountryTimeZonesForCountryValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
+{
+    public UpdateCountryTimeZonesForCountryValidator()
+    {
+        RuleForEach(x => x.EntitiesDto).Must(x => x.Id is not null).WithMessage("Id is required.");
     }
 }

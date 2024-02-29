@@ -144,13 +144,8 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         AddHeaders(httpClient, headers);
 
-        var json = JsonSerializer.Serialize(data);
-        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        var message = await httpClient.PutAsJsonAsync(requestUrl, data);
 
-        var message = await httpClient.PutAsync(requestUrl, content);
-
-        var response = await message.Content.ReadAsStringAsync();
-        
         if (throwOnError)
             message.EnsureSuccessStatusCode();
 

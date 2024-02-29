@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -78,7 +79,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrands(System.UInt32 key, [FromBody] TenantBrandUpsertDto[] tenantBrands)
+    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrands([FromODataUri] System.UInt32 key, [FromBody] EntityDtoCollection<TenantBrandUpsertDto> collection)
     {
         if (!ModelState.IsValid)
         {
@@ -86,9 +87,12 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), tenantBrands, _cultureCode, etag));
+        var tenantBrands = (collection ?? new EntityDtoCollection<TenantBrandUpsertDto>()).Value;
+        var updatedKeys = await _mediator.Send(new UpdateTenantBrandsForTenantCommand(new TenantKeyDto(key), tenantBrands, _cultureCode, etag));
         
-        return Ok();
+        var children = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantBrands.Where(e => updatedKeys.Any(k => e.Id.Value == k.keyId));
+        
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToTenantBrands(System.UInt32 key, [FromBody] Delta<TenantBrandUpsertDto> tenantBrand)
@@ -161,7 +165,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<TenantContactDto>> PutToTenantContact(System.UInt32 key, [FromBody] TenantContactUpsertDto tenantContact)
+    public virtual async Task<ActionResult<TenantContactDto>> PutToTenantContact([FromODataUri] System.UInt32 key, [FromBody] TenantContactUpsertDto tenantContact)
     {
         if (!ModelState.IsValid)
         {

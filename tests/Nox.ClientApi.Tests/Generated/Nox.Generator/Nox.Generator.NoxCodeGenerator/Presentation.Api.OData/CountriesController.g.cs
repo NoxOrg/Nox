@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -78,7 +79,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNames(System.Int64 key, [FromBody] CountryLocalNameUpsertDto[] countryLocalNames)
+    public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNames([FromODataUri] System.Int64 key, [FromBody] EntityDtoCollection<CountryLocalNameUpsertDto> collection)
     {
         if (!ModelState.IsValid)
         {
@@ -86,9 +87,12 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalNames, _cultureCode, etag));
+        var countryLocalNames = (collection ?? new EntityDtoCollection<CountryLocalNameUpsertDto>()).Value;
+        var updatedKeys = await _mediator.Send(new UpdateCountryLocalNamesForCountryCommand(new CountryKeyDto(key), countryLocalNames, _cultureCode, etag));
         
-        return Ok();
+        var children = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryLocalNames.Where(e => updatedKeys.Any(k => e.Id.Value == k.keyId));
+        
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToCountryLocalNames(System.Int64 key, [FromBody] Delta<CountryLocalNameUpsertDto> countryLocalName)
@@ -161,7 +165,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<CountryBarCodeDto>> PutToCountryBarCode(System.Int64 key, [FromBody] CountryBarCodeUpsertDto countryBarCode)
+    public virtual async Task<ActionResult<CountryBarCodeDto>> PutToCountryBarCode([FromODataUri] System.Int64 key, [FromBody] CountryBarCodeUpsertDto countryBarCode)
     {
         if (!ModelState.IsValid)
         {
@@ -253,7 +257,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZones(System.Int64 key, [FromBody] CountryTimeZoneUpsertDto[] countryTimeZones)
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZones([FromODataUri] System.Int64 key, [FromBody] EntityDtoCollection<CountryTimeZoneUpsertDto> collection)
     {
         if (!ModelState.IsValid)
         {
@@ -261,9 +265,12 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZones, _cultureCode, etag));
+        var countryTimeZones = (collection ?? new EntityDtoCollection<CountryTimeZoneUpsertDto>()).Value;
+        var updatedKeys = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZones, _cultureCode, etag));
         
-        return Ok();
+        var children = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryTimeZones.Where(e => updatedKeys.Any(k => e.Id.Value == k.keyId));
+        
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToCountryTimeZones(System.Int64 key, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
@@ -353,7 +360,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<HolidayDto>> PutToHolidays(System.Int64 key, [FromBody] HolidayUpsertDto[] holidays)
+    public virtual async Task<ActionResult<HolidayDto>> PutToHolidays([FromODataUri] System.Int64 key, [FromBody] EntityDtoCollection<HolidayUpsertDto> collection)
     {
         if (!ModelState.IsValid)
         {
@@ -361,9 +368,12 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), holidays, _cultureCode, etag));
+        var holidays = (collection ?? new EntityDtoCollection<HolidayUpsertDto>()).Value;
+        var updatedKeys = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), holidays, _cultureCode, etag));
         
-        return Ok();
+        var children = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.Holidays.Where(e => updatedKeys.Any(k => e.Id.Value == k.keyId));
+        
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToHolidays(System.Int64 key, [FromBody] Delta<HolidayUpsertDto> holiday)

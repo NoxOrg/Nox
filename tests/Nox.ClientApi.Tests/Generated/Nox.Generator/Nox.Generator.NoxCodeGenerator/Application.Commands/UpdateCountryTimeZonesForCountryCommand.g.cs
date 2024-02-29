@@ -22,7 +22,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, IEnumerable<CountryTimeZoneUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
+public partial record UpdateCountryTimeZonesForCountryCommand(CountryKeyDto ParentKeyDto, IEnumerable<CountryTimeZoneUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<CountryTimeZoneKeyDto>>;
 
 internal partial class UpdateCountryTimeZonesForCountryCommandHandler : UpdateCountryTimeZonesForCountryCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandler : UpdateCo
 	}
 }
 
-internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : CommandBase<UpdateCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <UpdateCountryTimeZonesForCountryCommand, bool>
+internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : CommandCollectionBase<UpdateCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <UpdateCountryTimeZonesForCountryCommand, IEnumerable<CountryTimeZoneKeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<bool> Handle(UpdateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<CountryTimeZoneKeyDto>> Handle(UpdateCountryTimeZonesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -76,19 +76,20 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
 				else
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefToCountryTimeZones(entity);
 			}
 
+			parentEntity.CreateRefToCountryTimeZones(entity);
 			entities.Add(entity);
 		}
 
-		parentEntity.UpdateRefToCountryTimeZones(entities);
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		_repository.DeleteOwned<CountryTimeZoneEntity>(parentEntity.CountryTimeZones.Where(oe => !entities.Exists(e => e.Id == oe.Id)).ToList());
-		//await OnCompletedAsync(request, entity!); // second parameter of CommandBase must be a IEntity, but we have a collection of entities
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return true; // Should we return bool or list of entity ids or parent id?
+		return entities.Select(entity => new CountryTimeZoneKeyDto(entity.Id.Value));
 	}
 	
 	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)

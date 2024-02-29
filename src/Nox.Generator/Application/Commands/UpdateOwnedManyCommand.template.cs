@@ -30,7 +30,7 @@ using {{parent.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{parent.Na
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
-public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, IEnumerable<{{entity.Name}}UpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
+public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, IEnumerable<{{entity.Name}}UpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<{{entity.Name}}KeyDto>>;
 
 internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
 {
@@ -43,7 +43,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 	}
 }
 
-internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, bool>
+internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandCollectionBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, IEnumerable<{{entity.Name}}KeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
@@ -58,7 +58,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<bool> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<{{entity.Name}}KeyDto>> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -92,19 +92,20 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 					{{- end }}
 				else
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefTo{{relationshipName}}(entity);
 			}
 
+			parentEntity.CreateRefTo{{relationshipName}}(entity);
 			entities.Add(entity);
 		}
 
-		parentEntity.UpdateRefTo{{relationshipName}}(entities);
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		_repository.DeleteOwned<{{entity.Name}}Entity>(parentEntity.{{relationshipName}}.Where(oe => !entities.Exists(e => e.{{key.Name}} == oe.{{key.Name}})).ToList());
-		//await OnCompletedAsync(request, entity!); // second parameter of CommandBase must be a IEntity, but we have a collection of entities
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return true; // Should we return bool or list of entity ids or parent id?
+		return entities.Select(entity => new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}}));
 	}
 	
 	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent, Nox.Types.CultureCode cultureCode)

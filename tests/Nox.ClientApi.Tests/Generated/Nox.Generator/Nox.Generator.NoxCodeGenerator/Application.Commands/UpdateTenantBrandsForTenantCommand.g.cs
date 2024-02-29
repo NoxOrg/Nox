@@ -22,7 +22,7 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, IEnumerable<TenantBrandUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
+public partial record UpdateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, IEnumerable<TenantBrandUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<TenantBrandKeyDto>>;
 
 internal partial class UpdateTenantBrandsForTenantCommandHandler : UpdateTenantBrandsForTenantCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandler : UpdateTenantB
 	}
 }
 
-internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBase<UpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <UpdateTenantBrandsForTenantCommand, bool>
+internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCollectionBase<UpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <UpdateTenantBrandsForTenantCommand, IEnumerable<TenantBrandKeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<bool> Handle(UpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<TenantBrandKeyDto>> Handle(UpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -76,19 +76,20 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 					throw new EntityNotFoundException("TenantBrand",  $"ownedId");
 				else
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefToTenantBrands(entity);
 			}
 
+			parentEntity.CreateRefToTenantBrands(entity);
 			entities.Add(entity);
 		}
 
-		parentEntity.UpdateRefToTenantBrands(entities);
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		_repository.DeleteOwned<TenantBrandEntity>(parentEntity.TenantBrands.Where(oe => !entities.Exists(e => e.Id == oe.Id)).ToList());
-		//await OnCompletedAsync(request, entity!); // second parameter of CommandBase must be a IEntity, but we have a collection of entities
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return true; // Should we return bool or list of entity ids or parent id?
+		return entities.Select(entity => new TenantBrandKeyDto(entity.Id.Value));
 	}
 	
 	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)
