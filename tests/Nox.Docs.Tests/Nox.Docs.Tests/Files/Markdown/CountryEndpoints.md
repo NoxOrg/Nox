@@ -86,8 +86,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Countries/CountryLanguagesLocalized`
   - **Description**: Update or create localized values of Languages for a specific Country. Requires a payload with the new values.
 ## Localized Endpoints
-- **GET** `/api/v1/Countries/{key}/CountriesLocalized`
-  - Description: Retrieve all CountriesLocalized for a specific Country.
+- **GET** `/api/v1/Countries/{key}/Languages`
+  - Description: Retrieve all translations for a specific Country.
 
 - **PUT** `/api/v1/Countries/{key}/CountriesLocalized/{cultureCode}`
     - Description: Update or create values of CountryLocalized for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.

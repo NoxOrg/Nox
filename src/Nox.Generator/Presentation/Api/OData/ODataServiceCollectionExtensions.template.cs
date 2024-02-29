@@ -64,7 +64,7 @@ internal static class ODataServiceCollectionExtensions
 
         {{- if entity.IsLocalized }}
         builder.EntityType<{{entity.Name}}LocalizedDto>().HasKey(e => new { {{ $delim = "" -}} {{ for key in entity.Keys -}} {{$delim}}e.{{key.Name}}{{ $delim = ", " }}{{ end }} });
-        builder.EntityType<{{entity.Name}}Dto>().Function("{{entity.PluralName}}Localized").ReturnsCollection<DtoNameSpace.{{entity.Name}}LocalizedDto>();
+        builder.EntityType<{{entity.Name}}Dto>().Function("Languages").ReturnsCollection<DtoNameSpace.{{entity.Name}}LocalizedDto>();
         {{- end }}
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 

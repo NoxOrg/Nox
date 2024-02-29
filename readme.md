@@ -409,6 +409,13 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 `<key>`: ID of the entity.
 - **Response:** Returns a status code indicating success or failure.
 
+#### Languages endpoints
+##### GET `/api/<EntityPluralName>/<key>/Languages` (e.g. `/api/Countries/1/Languages`)
+- **Description:** Retrieves a list of all translations for a specific entity (e.g. countries) by ID. OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity to retrieve translations for.
+- **Response:** Returns a queryable collection of `<LocalizedEntity>Dto` (e.g. `CountryLocalizedDto`) objects.
+
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 
 [version-url]: https://www.nuget.org/packages/Nox.Generator

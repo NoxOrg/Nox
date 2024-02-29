@@ -76577,12 +76577,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/{key}/WorkplacesLocalized": {
+    "/api/v1/Workplaces/{key}/Languages": {
       "get": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "GET_api/v1/Workplaces/{key}/WorkplacesLocalized",
+        "operationId": "GET_api/v1/Workplaces/{key}/Languages",
         "parameters": [
           {
             "name": "key",
