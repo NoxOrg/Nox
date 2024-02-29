@@ -4,7 +4,6 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -48,7 +47,7 @@ public abstract partial class PeopleControllerBase : ODataController
         return Ok(item.UserContactSelection);
     }
     
-    public virtual async Task<ActionResult<UserContactSelectionDto>> PutToUserContactSelection([FromODataUri] System.Guid key, [FromBody] UserContactSelectionUpsertDto userContactSelection)
+    public virtual async Task<ActionResult<UserContactSelectionDto>> PutToUserContactSelection(System.Guid key, [FromBody] UserContactSelectionUpsertDto userContactSelection)
     {
         if (!ModelState.IsValid)
         {

@@ -22,7 +22,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, IEnumerable<ExchangeRateUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
+public partial record UpdateExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, IEnumerable<ExchangeRateUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<ExchangeRateKeyDto>>;
 
 internal partial class UpdateExchangeRatesForCurrencyCommandHandler : UpdateExchangeRatesForCurrencyCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandler : UpdateExch
 	}
 }
 
-internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : CommandBase<UpdateExchangeRatesForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <UpdateExchangeRatesForCurrencyCommand, bool>
+internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : CommandCollectionBase<UpdateExchangeRatesForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <UpdateExchangeRatesForCurrencyCommand, IEnumerable<ExchangeRateKeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<bool> Handle(UpdateExchangeRatesForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<ExchangeRateKeyDto>> Handle(UpdateExchangeRatesForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,7 +60,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 
 		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(),e => e.ExchangeRates, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Currency",  "keyId");				
-		List<ExchangeRateEntity> entities = new(); // count
+		List<ExchangeRateEntity> entities = new(request.EntitiesDto.Count());
 		foreach(var entityDto in request.EntitiesDto)
 		{
 			ExchangeRateEntity? entity;
@@ -76,17 +76,20 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 					throw new EntityNotFoundException("ExchangeRate",  $"ownedId");
 				else
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefToExchangeRates(entity);
 			}
 
+			parentEntity.CreateRefToExchangeRates(entity);
 			entities.Add(entity);
 		}
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		//await OnCompletedAsync(request, entity!); // fix
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return true;
+		return entities.Select(entity => new ExchangeRateKeyDto(entity.Id.Value));
 	}
 	
 	private async Task<ExchangeRateEntity> CreateEntityAsync(ExchangeRateUpsertDto upsertDto, CurrencyEntity parent, Nox.Types.CultureCode cultureCode)

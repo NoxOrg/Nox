@@ -22,7 +22,7 @@ using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(TestEntityOwnedRelationshipOneOrManyKeyDto ParentKeyDto, IEnumerable<SecEntityOwnedRelOneOrManyUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<bool>;
+public partial record UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(TestEntityOwnedRelationshipOneOrManyKeyDto ParentKeyDto, IEnumerable<SecEntityOwnedRelOneOrManyUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<SecEntityOwnedRelOneOrManyKeyDto>>;
 
 internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommandHandler : UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 	}
 }
 
-internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase : CommandBase<UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand, SecEntityOwnedRelOneOrManyEntity>, IRequestHandler <UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand, bool>
+internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase : CommandCollectionBase<UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand, SecEntityOwnedRelOneOrManyEntity>, IRequestHandler <UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand, IEnumerable<SecEntityOwnedRelOneOrManyKeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<SecEntityOwnedRelOneOrManyEntity, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<bool> Handle(UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<SecEntityOwnedRelOneOrManyKeyDto>> Handle(UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,7 +60,7 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 
 		var parentEntity = await _repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany>(keys.ToArray(),e => e.SecEntityOwnedRelOneOrManies, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "TestEntityOwnedRelationshipOneOrMany",  "keyId");				
-		List<SecEntityOwnedRelOneOrManyEntity> entities = new(); // count
+		List<SecEntityOwnedRelOneOrManyEntity> entities = new(request.EntitiesDto.Count());
 		foreach(var entityDto in request.EntitiesDto)
 		{
 			SecEntityOwnedRelOneOrManyEntity? entity;
@@ -76,17 +76,20 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
 				else
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefToSecEntityOwnedRelOneOrManies(entity);
 			}
 
+			parentEntity.CreateRefToSecEntityOwnedRelOneOrManies(entity);
 			entities.Add(entity);
 		}
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		//await OnCompletedAsync(request, entity!); // fix
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return true;
+		return entities.Select(entity => new SecEntityOwnedRelOneOrManyKeyDto(entity.Id.Value));
 	}
 	
 	private async Task<SecEntityOwnedRelOneOrManyEntity> CreateEntityAsync(SecEntityOwnedRelOneOrManyUpsertDto upsertDto, TestEntityOwnedRelationshipOneOrManyEntity parent, Nox.Types.CultureCode cultureCode)

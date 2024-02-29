@@ -296,12 +296,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var child = relationship.Related.Entity;
         var childType = isSingleRelationship ? $"{child.Name}UpsertDto" : $"EntityDtoCollection<{child.Name}UpsertDto>";
         var childName = isSingleRelationship ? child.Name.ToLowerFirstChar() : child.PluralName.ToLowerFirstChar();
-        var paramName = isSingleRelationship ? childName : "collection";
         var navigationName = parent.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{navigationName}(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
-            $"[FromBody] {childType} {paramName})");
+            $"[FromBody] {childType} {childName})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -327,16 +326,15 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         }
         else
         {
-            code.AppendLine($"var {childName} = ({paramName} ?? new {childType}()).Value;");
             code.AppendLine($"var updatedKeys = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"{childName}, _cultureCode, etag));");
+                $"{childName}.Values!, _cultureCode, etag));");
 
             code.AppendLine();
             code.AppendLine($"var children = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
-                $".SingleOrDefault()?" +
-                $".{navigationName}" +
-                $".Where(e => updatedKeys.Any(k => {string.Join(" && ", child.Keys.Select(k => $"e.{k.Name}.Value == k.key{k.Name}"))}));");
+                $".SingleOrDefault()" +
+                $"?.{navigationName}" +
+                $"?.Where(e => updatedKeys.Any(k => {string.Join(" && ", child.Keys.Select(k => $"e.{k.Name} == k.key{k.Name}"))}));");
 
             code.AppendLine();
             code.AppendLine($"return Ok(children);");

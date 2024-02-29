@@ -38,7 +38,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         // Act
         var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>
         {
-            Value = new List<CountryTimeZoneUpsertDto>
+            Values = new List<CountryTimeZoneUpsertDto>
             {
                 new() { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
                 new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
@@ -81,7 +81,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         // Act
         var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>
         {
-            Value = new List<CountryTimeZoneUpsertDto>
+            Values = new List<CountryTimeZoneUpsertDto>
             {
                 new() { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
                 new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
@@ -125,7 +125,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         // Act
         var updateDto = new EntityDtoCollection<CountryTimeZoneUpsertDto>
         {
-            Value = new List<CountryTimeZoneUpsertDto>
+            Values = new List<CountryTimeZoneUpsertDto>
             {
                 new() { Id = "AMERICA/CHICAGO", Name = "Central Standard Time" },
                 new() { Id = "AMERICA/DENVER", Name = "Mountain Standard Time" },
@@ -183,7 +183,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
     }
 
     [Fact]
-    public async Task WhenUpdatingCountryTimeZones_WithNull_NoChangesShouldBeMade()
+    public async Task WhenUpdatingCountryTimeZones_WithNull_BadRequest()
     {
         // Arrange
         var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
@@ -203,22 +203,11 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         // Act
         EntityDtoCollection<CountryTimeZoneUpsertDto>? updateDto = null;
 
-        await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag);
+        var response = await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones", updateDto, etag, throwOnError: false);
 
         // Assert
-        var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
-
-        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
-        {
-            new CountryTimeZoneDto { Id = "AMERICA/NEW_YORK" },
-            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO" },
-            new CountryTimeZoneDto { Id = "AMERICA/DENVER" },
-            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES" },
-        });
+        response!.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
     }
 
-    #endregion
-
-    #region ToOne
     #endregion
 }

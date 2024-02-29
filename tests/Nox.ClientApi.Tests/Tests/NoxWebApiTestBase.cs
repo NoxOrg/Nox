@@ -2,6 +2,7 @@
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
+using Nox.Application.Dto;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
@@ -181,6 +182,42 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data)
     {
         return await PutAsync<TValue, TResult>(requestUrl, data, new());
+    }
+
+    public async Task<HttpResponseMessage?> PutManyAsync<TValue>(string requestUrl, TValue[] data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    {
+        using var httpClient = CreateHttpClient();
+
+        AddHeaders(httpClient, headers);
+
+        var collection = new EntityDtoCollection<TValue> { Values = data };
+
+        var message = await httpClient.PutAsJsonAsync(requestUrl, collection);
+
+        if (throwOnError)
+            message.EnsureSuccessStatusCode();
+
+        return message;
+    }
+
+    public async Task<TResult[]> PutManyAsync<TValue, TResult>(string requestUrl, TValue[] data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    {
+        using var httpClient = CreateHttpClient();
+
+        AddHeaders(httpClient, headers ?? new());
+
+        var collection = new EntityDtoCollection<TValue> { Values = data };
+
+        var message = await httpClient.PutAsJsonAsync(requestUrl, collection);
+
+        if (throwOnError)
+            message.EnsureSuccessStatusCode();
+
+        var content = await message.Content.ReadAsStringAsync();
+
+        var result = DeserializeResponse<ODataCollectionResponse<TResult[]>>(content);
+
+        return result!.Value;
     }
 
     public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)

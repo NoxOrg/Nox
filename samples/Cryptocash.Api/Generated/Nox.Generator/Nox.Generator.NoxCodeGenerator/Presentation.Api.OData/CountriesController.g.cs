@@ -78,7 +78,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZones(System.String key, [FromBody] CountryTimeZoneUpsertDto[] countryTimeZones)
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZones(System.String key, [FromBody] EntityDtoCollection<CountryTimeZoneUpsertDto> countryTimeZones)
     {
         if (!ModelState.IsValid)
         {
@@ -86,10 +86,11 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZones, _cultureCode, etag));
+        var updatedKeys = await _mediator.Send(new UpdateCountryTimeZonesForCountryCommand(new CountryKeyDto(key), countryTimeZones.Values!, _cultureCode, etag));
         
+        var children = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryTimeZones?.Where(e => updatedKeys.Any(k => e.Id == k.keyId));
         
-        return Ok();
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToCountryTimeZones(System.String key, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
@@ -179,7 +180,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<HolidayDto>> PutToHolidays(System.String key, [FromBody] HolidayUpsertDto[] holidays)
+    public virtual async Task<ActionResult<HolidayDto>> PutToHolidays(System.String key, [FromBody] EntityDtoCollection<HolidayUpsertDto> holidays)
     {
         if (!ModelState.IsValid)
         {
@@ -187,10 +188,11 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), holidays, _cultureCode, etag));
+        var updatedKeys = await _mediator.Send(new UpdateHolidaysForCountryCommand(new CountryKeyDto(key), holidays.Values!, _cultureCode, etag));
         
+        var children = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.Holidays?.Where(e => updatedKeys.Any(k => e.Id == k.keyId));
         
-        return Ok();
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToHolidays(System.String key, [FromBody] Delta<HolidayUpsertDto> holiday)
