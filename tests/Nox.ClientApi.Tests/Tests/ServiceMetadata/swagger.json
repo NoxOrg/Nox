@@ -10346,12 +10346,12 @@
         }
       }
     },
-    "/api/v1/Countries/CountryContinentsLocalized": {
+    "/api/v1/Countries/Continents/Languages": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "operationId": "GET_api/v1/Countries/CountryContinentsLocalized",
+        "operationId": "GET_api/v1/Countries/Continents/Languages",
         "parameters": [
           {
             "name": "lang",
@@ -10691,7 +10691,44 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/Countries/CountryContinentsLocalized/{cultureCode}": {
+      "delete": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "DELETE_api/v1/Countries/CountryContinentsLocalized/{cultureCode}",
+        "parameters": [
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/Countries/CountryContinentsLocalized": {
       "put": {
         "tags": [
           "Countries"
@@ -11239,41 +11276,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/v1/Countries/CountryContinentsLocalized/{cultureCode}": {
-      "delete": {
-        "tags": [
-          "Countries"
-        ],
-        "operationId": "DELETE_api/v1/Countries/CountryContinentsLocalized/{cultureCode}",
-        "parameters": [
-          {
-            "name": "cultureCode",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "description": "Concurrency check id",
-            "style": "simple",
-            "schema": {
-              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
           }
         }
       }
@@ -74598,12 +74600,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceOwnershipsLocalized": {
+    "/api/v1/Workplaces/Ownerships/Languages": {
       "get": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "GET_api/v1/Workplaces/WorkplaceOwnershipsLocalized",
+        "operationId": "GET_api/v1/Workplaces/Ownerships/Languages",
         "parameters": [
           {
             "name": "lang",
@@ -74943,7 +74945,44 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}": {
+      "delete": {
+        "tags": [
+          "Workplaces"
+        ],
+        "operationId": "DELETE_api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}",
+        "parameters": [
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/Workplaces/WorkplaceOwnershipsLocalized": {
       "put": {
         "tags": [
           "Workplaces"
@@ -75491,41 +75530,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}": {
-      "delete": {
-        "tags": [
-          "Workplaces"
-        ],
-        "operationId": "DELETE_api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}",
-        "parameters": [
-          {
-            "name": "cultureCode",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "description": "Concurrency check id",
-            "style": "simple",
-            "schema": {
-              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
           }
         }
       }

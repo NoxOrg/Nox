@@ -479,7 +479,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));            
 
             var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
@@ -489,6 +489,46 @@ namespace ClientApi.Tests.Tests.Controllers
             result![0].Id.Should().Be(postResult!.Id);
             result![0].Name.Should().Be(createDto.Name);
             result![0].Description.Should().Be("[" + createDto.Description + "]");
+        }
+
+        [Fact]
+        public async Task WhenPutNotDefaultLanguageDescription_ReturnsNotDefautLanguage()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Default Language",
+            };
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+            var updatDto = new WorkplaceUpdateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "fr-Fr Language",
+            };
+
+            var headers = CreateHeaders(
+               CreateEtagHeader(postResult!.Etag),
+               CreateAcceptLanguageHeader("fr-FR"));
+
+            // Act
+
+            var putResult = await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updatDto, headers);
+            var getResult = (await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}"));
+
+            // Assert
+            putResult!.Description.Should().Be(updatDto.Description);
+            postResult!.Description.Should().Be(createDto.Description);
+
+            //Etags must be different
+
+#pragma warning disable S125
+            // Sections of code should not be commented out
+            //postResult.Etag.Should().NotBe(putResult.Etag);
+#pragma warning restore S125 // Sections of code should not be commented out
+            putResult.Etag.Should().Be(getResult!.Etag);
+
         }
 
         [Fact]

@@ -321,11 +321,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityForTypesDto>()
                             .Collection
                             .Function("TestEntityForTypesEnumerationTestFields")
-                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
+                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();        
+        //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<TestEntityForTypesDto>()
-                            .Collection
-                            .Function("TestEntityForTypesEnumerationTestFieldsLocalized")
-                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
+                .Collection
+                .Function("TestEntityForTypesEnumerationTestFieldsLocalized")                
+                .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
 
        
         if(configure != null) configure(builder);

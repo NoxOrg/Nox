@@ -33,6 +33,7 @@ public class SqlServerIntegrationFixture
                 Assembly.GetExecutingAssembly(),
                 Assembly.GetExecutingAssembly(),
                 Assembly.GetExecutingAssembly(),
+                Assembly.GetExecutingAssembly(),
                 Assembly.GetExecutingAssembly())
             );
         

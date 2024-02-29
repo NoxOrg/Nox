@@ -1,7 +1,8 @@
 ﻿// Generated
-
-using System.Collections.Generic;
 #nullable enable
+using System.Collections.Generic;
+using Microsoft.AspNetCore.OData.Query;
+
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 
@@ -19,8 +20,9 @@ public abstract partial class TestEntityForTypesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsQuery(_cultureCode));                        
         return Ok(result);        
     }
-    [HttpGet("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFieldsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>> GetEnumerationTestFieldsLocalizedNonConventional()
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityForTypes/EnumerationTestFields/Languages")]
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>> GetEnumerationTestFieldsLanguagesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery());                        
         return Ok(result);        

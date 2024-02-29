@@ -1,7 +1,8 @@
 ﻿// Generated
-
-using System.Collections.Generic;
 #nullable enable
+using System.Collections.Generic;
+using Microsoft.AspNetCore.OData.Query;
+
 using Microsoft.AspNetCore.Mvc;
 using Nox.Application.Dto;
 
@@ -19,8 +20,9 @@ public abstract partial class WorkplacesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsQuery(_cultureCode));                        
         return Ok(result);        
     }
-    [HttpGet("/api/v1/Workplaces/WorkplaceOwnershipsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> GetOwnershipsLocalizedNonConventional()
+    [EnableQuery]
+    [HttpGet("/api/v1/Workplaces/Ownerships/Languages")]
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> GetOwnershipsLanguagesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsTranslationsQuery());                        
         return Ok(result);        
