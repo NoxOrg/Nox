@@ -20,7 +20,7 @@ public enum MarkdownDetail
 
 public static class NoxSolutionMarkdownExtensions
 {
-    public static MarkdownFile ToMarkdownReadme(this NoxSolution noxSolution)
+    public static MarkdownFile ToMarkdownReadme(this NoxSolution noxSolution, ErdDetail mermaidErdDetail = ErdDetail.Summary)
     {
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
         var entityEndpoints = noxSolution.ToMarkdownEntityEndpoints();

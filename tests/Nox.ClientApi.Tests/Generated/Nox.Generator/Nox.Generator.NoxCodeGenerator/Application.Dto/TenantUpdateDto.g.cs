@@ -38,7 +38,7 @@ public partial class TenantUpdateDtoBase: EntityDtoBase
     /// <summary>
     /// Tenant Brands owned by the tenant ZeroOrMany TenantBrands
     /// </summary>
-    public virtual List<TenantBrandUpsertDto> TenantBrands { get; set; } = new();
+    public virtual List<TenantBrandUpsertDto>? TenantBrands { get; set; }
     /// <summary>
     /// Tenant Contact information for the tenant ZeroOrOne TenantContacts
     /// </summary>

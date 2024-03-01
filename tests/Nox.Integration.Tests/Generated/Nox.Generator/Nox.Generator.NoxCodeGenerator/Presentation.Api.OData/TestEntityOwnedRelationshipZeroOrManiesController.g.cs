@@ -78,7 +78,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<SecEntityOwnedRelZeroOrManyDto>> PutToSecEntityOwnedRelZeroOrManies(System.String key, [FromBody] SecEntityOwnedRelZeroOrManyUpsertDto secEntityOwnedRelZeroOrMany)
+    public virtual async Task<ActionResult<SecEntityOwnedRelZeroOrManyDto>> PutToSecEntityOwnedRelZeroOrManies(System.String key, [FromBody] EntityDtoCollection<SecEntityOwnedRelZeroOrManyUpsertDto> secEntityOwnedRelZeroOrManies)
     {
         if (!ModelState.IsValid)
         {
@@ -86,11 +86,11 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), secEntityOwnedRelZeroOrMany, _cultureCode, etag));
+        var updatedKeys = await _mediator.Send(new UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), secEntityOwnedRelZeroOrManies.Values!, _cultureCode, etag));
         
-        var child = await TryGetSecEntityOwnedRelZeroOrManies(key, updatedKey);
+        var children = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrManyByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelZeroOrManies?.Where(e => updatedKeys.Any(k => e.Id == k.keyId));
         
-        return Ok(child);
+        return Ok(children);
     }
     
     public virtual async Task<ActionResult> PatchToSecEntityOwnedRelZeroOrManies(System.String key, [FromBody] Delta<SecEntityOwnedRelZeroOrManyUpsertDto> secEntityOwnedRelZeroOrMany)
