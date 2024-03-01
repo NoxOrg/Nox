@@ -57,7 +57,7 @@ namespace ClientApi.Tests.ServiceMetadata
                 .WithFile($"{rootPath}/design/clientapi.solution.nox.yaml")
                 .Build();
 
-            var action = () => noxSolution.GenerateMarkdownReadme($"{rootPath}/docs");
+            var action = () => noxSolution.GenerateMarkdownReadme($"{rootPath}/docs",ErdDetail.Normal);
 
             action.Should().NotThrow();
         }
