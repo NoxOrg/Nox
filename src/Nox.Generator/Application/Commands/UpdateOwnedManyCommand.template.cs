@@ -30,11 +30,11 @@ using {{parent.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{parent.Na
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
-public partial record Update{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, IEnumerable<{{entity.Name}}UpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<{{entity.Name}}KeyDto>>;
+public partial record {{className}}({{parent.Name}}KeyDto ParentKeyDto, IEnumerable<{{entity.Name}}UpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<{{entity.Name}}KeyDto>>;
 
-internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandler : Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase
+internal partial class {{className}}Handler : {{className}}HandlerBase
 {
-	public Update{{relationshipName}}For{{parent.Name}}CommandHandler(
+	public {{className}}Handler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
@@ -43,12 +43,12 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 	}
 }
 
-internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase : CommandCollectionBase<Update{{relationshipName}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Update{{relationshipName}}For{{parent.Name}}Command, IEnumerable<{{entity.Name}}KeyDto>>
+internal partial class {{className}}HandlerBase : CommandCollectionBase<{{className}}, {{entity.Name}}Entity>, IRequestHandler <{{className}}, IEnumerable<{{entity.Name}}KeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> _entityFactory;
 
-	protected Update{{relationshipName}}For{{parent.Name}}CommandHandlerBase(
+	protected {{className}}HandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}UpsertDto, {{entity.Name}}UpsertDto> entityFactory)
@@ -58,7 +58,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<IEnumerable<{{entity.Name}}KeyDto>> Handle(Update{{relationshipName}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<{{entity.Name}}KeyDto>> Handle({{className}} request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -118,7 +118,7 @@ internal partial class Update{{relationshipName}}For{{parent.Name}}CommandHandle
 
 {{- if (entity.Keys | array.size) > 0 }}
 
-public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<Update{{relationshipName}}For{{parent.Name}}Command>
+public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<{{className}}>
 {
     public Update{{relationshipName}}For{{parent.Name}}Validator()
     {
