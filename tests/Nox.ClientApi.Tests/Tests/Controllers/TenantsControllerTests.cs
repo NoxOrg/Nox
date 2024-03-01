@@ -5,6 +5,7 @@ using System.Net;
 using Xunit.Abstractions;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using ClientApi.Tests.Tests.Models;
+using Nox.Application.Dto;
 
 namespace ClientApi.Tests.Controllers
 {
@@ -1123,7 +1124,7 @@ namespace ClientApi.Tests.Controllers
         {
             tenantBrand.Id = tenantBrandId;
             var etag = (await GetTenantByIdAsync(tenantId))!.Etag;
-            return await PutAsync<TenantBrandUpsertDto, TenantBrandDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands{CreateLangParam(language)}", tenantBrand, CreateEtagHeader(etag));
+            return (await PutManyAsync<TenantBrandUpsertDto, TenantBrandDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands{CreateLangParam(language)}", new[] { tenantBrand }, CreateEtagHeader(etag)))!.Single();
         }
 
         private async Task<HttpResponseMessage?> DeleteTenantBrandsLocalizationsAsync(uint tenantId, string language)

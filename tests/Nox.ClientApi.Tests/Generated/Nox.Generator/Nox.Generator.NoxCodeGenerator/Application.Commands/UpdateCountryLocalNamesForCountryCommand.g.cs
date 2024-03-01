@@ -22,7 +22,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto>;
+public partial record UpdateCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, IEnumerable<CountryLocalNameUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<CountryLocalNameKeyDto>>;
 
 internal partial class UpdateCountryLocalNamesForCountryCommandHandler : UpdateCountryLocalNamesForCountryCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandler : UpdateC
 	}
 }
 
-internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNamesForCountryCommand, CountryLocalNameKeyDto>
+internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : CommandCollectionBase<UpdateCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNamesForCountryCommand, IEnumerable<CountryLocalNameKeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryLocalNameKeyDto> Handle(UpdateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<CountryLocalNameKeyDto>> Handle(UpdateCountryLocalNamesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,27 +60,36 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 
 		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(),e => e.CountryLocalNames, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country",  "keyId");				
-		CountryLocalNameEntity? entity;
-		if(request.EntityDto.Id is null)
+		List<CountryLocalNameEntity> entities = new(request.EntitiesDto.Count());
+		foreach(var entityDto in request.EntitiesDto)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var ownedId =Dto.CountryLocalNameMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-			entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
-			if (entity is null)
-				throw new EntityNotFoundException("CountryLocalName",  $"ownedId");
+			CountryLocalNameEntity? entity;
+			if(entityDto.Id is null)
+			{
+				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+			}
 			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+			{
+				var ownedId = Dto.CountryLocalNameMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
+				entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
+				if (entity is null)
+					throw new EntityNotFoundException("CountryLocalName",  $"ownedId");
+				else
+					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefToCountryLocalNames(entity);
+			}
+
+			parentEntity.CreateRefToCountryLocalNames(entity);
+			entities.Add(entity);
 		}
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		await OnCompletedAsync(request, entity!);
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return new CountryLocalNameKeyDto(entity.Id.Value);
+		return entities.Select(entity => new CountryLocalNameKeyDto(entity.Id.Value));
 	}
 	
 	private async Task<CountryLocalNameEntity> CreateEntityAsync(CountryLocalNameUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)

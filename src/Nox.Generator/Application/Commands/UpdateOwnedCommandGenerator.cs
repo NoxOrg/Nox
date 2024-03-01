@@ -11,14 +11,16 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGenConventions, IEnumerable<Entity> entities)
     {
-        var templateName = @"Application.Commands.UpdateOwnedCommand";
-
         foreach (var entity in entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             foreach (var ownedRelationship in entity.OwnedRelationships)
             {
+                var templateName = ownedRelationship.WithSingleEntity
+                    ? "Application.Commands.UpdateOwnedSingleCommand"
+                    : "Application.Commands.UpdateOwnedManyCommand";
+
                 var ownedEntity = entities.Single(entity => entity.Name == ownedRelationship.Entity);
                 var relationshipName = entity.GetNavigationPropertyName(ownedRelationship);
 
