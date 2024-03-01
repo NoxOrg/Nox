@@ -304,61 +304,66 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
 	private async Task UpdateOwnedEntitiesAsync({{entity.Name}}Entity entity, {{entityUpdateDto}} updateDto, Nox.Types.CultureCode cultureCode)
 	{
-		{{- for ownedRelationship in entity.OwnedRelationships }}
-			{{- navigationName = GetNavigationPropertyName entity ownedRelationship }}
-			{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
+	{{- for ownedRelationship in entity.OwnedRelationships }}
+		{{- navigationName = GetNavigationPropertyName entity ownedRelationship }}
+		{{- key = ownedRelationship.Related.Entity.Keys | array.first }}
         
         {{- if ownedRelationship.WithSingleEntity }}
 		if(updateDto.{{navigationName}} is null)
         {
             if(entity.{{navigationName}} is not null) 
                 _repository.DeleteOwned(entity.{{navigationName}});
-        {{- else }}
-        if(!updateDto.{{navigationName}}.Any())
-        { 
-            _repository.DeleteOwned(entity.{{navigationName}});
-        {{- end }}
-			entity.DeleteAllRefTo{{navigationName}}();
+            entity.DeleteAllRefTo{{navigationName}}();
         }
 		else
 		{
-			{{- if ownedRelationship.WithSingleEntity }}
             if(entity.{{navigationName}} is not null)
                 await {{ownedRelationship.Entity}}Factory.UpdateEntityAsync(entity.{{navigationName}}, updateDto.{{navigationName}}, cultureCode);
             else
 			    entity.CreateRefTo{{navigationName}}(await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(updateDto.{{navigationName}}, cultureCode));
-			{{- else # WithMultiEntity }}
-			var updated{{navigationName}} = new List<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>();
-			foreach(var ownedUpsertDto in updateDto.{{navigationName}})
-			{
-				if(ownedUpsertDto.{{key.Name}} is null)
-                {
-                    var ownedEntity = await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(ownedUpsertDto, cultureCode);
-					updated{{navigationName}}.Add(ownedEntity);
-                }
-				else
-				{
-					var key = Dto.{{ownedRelationship.Entity}}Metadata.Create{{key.Name}}(ownedUpsertDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
-					var ownedEntity = entity.{{navigationName}}.FirstOrDefault(x => x.{{key.Name}} == key);
-					if(ownedEntity is null)
-						{{- if !IsNoxTypeCreatable key.Type }}
-						throw new RelatedEntityNotFoundException("{{navigationName}}.{{key.Name}}", key.ToString());
-                        {{- else }}
-						updated{{navigationName}}.Add(await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(ownedUpsertDto, cultureCode));
-						{{- end }}
-					else
-					{
-						await {{ownedRelationship.Entity}}Factory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
-						updated{{navigationName}}.Add(ownedEntity);
-					}
-				}
-			}
-            _repository.DeleteOwned<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
-                entity.{{navigationName}}.Where(x => !updated{{navigationName}}.Exists(upd => upd.{{key.Name}} == x.{{key.Name}})).ToList());
-			entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
-			{{- end }}
-		}
+        }
+        {{- else }}
+        if(updateDto.{{navigationName}} is not null)
+        {
+            if(!updateDto.{{navigationName}}.Any())
+            { 
+                _repository.DeleteOwned(entity.{{navigationName}});
+			    entity.DeleteAllRefTo{{navigationName}}();
+            }
+		    else
+		    {
+			    var updated{{navigationName}} = new List<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>();
+			    foreach(var ownedUpsertDto in updateDto.{{navigationName}})
+			    {
+				    if(ownedUpsertDto.{{key.Name}} is null)
+                    {
+                        var ownedEntity = await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					    updated{{navigationName}}.Add(ownedEntity);
+                    }
+				    else
+				    {
+					    var key = Dto.{{ownedRelationship.Entity}}Metadata.Create{{key.Name}}(ownedUpsertDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
+					    var ownedEntity = entity.{{navigationName}}.Find(x => x.{{key.Name}} == key);
+					    if(ownedEntity is null)
+						    {{- if !IsNoxTypeCreatable key.Type }}
+						    throw new RelatedEntityNotFoundException("{{navigationName}}.{{key.Name}}", key.ToString());
+                            {{- else }}
+						    updated{{navigationName}}.Add(await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(ownedUpsertDto, cultureCode));
+						    {{- end }}
+					    else
+					    {
+						    await {{ownedRelationship.Entity}}Factory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
+						    updated{{navigationName}}.Add(ownedEntity);
+					    }
+				    }
+			    }
+                _repository.DeleteOwned<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
+                    entity.{{navigationName}}.Where(x => !updated{{navigationName}}.Exists(upd => upd.{{key.Name}} == x.{{key.Name}})).ToList());
+			    entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
+		    }
+        }
 		{{- end }}
+	{{- end }}
 	}
 	{{- end }}
 }
