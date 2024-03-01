@@ -266,8 +266,17 @@ The endpoints below are generated to manage CRUD operations for Entity (e.g. Cou
 - **Path Parameters:**
 `<key>`: ID of the entity to update.
 - **Request Body:** `<Entity>UpdateDto` (e.g. `CountryUpdateDto`) object.
-**Owned entities:** `<Entity>UpdateDto` contains `<OwnedEntity>UpsertDto` (e.g. `CountryLocalNameUpsertDto`) property to create/update/delete owned entities.
-**Related entities:** `<Entity>UpdateDto` does not contains related entity properties.
+  - **Owned entities:** Since an entity can have a to-one or to-many relationship to owned entitites, there are some behaviors that need to be considered when invoking this endpoint.
+    - To-one owned entity relationship:
+      - If the owned entity property is unspecified or set as null, owned entity will be deleted. 
+      - Otherwise, owned entity will be updated according to the provided data.
+    - To-many owned entity relationship:
+      - If the owned entity property has new owned entity entries that don't exist on the entity, new owned entities will be added.
+      - If the owned entity property has fewer entries than the entity, owned entities that were not provided will be deleted.
+      - If the owned entity property is set as an empty collection, all owned entities will be deleted.
+      - If the owned entity property is unspecified of set as null, no changes will be applied.
+      - Otherwise, owned entities will be updated according to the provided data.
+  - **Related entities:** `<Entity>UpdateDto` does not contains related entity properties.
 - **Response:** Returns the updated `<Entity>Dto` (e.g. `CountryDto`) object.
 
 ##### PATCH `/api/<EntityPluralName>/<key>` (e.g. `/api/Countries/1`)
