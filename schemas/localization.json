@@ -735,6 +735,7 @@
               "zgh",
               "zgh-MA",
               "zh",
+              "zh-CN",
               "zh-Hans",
               "zh-Hans-CN",
               "zh-Hans-HK",
@@ -744,6 +745,8 @@
               "zh-Hant-HK",
               "zh-Hant-MO",
               "zh-Hant-TW",
+              "zh-HK",
+              "zh-TW",
               "zu",
               "zu-ZA"
             ]
@@ -1470,6 +1473,7 @@
         "zgh",
         "zgh-MA",
         "zh",
+        "zh-CN",
         "zh-Hans",
         "zh-Hans-CN",
         "zh-Hans-HK",
@@ -1479,6 +1483,8 @@
         "zh-Hant-HK",
         "zh-Hant-MO",
         "zh-Hant-TW",
+        "zh-HK",
+        "zh-TW",
         "zu",
         "zu-ZA"
       ]

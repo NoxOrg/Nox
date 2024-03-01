@@ -303,6 +303,15 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 
 	private async Task UpdateOwnedEntitiesAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateBankNotesAsync(entity, updateDto, cultureCode);
+		await UpdateExchangeRatesAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateBankNotesAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(updateDto.BankNotes is null)
+            return;
+
         if(!updateDto.BankNotes.Any())
         { 
             _repository.DeleteOwned(entity.BankNotes);
@@ -321,7 +330,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 				else
 				{
 					var key = Dto.BankNoteMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
-					var ownedEntity = entity.BankNotes.FirstOrDefault(x => x.Id == key);
+					var ownedEntity = entity.BankNotes.Find(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("BankNotes.Id", key.ToString());
 					else
@@ -335,6 +344,13 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
                 entity.BankNotes.Where(x => !updatedBankNotes.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToBankNotes(updatedBankNotes);
 		}
+	}
+
+    private async Task UpdateExchangeRatesAsync(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(updateDto.ExchangeRates is null)
+            return;
+
         if(!updateDto.ExchangeRates.Any())
         { 
             _repository.DeleteOwned(entity.ExchangeRates);
@@ -353,7 +369,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
 				else
 				{
 					var key = Dto.ExchangeRateMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
-					var ownedEntity = entity.ExchangeRates.FirstOrDefault(x => x.Id == key);
+					var ownedEntity = entity.ExchangeRates.Find(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("ExchangeRates.Id", key.ToString());
 					else

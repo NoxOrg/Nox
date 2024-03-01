@@ -201,6 +201,14 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 
 	private async Task UpdateOwnedEntitiesAsync(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateEmployeePhoneNumbersAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateEmployeePhoneNumbersAsync(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(updateDto.EmployeePhoneNumbers is null)
+            return;
+
         if(!updateDto.EmployeePhoneNumbers.Any())
         { 
             _repository.DeleteOwned(entity.EmployeePhoneNumbers);
@@ -219,7 +227,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 				else
 				{
 					var key = Dto.EmployeePhoneNumberMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
-					var ownedEntity = entity.EmployeePhoneNumbers.FirstOrDefault(x => x.Id == key);
+					var ownedEntity = entity.EmployeePhoneNumbers.Find(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("EmployeePhoneNumbers.Id", key.ToString());
 					else
