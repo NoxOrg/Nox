@@ -66,5 +66,5 @@ public partial class EmployeeUpdateDtoBase: EntityDtoBase
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberUpsertDto> EmployeePhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumberUpsertDto>? EmployeePhoneNumbers { get; set; }
 }

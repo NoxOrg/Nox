@@ -113,9 +113,9 @@ public partial class CurrencyUpdateDtoBase: EntityDtoBase
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNoteUpsertDto> BankNotes { get; set; } = new();
+    public virtual List<BankNoteUpsertDto>? BankNotes { get; set; }
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRateUpsertDto> ExchangeRates { get; set; } = new();
+    public virtual List<ExchangeRateUpsertDto>? ExchangeRates { get; set; }
 }

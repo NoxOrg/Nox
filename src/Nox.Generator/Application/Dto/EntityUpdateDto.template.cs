@@ -48,7 +48,7 @@ public partial class {{className}}Base: EntityDtoBase
     {{- if relationship.WithSingleEntity }}
     public virtual {{relationship.Entity}}UpsertDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; set; } = null!;
     {{- else }}
-    public virtual List<{{relationship.Entity}}UpsertDto> {{relationshipName}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}UpsertDto>? {{relationshipName}} { get; set; }
     {{-end}}
 {{- end }}
 }

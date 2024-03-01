@@ -128,11 +128,16 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
 
 	private async Task UpdateOwnedEntitiesAsync(TestEntityOwnedRelationshipExactlyOneEntity entity, TestEntityOwnedRelationshipExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateSecEntityOwnedRelExactlyOneAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateSecEntityOwnedRelExactlyOneAsync(TestEntityOwnedRelationshipExactlyOneEntity entity, TestEntityOwnedRelationshipExactlyOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
 		if(updateDto.SecEntityOwnedRelExactlyOne is null)
         {
             if(entity.SecEntityOwnedRelExactlyOne is not null) 
                 _repository.DeleteOwned(entity.SecEntityOwnedRelExactlyOne);
-			entity.DeleteAllRefToSecEntityOwnedRelExactlyOne();
+            entity.DeleteAllRefToSecEntityOwnedRelExactlyOne();
         }
 		else
 		{
@@ -140,6 +145,6 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
                 await SecEntityOwnedRelExactlyOneFactory.UpdateEntityAsync(entity.SecEntityOwnedRelExactlyOne, updateDto.SecEntityOwnedRelExactlyOne, cultureCode);
             else
 			    entity.CreateRefToSecEntityOwnedRelExactlyOne(await SecEntityOwnedRelExactlyOneFactory.CreateEntityAsync(updateDto.SecEntityOwnedRelExactlyOne, cultureCode));
-		}
+        }
 	}
 }

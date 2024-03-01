@@ -78,7 +78,7 @@ public partial class CountryUpdateDtoBase: EntityDtoBase
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameUpsertDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameUpsertDto>? CountryLocalNames { get; set; }
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
@@ -86,9 +86,9 @@ public partial class CountryUpdateDtoBase: EntityDtoBase
     /// <summary>
     /// Country uses ZeroOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneUpsertDto>? CountryTimeZones { get; set; }
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
+    public virtual List<HolidayUpsertDto>? Holidays { get; set; }
 }

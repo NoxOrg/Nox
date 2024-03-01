@@ -161,11 +161,16 @@ internal abstract class PersonFactoryBase : IEntityFactory<PersonEntity, PersonC
 
 	private async Task UpdateOwnedEntitiesAsync(PersonEntity entity, PersonUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateUserContactSelectionAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateUserContactSelectionAsync(PersonEntity entity, PersonUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
 		if(updateDto.UserContactSelection is null)
         {
             if(entity.UserContactSelection is not null) 
                 _repository.DeleteOwned(entity.UserContactSelection);
-			entity.DeleteAllRefToUserContactSelection();
+            entity.DeleteAllRefToUserContactSelection();
         }
 		else
 		{
@@ -173,6 +178,6 @@ internal abstract class PersonFactoryBase : IEntityFactory<PersonEntity, PersonC
                 await UserContactSelectionFactory.UpdateEntityAsync(entity.UserContactSelection, updateDto.UserContactSelection, cultureCode);
             else
 			    entity.CreateRefToUserContactSelection(await UserContactSelectionFactory.CreateEntityAsync(updateDto.UserContactSelection, cultureCode));
-		}
+        }
 	}
 }
