@@ -22,7 +22,7 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto>;
+public partial record UpdateTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, IEnumerable<TenantBrandUpsertDto> EntitiesDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<IEnumerable<TenantBrandKeyDto>>;
 
 internal partial class UpdateTenantBrandsForTenantCommandHandler : UpdateTenantBrandsForTenantCommandHandlerBase
 {
@@ -35,7 +35,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandler : UpdateTenantB
 	}
 }
 
-internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBase<UpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <UpdateTenantBrandsForTenantCommand, TenantBrandKeyDto>
+internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCollectionBase<UpdateTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <UpdateTenantBrandsForTenantCommand, IEnumerable<TenantBrandKeyDto>>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
@@ -50,7 +50,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TenantBrandKeyDto> Handle(UpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<IEnumerable<TenantBrandKeyDto>> Handle(UpdateTenantBrandsForTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -60,27 +60,36 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandBa
 
 		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(),e => e.TenantBrands, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant",  "keyId");				
-		TenantBrandEntity? entity;
-		if(request.EntityDto.Id is null)
+		List<TenantBrandEntity> entities = new(request.EntitiesDto.Count());
+		foreach(var entityDto in request.EntitiesDto)
 		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var ownedId =Dto.TenantBrandMetadata.CreateId(request.EntityDto.Id.NonNullValue<System.Int64>());
-			entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
-			if (entity is null)
-				throw new EntityNotFoundException("TenantBrand",  $"ownedId");
+			TenantBrandEntity? entity;
+			if(entityDto.Id is null)
+			{
+				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+			}
 			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
+			{
+				var ownedId = Dto.TenantBrandMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
+				entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
+				if (entity is null)
+					throw new EntityNotFoundException("TenantBrand",  $"ownedId");
+				else
+					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
+
+				parentEntity.DeleteRefToTenantBrands(entity);
+			}
+
+			parentEntity.CreateRefToTenantBrands(entity);
+			entities.Add(entity);
 		}
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
-		await OnCompletedAsync(request, entity!);
+		await OnCompletedAsync(request, entities!);
 		await _repository.SaveChangesAsync();
 
-		return new TenantBrandKeyDto(entity.Id.Value);
+		return entities.Select(entity => new TenantBrandKeyDto(entity.Id.Value));
 	}
 	
 	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)

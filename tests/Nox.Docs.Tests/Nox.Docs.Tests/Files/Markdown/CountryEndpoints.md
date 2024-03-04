@@ -74,7 +74,7 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
-- **GET** `/api/v1/Countries/CountryLanguages`
+- **GET** `/api/v1/Countries/Languages`
   - **Description**: Retrieve non-conventional values of Languages for a specific Country.
   
 - **GET** `/api/v1/Countries/CountryLanguagesLocalized`

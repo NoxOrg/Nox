@@ -192,11 +192,16 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
 
 	private async Task UpdateOwnedEntitiesAsync(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateEmailAddressAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateEmailAddressAsync(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
 		if(updateDto.EmailAddress is null)
         {
             if(entity.EmailAddress is not null) 
                 _repository.DeleteOwned(entity.EmailAddress);
-			entity.DeleteAllRefToEmailAddress();
+            entity.DeleteAllRefToEmailAddress();
         }
 		else
 		{
@@ -204,6 +209,6 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
                 await EmailAddressFactory.UpdateEntityAsync(entity.EmailAddress, updateDto.EmailAddress, cultureCode);
             else
 			    entity.CreateRefToEmailAddress(await EmailAddressFactory.CreateEntityAsync(updateDto.EmailAddress, cultureCode));
-		}
+        }
 	}
 }

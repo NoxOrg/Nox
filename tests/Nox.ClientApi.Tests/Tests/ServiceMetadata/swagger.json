@@ -6179,202 +6179,202 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+                "$ref": "#/components/schemas/CountryLocalNameUpsertDtoEntityDtoCollection"
               }
             }
           }
@@ -9999,12 +9999,12 @@
         }
       }
     },
-    "/api/v1/Countries/CountryContinents": {
+    "/api/v1/Countries/Continents": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "operationId": "GET_api/v1/Countries/CountryContinents",
+        "operationId": "GET_api/v1/Countries/Continents",
         "parameters": [
           {
             "name": "lang",
@@ -14415,202 +14415,202 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+                "$ref": "#/components/schemas/CountryTimeZoneUpsertDtoEntityDtoCollection"
               }
             }
           }
@@ -16323,202 +16323,202 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/HolidayUpsertDto"
+                "$ref": "#/components/schemas/HolidayUpsertDtoEntityDtoCollection"
               }
             }
           }
@@ -50492,12 +50492,12 @@
         }
       }
     },
-    "/api/v1/Stores/StoreStatuses": {
+    "/api/v1/Stores/Statuses": {
       "get": {
         "tags": [
           "Stores"
         ],
-        "operationId": "GET_api/v1/Stores/StoreStatuses",
+        "operationId": "GET_api/v1/Stores/Statuses",
         "parameters": [
           {
             "name": "lang",
@@ -64570,12 +64570,12 @@
         }
       }
     },
-    "/api/v1/Tenants/TenantStatuses": {
+    "/api/v1/Tenants/Statuses": {
       "get": {
         "tags": [
           "Tenants"
         ],
-        "operationId": "GET_api/v1/Tenants/TenantStatuses",
+        "operationId": "GET_api/v1/Tenants/Statuses",
         "parameters": [
           {
             "name": "lang",
@@ -66924,202 +66924,202 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/json;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TenantBrandUpsertDto"
+                "$ref": "#/components/schemas/TenantBrandUpsertDtoEntityDtoCollection"
               }
             }
           }
@@ -74253,12 +74253,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceOwnerships": {
+    "/api/v1/Workplaces/Ownerships": {
       "get": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "GET_api/v1/Workplaces/WorkplaceOwnerships",
+        "operationId": "GET_api/v1/Workplaces/Ownerships",
         "parameters": [
           {
             "name": "lang",
@@ -75534,12 +75534,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceTypes": {
+    "/api/v1/Workplaces/Types": {
       "get": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "GET_api/v1/Workplaces/WorkplaceTypes",
+        "operationId": "GET_api/v1/Workplaces/Types",
         "parameters": [
           {
             "name": "lang",
@@ -104911,6 +104911,19 @@
         },
         "additionalProperties": false
       },
+      "CountryLocalNameUpsertDtoEntityDtoCollection": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryLocalNameUpsertDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CountryPartialUpdateDto": {
         "type": "object",
         "properties": {
@@ -105130,6 +105143,19 @@
           },
           "name": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryTimeZoneUpsertDtoEntityDtoCollection": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryTimeZoneUpsertDto"
+            },
             "nullable": true
           }
         },
@@ -106006,6 +106032,19 @@
           "date": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HolidayUpsertDtoEntityDtoCollection": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HolidayUpsertDto"
+            },
             "nullable": true
           }
         },
@@ -108041,6 +108080,19 @@
           "description": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TenantBrandUpsertDtoEntityDtoCollection": {
+        "type": "object",
+        "properties": {
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TenantBrandUpsertDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

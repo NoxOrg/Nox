@@ -78,7 +78,7 @@ internal static class ODataServiceCollectionExtensions
         // Setup Enumeration End Points
         builder.EntityType<{{enumeration.Entity.Name}}Dto>()
                             .Collection
-                            .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}")
+                            .Function("{{Pluralize (enumeration.Attribute.Name)}}")
                             .ReturnsCollection<DtoNameSpace.{{enumeration.EntityNameForEnumeration}}>();
         {{- if enumeration.Attribute.EnumerationTypeOptions.IsLocalized }}        
         //TODO Remove when PUT API is migrated to use /Languages

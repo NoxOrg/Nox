@@ -33,5 +33,5 @@ public partial class TestEntityOwnedRelationshipOneOrManyUpdateDtoBase: EntityDt
     /// <summary>
     /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecEntityOwnedRelOneOrManies
     /// </summary>
-    public virtual List<SecEntityOwnedRelOneOrManyUpsertDto> SecEntityOwnedRelOneOrManies { get; set; } = new();
+    public virtual List<SecEntityOwnedRelOneOrManyUpsertDto>? SecEntityOwnedRelOneOrManies { get; set; }
 }

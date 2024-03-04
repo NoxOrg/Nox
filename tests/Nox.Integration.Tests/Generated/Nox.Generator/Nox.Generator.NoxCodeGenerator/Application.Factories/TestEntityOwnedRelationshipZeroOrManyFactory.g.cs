@@ -136,6 +136,14 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
 
 	private async Task UpdateOwnedEntitiesAsync(TestEntityOwnedRelationshipZeroOrManyEntity entity, TestEntityOwnedRelationshipZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateSecEntityOwnedRelZeroOrManiesAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateSecEntityOwnedRelZeroOrManiesAsync(TestEntityOwnedRelationshipZeroOrManyEntity entity, TestEntityOwnedRelationshipZeroOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(updateDto.SecEntityOwnedRelZeroOrManies is null)
+            return;
+
         if(!updateDto.SecEntityOwnedRelZeroOrManies.Any())
         { 
             _repository.DeleteOwned(entity.SecEntityOwnedRelZeroOrManies);
@@ -154,7 +162,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
 				else
 				{
 					var key = Dto.SecEntityOwnedRelZeroOrManyMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.String>());
-					var ownedEntity = entity.SecEntityOwnedRelZeroOrManies.FirstOrDefault(x => x.Id == key);
+					var ownedEntity = entity.SecEntityOwnedRelZeroOrManies.Find(x => x.Id == key);
 					if(ownedEntity is null)
 						updatedSecEntityOwnedRelZeroOrManies.Add(await SecEntityOwnedRelZeroOrManyFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
 					else

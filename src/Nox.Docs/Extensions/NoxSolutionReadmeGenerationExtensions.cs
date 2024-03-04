@@ -5,9 +5,9 @@ namespace Nox.Docs.Extensions;
 
 public static class NoxSolutionReadmeGenerationExtensions
 {
-    public static void GenerateMarkdownReadme(this NoxSolution noxSolution, string rootPath)
+    public static void GenerateMarkdownReadme(this NoxSolution noxSolution, string rootPath, ErdDetail mermaidErdDetail = ErdDetail.Summary)
     {
-        var readme = noxSolution.ToMarkdownReadme();
+        var readme = noxSolution.ToMarkdownReadme(mermaidErdDetail);
 
         Write(rootPath, readme);
     }

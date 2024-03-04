@@ -120,9 +120,11 @@ This document provides information about the various endpoints available in our 
 
 ## Enumerations Endpoints
 
-This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.{{-for enumAtt in enumerationAttributes}}
-- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
-  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.{{-if enumAtt.IsLocalized}}
+This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
+{{- for enumAtt in enumerationAttributes }}
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}`
+  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+{{- if enumAtt.IsLocalized }}
   
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.

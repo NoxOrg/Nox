@@ -166,6 +166,15 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 
 	private async Task UpdateOwnedEntitiesAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
+		await UpdateTenantBrandsAsync(entity, updateDto, cultureCode);
+		await UpdateTenantContactAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateTenantBrandsAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(updateDto.TenantBrands is null)
+            return;
+
         if(!updateDto.TenantBrands.Any())
         { 
             _repository.DeleteOwned(entity.TenantBrands);
@@ -184,7 +193,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 				else
 				{
 					var key = Dto.TenantBrandMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Int64>());
-					var ownedEntity = entity.TenantBrands.FirstOrDefault(x => x.Id == key);
+					var ownedEntity = entity.TenantBrands.Find(x => x.Id == key);
 					if(ownedEntity is null)
 						throw new RelatedEntityNotFoundException("TenantBrands.Id", key.ToString());
 					else
@@ -198,11 +207,15 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
                 entity.TenantBrands.Where(x => !updatedTenantBrands.Exists(upd => upd.Id == x.Id)).ToList());
 			entity.UpdateRefToTenantBrands(updatedTenantBrands);
 		}
+	}
+
+    private async Task UpdateTenantContactAsync(TenantEntity entity, TenantUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
 		if(updateDto.TenantContact is null)
         {
             if(entity.TenantContact is not null) 
                 _repository.DeleteOwned(entity.TenantContact);
-			entity.DeleteAllRefToTenantContact();
+            entity.DeleteAllRefToTenantContact();
         }
 		else
 		{
@@ -210,6 +223,6 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
                 await TenantContactFactory.UpdateEntityAsync(entity.TenantContact, updateDto.TenantContact, cultureCode);
             else
 			    entity.CreateRefToTenantContact(await TenantContactFactory.CreateEntityAsync(updateDto.TenantContact, cultureCode));
-		}
+        }
 	}
 }

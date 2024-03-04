@@ -503,7 +503,7 @@ public partial class CountriesControllerAdHocTests : NoxWebApiTestBase
 
 
 		// Act
-		var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+		var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
 
 
 		result.Should().NotBeNull();
@@ -528,7 +528,7 @@ public partial class CountriesControllerAdHocTests : NoxWebApiTestBase
 
 		var headers = CreateHeaders(CreateAcceptLanguageHeader("fr-FR"));
 		// Act
-		var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents", headers: headers))?.ToList();
+		var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents", headers: headers))?.ToList();
 
 
 		result.Should().NotBeNull();

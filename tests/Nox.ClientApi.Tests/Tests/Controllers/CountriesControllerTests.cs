@@ -537,18 +537,22 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
         var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
         var headers = CreateEtagHeader(getCountryResponse!.Etag);
-        var ownedResult = await PutAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
+        var ownedResult = await PutManyAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
             $"{Endpoints.CountriesUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
-            new CountryLocalNameUpsertDto
+            new[]
             {
-                Id = getCountryResponse!.CountryLocalNames[0].Id,
-                Name = expectedOwnedName
-            }, headers);
+                new CountryLocalNameUpsertDto
+                {
+                    Id = getCountryResponse!.CountryLocalNames[0].Id,
+                    Name = expectedOwnedName
+                }
+            },
+            headers);
 
         //Assert
-        ownedResult.Should().NotBeNull();
-        ownedResult!.Id.Should().Be(getCountryResponse!.CountryLocalNames[0].Id);
-        ownedResult!.Name.Should().Be(expectedOwnedName);
+        ownedResult.Should().NotBeNullOrEmpty();
+        ownedResult![0].Id.Should().Be(getCountryResponse!.CountryLocalNames[0].Id);
+        ownedResult![0].Name.Should().Be(expectedOwnedName);
     }
 
     [Fact]
@@ -566,18 +570,21 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         // Act
         var headers = CreateEtagHeader(postCountryResponse!.Etag);
-        var ownedResult = await PutAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
+        var ownedResult = await PutManyAsync<CountryLocalNameUpsertDto, CountryLocalNameDto>(
             $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
-            new CountryLocalNameUpsertDto
+            new[]
             {
-                Name = expectedCountryLocalName2
+                new CountryLocalNameUpsertDto
+                {
+                    Name = expectedCountryLocalName2
+                },
             },
             headers,
             throwOnError: false);
         var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
 
         //Assert
-        ownedResult.Should().NotBeNull();
+        ownedResult.Should().NotBeNullOrEmpty();
         getCountryResponse!.CountryLocalNames.Should().HaveCount(2);
         getCountryResponse!.CountryLocalNames.Should().Contain(x => x.Name == expectedCountryLocalName1);
         getCountryResponse!.CountryLocalNames.Should().Contain(x => x.Name == expectedCountryLocalName2);
@@ -596,12 +603,15 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         // Act
         var headers = CreateEtagHeader(postCountryResponse!.Etag);
-        var ownedResult = await PutAsync(
+        var ownedResult = await PutManyAsync(
             $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(dto.CountryLocalNames)}",
-            new CountryLocalNameUpsertDto
+            new[]
             {
-                Id = 1000,
-                Name = _fixture.Create<string>()
+                new CountryLocalNameUpsertDto
+                {
+                    Id = 1000,
+                    Name = _fixture.Create<string>()
+                }
             },
             headers,
             throwOnError: false);
@@ -696,12 +706,15 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         var headers = CreateEtagHeader(postCountryResponse!.Etag);
 
         //Act
-        var ownedResult = await PutAsync(
+        var ownedResult = await PutManyAsync(
             $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(CountryDto.CountryTimeZones)}",
-            new CountryTimeZoneUpsertDto
+            new[]
             {
-                Id = timeZone,
-                Name = expectedName
+                new CountryTimeZoneUpsertDto
+                {
+                    Id = timeZone,
+                    Name = expectedName
+                },
             },
             headers,
             throwOnError: false);
@@ -730,12 +743,15 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         var headers = CreateEtagHeader(postCountryResponse!.Etag);
 
         //Act
-        var ownedResult = await PutAsync(
+        var ownedResult = await PutManyAsync(
             $"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}/{nameof(CountryDto.CountryTimeZones)}",
-            new CountryTimeZoneUpsertDto
+            new[]
             {
-                Id = timeZone2,
-                Name = _fixture.Create<string>()
+                new CountryTimeZoneUpsertDto
+                {
+                    Id = timeZone2,
+                    Name = _fixture.Create<string>()
+                },
             },
             headers);
         var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{postCountryResponse!.Id}");
@@ -762,9 +778,12 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         //Act
         var ownedResult = await PutAsync(
             $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.CountryTimeZones)}",
-            new CountryTimeZoneUpsertDto
+            new[]
             {
-                Name = _fixture.Create<string>()
+                new CountryTimeZoneUpsertDto
+                {
+                    Name = _fixture.Create<string>()
+                },
             },
             headers,
             throwOnError: false);
@@ -792,18 +811,21 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         var headers = CreateEtagHeader(result!.Etag);
 
         //Act
-        var ownedResult = await PutAsync<HolidayUpsertDto, HolidayDto>(
+        var ownedResult = await PutManyAsync<HolidayUpsertDto, HolidayDto>(
             $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.Holidays)}",
-            new HolidayUpsertDto
+            new[]
             {
-                Name = _fixture.Create<string>()
+                new HolidayUpsertDto
+                {
+                    Name = _fixture.Create<string>()
+                },
             },
             headers);
         var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>(
            $"{Endpoints.CountriesUrl}/{result!.Id}");
 
         //Assert
-        ownedResult.Should().NotBeNull();
+        ownedResult.Should().NotBeNullOrEmpty();
         getCountryResponse!.Holidays.Should().HaveCount(2);
     }
 
@@ -823,12 +845,15 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         var headers = CreateEtagHeader(result!.Etag);
 
         //Act
-        var ownedResult = await PutAsync(
+        var ownedResult = await PutManyAsync(
             $"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(CountryDto.Holidays)}",
-            new HolidayUpsertDto
+            new[]
             {
-                Id = holidayId,
-                Name = expectedName
+                new HolidayUpsertDto
+                {
+                    Id = holidayId,
+                    Name = expectedName
+                },
             },
             headers);
 
@@ -957,9 +982,9 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
                 Name = _fixture.Create<string>(),
                 CountryLocalNames = new List<CountryLocalNameUpsertDto>
                 {
-                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
-                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
-                        new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
+                    new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                    new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() },
+                    new CountryLocalNameUpsertDto { Name = _fixture.Create<string>() }
                 }
             });
 
@@ -2365,7 +2390,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         continentTranslations.Should().Contain(x => x.Name == "Asiee" && x.CultureCode == "fr-FR");
         continentTranslations.Should().Contain(x => x.Name == "Asia" && x.CultureCode == "en-US");
 
-        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
 
         continents.Should().NotBeNull();
         continents!.Count.Should().Be(5);
@@ -2410,7 +2435,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         continentTranslations.Should().Contain(x => x.Name == "Asie" && x.CultureCode == "fr-FR");
         continentTranslations.Should().Contain(x => x.Name == "Asiaa" && x.CultureCode == "en-US");
 
-        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
 
         continents.Should().NotBeNull();
         continents!.Count.Should().Be(5);

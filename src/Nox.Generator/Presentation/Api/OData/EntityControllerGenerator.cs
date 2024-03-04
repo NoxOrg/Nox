@@ -292,13 +292,15 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateChildrenPut(NoxSolution solution, EntityRelationship relationship, Entity parent, CodeBuilder code)
     {
-        var child = relationship.Related.Entity;
         var isSingleRelationship = relationship.WithSingleEntity();
+        var child = relationship.Related.Entity;
+        var childType = isSingleRelationship ? $"{child.Name}UpsertDto" : $"EntityDtoCollection<{child.Name}UpsertDto>";
+        var childName = isSingleRelationship ? child.Name.ToLowerFirstChar() : child.PluralName.ToLowerFirstChar();
         var navigationName = parent.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{navigationName}(" +
             $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
-            $"[FromBody] {child.Name}UpsertDto {child.Name.ToLowerFirstChar()})");
+            $"[FromBody] {childType} {childName})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -308,19 +310,35 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
-        code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
-                $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"{child.Name.ToLowerFirstChar()}, _cultureCode, etag));");
-        code.AppendLine();
-
         if (isSingleRelationship)
+        {
+            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
+                $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
+                $"{childName}, _cultureCode, etag));");
+
+            code.AppendLine();
             code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
                 $".SingleOrDefault()?" +
                 $".{navigationName};");
+
+            code.AppendLine();
+            code.AppendLine($"return Ok(child);");
+        }
         else
-            code.AppendLine($"var child = await TryGet{navigationName}({GetPrimaryKeysQuery(parent)}, updatedKey);");
-        code.AppendLine();
-        code.AppendLine($"return Ok(child);");
+        {
+            code.AppendLine($"var updatedKeys = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
+                $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
+                $"{childName}.Values!, _cultureCode, etag));");
+
+            code.AppendLine();
+            code.AppendLine($"var children = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()" +
+                $"?.{navigationName}" +
+                $"?.Where(e => updatedKeys.Any(k => {string.Join(" && ", child.Keys.Select(k => $"e.{k.Name} == k.key{k.Name}"))}));");
+
+            code.AppendLine();
+            code.AppendLine($"return Ok(children);");
+        }
 
         code.EndBlock();
         code.AppendLine();

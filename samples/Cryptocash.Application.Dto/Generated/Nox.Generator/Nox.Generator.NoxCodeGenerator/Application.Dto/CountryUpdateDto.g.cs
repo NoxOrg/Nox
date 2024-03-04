@@ -102,9 +102,9 @@ public partial class CountryUpdateDtoBase: EntityDtoBase
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneUpsertDto>? CountryTimeZones { get; set; }
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayUpsertDto> Holidays { get; set; } = new();
+    public virtual List<HolidayUpsertDto>? Holidays { get; set; }
 }
