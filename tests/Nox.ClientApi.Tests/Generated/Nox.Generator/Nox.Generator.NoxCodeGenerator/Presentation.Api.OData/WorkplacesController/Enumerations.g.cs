@@ -14,7 +14,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class WorkplacesControllerBase
 {
-    [HttpGet("/api/v1/Workplaces/WorkplaceOwnerships")]
+    [HttpGet("/api/v1/Workplaces/Ownerships")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipDto>>> GetOwnershipsNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsQuery(_cultureCode));                        
@@ -52,7 +52,7 @@ public abstract partial class WorkplacesControllerBase
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertWorkplacesOwnershipsTranslationsCommand(workplaceOwnershipLocalizedDtos.Items));                        
         return Ok(result);       
     }
-    [HttpGet("/api/v1/Workplaces/WorkplaceTypes")]
+    [HttpGet("/api/v1/Workplaces/Types")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceTypeDto>>> GetTypesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesTypesQuery(_cultureCode));                        

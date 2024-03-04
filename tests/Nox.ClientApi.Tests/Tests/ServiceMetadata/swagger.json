@@ -9999,12 +9999,12 @@
         }
       }
     },
-    "/api/v1/Countries/CountryContinents": {
+    "/api/v1/Countries/Continents": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "operationId": "GET_api/v1/Countries/CountryContinents",
+        "operationId": "GET_api/v1/Countries/Continents",
         "parameters": [
           {
             "name": "lang",
@@ -50492,12 +50492,12 @@
         }
       }
     },
-    "/api/v1/Stores/StoreStatuses": {
+    "/api/v1/Stores/Statuses": {
       "get": {
         "tags": [
           "Stores"
         ],
-        "operationId": "GET_api/v1/Stores/StoreStatuses",
+        "operationId": "GET_api/v1/Stores/Statuses",
         "parameters": [
           {
             "name": "lang",
@@ -64570,12 +64570,12 @@
         }
       }
     },
-    "/api/v1/Tenants/TenantStatuses": {
+    "/api/v1/Tenants/Statuses": {
       "get": {
         "tags": [
           "Tenants"
         ],
-        "operationId": "GET_api/v1/Tenants/TenantStatuses",
+        "operationId": "GET_api/v1/Tenants/Statuses",
         "parameters": [
           {
             "name": "lang",
@@ -74253,12 +74253,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceOwnerships": {
+    "/api/v1/Workplaces/Ownerships": {
       "get": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "GET_api/v1/Workplaces/WorkplaceOwnerships",
+        "operationId": "GET_api/v1/Workplaces/Ownerships",
         "parameters": [
           {
             "name": "lang",
@@ -75534,12 +75534,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceTypes": {
+    "/api/v1/Workplaces/Types": {
       "get": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "GET_api/v1/Workplaces/WorkplaceTypes",
+        "operationId": "GET_api/v1/Workplaces/Types",
         "parameters": [
           {
             "name": "lang",
