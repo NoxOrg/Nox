@@ -1,7 +1,7 @@
 ﻿// Generated
-
 #nullable enable
 
+using System.Data.Common;
 namespace TestWebApp.Application.Dto;
 
 public partial record TestEntityForTypesEnumerationTestFieldDto: Nox.Application.Dto.EnumerationDtoBase
@@ -12,3 +12,10 @@ public partial record TestEntityForTypesEnumerationTestFieldLocalizedDto: Nox.Ap
 {
     
 }
+
+public partial record TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto: Nox.Application.Dto.EnumerationLocalizedUpsertDtoBase
+{
+
+}
+
+public record TestEntityForTypesEnumerationTestFieldLocalizedKeyDto(System.Int32 Id, System.String cultureCode);

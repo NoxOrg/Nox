@@ -41,6 +41,8 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
                     EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
                     EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
                     EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
+                    EntityDtoNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
+                    EntityDtoNameForUpsertLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForUpsertLocalizedEnumeration(entity.Name, attribute.Name),
                 });
 
             if (!enumerationAttributes.Any())

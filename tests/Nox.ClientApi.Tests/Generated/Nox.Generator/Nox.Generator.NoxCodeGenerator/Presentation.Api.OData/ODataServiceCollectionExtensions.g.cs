@@ -1,5 +1,4 @@
 ﻿// Generated
-
 #nullable enable
 
 using Microsoft.AspNetCore.OData;
@@ -159,8 +158,8 @@ internal static class ODataServiceCollectionExtensions
         //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<CountryDto>()
                 .Collection
-                .Function("CountryContinentsLocalized")                
-                .ReturnsCollection<DtoNameSpace.CountryContinentLocalizedDto>(); 
+                .Function("Country/Continents/{relatedKey}/Languages/{cultureCode}")                
+                .Returns<DtoNameSpace.CountryContinentLocalizedDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection
@@ -174,8 +173,8 @@ internal static class ODataServiceCollectionExtensions
         //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<WorkplaceDto>()
                 .Collection
-                .Function("WorkplaceOwnershipsLocalized")                
-                .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
+                .Function("Workplace/Ownerships/{relatedKey}/Languages/{cultureCode}")                
+                .Returns<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<WorkplaceDto>()
                             .Collection

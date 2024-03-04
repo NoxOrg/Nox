@@ -1,4 +1,4 @@
-﻿using AutoFixture;
+using AutoFixture;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
@@ -155,11 +155,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return await PostAsync<TValue, TResult>(requestUrl, data, new());
     }
 
-    public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    protected async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers, bool throwOnError = true)
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers);
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
 
@@ -169,16 +169,16 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return message;
     }
 
-    public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, bool throwOnError = true)
+    protected async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, bool throwOnError = true)
     {
         return await PutAsync<TValue>(requestUrl, data, new(), throwOnError);
     }
 
-    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    protected async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers, bool throwOnError = true)
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
 
@@ -241,7 +241,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var responseMessage = await httpClient.PatchAsJsonAsync(requestUrl, delta);
 
@@ -257,12 +257,12 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         await PatchAsync<TValue>(requestUrl, delta, new());
     }
 
-    public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers)
+    protected async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>>? headers)
         where TValue : class
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var opts = new JsonSerializerOptions()
         {
@@ -286,11 +286,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return await PatchAsync<TValue, TResult>(requestUrl, delta, new());
     }
 
-    public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>>? headers, bool throwOnError = true)
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var message = await httpClient.DeleteAsync(requestUrl);
 
@@ -355,7 +355,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     protected TResult? GetEntityByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
     {
         var ctx = _noxAppClient.GetDbContext();
-        var entity = ctx.Set<TResult>().Where(filter).FirstOrDefault();
+        var entity = ctx.Set<TResult>().FirstOrDefault(filter);
         return entity;
     }
 }

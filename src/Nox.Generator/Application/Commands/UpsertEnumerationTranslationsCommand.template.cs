@@ -22,9 +22,9 @@ namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
 {{- for enumAtt in enumerationAttributes }}
 
-{{-upsertCommand = 'Upsert' +  (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) + 'TranslationsCommand' }}
+{{-upsertCommand = 'Upsert' +  (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) + 'TranslationCommand' }}
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
-public partial record  {{upsertCommand}}(IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{enumAtt.EntityDtoNameForLocalizedEnumeration}}s) : IRequest<IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>;
+public partial record {{upsertCommand}}(Enumeration Id, {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}} {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}, CultureCode CultureCode) : IRequest<{{enumAtt.EntityNameForLocalizedEnumeration}}KeyDto>;
 
 internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 {
@@ -34,8 +34,9 @@ internal partial class {{upsertCommand}}Handler : {{upsertCommand}}HandlerBase
 	{
 	}
 }
-internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>
+internal abstract class {{upsertCommand}}HandlerBase : CommandBase<{{upsertCommand}}, {{enumEntity}}>, IRequestHandler<{{upsertCommand}}, {{enumAtt.EntityNameForLocalizedEnumeration}}KeyDto>
 {
+	
 	public IRepository Repository { get; }
 	public {{upsertCommand}}HandlerBase(
         IRepository repository,
@@ -44,44 +45,38 @@ internal abstract class {{upsertCommand}}HandlerBase : CommandCollectionBase<{{u
 		Repository = repository;
 	}
 
-	public virtual async Task<IEnumerable<{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>> Handle({{upsertCommand}} command, CancellationToken cancellationToken)
+	public virtual async Task<{{enumAtt.EntityNameForLocalizedEnumeration}}KeyDto> Handle({{upsertCommand}} command, CancellationToken cancellationToken)
 	{
+		System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandHandle");
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
-		var cultureCodes = command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		var localizedEntities = await Repository.Query<{{entity.Name}}{{enumAtt.Attribute.Name}}Localized>()
-			.Where(x => cultureCodes.Contains(x.CultureCode))			
-			.ToListAsync(cancellationToken);
 		
-		var entities = new List<{{enumEntity}}>();
-		foreach(var dto in command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
-		{
-            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
-	        if(entity is not null)
-			{
-                entity.Name = dto.Name;
-                entities.Add(entity);
-            }
-			else
-			{
-				var e = new {{enumEntity}} {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-				await Repository.AddAsync(e, cancellationToken);
-				entities.Add(e);
-			}
-        }
+		var localizedEntity = await Repository.Query<{{entity.Name}}{{enumAtt.Attribute.Name}}Localized>()
+			.Where(x =>x.Id == command.Id && x.CultureCode == command.CultureCode)			
+			.FirstOrDefaultAsync(cancellationToken);
 		
-		//Update Default in Entity 
-		command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
+		if(localizedEntity is not null)
 		{
-			var e = new {{enumAtt.EntityNameForEnumeration}} { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			localizedEntity.Name = command.{{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.Name;
+		}
+		else
+		{
+			localizedEntity = new {{enumEntity}} {Id = command.Id, CultureCode = command.CultureCode, Name = command.{{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.Name};
+			await Repository.AddAsync(localizedEntity, cancellationToken);
+		}
+		
+		if(command.CultureCode == DefaultCultureCode)
+		{
+			var e = new {{enumAtt.EntityNameForEnumeration}} { Id = command.Id, Name = command.{{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.Name };			
 			Repository.Update(e);
-		});
+		}
+		
 		
 
-		await OnCompletedAsync(command, entities);
+		await OnCompletedAsync(command, localizedEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
-		return command.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s;
+		return new {{enumAtt.EntityNameForLocalizedEnumeration}}KeyDto(command.Id.Value, command.CultureCode.Value);
 	}
 }
 public class {{upsertCommand}}Validator : AbstractValidator<{{upsertCommand}}>
@@ -90,17 +85,14 @@ public class {{upsertCommand}}Validator : AbstractValidator<{{upsertCommand}}>
 	
     public {{upsertCommand}}Validator(NoxSolution noxSolution)
     {
-		RuleFor(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
-			.Must(x => x != null && x.Count() > 0)
-			.WithMessage($"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} is required.");
+	    System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandValidator");
+		RuleFor(x => x.CultureCode)
+			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.Value))
+			.WithMessage((_,x) => $"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.CultureCode){%{}}%}  not supported: {x.Value}.");
 		
-		RuleForEach(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
-			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.CultureCode))
-			.WithMessage((_,x) => $"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} contains unsupported culture code: {x.CultureCode}.");
-		
-		RuleForEach(x => x.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
-			.Must(x => _supportedIds.Contains(x.Id))
-			.WithMessage((_,x) => $"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}s){%{}}%} contains unsupported Id: {x.Id}.");
+		RuleFor(x => x.Id)
+			.Must(x => _supportedIds.Contains(x.Value))
+			.WithMessage((_,x) => $"{%{{}%}nameof({{upsertCommand}}){%{}}%} : {%{{}%}nameof({{upsertCommand}}.Id){%{}}%} not supported: {x.Value}.");
     }
 }
 {{- end}}

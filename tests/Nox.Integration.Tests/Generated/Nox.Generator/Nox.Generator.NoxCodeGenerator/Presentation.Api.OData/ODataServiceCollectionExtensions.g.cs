@@ -1,5 +1,4 @@
 ﻿// Generated
-
 #nullable enable
 
 using Microsoft.AspNetCore.OData;
@@ -325,8 +324,8 @@ internal static class ODataServiceCollectionExtensions
         //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<TestEntityForTypesDto>()
                 .Collection
-                .Function("TestEntityForTypesEnumerationTestFieldsLocalized")                
-                .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
+                .Function("TestEntityForTypes/EnumerationTestFields/{relatedKey}/Languages/{cultureCode}")                
+                .Returns<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
 
        
         if(configure != null) configure(builder);

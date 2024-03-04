@@ -1,5 +1,6 @@
 // Generated
 
+{{- cultureCode = ToLowerFirstChar codeGenConventions.LocalizationCultureField}}
 #nullable enable
 
 using Microsoft.AspNetCore.OData;
@@ -84,8 +85,8 @@ internal static class ODataServiceCollectionExtensions
         //TODO Remove when PUT API is migrated to use /Languages
         builder.EntityType<{{enumeration.Entity.Name}}Dto>()
                 .Collection
-                .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}Localized")                
-                .ReturnsCollection<DtoNameSpace.{{enumeration.EntityNameForLocalizedEnumeration}}>();
+                .Function("{{enumeration.Entity.Name}}/{{Pluralize (enumeration.Attribute.Name)}}/{%{{}%}relatedKey{%{}}%}/Languages/{%{{}%}{{cultureCode}}{%{}}%}")                
+                .Returns<DtoNameSpace.{{enumeration.EntityDtoNameForLocalizedEnumeration}}>();
         {{- end }}
         {{- end }}
 

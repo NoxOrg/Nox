@@ -59,6 +59,7 @@ public class NoxCodeGenConventions
     /// </summary>
     public string GetEntityNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
     public string GetEntityDtoNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}LocalizedDto";
+    public string GetEntityDtoNameForUpsertLocalizedEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}LocalizedUpsertDto";
     /// <summary>
     /// Computes the Entity Name that holds the translated values of an localized entity.
     /// </summary>

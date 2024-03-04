@@ -1,5 +1,4 @@
 ﻿// Generated
-
 #nullable enable
 
 using Microsoft.AspNetCore.OData;

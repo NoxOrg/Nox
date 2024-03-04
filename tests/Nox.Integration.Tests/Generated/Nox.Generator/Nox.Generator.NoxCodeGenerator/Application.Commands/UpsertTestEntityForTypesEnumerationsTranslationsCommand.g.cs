@@ -19,82 +19,74 @@ using TestWebApp.Application.Dto;
 using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
-public partial record  UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand(IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto> TestEntityForTypesEnumerationTestFieldLocalizedDtos) : IRequest<IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>;
+public partial record UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand(Enumeration Id, TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto, CultureCode CultureCode) : IRequest<TestEntityForTypesEnumerationTestFieldLocalizedKeyDto>;
 
-internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler : UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase
+internal partial class UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandHandler : UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandHandlerBase
 {
-	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler(
+	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
-internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand, IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>>
+internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandHandlerBase : CommandBase<UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand, TestEntityForTypesEnumerationTestFieldLocalizedKeyDto>
 {
+	
 	public IRepository Repository { get; }
-	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase(
+	public UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		Repository = repository;
 	}
 
-	public virtual async Task<IEnumerable<TestEntityForTypesEnumerationTestFieldLocalizedDto>> Handle(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand command, CancellationToken cancellationToken)
+	public virtual async Task<TestEntityForTypesEnumerationTestFieldLocalizedKeyDto> Handle(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand command, CancellationToken cancellationToken)
 	{
+		System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandHandle");
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
-		var cultureCodes = command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		var localizedEntities = await Repository.Query<TestEntityForTypesEnumerationTestFieldLocalized>()
-			.Where(x => cultureCodes.Contains(x.CultureCode))			
-			.ToListAsync(cancellationToken);
 		
-		var entities = new List<TestEntityForTypesEnumerationTestFieldLocalized>();
-		foreach(var dto in command.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
-		{
-            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
-	        if(entity is not null)
-			{
-                entity.Name = dto.Name;
-                entities.Add(entity);
-            }
-			else
-			{
-				var e = new TestEntityForTypesEnumerationTestFieldLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-				await Repository.AddAsync(e, cancellationToken);
-				entities.Add(e);
-			}
-        }
+		var localizedEntity = await Repository.Query<TestEntityForTypesEnumerationTestFieldLocalized>()
+			.Where(x =>x.Id == command.Id && x.CultureCode == command.CultureCode)			
+			.FirstOrDefaultAsync(cancellationToken);
 		
-		//Update Default in Entity 
-		command.TestEntityForTypesEnumerationTestFieldLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
+		if(localizedEntity is not null)
 		{
-			var e = new TestEntityForTypesEnumerationTestField { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			localizedEntity.Name = command.TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto.Name;
+		}
+		else
+		{
+			localizedEntity = new TestEntityForTypesEnumerationTestFieldLocalized {Id = command.Id, CultureCode = command.CultureCode, Name = command.TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto.Name};
+			await Repository.AddAsync(localizedEntity, cancellationToken);
+		}
+		
+		if(command.CultureCode == DefaultCultureCode)
+		{
+			var e = new TestEntityForTypesEnumerationTestField { Id = command.Id, Name = command.TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto.Name };			
 			Repository.Update(e);
-		});
+		}
+		
 		
 
-		await OnCompletedAsync(command, entities);
+		await OnCompletedAsync(command, localizedEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
-		return command.TestEntityForTypesEnumerationTestFieldLocalizedDtos;
+		return new TestEntityForTypesEnumerationTestFieldLocalizedKeyDto(command.Id.Value, command.CultureCode.Value);
 	}
 }
-public class UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator : AbstractValidator<UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand>
+public class UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandValidator : AbstractValidator<UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand>
 {
 	private static readonly int[] _supportedIds = new int[] { 1, 2, 3, };
 	
-    public UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommandValidator(NoxSolution noxSolution)
+    public UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandValidator(NoxSolution noxSolution)
     {
-		RuleFor(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
-			.Must(x => x != null && x.Count() > 0)
-			.WithMessage($"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} is required.");
+	    System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandValidator");
+		RuleFor(x => x.CultureCode)
+			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.Value))
+			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand.CultureCode)}  not supported: {x.Value}.");
 		
-		RuleForEach(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
-			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.CultureCode))
-			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
-		
-		RuleForEach(x => x.TestEntityForTypesEnumerationTestFieldLocalizedDtos)
-			.Must(x => _supportedIds.Contains(x.Id))
-			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand.TestEntityForTypesEnumerationTestFieldLocalizedDtos)} contains unsupported Id: {x.Id}.");
+		RuleFor(x => x.Id)
+			.Must(x => _supportedIds.Contains(x.Value))
+			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand.Id)} not supported: {x.Value}.");
     }
 }
