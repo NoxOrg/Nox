@@ -45,7 +45,7 @@ namespace {{ codeGenConventions.ODataNameSpace }};
 public abstract partial class {{className}}Base
 {  
     {{- if entity.IsLocalized }}
-    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpsertDto {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto)
     {
         if (!ModelState.IsValid)

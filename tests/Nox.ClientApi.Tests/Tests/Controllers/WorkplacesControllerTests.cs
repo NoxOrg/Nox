@@ -805,7 +805,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("en-US"));
 
-            var localizedDto = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
+            var localizedDto = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages/tr-TR", upsertDto, headers, false);
             var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages"))?.ToList();
 
             // Assert
@@ -839,7 +839,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 upsertDto,
                 headers, false);
 
@@ -880,7 +880,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(frCultureCode));
 
             await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{frCultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{frCultureCode}",
                 frUpsertDto,
                 headers, false);
 
@@ -894,7 +894,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(trCultureCode));
             
             await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{trCultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{trCultureCode}",
                 trUpsertDto,
                 headers, false);
             
@@ -905,10 +905,6 @@ namespace ClientApi.Tests.Tests.Controllers
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
             result.Should().ContainSingle(l => l.Id == newWorkplace.Id && l.CultureCode == frCultureCode && l.Description == frUpsertDto.Description);
-            ////localizations.Should().NotBeNull();
-            ////localizations.Should().HaveCount(2);
-            ////localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "fr-FR" && l.Description == frCreateDto.Description);
-            ////localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "tr-TR" && l.Description == upsertDto.Description);
         }
 
         [Fact]
@@ -930,7 +926,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             var initialPutResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 initialUpsertDto,
                 headers, false);
 
@@ -944,7 +940,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 upsertDto,
                 headers, false);
 
@@ -1001,7 +997,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 upsertDto,
                 headers, false);
 
