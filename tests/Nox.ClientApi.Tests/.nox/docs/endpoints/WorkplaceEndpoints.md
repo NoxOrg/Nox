@@ -142,8 +142,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Workplaces/Types`
   - **Description**: Retrieve non-conventional values of Types for a specific Workplace.
 ## Localized Endpoints
-- **GET** `/api/v1/Workplaces/{key}/WorkplacesLocalized`
-  - Description: Retrieve all WorkplacesLocalized for a specific Workplace.
+- **GET** `/api/v1/Workplaces/{key}/Languages`
+  - Description: Retrieve all translations for a specific Workplace.
 
 - **PUT** `/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}`
     - Description: Update or create values of WorkplaceLocalized for a specific Workplace. Requires a payload with the new value of WorkplaceLocalizedUpsertDto.
