@@ -47,6 +47,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryLocalNames (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries/{key}/CountryLocalNames/$count">api/v1/Countries/{key}/CountryLocalNames/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryLocalNamesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}">/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToCountryLocalNames (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Countries/{key}/CountryLocalNames</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToCountryLocalNameNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PatchToCountryLocalNames (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Countries/{key}/CountryLocalNames</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteCountryLocalNameNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryBarCode (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries/{key}/CountryBarCode">api/v1/Countries/{key}/CountryBarCode</a></td><td>Yes</td></tr>
@@ -59,6 +60,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryTimeZonesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}">/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PostToCountryTimeZones (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Countries/{key}/CountryTimeZones</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToCountryTimeZones (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Countries/{key}/CountryTimeZones</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToCountryTimeZoneNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PatchToCountryTimeZones (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Countries/{key}/CountryTimeZones</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteCountryTimeZoneNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetHolidays (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Countries/{key}/Holidays">api/v1/Countries/{key}/Holidays</a></td><td>Yes</td></tr>
@@ -66,6 +68,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetHolidaysNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Countries/{key}/Holidays/{relatedKey}">/api/v1/Countries/{key}/Holidays/{relatedKey}</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PostToHolidays (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Countries/{key}/Holidays</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToHolidays (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Countries/{key}/Holidays</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToHolidayNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Countries/{key}/Holidays/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PatchToHolidays (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Countries/{key}/Holidays</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteHolidayNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Countries/{key}/Holidays/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.CreateRefToWorkplaces (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/v1/Countries/{key}/Workplaces/{relatedKey}/$ref</td><td>Yes</td></tr>
@@ -302,6 +305,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.GetTenantBrandsNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="/api/v1/Tenants/{key}/TenantBrands/{relatedKey}">/api/v1/Tenants/{key}/TenantBrands/{relatedKey}</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.PostToTenantBrands (Nox.ClientApi.Tests)</td><td>POST</td><td>api/v1/Tenants/{key}/TenantBrands</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.PutToTenantBrands (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/v1/Tenants/{key}/TenantBrands</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.TenantsController.PutToTenantBrandNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>/api/v1/Tenants/{key}/TenantBrands/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.PatchToTenantBrands (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/v1/Tenants/{key}/TenantBrands</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.DeleteTenantBrandNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>/api/v1/Tenants/{key}/TenantBrands/{relatedKey}</td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.TenantsController.GetTenantContact (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/v1/Tenants/{key}/TenantContact">api/v1/Tenants/{key}/TenantContact</a></td><td>Yes</td></tr>

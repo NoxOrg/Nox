@@ -96,7 +96,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
 
         // Assert
         var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
-        
+
         updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
         {
             new CountryTimeZoneDto {Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
@@ -169,7 +169,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
 
         // Act
         var updateDto = new CountryUpdateDto
-    {
+        {
             Name = "United States of America",
             CountryTimeZones = new List<CountryTimeZoneUpsertDto>()
         };
@@ -451,5 +451,100 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
         response!.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
     }
 
-    #endregion
+    [Fact]
+    public async Task WhenUpdatingCountryTimeZone_WithExistingRelatedKey_ShouldBeUpdated()
+    {
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK" },
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        var updateDto = new CountryTimeZoneUpsertDto
+        {
+            Name = "Eastern Standard Time",
+        };
+
+        await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones/AMERICA%2FNEW_YORK", updateDto, etag);
+
+        // Assert
+        var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
+
+        updatedCountry!.CountryTimeZones.Should().BeEquivalentTo(new[]
+        {
+            new CountryTimeZoneDto { Id = "AMERICA/NEW_YORK", Name = "Eastern Standard Time" },
+            new CountryTimeZoneDto { Id = "AMERICA/CHICAGO" },
+            new CountryTimeZoneDto { Id = "AMERICA/DENVER" },
+            new CountryTimeZoneDto { Id = "AMERICA/LOS_ANGELES" },
+        });
+    }
+
+    [Fact]
+    public async Task WhenUpdatingCountryTimeZones_WithNonexistentRelatedKey_NotFound()
+    {
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK" },
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        var updateDto = new CountryTimeZoneUpsertDto
+        {
+            Name = "Eastern Standard Time",
+        };
+
+        var response = await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones/AMERICA%2FKENTUCKY%2FLOUISVILLE", updateDto, etag, throwOnError: false);
+
+        // Assert
+        response!.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task WhenUpdatingCountryTimeZones_WithNullPayload_BadRequest()
+    {
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            CountryTimeZones = new List<CountryTimeZoneUpsertDto>
+            {
+                new() { Id = "AMERICA/NEW_YORK" },
+                new() { Id = "AMERICA/CHICAGO" },
+                new() { Id = "AMERICA/DENVER" },
+                new() { Id = "AMERICA/LOS_ANGELES" }
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        CountryTimeZoneUpsertDto? updateDto = null;
+
+        var response = await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}/CountryTimeZones/AMERICA%2FKENTUCKY%2FLOUISVILLE", updateDto, etag, throwOnError: false);
+
+        // Assert
+        response!.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    #endregion ToMany
 }

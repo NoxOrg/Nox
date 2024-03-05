@@ -142,6 +142,11 @@ domain:
           apiGenerateReferenceEndpoint: false
 
       ownedRelationships:
+        - name: CountryBarCode
+          description: is also coded as
+          relationship: zeroOrOne
+          entity: CountryBarCode
+
         - name: CountryLocalNames
           description: is also know as
           relationship: oneOrMany
@@ -187,6 +192,39 @@ domain:
       events:
         - name: CountryNameUpdatedDomainEvent
           description: Raised when the name of a country is changed
+
+    - name: CountryBarCode
+      description: Bar code for country
+
+      persistence:
+        isAudited: false
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        delete:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+
+      attributes:
+
+        - name: Name
+          description: Bar code name
+          type: text
+          textTypeOptions:
+            minLength: 1
+            maxLength: 63
+          isRequired: true
+
+        - name: Number
+          description: Bar code number
+          type: number
 
     - name: CountryLocalNames
       description: The name of a country in other languages

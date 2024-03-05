@@ -93,6 +93,23 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(children);
     }
     
+    [HttpPut("/api/Currencies/{key}/BankNotes/{relatedKey}")]
+    public virtual async Task<ActionResult<BankNoteDto>> PutToBankNoteNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpsertDto bankNote)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        bankNote.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateBankNoteForCurrencyCommand(new CurrencyKeyDto(key), bankNote, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault()?.BankNotes?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
     public virtual async Task<ActionResult> PatchToBankNotes(System.String key, [FromBody] Delta<BankNoteUpsertDto> bankNote)
     {
         if (!ModelState.IsValid || bankNote is null)
@@ -193,6 +210,23 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var children = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault()?.ExchangeRates?.Where(e => updatedKeys.Any(k => e.Id == k.keyId));
         
         return Ok(children);
+    }
+    
+    [HttpPut("/api/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    public virtual async Task<ActionResult<ExchangeRateDto>> PutToExchangeRateNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpsertDto exchangeRate)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        exchangeRate.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateExchangeRateForCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault()?.ExchangeRates?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
     }
     
     public virtual async Task<ActionResult> PatchToExchangeRates(System.String key, [FromBody] Delta<ExchangeRateUpsertDto> exchangeRate)

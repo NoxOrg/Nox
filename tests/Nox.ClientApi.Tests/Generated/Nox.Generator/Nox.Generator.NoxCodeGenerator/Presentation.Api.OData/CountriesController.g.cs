@@ -93,6 +93,23 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(children);
     }
     
+    [HttpPut("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpsertDto countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        countryLocalName.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameForCountryCommand(new CountryKeyDto(key), countryLocalName, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryLocalNames?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
     public virtual async Task<ActionResult> PatchToCountryLocalNames(System.Int64 key, [FromBody] Delta<CountryLocalNameUpsertDto> countryLocalName)
     {
         if (!ModelState.IsValid || countryLocalName is null)
@@ -270,6 +287,23 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(children);
     }
     
+    [HttpPut("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZoneNonConventional(System.Int64 key, System.String relatedKey, [FromBody] CountryTimeZoneUpsertDto countryTimeZone)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        countryTimeZone.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneForCountryCommand(new CountryKeyDto(key), countryTimeZone, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryTimeZones?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
     public virtual async Task<ActionResult> PatchToCountryTimeZones(System.Int64 key, [FromBody] Delta<CountryTimeZoneUpsertDto> countryTimeZone)
     {
         if (!ModelState.IsValid || countryTimeZone is null)
@@ -370,6 +404,23 @@ public abstract partial class CountriesControllerBase : ODataController
         var children = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.Holidays?.Where(e => updatedKeys.Any(k => e.Id == k.keyId));
         
         return Ok(children);
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/Holidays/{relatedKey}")]
+    public virtual async Task<ActionResult<HolidayDto>> PutToHolidayNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] HolidayUpsertDto holiday)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        holiday.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateHolidayForCountryCommand(new CountryKeyDto(key), holiday, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.Holidays?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
     }
     
     public virtual async Task<ActionResult> PatchToHolidays(System.Int64 key, [FromBody] Delta<HolidayUpsertDto> holiday)

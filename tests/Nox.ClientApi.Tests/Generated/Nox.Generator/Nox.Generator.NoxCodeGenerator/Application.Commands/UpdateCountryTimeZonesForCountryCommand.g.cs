@@ -100,9 +100,9 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 	}
 }
 
-public class UpdateCountryTimeZonesForCountryValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
+public class UpdateCountryTimeZonesForCountryCommandValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
 {
-    public UpdateCountryTimeZonesForCountryValidator()
+    public UpdateCountryTimeZonesForCountryCommandValidator()
     {		
 		RuleForEach(x => x.EntitiesDto).Must(x => x.Id is not null).WithMessage("Id is required.");
     }

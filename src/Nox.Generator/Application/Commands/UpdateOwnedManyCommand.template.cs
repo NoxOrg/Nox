@@ -118,9 +118,9 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 
 {{- if (entity.Keys | array.size) > 0 }}
 
-public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<{{className}}>
+public class {{className}}Validator : AbstractValidator<{{className}}>
 {
-    public Update{{relationshipName}}For{{parent.Name}}Validator()
+    public {{className}}Validator()
     {
 		{{- for key in entity.Keys }}
 			{{- if key.Type == "Guid" }} {{ continue; }}

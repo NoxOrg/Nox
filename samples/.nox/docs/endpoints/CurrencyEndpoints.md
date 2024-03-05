@@ -48,7 +48,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update BankNote
 - **PUT** `/api/Currencies/{key}/BankNotes`
-  - Description: Update an existing BankNote for a specific Currency.
+  - Description: Update existing BankNote for a specific Currency.
+#### Update BankNote By Id
+- **PUT** `/api/Currencies/{key}/BankNotes/{relatedKey}`
+  - Description: Update an existing BankNote by ID for a specific Currency.
   
 #### Partially Update BankNote
 - **PATCH** `/api/Currencies/{key}/BankNotes`
@@ -72,7 +75,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update ExchangeRate
 - **PUT** `/api/Currencies/{key}/ExchangeRates`
-  - Description: Update an existing ExchangeRate for a specific Currency.
+  - Description: Update existing ExchangeRate for a specific Currency.
+#### Update ExchangeRate By Id
+- **PUT** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
+  - Description: Update an existing ExchangeRate by ID for a specific Currency.
   
 #### Partially Update ExchangeRate
 - **PATCH** `/api/Currencies/{key}/ExchangeRates`

@@ -48,7 +48,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update TenantBrand
 - **PUT** `/api/v1/Tenants/{key}/TenantBrands`
-  - Description: Update an existing TenantBrand for a specific Tenant.
+  - Description: Update existing TenantBrand for a specific Tenant.
+#### Update TenantBrand By Id
+- **PUT** `/api/v1/Tenants/{key}/TenantBrands/{relatedKey}`
+  - Description: Update an existing TenantBrand by ID for a specific Tenant.
   
 #### Partially Update TenantBrand
 - **PATCH** `/api/v1/Tenants/{key}/TenantBrands`
@@ -71,6 +74,7 @@ This document provides information about the various endpoints available in our 
 #### Update TenantContact
 - **PUT** `/api/v1/Tenants/{key}/TenantContacts`
   - Description: Update an existing TenantContact for a specific Tenant.
+
   
 #### Partially Update TenantContact
 - **PATCH** `/api/v1/Tenants/{key}/TenantContacts`

@@ -100,9 +100,9 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 	}
 }
 
-public class UpdateExchangeRatesForCurrencyValidator : AbstractValidator<UpdateExchangeRatesForCurrencyCommand>
+public class UpdateExchangeRatesForCurrencyCommandValidator : AbstractValidator<UpdateExchangeRatesForCurrencyCommand>
 {
-    public UpdateExchangeRatesForCurrencyValidator()
+    public UpdateExchangeRatesForCurrencyCommandValidator()
     {
     }
 }

@@ -100,9 +100,9 @@ internal partial class UpdateBankNotesForCurrencyCommandHandlerBase : CommandCol
 	}
 }
 
-public class UpdateBankNotesForCurrencyValidator : AbstractValidator<UpdateBankNotesForCurrencyCommand>
+public class UpdateBankNotesForCurrencyCommandValidator : AbstractValidator<UpdateBankNotesForCurrencyCommand>
 {
-    public UpdateBankNotesForCurrencyValidator()
+    public UpdateBankNotesForCurrencyCommandValidator()
     {
     }
 }

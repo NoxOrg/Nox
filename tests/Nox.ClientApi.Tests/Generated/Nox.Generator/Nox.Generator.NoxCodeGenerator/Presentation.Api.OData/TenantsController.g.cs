@@ -93,6 +93,23 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(children);
     }
     
+    [HttpPut("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}")]
+    public virtual async Task<ActionResult<TenantBrandDto>> PutToTenantBrandNonConventional(System.UInt32 key, System.Int64 relatedKey, [FromBody] TenantBrandUpsertDto tenantBrand)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        tenantBrand.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateTenantBrandForTenantCommand(new TenantKeyDto(key), tenantBrand, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantBrands?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
     public virtual async Task<ActionResult> PatchToTenantBrands(System.UInt32 key, [FromBody] Delta<TenantBrandUpsertDto> tenantBrand)
     {
         if (!ModelState.IsValid || tenantBrand is null)
