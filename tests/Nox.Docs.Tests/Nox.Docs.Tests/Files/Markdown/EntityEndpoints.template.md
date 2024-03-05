@@ -128,7 +128,7 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.{{-for enumAtt in enumerationAttributes}}
-- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}`
   - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.{{-if enumAtt.IsLocalized}}
   
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
@@ -140,8 +140,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
   - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.{{-end}}{{end}}{{end}}{{-if entity.IsLocalized||entity.HasLocalizedOwnedRelationships}}
 ## Localized Endpoints
-{{~end~}}{{~if entity.IsLocalized~}}- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized`
-  - Description: Retrieve all {{entity.PluralName}}Localized for a specific {{entity.Name}}.
+{{~end~}}{{~if entity.IsLocalized~}}- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages`
+  - Description: Retrieve all translations for a specific {{entity.Name}}.
 
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
     - Description: Update or create values of {{entity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.

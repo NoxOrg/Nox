@@ -2390,7 +2390,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         continentTranslations.Should().Contain(x => x.Name == "Asiee" && x.CultureCode == "fr-FR");
         continentTranslations.Should().Contain(x => x.Name == "Asia" && x.CultureCode == "en-US");
 
-        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
 
         continents.Should().NotBeNull();
         continents!.Count.Should().Be(5);
@@ -2435,7 +2435,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         continentTranslations.Should().Contain(x => x.Name == "Asie" && x.CultureCode == "fr-FR");
         continentTranslations.Should().Contain(x => x.Name == "Asiaa" && x.CultureCode == "en-US");
 
-        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents"))?.ToList();
+        var continents = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
 
         continents.Should().NotBeNull();
         continents!.Count.Should().Be(5);

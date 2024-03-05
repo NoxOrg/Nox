@@ -91,8 +91,9 @@ public abstract partial class {{className}}Base
         return NoContent();
     }
 
-    [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{entity.PluralName}}Localized/")]
-    public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Get{{entity.Name}}LocalizedNonConventional( {{ primaryKeysRoute }})
+    [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}Languages/")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<{{entity.Name}}LocalizedDto>>> Get{{entity.Name}}LanguagesNonConventional( {{ primaryKeysRoute }})
     {
         var result = (await _mediator.Send(new Get{{entity.Name}}TranslationsQuery({{ primaryKeysQuery }})));
             

@@ -73,8 +73,9 @@ public abstract partial class WorkplacesControllerBase
         return NoContent();
     }
 
-    [HttpGet("/api/v1/Workplaces/{key}/WorkplacesLocalized/")]
-    public virtual async Task<ActionResult<IQueryable<WorkplaceLocalizedDto>>> GetWorkplaceLocalizedNonConventional( [FromRoute] System.Int64 key)
+    [HttpGet("/api/v1/Workplaces/{key}/Languages/")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<WorkplaceLocalizedDto>>> GetWorkplaceLanguagesNonConventional( [FromRoute] System.Int64 key)
     {
         var result = (await _mediator.Send(new GetWorkplaceTranslationsQuery(key)));
             

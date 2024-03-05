@@ -73,8 +73,9 @@ public abstract partial class TestEntityLocalizationsControllerBase
         return NoContent();
     }
 
-    [HttpGet("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/")]
-    public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLocalizedNonConventional( [FromRoute] System.String key)
+    [HttpGet("/api/v1/TestEntityLocalizations/{key}/Languages/")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationLocalizedDto>>> GetTestEntityLocalizationLanguagesNonConventional( [FromRoute] System.String key)
     {
         var result = (await _mediator.Send(new GetTestEntityLocalizationTranslationsQuery(key)));
             

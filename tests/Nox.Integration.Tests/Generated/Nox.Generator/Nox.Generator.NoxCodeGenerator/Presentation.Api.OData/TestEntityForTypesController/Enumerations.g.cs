@@ -14,7 +14,7 @@ namespace TestWebApp.Presentation.Api.OData;
 
 public abstract partial class TestEntityForTypesControllerBase
 {
-    [HttpGet("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFields")]
+    [HttpGet("/api/v1/TestEntityForTypes/EnumerationTestFields")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>>> GetEnumerationTestFieldsNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsQuery(_cultureCode));                        

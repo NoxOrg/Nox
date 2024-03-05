@@ -14,7 +14,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class CountriesControllerBase
 {
-    [HttpGet("/api/v1/Countries/CountryContinents")]
+    [HttpGet("/api/v1/Countries/Continents")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentDto>>> GetContinentsNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsQuery(_cultureCode));                        
