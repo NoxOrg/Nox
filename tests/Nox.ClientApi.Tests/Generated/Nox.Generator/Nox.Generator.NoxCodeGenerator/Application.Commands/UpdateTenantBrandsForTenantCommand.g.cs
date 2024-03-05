@@ -100,9 +100,9 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCo
 	}
 }
 
-public class UpdateTenantBrandsForTenantValidator : AbstractValidator<UpdateTenantBrandsForTenantCommand>
+public class UpdateTenantBrandsForTenantCommandValidator : AbstractValidator<UpdateTenantBrandsForTenantCommand>
 {
-    public UpdateTenantBrandsForTenantValidator()
+    public UpdateTenantBrandsForTenantCommandValidator()
     {
     }
 }

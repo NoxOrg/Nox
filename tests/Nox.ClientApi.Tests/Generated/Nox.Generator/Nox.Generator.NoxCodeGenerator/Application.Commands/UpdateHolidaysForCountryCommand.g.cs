@@ -100,9 +100,9 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandColle
 	}
 }
 
-public class UpdateHolidaysForCountryValidator : AbstractValidator<UpdateHolidaysForCountryCommand>
+public class UpdateHolidaysForCountryCommandValidator : AbstractValidator<UpdateHolidaysForCountryCommand>
 {
-    public UpdateHolidaysForCountryValidator()
+    public UpdateHolidaysForCountryCommandValidator()
     { 
     }
 }

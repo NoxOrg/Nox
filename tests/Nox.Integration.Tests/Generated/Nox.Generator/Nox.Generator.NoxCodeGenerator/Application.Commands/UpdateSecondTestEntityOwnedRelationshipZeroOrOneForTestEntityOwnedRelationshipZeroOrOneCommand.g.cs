@@ -66,7 +66,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
 		await OnCompletedAsync(request, entity!);
 		await _repository.SaveChangesAsync();

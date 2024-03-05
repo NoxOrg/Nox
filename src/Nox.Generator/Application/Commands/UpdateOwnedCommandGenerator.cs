@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Humanizer;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Extensions;
@@ -17,29 +18,40 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
 
             foreach (var ownedRelationship in entity.OwnedRelationships)
             {
-                var templateName = ownedRelationship.WithSingleEntity
-                    ? "Application.Commands.UpdateOwnedSingleCommand"
-                    : "Application.Commands.UpdateOwnedManyCommand";
-
                 var ownedEntity = entities.Single(entity => entity.Name == ownedRelationship.Entity);
                 var relationshipName = entity.GetNavigationPropertyName(ownedRelationship);
 
-                var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
-                var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
-                var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
+                Generate(context, codeGenConventions, entity, ownedEntity, ownedRelationship, relationshipName.Singularize(), "Application.Commands.UpdateOwnedSingleCommand");
 
-                new TemplateCodeBuilder(context, codeGenConventions)
-                    .WithClassName($"Update{relationshipName}For{entity.Name}Command")
-                    .WithFileNamePrefix($"Application.Commands")
-                    .WithObject("relationship", ownedRelationship)
-                    .WithObject("entity", ownedEntity)
-                    .WithObject("entityKeys", ownedEntity.GetKeys())
-                    .WithObject("parent", entity)
-                    .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
-                    .WithObject("parentKeysFindQuery", parentKeysFindQuery)
-                    .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
-                    .GenerateSourceCodeFromResource(templateName);
+                if (ownedRelationship.WithMultiEntity)
+                    Generate(context, codeGenConventions, entity, ownedEntity, ownedRelationship, relationshipName, "Application.Commands.UpdateOwnedManyCommand");
             }
         }
+    }
+
+    private static void Generate(
+        SourceProductionContext context,
+        NoxCodeGenConventions codeGenConventions,
+        Entity entity,
+        Entity ownedEntity,
+        EntityRelationship ownedRelationship,
+        string relationshipName,
+        string templateName)
+    {
+        var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
+        var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
+        var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
+
+        new TemplateCodeBuilder(context, codeGenConventions)
+            .WithClassName($"Update{relationshipName}For{entity.Name}Command")
+            .WithFileNamePrefix($"Application.Commands")
+            .WithObject("relationship", ownedRelationship)
+            .WithObject("entity", ownedEntity)
+            .WithObject("entityKeys", ownedEntity.GetKeys())
+            .WithObject("parent", entity)
+            .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
+            .WithObject("parentKeysFindQuery", parentKeysFindQuery)
+            .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
+            .GenerateSourceCodeFromResource(templateName);
     }
 }

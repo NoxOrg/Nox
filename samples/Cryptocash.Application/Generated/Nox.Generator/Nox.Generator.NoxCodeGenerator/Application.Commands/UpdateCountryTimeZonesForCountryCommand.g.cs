@@ -100,9 +100,9 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 	}
 }
 
-public class UpdateCountryTimeZonesForCountryValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
+public class UpdateCountryTimeZonesForCountryCommandValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
 {
-    public UpdateCountryTimeZonesForCountryValidator()
+    public UpdateCountryTimeZonesForCountryCommandValidator()
     {
     }
 }

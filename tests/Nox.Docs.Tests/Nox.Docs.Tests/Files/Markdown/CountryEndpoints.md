@@ -34,6 +34,29 @@ This document provides information about the various endpoints available in our 
 
 ## Owned Relationships Endpoints
 
+### CountryBarCode
+
+#### Get CountryBarCodes
+- **GET** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Retrieve all CountryBarCodes for a specific Country.
+
+#### Create CountryBarCode
+- **POST** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Create a new CountryBarCode for a specific Country.
+
+#### Update CountryBarCode
+- **PUT** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Update an existing CountryBarCode for a specific Country.
+
+  
+#### Partially Update CountryBarCode
+- **PATCH** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Partially update an existing CountryBarCode for a specific Country.
+
+#### Delete CountryBarCode
+- **DELETE** `/api/v1/Countries/{key}/CountryBarCodes/{relatedKey}`
+  - Description: Delete an existing CountryBarCode for a specific Country.
+
 ### CountryLocalNames
 
 #### Get CountryLocalNames

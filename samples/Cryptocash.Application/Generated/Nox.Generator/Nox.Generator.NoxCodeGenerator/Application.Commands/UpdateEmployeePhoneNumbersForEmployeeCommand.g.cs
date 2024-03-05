@@ -100,9 +100,9 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 	}
 }
 
-public class UpdateEmployeePhoneNumbersForEmployeeValidator : AbstractValidator<UpdateEmployeePhoneNumbersForEmployeeCommand>
+public class UpdateEmployeePhoneNumbersForEmployeeCommandValidator : AbstractValidator<UpdateEmployeePhoneNumbersForEmployeeCommand>
 {
-    public UpdateEmployeePhoneNumbersForEmployeeValidator()
+    public UpdateEmployeePhoneNumbersForEmployeeCommandValidator()
     {
     }
 }

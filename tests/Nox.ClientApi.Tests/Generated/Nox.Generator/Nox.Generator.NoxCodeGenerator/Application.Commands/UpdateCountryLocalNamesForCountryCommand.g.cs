@@ -100,9 +100,9 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 	}
 }
 
-public class UpdateCountryLocalNamesForCountryValidator : AbstractValidator<UpdateCountryLocalNamesForCountryCommand>
+public class UpdateCountryLocalNamesForCountryCommandValidator : AbstractValidator<UpdateCountryLocalNamesForCountryCommand>
 {
-    public UpdateCountryLocalNamesForCountryValidator()
+    public UpdateCountryLocalNamesForCountryCommandValidator()
     {
     }
 }

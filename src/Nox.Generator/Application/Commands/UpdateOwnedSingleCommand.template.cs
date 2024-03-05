@@ -78,36 +78,19 @@ internal partial class {{className}}HandlerBase : CommandBase<{{className}}, {{e
 		else
 			await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		{{- else }}
-
-		{{- key = entity.Keys | array.first }}				
-		{{entity.Name}}Entity? entity;
-		if(request.EntityDto.{{key.Name}} is null)
-		{
-			entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-		}
-		else
-		{
-			var owned{{key.Name}} =Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
-			entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => x.{{key.Name}} == owned{{key.Name}});
-			if (entity is null)
-				{{- if !(IsNoxTypeCreatable key.Type) }}
-				throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'owned'}}");
-				{{- else }}
-				entity = await CreateEntityAsync(request.EntityDto, parentEntity, request.CultureCode);
-				{{- end }}
-			else
-				await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
-		}
-
+		var entity = parentEntity.{{relationshipName}}.Find(e => {{- for key in entity.Keys }} e.{{key.Name}} == Dto.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{key.Name}}!{{if IsValueType (SinglePrimitiveTypeForKey key)}}.Value{{end}} {{if !(for.last)}} && {{end}}{{- end-}})); 
+		EntityNotFoundException.ThrowIfNull(entity, "{{entity.Name}}",  "{{keysToString entity.Keys}}");
+		await _entityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		{{- end }}
 
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;		
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;		
 		_repository.Update(parentEntity);
 		await OnCompletedAsync(request, entity!);
 		await _repository.SaveChangesAsync();
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
+	{{- if relationship.WithSingleEntity }}
 	
 	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent, Nox.Types.CultureCode cultureCode)
 	{
@@ -115,13 +98,14 @@ internal partial class {{className}}HandlerBase : CommandBase<{{className}}, {{e
 		parent.CreateRefTo{{relationshipName}}(entity);
 		return entity;
 	}
+	{{- end}}
 }
 
 {{- if (entity.Keys | array.size) > 0 }}
 
-public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<{{className}}>
+public class {{className}}Validator : AbstractValidator<{{className}}>
 {
-    public Update{{relationshipName}}For{{parent.Name}}Validator()
+    public {{className}}Validator()
     {
 		{{- for key in entity.Keys }}
 			{{- if key.Type == "Guid" }} {{ continue; }}

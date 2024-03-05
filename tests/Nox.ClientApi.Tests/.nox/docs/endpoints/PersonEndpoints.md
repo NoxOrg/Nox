@@ -43,6 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Update UserContactSelection
 - **PUT** `/api/v1/People/{key}/UserContactSelections`
   - Description: Update an existing UserContactSelection for a specific Person.
+
   
 #### Partially Update UserContactSelection
 - **PATCH** `/api/v1/People/{key}/UserContactSelections`
