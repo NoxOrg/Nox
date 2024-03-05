@@ -423,7 +423,15 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Description:** Retrieves a list of all translations for a specific entity (e.g. countries) by ID. OData query is enabled for this endpoint.
 - **Path Parameters:**
 `<key>`: ID of the entity to retrieve translations for.
-- **Response:** Returns a queryable collection of `<LocalizedEntity>Dto` (e.g. `CountryLocalizedDto`) objects.
+- **Response:** Returns a queryable collection of `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) objects.
+
+##### POST PUT `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+- **Description:** Creates or updates translations for a specific entity (e.g. countries) by ID and for a specific language by CulcutreCode.
+- **Path Parameters:**
+`<key>`: ID of the entity to create/update translations for.
+`<cultureCode>`: CultureCode specifying language to create/update translations for.
+- **Request Body:** `<Entity>LocalizedUpsertDto` (e.g. `CountryLocalizedUpsertDto`) object.
+- **Response:** Returns `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) object.
 
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 

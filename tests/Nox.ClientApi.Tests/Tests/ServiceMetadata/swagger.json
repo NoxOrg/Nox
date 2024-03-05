@@ -77680,12 +77680,12 @@
         }
       }
     },
-    "/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}": {
+    "/api/v1/Workplaces/{key}/Languages/{cultureCode}": {
       "put": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "PUT_api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}",
+        "operationId": "PUT_api/v1/Workplaces/{key}/Languages/{cultureCode}",
         "parameters": [
           {
             "name": "key",
@@ -78129,7 +78129,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}": {
       "delete": {
         "tags": [
           "Workplaces"

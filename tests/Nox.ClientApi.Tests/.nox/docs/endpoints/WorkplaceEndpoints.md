@@ -145,8 +145,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Workplaces/{key}/Languages`
   - Description: Retrieve all translations for a specific Workplace.
 
-- **PUT** `/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}`
-    - Description: Update or create values of WorkplaceLocalized for a specific Workplace. Requires a payload with the new value of WorkplaceLocalizedUpsertDto.
+- **PUT** `/api/v1/Workplaces/{key}/Languages/{cultureCode}`
+    - Description: Update or create values of translations for a specific Workplace. Requires a payload with the new value of WorkplaceLocalizedUpsertDto.
 
 - **DELETE** `/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}`
     - Description: Delete the localized values of WorkplaceLocalized for a specific culture code for a specific Workplace.
