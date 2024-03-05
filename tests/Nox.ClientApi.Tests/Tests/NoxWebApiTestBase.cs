@@ -163,8 +163,6 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
 
-        var content = await message.Content.ReadAsStringAsync();
-
         if (throwOnError)
             message.EnsureSuccessStatusCode();
 

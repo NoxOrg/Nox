@@ -490,7 +490,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
     }
 
     [Fact]
-    public async Task WhenUpdatingCountryTimeZones_WithNonexistentRelatedKey_BadRequest()
+    public async Task WhenUpdatingCountryTimeZones_WithNonexistentRelatedKey_NotFound()
     {
         // Arrange
         var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
