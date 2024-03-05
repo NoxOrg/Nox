@@ -19,7 +19,7 @@ public abstract partial class CountriesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsQuery(_cultureCode));                        
         return Ok(result);        
     }
-    [EnableQuery]
+    [EnableQuery]   
     [HttpGet("/api/v1/Countries/Continents/Languages")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.CountryContinentLocalizedDto>>> GetContinentsLanguagesNonConventional()
     {            
