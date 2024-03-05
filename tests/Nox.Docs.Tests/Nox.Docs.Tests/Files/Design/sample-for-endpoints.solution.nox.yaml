@@ -115,14 +115,13 @@ domain:
             isLocalized: true
           isRequired: false
           
-        - name: Languages
-          description: The country's official languages
+        - name: ContinentEnums
+          description: The continent the country is on
           type: enumeration
           enumerationTypeOptions:
             values:
-              - { id: 1, name: English }
-              - { id: 2, name: French }
-              - { id: 3, name: Turkish }
+              - { id: 1, name: Asia }
+              - { id: 2, name: Europe }
             isLocalized: true
           isRequired: false
 

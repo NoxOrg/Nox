@@ -150,16 +150,14 @@ This section details the API endpoints related to enumeration attributes in a sp
   - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
 {{- if enumAtt.IsLocalized }}
   
-- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/Languages`
   - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
 
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{cultureCode}`
   - **Description**: Delete the localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific culture code in {{entity.Name}}.
 
-- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
-  - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
-{{- end}}{{end}}{{end}}
-{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires relatedKey and cultureCode in the URL and a payload with the new value of {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.{{- end}}{{end}}{{end}}{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
 ## Localized Endpoints
 {{~ end ~}}
 {{~ if entity.IsLocalized ~}}

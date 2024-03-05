@@ -97,17 +97,17 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
-- **GET** `/api/v1/Countries/Languages`
-  - **Description**: Retrieve non-conventional values of Languages for a specific Country.
+- **GET** `/api/v1/Countries/ContinentEnums`
+  - **Description**: Retrieve non-conventional values of ContinentEnums for a specific Country.
   
-- **GET** `/api/v1/Countries/CountryLanguagesLocalized`
-  - **Description**: Retrieve localized values of Languages for a specific Country.
+- **GET** `/api/v1/Countries/ContinentEnums/Languages`
+  - **Description**: Retrieve localized values of ContinentEnums for a specific Country.
 
-- **DELETE** `/api/v1/Countries/CountryLanguagesLocalized/{cultureCode}`
-  - **Description**: Delete the localized values of Languages for a specific culture code in Country.
+- **DELETE** `/api/v1/Countries/CountryContinentEnumsLocalized/{cultureCode}`
+  - **Description**: Delete the localized values of ContinentEnums for a specific culture code in Country.
 
-- **PUT** `/api/v1/Countries/CountryLanguagesLocalized`
-  - **Description**: Update or create localized values of Languages for a specific Country. Requires a payload with the new values.
+- **PUT** `/api/v1/Countries/ContinentEnums/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of ContinentEnums for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentEnumsUpsertLocalizedDto.
 ## Localized Endpoints
 - **GET** `/api/v1/Countries/{key}/Languages`
   - Description: Retrieve all translations for a specific Country.

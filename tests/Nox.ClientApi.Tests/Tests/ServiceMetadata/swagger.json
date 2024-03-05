@@ -10728,13 +10728,32 @@
         }
       }
     },
-    "/api/v1/Countries/CountryContinentsLocalized": {
+    "/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}": {
       "put": {
         "tags": [
           "Countries"
         ],
-        "operationId": "PUT_api/v1/Countries/CountryContinentsLocalized",
+        "operationId": "PUT_api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}",
         "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "If-Match",
             "in": "header",
@@ -10751,202 +10770,202 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/json;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryContinentLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/CountryContinentLocalizedUpsertDto"
               }
             }
           }
@@ -10957,322 +10976,202 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/json;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/CountryContinentLocalizedDto"
                 }
               }
             }
@@ -76781,13 +76680,32 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceOwnershipsLocalized": {
+    "/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}": {
       "put": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "PUT_api/v1/Workplaces/WorkplaceOwnershipsLocalized",
+        "operationId": "PUT_api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}",
         "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "If-Match",
             "in": "header",
@@ -76804,202 +76722,202 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=full;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.metadata=none;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=true;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;odata.streaming=false;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;IEEE754Compatible=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/json;IEEE754Compatible=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto"
+                "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedUpsertDto"
               }
             }
           }
@@ -77010,322 +76928,202 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=minimal;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=full;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.metadata=none;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.streaming=true;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.streaming=true;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.streaming=false;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;odata.streaming=false;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;IEEE754Compatible=false": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/json;IEEE754Compatible=true": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-                  }
+                  "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
                 }
               }
             }
@@ -106378,15 +106176,15 @@
         },
         "additionalProperties": false
       },
-      "CountryContinentLocalizedDtoEnumerationLocalizedListDto": {
+      "CountryContinentLocalizedUpsertDto": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CountryContinentLocalizedDto"
-            },
-            "nullable": true
+          "name": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -111125,15 +110923,15 @@
         },
         "additionalProperties": false
       },
-      "WorkplaceOwnershipLocalizedDtoEnumerationLocalizedListDto": {
+      "WorkplaceOwnershipLocalizedUpsertDto": {
+        "required": [
+          "name"
+        ],
         "type": "object",
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WorkplaceOwnershipLocalizedDto"
-            },
-            "nullable": true
+          "name": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
