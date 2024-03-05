@@ -48,7 +48,7 @@ This document provides information about the various endpoints available in our 
 
 #### Update CountryLocalName
 - **PUT** `/api/v1/Countries/{key}/CountryLocalNames`
-  - Description: Update existing CountryLocalName for a specific Country.
+  - Description: Update many CountryLocalName for a specific Country.
 #### Update CountryLocalName By Id
 - **PUT** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Update an existing CountryLocalName by ID for a specific Country.
@@ -72,7 +72,7 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode
-- **PUT** `/api/v1/Countries/{key}/CountryBarCodes`
+- **PUT** `/api/v1/Countries/{key}/CountryBarCode`
   - Description: Update an existing CountryBarCode for a specific Country.
 
   
@@ -98,7 +98,7 @@ This document provides information about the various endpoints available in our 
 
 #### Update CountryTimeZone
 - **PUT** `/api/v1/Countries/{key}/CountryTimeZones`
-  - Description: Update existing CountryTimeZone for a specific Country.
+  - Description: Update many CountryTimeZone for a specific Country.
 #### Update CountryTimeZone By Id
 - **PUT** `/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}`
   - Description: Update an existing CountryTimeZone by ID for a specific Country.
@@ -125,7 +125,7 @@ This document provides information about the various endpoints available in our 
 
 #### Update Holiday
 - **PUT** `/api/v1/Countries/{key}/Holidays`
-  - Description: Update existing Holiday for a specific Country.
+  - Description: Update many Holiday for a specific Country.
 #### Update Holiday By Id
 - **PUT** `/api/v1/Countries/{key}/Holidays/{relatedKey}`
   - Description: Update an existing Holiday by ID for a specific Country.
