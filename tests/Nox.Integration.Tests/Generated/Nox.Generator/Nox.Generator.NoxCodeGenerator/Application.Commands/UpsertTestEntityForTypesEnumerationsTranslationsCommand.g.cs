@@ -42,7 +42,6 @@ internal abstract class UpsertTestEntityForTypesEnumerationTestFieldsTranslation
 
 	public virtual async Task<TestEntityForTypesEnumerationTestFieldLocalizedKeyDto> Handle(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand command, CancellationToken cancellationToken)
 	{
-		System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandHandle");
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
@@ -80,7 +79,6 @@ public class UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandVali
 	
     public UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommandValidator(NoxSolution noxSolution)
     {
-	    System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandValidator");
 		RuleFor(x => x.CultureCode)
 			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.Value))
 			.WithMessage((_,x) => $"{nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand)} : {nameof(UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand.CultureCode)}  not supported: {x.Value}.");

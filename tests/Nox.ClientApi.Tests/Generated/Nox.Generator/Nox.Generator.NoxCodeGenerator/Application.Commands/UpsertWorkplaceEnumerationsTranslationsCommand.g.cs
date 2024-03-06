@@ -42,7 +42,6 @@ internal abstract class UpsertWorkplacesOwnershipsTranslationCommandHandlerBase 
 
 	public virtual async Task<WorkplaceOwnershipLocalizedKeyDto> Handle(UpsertWorkplacesOwnershipsTranslationCommand command, CancellationToken cancellationToken)
 	{
-		System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandHandle");
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
@@ -80,7 +79,6 @@ public class UpsertWorkplacesOwnershipsTranslationCommandValidator : AbstractVal
 	
     public UpsertWorkplacesOwnershipsTranslationCommandValidator(NoxSolution noxSolution)
     {
-	    System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandValidator");
 		RuleFor(x => x.CultureCode)
 			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.Value))
 			.WithMessage((_,x) => $"{nameof(UpsertWorkplacesOwnershipsTranslationCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationCommand.CultureCode)}  not supported: {x.Value}.");

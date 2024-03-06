@@ -42,7 +42,6 @@ internal abstract class UpsertCountriesContinentsTranslationCommandHandlerBase :
 
 	public virtual async Task<CountryContinentLocalizedKeyDto> Handle(UpsertCountriesContinentsTranslationCommand command, CancellationToken cancellationToken)
 	{
-		System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandHandle");
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
@@ -80,7 +79,6 @@ public class UpsertCountriesContinentsTranslationCommandValidator : AbstractVali
 	
     public UpsertCountriesContinentsTranslationCommandValidator(NoxSolution noxSolution)
     {
-	    System.Diagnostics.Debug.WriteLine("UpsertTranslationCommandValidator");
 		RuleFor(x => x.CultureCode)
 			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.Value))
 			.WithMessage((_,x) => $"{nameof(UpsertCountriesContinentsTranslationCommand)} : {nameof(UpsertCountriesContinentsTranslationCommand.CultureCode)}  not supported: {x.Value}.");
