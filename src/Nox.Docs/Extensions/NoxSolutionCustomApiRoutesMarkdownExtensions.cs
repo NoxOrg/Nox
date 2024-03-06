@@ -1,6 +1,7 @@
 ﻿using Nox.Docs.Models;
 using Nox.Solution;
 using Scriban;
+using System.Collections.Generic;
 
 namespace Nox.Docs.Extensions;
 

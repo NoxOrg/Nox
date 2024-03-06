@@ -4,6 +4,9 @@ using Nox.Solution;
 using Nox.Solution.Extensions;
 using Nox.Types;
 using Scriban;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Docs.Extensions;
 
