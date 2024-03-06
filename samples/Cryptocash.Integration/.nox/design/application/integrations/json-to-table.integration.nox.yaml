@@ -22,28 +22,6 @@ source:
   sourceAdapterType: file
   fileOptions: 
     filename: CountryMaster.json
-#    recordAttributes:
-#      - name: Name
-#        description: Country's name
-#        type: text
-#        textTypeOptions:
-#          minLength: 4
-#          maxLength: 63
-#        isRequired: true
-#
-#      - name: Population
-#        description: Country's population
-#        type: number
-#        isRequired: true
-#
-#      - name: CreateDate
-#        description: The date on which the country record was created
-#        type: dateTime
-#        isRequired: true
-#
-#      - name: EditDate
-#        description: The date on which the country record was last updated
-#        type: dateTime
 
 transformationType: customTransform
 
