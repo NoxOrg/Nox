@@ -154,12 +154,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>()
                             .Collection
                             .Function("Continents")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>();        
-        //TODO Remove when PUT API is migrated to use /Languages
-        builder.EntityType<CountryDto>()
-                .Collection
-                .Function("Country/Continents/{relatedKey}/Languages/{cultureCode}")                
-                .Returns<DtoNameSpace.CountryContinentLocalizedDto>(); 
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection
@@ -169,12 +164,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>()
                             .Collection
                             .Function("Ownerships")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();        
-        //TODO Remove when PUT API is migrated to use /Languages
-        builder.EntityType<WorkplaceDto>()
-                .Collection
-                .Function("Workplace/Ownerships/{relatedKey}/Languages/{cultureCode}")                
-                .Returns<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<WorkplaceDto>()
                             .Collection
