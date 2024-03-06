@@ -45,7 +45,7 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode
-- **PUT** `/api/v1/Countries/{key}/CountryBarCodes`
+- **PUT** `/api/v1/Countries/{key}/CountryBarCode`
   - Description: Update an existing CountryBarCode for a specific Country.
 
   

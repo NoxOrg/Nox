@@ -41,7 +41,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all UserContactSelections for a specific Person.
 
 #### Update UserContactSelection
-- **PUT** `/api/v1/People/{key}/UserContactSelections`
+- **PUT** `/api/v1/People/{key}/UserContactSelection`
   - Description: Update an existing UserContactSelection for a specific Person.
 
   

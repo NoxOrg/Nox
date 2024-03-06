@@ -47,12 +47,12 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{end}}{{if entity.Persistence.Update.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Update.IsEnabled}}{{-if ownedRelationship.WithSingleEntity}}
 #### Update {{ownedRelationship.Entity}}
-- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.Entity}}`
   - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{else}}
 #### Update {{ownedRelationship.Entity}}
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
-  - Description: Update existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
+  - Description: Update many {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 #### Update {{ownedRelationship.Entity}} By Id
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Update an existing {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.{{-end}}
