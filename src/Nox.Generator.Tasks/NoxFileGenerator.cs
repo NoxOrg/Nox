@@ -38,11 +38,11 @@ public class NoxFileGenerator: NoxGeneratorBase
 
         try
         {
-            if (TryGetGeneratorConfig(errorCollection, out var config) && TryGetNoxSolution(errorCollection, out var solution))
+            if (TryGetGeneratorConfig(errorCollection, out var config) && TryGetNoxSolution(errorCollection, out var solution, out string? solutionPath))
             {
                 _debug.AppendLine($"Logging Verbosity {config.LoggingVerbosity}");
-
-                var codeGeneratorState = new NoxCodeGenConventions(solution);
+                
+                var codeGeneratorState = new NoxCodeGenConventions(solution, solutionPath);
 
                 NoxGeneratorKind[] enabledGenerators = GetEnabledGenerators(config);
 
@@ -135,10 +135,11 @@ public class NoxFileGenerator: NoxGeneratorBase
 
         return DesirializeGeneratorConfig(configContent, errorCollection, out config);
     }
-
-    private bool TryGetNoxSolution(List<string> errorCollection, out NoxSolution solution)
+    
+    private bool TryGetNoxSolution(List<string> errorCollection, out NoxSolution solution, out string solutionPath)
     {
         solution = null!;
+        solutionPath = null!;
 
         var solutionFilePaths = _noxYamls
             .Where(p => p.EndsWithIgnoreCase(".solution.nox.yaml"));
@@ -159,6 +160,8 @@ public class NoxFileGenerator: NoxGeneratorBase
                 item => item,
                 item => new Func<TextReader>(() => new StringReader(File.ReadAllText(item)))
             );
+
+        solutionPath = solutionFilePaths.First();
 
         return TryCreateSolution(errorCollection, ref solution, solutionYamlFiles);
     }

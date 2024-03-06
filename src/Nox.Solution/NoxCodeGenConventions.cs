@@ -9,12 +9,17 @@ public class NoxCodeGenConventions
 {
     private readonly NoxSolution _noxSolution;
 
-    public NoxCodeGenConventions(NoxSolution noxSolution)
+    public NoxCodeGenConventions(NoxSolution noxSolution, string solutionPath)
     {
         _noxSolution = noxSolution;
+        SolutionPath = solutionPath;
     }
 
     public NoxSolution Solution => _noxSolution;
+    /// <summary>
+    /// Entry yaml file for the solution
+    /// </summary>
+    public string SolutionPath { get; }
     public string RootNameSpace => _noxSolution.Name;
     public string DomainNameSpace => $"{RootNameSpace}.Domain";
     public string DomainNamespaceAlias => $"{RootNameSpace}Domain";
@@ -76,6 +81,7 @@ public class NoxCodeGenConventions
     /// Localization culture field name.
     /// </summary>
     public string LocalizationCultureField => "CultureCode";
+    
 
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
 

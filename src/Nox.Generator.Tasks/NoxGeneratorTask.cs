@@ -21,7 +21,7 @@ public class NoxGeneratorTask : ITask
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-            //Debugger.Launch();
+           // Debugger.Launch();
         }
 #endif
 

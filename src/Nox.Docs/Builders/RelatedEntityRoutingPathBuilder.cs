@@ -1,5 +1,6 @@
 ﻿using Nox.Solution;
 using Nox.Solution.Builders;
+using System.Collections.Generic;
 
 namespace Nox.Docs.Builders;
 

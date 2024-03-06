@@ -4,8 +4,13 @@ using Nox.Solution;
 using Nox.Types;
 using System.Globalization;
 using System.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using System.Text;
 using YamlDotNet.Serialization;
+using System.Security.Cryptography;
 
 namespace Nox.Docs.Extensions;
 
@@ -136,8 +141,10 @@ public static class NoxSolutionMarkdownExtensions
         sb.AppendLine("Member|Type|Description|Info");
         sb.AppendLine("---------|----|----------|-------");
 
-        foreach (var (type, def) in members)
+        foreach (var member in members)
         {
+            var type = member.Key;
+            var def = member.Value;
             var isRequired = def.IsRequired ? "Required" : string.Empty;
             var isReadonly = def.IsReadonly ? "Readonly" : string.Empty;
 

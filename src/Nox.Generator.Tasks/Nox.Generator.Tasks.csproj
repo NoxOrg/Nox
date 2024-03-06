@@ -35,6 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.Docs\Nox.Docs.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
@@ -44,6 +45,7 @@
 		<Compile Remove="Validation\**" />
 		<EmbeddedResource Remove="Validation\**" />
 		<None Remove="Validation\**" />
+		<Compile Include="..\Nox.Generator\Common\StringExtensions.cs" Link="StringExtensions.cs" />
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 

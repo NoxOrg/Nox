@@ -113,11 +113,11 @@ public class NoxCodeGenerator : NoxGeneratorBase, IIncrementalGenerator
 
         try
         {
-            if (TryGetGeneratorConfig(noxYamls, errorCollection, out var config) && TryGetNoxSolution(noxYamls, errorCollection, out var solution))
+            if (TryGetGeneratorConfig(noxYamls, errorCollection, out var config) && TryGetNoxSolution(noxYamls, errorCollection, out var solution, out var solutionPath))
             {
                 _debug.AppendLine($"// Logging Verbosity {config.LoggingVerbosity}");
 
-                var codeGenConventions = new NoxCodeGenConventions(solution);
+                var codeGenConventions = new NoxCodeGenConventions(solution, solutionPath);
 
                 NoxGeneratorKind[] enabledGenerators = GetEnabledGenerators(config);
 
@@ -201,10 +201,11 @@ public class NoxCodeGenerator : NoxGeneratorBase, IIncrementalGenerator
     protected static bool TryGetNoxSolution(
        ImmutableArray<(string Path, SourceText? Source)> noxYamls,
        IList<string> errorCollection,
-       out NoxSolution solution)
+       out NoxSolution solution,
+       out string solutionPath)
     {
         solution = null!;
-
+        solutionPath = null!;
         var solutionFilePaths = noxYamls
             .Select(y => y.Path)
             .Where(p => p.EndsWithIgnoreCase(".solution.nox.yaml"))
@@ -221,6 +222,8 @@ public class NoxCodeGenerator : NoxGeneratorBase, IIncrementalGenerator
             errorCollection.Add("More than one *.solution.nox.yaml found.");
             return false;
         }
+
+        solutionPath = solutionFilePaths.First();
 
         var solutionYamlFiles = noxYamls
             .Where(s => s.Source is not null)
