@@ -14,9 +14,9 @@ public class IntegrationSourceFileOptions
     [Description("The name of the file that will be ingested.")]
     public string Filename { get; set; } = null!;
     
-    [Required]
-    [Title("The attributes of the source file record.")]
-    [Description("One or more attributes describing the composition of the source file record.")]
-    [AdditionalProperties(false)]
-    public IReadOnlyList<NoxSimpleTypeDefinition> RecordAttributes { get; internal set; } = new List<NoxSimpleTypeDefinition>();
+    // [Required]
+    // [Title("The attributes of the source file record.")]
+    // [Description("One or more attributes describing the composition of the source file record.")]
+    // [AdditionalProperties(false)]
+    // public IReadOnlyList<NoxSimpleTypeDefinition> RecordAttributes { get; internal set; } = new List<NoxSimpleTypeDefinition>();
 }

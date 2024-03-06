@@ -16,7 +16,6 @@ public class JsonToTableTransformHandler: JsonToTableTransformHandlerBase, INoxC
         {
             editDate = parsedEditDate;
         }
-
         result.EditDate = editDate ?? null!;
         result.Etag = new Guid(sourceRecord.Etag);
         return result;

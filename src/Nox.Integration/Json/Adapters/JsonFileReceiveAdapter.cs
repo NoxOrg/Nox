@@ -15,16 +15,16 @@ public class JsonFileReceiveAdapter: INoxFileReceiveAdapter
     private string? _filePath;
     private FileAdapterUriKind? _uriKind;
 
-    private readonly IReadOnlyList<NoxSimpleTypeDefinition> _attributes;
+    //private readonly IReadOnlyList<NoxSimpleTypeDefinition> _attributes;
 
     public IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.File;
 
-    public IReadOnlyList<NoxSimpleTypeDefinition> Attributes => _attributes;
+    //public IReadOnlyList<NoxSimpleTypeDefinition> Attributes => _attributes;
     
-    public JsonFileReceiveAdapter(string filename, string baseUri, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
+    public JsonFileReceiveAdapter(string filename, string baseUri)
     {
         ParseUri(baseUri, filename);
-        _attributes = attributes;
+        //_attributes = attributes;
     }
     
     public void ApplyFilter(List<string> filterColumns, IntegrationMergeStates mergeStates)

@@ -19,7 +19,7 @@ internal static class IntegrationContextFileReceiveExtensions
     
     private static JsonFileReceiveAdapter CreateJsonReceiveAdapter(IntegrationSourceFileOptions options, DataConnection dataConnectionDefinition)
     {
-        var adapter = new JsonFileReceiveAdapter(options.Filename, dataConnectionDefinition.ServerUri, options.RecordAttributes);
+        var adapter = new JsonFileReceiveAdapter(options.Filename, dataConnectionDefinition.ServerUri);
         return adapter;
     }
 }
