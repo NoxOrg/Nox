@@ -29,6 +29,9 @@ public partial class Select : ComponentBase
     [Parameter]
     public bool Required { get; set; } = false;
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
     #endregion
 
     protected async Task OnIdChanged(string newValue)
