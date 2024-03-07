@@ -13,7 +13,8 @@
                RequiredError="@ErrorRequiredMessage(Title)"
                TextChanged="OnIdChanged"
                Value="@CurrentIdList"
-               Text="@DisplaySelectedList">
+               Text="@DisplaySelectedList"
+               Disabled="@Disabled">
         @foreach (SelectEntityModel item in SelectionList)
         {
             <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>                      

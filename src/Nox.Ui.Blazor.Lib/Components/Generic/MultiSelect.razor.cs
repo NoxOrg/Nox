@@ -29,6 +29,9 @@ public partial class MultiSelect : ComponentBase
     [Parameter]
     public bool Required { get; set; } = false;
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
     #endregion
 
     /// <summary>

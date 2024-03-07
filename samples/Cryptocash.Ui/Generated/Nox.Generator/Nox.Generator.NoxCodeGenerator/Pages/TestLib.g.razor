@@ -93,7 +93,7 @@
                     new SelectEntityModel("IDB", "Entity B")
                 };
     string testEmail = "test@email.com";
-    bool testDisabled = true;
+    bool testDisabled = false;
 
     #endregion
 
@@ -278,6 +278,9 @@
                                                     </MudItem>
                                                 <MudItem xs="6">
                                                     <EditTextMultiline Title="TextMultiline" Text="testText" Lines="1" MaxLines="3" Disabled="@testDisabled" />
+                                                </MudItem>
+                                                <MudItem xs="6">
+                                                    <EditPhoneNumber Title="PhoneNumber" Disabled="@testDisabled" />
                                                 </MudItem>
                                                 </MudGrid>
                                     </MudItem>
