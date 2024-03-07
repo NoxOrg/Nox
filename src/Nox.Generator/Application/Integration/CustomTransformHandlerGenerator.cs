@@ -28,14 +28,14 @@ internal class CustomTransformHandlerGenerator: INoxCodeGenerator
             return;
         }
 
-        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.TransformationType == IntegrationTransformType.CustomTransform))
+        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.Custom))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
-                .WithClassName($"{customTransformIntegration.Name}TransformHandlerBase")
-                .WithFileNamePrefix("Application.Integration.CustomTransformHandlers")
+                .WithClassName($"{customTransformIntegration.Name}TransformBase")
+                .WithFileNamePrefix("Application.Integration.CustomTransform")
                 .WithObject("integration", customTransformIntegration)
-                .GenerateSourceCodeFromResource("Application.Integration.CustomTransformHandler");
+                .GenerateSourceCodeFromResource("Application.Integration.CustomTransform");
         }
     }
 }

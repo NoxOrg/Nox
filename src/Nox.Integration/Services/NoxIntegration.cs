@@ -56,7 +56,7 @@ internal sealed class NoxIntegration: INoxIntegration
         Schedule = definition.Schedule;
         Description = definition.Description;
         MergeType = definition.MergeType;
-        TransformType = definition.TransformationType;
+        TransformType = definition.Transformation.Type;
         AddSourceFilterColumns(definition.Source);
         AddTargetWatermark(definition.Target);
         _createdEvent = createdEvent;
@@ -104,7 +104,7 @@ internal sealed class NoxIntegration: INoxIntegration
 
         IDataFlowSource<ExpandoObject>? transformSource = null;
 
-        if (TransformType == IntegrationTransformType.CustomTransform)
+        if (TransformType == IntegrationTransformType.Custom || TransformType == IntegrationTransformType.CustomWithMap)
         {
             if (handler == null) throw new NoxIntegrationException("Cannot execute custom transform, handler not registered.");
             var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));

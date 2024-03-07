@@ -21,6 +21,6 @@ public class CustomTransformTests
             .AssertFileCount(24)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Application.Integration.CustomTransform.expected.g.cs", "Application.Integration.CustomTransformHandlers.TestIntegrationTransformHandlerBase.g.cs");
+            .AssertFileExistsAndContent("Application.Integration.CustomTransform.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTransformBase.g.cs");
     }
 }

@@ -4,7 +4,7 @@
 
 using AutoMapper;
 
-namespace {{codeGenConventions.ApplicationNameSpace}}.Integration.CustomTransformHandlers;
+namespace {{codeGenConventions.ApplicationNameSpace}}.Integration.CustomTransform;
 
 public abstract class {{className}}
 {

@@ -4,9 +4,9 @@
 
 using AutoMapper;
 
-namespace TestIntegrationSolution.Application.Integration.CustomTransformHandlers;
+namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
-public abstract class TestIntegrationTransformHandlerBase
+public abstract class TestIntegrationTransformBase
 {
     public string IntegrationName => "TestIntegration";
 
