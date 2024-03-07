@@ -425,7 +425,7 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 `<key>`: ID of the entity to retrieve translations for.
 - **Response:** Returns a queryable collection of `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) objects.
 
-##### POST PUT `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+##### PUT `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
 - **Description:** Creates or updates translations for a specific entity (e.g. countries) by ID and for a specific language by CulcutreCode.
 - **Path Parameters:**
 `<key>`: ID of the entity to create/update translations for.
