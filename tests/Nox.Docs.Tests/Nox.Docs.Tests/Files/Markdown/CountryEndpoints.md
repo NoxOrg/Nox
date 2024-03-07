@@ -115,8 +115,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `/api/v1/Countries/{key}/Languages/{cultureCode}`
     - Description: Update or create values of translations for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.
 
-- **DELETE** `/api/v1/Countries/{key}/CountriesLocalized/{cultureCode}`
-    - Description: Delete the localized values of CountryLocalized for a specific culture code for a specific Country.
+- **DELETE** `/api/v1/Countries/{key}/Languages/{cultureCode}`
+    - Description: Delete the translations for a specific culture code for a specific Country.
 
 
 ## Related Entities

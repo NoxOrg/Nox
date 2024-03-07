@@ -78129,14 +78129,12 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}": {
+      },
       "delete": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "DELETE_api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}",
+        "operationId": "DELETE_api/v1/Workplaces/{key}/Languages/{cultureCode}",
         "parameters": [
           {
             "name": "key",

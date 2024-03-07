@@ -58,7 +58,7 @@ public abstract partial class WorkplacesControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Workplaces/{key}/WorkplacesLocalized/{cultureCode}")]
+    [HttpDelete("/api/v1/Workplaces/{key}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<WorkplaceLocalizedDto>> DeleteWorkplaceLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)

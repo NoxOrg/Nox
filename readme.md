@@ -433,6 +433,13 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Request Body:** `<Entity>LocalizedUpsertDto` (e.g. `CountryLocalizedUpsertDto`) object.
 - **Response:** Returns `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) object.
 
+##### DELETE `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+- **Description:** Deletes translations for a specific entity (e.g. countries) by ID and for a specific language by CultureCode.
+- **Path Parameters:**
+`<key>`: ID of the entity to delete  translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
+
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 
 [version-url]: https://www.nuget.org/packages/Nox.Generator

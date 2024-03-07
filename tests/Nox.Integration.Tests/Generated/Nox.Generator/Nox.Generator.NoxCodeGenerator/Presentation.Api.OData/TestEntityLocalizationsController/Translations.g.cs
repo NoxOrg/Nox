@@ -58,7 +58,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
+    [HttpDelete("/api/v1/TestEntityLocalizations/{key}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> DeleteTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)
