@@ -37,6 +37,7 @@ internal class EntityControllerOwnedRelationshipsGenerator : EntityControllerGen
                 .WithFileNameSuffix("OwnedRelationships")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGenConventions.Solution))
+                .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

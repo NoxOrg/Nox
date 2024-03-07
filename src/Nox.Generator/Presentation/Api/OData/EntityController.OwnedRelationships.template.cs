@@ -3,6 +3,9 @@
 #nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Nox.Extensions;
+
+using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 
 using ApplicationCommandsNameSpace = {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
@@ -18,7 +21,8 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     [HttpDelete("{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}")]
     public async Task<IActionResult> Delete{{entity.Name}}Owned{{ownedRelationship.EntityPlural}}({{ primaryKeysRoute }})
     {
-        await Task.CompletedTask;
+        var etag = Request.GetDecodedEtagHeader();
+        await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAll{{ownedRelationshipName}}For{{entity.Name}}Command(new {{entity.Name}}KeyDto({{ primaryKeysQuery }}), etag));
         return NoContent();
     }
             
@@ -27,7 +31,8 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     [HttpDelete("{{entity.PluralName}}/{key}/{{ownedRelationship.Entity}}")]
     public async Task<IActionResult> Delete{{entity.Name}}Owned{{ownedRelationship.Entity}}({{ primaryKeysRoute }})
     {
-        await Task.CompletedTask;
+        var etag = Request.GetDecodedEtagHeader();
+        await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAll{{ownedRelationshipName}}For{{entity.Name}}Command(new {{entity.Name}}KeyDto({{ primaryKeysQuery }}), etag));
         return NoContent();
     }
             {{- end }}
