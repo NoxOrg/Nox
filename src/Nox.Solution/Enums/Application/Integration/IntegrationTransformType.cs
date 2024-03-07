@@ -2,6 +2,7 @@ namespace Nox;
 
 public enum IntegrationTransformType
 {
-    DefaultTransform,
-    CustomTransform
+    Default,
+    CustomCode,
+    CustomMap
 }

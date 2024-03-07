@@ -23,7 +23,22 @@ source:
   fileOptions: 
     filename: CountryMaster.json
 
-transformationType: customTransform
+transformationType: customMap
+#transformation:
+#  #type: customTransform
+#  type: map
+#  mapping:
+#    id: 
+#      source: Column1
+#      dataType: int
+#        
+#    Age:
+#      dataType: double
+#          
+#        
+#    Column1: Id
+#    Column2: Name
+    
 
 target:
   name: SampleTarget
