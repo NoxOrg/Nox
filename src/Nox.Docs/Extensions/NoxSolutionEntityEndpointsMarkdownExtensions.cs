@@ -83,6 +83,7 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
             Attribute = attribute,
             EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
             EntityNameForLocalizedEnumeration = $"{entity.Name}{attribute.Name}LocalizedDto",
-            IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true
+            IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true,
+            EntityDtoNameForUpsertLocalizedEnumeration = $"{entity.Name}{attribute.Name}UpsertLocalizedDto"
         });
 }

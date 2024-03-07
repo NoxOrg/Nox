@@ -131,14 +131,14 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Workplaces/Ownerships`
   - **Description**: Retrieve non-conventional values of Ownerships for a specific Workplace.
   
-- **GET** `/api/v1/Workplaces/WorkplaceOwnershipsLocalized`
+- **GET** `/api/v1/Workplaces/Ownerships/Languages`
   - **Description**: Retrieve localized values of Ownerships for a specific Workplace.
 
 - **DELETE** `/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}`
   - **Description**: Delete the localized values of Ownerships for a specific culture code in Workplace.
 
-- **PUT** `/api/v1/Workplaces/WorkplaceOwnershipsLocalized`
-  - **Description**: Update or create localized values of Ownerships for a specific Workplace. Requires a payload with the new values.
+- **PUT** `/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of Ownerships for a specific Workplace. Requires relatedKey and cultureCode in the URL and a payload with the new value of WorkplaceOwnershipUpsertLocalizedDto.
 - **GET** `/api/v1/Workplaces/Types`
   - **Description**: Retrieve non-conventional values of Types for a specific Workplace.
 ## Localized Endpoints

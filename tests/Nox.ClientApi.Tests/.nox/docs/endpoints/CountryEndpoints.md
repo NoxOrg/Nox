@@ -237,14 +237,14 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Countries/Continents`
   - **Description**: Retrieve non-conventional values of Continents for a specific Country.
   
-- **GET** `/api/v1/Countries/CountryContinentsLocalized`
+- **GET** `/api/v1/Countries/Continents/Languages`
   - **Description**: Retrieve localized values of Continents for a specific Country.
 
 - **DELETE** `/api/v1/Countries/CountryContinentsLocalized/{cultureCode}`
   - **Description**: Delete the localized values of Continents for a specific culture code in Country.
 
-- **PUT** `/api/v1/Countries/CountryContinentsLocalized`
-  - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.
+- **PUT** `/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of Continents for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentUpsertLocalizedDto.
 ## Localized Endpoints
 
 - **PUT** `/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}` 

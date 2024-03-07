@@ -19,82 +19,72 @@ using ClientApi.Application.Dto;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
-public partial record  UpsertWorkplacesOwnershipsTranslationsCommand(IEnumerable<WorkplaceOwnershipLocalizedDto> WorkplaceOwnershipLocalizedDtos) : IRequest<IEnumerable<WorkplaceOwnershipLocalizedDto>>;
+public partial record UpsertWorkplacesOwnershipsTranslationCommand(Enumeration Id, WorkplaceOwnershipLocalizedUpsertDto WorkplaceOwnershipLocalizedUpsertDto, CultureCode CultureCode) : IRequest<WorkplaceOwnershipLocalizedKeyDto>;
 
-internal partial class UpsertWorkplacesOwnershipsTranslationsCommandHandler : UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase
+internal partial class UpsertWorkplacesOwnershipsTranslationCommandHandler : UpsertWorkplacesOwnershipsTranslationCommandHandlerBase
 {
-	public UpsertWorkplacesOwnershipsTranslationsCommandHandler(
+	public UpsertWorkplacesOwnershipsTranslationCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution) : base(repository, noxSolution)
 	{
 	}
 }
-internal abstract class UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase : CommandCollectionBase<UpsertWorkplacesOwnershipsTranslationsCommand, WorkplaceOwnershipLocalized>, IRequestHandler<UpsertWorkplacesOwnershipsTranslationsCommand, IEnumerable<WorkplaceOwnershipLocalizedDto>>
+internal abstract class UpsertWorkplacesOwnershipsTranslationCommandHandlerBase : CommandBase<UpsertWorkplacesOwnershipsTranslationCommand, WorkplaceOwnershipLocalized>, IRequestHandler<UpsertWorkplacesOwnershipsTranslationCommand, WorkplaceOwnershipLocalizedKeyDto>
 {
+	
 	public IRepository Repository { get; }
-	public UpsertWorkplacesOwnershipsTranslationsCommandHandlerBase(
+	public UpsertWorkplacesOwnershipsTranslationCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		Repository = repository;
 	}
 
-	public virtual async Task<IEnumerable<WorkplaceOwnershipLocalizedDto>> Handle(UpsertWorkplacesOwnershipsTranslationsCommand command, CancellationToken cancellationToken)
+	public virtual async Task<WorkplaceOwnershipLocalizedKeyDto> Handle(UpsertWorkplacesOwnershipsTranslationCommand command, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
 		
-		var cultureCodes = command.WorkplaceOwnershipLocalizedDtos.DistinctBy(d=>d.CultureCode).Select(d=>CultureCode.From(d.CultureCode)).ToList();
-		var localizedEntities = await Repository.Query<WorkplaceOwnershipLocalized>()
-			.Where(x => cultureCodes.Contains(x.CultureCode))			
-			.ToListAsync(cancellationToken);
 		
-		var entities = new List<WorkplaceOwnershipLocalized>();
-		foreach(var dto in command.WorkplaceOwnershipLocalizedDtos)
-		{
-            var entity = localizedEntities.SingleOrDefault(e=>e.Id == Enumeration.FromDatabase(dto.Id) && e.CultureCode == CultureCode.From(dto.CultureCode));
-	        if(entity is not null)
-			{
-                entity.Name = dto.Name;
-                entities.Add(entity);
-            }
-			else
-			{
-				var e = new WorkplaceOwnershipLocalized {Id = Enumeration.FromDatabase(dto.Id), CultureCode = CultureCode.From(dto.CultureCode), Name = dto.Name};
-				await Repository.AddAsync(e, cancellationToken);
-				entities.Add(e);
-			}
-        }
+		var localizedEntity = await Repository.Query<WorkplaceOwnershipLocalized>()
+			.Where(x =>x.Id == command.Id && x.CultureCode == command.CultureCode)			
+			.FirstOrDefaultAsync(cancellationToken);
 		
-		//Update Default in Entity 
-		command.WorkplaceOwnershipLocalizedDtos.Where(dto=>dto.CultureCode == DefaultCultureCode.Value).ForEach(dto =>
+		if(localizedEntity is not null)
 		{
-			var e = new WorkplaceOwnership { Id = Enumeration.FromDatabase(dto.Id), Name = dto.Name };			
+			localizedEntity.Name = command.WorkplaceOwnershipLocalizedUpsertDto.Name;
+		}
+		else
+		{
+			localizedEntity = new WorkplaceOwnershipLocalized {Id = command.Id, CultureCode = command.CultureCode, Name = command.WorkplaceOwnershipLocalizedUpsertDto.Name};
+			await Repository.AddAsync(localizedEntity, cancellationToken);
+		}
+		
+		if(command.CultureCode == DefaultCultureCode)
+		{
+			var e = new WorkplaceOwnership { Id = command.Id, Name = command.WorkplaceOwnershipLocalizedUpsertDto.Name };			
 			Repository.Update(e);
-		});
+		}
+		
 		
 
-		await OnCompletedAsync(command, entities);
+		await OnCompletedAsync(command, localizedEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
-		return command.WorkplaceOwnershipLocalizedDtos;
+		return new WorkplaceOwnershipLocalizedKeyDto(command.Id.Value, command.CultureCode.Value);
 	}
 }
-public class UpsertWorkplacesOwnershipsTranslationsCommandValidator : AbstractValidator<UpsertWorkplacesOwnershipsTranslationsCommand>
+public class UpsertWorkplacesOwnershipsTranslationCommandValidator : AbstractValidator<UpsertWorkplacesOwnershipsTranslationCommand>
 {
 	private static readonly int[] _supportedIds = new int[] { 1000, 4000, 5000, };
 	
-    public UpsertWorkplacesOwnershipsTranslationsCommandValidator(NoxSolution noxSolution)
+    public UpsertWorkplacesOwnershipsTranslationCommandValidator(NoxSolution noxSolution)
     {
-		RuleFor(x => x.WorkplaceOwnershipLocalizedDtos)
-			.Must(x => x != null && x.Count() > 0)
-			.WithMessage($"{nameof(UpsertWorkplacesOwnershipsTranslationsCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationsCommand.WorkplaceOwnershipLocalizedDtos)} is required.");
+		RuleFor(x => x.CultureCode)
+			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.Value))
+			.WithMessage((_,x) => $"{nameof(UpsertWorkplacesOwnershipsTranslationCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationCommand.CultureCode)}  not supported: {x.Value}.");
 		
-		RuleForEach(x => x.WorkplaceOwnershipLocalizedDtos)
-			.Must(x => noxSolution!.Application!.Localization!.SupportedCultures.Select(c => c.ToDisplayName()).Contains(x.CultureCode))
-			.WithMessage((_,x) => $"{nameof(UpsertWorkplacesOwnershipsTranslationsCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationsCommand.WorkplaceOwnershipLocalizedDtos)} contains unsupported culture code: {x.CultureCode}.");
-		
-		RuleForEach(x => x.WorkplaceOwnershipLocalizedDtos)
-			.Must(x => _supportedIds.Contains(x.Id))
-			.WithMessage((_,x) => $"{nameof(UpsertWorkplacesOwnershipsTranslationsCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationsCommand.WorkplaceOwnershipLocalizedDtos)} contains unsupported Id: {x.Id}.");
+		RuleFor(x => x.Id)
+			.Must(x => _supportedIds.Contains(x.Value))
+			.WithMessage((_,x) => $"{nameof(UpsertWorkplacesOwnershipsTranslationCommand)} : {nameof(UpsertWorkplacesOwnershipsTranslationCommand.Id)} not supported: {x.Value}.");
     }
 }

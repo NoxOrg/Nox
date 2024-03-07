@@ -1,6 +1,6 @@
 // Generated
 
-{{- cultureCode = ToLowerFirstChar codeGenConventions.LocalizationCultureField}}
+{{- cultureCode = ToLowerFirstChar codeGenConventions.LocalizationCultureField -}}
 #nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData.Query;
@@ -43,11 +43,11 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         return NoContent();     
     }
 
-    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}> {{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s)
+    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/{%{{}%}relatedKey{%{}}%}/Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>> Put{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String {{cultureCode}}, [FromBody] DtoNameSpace.{{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}} {{ToLowerFirstChar enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}})
     {   
         
-        if ({{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s is null)
+        if ({{ToLowerFirstChar enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}} is null)
         {
             throw new Nox.Exceptions.BadRequestInvalidFieldException();
         }
@@ -55,7 +55,8 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.Upsert{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsCommand({{ToLowerFirstChar enumAtt.EntityDtoNameForLocalizedEnumeration}}s.Items));                        
+        var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.Upsert{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), {{ToLowerFirstChar enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}, Nox.Types.CultureCode.From({{cultureCode}})));                        
+        var result = (await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.{{cultureCode}});
         return Ok(result);       
     }
    

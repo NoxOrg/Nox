@@ -25,7 +25,8 @@ internal class UpsertEnumerationTranslationsCommandGenerator : ApplicationEntity
                         EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name),
                         EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
                         EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name),
-                        
+                        EntityDtoNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
+                        EntityDtoNameForUpsertLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForUpsertLocalizedEnumeration(entity.Name, attribute.Name),
                     });
 
             if (!enumerationAttributes.Any())

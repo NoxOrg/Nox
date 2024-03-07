@@ -1,5 +1,4 @@
-﻿// Generated
-#nullable enable
+﻿// Generated#nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData.Query;
 
