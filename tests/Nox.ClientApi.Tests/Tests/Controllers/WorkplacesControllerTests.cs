@@ -1080,18 +1080,12 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task CreateWorkplace_WithLocalizedOwnershipId_ReturnsLocalizedOwnershipIdAndName()
         {
             // Arrange
-            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedListDto<WorkplaceOwnershipLocalizedDto>
+            
+            await PutAsync($"{Endpoints.WorkplacesUrl}/Ownerships/1000/Languages/fr-FR", new WorkplaceOwnershipLocalizedUpsertDto()
             {
-                Items = new List<WorkplaceOwnershipLocalizedDto>
-                {
-                    new() 
-                    {
-                        Id = 1000,
-                        CultureCode = "fr-FR",
-                        Name = "Entièrement possédé"
-                    }
-                }
+                Name = "Entièrement possédé"
             });
+
 
             var createDto = new WorkplaceCreateDto
             {

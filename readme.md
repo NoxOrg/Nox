@@ -440,6 +440,33 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 `<cultureCode>`: CultureCode specifying language to delete translations for. 
 - **Response:** Returns a status code indicating success or failure.
 
+#### Enumerations Endpoints
+##### GET `/api/<EntityPluralName>/<EnumPluralName>` (e.g. `/api/Countries/Continents`)
+- **Description:** Retrieves non-conventional values of an enumeration (e.g. Continents) for a specific entity (e.g. country).
+- **Response:** Returns a queryable collection of `<EntityName><EnumName>Dto` (e.g. `CountryContinentDto`) objects.
+- **Query Parameters:** None
+
+##### GET `/api/<EntityPluralName>/<EnumPluralName>/Languages` (e.g. `/api/Countries/Continents/Languages`)
+- **Description:** Retrieves localized values of an enumeration (e.g. Continents) for a specific entity (e.g. country).
+- **Response:** Returns a queryable collection of `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) objects. OData query is enabled for this endpoint.
+- **Query Parameters:** None
+
+##### DELETE `/api/<EntityPluralName>/<EntityName><EnumPluralName>Localized/<cultureCode>` (e.g. `/api/Countries/CountryContinentsLocalized/en-US`)
+- **Description:** Deletes the localized values of an enumeration (e.g. Continents) for a specific culture code in a specific entity (e.g. country).
+- **Path Parameters:**
+`<cultureCode>`: Culture code of the localized values to delete.
+- **Response:** Returns no content.
+
+##### PUT `/api/<EntityPluralName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/Continents/1/Languages/en-US`)
+- **Description:** Updates or creates localized value of an enumeration (e.g. Continents) for a specific entity (e.g. country). Requires relatedKey and cultureCode in the URL and a payload with the new value of `<EntityName><EnumName>UpsertLocalizedDto` (e.g. `CountryContinentUpsertLocalizedDto`).
+- **Path Parameters:**
+`<relatedKey>`: ID of the enumeration value.
+`<cultureCode>`: Culture code of the localized value.
+- **Request Body:** `<EntityName><EnumName>UpsertLocalizedDto` (e.g. `CountryContinentUpsertLocalizedDto`) object.
+- **Response:** Returns the updated or created `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) object.
+- **Query Parameters:** None
+
+
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 
 [version-url]: https://www.nuget.org/packages/Nox.Generator
