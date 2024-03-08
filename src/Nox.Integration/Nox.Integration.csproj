@@ -36,7 +36,7 @@
       <PackageReference Include="AutoMapper" Version="13.0.1" />
       <PackageReference Include="ETLBox.Json" Version="3.2.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.14" />
-      <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.25.3" />
+      <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.26.0" />
       <PackageReference Include="ETLBox" Version="3.2.0" />
       <PackageReference Include="ETLBox.SqlServer" Version="3.2.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
