@@ -1002,7 +1002,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 headers, false);
 
             // Act
-            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/{cultureCode}");
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/Languages/{cultureCode}");
             var arResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang={cultureCode}", CreateAcceptLanguageHeader(cultureCode)))?.ToList();
 
             // Assert
@@ -1020,7 +1020,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var newWorkplace = await CreateWorkplaceAndGetId();
 
             // Act
-            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/en-US", false);
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/Languages/en-US", false);
 
             // Assert
             deleteResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);

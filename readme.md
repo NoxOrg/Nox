@@ -425,7 +425,7 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 `<key>`: ID of the entity to retrieve translations for.
 - **Response:** Returns a queryable collection of `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) objects.
 
-##### POST PUT `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+##### PUT `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
 - **Description:** Creates or updates translations for a specific entity (e.g. countries) by ID and for a specific language by CulcutreCode.
 - **Path Parameters:**
 `<key>`: ID of the entity to create/update translations for.
@@ -433,8 +433,14 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Request Body:** `<Entity>LocalizedUpsertDto` (e.g. `CountryLocalizedUpsertDto`) object.
 - **Response:** Returns `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) object.
 
-#### Enumerations Endpoints
+##### DELETE `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+- **Description:** Deletes translations for a specific entity (e.g. countries) by ID and for a specific language by CultureCode.
+- **Path Parameters:**
+`<key>`: ID of the entity to delete  translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
 
+#### Enumerations Endpoints
 ##### GET `/api/<EntityPluralName>/<EnumPluralName>` (e.g. `/api/Countries/Continents`)
 - **Description:** Retrieves non-conventional values of an enumeration (e.g. Continents) for a specific entity (e.g. country).
 - **Response:** Returns a queryable collection of `<EntityName><EnumName>Dto` (e.g. `CountryContinentDto`) objects.

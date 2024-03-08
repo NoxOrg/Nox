@@ -167,8 +167,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
     - Description: Update or create values of translations for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
 
-- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
-    - Description: Delete the localized values of {{entity.Name}}Localized for a specific culture code for a specific {{entity.Name}}.
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
+    - Description: Delete the translations for a specific culture code for a specific {{entity.Name}}.
 {{~ end ~}}
 {{~ if entity.HasLocalizedOwnedRelationships ~}}
 {{ for localizedRelationship in ownedLocalizedRelationships }}

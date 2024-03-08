@@ -49,7 +49,8 @@ This document provides information about the various endpoints available in our 
 #### Create {{ownedRelationship.Entity}}
 - **POST** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-{{end}}{{if entity.Persistence.Update.IsEnabled&&ownedRelationship.Related.Entity.Persistence.Update.IsEnabled}}{{-if ownedRelationship.WithSingleEntity}}
+{{ end }}{{ if entity.Persistence.Update.IsEnabled && ownedRelationship.Related.Entity.Persistence.Update.IsEnabled }}
+{{- if ownedRelationship.WithSingleEntity }}
 #### Update {{ownedRelationship.Entity}}
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.Entity}}`
   - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
@@ -59,7 +60,8 @@ This document provides information about the various endpoints available in our 
   - Description: Update many {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 #### Update {{ownedRelationship.Entity}} By Id
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
-  - Description: Update an existing {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.{{-end}}
+  - Description: Update an existing {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.
+{{- end}}
   
 #### Partially Update {{ownedRelationship.Entity}}
 - **PATCH** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
@@ -142,9 +144,11 @@ This document provides information about the various endpoints available in our 
 
 ## Enumerations Endpoints
 
-This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.{{-for enumAtt in enumerationAttributes}}
+This section details the API endpoints related to enumeration attributes in a specific {{entity.Name}}.
+{{- for enumAtt in enumerationAttributes }}
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}`
-  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.{{-if enumAtt.IsLocalized}}
+  - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
+{{- if enumAtt.IsLocalized }}
   
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/Languages`
   - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
@@ -163,8 +167,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
     - Description: Update or create values of translations for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
 
-- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
-    - Description: Delete the localized values of {{entity.Name}}Localized for a specific culture code for a specific {{entity.Name}}.
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
+    - Description: Delete the translations for a specific culture code for a specific {{entity.Name}}.
 {{~ end ~}}
 {{~ if entity.HasLocalizedOwnedRelationships ~}}
 {{ for localizedRelationship in ownedLocalizedRelationships }}
