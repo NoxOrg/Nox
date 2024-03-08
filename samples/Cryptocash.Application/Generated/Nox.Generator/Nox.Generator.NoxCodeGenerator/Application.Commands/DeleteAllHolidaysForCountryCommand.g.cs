@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
-using HolidayEntity = Cryptocash.Domain.Holiday;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllHolidaysForCountryCommandHandler : DeleteAllHoli
 	}
 }
 
-internal partial class DeleteAllHolidaysForCountryCommandHandlerBase : CommandCollectionBase<DeleteAllHolidaysForCountryCommand, HolidayEntity>, IRequestHandler <DeleteAllHolidaysForCountryCommand, bool>
+internal partial class DeleteAllHolidaysForCountryCommandHandlerBase : CommandBase<DeleteAllHolidaysForCountryCommand, CountryEntity>, IRequestHandler <DeleteAllHolidaysForCountryCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,17 +48,15 @@ internal partial class DeleteAllHolidaysForCountryCommandHandlerBase : CommandCo
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
-		
 		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Country>(keys.ToArray(), p => p.Holidays, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country", "parentKeyId");
-					
-		var entities = parentEntity.Holidays;
+		
+		Repository.DeleteOwned(parentEntity.Holidays);
 		
 		parentEntity.DeleteAllRefToHolidays();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		
-		await OnCompletedAsync(request, entities);
-		Repository.DeleteRange(entities);
+		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

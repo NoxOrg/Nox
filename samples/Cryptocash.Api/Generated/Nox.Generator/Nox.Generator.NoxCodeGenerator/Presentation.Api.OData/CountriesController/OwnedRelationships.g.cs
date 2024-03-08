@@ -14,8 +14,8 @@ namespace Cryptocash.Presentation.Api.OData;
 public abstract partial class CountriesControllerBase
 {
             
-    [HttpDelete("Countries/{key}/Holidays")]
-    public async Task<IActionResult> DeleteCountryOwnedHolidays([FromRoute] System.String key)
+    [HttpDelete("/api/Countries/{key}/Holidays")]
+    public virtual async Task<IActionResult> DeleteCountryOwnedHolidays([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllHolidaysForCountryCommand(new CountryKeyDto(key), etag));

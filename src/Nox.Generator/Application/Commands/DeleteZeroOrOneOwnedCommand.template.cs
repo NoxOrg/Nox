@@ -19,7 +19,7 @@ using Nox.Exceptions;
 using {{codeGenConventions.DomainNameSpace}};
 using {{codeGenConventions.ApplicationNameSpace}}.Dto;
 using Dto = {{codeGenConventions.ApplicationNameSpace}}.Dto;
-using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Name}};
+using {{parent.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{parent.Name}};
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
@@ -36,7 +36,7 @@ internal partial class {{className}}Handler : {{className}}HandlerBase
 	}
 }
 
-internal partial class {{className}}HandlerBase : CommandBase<{{className}}, {{entity.Name}}Entity>, IRequestHandler <{{className}}, bool>
+internal partial class {{className}}HandlerBase : CommandBase<{{className}}, {{parent.Name}}Entity>, IRequestHandler <{{className}}, bool>
 {
 	public IRepository Repository { get; }
 
@@ -57,17 +57,26 @@ internal partial class {{className}}HandlerBase : CommandBase<{{className}}, {{e
 		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
 		
+		{{- if entity.IsLocalized }}
+		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}, {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}, {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized>(
+			keys.ToArray(), 
+			p => p.{{relationshipName}}, 
+		l => l.Localized{{entity.PluralName}}, 
+		cancellationToken);
+		{{ else }}
 		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(), p => p.{{relationshipName}}, cancellationToken);
+		{{- end }}
 		EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}", "{{keysToString parent.Keys 'parentKey' }}");
-					
-		var entity = parentEntity.{{relationshipName}};
-		EntityNotFoundException.ThrowIfNull(entity, "{{parent.Name}}.{{relationshipName}}",  String.Empty);
-
+		
+		if(parentEntity.{{relationshipName}} is not null)
+		{
+			Repository.DeleteOwned(parentEntity.{{relationshipName}}!);
+		}
+		
 		parentEntity.DeleteAllRefTo{{relationshipName}}();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		
-		await OnCompletedAsync(request, entity);
-		Repository.Delete(entity);
+		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

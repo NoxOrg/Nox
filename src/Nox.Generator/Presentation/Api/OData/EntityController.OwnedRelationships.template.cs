@@ -18,8 +18,8 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
             {{- ownedRelationshipName = GetNavigationPropertyName entity ownedRelationship }}
             {{- if ownedRelationship.Relationship == "ZeroOrMany" }}
             
-    [HttpDelete("{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}")]
-    public async Task<IActionResult> Delete{{entity.Name}}Owned{{ownedRelationship.EntityPlural}}({{ primaryKeysRoute }})
+    [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}")]
+    public virtual async Task<IActionResult> Delete{{entity.Name}}Owned{{ownedRelationship.EntityPlural}}({{ primaryKeysRoute }})
     {
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAll{{ownedRelationshipName}}For{{entity.Name}}Command(new {{entity.Name}}KeyDto({{ primaryKeysQuery }}), etag));
@@ -28,8 +28,8 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
             
             {{- else if ownedRelationship.Relationship == "ZeroOrOne" }}
             
-    [HttpDelete("{{entity.PluralName}}/{key}/{{ownedRelationship.Entity}}")]
-    public async Task<IActionResult> Delete{{entity.Name}}Owned{{ownedRelationship.Entity}}({{ primaryKeysRoute }})
+    [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.Entity}}")]
+    public virtual async Task<IActionResult> Delete{{entity.Name}}Owned{{ownedRelationship.Entity}}({{ primaryKeysRoute }})
     {
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAll{{ownedRelationshipName}}For{{entity.Name}}Command(new {{entity.Name}}KeyDto({{ primaryKeysQuery }}), etag));

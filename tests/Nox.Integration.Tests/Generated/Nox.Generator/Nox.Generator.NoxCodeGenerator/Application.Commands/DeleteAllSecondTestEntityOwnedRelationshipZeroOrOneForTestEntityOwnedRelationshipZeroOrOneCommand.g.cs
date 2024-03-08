@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
-using SecondTestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne;
+using TestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTes
 	}
 }
 
-internal partial class DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase : CommandBase<DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, SecondTestEntityOwnedRelationshipZeroOrOneEntity>, IRequestHandler <DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, bool>
+internal partial class DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase : CommandBase<DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, TestEntityOwnedRelationshipZeroOrOneEntity>, IRequestHandler <DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,18 +48,18 @@ internal partial class DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTes
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(request.ParentKeyDto.keyId));
-		
 		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne>(keys.ToArray(), p => p.SecondTestEntityOwnedRelationshipZeroOrOne, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "TestEntityOwnedRelationshipZeroOrOne", "parentKeyId");
-					
-		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne;
-		EntityNotFoundException.ThrowIfNull(entity, "TestEntityOwnedRelationshipZeroOrOne.SecondTestEntityOwnedRelationshipZeroOrOne",  String.Empty);
-
+		
+		if(parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
+		{
+			Repository.DeleteOwned(parentEntity.SecondTestEntityOwnedRelationshipZeroOrOne!);
+		}
+		
 		parentEntity.DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrOne();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		
-		await OnCompletedAsync(request, entity);
-		Repository.Delete(entity);
+		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

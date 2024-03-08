@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using TenantBrandEntity = ClientApi.Domain.TenantBrand;
+using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllTenantBrandsForTenantCommandHandler : DeleteAllT
 	}
 }
 
-internal partial class DeleteAllTenantBrandsForTenantCommandHandlerBase : CommandCollectionBase<DeleteAllTenantBrandsForTenantCommand, TenantBrandEntity>, IRequestHandler <DeleteAllTenantBrandsForTenantCommand, bool>
+internal partial class DeleteAllTenantBrandsForTenantCommandHandlerBase : CommandBase<DeleteAllTenantBrandsForTenantCommand, TenantEntity>, IRequestHandler <DeleteAllTenantBrandsForTenantCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,17 +48,20 @@ internal partial class DeleteAllTenantBrandsForTenantCommandHandlerBase : Comman
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant, ClientApi.Domain.TenantBrand, ClientApi.Domain.TenantBrandLocalized>(
+			keys.ToArray(), 
+			p => p.TenantBrands, 
+			l => l.LocalizedTenantBrands, 
+			cancellationToken);
 		
-		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(), p => p.TenantBrands, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
-					
-		var entities = parentEntity.TenantBrands;
+		
+		Repository.DeleteOwned(parentEntity.TenantBrands);
 		
 		parentEntity.DeleteAllRefToTenantBrands();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		
-		await OnCompletedAsync(request, entities);
-		Repository.DeleteRange(entities);
+		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

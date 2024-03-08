@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllCountryBarCodeForCountryCommandHandler : DeleteA
 	}
 }
 
-internal partial class DeleteAllCountryBarCodeForCountryCommandHandlerBase : CommandBase<DeleteAllCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <DeleteAllCountryBarCodeForCountryCommand, bool>
+internal partial class DeleteAllCountryBarCodeForCountryCommandHandlerBase : CommandBase<DeleteAllCountryBarCodeForCountryCommand, CountryEntity>, IRequestHandler <DeleteAllCountryBarCodeForCountryCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,18 +48,18 @@ internal partial class DeleteAllCountryBarCodeForCountryCommandHandlerBase : Com
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
-		
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryBarCode, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country", "parentKeyId");
-					
-		var entity = parentEntity.CountryBarCode;
-		EntityNotFoundException.ThrowIfNull(entity, "Country.CountryBarCode",  String.Empty);
-
+		
+		if(parentEntity.CountryBarCode is not null)
+		{
+			Repository.DeleteOwned(parentEntity.CountryBarCode!);
+		}
+		
 		parentEntity.DeleteAllRefToCountryBarCode();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		
-		await OnCompletedAsync(request, entity);
-		Repository.Delete(entity);
+		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

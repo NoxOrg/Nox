@@ -14,8 +14,8 @@ namespace TestWebApp.Presentation.Api.OData;
 public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBase
 {
             
-    [HttpDelete("TestEntityOwnedRelationshipZeroOrOnes/{key}/SecondTestEntityOwnedRelationshipZeroOrOne")]
-    public async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrOneOwnedSecondTestEntityOwnedRelationshipZeroOrOne([FromRoute] System.String key)
+    [HttpDelete("/api/v1/TestEntityOwnedRelationshipZeroOrOnes/{key}/SecondTestEntityOwnedRelationshipZeroOrOne")]
+    public virtual async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrOneOwnedSecondTestEntityOwnedRelationshipZeroOrOne([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), etag));

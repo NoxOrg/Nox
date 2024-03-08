@@ -14,8 +14,8 @@ namespace Cryptocash.Presentation.Api.OData;
 public abstract partial class EmployeesControllerBase
 {
             
-    [HttpDelete("Employees/{key}/EmployeePhoneNumbers")]
-    public async Task<IActionResult> DeleteEmployeeOwnedEmployeePhoneNumbers([FromRoute] System.Guid key)
+    [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers")]
+    public virtual async Task<IActionResult> DeleteEmployeeOwnedEmployeePhoneNumbers([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), etag));

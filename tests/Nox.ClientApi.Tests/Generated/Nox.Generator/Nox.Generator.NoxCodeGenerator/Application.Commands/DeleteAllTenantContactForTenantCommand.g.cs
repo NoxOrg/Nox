@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using TenantContactEntity = ClientApi.Domain.TenantContact;
+using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllTenantContactForTenantCommandHandler : DeleteAll
 	}
 }
 
-internal partial class DeleteAllTenantContactForTenantCommandHandlerBase : CommandBase<DeleteAllTenantContactForTenantCommand, TenantContactEntity>, IRequestHandler <DeleteAllTenantContactForTenantCommand, bool>
+internal partial class DeleteAllTenantContactForTenantCommandHandlerBase : CommandBase<DeleteAllTenantContactForTenantCommand, TenantEntity>, IRequestHandler <DeleteAllTenantContactForTenantCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,18 +48,23 @@ internal partial class DeleteAllTenantContactForTenantCommandHandlerBase : Comma
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant, ClientApi.Domain.TenantContact, ClientApi.Domain.TenantContactLocalized>(
+			keys.ToArray(), 
+			p => p.TenantContact, 
+		l => l.LocalizedTenantContacts, 
+		cancellationToken);
 		
-		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(), p => p.TenantContact, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
-					
-		var entity = parentEntity.TenantContact;
-		EntityNotFoundException.ThrowIfNull(entity, "Tenant.TenantContact",  String.Empty);
-
+		
+		if(parentEntity.TenantContact is not null)
+		{
+			Repository.DeleteOwned(parentEntity.TenantContact!);
+		}
+		
 		parentEntity.DeleteAllRefToTenantContact();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		
-		await OnCompletedAsync(request, entity);
-		Repository.Delete(entity);
+		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 
