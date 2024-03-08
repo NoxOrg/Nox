@@ -16,14 +16,14 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     private readonly ILogger _logger;
     private readonly IDictionary<string, INoxIntegration> _integrations;
     private readonly NoxSolution _solution;
-    private readonly IDictionary<string, INoxCustomTransformHandler>? _handlers;
+    private readonly IDictionary<string, INoxCustomTransform>? _handlers;
     
     public NoxIntegrationContext(
         ILogger<INoxIntegrationContext> logger, 
         NoxSolution solution, 
         INoxIntegrationDbContextFactory dbContextFactory,
         IPublisher publisher,
-        IEnumerable<INoxCustomTransformHandler>? handlers = null,
+        IEnumerable<INoxCustomTransform>? handlers = null,
         IEnumerable<EtlRecordCreatedEvent<IEtlEventDto>>? createdEvents = null,
         IEnumerable<EtlRecordUpdatedEvent<IEtlEventDto>>? updatedEvents = null,
         IEnumerable<EtlExecuteCompletedEvent>? completedEvents = null)
@@ -61,7 +61,7 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         try
         {
             var apmTransaction = Agent.Tracer.StartTransaction(name, ApiConstants.ActionExec);
-            INoxCustomTransformHandler? handler = null;
+            INoxCustomTransform? handler = null;
             if (_handlers != null && _handlers.TryGetValue(name, out var foundHandler))
             {
                 handler = foundHandler;

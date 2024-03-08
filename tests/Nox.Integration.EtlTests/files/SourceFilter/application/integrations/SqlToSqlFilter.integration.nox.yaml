@@ -7,7 +7,8 @@
 name: SqlToSqlIntegration
 description: a Sample integration that sources data from Sql Server and persists to a Database Table
 mergeType: mergeNew
-transformationType: defaultTransform
+transformation:
+  type: default
 
 schedule:
   start: every day at 2am

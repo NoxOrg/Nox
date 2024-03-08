@@ -1,5 +1,5 @@
+
 using Cryptocash.Integration.Integrations;
-using Cryptocash.Integration.Integrations.TransformHandlers;
 using Nox;
 using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Extensions;
@@ -16,8 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.AddNox();
 
 //You have to register all your integration transformation handlers.
-builder.Services.RegisterTransformHandler<QueryToCustomTableTransformHandler>();
-builder.Services.RegisterTransformHandler<JsonToTableTransformHandler>();
+builder.Services.RegisterTransformHandler<QueryToCustomTableTransform>();
+builder.Services.RegisterTransformHandler<JsonToTableTransform>();
 
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 

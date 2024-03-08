@@ -24,7 +24,7 @@ internal interface INoxIntegration
     
     List<string>? SourceFilterColumns { get; }
     
-    internal Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null);
+    internal Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransform? handler = null);
 
     //todo mapping handler, custom or AutoMapper.
     // If custom, it should create a handler that a user can implement and use to map fields.

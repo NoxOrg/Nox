@@ -57,7 +57,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Application.Integration.CustomTransformHandlers\" />
+      <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Application.Integration.CustomTransform\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
     

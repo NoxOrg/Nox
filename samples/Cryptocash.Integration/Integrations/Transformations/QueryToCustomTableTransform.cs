@@ -1,9 +1,9 @@
-using CryptocashIntegration.Application.Integration.CustomTransformHandlers;
+using CryptocashIntegration.Application.Integration.CustomTransform;
 using Nox.Integration.Abstractions.Interfaces;
 
-namespace Cryptocash.Integration.Integrations.TransformHandlers;
+namespace Cryptocash.Integration.Integrations;
 
-public class QueryToCustomTableTransformHandler: QueryToCustomTableTransformHandlerBase, INoxCustomTransformHandler
+public class QueryToCustomTableTransform: QueryToCustomTableTransformBase, INoxCustomTransform
 {
     public dynamic Invoke(dynamic sourceRecord)
     {
@@ -12,4 +12,5 @@ public class QueryToCustomTableTransformHandler: QueryToCustomTableTransformHand
         result.AsAt = sourceRecord.CreateDate.DateTime;
         return result;
     }
+    
 }

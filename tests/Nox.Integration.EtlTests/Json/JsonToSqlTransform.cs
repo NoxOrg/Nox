@@ -3,7 +3,7 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.EtlTests.Json;
 
-public class JsonToSqlTransformHandler: JsonToSqlTransformHandlerBase, INoxCustomTransformHandler
+public class JsonToSqlTransform: JsonToSqlTransformHandlerBase, INoxCustomTransform
 {
     public dynamic Invoke(dynamic sourceRecord)
     {

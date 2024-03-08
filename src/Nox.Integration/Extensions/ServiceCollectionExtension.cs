@@ -27,13 +27,13 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection RegisterTransformHandler(this IServiceCollection services, Type handlerType)
     {
-        services.AddTransient(typeof(INoxCustomTransformHandler), handlerType);
+        services.AddTransient(typeof(INoxCustomTransform), handlerType);
         return services;
     }
     
-    public static IServiceCollection RegisterTransformHandler<THandler>(this IServiceCollection services) where THandler: INoxCustomTransformHandler
+    public static IServiceCollection RegisterTransformHandler<THandler>(this IServiceCollection services) where THandler: INoxCustomTransform
     {
-        services.AddTransient(typeof(INoxCustomTransformHandler), typeof(THandler));
+        services.AddTransient(typeof(INoxCustomTransform), typeof(THandler));
         return services;
     }
 

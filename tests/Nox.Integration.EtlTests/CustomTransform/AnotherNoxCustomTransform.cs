@@ -2,7 +2,7 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.EtlTests.CustomTransform;
 
-public class AnotherNoxCustomTransformHandler: INoxCustomTransformHandler
+public class AnotherNoxCustomTransform: INoxCustomTransform
 {
     public string IntegrationName => "SomeOtherIntegration";
     

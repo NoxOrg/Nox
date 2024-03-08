@@ -64,7 +64,7 @@ internal sealed class NoxIntegration: INoxIntegration
         _completedEvent = completedEvent;
     }
     
-    public async Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null)
+    public async Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransform? handler = null)
     {
         try
         {
@@ -94,7 +94,7 @@ internal sealed class NoxIntegration: INoxIntegration
         }
     }
 
-    private async Task ExecuteMergeNew(INoxCustomTransformHandler? handler)
+    private async Task ExecuteMergeNew(INoxCustomTransform? handler)
     {
         var unChanged = 0;
         var inserts = 0;
@@ -104,7 +104,7 @@ internal sealed class NoxIntegration: INoxIntegration
 
         IDataFlowSource<ExpandoObject>? transformSource = null;
 
-        if (TransformType == IntegrationTransformType.Custom || TransformType == IntegrationTransformType.CustomWithMap)
+        if (TransformType == IntegrationTransformType.Custom || TransformType == IntegrationTransformType.CustomMap)
         {
             if (handler == null) throw new NoxIntegrationException("Cannot execute custom transform, handler not registered.");
             var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
@@ -165,7 +165,7 @@ internal sealed class NoxIntegration: INoxIntegration
         LogMergeAnalytics(inserts, updates, unChanged);
     }
 
-    private Task ExecuteAddNew(INoxCustomTransformHandler? handler)
+    private Task ExecuteAddNew(INoxCustomTransform? handler)
     {
         return Task.CompletedTask;
     }

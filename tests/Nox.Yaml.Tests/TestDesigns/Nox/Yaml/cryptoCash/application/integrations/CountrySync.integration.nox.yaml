@@ -22,7 +22,8 @@ source:
     query: SELECT * FROM dbo.Countries
     minimumExpectedRecords: 10
     
-transformationType: defaultTransform    
+transformation:
+  type: default
 
 target:
   name: CountryEntities

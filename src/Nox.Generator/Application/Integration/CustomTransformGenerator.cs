@@ -6,7 +6,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Integration;
 
-internal class CustomTransformHandlerGenerator: INoxCodeGenerator
+internal class CustomTransformGenerator: INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
     
@@ -35,7 +35,17 @@ internal class CustomTransformHandlerGenerator: INoxCodeGenerator
                 .WithClassName($"{customTransformIntegration.Name}TransformBase")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
                 .WithObject("integration", customTransformIntegration)
-                .GenerateSourceCodeFromResource("Application.Integration.CustomTransform");
+                .GenerateSourceCodeFromResource("Application.Integration.CustomTransformBase");
+        }
+        
+        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.CustomMap))
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+            new TemplateCodeBuilder(context, codeGenConventions)
+                .WithClassName($"{customTransformIntegration.Name}TransformBase")
+                .WithFileNamePrefix("Application.Integration.CustomTransform")
+                .WithObject("integration", customTransformIntegration)
+                .GenerateSourceCodeFromResource("Application.Integration.CustomMapTransformBase");
         }
     }
 }

@@ -48,6 +48,9 @@
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
     <ItemGroup>                
         <Compile Remove="ExpectedGeneratedFiles\**\*.*" />
+        <None Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

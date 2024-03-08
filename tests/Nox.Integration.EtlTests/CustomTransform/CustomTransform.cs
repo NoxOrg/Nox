@@ -4,11 +4,11 @@ using Nox.Solution;
 
 namespace Nox.Integration.EtlTests.CustomTransform;
 
-public class CustomTransformHandler: CustomTransformHandlerBase, INoxCustomTransformHandler
+public class CustomTransform: CustomTransformHandlerBase, INoxCustomTransform
 {
     private readonly NoxSolution _solution;
     
-    public CustomTransformHandler(NoxSolution solution)
+    public CustomTransform(NoxSolution solution)
     {
         _solution = solution;
     }

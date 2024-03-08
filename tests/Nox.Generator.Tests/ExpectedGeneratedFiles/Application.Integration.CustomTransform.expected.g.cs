@@ -3,17 +3,14 @@
 #nullable enable
 
 using AutoMapper;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
-public abstract class TestIntegrationTransformBase
+public partial class TestIntegrationTransform: TestIntegrationTransformBase, INoxCustomTransformHandler
 {
-    public string IntegrationName => "TestIntegration";
-
-    public virtual dynamic InvokeBase(dynamic sourceRecord)
+    public virtual dynamic Invoke(dynamic sourceRecord)
     {
-        var mapper = new Mapper(new MapperConfiguration(cfg => { }));
-        var result = mapper.Map<dynamic>(sourceRecord);
-        return result;
+        return InvokeBase(sourceRecord);
     }
 }

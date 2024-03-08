@@ -51,7 +51,8 @@ application:
           sequentialKeyColumns: 
             - "CountryId"
       
-      transformationType: defaultTransform
+      transformation:
+        type: default
       
       target:
         name: Country
@@ -88,7 +89,8 @@ application:
           sequentialKeyColumns: 
             - "CountryId"
 
-      transformationType: customTransform
+      transformation:
+        type: custom
 
       target:
         name: CountryTarget

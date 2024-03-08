@@ -41,7 +41,8 @@ source:
         dbo.CountryMaster
     minimumExpectedRecords: 10
 
-transformationType: customTransform
+transformation:
+  type: custom
 
 target:
   name: SampleTarget

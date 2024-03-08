@@ -19,8 +19,8 @@ public class CustomTransformTests: IClassFixture<SqlServerIntegrationFixture>
     public async Task Can_Execute_an_integration_using_custom_transform()
     {
         _sqlFixture.Configure("./files/CustomHandler/custom.solution.nox.yaml");
-        _sqlFixture.Services!.RegisterTransformHandler<CustomTransformHandler>();
-        _sqlFixture.Services!.RegisterTransformHandler<AnotherNoxCustomTransformHandler>();
+        _sqlFixture.Services!.RegisterTransformHandler<CustomTransform>();
+        _sqlFixture.Services!.RegisterTransformHandler<AnotherNoxCustomTransform>();
         _sqlFixture.Initialize();
         
         var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();

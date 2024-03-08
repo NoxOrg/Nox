@@ -1,6 +1,6 @@
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxCustomTransformHandler
+public interface INoxCustomTransform
 {
     string IntegrationName { get; }
     dynamic Invoke(dynamic sourceRecord);
