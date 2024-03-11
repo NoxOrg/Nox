@@ -30,6 +30,7 @@ internal class CustomTransformGenerator: INoxCodeGenerator
 
         foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.Custom))
         {
+            //create the transformation class
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{customTransformIntegration.Name}TransformBase")
@@ -40,6 +41,23 @@ internal class CustomTransformGenerator: INoxCodeGenerator
         
         foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.CustomMap))
         {
+            //Create the source Dto
+            context.CancellationToken.ThrowIfCancellationRequested();
+            new TemplateCodeBuilder(context, codeGenConventions)
+                .WithClassName($"{customTransformIntegration.Name}SourceDto")
+                .WithFileNamePrefix("Application.Integration.CustomTransform")
+                .WithObject("transformation", customTransformIntegration.Transformation)
+                .GenerateSourceCodeFromResource("Application.Integration.CustomMapTransformSourceDto");
+            
+            //Create the target dto
+            context.CancellationToken.ThrowIfCancellationRequested();
+            new TemplateCodeBuilder(context, codeGenConventions)
+                .WithClassName($"{customTransformIntegration.Name}TargetDto")
+                .WithFileNamePrefix("Application.Integration.CustomTransform")
+                .WithObject("transformation", customTransformIntegration.Transformation)
+                .GenerateSourceCodeFromResource("Application.Integration.CustomMapTransformTargetDto");
+            
+            //create the transformation class
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{customTransformIntegration.Name}TransformBase")

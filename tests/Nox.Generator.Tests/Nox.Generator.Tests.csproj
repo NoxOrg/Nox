@@ -48,11 +48,17 @@
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
     <ItemGroup>                
         <Compile Remove="ExpectedGeneratedFiles\**\*.*" />
-        <None Include="ExpectedGeneratedFiles\Application.Integration.CustomTransform.expected.g.cs">
+        <None Include="ExpectedGeneratedFiles\Application.Integration.CustomMapTransformTargetDto.expected.g.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>                
+        <None Include="ExpectedGeneratedFiles\Application.Integration.CustomMapTransformSourceDto.expected.g.cs">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="files\yaml\application\custom-map-integration.solution.nox.yaml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
     <!--  Copy to output all files and folders under files-->

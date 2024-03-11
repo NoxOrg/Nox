@@ -4,9 +4,9 @@
 # yaml-language-server: $schema=../../../../../schemas/integration.json
 #
 
-name: JsonToTable
+name: JsonToTableMap
 
-description: Synchronization of Country data from a sample Json file to a Nox entity store database table using a custom transformation.
+description: Synchronization of Country data from a sample Json file to a Nox entity store database table using a custom mapped transformation.
 
 mergeType: mergeNew
 
@@ -20,11 +20,19 @@ source:
   dataConnectionName: CountryJsonSource
 
   sourceAdapterType: file
-  fileOptions: 
+  fileOptions:
     filename: CountryMaster.json
 
 transformation:
-  type: custom
+  type: customMap
+  mapping:
+    id:
+      sourceName: CountryId
+      sourceType: integer
+      targetType: integer
+    
+    NoOfPeople:
+      targetType: integer
 
 target:
   name: SampleTarget
@@ -32,7 +40,7 @@ target:
   dataConnectionName: CryptocashEtlDb
   targetAdapterType: databaseTable
   tableOptions:
-    tableName: CountriesJsonToTable
+    tableName: CountriesJsonToMappedTable
     watermark:
       sequentialKeyColumns:
         - Id

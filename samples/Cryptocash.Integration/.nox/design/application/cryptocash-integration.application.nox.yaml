@@ -10,3 +10,5 @@ integrations:
   - $ref: ./integrations/query-to-custom-table.integration.nox.yaml
     
   - $ref: ./integrations/json-to-table.integration.nox.yaml
+    
+  - $ref: ./integrations/json-to-table-map.integration.nox.yaml
