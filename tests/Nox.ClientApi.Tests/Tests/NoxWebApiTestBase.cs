@@ -2,10 +2,13 @@ using AutoFixture;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
-using Nox.Application.Dto;
+
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
+
+using Nox.Application.Dto;
+using Nox.Extensions;
 
 namespace ClientApi.Tests;
 
@@ -55,13 +58,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         AddHeaders(httpClient, headers ?? new());
 
-        var result = await httpClient.GetAsync(requestUrl);
-        result.EnsureSuccessStatusCode();
-
-        var content = await result.Content.ReadAsStringAsync();
-        var data = DeserializeResponse<ODataCollectionResponse<TResult>>(content);
-
-        return data!.Value;
+        return await httpClient.GetODataCollectionResponseAsync<TResult>(requestUrl);
     }
     /// <summary>
     ///  Get collection result from a non Odata EndPoint
@@ -231,12 +228,12 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         var content = await message.Content.ReadAsStringAsync();
 
-        var result = DeserializeResponse<ODataCollectionResponse<TResult[]>>(content);
+        var result = DeserializeResponse<ODataCollectionDto<TResult[]>>(content);
 
         return result!.Value;
     }
 
-    public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true, Guid? etag = null)
         where TValue : class
     {
         using var httpClient = CreateHttpClient();
@@ -347,7 +344,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     private void EnsureOdataSingleResponse(string content)
     {
-        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        var oDataResponse = DeserializeResponse<ODataSingleDto>(content);
         oDataResponse.Should().NotBeNull();
         oDataResponse!.Context.Should().NotBeNullOrEmpty();
     }
