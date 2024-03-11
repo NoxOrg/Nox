@@ -7,12 +7,12 @@
 		<Nullable>enable</Nullable>
 		<PackageScribanIncludeSource>true</PackageScribanIncludeSource>
 		<DebugType>embedded</DebugType>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>		
 		<NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup>
 		<IsPackable>true</IsPackable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>Nox.Generator.Tasks</PackageId>
 		<Authors>The Nox Factory</Authors>
 		<Description>Nox generators library</Description>
@@ -22,7 +22,7 @@
 		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoxOrg/Nox.Lib.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageIcon>nox.png</PackageIcon>
+		<PackageIcon>nox.png</PackageIcon>		
 	</PropertyGroup>
 
 	<ItemGroup>
