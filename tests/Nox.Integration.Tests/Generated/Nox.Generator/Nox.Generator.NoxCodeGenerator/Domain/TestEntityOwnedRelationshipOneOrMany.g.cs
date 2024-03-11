@@ -130,9 +130,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Auditab
     /// </summary>
     public virtual void DeleteAllRefToSecEntityOwnedRelOneOrManies()
     {
-        if(SecEntityOwnedRelOneOrManies.HasExactlyOneItem())
-            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        SecEntityOwnedRelOneOrManies.Clear();
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     

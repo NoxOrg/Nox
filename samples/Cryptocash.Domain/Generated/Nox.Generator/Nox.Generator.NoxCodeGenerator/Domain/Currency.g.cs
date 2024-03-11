@@ -298,9 +298,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// </summary>
     public virtual void DeleteAllRefToExchangeRates()
     {
-        if(ExchangeRates.HasExactlyOneItem())
-            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        ExchangeRates.Clear();
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     

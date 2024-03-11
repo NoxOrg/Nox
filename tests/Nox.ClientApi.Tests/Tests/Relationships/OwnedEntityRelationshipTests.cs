@@ -1,6 +1,7 @@
 ﻿using ClientApi.Application.Dto;
 using FluentAssertions;
 using Nox.Application.Dto;
+using System.Globalization;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Relationships;
@@ -150,7 +151,7 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
     }
 
     [Fact]
-    public async Task WhenUpdatingCountry_WithEmptyCountryTimeZones_ExistingShouldBeDeleted()
+    public async Task WhenUpdatingCountry_WhenRelationshipIsOneOrMany_WithEmptyCountryTimeZones_BadRequest()
     {
         // Arrange
         var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
@@ -174,12 +175,41 @@ public class OwnedEntityRelationshipTests : NoxWebApiTestBase
             CountryTimeZones = new List<CountryTimeZoneUpsertDto>()
         };
 
+        var response = await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}", updateDto, etag, throwOnError: false);
+
+        // Assert
+        response!.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task WhenUpdatingCountry_WhenRelationshipIsZeroOrMany_WithEmptyCountryHolidays_ExistingShouldBeDeleted()
+    {
+        // Arrange
+        var country = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, new CountryCreateDto
+        {
+            Name = "United States of America",
+            Holidays = new List<HolidayUpsertDto>
+            {
+                new() { Id = Guid.Parse("6499abec-2118-4f51-a378-fb2c17b46ddc"), Name = "New Year's Day", Type = "public", Date = DateTime.Parse("2025-01-01", CultureInfo.InvariantCulture) },
+                new() { Id = Guid.Parse("cbbe9c6f-13ac-48ee-b5c3-51a10087f3f9"), Name = "New Year's Day", Type = "public", Date = DateTime.Parse("2025-01-02", CultureInfo.InvariantCulture) },
+            }
+        });
+
+        var etag = CreateEtagHeader(country!.Etag);
+
+        // Act
+        var updateDto = new CountryUpdateDto
+        {
+            Name = "United States of America",
+            Holidays = new List<HolidayUpsertDto>()
+        };
+
         await PutAsync($"{Endpoints.CountriesUrl}/{country.Id}", updateDto, etag);
 
         // Assert
         var updatedCountry = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{country.Id}");
 
-        updatedCountry!.CountryTimeZones.Should().BeEmpty();
+        updatedCountry!.Holidays.Should().BeEmpty();
     }
 
     [Fact]

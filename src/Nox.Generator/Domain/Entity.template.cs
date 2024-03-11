@@ -357,22 +357,14 @@ public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : 
     /// </summary>
     public virtual void DeleteAllRefTo{{navigationName}}()
     {
-        {{- if relationship.WithSingleEntity }}
-
-			{{- if relationship.Relationship == "ExactlyOne" }}
+        {{- if relationship.Relationship == "ExactlyOne" || relationship.Relationship == "OneOrMany" }}
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-			{{- else }}
+
+        {{- else if relationship.Relationship == "ZeroOrOne" }}
         {{navigationName}} = null;
-			{{- end }}
 
-        {{- else}}
-
-			{{- if relationship.Relationship == "OneOrMany" }}
-        if({{navigationName}}.HasExactlyOneItem())
-            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-			{{- end }}
+        {{- else if relationship.Relationship == "ZeroOrMany" }}
         {{navigationName}}.Clear();
-
         {{- end }}
     }
 {{-end}}

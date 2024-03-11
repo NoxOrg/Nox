@@ -323,9 +323,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// </summary>
     public virtual void DeleteAllRefToCountryTimeZones()
     {
-        if(CountryTimeZones.HasExactlyOneItem())
-            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CountryTimeZones.Clear();
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }﻿
 
     /// <summary>
