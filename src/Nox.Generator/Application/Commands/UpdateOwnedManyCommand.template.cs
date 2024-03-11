@@ -71,6 +71,9 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 		var parentEntity = await _repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}",  "{{keysToString parent.Keys}}");
 
+		{{- if relationship.Relationship == "ZeroOrMany" }}
+		{{- end}}
+
 		{{- key = entity.Keys | array.first }}				
 		List<{{entity.Name}}Entity> entities = new(request.EntitiesDto.Count());
 		foreach(var entityDto in request.EntitiesDto)
@@ -79,24 +82,27 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 			if(entityDto.{{key.Name}} is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateRefTo{{relationshipName}}(entity);
 			}
 			else
 			{
 				var owned{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
 				entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => x.{{key.Name}} == owned{{key.Name}});
 				if (entity is null)
+				{ 
 					{{- if !(IsNoxTypeCreatable key.Type) }}
 					throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'owned'}}");
 					{{- else }}
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+					parentEntity.CreateRefTo{{relationshipName}}(entity);
 					{{- end }}
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefTo{{relationshipName}}(entity);
+				}
 			}
 
-			parentEntity.CreateRefTo{{relationshipName}}(entity);
 			entities.Add(entity);
 		}
 

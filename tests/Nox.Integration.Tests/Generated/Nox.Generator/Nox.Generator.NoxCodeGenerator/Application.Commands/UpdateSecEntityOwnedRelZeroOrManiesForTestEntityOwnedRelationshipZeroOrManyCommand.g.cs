@@ -67,20 +67,23 @@ internal partial class UpdateSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRela
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateRefToSecEntityOwnedRelZeroOrManies(entity);
 			}
 			else
 			{
 				var ownedId = Dto.SecEntityOwnedRelZeroOrManyMetadata.CreateId(entityDto.Id.NonNullValue<System.String>());
 				entity = parentEntity.SecEntityOwnedRelZeroOrManies.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+					parentEntity.CreateRefToSecEntityOwnedRelZeroOrManies(entity);
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToSecEntityOwnedRelZeroOrManies(entity);
+				}
 			}
 
-			parentEntity.CreateRefToSecEntityOwnedRelZeroOrManies(entity);
 			entities.Add(entity);
 		}
 

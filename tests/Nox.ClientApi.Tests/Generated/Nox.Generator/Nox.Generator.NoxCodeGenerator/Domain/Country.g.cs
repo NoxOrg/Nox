@@ -285,7 +285,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     }﻿
 
     /// <summary>
-    /// Country uses ZeroOrMany CountryTimeZones
+    /// Country uses OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZone> CountryTimeZones { get; private set; } = new();
     
@@ -302,6 +302,8 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// </summary>
     public virtual void UpdateRefToCountryTimeZones(List<CountryTimeZone> relatedCountryTimeZone)
     {
+        if(!relatedCountryTimeZone.HasAtLeastOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
         CountryTimeZones.Clear();
         CountryTimeZones.AddRange(relatedCountryTimeZone);
     }
@@ -311,6 +313,8 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// </summary>
     public virtual void DeleteRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
+        if(CountryTimeZones.HasExactlyOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryTimeZones.Remove(relatedCountryTimeZone);
     }
     
@@ -319,6 +323,8 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// </summary>
     public virtual void DeleteAllRefToCountryTimeZones()
     {
+        if(CountryTimeZones.HasExactlyOneItem())
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryTimeZones.Clear();
     }﻿
 

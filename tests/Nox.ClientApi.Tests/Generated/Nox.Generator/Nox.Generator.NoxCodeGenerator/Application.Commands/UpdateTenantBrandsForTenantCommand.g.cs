@@ -67,20 +67,22 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCo
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateRefToTenantBrands(entity);
 			}
 			else
 			{
 				var ownedId = Dto.TenantBrandMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
 				entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					throw new EntityNotFoundException("TenantBrand",  $"ownedId");
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToTenantBrands(entity);
+				}
 			}
 
-			parentEntity.CreateRefToTenantBrands(entity);
 			entities.Add(entity);
 		}
 

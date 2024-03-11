@@ -67,20 +67,23 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandColle
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateRefToHolidays(entity);
 			}
 			else
 			{
 				var ownedId = Dto.HolidayMetadata.CreateId(entityDto.Id.NonNullValue<System.Guid>());
 				entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+					parentEntity.CreateRefToHolidays(entity);
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToHolidays(entity);
+				}
 			}
 
-			parentEntity.CreateRefToHolidays(entity);
 			entities.Add(entity);
 		}
 

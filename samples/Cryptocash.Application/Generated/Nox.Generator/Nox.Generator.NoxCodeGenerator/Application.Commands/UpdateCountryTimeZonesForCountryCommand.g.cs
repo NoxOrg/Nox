@@ -67,20 +67,22 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateRefToCountryTimeZones(entity);
 			}
 			else
 			{
 				var ownedId = Dto.CountryTimeZoneMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
 				entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					throw new EntityNotFoundException("CountryTimeZone",  $"ownedId");
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToCountryTimeZones(entity);
+				}
 			}
 
-			parentEntity.CreateRefToCountryTimeZones(entity);
 			entities.Add(entity);
 		}
 

@@ -162,7 +162,7 @@ public abstract class CountryDtoBase : EntityDtoBase
     public virtual CountryBarCodeDto? CountryBarCode { get; set; } = null!;
 
     /// <summary>
-    /// Country uses ZeroOrMany CountryTimeZones
+    /// Country uses OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
 
