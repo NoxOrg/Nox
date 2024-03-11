@@ -303,7 +303,7 @@ public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : 
     /// <summary>
     /// Creates a new {{relationship.Entity}} entity.
     /// </summary>
-    public virtual void CreateRefTo{{navigationName}}({{relationship.Entity}} related{{relationship.Entity}})
+    public virtual void Create{{navigationName}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
         {{navigationName}} = related{{relationship.Entity}};
@@ -317,7 +317,7 @@ public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : 
     /// <summary>
     /// Updates all owned {{relationship.Entity}} entities.
     /// </summary>
-    public virtual void UpdateRefTo{{navigationName}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
+    public virtual void Update{{navigationName}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
     {
         {{- if relationship.Relationship == "OneOrMany" }}
         if(!related{{relationship.Entity}}.HasAtLeastOneItem())
@@ -331,7 +331,7 @@ public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : 
     /// <summary>
     /// Deletes owned {{relationship.Entity}} entity.
     /// </summary>
-    public virtual void DeleteRefTo{{navigationName}}({{relationship.Entity}} related{{relationship.Entity}})
+    public virtual void Delete{{navigationName}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
 
@@ -355,7 +355,7 @@ public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : 
     /// <summary>
     /// Deletes all owned {{relationship.Entity}} entities.
     /// </summary>
-    public virtual void DeleteAllRefTo{{navigationName}}()
+    public virtual void Delete{{navigationName}}()
     {
         {{- if relationship.Relationship == "ExactlyOne" || relationship.Relationship == "OneOrMany" }}
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");

@@ -95,7 +95,7 @@ internal partial class {{className}}HandlerBase : CommandBase<{{className}}, {{e
 	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefTo{{relationshipName}}(entity);
+		parent.Create{{relationshipName}}(entity);
 		return entity;
 	}
 	{{- end}}

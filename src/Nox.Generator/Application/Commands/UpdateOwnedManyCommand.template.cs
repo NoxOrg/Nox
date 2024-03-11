@@ -82,7 +82,7 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 			if(entityDto.{{key.Name}} is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-				parentEntity.CreateRefTo{{relationshipName}}(entity);
+				parentEntity.Create{{relationshipName}}(entity);
 			}
 			else
 			{
@@ -94,7 +94,7 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 					throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'owned'}}");
 					{{- else }}
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-					parentEntity.CreateRefTo{{relationshipName}}(entity);
+					parentEntity.Create{{relationshipName}}(entity);
 					{{- end }}
 				}
 				else
@@ -117,7 +117,7 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefTo{{relationshipName}}(entity);
+		parent.Create{{relationshipName}}(entity);
 		return entity;
 	}
 }
