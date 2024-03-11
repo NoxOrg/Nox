@@ -99,7 +99,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audita
     /// <summary>
     /// Creates a new SecEntityOwnedRelExactlyOne entity.
     /// </summary>
-    public virtual void CreateRefToSecEntityOwnedRelExactlyOne(SecEntityOwnedRelExactlyOne relatedSecEntityOwnedRelExactlyOne)
+    public virtual void CreateSecEntityOwnedRelExactlyOne(SecEntityOwnedRelExactlyOne relatedSecEntityOwnedRelExactlyOne)
     {
         SecEntityOwnedRelExactlyOne = relatedSecEntityOwnedRelExactlyOne;
     }
@@ -107,7 +107,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audita
     /// <summary>
     /// Deletes owned SecEntityOwnedRelExactlyOne entity.
     /// </summary>
-    public virtual void DeleteRefToSecEntityOwnedRelExactlyOne(SecEntityOwnedRelExactlyOne relatedSecEntityOwnedRelExactlyOne)
+    public virtual void DeleteSecEntityOwnedRelExactlyOne(SecEntityOwnedRelExactlyOne relatedSecEntityOwnedRelExactlyOne)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -115,7 +115,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audita
     /// <summary>
     /// Deletes all owned SecEntityOwnedRelExactlyOne entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecEntityOwnedRelExactlyOne()
+    public virtual void DeleteAllSecEntityOwnedRelExactlyOne()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

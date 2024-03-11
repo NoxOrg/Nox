@@ -99,7 +99,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Auditab
     /// <summary>
     /// Creates a new SecondTestEntityOwnedRelationshipZeroOrOne entity.
     /// </summary>
-    public virtual void CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOne relatedSecondTestEntityOwnedRelationshipZeroOrOne)
+    public virtual void CreateSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOne relatedSecondTestEntityOwnedRelationshipZeroOrOne)
     {
         SecondTestEntityOwnedRelationshipZeroOrOne = relatedSecondTestEntityOwnedRelationshipZeroOrOne;
     }
@@ -107,7 +107,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Auditab
     /// <summary>
     /// Deletes owned SecondTestEntityOwnedRelationshipZeroOrOne entity.
     /// </summary>
-    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOne relatedSecondTestEntityOwnedRelationshipZeroOrOne)
+    public virtual void DeleteSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOne relatedSecondTestEntityOwnedRelationshipZeroOrOne)
     {
         SecondTestEntityOwnedRelationshipZeroOrOne = null;
     }
@@ -115,7 +115,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Auditab
     /// <summary>
     /// Deletes all owned SecondTestEntityOwnedRelationshipZeroOrOne entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrOne()
+    public virtual void DeleteAllSecondTestEntityOwnedRelationshipZeroOrOne()
     {
         SecondTestEntityOwnedRelationshipZeroOrOne = null;
     }

@@ -131,7 +131,7 @@ public abstract partial class PersonBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new UserContactSelection entity.
     /// </summary>
-    public virtual void CreateRefToUserContactSelection(UserContactSelection relatedUserContactSelection)
+    public virtual void CreateUserContactSelection(UserContactSelection relatedUserContactSelection)
     {
         UserContactSelection = relatedUserContactSelection;
     }
@@ -139,7 +139,7 @@ public abstract partial class PersonBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned UserContactSelection entity.
     /// </summary>
-    public virtual void DeleteRefToUserContactSelection(UserContactSelection relatedUserContactSelection)
+    public virtual void DeleteUserContactSelection(UserContactSelection relatedUserContactSelection)
     {
         UserContactSelection = null;
     }
@@ -147,7 +147,7 @@ public abstract partial class PersonBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned UserContactSelection entities.
     /// </summary>
-    public virtual void DeleteAllRefToUserContactSelection()
+    public virtual void DeleteAllUserContactSelection()
     {
         UserContactSelection = null;
     }

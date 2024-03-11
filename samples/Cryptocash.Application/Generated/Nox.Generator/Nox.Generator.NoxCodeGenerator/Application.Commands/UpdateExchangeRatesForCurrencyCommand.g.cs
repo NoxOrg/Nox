@@ -67,7 +67,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-				parentEntity.CreateRefToExchangeRates(entity);
+				parentEntity.CreateExchangeRates(entity);
 			}
 			else
 			{
@@ -97,7 +97,7 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 	private async Task<ExchangeRateEntity> CreateEntityAsync(ExchangeRateUpsertDto upsertDto, CurrencyEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToExchangeRates(entity);
+		parent.CreateExchangeRates(entity);
 		return entity;
 	}
 }

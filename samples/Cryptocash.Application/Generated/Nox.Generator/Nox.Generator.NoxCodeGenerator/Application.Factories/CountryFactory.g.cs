@@ -128,27 +128,27 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         //createDto.CountryTimeZones?.ForEach(async dto =>
         //{
         //    var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToCountryTimeZones(countryTimeZone);
+        //    entity.CreateCountryTimeZones(countryTimeZone);
         //});
         if(createDto.CountryTimeZones is not null)
         {
             foreach (var dto in createDto.CountryTimeZones)
             {
                 var countryTimeZone = CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToCountryTimeZones(countryTimeZone);
+                entity.CreateCountryTimeZones(countryTimeZone);
             }
         }
         //createDto.Holidays?.ForEach(async dto =>
         //{
         //    var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToHolidays(holiday);
+        //    entity.CreateHolidays(holiday);
         //});
         if(createDto.Holidays is not null)
         {
             foreach (var dto in createDto.Holidays)
             {
                 var holiday = HolidayFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToHolidays(holiday);
+                entity.CreateHolidays(holiday);
             }
         }        
         return await Task.FromResult(entity);
@@ -406,7 +406,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if(!updateDto.CountryTimeZones.Any())
         { 
             _repository.DeleteOwned(entity.CountryTimeZones);
-			entity.DeleteAllRefToCountryTimeZones();
+			entity.DeleteAllCountryTimeZones();
         }
 		else
 		{
@@ -433,7 +433,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			}
             _repository.DeleteOwned<Cryptocash.Domain.CountryTimeZone>(
                 entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
+			entity.UpdateCountryTimeZones(updatedCountryTimeZones);
 		}
 	}
 
@@ -445,7 +445,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if(!updateDto.Holidays.Any())
         { 
             _repository.DeleteOwned(entity.Holidays);
-			entity.DeleteAllRefToHolidays();
+			entity.DeleteAllHolidays();
         }
 		else
 		{
@@ -472,7 +472,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			}
             _repository.DeleteOwned<Cryptocash.Domain.Holiday>(
                 entity.Holidays.Where(x => !updatedHolidays.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToHolidays(updatedHolidays);
+			entity.UpdateHolidays(updatedHolidays);
 		}
 	}
 }

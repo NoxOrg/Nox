@@ -58,7 +58,7 @@ internal partial class DeleteUserContactSelectionForPersonCommandHandlerBase : C
 			throw new EntityNotFoundException("Person.UserContactSelection",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToUserContactSelection(entity);
+		parentEntity.DeleteUserContactSelection(entity);
 		
 		
 		

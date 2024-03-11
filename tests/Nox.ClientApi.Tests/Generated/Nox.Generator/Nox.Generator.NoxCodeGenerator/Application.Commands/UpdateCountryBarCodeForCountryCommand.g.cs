@@ -77,7 +77,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 	private async Task<CountryBarCodeEntity> CreateEntityAsync(CountryBarCodeUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToCountryBarCode(entity);
+		parent.CreateCountryBarCode(entity);
 		return entity;
 	}
 }

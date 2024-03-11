@@ -147,7 +147,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Creates a new TenantBrand entity.
     /// </summary>
-    public virtual void CreateRefToTenantBrands(TenantBrand relatedTenantBrand)
+    public virtual void CreateTenantBrands(TenantBrand relatedTenantBrand)
     {
         TenantBrands.Add(relatedTenantBrand);
     }
@@ -155,7 +155,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Updates all owned TenantBrand entities.
     /// </summary>
-    public virtual void UpdateRefToTenantBrands(List<TenantBrand> relatedTenantBrand)
+    public virtual void UpdateTenantBrands(List<TenantBrand> relatedTenantBrand)
     {
         TenantBrands.Clear();
         TenantBrands.AddRange(relatedTenantBrand);
@@ -164,7 +164,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Deletes owned TenantBrand entity.
     /// </summary>
-    public virtual void DeleteRefToTenantBrands(TenantBrand relatedTenantBrand)
+    public virtual void DeleteTenantBrands(TenantBrand relatedTenantBrand)
     {
         TenantBrands.Remove(relatedTenantBrand);
     }
@@ -172,7 +172,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Deletes all owned TenantBrand entities.
     /// </summary>
-    public virtual void DeleteAllRefToTenantBrands()
+    public virtual void DeleteAllTenantBrands()
     {
         TenantBrands.Clear();
     }﻿
@@ -185,7 +185,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Creates a new TenantContact entity.
     /// </summary>
-    public virtual void CreateRefToTenantContact(TenantContact relatedTenantContact)
+    public virtual void CreateTenantContact(TenantContact relatedTenantContact)
     {
         TenantContact = relatedTenantContact;
     }
@@ -193,7 +193,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Deletes owned TenantContact entity.
     /// </summary>
-    public virtual void DeleteRefToTenantContact(TenantContact relatedTenantContact)
+    public virtual void DeleteTenantContact(TenantContact relatedTenantContact)
     {
         TenantContact = null;
     }
@@ -201,7 +201,7 @@ public abstract partial class TenantBase : EntityBase, IEtag
     /// <summary>
     /// Deletes all owned TenantContact entities.
     /// </summary>
-    public virtual void DeleteAllRefToTenantContact()
+    public virtual void DeleteAllTenantContact()
     {
         TenantContact = null;
     }

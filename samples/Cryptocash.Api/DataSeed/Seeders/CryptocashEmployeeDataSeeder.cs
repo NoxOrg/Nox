@@ -35,7 +35,7 @@ internal class CryptocashEmployeeDataSeeder : DataSeederBase<EmployeeDto, Employ
         {
             foreach (EmployeePhoneNumberDto currentPhone in model.EmployeePhoneNumbers)
             {
-                rtnEmployee.CreateRefToEmployeePhoneNumbers(
+                rtnEmployee.CreateEmployeePhoneNumbers(
                     new()
                     {
                         PhoneNumber = PhoneNumber.From(currentPhone.PhoneNumber),

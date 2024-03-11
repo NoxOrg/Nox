@@ -58,7 +58,7 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrOne.SecondTestEntityOwnedRelationshipZeroOrOne",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToSecondTestEntityOwnedRelationshipZeroOrOne(entity);
+		parentEntity.DeleteSecondTestEntityOwnedRelationshipZeroOrOne(entity);
 		
 		
 		

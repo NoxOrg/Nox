@@ -58,7 +58,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 			throw new EntityNotFoundException("Country.CountryBarCode",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToCountryBarCode(entity);
+		parentEntity.DeleteCountryBarCode(entity);
 		
 		
 		

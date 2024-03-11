@@ -67,7 +67,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandColle
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-				parentEntity.CreateRefToHolidays(entity);
+				parentEntity.CreateHolidays(entity);
 			}
 			else
 			{
@@ -97,7 +97,7 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandColle
 	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToHolidays(entity);
+		parent.CreateHolidays(entity);
 		return entity;
 	}
 }

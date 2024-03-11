@@ -229,7 +229,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new BankNote entity.
     /// </summary>
-    public virtual void CreateRefToBankNotes(BankNote relatedBankNote)
+    public virtual void CreateBankNotes(BankNote relatedBankNote)
     {
         BankNotes.Add(relatedBankNote);
     }
@@ -237,7 +237,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Updates all owned BankNote entities.
     /// </summary>
-    public virtual void UpdateRefToBankNotes(List<BankNote> relatedBankNote)
+    public virtual void UpdateBankNotes(List<BankNote> relatedBankNote)
     {
         BankNotes.Clear();
         BankNotes.AddRange(relatedBankNote);
@@ -246,7 +246,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned BankNote entity.
     /// </summary>
-    public virtual void DeleteRefToBankNotes(BankNote relatedBankNote)
+    public virtual void DeleteBankNotes(BankNote relatedBankNote)
     {
         BankNotes.Remove(relatedBankNote);
     }
@@ -254,7 +254,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned BankNote entities.
     /// </summary>
-    public virtual void DeleteAllRefToBankNotes()
+    public virtual void DeleteAllBankNotes()
     {
         BankNotes.Clear();
     }﻿
@@ -267,7 +267,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new ExchangeRate entity.
     /// </summary>
-    public virtual void CreateRefToExchangeRates(ExchangeRate relatedExchangeRate)
+    public virtual void CreateExchangeRates(ExchangeRate relatedExchangeRate)
     {
         ExchangeRates.Add(relatedExchangeRate);
     }
@@ -275,7 +275,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Updates all owned ExchangeRate entities.
     /// </summary>
-    public virtual void UpdateRefToExchangeRates(List<ExchangeRate> relatedExchangeRate)
+    public virtual void UpdateExchangeRates(List<ExchangeRate> relatedExchangeRate)
     {
         if(!relatedExchangeRate.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
@@ -286,7 +286,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned ExchangeRate entity.
     /// </summary>
-    public virtual void DeleteRefToExchangeRates(ExchangeRate relatedExchangeRate)
+    public virtual void DeleteExchangeRates(ExchangeRate relatedExchangeRate)
     {
         if(ExchangeRates.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
@@ -296,7 +296,7 @@ public abstract partial class CurrencyBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned ExchangeRate entities.
     /// </summary>
-    public virtual void DeleteAllRefToExchangeRates()
+    public virtual void DeleteAllExchangeRates()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

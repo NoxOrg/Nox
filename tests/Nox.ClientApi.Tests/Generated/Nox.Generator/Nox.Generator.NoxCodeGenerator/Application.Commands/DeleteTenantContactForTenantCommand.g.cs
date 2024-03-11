@@ -58,7 +58,7 @@ internal partial class DeleteTenantContactForTenantCommandHandlerBase : CommandB
 			throw new EntityNotFoundException("Tenant.TenantContact",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToTenantContact(entity);
+		parentEntity.DeleteTenantContact(entity);
 		
 		
 		

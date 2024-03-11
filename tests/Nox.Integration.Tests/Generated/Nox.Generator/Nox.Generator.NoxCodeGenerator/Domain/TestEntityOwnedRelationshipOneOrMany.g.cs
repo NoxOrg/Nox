@@ -99,7 +99,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Auditab
     /// <summary>
     /// Creates a new SecEntityOwnedRelOneOrMany entity.
     /// </summary>
-    public virtual void CreateRefToSecEntityOwnedRelOneOrManies(SecEntityOwnedRelOneOrMany relatedSecEntityOwnedRelOneOrMany)
+    public virtual void CreateSecEntityOwnedRelOneOrManies(SecEntityOwnedRelOneOrMany relatedSecEntityOwnedRelOneOrMany)
     {
         SecEntityOwnedRelOneOrManies.Add(relatedSecEntityOwnedRelOneOrMany);
     }
@@ -107,7 +107,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Auditab
     /// <summary>
     /// Updates all owned SecEntityOwnedRelOneOrMany entities.
     /// </summary>
-    public virtual void UpdateRefToSecEntityOwnedRelOneOrManies(List<SecEntityOwnedRelOneOrMany> relatedSecEntityOwnedRelOneOrMany)
+    public virtual void UpdateSecEntityOwnedRelOneOrManies(List<SecEntityOwnedRelOneOrMany> relatedSecEntityOwnedRelOneOrMany)
     {
         if(!relatedSecEntityOwnedRelOneOrMany.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
@@ -118,7 +118,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Auditab
     /// <summary>
     /// Deletes owned SecEntityOwnedRelOneOrMany entity.
     /// </summary>
-    public virtual void DeleteRefToSecEntityOwnedRelOneOrManies(SecEntityOwnedRelOneOrMany relatedSecEntityOwnedRelOneOrMany)
+    public virtual void DeleteSecEntityOwnedRelOneOrManies(SecEntityOwnedRelOneOrMany relatedSecEntityOwnedRelOneOrMany)
     {
         if(SecEntityOwnedRelOneOrManies.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
@@ -128,7 +128,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Auditab
     /// <summary>
     /// Deletes all owned SecEntityOwnedRelOneOrMany entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecEntityOwnedRelOneOrManies()
+    public virtual void DeleteAllSecEntityOwnedRelOneOrManies()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

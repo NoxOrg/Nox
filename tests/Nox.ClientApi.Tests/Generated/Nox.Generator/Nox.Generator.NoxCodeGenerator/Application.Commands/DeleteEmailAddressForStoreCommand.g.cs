@@ -58,7 +58,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 			throw new EntityNotFoundException("Store.EmailAddress",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToEmailAddress(entity);
+		parentEntity.DeleteEmailAddress(entity);
 		
 		
 		

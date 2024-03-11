@@ -788,7 +788,7 @@ public class DatabaseTests
             TextTestField2 = Text.From(textId2),
         };
 
-        newItem.CreateRefToSecEntityOwnedRelExactlyOne(newItem2);
+        newItem.CreateSecEntityOwnedRelExactlyOne(newItem2);
         DataContext.TestEntityOwnedRelationshipExactlyOnes.Add(newItem);
         DataContext.SaveChanges();
 
@@ -818,7 +818,7 @@ public class DatabaseTests
             TextTestField2 = Text.From(textId2),
         };
 
-        newItem.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(newItem2);
+        newItem.CreateSecondTestEntityOwnedRelationshipZeroOrOne(newItem2);
         DataContext.TestEntityOwnedRelationshipZeroOrOnes.Add(newItem);
         DataContext.SaveChanges();
 

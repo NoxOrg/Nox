@@ -67,7 +67,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-				parentEntity.CreateRefToEmployeePhoneNumbers(entity);
+				parentEntity.CreateEmployeePhoneNumbers(entity);
 			}
 			else
 			{
@@ -97,7 +97,7 @@ internal partial class UpdateEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 	private async Task<EmployeePhoneNumberEntity> CreateEntityAsync(EmployeePhoneNumberUpsertDto upsertDto, EmployeeEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToEmployeePhoneNumbers(entity);
+		parent.CreateEmployeePhoneNumbers(entity);
 		return entity;
 	}
 }

@@ -106,7 +106,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         if (createDto.EmailAddress is not null)
         {
             var emailAddress = await EmailAddressFactory.CreateEntityAsync(createDto.EmailAddress, cultureCode);
-            entity.CreateRefToEmailAddress(emailAddress);
+            entity.CreateEmailAddress(emailAddress);
         }        
         return await Task.FromResult(entity);
     }
@@ -201,14 +201,14 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         {
             if(entity.EmailAddress is not null) 
                 _repository.DeleteOwned(entity.EmailAddress);
-            entity.DeleteAllRefToEmailAddress();
+            entity.DeleteAllEmailAddress();
         }
 		else
 		{
             if(entity.EmailAddress is not null)
                 await EmailAddressFactory.UpdateEntityAsync(entity.EmailAddress, updateDto.EmailAddress, cultureCode);
             else
-			    entity.CreateRefToEmailAddress(await EmailAddressFactory.CreateEntityAsync(updateDto.EmailAddress, cultureCode));
+			    entity.CreateEmailAddress(await EmailAddressFactory.CreateEntityAsync(updateDto.EmailAddress, cultureCode));
         }
 	}
 }

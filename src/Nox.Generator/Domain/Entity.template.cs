@@ -355,7 +355,7 @@ public abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : 
     /// <summary>
     /// Deletes all owned {{relationship.Entity}} entities.
     /// </summary>
-    public virtual void Delete{{navigationName}}()
+    public virtual void DeleteAll{{navigationName}}()
     {
         {{- if relationship.Relationship == "ExactlyOne" || relationship.Relationship == "OneOrMany" }}
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");

@@ -67,7 +67,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-				parentEntity.CreateRefToCountryLocalNames(entity);
+				parentEntity.CreateCountryLocalNames(entity);
 			}
 			else
 			{
@@ -97,7 +97,7 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 	private async Task<CountryLocalNameEntity> CreateEntityAsync(CountryLocalNameUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToCountryLocalNames(entity);
+		parent.CreateCountryLocalNames(entity);
 		return entity;
 	}
 }

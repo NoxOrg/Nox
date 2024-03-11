@@ -67,7 +67,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCo
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
-				parentEntity.CreateRefToTenantBrands(entity);
+				parentEntity.CreateTenantBrands(entity);
 			}
 			else
 			{
@@ -97,7 +97,7 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCo
 	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToTenantBrands(entity);
+		parent.CreateTenantBrands(entity);
 		return entity;
 	}
 }

@@ -58,7 +58,7 @@ internal partial class DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne.SecEntityOwnedRelExactlyOne",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToSecEntityOwnedRelExactlyOne(entity);
+		parentEntity.DeleteSecEntityOwnedRelExactlyOne(entity);
 		
 		
 		
