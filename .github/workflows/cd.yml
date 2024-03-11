@@ -78,13 +78,16 @@ jobs:
         run: dotnet restore Nox.sln
 
       - name: Build Nox.Generator.Tasks
-        run: dotnet build ./src/Nox.Generator.Tasks #ensure that generatortask is build and copied to the output so CryptoCash.UI can use it as a task (not a dependency)
+        run: dotnet build ./src/Nox.Generator.Tasks  --warnaserror --configuration Release --no-restore --no-incremental /p:ContinuousIntegrationBuild=true
         
-      - name: Build
+      - name: Build Solution
         run: dotnet build Nox.sln --warnaserror --configuration Release --no-restore --no-incremental /p:ContinuousIntegrationBuild=true
 
-      - name: Pack Nox
+      - name: Pack Nox (Solution)
         run: dotnet pack --no-build Nox.sln --configuration Release -o ./artifacts
+
+      - name: Pack Nox (Tasks)
+        run: dotnet pack --no-build ./src/Nox.Generator.Tasks --configuration Release -o ./artifacts
 
       - name: Publish Nox
         if: contains(github.ref,'refs/tags/v') || contains(github.ref,'refs/heads/main')
