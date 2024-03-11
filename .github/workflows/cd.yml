@@ -75,7 +75,7 @@ jobs:
 
       - name: Restore
         run: dotnet restore Nox.sln
-                 
+        
       - name: Build
         run: |
           dotnet build ./src/Nox.Generator.Tasks  --no-restore  
