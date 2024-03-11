@@ -72,13 +72,14 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-          additionalArguments: '/showConfig'
 
       - name: Restore
         run: dotnet restore Nox.sln
 
       - name: Build Nox.Generator.Tasks
-        run: dotnet build ./src/Nox.Generator.Tasks  --warnaserror --configuration Release --no-restore --no-incremental /p:ContinuousIntegrationBuild=true
+        run: |
+          dotnet build ./src/Nox.Generator.Tasks  --no-restore  
+          dotnet build ./src/Nox.Generator.Tasks  --warnaserror --configuration Release --no-restore --no-incremental /p:ContinuousIntegrationBuild=true          
         
       - name: Build Solution
         run: dotnet build Nox.sln --warnaserror --configuration Release --no-restore --no-incremental /p:ContinuousIntegrationBuild=true
