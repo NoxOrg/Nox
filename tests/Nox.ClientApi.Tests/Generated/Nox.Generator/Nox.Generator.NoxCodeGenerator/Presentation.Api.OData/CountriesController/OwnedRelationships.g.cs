@@ -48,18 +48,6 @@ public abstract partial class CountriesControllerBase
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllCountryBarCodeForCountryCommand(new CountryKeyDto(key), etag));
         return NoContent();
     }
-            
-    [HttpDelete("/api/v1/Countries/{key}/CountryTimeZones")]
-    public virtual async Task<IActionResult> DeleteCountryAllOwnedCountryTimeZonesNonConventional([FromRoute] System.Int64 key)
-    {
-        if(!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var etag = Request.GetDecodedEtagHeader();
-        await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllCountryTimeZonesForCountryCommand(new CountryKeyDto(key), etag));
-        return NoContent();
-    }
     [HttpDelete("/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}")]
     public virtual async Task<IActionResult> DeleteCountryOwnedCountryTimeZoneNonConventional([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
