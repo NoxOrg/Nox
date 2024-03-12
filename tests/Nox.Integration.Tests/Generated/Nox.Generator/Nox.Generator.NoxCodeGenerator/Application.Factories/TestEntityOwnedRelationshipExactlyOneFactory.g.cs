@@ -98,7 +98,7 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         if (createDto.SecEntityOwnedRelExactlyOne is not null)
         {
             var secEntityOwnedRelExactlyOne = await SecEntityOwnedRelExactlyOneFactory.CreateEntityAsync(createDto.SecEntityOwnedRelExactlyOne, cultureCode);
-            entity.CreateRefToSecEntityOwnedRelExactlyOne(secEntityOwnedRelExactlyOne);
+            entity.CreateSecEntityOwnedRelExactlyOne(secEntityOwnedRelExactlyOne);
         }        
         return await Task.FromResult(entity);
     }
@@ -137,14 +137,14 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         {
             if(entity.SecEntityOwnedRelExactlyOne is not null) 
                 _repository.DeleteOwned(entity.SecEntityOwnedRelExactlyOne);
-            entity.DeleteAllRefToSecEntityOwnedRelExactlyOne();
+            entity.DeleteAllSecEntityOwnedRelExactlyOne();
         }
 		else
 		{
             if(entity.SecEntityOwnedRelExactlyOne is not null)
                 await SecEntityOwnedRelExactlyOneFactory.UpdateEntityAsync(entity.SecEntityOwnedRelExactlyOne, updateDto.SecEntityOwnedRelExactlyOne, cultureCode);
             else
-			    entity.CreateRefToSecEntityOwnedRelExactlyOne(await SecEntityOwnedRelExactlyOneFactory.CreateEntityAsync(updateDto.SecEntityOwnedRelExactlyOne, cultureCode));
+			    entity.CreateSecEntityOwnedRelExactlyOne(await SecEntityOwnedRelExactlyOneFactory.CreateEntityAsync(updateDto.SecEntityOwnedRelExactlyOne, cultureCode));
         }
 	}
 }

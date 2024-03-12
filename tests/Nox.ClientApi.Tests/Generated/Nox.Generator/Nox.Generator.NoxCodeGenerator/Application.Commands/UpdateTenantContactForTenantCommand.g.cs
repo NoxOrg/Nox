@@ -77,7 +77,7 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 	private async Task<TenantContactEntity> CreateEntityAsync(TenantContactUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToTenantContact(entity);
+		parent.CreateTenantContact(entity);
 		return entity;
 	}
 }

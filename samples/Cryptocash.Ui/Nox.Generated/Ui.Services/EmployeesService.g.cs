@@ -2,8 +2,8 @@
 
 #nullable enable
 
+using Nox.Extensions;
 using Nox.Ui.Blazor.Lib.Contracts;
-using Nox.Ui.Blazor.Lib.Extensions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;

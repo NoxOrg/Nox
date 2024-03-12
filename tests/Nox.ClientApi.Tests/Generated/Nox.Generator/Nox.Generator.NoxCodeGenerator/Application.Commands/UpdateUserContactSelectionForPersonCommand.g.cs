@@ -77,7 +77,7 @@ internal partial class UpdateUserContactSelectionForPersonCommandHandlerBase : C
 	private async Task<UserContactSelectionEntity> CreateEntityAsync(UserContactSelectionUpsertDto upsertDto, PersonEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToUserContactSelection(entity);
+		parent.CreateUserContactSelection(entity);
 		return entity;
 	}
 }

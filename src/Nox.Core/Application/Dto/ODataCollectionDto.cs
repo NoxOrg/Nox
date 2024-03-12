@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Nox.Ui.Blazor.Lib.Models;
+namespace Nox.Application.Dto;
 
-public class ODataCollectionResponse<T>
+public class ODataCollectionDto<T>
 {
     public T Value { get; set; } = default!;
 

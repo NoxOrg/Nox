@@ -67,20 +67,23 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateSecEntityOwnedRelOneOrManies(entity);
 			}
 			else
 			{
 				var ownedId = Dto.SecEntityOwnedRelOneOrManyMetadata.CreateId(entityDto.Id.NonNullValue<System.String>());
 				entity = parentEntity.SecEntityOwnedRelOneOrManies.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+					parentEntity.CreateSecEntityOwnedRelOneOrManies(entity);
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToSecEntityOwnedRelOneOrManies(entity);
+				}
 			}
 
-			parentEntity.CreateRefToSecEntityOwnedRelOneOrManies(entity);
 			entities.Add(entity);
 		}
 
@@ -95,7 +98,7 @@ internal partial class UpdateSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 	private async Task<SecEntityOwnedRelOneOrManyEntity> CreateEntityAsync(SecEntityOwnedRelOneOrManyUpsertDto upsertDto, TestEntityOwnedRelationshipOneOrManyEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToSecEntityOwnedRelOneOrManies(entity);
+		parent.CreateSecEntityOwnedRelOneOrManies(entity);
 		return entity;
 	}
 }

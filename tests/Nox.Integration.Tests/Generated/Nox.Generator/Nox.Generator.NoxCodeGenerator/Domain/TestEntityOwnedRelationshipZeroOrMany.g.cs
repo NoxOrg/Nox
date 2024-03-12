@@ -99,7 +99,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audita
     /// <summary>
     /// Creates a new SecEntityOwnedRelZeroOrMany entity.
     /// </summary>
-    public virtual void CreateRefToSecEntityOwnedRelZeroOrManies(SecEntityOwnedRelZeroOrMany relatedSecEntityOwnedRelZeroOrMany)
+    public virtual void CreateSecEntityOwnedRelZeroOrManies(SecEntityOwnedRelZeroOrMany relatedSecEntityOwnedRelZeroOrMany)
     {
         SecEntityOwnedRelZeroOrManies.Add(relatedSecEntityOwnedRelZeroOrMany);
     }
@@ -107,7 +107,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audita
     /// <summary>
     /// Updates all owned SecEntityOwnedRelZeroOrMany entities.
     /// </summary>
-    public virtual void UpdateRefToSecEntityOwnedRelZeroOrManies(List<SecEntityOwnedRelZeroOrMany> relatedSecEntityOwnedRelZeroOrMany)
+    public virtual void UpdateSecEntityOwnedRelZeroOrManies(List<SecEntityOwnedRelZeroOrMany> relatedSecEntityOwnedRelZeroOrMany)
     {
         SecEntityOwnedRelZeroOrManies.Clear();
         SecEntityOwnedRelZeroOrManies.AddRange(relatedSecEntityOwnedRelZeroOrMany);
@@ -116,7 +116,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audita
     /// <summary>
     /// Deletes owned SecEntityOwnedRelZeroOrMany entity.
     /// </summary>
-    public virtual void DeleteRefToSecEntityOwnedRelZeroOrManies(SecEntityOwnedRelZeroOrMany relatedSecEntityOwnedRelZeroOrMany)
+    public virtual void DeleteSecEntityOwnedRelZeroOrManies(SecEntityOwnedRelZeroOrMany relatedSecEntityOwnedRelZeroOrMany)
     {
         SecEntityOwnedRelZeroOrManies.Remove(relatedSecEntityOwnedRelZeroOrMany);
     }
@@ -124,7 +124,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : Audita
     /// <summary>
     /// Deletes all owned SecEntityOwnedRelZeroOrMany entities.
     /// </summary>
-    public virtual void DeleteAllRefToSecEntityOwnedRelZeroOrManies()
+    public virtual void DeleteAllSecEntityOwnedRelZeroOrManies()
     {
         SecEntityOwnedRelZeroOrManies.Clear();
     }

@@ -77,7 +77,7 @@ internal partial class UpdateEmailAddresForStoreCommandHandlerBase : CommandBase
 	private async Task<EmailAddressEntity> CreateEntityAsync(EmailAddressUpsertDto upsertDto, StoreEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToEmailAddress(entity);
+		parent.CreateEmailAddress(entity);
 		return entity;
 	}
 }

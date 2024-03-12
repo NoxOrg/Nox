@@ -1,7 +1,9 @@
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace Nox.Exceptions;
 
+[Serializable]
 public class RelationshipDeletionException : Exception, IApplicationException
 {
     public RelationshipDeletionException(string message)
@@ -14,9 +16,14 @@ public class RelationshipDeletionException : Exception, IApplicationException
     {
     }
 
+    protected RelationshipDeletionException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
+
     public HttpStatusCode? StatusCode => HttpStatusCode.BadRequest;
 
     public string ErrorCode => "can_not_delete_relationship";
 
-    public object? ErrorDetails => throw new NotImplementedException();
+    public object? ErrorDetails { get; private set; }
 }

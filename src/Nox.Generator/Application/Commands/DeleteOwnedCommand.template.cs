@@ -71,7 +71,7 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 			throw new EntityNotFoundException("{{parent.Name}}.{{relationshipName}}",  String.Empty);
 		}
 
-		parentEntity.DeleteRefTo{{relationshipName}}(entity);
+		parentEntity.Delete{{relationshipName}}(entity);
 		
 		{{ else }}		
 		{{- for key in entity.Keys }}

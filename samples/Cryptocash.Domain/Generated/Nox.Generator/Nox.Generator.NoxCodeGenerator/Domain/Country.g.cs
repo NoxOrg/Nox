@@ -286,7 +286,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new CountryTimeZone entity.
     /// </summary>
-    public virtual void CreateRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
+    public virtual void CreateCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
         CountryTimeZones.Add(relatedCountryTimeZone);
     }
@@ -294,7 +294,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Updates all owned CountryTimeZone entities.
     /// </summary>
-    public virtual void UpdateRefToCountryTimeZones(List<CountryTimeZone> relatedCountryTimeZone)
+    public virtual void UpdateCountryTimeZones(List<CountryTimeZone> relatedCountryTimeZone)
     {
         if(!relatedCountryTimeZone.HasAtLeastOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
@@ -305,7 +305,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned CountryTimeZone entity.
     /// </summary>
-    public virtual void DeleteRefToCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
+    public virtual void DeleteCountryTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
         if(CountryTimeZones.HasExactlyOneItem())
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
@@ -315,11 +315,9 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned CountryTimeZone entities.
     /// </summary>
-    public virtual void DeleteAllRefToCountryTimeZones()
+    public virtual void DeleteAllCountryTimeZones()
     {
-        if(CountryTimeZones.HasExactlyOneItem())
-            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CountryTimeZones.Clear();
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }﻿
 
     /// <summary>
@@ -330,7 +328,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new Holiday entity.
     /// </summary>
-    public virtual void CreateRefToHolidays(Holiday relatedHoliday)
+    public virtual void CreateHolidays(Holiday relatedHoliday)
     {
         Holidays.Add(relatedHoliday);
     }
@@ -338,7 +336,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Updates all owned Holiday entities.
     /// </summary>
-    public virtual void UpdateRefToHolidays(List<Holiday> relatedHoliday)
+    public virtual void UpdateHolidays(List<Holiday> relatedHoliday)
     {
         Holidays.Clear();
         Holidays.AddRange(relatedHoliday);
@@ -347,7 +345,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned Holiday entity.
     /// </summary>
-    public virtual void DeleteRefToHolidays(Holiday relatedHoliday)
+    public virtual void DeleteHolidays(Holiday relatedHoliday)
     {
         Holidays.Remove(relatedHoliday);
     }
@@ -355,7 +353,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned Holiday entities.
     /// </summary>
-    public virtual void DeleteAllRefToHolidays()
+    public virtual void DeleteAllHolidays()
     {
         Holidays.Clear();
     }
