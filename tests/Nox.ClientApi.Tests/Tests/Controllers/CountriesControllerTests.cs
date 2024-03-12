@@ -1458,10 +1458,11 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
             }
         };
         var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var headers = CreateEtagHeader(result!.Etag);
         var country = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
         // Act
-        await DeleteAsync($"{Endpoints.CountriesUrl}/{country!.Id}/{nameof(dto.CountryLocalNames)}/{country!.CountryLocalNames[0].Id}");
+        await DeleteAsync($"{Endpoints.CountriesUrl}/{country!.Id}/{nameof(dto.CountryLocalNames)}/{country!.CountryLocalNames[0].Id}", headers);
         var countryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
         // Assert
