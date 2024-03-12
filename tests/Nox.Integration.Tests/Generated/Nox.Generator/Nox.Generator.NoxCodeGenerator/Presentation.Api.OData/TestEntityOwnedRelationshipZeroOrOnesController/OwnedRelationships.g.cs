@@ -15,8 +15,12 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrOnesControllerBas
 {
             
     [HttpDelete("/api/v1/TestEntityOwnedRelationshipZeroOrOnes/{key}/SecondTestEntityOwnedRelationshipZeroOrOne")]
-    public virtual async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrOneOwnedSecondTestEntityOwnedRelationshipZeroOrOne([FromRoute] System.String key)
+    public virtual async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrOneAllOwnedSecondTestEntityOwnedRelationshipZeroOrOneNonConventional([FromRoute] System.String key)
     {
+        if(!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(new TestEntityOwnedRelationshipZeroOrOneKeyDto(key), etag));
         return NoContent();

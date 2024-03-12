@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using PersonEntity = ClientApi.Domain.Person;
+using UserContactSelectionEntity = ClientApi.Domain.UserContactSelection;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllUserContactSelectionForPersonCommandHandler : De
 	}
 }
 
-internal partial class DeleteAllUserContactSelectionForPersonCommandHandlerBase : CommandBase<DeleteAllUserContactSelectionForPersonCommand, PersonEntity>, IRequestHandler <DeleteAllUserContactSelectionForPersonCommand, bool>
+internal partial class DeleteAllUserContactSelectionForPersonCommandHandlerBase : CommandBase<DeleteAllUserContactSelectionForPersonCommand, UserContactSelectionEntity>, IRequestHandler <DeleteAllUserContactSelectionForPersonCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,18 +48,17 @@ internal partial class DeleteAllUserContactSelectionForPersonCommandHandlerBase 
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PersonMetadata.CreateId(request.ParentKeyDto.keyId));
+		
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Person>(keys.ToArray(), p => p.UserContactSelection, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Person", "parentKeyId");
 		
 		if(parentEntity.UserContactSelection is not null)
 		{
 			Repository.DeleteOwned(parentEntity.UserContactSelection!);
+			await OnCompletedAsync(request, parentEntity.UserContactSelection!);
 		}
 		
-		parentEntity.DeleteAllRefToUserContactSelection();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

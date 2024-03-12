@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using CountryEntity = ClientApi.Domain.Country;
+using CountryTimeZoneEntity = ClientApi.Domain.CountryTimeZone;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllCountryTimeZonesForCountryCommandHandler : Delet
 	}
 }
 
-internal partial class DeleteAllCountryTimeZonesForCountryCommandHandlerBase : CommandBase<DeleteAllCountryTimeZonesForCountryCommand, CountryEntity>, IRequestHandler <DeleteAllCountryTimeZonesForCountryCommand, bool>
+internal partial class DeleteAllCountryTimeZonesForCountryCommandHandlerBase : CommandCollectionBase<DeleteAllCountryTimeZonesForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <DeleteAllCountryTimeZonesForCountryCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,15 +48,18 @@ internal partial class DeleteAllCountryTimeZonesForCountryCommandHandlerBase : C
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
+		
+		
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryTimeZones, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country", "parentKeyId");
 		
-		Repository.DeleteOwned(parentEntity.CountryTimeZones);
+		if(parentEntity.CountryTimeZones is not null)
+		{
+			Repository.DeleteOwned(parentEntity.CountryTimeZones!);
+			await OnCompletedAsync(request, parentEntity.CountryTimeZones!);
+		}
 		
-		parentEntity.DeleteAllRefToCountryTimeZones();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

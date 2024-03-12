@@ -16,7 +16,7 @@ using Dto = ClientApi.Application.Dto;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public partial record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 
 internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAddressForStoreCommandHandlerBase
@@ -62,7 +62,9 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 		
 		
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

@@ -131,18 +131,6 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecEntityOwnedRelOneOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteSecEntityOwnedRelOneOrManyNonConventional(System.String key, System.String relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecEntityOwnedRelOneOrManyKeyDto(relatedKey)));
-        
-        return NoContent();
-    }
-    
     protected async Task<SecEntityOwnedRelOneOrManyDto?> TryGetSecEntityOwnedRelOneOrManies(System.String key, SecEntityOwnedRelOneOrManyKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(key))).SingleOrDefault();

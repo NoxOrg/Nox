@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
 using Dto = TestWebApp.Application.Dto;
-using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
+using SecEntityOwnedRelZeroOrManyEntity = TestWebApp.Domain.SecEntityOwnedRelZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedR
 	}
 }
 
-internal partial class DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler <DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, bool>
+internal partial class DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandCollectionBase<DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, SecEntityOwnedRelZeroOrManyEntity>, IRequestHandler <DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,15 +48,18 @@ internal partial class DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedR
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId));
+		
+		
 		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany>(keys.ToArray(), p => p.SecEntityOwnedRelZeroOrManies, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "TestEntityOwnedRelationshipZeroOrMany", "parentKeyId");
 		
-		Repository.DeleteOwned(parentEntity.SecEntityOwnedRelZeroOrManies);
+		if(parentEntity.SecEntityOwnedRelZeroOrManies is not null)
+		{
+			Repository.DeleteOwned(parentEntity.SecEntityOwnedRelZeroOrManies!);
+			await OnCompletedAsync(request, parentEntity.SecEntityOwnedRelZeroOrManies!);
+		}
 		
-		parentEntity.DeleteAllRefToSecEntityOwnedRelZeroOrManies();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

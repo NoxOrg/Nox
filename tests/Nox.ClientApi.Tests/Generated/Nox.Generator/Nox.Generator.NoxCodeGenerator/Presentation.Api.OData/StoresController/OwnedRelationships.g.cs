@@ -13,12 +13,4 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class StoresControllerBase
 {
-            
-    [HttpDelete("/api/v1/Stores/{key}/EmailAddress")]
-    public virtual async Task<IActionResult> DeleteStoreOwnedEmailAddress([FromRoute] System.Guid key)
-    {
-        var etag = Request.GetDecodedEtagHeader();
-        await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllEmailAddressForStoreCommand(new StoreKeyDto(key), etag));
-        return NoContent();
-    }
 }

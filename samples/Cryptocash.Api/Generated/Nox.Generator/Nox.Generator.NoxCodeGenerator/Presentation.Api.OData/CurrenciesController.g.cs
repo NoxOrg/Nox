@@ -131,18 +131,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteBankNotesForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey)));
-        
-        return NoContent();
-    }
-    
     protected async Task<BankNoteDto?> TryGetBankNotes(System.String key, BankNoteKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
@@ -248,18 +236,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         var child = await TryGetExchangeRates(key, updated!);
         
         return Ok(child);
-    }
-    
-    [HttpDelete("/api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteExchangeRatesForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey)));
-        
-        return NoContent();
     }
     
     protected async Task<ExchangeRateDto?> TryGetExchangeRates(System.String key, ExchangeRateKeyDto childKeyDto)

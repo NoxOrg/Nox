@@ -16,7 +16,7 @@ using Dto = Cryptocash.Application.Dto;
 using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
-public partial record DeleteEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteEmployeePhoneNumbersForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandler : DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase
 {
@@ -59,7 +59,9 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		}
 		parentEntity.EmployeePhoneNumbers.Remove(entity);
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

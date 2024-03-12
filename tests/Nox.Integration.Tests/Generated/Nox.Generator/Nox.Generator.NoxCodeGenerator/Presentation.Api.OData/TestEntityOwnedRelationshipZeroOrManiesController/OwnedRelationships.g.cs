@@ -15,10 +15,25 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
 {
             
     [HttpDelete("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecEntityOwnedRelZeroOrManies")]
-    public virtual async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrManyOwnedSecEntityOwnedRelZeroOrManies([FromRoute] System.String key)
+    public virtual async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrManyAllOwnedSecEntityOwnedRelZeroOrManiesNonConventional([FromRoute] System.String key)
     {
+        if(!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
         var etag = Request.GetDecodedEtagHeader();
         await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), etag));
+        return NoContent();
+    }
+    [HttpDelete("/api/v1/TestEntityOwnedRelationshipZeroOrManies/{key}/SecEntityOwnedRelZeroOrManies/{relatedKey}")]
+    public virtual async Task<IActionResult> DeleteTestEntityOwnedRelationshipZeroOrManyOwnedSecEntityOwnedRelZeroOrManyNonConventional([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if(!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var etag = Request.GetDecodedEtagHeader();
+        await _mediator.Send(new ApplicationCommandsNameSpace.DeleteSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRelationshipZeroOrManyCommand(new TestEntityOwnedRelationshipZeroOrManyKeyDto(key), new SecEntityOwnedRelZeroOrManyKeyDto(relatedKey), etag));
         return NoContent();
     }
 }

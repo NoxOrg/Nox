@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
-using CurrencyEntity = Cryptocash.Domain.Currency;
+using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllBankNotesForCurrencyCommandHandler : DeleteAllBa
 	}
 }
 
-internal partial class DeleteAllBankNotesForCurrencyCommandHandlerBase : CommandBase<DeleteAllBankNotesForCurrencyCommand, CurrencyEntity>, IRequestHandler <DeleteAllBankNotesForCurrencyCommand, bool>
+internal partial class DeleteAllBankNotesForCurrencyCommandHandlerBase : CommandCollectionBase<DeleteAllBankNotesForCurrencyCommand, BankNoteEntity>, IRequestHandler <DeleteAllBankNotesForCurrencyCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,15 +48,18 @@ internal partial class DeleteAllBankNotesForCurrencyCommandHandlerBase : Command
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId));
+		
+		
 		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(), p => p.BankNotes, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Currency", "parentKeyId");
 		
-		Repository.DeleteOwned(parentEntity.BankNotes);
+		if(parentEntity.BankNotes is not null)
+		{
+			Repository.DeleteOwned(parentEntity.BankNotes!);
+			await OnCompletedAsync(request, parentEntity.BankNotes!);
+		}
 		
-		parentEntity.DeleteAllRefToBankNotes();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

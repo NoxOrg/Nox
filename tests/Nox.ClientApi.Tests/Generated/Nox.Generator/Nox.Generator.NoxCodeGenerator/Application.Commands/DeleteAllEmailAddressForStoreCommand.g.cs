@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using StoreEntity = ClientApi.Domain.Store;
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllEmailAddressForStoreCommandHandler : DeleteAllEm
 	}
 }
 
-internal partial class DeleteAllEmailAddressForStoreCommandHandlerBase : CommandBase<DeleteAllEmailAddressForStoreCommand, StoreEntity>, IRequestHandler <DeleteAllEmailAddressForStoreCommand, bool>
+internal partial class DeleteAllEmailAddressForStoreCommandHandlerBase : CommandBase<DeleteAllEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <DeleteAllEmailAddressForStoreCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,18 +48,17 @@ internal partial class DeleteAllEmailAddressForStoreCommandHandlerBase : Command
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.StoreMetadata.CreateId(request.ParentKeyDto.keyId));
+		
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Store>(keys.ToArray(), p => p.EmailAddress, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Store", "parentKeyId");
 		
 		if(parentEntity.EmailAddress is not null)
 		{
 			Repository.DeleteOwned(parentEntity.EmailAddress!);
+			await OnCompletedAsync(request, parentEntity.EmailAddress!);
 		}
 		
-		parentEntity.DeleteAllRefToEmailAddress();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

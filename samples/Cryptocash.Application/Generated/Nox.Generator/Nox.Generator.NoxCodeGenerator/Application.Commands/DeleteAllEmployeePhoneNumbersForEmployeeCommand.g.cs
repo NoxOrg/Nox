@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 using Dto = Cryptocash.Application.Dto;
-using EmployeeEntity = Cryptocash.Domain.Employee;
+using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllEmployeePhoneNumbersForEmployeeCommandHandler : 
 	}
 }
 
-internal partial class DeleteAllEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandBase<DeleteAllEmployeePhoneNumbersForEmployeeCommand, EmployeeEntity>, IRequestHandler <DeleteAllEmployeePhoneNumbersForEmployeeCommand, bool>
+internal partial class DeleteAllEmployeePhoneNumbersForEmployeeCommandHandlerBase : CommandCollectionBase<DeleteAllEmployeePhoneNumbersForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <DeleteAllEmployeePhoneNumbersForEmployeeCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,15 +48,18 @@ internal partial class DeleteAllEmployeePhoneNumbersForEmployeeCommandHandlerBas
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId));
+		
+		
 		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Employee>(keys.ToArray(), p => p.EmployeePhoneNumbers, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Employee", "parentKeyId");
 		
-		Repository.DeleteOwned(parentEntity.EmployeePhoneNumbers);
+		if(parentEntity.EmployeePhoneNumbers is not null)
+		{
+			Repository.DeleteOwned(parentEntity.EmployeePhoneNumbers!);
+			await OnCompletedAsync(request, parentEntity.EmployeePhoneNumbers!);
+		}
 		
-		parentEntity.DeleteAllRefToEmployeePhoneNumbers();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

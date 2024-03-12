@@ -13,12 +13,4 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class PeopleControllerBase
 {
-            
-    [HttpDelete("/api/v1/People/{key}/UserContactSelection")]
-    public virtual async Task<IActionResult> DeletePersonOwnedUserContactSelection([FromRoute] System.Guid key)
-    {
-        var etag = Request.GetDecodedEtagHeader();
-        await _mediator.Send(new ApplicationCommandsNameSpace.DeleteAllUserContactSelectionForPersonCommand(new PersonKeyDto(key), etag));
-        return NoContent();
-    }
 }

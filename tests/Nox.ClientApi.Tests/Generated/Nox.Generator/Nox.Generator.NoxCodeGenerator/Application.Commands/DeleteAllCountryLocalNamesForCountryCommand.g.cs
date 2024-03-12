@@ -13,7 +13,7 @@ using Nox.Exceptions;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
 using Dto = ClientApi.Application.Dto;
-using CountryEntity = ClientApi.Domain.Country;
+using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
 
@@ -30,7 +30,7 @@ internal partial class DeleteAllCountryLocalNamesForCountryCommandHandler : Dele
 	}
 }
 
-internal partial class DeleteAllCountryLocalNamesForCountryCommandHandlerBase : CommandBase<DeleteAllCountryLocalNamesForCountryCommand, CountryEntity>, IRequestHandler <DeleteAllCountryLocalNamesForCountryCommand, bool>
+internal partial class DeleteAllCountryLocalNamesForCountryCommandHandlerBase : CommandCollectionBase<DeleteAllCountryLocalNamesForCountryCommand, CountryLocalNameEntity>, IRequestHandler <DeleteAllCountryLocalNamesForCountryCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -48,20 +48,18 @@ internal partial class DeleteAllCountryLocalNamesForCountryCommandHandlerBase : 
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
-		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country, ClientApi.Domain.CountryLocalName, ClientApi.Domain.CountryLocalNameLocalized>(
-			keys.ToArray(), 
-			p => p.CountryLocalNames, 
-			l => l.LocalizedCountryLocalNames, 
-			cancellationToken);
 		
+		
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryLocalNames, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country", "parentKeyId");
 		
-		Repository.DeleteOwned(parentEntity.CountryLocalNames);
+		if(parentEntity.CountryLocalNames is not null)
+		{
+			Repository.DeleteOwned(parentEntity.CountryLocalNames!);
+			await OnCompletedAsync(request, parentEntity.CountryLocalNames!);
+		}
 		
-		parentEntity.DeleteAllRefToCountryLocalNames();
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		
-		await OnCompletedAsync(request, parentEntity);
 		Repository.Update(parentEntity);
 		await Repository.SaveChangesAsync(cancellationToken);
 
