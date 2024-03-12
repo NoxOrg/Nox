@@ -9,6 +9,7 @@ namespace Nox.Extensions;
 
 public static class HttpClientExtensions
 {
+
     public static async Task<TResult?> GetODataCollectionResponseAsync<TResult>(this HttpClient httpClient, string requestUrl)
     {
       
@@ -59,9 +60,17 @@ public static class HttpClientExtensions
         return message;
     }
 
-    public static void AddeTag(this HttpClient httpClient, Guid eTag)
+    public static HttpClient AddeTag(this HttpClient httpClient, Guid eTag)
     {
         httpClient.DefaultRequestHeaders.IfNoneMatch.Add(new EntityTagHeaderValue(eTag.ToString()));
+        return httpClient;
+    }
+
+    public static HttpClient AddBearToken(this HttpClient httpClient, string bearToken)
+    {
+        const string BearTokeHeaderName = "Bearer";
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(BearTokeHeaderName, bearToken);
+        return httpClient;
     }
 
     private static TResult? DeserializeResponse<TResult>(string response)
