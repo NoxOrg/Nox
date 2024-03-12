@@ -98,7 +98,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntit
         if (createDto.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
         {
             var secondTestEntityOwnedRelationshipZeroOrOne = await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(createDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode);
-            entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(secondTestEntityOwnedRelationshipZeroOrOne);
+            entity.CreateSecondTestEntityOwnedRelationshipZeroOrOne(secondTestEntityOwnedRelationshipZeroOrOne);
         }        
         return await Task.FromResult(entity);
     }
@@ -137,14 +137,14 @@ internal abstract class TestEntityOwnedRelationshipZeroOrOneFactoryBase : IEntit
         {
             if(entity.SecondTestEntityOwnedRelationshipZeroOrOne is not null) 
                 _repository.DeleteOwned(entity.SecondTestEntityOwnedRelationshipZeroOrOne);
-            entity.DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrOne();
+            entity.DeleteAllSecondTestEntityOwnedRelationshipZeroOrOne();
         }
 		else
 		{
             if(entity.SecondTestEntityOwnedRelationshipZeroOrOne is not null)
                 await SecondTestEntityOwnedRelationshipZeroOrOneFactory.UpdateEntityAsync(entity.SecondTestEntityOwnedRelationshipZeroOrOne, updateDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode);
             else
-			    entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode));
+			    entity.CreateSecondTestEntityOwnedRelationshipZeroOrOne(await SecondTestEntityOwnedRelationshipZeroOrOneFactory.CreateEntityAsync(updateDto.SecondTestEntityOwnedRelationshipZeroOrOne, cultureCode));
         }
 	}
 }

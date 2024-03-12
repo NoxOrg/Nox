@@ -40,7 +40,7 @@ internal class CryptocashCurrencyDataSeeder : DataSeederBase<CurrencyDto, Curren
         {
             foreach (BankNoteDto currentBankNote in model.BankNotes)
             {
-                rtnCurrency.CreateRefToBankNotes(
+                rtnCurrency.CreateBankNotes(
                     new()
                     {
                         CashNote = Text.From(currentBankNote.CashNote),
@@ -54,7 +54,7 @@ internal class CryptocashCurrencyDataSeeder : DataSeederBase<CurrencyDto, Curren
         {
             foreach (ExchangeRateDto currentExchangeRate in model.ExchangeRates)
             {
-                rtnCurrency.CreateRefToExchangeRates(
+                rtnCurrency.CreateExchangeRates(
                     new()
                     {
                         EffectiveRate = Number.From(currentExchangeRate.EffectiveRate),

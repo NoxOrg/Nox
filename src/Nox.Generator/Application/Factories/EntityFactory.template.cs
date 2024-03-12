@@ -195,21 +195,21 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         //createDto.{{relationshipName}}?.ForEach(async dto =>
         //{
         //    var {{ToLowerFirstChar relationship.Entity}} = await {{relationship.Entity}}Factory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
+        //    entity.Create{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
         //});
         if(createDto.{{relationshipName}} is not null)
         {
             foreach (var dto in createDto.{{relationshipName}})
             {
                 var {{ToLowerFirstChar relationship.Entity}} = {{relationship.Entity}}Factory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
+                entity.Create{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
             }
         }
             {{- else}}
         if (createDto.{{relationshipName}} is not null)
         {
             var {{ToLowerFirstChar relationship.Entity}} = await {{relationship.Entity}}Factory.CreateEntityAsync(createDto.{{relationshipName}}, cultureCode);
-            entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
+            entity.Create{{relationshipName}}({{ToLowerFirstChar relationship.Entity}});
         }
             {{-end}}
         {{- end }}        
@@ -320,14 +320,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         {
             if(entity.{{navigationName}} is not null) 
                 _repository.DeleteOwned(entity.{{navigationName}});
-            entity.DeleteAllRefTo{{navigationName}}();
+            entity.DeleteAll{{navigationName}}();
         }
 		else
 		{
             if(entity.{{navigationName}} is not null)
                 await {{ownedRelationship.Entity}}Factory.UpdateEntityAsync(entity.{{navigationName}}, updateDto.{{navigationName}}, cultureCode);
             else
-			    entity.CreateRefTo{{navigationName}}(await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(updateDto.{{navigationName}}, cultureCode));
+			    entity.Create{{navigationName}}(await {{ownedRelationship.Entity}}Factory.CreateEntityAsync(updateDto.{{navigationName}}, cultureCode));
         }
         {{- else }}
         if(updateDto.{{navigationName}} is null)
@@ -336,7 +336,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         if(!updateDto.{{navigationName}}.Any())
         { 
             _repository.DeleteOwned(entity.{{navigationName}});
-			entity.DeleteAllRefTo{{navigationName}}();
+			entity.DeleteAll{{navigationName}}();
         }
 		else
 		{
@@ -367,7 +367,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 			}
             _repository.DeleteOwned<{{codeGenConventions.DomainNameSpace}}.{{ownedRelationship.Entity}}>(
                 entity.{{navigationName}}.Where(x => !updated{{navigationName}}.Exists(upd => upd.{{key.Name}} == x.{{key.Name}})).ToList());
-			entity.UpdateRefTo{{navigationName}}(updated{{navigationName}});
+			entity.Update{{navigationName}}(updated{{navigationName}});
 		}
 		{{- end }}
 	}

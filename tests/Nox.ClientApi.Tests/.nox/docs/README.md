@@ -14,7 +14,7 @@ erDiagram
     }
     Country||--o{CountryLocalName : "is also know as"
     Country||--o|CountryBarCode : "is also coded as"
-    Country||--o{CountryTimeZone : "uses"
+    Country||--|{CountryTimeZone : "uses"
     Country||--o{Holiday : "owned"
     CountryLocalName {
     }

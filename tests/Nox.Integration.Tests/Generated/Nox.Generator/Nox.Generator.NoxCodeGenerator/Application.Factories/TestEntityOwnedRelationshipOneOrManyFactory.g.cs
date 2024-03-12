@@ -98,14 +98,14 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         //createDto.SecEntityOwnedRelOneOrManies?.ForEach(async dto =>
         //{
         //    var secEntityOwnedRelOneOrMany = await SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
+        //    entity.CreateSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
         //});
         if(createDto.SecEntityOwnedRelOneOrManies is not null)
         {
             foreach (var dto in createDto.SecEntityOwnedRelOneOrManies)
             {
                 var secEntityOwnedRelOneOrMany = SecEntityOwnedRelOneOrManyFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
+                entity.CreateSecEntityOwnedRelOneOrManies(secEntityOwnedRelOneOrMany);
             }
         }        
         return await Task.FromResult(entity);
@@ -147,7 +147,7 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         if(!updateDto.SecEntityOwnedRelOneOrManies.Any())
         { 
             _repository.DeleteOwned(entity.SecEntityOwnedRelOneOrManies);
-			entity.DeleteAllRefToSecEntityOwnedRelOneOrManies();
+			entity.DeleteAllSecEntityOwnedRelOneOrManies();
         }
 		else
 		{
@@ -174,7 +174,7 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
 			}
             _repository.DeleteOwned<TestWebApp.Domain.SecEntityOwnedRelOneOrMany>(
                 entity.SecEntityOwnedRelOneOrManies.Where(x => !updatedSecEntityOwnedRelOneOrManies.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToSecEntityOwnedRelOneOrManies(updatedSecEntityOwnedRelOneOrManies);
+			entity.UpdateSecEntityOwnedRelOneOrManies(updatedSecEntityOwnedRelOneOrManies);
 		}
 	}
 }

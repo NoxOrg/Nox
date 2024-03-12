@@ -163,7 +163,7 @@ public abstract partial class EmployeeBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new EmployeePhoneNumber entity.
     /// </summary>
-    public virtual void CreateRefToEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    public virtual void CreateEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
     {
         EmployeePhoneNumbers.Add(relatedEmployeePhoneNumber);
     }
@@ -171,7 +171,7 @@ public abstract partial class EmployeeBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Updates all owned EmployeePhoneNumber entities.
     /// </summary>
-    public virtual void UpdateRefToEmployeePhoneNumbers(List<EmployeePhoneNumber> relatedEmployeePhoneNumber)
+    public virtual void UpdateEmployeePhoneNumbers(List<EmployeePhoneNumber> relatedEmployeePhoneNumber)
     {
         EmployeePhoneNumbers.Clear();
         EmployeePhoneNumbers.AddRange(relatedEmployeePhoneNumber);
@@ -180,7 +180,7 @@ public abstract partial class EmployeeBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned EmployeePhoneNumber entity.
     /// </summary>
-    public virtual void DeleteRefToEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    public virtual void DeleteEmployeePhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
     {
         EmployeePhoneNumbers.Remove(relatedEmployeePhoneNumber);
     }
@@ -188,7 +188,7 @@ public abstract partial class EmployeeBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned EmployeePhoneNumber entities.
     /// </summary>
-    public virtual void DeleteAllRefToEmployeePhoneNumbers()
+    public virtual void DeleteAllEmployeePhoneNumbers()
     {
         EmployeePhoneNumbers.Clear();
     }

@@ -104,20 +104,20 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         //createDto.TenantBrands?.ForEach(async dto =>
         //{
         //    var tenantBrand = await TenantBrandFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToTenantBrands(tenantBrand);
+        //    entity.CreateTenantBrands(tenantBrand);
         //});
         if(createDto.TenantBrands is not null)
         {
             foreach (var dto in createDto.TenantBrands)
             {
                 var tenantBrand = TenantBrandFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToTenantBrands(tenantBrand);
+                entity.CreateTenantBrands(tenantBrand);
             }
         }
         if (createDto.TenantContact is not null)
         {
             var tenantContact = await TenantContactFactory.CreateEntityAsync(createDto.TenantContact, cultureCode);
-            entity.CreateRefToTenantContact(tenantContact);
+            entity.CreateTenantContact(tenantContact);
         }        
         return await Task.FromResult(entity);
     }
@@ -178,7 +178,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         if(!updateDto.TenantBrands.Any())
         { 
             _repository.DeleteOwned(entity.TenantBrands);
-			entity.DeleteAllRefToTenantBrands();
+			entity.DeleteAllTenantBrands();
         }
 		else
 		{
@@ -205,7 +205,7 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
 			}
             _repository.DeleteOwned<ClientApi.Domain.TenantBrand>(
                 entity.TenantBrands.Where(x => !updatedTenantBrands.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToTenantBrands(updatedTenantBrands);
+			entity.UpdateTenantBrands(updatedTenantBrands);
 		}
 	}
 
@@ -215,14 +215,14 @@ internal abstract class TenantFactoryBase : IEntityFactory<TenantEntity, TenantC
         {
             if(entity.TenantContact is not null) 
                 _repository.DeleteOwned(entity.TenantContact);
-            entity.DeleteAllRefToTenantContact();
+            entity.DeleteAllTenantContact();
         }
 		else
 		{
             if(entity.TenantContact is not null)
                 await TenantContactFactory.UpdateEntityAsync(entity.TenantContact, updateDto.TenantContact, cultureCode);
             else
-			    entity.CreateRefToTenantContact(await TenantContactFactory.CreateEntityAsync(updateDto.TenantContact, cultureCode));
+			    entity.CreateTenantContact(await TenantContactFactory.CreateEntityAsync(updateDto.TenantContact, cultureCode));
         }
 	}
 }

@@ -44,7 +44,7 @@ internal class CryptocashCountryDataSeeder : DataSeederBase<CountryDto, Country>
         {
             foreach (CountryTimeZoneDto currentCountryTimeZone in model.CountryTimeZones)
             {
-                rtnCountry.CreateRefToCountryTimeZones(
+                rtnCountry.CreateCountryTimeZones(
                     new()
                     {
                         TimeZoneCode = TimeZoneCode.From(currentCountryTimeZone.TimeZoneCode)
@@ -57,7 +57,7 @@ internal class CryptocashCountryDataSeeder : DataSeederBase<CountryDto, Country>
         {
             foreach (HolidayDto currentHoliday in model.Holidays)
             {
-                rtnCountry.CreateRefToHolidays(
+                rtnCountry.CreateHolidays(
                     new()
                     {
                         Name = Text.From(currentHoliday.Name),

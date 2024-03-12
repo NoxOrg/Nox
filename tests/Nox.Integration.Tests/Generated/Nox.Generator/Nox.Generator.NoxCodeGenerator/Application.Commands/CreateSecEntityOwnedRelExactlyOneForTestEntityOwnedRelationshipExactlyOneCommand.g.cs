@@ -60,7 +60,7 @@ internal abstract class CreateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelat
 		}
 
 		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
-		parentEntity.CreateRefToSecEntityOwnedRelExactlyOne(entity);
+		parentEntity.CreateSecEntityOwnedRelExactlyOne(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

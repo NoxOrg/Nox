@@ -127,45 +127,45 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         //createDto.CountryLocalNames?.ForEach(async dto =>
         //{
         //    var countryLocalName = await CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToCountryLocalNames(countryLocalName);
+        //    entity.CreateCountryLocalNames(countryLocalName);
         //});
         if(createDto.CountryLocalNames is not null)
         {
             foreach (var dto in createDto.CountryLocalNames)
             {
                 var countryLocalName = CountryLocalNameFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToCountryLocalNames(countryLocalName);
+                entity.CreateCountryLocalNames(countryLocalName);
             }
         }
         if (createDto.CountryBarCode is not null)
         {
             var countryBarCode = await CountryBarCodeFactory.CreateEntityAsync(createDto.CountryBarCode, cultureCode);
-            entity.CreateRefToCountryBarCode(countryBarCode);
+            entity.CreateCountryBarCode(countryBarCode);
         }
         //createDto.CountryTimeZones?.ForEach(async dto =>
         //{
         //    var countryTimeZone = await CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToCountryTimeZones(countryTimeZone);
+        //    entity.CreateCountryTimeZones(countryTimeZone);
         //});
         if(createDto.CountryTimeZones is not null)
         {
             foreach (var dto in createDto.CountryTimeZones)
             {
                 var countryTimeZone = CountryTimeZoneFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToCountryTimeZones(countryTimeZone);
+                entity.CreateCountryTimeZones(countryTimeZone);
             }
         }
         //createDto.Holidays?.ForEach(async dto =>
         //{
         //    var holiday = await HolidayFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToHolidays(holiday);
+        //    entity.CreateHolidays(holiday);
         //});
         if(createDto.Holidays is not null)
         {
             foreach (var dto in createDto.Holidays)
             {
                 var holiday = HolidayFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToHolidays(holiday);
+                entity.CreateHolidays(holiday);
             }
         }        
         return await Task.FromResult(entity);
@@ -367,7 +367,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if(!updateDto.CountryLocalNames.Any())
         { 
             _repository.DeleteOwned(entity.CountryLocalNames);
-			entity.DeleteAllRefToCountryLocalNames();
+			entity.DeleteAllCountryLocalNames();
         }
 		else
 		{
@@ -394,7 +394,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			}
             _repository.DeleteOwned<ClientApi.Domain.CountryLocalName>(
                 entity.CountryLocalNames.Where(x => !updatedCountryLocalNames.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToCountryLocalNames(updatedCountryLocalNames);
+			entity.UpdateCountryLocalNames(updatedCountryLocalNames);
 		}
 	}
 
@@ -404,14 +404,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             if(entity.CountryBarCode is not null) 
                 _repository.DeleteOwned(entity.CountryBarCode);
-            entity.DeleteAllRefToCountryBarCode();
+            entity.DeleteAllCountryBarCode();
         }
 		else
 		{
             if(entity.CountryBarCode is not null)
                 await CountryBarCodeFactory.UpdateEntityAsync(entity.CountryBarCode, updateDto.CountryBarCode, cultureCode);
             else
-			    entity.CreateRefToCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(updateDto.CountryBarCode, cultureCode));
+			    entity.CreateCountryBarCode(await CountryBarCodeFactory.CreateEntityAsync(updateDto.CountryBarCode, cultureCode));
         }
 	}
 
@@ -423,7 +423,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if(!updateDto.CountryTimeZones.Any())
         { 
             _repository.DeleteOwned(entity.CountryTimeZones);
-			entity.DeleteAllRefToCountryTimeZones();
+			entity.DeleteAllCountryTimeZones();
         }
 		else
 		{
@@ -450,7 +450,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			}
             _repository.DeleteOwned<ClientApi.Domain.CountryTimeZone>(
                 entity.CountryTimeZones.Where(x => !updatedCountryTimeZones.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToCountryTimeZones(updatedCountryTimeZones);
+			entity.UpdateCountryTimeZones(updatedCountryTimeZones);
 		}
 	}
 
@@ -462,7 +462,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if(!updateDto.Holidays.Any())
         { 
             _repository.DeleteOwned(entity.Holidays);
-			entity.DeleteAllRefToHolidays();
+			entity.DeleteAllHolidays();
         }
 		else
 		{
@@ -489,7 +489,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 			}
             _repository.DeleteOwned<ClientApi.Domain.Holiday>(
                 entity.Holidays.Where(x => !updatedHolidays.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToHolidays(updatedHolidays);
+			entity.UpdateHolidays(updatedHolidays);
 		}
 	}
 }

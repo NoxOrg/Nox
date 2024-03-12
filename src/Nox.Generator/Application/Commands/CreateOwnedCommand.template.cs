@@ -69,7 +69,7 @@ internal abstract class Create{{relationshipName}}For{{parent.Name}}CommandHandl
 		}
 
 		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
-		parentEntity.CreateRefTo{{relationshipName}}(entity);
+		parentEntity.Create{{relationshipName}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

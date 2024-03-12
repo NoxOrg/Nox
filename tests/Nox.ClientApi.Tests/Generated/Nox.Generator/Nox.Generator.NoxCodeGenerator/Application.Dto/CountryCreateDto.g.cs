@@ -105,7 +105,7 @@ public abstract class CountryCreateDtoBase
     public virtual CountryBarCodeUpsertDto? CountryBarCode { get; set; } = null!;
 
     /// <summary>
-    /// Country uses ZeroOrMany CountryTimeZones
+    /// Country uses OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneUpsertDto> CountryTimeZones { get; set; } = new();
 
