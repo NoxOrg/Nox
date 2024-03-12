@@ -71,9 +71,6 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 		var parentEntity = await _repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(),e => e.{{relationshipName}}, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "{{parent.Name}}",  "{{keysToString parent.Keys}}");
 
-		{{- if relationship.Relationship == "ZeroOrMany" }}
-		{{- end}}
-
 		{{- key = entity.Keys | array.first }}				
 		List<{{entity.Name}}Entity> entities = new(request.EntitiesDto.Count());
 		foreach(var entityDto in request.EntitiesDto)
