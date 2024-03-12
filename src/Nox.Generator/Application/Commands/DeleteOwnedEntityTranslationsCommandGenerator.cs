@@ -18,11 +18,12 @@ internal class DeleteOwnedEntityTranslationsCommandGenerator : ApplicationEntity
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var parentPrimaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
+            var parentPrimaryKeys = GetPrimaryKeys(codeGenConventions, entity, keyPrefix: "key");
 
             foreach (var ownedRelationship in entity.OwnedRelationships.Where(x => x.Related.Entity.IsOwnedEntity && x.Related.Entity.GetLocalizedAttributes().Any()))
             {
                 var ownedEntity = ownedRelationship.Related.Entity;
+                var ownedPrimaryKeys = GetPrimaryKeys(codeGenConventions, ownedEntity, keyPrefix: "relatedKey");
 
                 new TemplateCodeBuilder(context, codeGenConventions)
                     .WithClassName($"Delete{entity.GetNavigationPropertyName(ownedRelationship)}TranslationsFor{entity.Name}Command")
@@ -30,9 +31,13 @@ internal class DeleteOwnedEntityTranslationsCommandGenerator : ApplicationEntity
                     .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
-                    .WithObject("parentPrimaryKeys", parentPrimaryKeys)            
+                    .WithObject("parentPrimaryKeys", parentPrimaryKeys)
+                    .WithObject("ownedPrimaryKeys", ownedPrimaryKeys)
                     .GenerateSourceCodeFromResource(templateName);
             }
         }
     }
+
+    private string GetPrimaryKeys(NoxCodeGenConventions codeGenConventions, Entity entity, string keyPrefix)
+        => string.Join(", ", entity.Keys.Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} {keyPrefix}{k.Name}"));
 }
