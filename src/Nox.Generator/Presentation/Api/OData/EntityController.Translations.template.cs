@@ -108,20 +108,17 @@ public abstract partial class {{className}}Base
     {{- end -}}
     {{- end }}
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{localizedRelationship.OwnedEntity.PluralName}}{{- if localizedRelationship.IsWithMultiEntity }}/{relatedKey}{{end-}}/Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
-    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Put{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, {{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntityKeysRoute}},{{end}} [FromRoute] System.String {{ cultureCode}}, [FromBody] {{ GetEntityUpsertDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}} {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto)
+    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Put{{localizedRelationship.OwnedEntity.Name}}Localized({{ primaryKeysRoute }}, {{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntityKeysRoute}},{{end}} [FromRoute] System.String {{ cultureCode}}, [FromBody] {{ GetEntityUpsertDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}} {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
         
         {{- if localizedRelationship.IsWithMultiEntity }}
-        if(relatedKey != {{localizedRelationship.OwnedEntityKeysQuery}})
-        {
-            throw new Nox.Exceptions.BadRequestException("The related key does not match the entity key");
-        }
+        {{localizedRelationship.OwnedEntityKey}} = relatedKey;
         {{- end }}
-        
         var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)

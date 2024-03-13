@@ -1200,10 +1200,10 @@ namespace ClientApi.Tests.Controllers
         }
 
         private async Task<TenantBrandLocalizedDto?> UpsertTenantBrandLocalizationAsync(uint tenantId, TenantBrandLocalizedUpsertDto tenantBrand, string language)
-            => await PutAsync<TenantBrandLocalizedUpsertDto, TenantBrandLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrandsLocalized/{language}", tenantBrand, null!, false);
+            => await PutAsync<TenantBrandLocalizedUpsertDto, TenantBrandLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{tenantBrand.Id}/Languages/{language}", tenantBrand, null!, false);
 
         private async Task<TenantContactLocalizedDto?> UpsertTenantContactLocalizationAsync(uint tenantId, TenantContactLocalizedUpsertDto tenantContact, string language)
-            => await PutAsync<TenantContactLocalizedUpsertDto, TenantContactLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantContactLocalized/{language}", tenantContact, null!, false);
+            => await PutAsync<TenantContactLocalizedUpsertDto, TenantContactLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantContacts/Languages/{language}", tenantContact, null!, false);
 
         private async Task<WorkplaceDto?> CreateWorkplaceAsync(WorkplaceCreateDto workplace, string? language = null)
             => await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}{CreateLangParam(language)}", workplace);

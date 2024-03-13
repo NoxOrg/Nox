@@ -37,6 +37,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                     OwnedEntity = x.Related.Entity,
                     LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
                     OwnedEntityKeysQuery = string.Join(", ", x.Related.Entity.Keys.Select(k => $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{k.Name}!.Value")),
+                    OwnedEntityKey = string.Join(", ", x.Related.Entity.Keys.Select(k => $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{k.Name}")),
                     OwnedEntityKeysRoute = GetPrimaryKeysRoute(x.Related.Entity, codeGenConventions.Solution, "relatedKey"),
                     NavigationName = entity.GetNavigationPropertyName(x),
                     UpdatedKeyPrimaryKeysQuery = x.WithMultiEntity

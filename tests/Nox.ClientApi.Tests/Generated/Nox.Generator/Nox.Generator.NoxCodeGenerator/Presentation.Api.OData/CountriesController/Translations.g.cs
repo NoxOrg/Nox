@@ -31,17 +31,14 @@ namespace ClientApi.Presentation.Api.OData;
 public abstract partial class CountriesControllerBase
 {
     [HttpPut("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}")]
-    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> PutCountryLocalNameLocalized( [FromRoute] System.Int64 key,[FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode, [FromBody] CountryLocalNameLocalizedUpsertDto countryLocalNameLocalizedUpsertDto)
+    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> PutCountryLocalNameLocalized([FromRoute] System.Int64 key,[FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode, [FromBody] CountryLocalNameLocalizedUpsertDto countryLocalNameLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        if(relatedKey != countryLocalNameLocalizedUpsertDto.Id!.Value)
-        {
-            throw new Nox.Exceptions.BadRequestException("The related key does not match the entity key");
-        }
-        
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+        countryLocalNameLocalizedUpsertDto.Id = relatedKey;
         var etag = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
