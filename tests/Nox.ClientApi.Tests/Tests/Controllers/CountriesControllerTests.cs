@@ -6,6 +6,7 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using Nox.Application.Dto;
+using Guid = System.Guid;
 using Nox.Exceptions;
 
 namespace ClientApi.Tests.Tests.Controllers;
@@ -240,6 +241,96 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getCountryResponse!.CountryLocalNames!.Single().Name.Should().Be(expectedCountryLocalName);
         getCountryResponse!.CountryBarCode.Should().NotBeNull();
         getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+    }
+#if RELEASE //Due to postgresql cascade delete not working as expected
+    [Fact]
+    public async Task DeleteAllCountryLocalNamesForCountryCommand_ShouldDeleteAllCountryLocalNames()
+    {
+        // Arrange
+        var expectedCountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                new() { Name = "Iberia" },
+                new() { Name = "Lusitania"}
+            };
+        var dto = new CountryCreateDto
+        {
+            Name = "Portugal",
+            CountryLocalNames = expectedCountryLocalNames
+        };
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var headers = CreateEtagHeader(result!.Etag);
+
+        // Act
+        await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(dto.CountryLocalNames)}", headers);
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
+
+        // Assert
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryLocalNames.Should().BeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task WhenInvalidEtagProvided_DeleteAllCountryLocalNamesForCountryCommand_ShouldReturnConflict()
+    {
+        // Arrange
+        var expectedCountryLocalNames = new List<CountryLocalNameUpsertDto>() {
+                new() { Name = "Iberia" },
+                new() { Name = "Lusitania"}
+            };
+        var dto = new CountryCreateDto
+        {
+            Name = "Portugal",
+            CountryLocalNames = expectedCountryLocalNames
+        };
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var headers = CreateEtagHeader(Guid.NewGuid());
+
+        // Act
+        var response = await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}/{nameof(dto.CountryLocalNames)}", headers, throwOnError:false);
+
+        // Assert
+        response.Should().NotBeNull();
+        response!.StatusCode.Should().Be(HttpStatusCode.Conflict);
+    }
+#endif    
+    [Fact]
+    public async Task DeleteAllCountryBarCodeForCountryCommand_ShouldDeleteCountryBarCode()
+    {
+        // Arrange
+        var dto = new CountryCreateDto
+        {
+            Name = "Portugal",
+            CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = "Lusitania" }
+        };
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var headers = CreateEtagHeader(result!.Etag);
+
+        // Act
+        await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode", headers);
+        var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
+
+        // Assert
+        getCountryResponse.Should().NotBeNull();
+        getCountryResponse!.CountryBarCode.Should().BeNull();
+    }
+    
+    [Fact]
+    public async Task WhenInvalidEtagProvided_DeleteAllCountryBarCodeForCountryCommand_ShouldReturnConflict()
+    {
+        // Arrange
+        var dto = new CountryCreateDto
+        {
+            Name = "Portugal",
+            CountryBarCode = new CountryBarCodeUpsertDto() { BarCodeName = "Lusitania" }
+        };
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var headers = CreateEtagHeader(Guid.NewGuid());
+
+        // Act
+        var response = await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode", headers, throwOnError:false);
+
+        // Assert
+        response.Should().NotBeNull();
+        response!.StatusCode.Should().Be(HttpStatusCode.Conflict);
     }
 
     [Fact]
@@ -1368,10 +1459,11 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
             }
         };
         var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+        var headers = CreateEtagHeader(result!.Etag);
         var country = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
         // Act
-        await DeleteAsync($"{Endpoints.CountriesUrl}/{country!.Id}/{nameof(dto.CountryLocalNames)}/{country!.CountryLocalNames[0].Id}");
+        await DeleteAsync($"{Endpoints.CountriesUrl}/{country!.Id}/{nameof(dto.CountryLocalNames)}/{country!.CountryLocalNames[0].Id}", headers);
         var countryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
         // Assert
@@ -1397,8 +1489,9 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         };
         var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
 
+        var headers = CreateEtagHeader(result!.Etag);
         // Act
-        await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode");
+        await DeleteAsync($"{Endpoints.CountriesUrl}/{result!.Id}/CountryBarCode", headers);
         var countryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
         // Assert

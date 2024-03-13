@@ -16,24 +16,26 @@ using TenantBrandLocalizedEntity = ClientApi.Domain.TenantBrandLocalized;
 
 namespace ClientApi.Application.Commands;
 
-public partial record  DeleteTenantBrandsTranslationsForTenantCommand(System.UInt32 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteTenantBrandsTranslationsForTenantCommand(System.UInt32 keyId, System.Int64 relatedKeyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
 internal partial class DeleteTenantBrandsTranslationsForTenantCommandHandler : DeleteTenantBrandsTranslationsForTenantCommandHandlerBase
 {
     public DeleteTenantBrandsTranslationsForTenantCommandHandler(
-           IRepository repository,
-                  NoxSolution noxSolution) : base(repository, noxSolution)
+        IRepository repository,
+        NoxSolution noxSolution)
+        : base(repository, noxSolution)
     {
     }
 }
 
-internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBase : CommandCollectionBase<DeleteTenantBrandsTranslationsForTenantCommand, TenantBrandLocalizedEntity>, IRequestHandler<DeleteTenantBrandsTranslationsForTenantCommand, bool>
+internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBase : CommandBase<DeleteTenantBrandsTranslationsForTenantCommand, TenantBrandLocalizedEntity>, IRequestHandler<DeleteTenantBrandsTranslationsForTenantCommand, bool>
 {
     public IRepository Repository { get; }
 
     public DeleteTenantBrandsTranslationsForTenantCommandHandlerBase(
-           IRepository repository,
-           NoxSolution noxSolution) : base(noxSolution)
+        IRepository repository,
+        NoxSolution noxSolution) 
+        : base(noxSolution)
     {
         Repository = repository;
     }
@@ -46,20 +48,16 @@ internal abstract class DeleteTenantBrandsTranslationsForTenantCommandHandlerBas
         var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(command.keyId));
 
-        var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant>(keys.ToArray(), p => p.TenantBrands,cancellationToken);
+        var parentEntity = await Repository.FindAsync<ClientApi.Domain.Tenant>(keys.ToArray(), cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
-        var entityKeys = parentEntity.TenantBrands.Select(x => x.Id).ToList();
-        var entities = await Repository.Query<TenantBrandLocalized>().Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
-        
-        if (!entities.Any())
-        {
-            throw new EntityLocalizationNotFoundException("Tenant.TenantBrands",  String.Empty, command.CultureCode.ToString());
-        }
 
-        Repository.DeleteRange(entities);
-        await OnCompletedAsync(command, entities);        
+        var entity = await Repository.Query<ClientApi.Domain.TenantBrandLocalized>().SingleOrDefaultAsync(x => x.Id == Dto.TenantBrandMetadata.CreateId(command.relatedKeyId) && x.CultureCode == command.CultureCode, cancellationToken);
+                EntityLocalizationNotFoundException.ThrowIfNull(entity, "Tenant.TenantBrands", "entityKeyId", command.CultureCode.ToString());
         
+        Repository.Delete(entity);
+        await OnCompletedAsync(command, entity);
         await Repository.SaveChangesAsync(cancellationToken);
+        
         return true;
     }
 }

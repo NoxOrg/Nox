@@ -16,7 +16,7 @@ using Dto = ClientApi.Application.Dto;
 using TenantBrandEntity = ClientApi.Domain.TenantBrand;
 
 namespace ClientApi.Application.Commands;
-public partial record DeleteTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteTenantBrandsForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandKeyDto EntityKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 internal partial class DeleteTenantBrandsForTenantCommandHandler : DeleteTenantBrandsForTenantCommandHandlerBase
 {
@@ -59,7 +59,9 @@ internal partial class DeleteTenantBrandsForTenantCommandHandlerBase : CommandBa
 		}
 		parentEntity.TenantBrands.Remove(entity);
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

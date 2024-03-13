@@ -62,8 +62,8 @@ public abstract partial class CountriesControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> DeleteCountryLocalNameLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> DeleteCountryLocalNameLocalized( [FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)
         {
@@ -72,7 +72,7 @@ public abstract partial class CountriesControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        await _mediator.Send(new DeleteCountryLocalNamesTranslationsForCountryCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteCountryLocalNamesTranslationsForCountryCommand(key, relatedKey, Nox.Types.CultureCode.From(cultureCode)));
 
         return NoContent();
     }

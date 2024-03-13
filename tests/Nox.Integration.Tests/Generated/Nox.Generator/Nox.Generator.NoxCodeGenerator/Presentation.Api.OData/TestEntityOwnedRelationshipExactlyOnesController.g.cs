@@ -93,18 +93,6 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/TestEntityOwnedRelationshipExactlyOnes/{key}/SecEntityOwnedRelExactlyOne")]
-    public virtual async Task<ActionResult> DeleteSecEntityOwnedRelExactlyOneNonConventional(System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key)));
-        
-        return NoContent();
-    }
-    
     #endregion
     
 }

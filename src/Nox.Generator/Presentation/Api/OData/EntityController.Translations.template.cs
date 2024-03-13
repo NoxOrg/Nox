@@ -101,6 +101,12 @@ public abstract partial class {{className}}Base
     }
     {{~ end ~}}
     {{- for localizedRelationship in ownedLocalizedRelationships }}
+    {{- ownedKeysRoute = '' }}
+    {{- if localizedRelationship.IsWithMultiEntity -}}
+    {{- for key in localizedRelationship.KeysForRouting -}}
+        {{ ownedKeysRoute = ownedKeysRoute | string.append  "{" + key + "}" + "/" }}
+    {{- end -}}
+    {{- end }}
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Put{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{ cultureCode}}, [FromBody] {{ GetEntityUpsertDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}} {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto)
     {
@@ -143,8 +149,8 @@ public abstract partial class {{className}}Base
         return Ok(item);
     }
 
-    [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{if localizedRelationship.IsWithMultiEntity}}{{localizedRelationship.OwnedEntity.PluralName}}{{else}}{{localizedRelationship.OwnedEntity.Name}}{{end}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
-    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Delete{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{ cultureCode}})
+    [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{if localizedRelationship.IsWithMultiEntity}}{{localizedRelationship.OwnedEntity.PluralName}}{{else}}{{localizedRelationship.OwnedEntity.Name}}{{end}}/{{ownedKeysRoute}}Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Delete{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, {{ if localizedRelationship.IsWithMultiEntity -}}{{localizedRelationship.KeysRoute}}, {{end -}}[FromRoute] System.String {{ cultureCode}})
     {
         if (!ModelState.IsValid)
         {
@@ -153,7 +159,7 @@ public abstract partial class {{className}}Base
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
 
-        await _mediator.Send(new Delete{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}TranslationsFor{{entity.Name}}Command({{ primaryKeysQuery }}, Nox.Types.CultureCode.From({{cultureCode}})));
+        await _mediator.Send(new Delete{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}TranslationsFor{{entity.Name}}Command({{ primaryKeysQuery }}, {{ if localizedRelationship.IsWithMultiEntity -}}{{localizedRelationship.KeysQuery}}, {{end -}}Nox.Types.CultureCode.From({{cultureCode}})));
 
         return NoContent();
     }

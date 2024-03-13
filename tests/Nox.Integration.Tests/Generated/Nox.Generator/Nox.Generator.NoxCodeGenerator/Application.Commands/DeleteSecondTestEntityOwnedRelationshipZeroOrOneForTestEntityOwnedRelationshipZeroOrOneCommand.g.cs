@@ -16,7 +16,7 @@ using Dto = TestWebApp.Application.Dto;
 using SecondTestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
-public partial record DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(TestEntityOwnedRelationshipZeroOrOneKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommand(TestEntityOwnedRelationshipZeroOrOneKeyDto ParentKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 
 internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandler : DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase
@@ -62,7 +62,9 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		
 		
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

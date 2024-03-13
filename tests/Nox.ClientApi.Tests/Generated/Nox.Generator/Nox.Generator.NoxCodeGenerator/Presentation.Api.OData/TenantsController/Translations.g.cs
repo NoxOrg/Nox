@@ -62,8 +62,8 @@ public abstract partial class TenantsControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> DeleteTenantBrandLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> DeleteTenantBrandLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)
         {
@@ -72,7 +72,7 @@ public abstract partial class TenantsControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        await _mediator.Send(new DeleteTenantBrandsTranslationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteTenantBrandsTranslationsForTenantCommand(key, relatedKey, Nox.Types.CultureCode.From(cultureCode)));
 
         return NoContent();
     }
@@ -107,7 +107,7 @@ public abstract partial class TenantsControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}")]
+    [HttpDelete("/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<TenantContactLocalizedDto>> DeleteTenantContactLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)

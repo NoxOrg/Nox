@@ -21,8 +21,9 @@ public partial record  DeleteTenantContactTranslationsForTenantCommand(System.UI
 internal partial class DeleteTenantContactTranslationsForTenantCommandHandler : DeleteTenantContactTranslationsForTenantCommandHandlerBase
 {
     public DeleteTenantContactTranslationsForTenantCommandHandler(
-           IRepository repository,
-                  NoxSolution noxSolution) : base(repository, noxSolution)
+        IRepository repository,
+        NoxSolution noxSolution)
+        : base(repository, noxSolution)
     {
     }
 }
@@ -32,8 +33,9 @@ internal abstract class DeleteTenantContactTranslationsForTenantCommandHandlerBa
     public IRepository Repository { get; }
 
     public DeleteTenantContactTranslationsForTenantCommandHandlerBase(
-           IRepository repository,
-           NoxSolution noxSolution) : base(noxSolution)
+        IRepository repository,
+        NoxSolution noxSolution) 
+        : base(noxSolution)
     {
         Repository = repository;
     }
@@ -50,11 +52,12 @@ internal abstract class DeleteTenantContactTranslationsForTenantCommandHandlerBa
         EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", "parentKeyId");
 
         var entity = await Repository.Query<ClientApi.Domain.TenantContactLocalized>().SingleOrDefaultAsync(x => x.TenantId == parentEntity.Id && x.CultureCode == command.CultureCode, cancellationToken);
-        EntityLocalizationNotFoundException.ThrowIfNull(entity, "Tenant.TenantContact", String.Empty, command.CultureCode.ToString());        
+                EntityLocalizationNotFoundException.ThrowIfNull(entity, "Tenant.TenantContact", String.Empty, command.CultureCode.ToString());
+        
         Repository.Delete(entity);
         await OnCompletedAsync(command, entity);
-
         await Repository.SaveChangesAsync(cancellationToken);
+        
         return true;
     }
 }

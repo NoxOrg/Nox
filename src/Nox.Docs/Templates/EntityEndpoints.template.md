@@ -174,9 +174,13 @@ This section details the API endpoints related to enumeration attributes in a sp
 {{ for localizedRelationship in ownedLocalizedRelationships }}
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{cultureCode}` 
     - Description: Update or create value of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.
-
-- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{cultureCode}` 
+{{ if localizedRelationship.IsWithMultiEntity}}
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/{relatedKey}/Languages/{cultureCode}` 
     - Description: Delete the localized values of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific culture code in {{entity.Name}}.
+{{ else}}
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/Languages/{cultureCode}` 
+    - Description: Delete the localized values of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific culture code in {{entity.Name}}.
+{{- end -}}
 {{~ end ~}}
 {{~ end ~}}
 {{- if relatedEndpoints | array.size > 0 }}

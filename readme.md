@@ -440,6 +440,22 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 `<cultureCode>`: CultureCode specifying language to delete translations for. 
 - **Response:** Returns a status code indicating success or failure.
 
+##### Owned Entities Languages endpoints
+##### DELETE `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryBarCode/Languages/en-GB`)
+- **Description:** Deletes translations for a owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<OwnedEntityPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages/en-GB`)
+- **Description:** Deletes translations for a specific owned entity (e.g. CountryLocalName) associated in a to-many relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the owned entity to delete  translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
+
 #### Enumerations Endpoints
 ##### GET `/api/<EntityPluralName>/<EnumPluralName>` (e.g. `/api/Countries/Continents`)
 - **Description:** Retrieves non-conventional values of an enumeration (e.g. Continents) for a specific entity (e.g. country).

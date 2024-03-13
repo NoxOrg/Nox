@@ -175,11 +175,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                     GenerateChildrenPatch(solution, relationship, entity, code);
                 }
 
-                if (CanDelete(entity) && CanDelete(child))
-                {
-                    GenerateChildrenDelete(solution, relationship, entity, code);
-                }
-
                 if (!relationship.WithSingleEntity())
                     GeneratePrivateChildrenGetById(solution, relationship, child, entity, code);
             }
@@ -453,48 +448,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.EndBlock();
         code.AppendLine();
     }
-
-    private static void GenerateChildrenDelete(NoxSolution solution, EntityRelationship relationship, Entity parent, CodeBuilder code)
-    {
-        var child = relationship.Related.Entity;
-        var isSingleRelationship = relationship.WithSingleEntity();
-        var navigationName = parent.GetNavigationPropertyName(relationship);
-
-        if (isSingleRelationship)
-        {
-            code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{navigationName}\")]");
-            code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
-                $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")})");
-        }
-        else
-        {
-            code.AppendLine($"[HttpDelete(\"{solution.Presentation.ApiConfiguration.ApiRoutePrefix}/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{navigationName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-            code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
-                $"{GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, " +
-                $"{GetPrimaryKeysRoute(child, solution, "relatedKey", "")})");
-        }
-
-        code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
-        code.StartBlock();
-        code.AppendLine($"throw new Nox.Exceptions.BadRequestException(ModelState);");
-        code.EndBlock();
-
-        if (isSingleRelationship)
-            code.AppendLine($"var result = await _mediator.Send(new Delete{navigationName}For{parent.Name}Command(" +
-                $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)})));");
-        else
-            code.AppendLine($"var result = await _mediator.Send(new Delete{navigationName}For{parent.Name}Command(" +
-                $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
-                $"new {child.Name}KeyDto({GetPrimaryKeysQuery(child, "relatedKey")})));");
-
-        code.AppendLine();
-        code.AppendLine($"return NoContent();");
-
-        code.EndBlock();
-        code.AppendLine();
-    }
-
     private static void GenerateRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
     {
         if (entity.Relationships?.Any() == true)
@@ -1029,12 +982,4 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         return "";
     }
-
-    private static bool CanRead(Entity entity) => entity.Persistence?.Read?.IsEnabled ?? true;
-
-    private static bool CanCreate(Entity entity) => entity.Persistence?.Create?.IsEnabled ?? true;
-
-    private static bool CanUpdate(Entity entity) => entity.Persistence?.Update?.IsEnabled ?? true;
-
-    private static bool CanDelete(Entity entity) => entity.Persistence?.Delete?.IsEnabled ?? true;
 }

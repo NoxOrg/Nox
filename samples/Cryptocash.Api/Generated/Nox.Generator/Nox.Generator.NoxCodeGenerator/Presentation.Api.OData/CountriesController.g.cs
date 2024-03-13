@@ -131,18 +131,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteCountryTimeZoneNonConventional(System.String key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteCountryTimeZonesForCountryCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey)));
-        
-        return NoContent();
-    }
-    
     protected async Task<CountryTimeZoneDto?> TryGetCountryTimeZones(System.String key, CountryTimeZoneKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
@@ -248,18 +236,6 @@ public abstract partial class CountriesControllerBase : ODataController
         var child = await TryGetHolidays(key, updated!);
         
         return Ok(child);
-    }
-    
-    [HttpDelete("/api/Countries/{key}/Holidays/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteHolidayNonConventional(System.String key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteHolidaysForCountryCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey)));
-        
-        return NoContent();
     }
     
     protected async Task<HolidayDto?> TryGetHolidays(System.String key, HolidayKeyDto childKeyDto)

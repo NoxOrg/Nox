@@ -131,18 +131,6 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteTenantBrandNonConventional(System.UInt32 key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteTenantBrandsForTenantCommand(new TenantKeyDto(key), new TenantBrandKeyDto(relatedKey)));
-        
-        return NoContent();
-    }
-    
     protected async Task<TenantBrandDto?> TryGetTenantBrands(System.UInt32 key, TenantBrandKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault();
@@ -210,18 +198,6 @@ public abstract partial class TenantsControllerBase : ODataController
         var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantContact;
         
         return Ok(child);
-    }
-    
-    [HttpDelete("/api/v1/Tenants/{key}/TenantContact")]
-    public virtual async Task<ActionResult> DeleteTenantContactNonConventional(System.UInt32 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteTenantContactForTenantCommand(new TenantKeyDto(key)));
-        
-        return NoContent();
     }
     
     #endregion

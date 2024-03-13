@@ -106,6 +106,8 @@
 //  - Nox.Generator.Application.Commands.DeleteOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteOwnedEntityTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteTranslationCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteZeroOrManyOwnedCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteZeroOrOneOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.RefToCommandGenerator
