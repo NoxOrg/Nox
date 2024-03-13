@@ -24,7 +24,7 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
         {
             return string.Join(", ", entity.Keys.Select(k => $"{prefix}{k.Name}"));
         }
-        else if (entity?.Keys is not null)
+        else if (entity?.Keys?.Count == 1)
         {
             return withKeyName ? $"{prefix}{entity.Keys[0].Name}" : prefix;
         }
@@ -39,7 +39,7 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
             return string.Join(", ", entity.Keys.Select(k => $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(k)} {keyPrefix}{k.Name}"))
                 .Trim();
         }
-        else if (entity?.Keys is not null)
+        else if (entity?.Keys?.Count == 1)
         {
             return $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {keyPrefix}"
                 .Trim();

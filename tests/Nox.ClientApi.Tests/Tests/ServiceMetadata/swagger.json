@@ -11628,15 +11628,27 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}": {
       "delete": {
         "tags": [
           "Countries"
         ],
-        "operationId": "DELETE_api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}",
+        "operationId": "DELETE_api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}",
         "parameters": [
           {
             "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "relatedKey",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -66614,12 +66626,14 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}": {
       "delete": {
         "tags": [
           "Tenants"
         ],
-        "operationId": "DELETE_api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}",
+        "operationId": "DELETE_api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}",
         "parameters": [
           {
             "name": "key",
@@ -66629,6 +66643,16 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -67310,12 +67334,14 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}": {
       "delete": {
         "tags": [
           "Tenants"
         ],
-        "operationId": "DELETE_api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}",
+        "operationId": "DELETE_api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}",
         "parameters": [
           {
             "name": "key",
