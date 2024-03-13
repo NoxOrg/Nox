@@ -6,6 +6,7 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using Nox.Application.Dto;
+using Nox.Exceptions;
 
 namespace ClientApi.Tests.Tests.Controllers;
 
@@ -2414,19 +2415,22 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
     }
 
     [Fact]
-    public async Task WhenDeleteEnumerationsTranslations_ShouldRemoveTranslations()
+    public async Task WhenDeleteEnumerationTranslation_ShouldRemoveTranslationForSpecificEnumeration()
     {
         // initial
-        await PutNewCountryContinent();
+        int europeContinentId = 1;
+        int africaContinentId = 3;
+        await PutNewCountryContinent(new CountryContinentLocalizedUpsertDto() { Name = "L'Europe" }, "fr-FR", europeContinentId);
+        await PutNewCountryContinent(new CountryContinentLocalizedUpsertDto() { Name = "Afrique" }, "fr-FR", africaContinentId);
         var initialSet = (await GetResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/Continents/Languages"))?.ToList();
 
         initialSet.Should().NotBeNull();
-        initialSet!.Count.Should().Be(6);
+        initialSet!.Count.Should().Be(7);
         initialSet.Should().Contain(x => x.Name == "Afrique" && x.CultureCode == "fr-FR");
         initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
 
         // Arrange
-        await DeleteAsync($"{Endpoints.CountriesUrl}/CountryContinentsLocalized/fr-FR");
+        await DeleteAsync($"{Endpoints.CountriesUrl}/Continents/{africaContinentId}/Languages/fr-FR");
 
         // Act
         var continentTranslations =
@@ -2434,16 +2438,18 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
 
         // Assert
         continentTranslations.Should().NotBeNull();
-        continentTranslations!.Count.Should().Be(5);
-        continentTranslations.Should().NotContain(x => x.CultureCode == "fr-FR");
+        continentTranslations!.Count.Should().Be(6);
+        continentTranslations.Should().NotContain(x => x.Id == africaContinentId && x.CultureCode == "fr-FR");
+        continentTranslations.Should().Contain(x => x.Id == europeContinentId && x.CultureCode == "fr-FR");
         continentTranslations.Should().Contain(x => x.CultureCode == "en-US");
     }
 
     [Fact]
-    public async Task WhenDeleteEnumerationsTranslationsWithInvalidCultureCode_ShouldReturnBadRequest()
+    public async Task WhenDeleteEnumerationTranslationWithInvalidCultureCode_ShouldReturnBadRequest()
     {
         // initial
-        await PutNewCountryContinent();
+        int continentId = 3;
+        await PutNewCountryContinent(id: continentId);
 
         var initialSet = (await GetResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/Continents/Languages"))?.ToList();
 
@@ -2453,24 +2459,50 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
 
         // Arrange && arrange
-        var result = await DeleteAsync($"{Endpoints.CountriesUrl}/CountryContinentsLocalized/aaaa", false);
+        var result = await DeleteAsync($"{Endpoints.CountriesUrl}/Continents/{continentId}/Languages/invalid-culture", false);
 
         // Assert
         result.Should().NotBeNull();
         result!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
+    [Fact]
+    public async Task WhenDeleteEnumerationTranslationForNonExistentId_ShouldReturnBadRequest()
+    {
+        // Arrange & Act
+        var result = await DeleteAsync($"{Endpoints.CountriesUrl}/Continents/1/Languages/fr-FR", false);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var content = await result.Content.ReadAsStringAsync();
+        var applicationError = DeserializeResponse<ApplicationErrorCodeResponse<dynamic>>(content);
+        applicationError!.Error.Code.Should().Be("entity_localization_not_found");
+    }
 
     [Fact]
-    public async Task WhenDeleteEnumerationsForDefaultCulture_ShouldReturnBadRequest()
+    public async Task WhenDeleteEnumerationTranslationForNonExistentTranslation_ShouldReturnBadRequest()
+    {
+        // Arrange & Act
+        var result = await DeleteAsync($"{Endpoints.CountriesUrl}/Continents/999/Languages/fr-FR", false);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var content = await result.Content.ReadAsStringAsync();
+        var applicationError = DeserializeResponse<ApplicationErrorCodeResponse<dynamic>>(content);
+        applicationError!.Error.Code.Should().Be("entity_not_found");
+    }
+
+    [Fact]
+    public async Task WhenDeleteEnumerationTranslationForDefaultCulture_ShouldReturnBadRequest()
     {
         // initial
-        await PutNewCountryContinent();
-
+        int continentId = 3;
+        await PutNewCountryContinent(id: continentId);
 
         var initialSet =
             (await GetResponseAsync<IEnumerable<CountryContinentLocalizedDto>>(Endpoints.CountriesUrl + "/Continents/Languages"))?.ToList();
-
 
         initialSet.Should().NotBeNull();
         initialSet!.Count.Should().Be(6);
@@ -2478,7 +2510,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         initialSet.Should().Contain(x => x.Name == "Africa" && x.CultureCode == "en-US");
 
         // Arrange && Act
-        var result = await DeleteAsync($"{Endpoints.CountriesUrl}/CountryContinentsLocalized/en-US", false);
+        var result = await DeleteAsync($"{Endpoints.CountriesUrl}/Continents/{continentId}/Languages/en-US", false);
 
         // Assert
         result.Should().NotBeNull();
@@ -2486,11 +2518,12 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
     }
 
     private async Task PutNewCountryContinent(CountryContinentLocalizedUpsertDto? dto = null,
-        string cultureCode = "fr-FR")
+        string cultureCode = "fr-FR",
+        int id = 3)
     {
         dto ??= new CountryContinentLocalizedUpsertDto() { Name = "Afrique" };
 
-        await PutAsync<CountryContinentLocalizedUpsertDto, CountryContinentLocalizedDto>(Endpoints.CountriesUrl + "/Continents/3/Languages/" + cultureCode, dto, null, false);
+        await PutAsync<CountryContinentLocalizedUpsertDto, CountryContinentLocalizedDto>(Endpoints.CountriesUrl + $"/Continents/{id}/Languages/" + cultureCode, dto, null, false);
     }
 
 

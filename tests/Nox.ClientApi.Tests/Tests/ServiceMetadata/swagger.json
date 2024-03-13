@@ -10693,13 +10693,23 @@
         }
       }
     },
-    "/api/v1/Countries/CountryContinentsLocalized/{cultureCode}": {
+    "/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}": {
       "delete": {
         "tags": [
           "Countries"
         ],
-        "operationId": "DELETE_api/v1/Countries/CountryContinentsLocalized/{cultureCode}",
+        "operationId": "DELETE_api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}",
         "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
           {
             "name": "cultureCode",
             "in": "path",
@@ -10726,9 +10736,7 @@
             "description": "Success"
           }
         }
-      }
-    },
-    "/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}": {
+      },
       "put": {
         "tags": [
           "Countries"
@@ -76645,13 +76653,23 @@
         }
       }
     },
-    "/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}": {
+    "/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}": {
       "delete": {
         "tags": [
           "Workplaces"
         ],
-        "operationId": "DELETE_api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}",
+        "operationId": "DELETE_api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}",
         "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
           {
             "name": "cultureCode",
             "in": "path",
@@ -76678,9 +76696,7 @@
             "description": "Success"
           }
         }
-      }
-    },
-    "/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}": {
+      },
       "put": {
         "tags": [
           "Workplaces"

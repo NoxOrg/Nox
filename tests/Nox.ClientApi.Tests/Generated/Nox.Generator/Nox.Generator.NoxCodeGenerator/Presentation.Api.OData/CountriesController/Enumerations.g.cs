@@ -27,12 +27,12 @@ public abstract partial class CountriesControllerBase
         return Ok(result);        
     }
 
-    [HttpDelete("/api/v1/Countries/CountryContinentsLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult> DeleteContinentsLocalizedNonConventional([FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult> DeleteContinentsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteCountriesContinentsTranslationsCommand(cultureCodeValue!));                        
+        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteCountriesContinentsTranslationsCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), cultureCodeValue!));                        
         return NoContent();     
     }
 
