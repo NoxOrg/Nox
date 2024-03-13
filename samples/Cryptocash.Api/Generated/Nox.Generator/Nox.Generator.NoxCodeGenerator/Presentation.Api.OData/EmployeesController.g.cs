@@ -131,18 +131,6 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Guid key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey)));
-        
-        return NoContent();
-    }
-    
     protected async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumbers(System.Guid key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();

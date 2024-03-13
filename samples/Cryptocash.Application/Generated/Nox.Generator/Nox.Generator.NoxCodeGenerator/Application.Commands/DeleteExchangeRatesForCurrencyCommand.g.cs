@@ -16,7 +16,7 @@ using Dto = Cryptocash.Application.Dto;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
-public partial record DeleteExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteExchangeRatesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 internal partial class DeleteExchangeRatesForCurrencyCommandHandler : DeleteExchangeRatesForCurrencyCommandHandlerBase
 {
@@ -59,7 +59,9 @@ internal partial class DeleteExchangeRatesForCurrencyCommandHandlerBase : Comman
 		}
 		parentEntity.ExchangeRates.Remove(entity);
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

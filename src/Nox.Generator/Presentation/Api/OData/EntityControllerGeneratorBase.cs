@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -53,4 +53,9 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
         var withKeyName = entity.Keys.Count > 1;
         return string.Join(", ", entity.Keys.Select(k => $"{{{prefix}{(withKeyName ? k.Name : "")}.ToString()}}"));
     }
+    
+    protected static bool CanDelete(Entity entity) => entity.Persistence?.Delete?.IsEnabled ?? true;
+    protected static bool CanRead(Entity entity) => entity.Persistence?.Read?.IsEnabled ?? true;
+    protected static bool CanCreate(Entity entity) => entity.Persistence?.Create?.IsEnabled ?? true;
+    protected static bool CanUpdate(Entity entity) => entity.Persistence?.Update?.IsEnabled ?? true;
 }

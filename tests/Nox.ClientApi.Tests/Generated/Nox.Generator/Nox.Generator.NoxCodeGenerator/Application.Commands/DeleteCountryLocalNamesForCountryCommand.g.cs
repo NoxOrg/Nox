@@ -16,7 +16,7 @@ using Dto = ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public partial record DeleteCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteCountryLocalNamesForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 internal partial class DeleteCountryLocalNamesForCountryCommandHandler : DeleteCountryLocalNamesForCountryCommandHandlerBase
 {
@@ -59,7 +59,9 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		}
 		parentEntity.CountryLocalNames.Remove(entity);
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

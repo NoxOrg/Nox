@@ -23,9 +23,9 @@ using {{entity.Name}}Entity = {{codeGenConventions.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
-public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
+public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, System.Guid? Etag) : IRequest <bool>;
 {{ else }}
-public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
+public partial record Delete{{relationshipName}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, System.Guid? Etag) : IRequest <bool>;
 {{- end }}
 
 internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandler : Delete{{relationshipName}}For{{parent.Name}}CommandHandlerBase
@@ -85,7 +85,9 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		parentEntity.{{relationshipName}}.Remove(entity);		
 		{{- end }}
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 
