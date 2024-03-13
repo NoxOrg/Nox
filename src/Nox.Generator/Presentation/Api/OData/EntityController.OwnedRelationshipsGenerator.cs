@@ -39,7 +39,6 @@ internal class EntityControllerOwnedRelationshipsGenerator : EntityControllerGen
                 o.Entity,
                 o.EntityPlural,
                 o.Relationship,
-                Definition = o,
                 OwnedRelationshipName = entity.GetNavigationPropertyName(o),
                 Deletable = CanDelete(o.Related.Entity) && CanDelete(entity),
                 primaryKeysRoute = GetPrimaryKeysRoute(o.Related.Entity, codeGenConventions.Solution, "relatedKey"),
