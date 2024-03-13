@@ -467,10 +467,11 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Response:** Returns a queryable collection of `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) objects. OData query is enabled for this endpoint.
 - **Query Parameters:** None
 
-##### DELETE `/api/<EntityPluralName>/<EntityName><EnumPluralName>Localized/<cultureCode>` (e.g. `/api/Countries/CountryContinentsLocalized/en-US`)
-- **Description:** Deletes the localized values of an enumeration (e.g. Continents) for a specific culture code in a specific entity (e.g. country).
+##### DELETE `/api/<EntityPluralName>/<EntityName><EnumPluralName>/<relatedKey>/Languages<cultureCode>` (e.g. `/api/Countries/CountryContinents/1/Languages/en-US`)
+- **Description:** Deletes the localized values for a specific enumeration value by ID (e.g. Continents) for a specific culture code in a specific entity (e.g. Country).
 - **Path Parameters:**
-`<cultureCode>`: Culture code of the localized values to delete.
+`<relatedKey>`: ID of the enumeration entity to delete translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for.
 - **Response:** Returns no content.
 
 ##### PUT `/api/<EntityPluralName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/Continents/1/Languages/en-US`)
