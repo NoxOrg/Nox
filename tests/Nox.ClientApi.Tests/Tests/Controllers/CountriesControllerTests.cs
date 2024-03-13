@@ -241,8 +241,8 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getCountryResponse!.CountryBarCode.Should().NotBeNull();
         getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
     }
-    
-    [Fact(Skip = "Skipped due to postgresql cascade delete not working as expected, will be fixed in the future.")]
+#if RELEASE //Due to postgresql cascade delete not working as expected
+    [Fact]
     public async Task DeleteAllCountryLocalNamesForCountryCommand_ShouldDeleteAllCountryLocalNames()
     {
         // Arrange
@@ -266,8 +266,8 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getCountryResponse.Should().NotBeNull();
         getCountryResponse!.CountryLocalNames.Should().BeNullOrEmpty();
     }
-    
-    [Fact(Skip = "Skipped due to postgresql cascade delete not working as expected, will be fixed in the future.")]
+
+    [Fact]
     public async Task WhenInvalidEtagProvided_DeleteAllCountryLocalNamesForCountryCommand_ShouldReturnConflict()
     {
         // Arrange
@@ -290,7 +290,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         response.Should().NotBeNull();
         response!.StatusCode.Should().Be(HttpStatusCode.Conflict);
     }
-    
+#endif    
     [Fact]
     public async Task DeleteAllCountryBarCodeForCountryCommand_ShouldDeleteCountryBarCode()
     {
