@@ -22,11 +22,11 @@ using PersonEntity = ClientApi.Domain.Person;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateUserContactSelectionForPersonCommand(PersonKeyDto ParentKeyDto, UserContactSelectionUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <UserContactSelectionKeyDto>;
+public partial record UpdateUserContactSelectionForSinglePersonCommand(PersonKeyDto ParentKeyDto, UserContactSelectionUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <UserContactSelectionKeyDto>;
 
-internal partial class UpdateUserContactSelectionForPersonCommandHandler : UpdateUserContactSelectionForPersonCommandHandlerBase
+internal partial class UpdateUserContactSelectionForSinglePersonCommandHandler : UpdateUserContactSelectionForSinglePersonCommandHandlerBase
 {
-	public UpdateUserContactSelectionForPersonCommandHandler(
+	public UpdateUserContactSelectionForSinglePersonCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<UserContactSelectionEntity, UserContactSelectionUpsertDto, UserContactSelectionUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateUserContactSelectionForPersonCommandHandler : Updat
 	}
 }
 
-internal partial class UpdateUserContactSelectionForPersonCommandHandlerBase : CommandBase<UpdateUserContactSelectionForPersonCommand, UserContactSelectionEntity>, IRequestHandler <UpdateUserContactSelectionForPersonCommand, UserContactSelectionKeyDto>
+internal partial class UpdateUserContactSelectionForSinglePersonCommandHandlerBase : CommandBase<UpdateUserContactSelectionForSinglePersonCommand, UserContactSelectionEntity>, IRequestHandler <UpdateUserContactSelectionForSinglePersonCommand, UserContactSelectionKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<UserContactSelectionEntity, UserContactSelectionUpsertDto, UserContactSelectionUpsertDto> _entityFactory;
 
-	protected UpdateUserContactSelectionForPersonCommandHandlerBase(
+	protected UpdateUserContactSelectionForSinglePersonCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<UserContactSelectionEntity, UserContactSelectionUpsertDto, UserContactSelectionUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateUserContactSelectionForPersonCommandHandlerBase : C
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<UserContactSelectionKeyDto> Handle(UpdateUserContactSelectionForPersonCommand request, CancellationToken cancellationToken)
+	public virtual async Task<UserContactSelectionKeyDto> Handle(UpdateUserContactSelectionForSinglePersonCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);

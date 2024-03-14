@@ -103,7 +103,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         employeePhoneNumber.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberForEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberForSingleEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault()?.EmployeePhoneNumbers?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         

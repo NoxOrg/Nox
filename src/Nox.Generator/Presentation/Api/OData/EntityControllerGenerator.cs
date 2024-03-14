@@ -313,7 +313,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         if (isSingleRelationship)
         {
-            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}For{parent.Name}Command(" +
+            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationName}ForSingle{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
                 $"{childName}, _cultureCode, etag));");
 
@@ -376,7 +376,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             var keyName = child.Keys[0].Name;
             code.AppendLine($"{childName}.{keyName} = relatedKey;");
         }
-        code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationNameSingular}For{parent.Name}Command(" +
+        code.AppendLine($"var updatedKey = await _mediator.Send(new Update{navigationNameSingular}ForSingle{parent.Name}Command(" +
             $"new {parent.Name}KeyDto({GetPrimaryKeysQuery(parent)}), " +
             $"{childName}, _cultureCode, etag));");
 

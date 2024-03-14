@@ -103,7 +103,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         bankNote.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateBankNoteForCurrencyCommand(new CurrencyKeyDto(key), bankNote, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateBankNoteForSingleCurrencyCommand(new CurrencyKeyDto(key), bankNote, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault()?.BankNotes?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         
@@ -210,7 +210,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         exchangeRate.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateExchangeRateForCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateExchangeRateForSingleCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault()?.ExchangeRates?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         

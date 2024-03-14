@@ -22,11 +22,11 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto>;
+public partial record UpdateCountryTimeZoneForSingleCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto>;
 
-internal partial class UpdateCountryTimeZoneForCountryCommandHandler : UpdateCountryTimeZoneForCountryCommandHandlerBase
+internal partial class UpdateCountryTimeZoneForSingleCountryCommandHandler : UpdateCountryTimeZoneForSingleCountryCommandHandlerBase
 {
-	public UpdateCountryTimeZoneForCountryCommandHandler(
+	public UpdateCountryTimeZoneForSingleCountryCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateCountryTimeZoneForCountryCommandHandler : UpdateCou
 	}
 }
 
-internal partial class UpdateCountryTimeZoneForCountryCommandHandlerBase : CommandBase<UpdateCountryTimeZoneForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <UpdateCountryTimeZoneForCountryCommand, CountryTimeZoneKeyDto>
+internal partial class UpdateCountryTimeZoneForSingleCountryCommandHandlerBase : CommandBase<UpdateCountryTimeZoneForSingleCountryCommand, CountryTimeZoneEntity>, IRequestHandler <UpdateCountryTimeZoneForSingleCountryCommand, CountryTimeZoneKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> _entityFactory;
 
-	protected UpdateCountryTimeZoneForCountryCommandHandlerBase(
+	protected UpdateCountryTimeZoneForSingleCountryCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateCountryTimeZoneForCountryCommandHandlerBase : Comma
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryTimeZoneKeyDto> Handle(UpdateCountryTimeZoneForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryTimeZoneKeyDto> Handle(UpdateCountryTimeZoneForSingleCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateCountryTimeZoneForCountryCommandHandlerBase : Comma
 	}
 }
 
-public class UpdateCountryTimeZoneForCountryCommandValidator : AbstractValidator<UpdateCountryTimeZoneForCountryCommand>
+public class UpdateCountryTimeZoneForSingleCountryCommandValidator : AbstractValidator<UpdateCountryTimeZoneForSingleCountryCommand>
 {
-    public UpdateCountryTimeZoneForCountryCommandValidator()
+    public UpdateCountryTimeZoneForSingleCountryCommandValidator()
     {		
 		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }

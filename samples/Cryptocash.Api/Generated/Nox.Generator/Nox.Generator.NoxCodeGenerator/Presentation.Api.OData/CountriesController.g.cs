@@ -103,7 +103,7 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         countryTimeZone.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneForCountryCommand(new CountryKeyDto(key), countryTimeZone, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneForSingleCountryCommand(new CountryKeyDto(key), countryTimeZone, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryTimeZones?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         
@@ -210,7 +210,7 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         holiday.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateHolidayForCountryCommand(new CountryKeyDto(key), holiday, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateHolidayForSingleCountryCommand(new CountryKeyDto(key), holiday, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.Holidays?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         
