@@ -40,8 +40,7 @@
 	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Nox.Core\Nox.Core.csproj" />
+	<ItemGroup>	  
 	  <ProjectReference Include="..\Nox.Types.Extensions\Nox.Types.Extensions.csproj" />
 	  <ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
