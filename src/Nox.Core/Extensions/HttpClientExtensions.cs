@@ -62,7 +62,7 @@ public static class HttpClientExtensions
 
     public static HttpClient AddeTag(this HttpClient httpClient, Guid eTag)
     {
-        httpClient.DefaultRequestHeaders.IfNoneMatch.Add(new EntityTagHeaderValue(eTag.ToString()));
+        httpClient.DefaultRequestHeaders.IfNoneMatch.Add(new EntityTagHeaderValue($"\"{eTag}\""));
         return httpClient;
     }
 
