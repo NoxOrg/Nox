@@ -22,11 +22,11 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto>;
+public partial record UpdateBankNoteForSingleCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <BankNoteKeyDto>;
 
-internal partial class UpdateBankNoteForCurrencyCommandHandler : UpdateBankNoteForCurrencyCommandHandlerBase
+internal partial class UpdateBankNoteForSingleCurrencyCommandHandler : UpdateBankNoteForSingleCurrencyCommandHandlerBase
 {
-	public UpdateBankNoteForCurrencyCommandHandler(
+	public UpdateBankNoteForSingleCurrencyCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateBankNoteForCurrencyCommandHandler : UpdateBankNoteF
 	}
 }
 
-internal partial class UpdateBankNoteForCurrencyCommandHandlerBase : CommandBase<UpdateBankNoteForCurrencyCommand, BankNoteEntity>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto>
+internal partial class UpdateBankNoteForSingleCurrencyCommandHandlerBase : CommandBase<UpdateBankNoteForSingleCurrencyCommand, BankNoteEntity>, IRequestHandler <UpdateBankNoteForSingleCurrencyCommand, BankNoteKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> _entityFactory;
 
-	protected UpdateBankNoteForCurrencyCommandHandlerBase(
+	protected UpdateBankNoteForSingleCurrencyCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteUpsertDto, BankNoteUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateBankNoteForCurrencyCommandHandlerBase : CommandBase
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<BankNoteKeyDto> Handle(UpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BankNoteKeyDto> Handle(UpdateBankNoteForSingleCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateBankNoteForCurrencyCommandHandlerBase : CommandBase
 	}
 }
 
-public class UpdateBankNoteForCurrencyCommandValidator : AbstractValidator<UpdateBankNoteForCurrencyCommand>
+public class UpdateBankNoteForSingleCurrencyCommandValidator : AbstractValidator<UpdateBankNoteForSingleCurrencyCommand>
 {
-    public UpdateBankNoteForCurrencyCommandValidator()
+    public UpdateBankNoteForSingleCurrencyCommandValidator()
     {
     }
 }

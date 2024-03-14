@@ -22,11 +22,11 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto>;
+public partial record UpdateEmployeePhoneNumberForSingleEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto>;
 
-internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler : UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase
+internal partial class UpdateEmployeePhoneNumberForSingleEmployeeCommandHandler : UpdateEmployeePhoneNumberForSingleEmployeeCommandHandlerBase
 {
-	public UpdateEmployeePhoneNumberForEmployeeCommandHandler(
+	public UpdateEmployeePhoneNumberForSingleEmployeeCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler : Upda
 	}
 }
 
-internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto>
+internal partial class UpdateEmployeePhoneNumberForSingleEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumberForSingleEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumberForSingleEmployeeCommand, EmployeePhoneNumberKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> _entityFactory;
 
-	protected UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase(
+	protected UpdateEmployeePhoneNumberForSingleEmployeeCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberUpsertDto, EmployeePhoneNumberUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase : 
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<EmployeePhoneNumberKeyDto> Handle(UpdateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmployeePhoneNumberKeyDto> Handle(UpdateEmployeePhoneNumberForSingleEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase : 
 	}
 }
 
-public class UpdateEmployeePhoneNumberForEmployeeCommandValidator : AbstractValidator<UpdateEmployeePhoneNumberForEmployeeCommand>
+public class UpdateEmployeePhoneNumberForSingleEmployeeCommandValidator : AbstractValidator<UpdateEmployeePhoneNumberForSingleEmployeeCommand>
 {
-    public UpdateEmployeePhoneNumberForEmployeeCommandValidator()
+    public UpdateEmployeePhoneNumberForSingleEmployeeCommandValidator()
     {
     }
 }

@@ -22,11 +22,11 @@ using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public partial record UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommand(TestEntityOwnedRelationshipOneOrManyKeyDto ParentKeyDto, SecEntityOwnedRelOneOrManyUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecEntityOwnedRelOneOrManyKeyDto>;
+public partial record UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand(TestEntityOwnedRelationshipOneOrManyKeyDto ParentKeyDto, SecEntityOwnedRelOneOrManyUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecEntityOwnedRelOneOrManyKeyDto>;
 
-internal partial class UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandHandler : UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase
+internal partial class UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandHandler : UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandHandlerBase
 {
-	public UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandHandler(
+	public UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<SecEntityOwnedRelOneOrManyEntity, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelatio
 	}
 }
 
-internal partial class UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase : CommandBase<UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommand, SecEntityOwnedRelOneOrManyEntity>, IRequestHandler <UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommand, SecEntityOwnedRelOneOrManyKeyDto>
+internal partial class UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandHandlerBase : CommandBase<UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand, SecEntityOwnedRelOneOrManyEntity>, IRequestHandler <UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand, SecEntityOwnedRelOneOrManyKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<SecEntityOwnedRelOneOrManyEntity, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> _entityFactory;
 
-	protected UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandHandlerBase(
+	protected UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<SecEntityOwnedRelOneOrManyEntity, SecEntityOwnedRelOneOrManyUpsertDto, SecEntityOwnedRelOneOrManyUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelatio
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<SecEntityOwnedRelOneOrManyKeyDto> Handle(UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<SecEntityOwnedRelOneOrManyKeyDto> Handle(UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelatio
 	}
 }
 
-public class UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandValidator : AbstractValidator<UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommand>
+public class UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandValidator : AbstractValidator<UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand>
 {
-    public UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommandValidator()
+    public UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommandValidator()
     {		
 		RuleFor(x => x.EntityDto.Id).NotNull().WithMessage("Id is required.");
     }

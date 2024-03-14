@@ -22,11 +22,11 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto>;
+public partial record UpdateCountryLocalNameForSingleCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto>;
 
-internal partial class UpdateCountryLocalNameForCountryCommandHandler : UpdateCountryLocalNameForCountryCommandHandlerBase
+internal partial class UpdateCountryLocalNameForSingleCountryCommandHandler : UpdateCountryLocalNameForSingleCountryCommandHandlerBase
 {
-	public UpdateCountryLocalNameForCountryCommandHandler(
+	public UpdateCountryLocalNameForSingleCountryCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateCountryLocalNameForCountryCommandHandler : UpdateCo
 	}
 }
 
-internal partial class UpdateCountryLocalNameForCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto>
+internal partial class UpdateCountryLocalNameForSingleCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNameForSingleCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNameForSingleCountryCommand, CountryLocalNameKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> _entityFactory;
 
-	protected UpdateCountryLocalNameForCountryCommandHandlerBase(
+	protected UpdateCountryLocalNameForSingleCountryCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryLocalNameEntity, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateCountryLocalNameForCountryCommandHandlerBase : Comm
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryLocalNameKeyDto> Handle(UpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryLocalNameKeyDto> Handle(UpdateCountryLocalNameForSingleCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateCountryLocalNameForCountryCommandHandlerBase : Comm
 	}
 }
 
-public class UpdateCountryLocalNameForCountryCommandValidator : AbstractValidator<UpdateCountryLocalNameForCountryCommand>
+public class UpdateCountryLocalNameForSingleCountryCommandValidator : AbstractValidator<UpdateCountryLocalNameForSingleCountryCommand>
 {
-    public UpdateCountryLocalNameForCountryCommandValidator()
+    public UpdateCountryLocalNameForSingleCountryCommandValidator()
     {
     }
 }

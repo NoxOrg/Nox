@@ -22,11 +22,11 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto>;
+public partial record UpdateCountryBarCodeForSingleCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto>;
 
-internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCountryBarCodeForCountryCommandHandlerBase
+internal partial class UpdateCountryBarCodeForSingleCountryCommandHandler : UpdateCountryBarCodeForSingleCountryCommandHandlerBase
 {
-	public UpdateCountryBarCodeForCountryCommandHandler(
+	public UpdateCountryBarCodeForSingleCountryCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCoun
 	}
 }
 
-internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto>
+internal partial class UpdateCountryBarCodeForSingleCountryCommandHandlerBase : CommandBase<UpdateCountryBarCodeForSingleCountryCommand, CountryBarCodeEntity>, IRequestHandler <UpdateCountryBarCodeForSingleCountryCommand, CountryBarCodeKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> _entityFactory;
 
-	protected UpdateCountryBarCodeForCountryCommandHandlerBase(
+	protected UpdateCountryBarCodeForSingleCountryCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryBarCodeEntity, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<CountryBarCodeKeyDto> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryBarCodeKeyDto> Handle(UpdateCountryBarCodeForSingleCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);

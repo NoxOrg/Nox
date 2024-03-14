@@ -22,11 +22,11 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateTenantBrandForTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto>;
+public partial record UpdateTenantBrandForSingleTenantCommand(TenantKeyDto ParentKeyDto, TenantBrandUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantBrandKeyDto>;
 
-internal partial class UpdateTenantBrandForTenantCommandHandler : UpdateTenantBrandForTenantCommandHandlerBase
+internal partial class UpdateTenantBrandForSingleTenantCommandHandler : UpdateTenantBrandForSingleTenantCommandHandlerBase
 {
-	public UpdateTenantBrandForTenantCommandHandler(
+	public UpdateTenantBrandForSingleTenantCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateTenantBrandForTenantCommandHandler : UpdateTenantBr
 	}
 }
 
-internal partial class UpdateTenantBrandForTenantCommandHandlerBase : CommandBase<UpdateTenantBrandForTenantCommand, TenantBrandEntity>, IRequestHandler <UpdateTenantBrandForTenantCommand, TenantBrandKeyDto>
+internal partial class UpdateTenantBrandForSingleTenantCommandHandlerBase : CommandBase<UpdateTenantBrandForSingleTenantCommand, TenantBrandEntity>, IRequestHandler <UpdateTenantBrandForSingleTenantCommand, TenantBrandKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> _entityFactory;
 
-	protected UpdateTenantBrandForTenantCommandHandlerBase(
+	protected UpdateTenantBrandForSingleTenantCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantBrandEntity, TenantBrandUpsertDto, TenantBrandUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateTenantBrandForTenantCommandHandlerBase : CommandBas
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TenantBrandKeyDto> Handle(UpdateTenantBrandForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TenantBrandKeyDto> Handle(UpdateTenantBrandForSingleTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateTenantBrandForTenantCommandHandlerBase : CommandBas
 	}
 }
 
-public class UpdateTenantBrandForTenantCommandValidator : AbstractValidator<UpdateTenantBrandForTenantCommand>
+public class UpdateTenantBrandForSingleTenantCommandValidator : AbstractValidator<UpdateTenantBrandForSingleTenantCommand>
 {
-    public UpdateTenantBrandForTenantCommandValidator()
+    public UpdateTenantBrandForSingleTenantCommandValidator()
     {
     }
 }
