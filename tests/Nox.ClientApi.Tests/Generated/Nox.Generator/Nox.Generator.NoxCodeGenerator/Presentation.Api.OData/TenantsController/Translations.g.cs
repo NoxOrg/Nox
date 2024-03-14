@@ -77,7 +77,7 @@ public abstract partial class TenantsControllerBase
 
         return NoContent();
     }
-    [HttpPut("/api/v1/Tenants/{key}/TenantContacts/Languages/{cultureCode}")]
+    [HttpPut("/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<TenantContactLocalizedDto>> PutTenantContactLocalized([FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] TenantContactLocalizedUpsertDto tenantContactLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)

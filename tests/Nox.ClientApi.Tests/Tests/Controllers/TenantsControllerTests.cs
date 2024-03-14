@@ -1203,7 +1203,7 @@ namespace ClientApi.Tests.Controllers
             => await PutAsync<TenantBrandLocalizedUpsertDto, TenantBrandLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{tenantBrand.Id}/Languages/{language}", tenantBrand, null!, false);
 
         private async Task<TenantContactLocalizedDto?> UpsertTenantContactLocalizationAsync(uint tenantId, TenantContactLocalizedUpsertDto tenantContact, string language)
-            => await PutAsync<TenantContactLocalizedUpsertDto, TenantContactLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantContacts/Languages/{language}", tenantContact, null!, false);
+            => await PutAsync<TenantContactLocalizedUpsertDto, TenantContactLocalizedDto>($"{Endpoints.TenantsUrl}/{tenantId}/TenantContact/Languages/{language}", tenantContact, null!, false);
 
         private async Task<WorkplaceDto?> CreateWorkplaceAsync(WorkplaceCreateDto workplace, string? language = null)
             => await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}{CreateLangParam(language)}", workplace);
