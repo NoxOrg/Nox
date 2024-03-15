@@ -58,7 +58,11 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- for key in parent.Keys }}
 		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
+		{{if entity.IsLocalized -}}
+		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}, {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}, {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized>(keys.ToArray(), p => p.{{relationshipName}}, p => p.Localized{{entity.PluralName}}, cancellationToken);
+		{{ else -}}
 		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(), p => p.{{relationshipName}}, cancellationToken);
+		{{ end -}}
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("{{parent.Name}}",  "{{parent.Keys | keysToString}}");
@@ -82,10 +86,10 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		{
 			throw new EntityNotFoundException("{{entity.Name}}.{{relationshipName}}",  $"{{keysToString entity.Keys 'owned'}}");
 		}
-		parentEntity.{{relationshipName}}.Remove(entity);		
+		parentEntity.Delete{{relationshipName}}(entity);		
 		{{- end }}
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

@@ -64,7 +64,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
             {{- end }}            
 			{{- for relationship in entity.OwnedRelationships }}
             {{- navigationName = GetNavigationPropertyName entity relationship }}
-			.Include(e => e.{{navigationName}})
+			.Include(e => e.{{navigationName}}){{- if relationship.Related.Entity.IsLocalized -}}.ThenInclude(e => e!.Localized{{relationship.EntityPlural}}){{- end}}
 			{{- end }}
 			.SingleOrDefault();
 		
@@ -76,7 +76,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		entity.Etag = request.Etag ?? System.Guid.Empty;
 		{{- end }}
 		
 		await OnCompletedAsync(request, entity);		

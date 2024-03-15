@@ -47,7 +47,7 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		var keys = new List<object?>(1);
 		keys.Add(Dto.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Employee>(keys.ToArray(), p => p.EmployeePhoneNumbers, cancellationToken);
-		if (parentEntity == null)
+				if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Employee",  "keyId");
 		}
@@ -57,9 +57,9 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		{
 			throw new EntityNotFoundException("EmployeePhoneNumber.EmployeePhoneNumbers",  $"ownedId");
 		}
-		parentEntity.EmployeePhoneNumbers.Remove(entity);
+		parentEntity.DeleteEmployeePhoneNumbers(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

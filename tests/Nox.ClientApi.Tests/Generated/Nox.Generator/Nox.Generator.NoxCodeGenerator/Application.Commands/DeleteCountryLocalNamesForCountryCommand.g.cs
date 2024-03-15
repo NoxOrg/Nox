@@ -46,8 +46,8 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
-		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryLocalNames, cancellationToken);
-		if (parentEntity == null)
+		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country, ClientApi.Domain.CountryLocalName, ClientApi.Domain.CountryLocalNameLocalized>(keys.ToArray(), p => p.CountryLocalNames, p => p.LocalizedCountryLocalNames, cancellationToken);
+				if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");
 		}
@@ -57,9 +57,9 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		{
 			throw new EntityNotFoundException("CountryLocalName.CountryLocalNames",  $"ownedId");
 		}
-		parentEntity.CountryLocalNames.Remove(entity);
+		parentEntity.DeleteCountryLocalNames(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

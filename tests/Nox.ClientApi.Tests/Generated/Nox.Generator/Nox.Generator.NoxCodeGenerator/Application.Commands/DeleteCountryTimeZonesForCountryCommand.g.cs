@@ -47,7 +47,7 @@ internal partial class DeleteCountryTimeZonesForCountryCommandHandlerBase : Comm
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryTimeZones, cancellationToken);
-		if (parentEntity == null)
+				if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");
 		}
@@ -57,9 +57,9 @@ internal partial class DeleteCountryTimeZonesForCountryCommandHandlerBase : Comm
 		{
 			throw new EntityNotFoundException("CountryTimeZone.CountryTimeZones",  $"ownedId");
 		}
-		parentEntity.CountryTimeZones.Remove(entity);
+		parentEntity.DeleteCountryTimeZones(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

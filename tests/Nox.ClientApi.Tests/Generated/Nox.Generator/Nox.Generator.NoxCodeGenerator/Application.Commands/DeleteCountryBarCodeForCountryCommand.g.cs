@@ -48,7 +48,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryBarCode, cancellationToken);
-		if (parentEntity == null)
+				if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");
 		}				
@@ -62,7 +62,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 		
 		
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

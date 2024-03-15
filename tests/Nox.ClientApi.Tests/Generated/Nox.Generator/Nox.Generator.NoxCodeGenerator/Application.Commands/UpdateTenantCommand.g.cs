@@ -57,8 +57,8 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 
 		var entity = Repository.Query<ClientApi.Domain.Tenant>()
             .Where(x => x.Id == Dto.TenantMetadata.CreateId(request.keyId))
-			.Include(e => e.TenantBrands)
-			.Include(e => e.TenantContact)
+			.Include(e => e.TenantBrands).ThenInclude(e => e!.LocalizedTenantBrands)
+			.Include(e => e.TenantContact).ThenInclude(e => e!.LocalizedTenantContacts)
 			.SingleOrDefault();
 		
 		if (entity == null)
@@ -67,7 +67,7 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 		}
 
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		entity.Etag = request.Etag ?? System.Guid.Empty;
 		
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();

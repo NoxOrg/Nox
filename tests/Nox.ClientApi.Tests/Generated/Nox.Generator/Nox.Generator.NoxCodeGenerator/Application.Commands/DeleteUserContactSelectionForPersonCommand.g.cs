@@ -48,7 +48,7 @@ internal partial class DeleteUserContactSelectionForPersonCommandHandlerBase : C
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PersonMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Person>(keys.ToArray(), p => p.UserContactSelection, cancellationToken);
-		if (parentEntity == null)
+				if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Person",  "keyId");
 		}				
@@ -62,7 +62,7 @@ internal partial class DeleteUserContactSelectionForPersonCommandHandlerBase : C
 		
 		
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

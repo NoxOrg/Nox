@@ -57,7 +57,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 
 		var entity = Repository.Query<ClientApi.Domain.Country>()
             .Where(x => x.Id == Dto.CountryMetadata.CreateId(request.keyId))
-			.Include(e => e.CountryLocalNames)
+			.Include(e => e.CountryLocalNames).ThenInclude(e => e!.LocalizedCountryLocalNames)
 			.Include(e => e.CountryBarCode)
 			.Include(e => e.CountryTimeZones)
 			.Include(e => e.Holidays)
@@ -69,7 +69,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		}
 
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		entity.Etag = request.Etag ?? System.Guid.Empty;
 		
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();

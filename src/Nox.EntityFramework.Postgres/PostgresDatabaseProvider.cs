@@ -54,7 +54,8 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
                 {
                     opts.MigrationsAssembly(migrationAssemblyName);
                 }
-            });
+            })
+            .EnableDetailedErrors();
     }
 
 

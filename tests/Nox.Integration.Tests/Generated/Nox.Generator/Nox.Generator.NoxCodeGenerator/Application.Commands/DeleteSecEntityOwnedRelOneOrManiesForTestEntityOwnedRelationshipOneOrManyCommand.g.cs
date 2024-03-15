@@ -47,7 +47,7 @@ internal partial class DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipOneOrManyMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany>(keys.ToArray(), p => p.SecEntityOwnedRelOneOrManies, cancellationToken);
-		if (parentEntity == null)
+				if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipOneOrMany",  "keyId");
 		}
@@ -57,9 +57,9 @@ internal partial class DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 		{
 			throw new EntityNotFoundException("SecEntityOwnedRelOneOrMany.SecEntityOwnedRelOneOrManies",  $"ownedId");
 		}
-		parentEntity.SecEntityOwnedRelOneOrManies.Remove(entity);
+		parentEntity.DeleteSecEntityOwnedRelOneOrManies(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);
