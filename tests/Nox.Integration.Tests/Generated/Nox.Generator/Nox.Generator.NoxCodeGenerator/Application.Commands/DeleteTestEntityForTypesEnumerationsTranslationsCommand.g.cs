@@ -7,6 +7,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Domain;
+using Nox.Exceptions;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Abstractions.Extensions;
@@ -14,7 +15,7 @@ using TestWebApp.Domain;
 using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
-public partial record  DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand(Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand(Enumeration Id, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
 internal partial class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandler : DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase
 {
@@ -24,7 +25,7 @@ internal partial class DeleteTestEntityForTypesEnumerationTestFieldsTranslations
 	{
 	}
 }
-internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandCollectionBase<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, bool>
+internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommandHandlerBase : CommandBase<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, TestEntityForTypesEnumerationTestFieldLocalized>, IRequestHandler<DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand, bool>
 {
 	public IRepository Repository { get; }
 
@@ -39,19 +40,19 @@ internal abstract class DeleteTestEntityForTypesEnumerationTestFieldsTranslation
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
+		
+		var enumEntity = await Repository.FindAsync<TestEntityForTypesEnumerationTestField>(command.Id, cancellationToken);
+        EntityNotFoundException.ThrowIfNull(enumEntity, "TestEntityForTypesEnumerationTestFieldLocalized", command.Id.Value.ToString());
 
-		var localizedEnums = await Repository.Query<TestEntityForTypesEnumerationTestFieldLocalized>().Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+		var localizedEnum = await Repository.Query<TestEntityForTypesEnumerationTestFieldLocalized>()
+			.FirstOrDefaultAsync(x => x.Id == command.Id && x.CultureCode == command.CultureCode, cancellationToken);
+		EntityLocalizationNotFoundException.ThrowIfNull(localizedEnum, "TestEntityForTypesEnumerationTestFieldLocalized",  command.Id.Value.ToString(), command.CultureCode.ToString());
 		
-		if(!localizedEnums.Any())
-		{
-			return false;
-		}
-		
-		await OnCompletedAsync(command, localizedEnums);
-		
-		Repository.DeleteRange(localizedEnums);
-		
-		await Repository.SaveChangesAsync(cancellationToken);
+		Repository.Delete(localizedEnum);
+
+        await OnCompletedAsync(command, localizedEnum);
+        await Repository.SaveChangesAsync(cancellationToken);
+
 		return true;
 	}
 }
