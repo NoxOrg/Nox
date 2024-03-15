@@ -103,7 +103,7 @@ public abstract partial class TenantsControllerBase : ODataController
         
         var etag = Request.GetDecodedEtagHeader();
         tenantBrand.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateTenantBrandForTenantCommand(new TenantKeyDto(key), tenantBrand, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateTenantBrandForSingleTenantCommand(new TenantKeyDto(key), tenantBrand, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantBrands?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         
@@ -176,7 +176,7 @@ public abstract partial class TenantsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTenantContactForTenantCommand(new TenantKeyDto(key), tenantContact, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateTenantContactForSingleTenantCommand(new TenantKeyDto(key), tenantContact, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetTenantByIdQuery(key))).SingleOrDefault()?.TenantContact;
         

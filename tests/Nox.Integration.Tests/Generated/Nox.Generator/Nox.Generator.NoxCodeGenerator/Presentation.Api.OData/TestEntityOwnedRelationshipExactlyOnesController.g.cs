@@ -69,7 +69,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelExactlyOneForSingleTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
         

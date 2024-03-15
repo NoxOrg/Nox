@@ -22,11 +22,11 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateEmailAddresForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmailAddressKeyDto>;
+public partial record UpdateEmailAddresForSingleStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <EmailAddressKeyDto>;
 
-internal partial class UpdateEmailAddresForStoreCommandHandler : UpdateEmailAddresForStoreCommandHandlerBase
+internal partial class UpdateEmailAddresForSingleStoreCommandHandler : UpdateEmailAddresForSingleStoreCommandHandlerBase
 {
-	public UpdateEmailAddresForStoreCommandHandler(
+	public UpdateEmailAddresForSingleStoreCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateEmailAddresForStoreCommandHandler : UpdateEmailAddr
 	}
 }
 
-internal partial class UpdateEmailAddresForStoreCommandHandlerBase : CommandBase<UpdateEmailAddresForStoreCommand, EmailAddressEntity>, IRequestHandler <UpdateEmailAddresForStoreCommand, EmailAddressKeyDto>
+internal partial class UpdateEmailAddresForSingleStoreCommandHandlerBase : CommandBase<UpdateEmailAddresForSingleStoreCommand, EmailAddressEntity>, IRequestHandler <UpdateEmailAddresForSingleStoreCommand, EmailAddressKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> _entityFactory;
 
-	protected UpdateEmailAddresForStoreCommandHandlerBase(
+	protected UpdateEmailAddresForSingleStoreCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressUpsertDto, EmailAddressUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateEmailAddresForStoreCommandHandlerBase : CommandBase
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<EmailAddressKeyDto> Handle(UpdateEmailAddresForStoreCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmailAddressKeyDto> Handle(UpdateEmailAddresForSingleStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);

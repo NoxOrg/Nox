@@ -21,10 +21,22 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
                 var ownedEntity = entities.Single(entity => entity.Name == ownedRelationship.Entity);
                 var relationshipName = entity.GetNavigationPropertyName(ownedRelationship);
 
-                Generate(context, codeGenConventions, entity, ownedEntity, ownedRelationship, relationshipName.Singularize(), "Application.Commands.UpdateOwnedSingleCommand");
+                Generate(context,
+                    codeGenConventions,
+                    entity, 
+                    ownedEntity,
+                    ownedRelationship, 
+                    $"Update{relationshipName.Singularize()}ForSingle{entity.Name}Command", 
+                    "Application.Commands.UpdateOwnedSingleCommand");
 
                 if (ownedRelationship.WithMultiEntity)
-                    Generate(context, codeGenConventions, entity, ownedEntity, ownedRelationship, relationshipName, "Application.Commands.UpdateOwnedManyCommand");
+                    Generate(context,
+                        codeGenConventions,
+                        entity,
+                        ownedEntity,
+                        ownedRelationship,
+                        $"Update{relationshipName}For{entity.Name}Command", 
+                        "Application.Commands.UpdateOwnedManyCommand");
             }
         }
     }
@@ -35,7 +47,7 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
         Entity entity,
         Entity ownedEntity,
         EntityRelationship ownedRelationship,
-        string relationshipName,
+        string className,
         string templateName)
     {
         var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
@@ -43,7 +55,7 @@ internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGenerator
         var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
         new TemplateCodeBuilder(context, codeGenConventions)
-            .WithClassName($"Update{relationshipName}For{entity.Name}Command")
+            .WithClassName(className)
             .WithFileNamePrefix($"Application.Commands")
             .WithObject("relationship", ownedRelationship)
             .WithObject("entity", ownedEntity)

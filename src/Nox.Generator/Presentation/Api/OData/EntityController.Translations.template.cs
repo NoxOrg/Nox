@@ -1,4 +1,4 @@
-﻿{{- func keyNameWithPrefix(name, prefix = "key")	
+{{- func keyNameWithPrefix(name, prefix = "key")	
     ret ("{" + prefix + name + ".ToString()}")
 end -}}
 {{- func keysToString(keys)
@@ -107,14 +107,18 @@ public abstract partial class {{className}}Base
         {{ ownedKeysRoute = ownedKeysRoute | string.append  "{" + key + "}" + "/" }}
     {{- end -}}
     {{- end }}
-    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
-    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Put{{localizedRelationship.OwnedEntity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{ cultureCode}}, [FromBody] {{ GetEntityUpsertDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}} {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto)
+    [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntity.PluralName}}/{relatedKey}{{- else -}}{{localizedRelationship.OwnedEntity.Name}}{{end-}}/Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Put{{localizedRelationship.OwnedEntity.Name}}Localized({{ primaryKeysRoute }}, {{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntityKeysRoute}},{{end}} [FromRoute] System.String {{ cultureCode}}, [FromBody] {{ GetEntityUpsertDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}} {{ToLowerFirstChar localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom({{cultureCode}}, out var {{cultureCode}}Value));
         
+        {{- if localizedRelationship.IsWithMultiEntity }}
+        {{localizedRelationship.OwnedEntityKey}} = relatedKey;
+        {{- end }}
         var etag = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ primaryKeysQuery }}))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)

@@ -103,7 +103,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         
         var etag = Request.GetDecodedEtagHeader();
         secEntityOwnedRelOneOrMany.Id = relatedKey;
-        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelOneOrManyForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secEntityOwnedRelOneOrMany, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secEntityOwnedRelOneOrMany, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelOneOrManies?.SingleOrDefault(e => e.Id == updatedKey.keyId);
         
