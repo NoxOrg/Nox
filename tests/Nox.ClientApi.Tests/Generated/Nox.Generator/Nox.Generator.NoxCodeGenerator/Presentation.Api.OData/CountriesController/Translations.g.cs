@@ -30,6 +30,14 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class CountriesControllerBase
 {
+    [HttpGet("/api/v1/Countries/{key}/CountryLocalNames/Languages")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> GetCountryLocalNameLanguages([FromRoute] System.Int64 key)
+    {
+        var result = (await _mediator.Send(new GetCountryLocalNameTranslationsByParentIdQuery(key)));
+        return Ok(result);
+    }
+    
     [HttpPut("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> PutCountryLocalNameLocalized([FromRoute] System.Int64 key,[FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode, [FromBody] CountryLocalNameLocalizedUpsertDto countryLocalNameLocalizedUpsertDto)
     {

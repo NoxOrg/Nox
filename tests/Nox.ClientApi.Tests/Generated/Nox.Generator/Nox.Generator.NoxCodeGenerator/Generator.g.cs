@@ -79,6 +79,7 @@
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator
+//  - Nox.Generator.Application.Queries.OwnedTranslationsByParentIdQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
