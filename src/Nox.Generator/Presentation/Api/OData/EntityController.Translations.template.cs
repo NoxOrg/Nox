@@ -107,7 +107,7 @@ public abstract partial class {{className}}Base
         {{ ownedKeysRoute = ownedKeysRoute | string.append  "{" + key + "}" + "/" }}
     {{- end -}}
     {{- end }}
-    [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntity.PluralName}}{{- else -}}{{localizedRelationship.OwnedEntity.Name}}{{end-}}/Languages")]
+    [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}O{{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntity.PluralName}}{{- else -}}{{localizedRelationship.OwnedEntity.Name}}{{end-}}/Languages")]
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>>> Get{{localizedRelationship.OwnedEntity.Name}}LanguagesNonConventional({{ primaryKeysRoute }})
     {

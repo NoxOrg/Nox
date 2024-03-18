@@ -460,7 +460,7 @@ namespace ClientApi.Tests.Controllers
         }
 
         [Fact]
-        public async Task Test()
+        public async Task GetTenantChildLocalizations_WhenProvidingTenantBrandAndTenantContactLocalizations_ReturnsCorrectLocalizations()
         {
             // Arrange
             var enTenant = new TenantCreateDto
@@ -474,6 +474,12 @@ namespace ClientApi.Tests.Controllers
                         Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
                     },
                 },
+                TenantContact = new TenantContactUpsertDto()
+                {
+                    Description = "For more information please write to the email address below.",
+                    Email = "test@test.com",
+                    Name = "Test"
+                }
             };
             var postTenantResult = await CreateTenantAsync(enTenant);
             var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
@@ -483,20 +489,31 @@ namespace ClientApi.Tests.Controllers
                 Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
             };
 
+            var upsertTenantContactLocalization = new TenantContactLocalizedUpsertDto()
+            {
+                Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+            };
+
             // Act
             await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "fr-FR");
+            await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization, "fr-FR");
 
-            var meta = "api/v1/$metadata";
+            var brandLocalizationsAll = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages");
+            var contactLocalizationsAll = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantContact/Languages");
             
-            var metaDataResponse = await GetAsync(meta);
-            var metaData = await metaDataResponse.Content.ReadAsStringAsync();
-            
-            var localizations =
-                await GetODataCollectionResponseAsync<IEnumerable<TenantBrandLocalizedDto>>(
-                    $"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/TenantBrands/Languages");
-            
+            var brandDescriptions = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages?$select=Description");
+            var contactDescriptions = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantContact/Languages?$select=Description");
+
             // Assert
-            localizations.Should().NotBeNull();
+            brandLocalizationsAll.Should().NotBeNull();
+            brandLocalizationsAll.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
+            contactLocalizationsAll.Should().NotBeNull();
+            contactLocalizationsAll.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
+            
+            brandDescriptions.Should().NotBeNull();
+            brandDescriptions.Should().AllSatisfy(b => b.CultureCode.Should().BeNull());
+            contactDescriptions.Should().NotBeNull();
+            contactDescriptions.Should().AllSatisfy(c => c.CultureCode.Should().BeNull());
         }
 
         [Fact]

@@ -30,7 +30,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class TenantsControllerBase
 {
-    [HttpGet("/api/v1/Tenants/{key}/TenantBrands/Languages")]
+    [HttpGet("/api/v1/Tenants/{key}/OTenantBrands/Languages")]
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TenantBrandLocalizedDto>>> GetTenantBrandLanguagesNonConventional([FromRoute] System.UInt32 key)
     {
@@ -85,7 +85,7 @@ public abstract partial class TenantsControllerBase
 
         return NoContent();
     }
-    [HttpGet("/api/v1/Tenants/{key}/TenantContact/Languages")]
+    [HttpGet("/api/v1/Tenants/{key}/OTenantContact/Languages")]
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TenantContactLocalizedDto>>> GetTenantContactLanguagesNonConventional([FromRoute] System.UInt32 key)
     {

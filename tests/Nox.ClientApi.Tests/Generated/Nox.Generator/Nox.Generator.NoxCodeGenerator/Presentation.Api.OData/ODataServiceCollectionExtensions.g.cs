@@ -52,14 +52,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>().ContainsMany(e => e.Workplaces);
         builder.EntityType<CountryDto>().ContainsMany(e => e.Stores);
         builder.EntityType<CountryLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CountryDto>().Function("Languages").ReturnsCollection<DtoNameSpace.CountryLocalizedDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CountryDto>().Ignore(e => e.Etag);
 
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 		builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryLocalNameLocalizedDto>().HasKey(e => new { e.Id });
-        // builder.EntityType<CountryLocalNameDto>().Function("CountryLocalNames/Languages").ReturnsCollection<DtoNameSpace.CountryLocalNameLocalizedDto>();
 
 		builder.EntityType<CountryBarCodeDto>().HasKey(e => new {  });
 
@@ -86,7 +84,6 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<WorkplaceDto>().Function("Languages").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
         builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
 
@@ -120,11 +117,9 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TenantBrandDto>("TenantBrands");
 		builder.EntityType<TenantBrandDto>().HasKey(e => new { e.Id });
         builder.EntityType<TenantBrandLocalizedDto>().HasKey(e => new { e.Id });
-        // builder.EntityType<TenantBrandDto>().Function("TenantBrands/Languages").ReturnsCollection<DtoNameSpace.TenantBrandLocalizedDto>();
 
 		builder.EntityType<TenantContactDto>().HasKey(e => new {  });
         builder.EntityType<TenantContactLocalizedDto>().HasKey(e => new {  });
-        // builder.EntityType<TenantContactDto>().Function("TenantContacts/Languages").ReturnsCollection<DtoNameSpace.TenantContactLocalizedDto>();
 
         builder.EntitySet<CountryTimeZoneDto>("CountryTimeZones");
 		builder.EntityType<CountryTimeZoneDto>().HasKey(e => new { e.Id });

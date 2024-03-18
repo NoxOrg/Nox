@@ -127,6 +127,7 @@ CountryIsoNumeric|CountryNumber|Country's iso number id.|
 CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id.|
 GoogleMapsUrl|Url|Country's map via google maps.|
 StartOfWeek|DayOfWeek|Country's start of week day.|
+TestAttForLocalization|Text|TestAttForLocalization.|MinLength: 4, MaxLength: 63, IsLocalized: true
 Continent|Enumeration|Country Continent.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
 CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code.|Required, Owned Entity

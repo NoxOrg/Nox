@@ -82,7 +82,7 @@ public abstract partial class CountriesControllerBase
         return Ok(result);
     }
 
-    [HttpGet("/api/v1/Countries/{key}/CountryLocalNames/Languages")]
+    [HttpGet("/api/v1/Countries/{key}/OCountryLocalNames/Languages")]
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<CountryLocalNameLocalizedDto>>> GetCountryLocalNameLanguagesNonConventional([FromRoute] System.Int64 key)
     {
