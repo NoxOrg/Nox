@@ -159,6 +159,26 @@ public partial class CountryMetadata
         
     
         /// <summary>
+        /// Type options for property 'TestAttForLocalization'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions TestAttForLocalizationTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'TestAttForLocalization'
+        /// </summary>
+        public static Nox.Types.Text CreateTestAttForLocalization(System.String value)
+            => Nox.Types.Text.From(value, TestAttForLocalizationTypeOptions);
+        
+    
+        /// <summary>
         /// Type options for property 'Continent'
         /// </summary>
         public static Nox.Types.EnumerationTypeOptions ContinentTypeOptions {get; private set;} = new ()
@@ -275,6 +295,10 @@ public partial class CountryMetadata
         /// User Interface for property 'StartOfWeek'
         /// </summary>
         public static TypeUserInterface? StartOfWeekUiOptions {get; private set;} = null; 
+        /// <summary>
+        /// User Interface for property 'TestAttForLocalization'
+        /// </summary>
+        public static TypeUserInterface? TestAttForLocalizationUiOptions {get; private set;} = null; 
         /// <summary>
         /// User Interface for property 'Continent'
         /// </summary>

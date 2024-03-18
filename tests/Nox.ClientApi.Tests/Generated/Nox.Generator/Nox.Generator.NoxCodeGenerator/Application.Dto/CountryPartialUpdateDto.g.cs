@@ -62,6 +62,10 @@ public partial class CountryPartialUpdateDtoBase: EntityDtoBase
     /// </summary>
     public virtual System.UInt16? StartOfWeek { get; set; }
     /// <summary>
+    /// TestAttForLocalization
+    /// </summary>
+    public virtual System.String? TestAttForLocalization { get; set; }
+    /// <summary>
     /// Country Continent
     /// </summary>
     public virtual System.Int32? Continent { get; set; }

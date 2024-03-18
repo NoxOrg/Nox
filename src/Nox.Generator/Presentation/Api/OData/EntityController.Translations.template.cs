@@ -109,7 +109,7 @@ public abstract partial class {{className}}Base
     {{- end }}
     [HttpGet("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entity.PluralName}}/{{keysRoute}}{{- if localizedRelationship.IsWithMultiEntity }}{{localizedRelationship.OwnedEntity.PluralName}}{{- else -}}{{localizedRelationship.OwnedEntity.Name}}{{end-}}/Languages")]
     [EnableQuery]
-    public virtual async Task<ActionResult<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>> Get{{localizedRelationship.OwnedEntity.Name}}Languages({{ primaryKeysRoute }})
+    public virtual async Task<ActionResult<IQueryable<{{GetEntityDtoNameForLocalizedType localizedRelationship.OwnedEntity.Name}}>>> Get{{localizedRelationship.OwnedEntity.Name}}LanguagesNonConventional({{ primaryKeysRoute }})
     {
         var result = (await _mediator.Send(new Get{{localizedRelationship.OwnedEntity.Name}}TranslationsByParentIdQuery({{ primaryKeysQuery }})));
         return Ok(result);

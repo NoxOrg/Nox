@@ -32,7 +32,7 @@ public abstract partial class TenantsControllerBase
 {
     [HttpGet("/api/v1/Tenants/{key}/TenantBrands/Languages")]
     [EnableQuery]
-    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> GetTenantBrandLanguages([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult<IQueryable<TenantBrandLocalizedDto>>> GetTenantBrandLanguagesNonConventional([FromRoute] System.UInt32 key)
     {
         var result = (await _mediator.Send(new GetTenantBrandTranslationsByParentIdQuery(key)));
         return Ok(result);
@@ -87,7 +87,7 @@ public abstract partial class TenantsControllerBase
     }
     [HttpGet("/api/v1/Tenants/{key}/TenantContact/Languages")]
     [EnableQuery]
-    public virtual async Task<ActionResult<TenantContactLocalizedDto>> GetTenantContactLanguages([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult<IQueryable<TenantContactLocalizedDto>>> GetTenantContactLanguagesNonConventional([FromRoute] System.UInt32 key)
     {
         var result = (await _mediator.Send(new GetTenantContactTranslationsByParentIdQuery(key)));
         return Ok(result);

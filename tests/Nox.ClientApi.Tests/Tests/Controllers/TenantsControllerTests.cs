@@ -460,6 +460,46 @@ namespace ClientApi.Tests.Controllers
         }
 
         [Fact]
+        public async Task Test()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var upsertTenantBrandLocalization = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdEnResult!.TenantBrands[0].Id,
+                Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+            };
+
+            // Act
+            await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "fr-FR");
+
+            var meta = "api/v1/$metadata";
+            
+            var metaDataResponse = await GetAsync(meta);
+            var metaData = await metaDataResponse.Content.ReadAsStringAsync();
+            
+            var localizations =
+                await GetODataCollectionResponseAsync<IEnumerable<TenantBrandLocalizedDto>>(
+                    $"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/TenantBrands/Languages");
+            
+            // Assert
+            localizations.Should().NotBeNull();
+        }
+
+        [Fact]
         public async Task UpdateTenantBrandLocalization_WhenProvidingNonDefaultLocalizationAndItAlreadyExists_UpdatesCorrectLocalizations()
         {
             // Arrange

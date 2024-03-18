@@ -73,6 +73,11 @@ public abstract class CountryCreateDtoBase
     /// <remarks>Optional</remarks>
     public virtual System.UInt16? StartOfWeek { get; set; }
     /// <summary>
+    /// TestAttForLocalization     
+    /// </summary>
+    /// <remarks>Optional</remarks>
+    public virtual System.String? TestAttForLocalization { get; set; }
+    /// <summary>
     /// Country Continent     
     /// </summary>
     /// <remarks>Optional</remarks>

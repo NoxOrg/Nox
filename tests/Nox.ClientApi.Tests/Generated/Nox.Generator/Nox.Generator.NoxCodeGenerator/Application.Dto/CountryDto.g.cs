@@ -56,6 +56,8 @@ public abstract class CountryDtoBase : EntityDtoBase
             CollectValidationExceptions("GoogleMapsUrl", () => CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.StartOfWeek is not null)
             CollectValidationExceptions("StartOfWeek", () => CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
+        if (this.TestAttForLocalization is not null)
+            CollectValidationExceptions("TestAttForLocalization", () => CountryMetadata.CreateTestAttForLocalization(this.TestAttForLocalization.NonNullValue<System.String>()), result);
         if (this.Continent is not null)
             CollectValidationExceptions("Continent", () => CountryMetadata.CreateContinent(this.Continent.NonNullValue<System.Int32>()), result);
 
@@ -133,6 +135,12 @@ public abstract class CountryDtoBase : EntityDtoBase
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.UInt16? StartOfWeek { get; set; }
+
+    /// <summary>
+    /// TestAttForLocalization     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.String? TestAttForLocalization { get; set; }
 
     /// <summary>
     /// Country Continent     
