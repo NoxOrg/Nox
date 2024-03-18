@@ -48,7 +48,7 @@ internal partial class DeleteUserContactSelectionForPersonCommandHandlerBase : C
 		var keys = new List<object?>(1);
 		keys.Add(Dto.PersonMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Person>(keys.ToArray(), p => p.UserContactSelection, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Person",  "keyId");
 		}				

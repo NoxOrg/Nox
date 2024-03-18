@@ -48,7 +48,7 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrOneForTestEn
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne>(keys.ToArray(), p => p.SecondTestEntityOwnedRelationshipZeroOrOne, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrOne",  "keyId");
 		}				

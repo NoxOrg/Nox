@@ -47,7 +47,7 @@ internal partial class DeleteExchangeRatesForCurrencyCommandHandlerBase : Comman
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Currency>(keys.ToArray(), p => p.ExchangeRates, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Currency",  "keyId");
 		}

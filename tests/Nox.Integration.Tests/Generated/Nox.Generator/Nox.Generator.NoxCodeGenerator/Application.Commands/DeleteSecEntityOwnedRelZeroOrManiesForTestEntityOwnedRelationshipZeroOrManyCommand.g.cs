@@ -47,7 +47,7 @@ internal partial class DeleteSecEntityOwnedRelZeroOrManiesForTestEntityOwnedRela
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany>(keys.ToArray(), p => p.SecEntityOwnedRelZeroOrManies, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipZeroOrMany",  "keyId");
 		}

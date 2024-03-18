@@ -47,7 +47,7 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country, ClientApi.Domain.CountryLocalName, ClientApi.Domain.CountryLocalNameLocalized>(keys.ToArray(), p => p.CountryLocalNames, p => p.LocalizedCountryLocalNames, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");
 		}

@@ -58,11 +58,11 @@ internal partial class Delete{{relationshipName}}For{{parent.Name}}CommandHandle
 		{{- for key in parent.Keys }}
 		keys.Add(Dto.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}}));
 		{{- end }}
-		{{if entity.IsLocalized -}}
+		{{- if entity.IsLocalized }}
 		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}, {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}, {{codeGenConventions.DomainNameSpace}}.{{entity.Name}}Localized>(keys.ToArray(), p => p.{{relationshipName}}, p => p.Localized{{entity.PluralName}}, cancellationToken);
-		{{ else -}}
+		{{- else }}
 		var parentEntity = await Repository.FindAndIncludeAsync<{{codeGenConventions.DomainNameSpace}}.{{parent.Name}}>(keys.ToArray(), p => p.{{relationshipName}}, cancellationToken);
-		{{ end -}}
+		{{- end }}
 		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("{{parent.Name}}",  "{{parent.Keys | keysToString}}");

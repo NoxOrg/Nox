@@ -47,7 +47,7 @@ internal partial class DeleteHolidaysForCountryCommandHandlerBase : CommandBase<
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<Cryptocash.Domain.Country>(keys.ToArray(), p => p.Holidays, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Country",  "keyId");
 		}

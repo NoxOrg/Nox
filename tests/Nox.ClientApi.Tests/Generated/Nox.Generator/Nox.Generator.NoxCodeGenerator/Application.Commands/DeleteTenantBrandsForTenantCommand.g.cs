@@ -47,7 +47,7 @@ internal partial class DeleteTenantBrandsForTenantCommandHandlerBase : CommandBa
 		var keys = new List<object?>(1);
 		keys.Add(Dto.TenantMetadata.CreateId(request.ParentKeyDto.keyId));
 		var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Tenant, ClientApi.Domain.TenantBrand, ClientApi.Domain.TenantBrandLocalized>(keys.ToArray(), p => p.TenantBrands, p => p.LocalizedTenantBrands, cancellationToken);
-				if (parentEntity == null)
+		if (parentEntity == null)
 		{
 			throw new EntityNotFoundException("Tenant",  "keyId");
 		}
