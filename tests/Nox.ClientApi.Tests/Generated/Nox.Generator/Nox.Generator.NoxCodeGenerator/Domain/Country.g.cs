@@ -133,12 +133,6 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
     public Nox.Types.DayOfWeek? StartOfWeek { get;  set; } = null!;
 
     /// <summary>
-    /// TestAttForLocalization    
-    /// </summary>
-    /// <remarks>Optional.</remarks>   
-    public Nox.Types.Text? TestAttForLocalization { get;  set; } = null!;
-
-    /// <summary>
     /// Country Continent    
     /// </summary>
     /// <remarks>Optional.</remarks>   
@@ -370,20 +364,7 @@ public abstract partial class CountryBase : AuditableEntityBase, IEtag
         Holidays.Clear();
     }
 
-        /// <summary>
-        /// Country localized entities.
-        /// </summary>
-        public virtual List<CountryLocalized> LocalizedCountries  { get; private set; } = new();
     
-    
-    	/// <summary>
-    	/// Creates a new CountryLocalized entity.
-    	/// </summary>
-        public virtual void CreateRefToLocalizedCountries(CountryLocalized relatedCountryLocalized)
-    	{
-    		LocalizedCountries.Add(relatedCountryLocalized);
-    	}
-        
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

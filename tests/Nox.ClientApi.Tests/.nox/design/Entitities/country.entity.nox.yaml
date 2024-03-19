@@ -97,16 +97,6 @@ attributes:
     description: Country's start of week day
     type: dayOfWeek     
     isRequired: false
-  
-  - name: TestAttForLocalization
-    description: TestAttForLocalization
-    type: text
-    textTypeOptions:
-      minLength: 4
-      maxLength: 63
-      isLocalized: true
-    isRequired: false
-     
 
   - name: Continent
     description: Country Continent

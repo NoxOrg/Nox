@@ -51,7 +51,6 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>().ContainsMany(e => e.Holidays).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Workplaces);
         builder.EntityType<CountryDto>().ContainsMany(e => e.Stores);
-        builder.EntityType<CountryLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CountryDto>().Ignore(e => e.Etag);
 

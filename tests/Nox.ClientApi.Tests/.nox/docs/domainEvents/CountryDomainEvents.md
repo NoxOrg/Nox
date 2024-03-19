@@ -25,7 +25,6 @@ CountryIsoNumeric|CountryNumber|Country's iso number id
 CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
 GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
-TestAttForLocalization|Text|TestAttForLocalization
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code
@@ -54,7 +53,6 @@ CountryIsoNumeric|CountryNumber|Country's iso number id
 CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
 GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
-TestAttForLocalization|Text|TestAttForLocalization
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code
@@ -83,7 +81,6 @@ CountryIsoNumeric|CountryNumber|Country's iso number id
 CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
 GoogleMapsUrl|Url|Country's map via google maps
 StartOfWeek|DayOfWeek|Country's start of week day
-TestAttForLocalization|Text|TestAttForLocalization
 Continent|Enumeration|Country Continent
 CountryLocalNameId|AutoNumber|The unique identifier
 CountryTimeZoneId|TimeZoneCode|Country's related time zone code

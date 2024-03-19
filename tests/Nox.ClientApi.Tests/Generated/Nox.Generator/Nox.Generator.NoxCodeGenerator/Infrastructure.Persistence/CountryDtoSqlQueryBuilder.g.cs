@@ -44,23 +44,10 @@ public class CountryDtoSqlQueryBuilder : IEntityDtoSqlQueryBuilder
 			.Select("Countries.CountryDebt_CurrencyCode")
 			.Select("Countries.CapitalCityLocation_Latitude")
 			.Select("Countries.CapitalCityLocation_Longitude")
-			.ForSqlServer(q => q.SelectRaw("COALESCE([CountriesLocalized].[TestAttForLocalization], CASE WHEN [Countries].[TestAttForLocalization] IS NULL THEN N'' ELSE N'[' + [Countries].[TestAttForLocalization] + N']' END) AS [TestAttForLocalization]"))
-			.ForPostgreSql(q => q.SelectRaw("COALESCE(\"CountriesLocalized\".\"TestAttForLocalization\",CASE WHEN \"Countries\".\"TestAttForLocalization\" IS NULL THEN '' ELSE '##OPEN##' || \"Countries\".\"TestAttForLocalization\" || '##CLOSE##' END) AS \"TestAttForLocalization\""))
-			.ForSqlite(q => q.SelectRaw("COALESCE(\"CountriesLocalized\".\"TestAttForLocalization\",CASE WHEN \"Countries\".\"TestAttForLocalization\" IS NULL THEN '' ELSE '##OPEN##' || \"Countries\".\"TestAttForLocalization\" || '##CLOSE##' END) AS \"TestAttForLocalization\""))
 			.Select("CountriesContinents.Name as ContinentName")
 			.Select("Countries.DeletedAtUtc")
 			.Select("Countries.Etag")
-			.LeftJoin(CountryLocalizedQuery(), j => j.On("CountriesLocalized.Id", "Countries.Id"))
 			.LeftJoin(ContinentEnumQuery(), j => j.On("CountriesContinents.Id", "Countries.Continent"));
-	}
-	
-	private static Query CountryLocalizedQuery()
-	{
-		return new Query("CountriesLocalized")
-			.Select("CountriesLocalized.Id")
-			.Select("CountriesLocalized.TestAttForLocalization")
-			.Where("CountriesLocalized.CultureCode", "##LANG##")
-			.As("CountriesLocalized");
 	}
 	
 	private static Query ContinentEnumQuery()

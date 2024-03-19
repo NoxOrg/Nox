@@ -83,7 +83,6 @@ public abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repo
         public virtual DbSet<ClientDto> Clients { get; set; } = null!;
         public virtual DbSet<ReferenceNumberEntityDto> ReferenceNumberEntities { get; set; } = null!;
         public virtual DbSet<PersonDto> People { get; set; } = null!;
-    public virtual DbSet<CountryLocalizedDto> CountriesLocalized { get; set; } = null!;
     public virtual DbSet<CountryLocalNameLocalizedDto> CountryLocalNamesLocalized { get; set; } = null!;
     public virtual DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public virtual DbSet<TenantBrandLocalizedDto> TenantBrandsLocalized { get; set; } = null!;

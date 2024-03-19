@@ -29,20 +29,16 @@ internal partial class CountryFactory : CountryFactoryBase
     public CountryFactory
     (
         IRepository repository,
-        IEntityLocalizedFactory<CountryLocalized, CountryEntity, CountryUpdateDto> countryLocalizedFactory,
-        NoxSolution noxSolution,
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
         IEntityFactory<ClientApi.Domain.Holiday, HolidayUpsertDto, HolidayUpsertDto> holidayfactory
-    ) : base(repository, countryLocalizedFactory, noxSolution, countrylocalnamefactory, countrybarcodefactory, countrytimezonefactory, holidayfactory)
+    ) : base(repository, countrylocalnamefactory, countrybarcodefactory, countrytimezonefactory, holidayfactory)
     {}
 }
 
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
-    private readonly Nox.Types.CultureCode _defaultCultureCode;
-    protected readonly IEntityLocalizedFactory<CountryLocalized, CountryEntity, CountryUpdateDto> CountryLocalizedFactory;
     private readonly IRepository _repository;
     protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> CountryBarCodeFactory {get;}
@@ -51,8 +47,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
 
     public CountryFactoryBase(
         IRepository repository,
-        IEntityLocalizedFactory<CountryLocalized, CountryEntity, CountryUpdateDto> countryLocalizedFactory,
-        NoxSolution noxSolution,
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameUpsertDto, CountryLocalNameUpsertDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeUpsertDto, CountryBarCodeUpsertDto> countrybarcodefactory,
         IEntityFactory<ClientApi.Domain.CountryTimeZone, CountryTimeZoneUpsertDto, CountryTimeZoneUpsertDto> countrytimezonefactory,
@@ -60,8 +54,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         )
     {
         _repository = repository;
-        CountryLocalizedFactory = countryLocalizedFactory;
-        _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
         CountryTimeZoneFactory = countrytimezonefactory;
@@ -73,7 +65,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         try
         {
             var entity =  await ToEntityAsync(createDto, cultureCode);
-            CountryLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
             return entity;
         }
         catch (NoxTypeValidationException ex)
@@ -87,7 +78,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         try
         {
             await UpdateEntityInternalAsync(entity, updateDto, cultureCode);
-            await CountryLocalizedFactory.UpdateLocalizedEntityAsync(entity, updateDto, cultureCode);
         }
         catch (NoxTypeValidationException ex)
         {
@@ -100,8 +90,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         try
         {
             PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
-            await CountryLocalizedFactory.PartialUpdateLocalizedEntityAsync(entity, updatedProperties, cultureCode);
-        
+            await Task.CompletedTask;
         }
         catch (NoxTypeValidationException ex)
         {
@@ -131,8 +120,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             Dto.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>())));
         exceptionCollector.Collect("StartOfWeek", () => entity.SetIfNotNull(createDto.StartOfWeek, (entity) => entity.StartOfWeek = 
             Dto.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>())));
-        exceptionCollector.Collect("TestAttForLocalization", () => entity.SetIfNotNull(createDto.TestAttForLocalization, (entity) => entity.TestAttForLocalization = 
-            Dto.CountryMetadata.CreateTestAttForLocalization(createDto.TestAttForLocalization.NonNullValue<System.String>())));
         exceptionCollector.Collect("Continent", () => entity.SetIfNotNull(createDto.Continent, (entity) => entity.Continent = 
             Dto.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>())));
 
@@ -252,14 +239,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         {
             exceptionCollector.Collect("StartOfWeek",() =>entity.StartOfWeek = Dto.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.ToValueFromNonNull<System.UInt16>()));
         }
-        if(IsDefaultCultureCode(cultureCode)) if(updateDto.TestAttForLocalization is null)
-        {
-             entity.TestAttForLocalization = null;
-        }
-        else
-        {
-            exceptionCollector.Collect("TestAttForLocalization",() =>entity.TestAttForLocalization = Dto.CountryMetadata.CreateTestAttForLocalization(updateDto.TestAttForLocalization.ToValueFromNonNull<System.String>()));
-        }
         if(updateDto.Continent is null)
         {
              entity.Continent = null;
@@ -361,15 +340,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             }
         }
 
-        if (IsDefaultCultureCode(cultureCode) && updatedProperties.TryGetValue("TestAttForLocalization", out var TestAttForLocalizationUpdateValue))
-        {
-            if (TestAttForLocalizationUpdateValue == null) { entity.TestAttForLocalization = null; }
-            else
-            {
-                exceptionCollector.Collect("TestAttForLocalization",() =>entity.TestAttForLocalization = Dto.CountryMetadata.CreateTestAttForLocalization(TestAttForLocalizationUpdateValue));
-            }
-        }
-
         if (updatedProperties.TryGetValue("Continent", out var ContinentUpdateValue))
         {
             if (ContinentUpdateValue == null) { entity.Continent = null; }
@@ -380,8 +350,6 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
     }
-    private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == _defaultCultureCode;
 
 	private async Task UpdateOwnedEntitiesAsync(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
