@@ -2,11 +2,11 @@
 
 public class Constants
 {
-    // Well-known yaml patterns
+	// Well-known yaml patterns
 
-    public const string YamlVariableRegex = @"^\$\{\{\s*(.+)\.(.+)\s*\}\}$";
+	public const string YamlVariableRegex = @"\${{[^}]+.[^}]+}}";
 
-    public const string VersionStringRegex = @"^(\d+\.)?(\d+\.)?(\*|\d+)$";
+	public const string VersionStringRegex = @"^(\d+\.)?(\d+\.)?(\*|\d+)$";
 
     public const string StringWithNoSpacesRegex = @"^[^\s]*$";
 
