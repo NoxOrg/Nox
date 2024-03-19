@@ -17,21 +17,28 @@ internal class OwnedTranslationsByParentIdQueryGenerator : ApplicationEntityDepe
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             
-            var primaryKeys = string.Join(", ", entity.OwnerEntity!.GetKeys().Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
+            var parentPrimaryKeyProperty = string.Join(", ", entity.OwnerEntity!.GetKeys().Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} {entity.OwnerEntity!.Name}{k.Name}"));
+            var primaryKeyProperty = string.Join(", ", entity.GetKeys().Select(k => $"{codeGenConventions.Solution.GetSinglePrimitiveTypeForKey(k)} {entity.Name}{k.Name}"));
             
-            var isWithMultiEntity = entity.OwnerEntity!.OwnedRelationships.FirstOrDefault(r => r.Entity == entity.Name)!.WithMultiEntity;
+            var parentKeyName = $"{entity.OwnerEntity!.Name}{entity.OwnerEntity!.Keys[0].Name}";
+            var keyName = $"{entity.Name}{entity.Keys.FirstOrDefault()?.Name}";
+            
             var parentEntityKeyName = entity.OwnerEntity!.Keys[0].Name;
             var entityKeyName = entity.Keys.FirstOrDefault()?.Name ?? string.Empty;
+            
+            var isWithMultiEntity = entity.OwnerEntity!.OwnedRelationships.FirstOrDefault(r => r.Entity == entity.Name)!.WithMultiEntity;
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"Get{entity.Name}TranslationsByParentIdQuery")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
                 .WithObject("parentEntity", entity.OwnerEntity!)
-                .WithObject("entityKeys", entity.GetKeys())
-                .WithObject("primaryKeys", primaryKeys)
-                .WithObject("isWithMultiEntity", isWithMultiEntity)
+                .WithObject("parentPrimaryKeyProperty", parentPrimaryKeyProperty)
+                .WithObject("primaryKeyProperty", primaryKeyProperty)
+                .WithObject("parentKeyName", parentKeyName)
+                .WithObject("keyName", keyName)
                 .WithObject("parentEntityKeyName", parentEntityKeyName)
                 .WithObject("entityKeyName", entityKeyName)
+                .WithObject("isWithMultiEntity", isWithMultiEntity)
                 .GenerateSourceCodeFromResource(templateName);
         }  
     }

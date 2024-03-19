@@ -8,12 +8,13 @@ using YamlDotNet.Core.Tokens;
 
 using Nox.Application.Queries;
 using Nox.Application.Repositories;
+using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Queries;
 
-public record  GetCountryLocalNameTranslationsByParentIdQuery(System.Int64 keyId) : IRequest <IQueryable<CountryLocalNameLocalizedDto>>;
+public record  GetCountryLocalNameTranslationsByParentIdQuery(System.Int64 CountryId,System.Int64 CountryLocalNameId) : IRequest <IQueryable<CountryLocalNameLocalizedDto>>;
 
 internal partial class GetCountryLocalNameTranslationsByParentIdQueryHandler:GetCountryLocalNameTranslationsByParentIdQueryHandlerBase
 {
@@ -29,19 +30,26 @@ internal abstract class GetCountryLocalNameTranslationsByParentIdQueryHandlerBas
 
     public IReadOnlyRepository ReadOnlyRepository { get; }
 
-    public virtual Task<IQueryable<CountryLocalNameLocalizedDto>> Handle(GetCountryLocalNameTranslationsByParentIdQuery request, CancellationToken cancellationToken)
+    public virtual async Task<IQueryable<CountryLocalNameLocalizedDto>> Handle(GetCountryLocalNameTranslationsByParentIdQuery request, CancellationToken cancellationToken)
     {    
-        var ownedEntityIds = ReadOnlyRepository.Query<CountryDto>()
+        var parentEntity = await ReadOnlyRepository.Query<CountryDto>()
                     .Include(e => e.CountryLocalNames)
                     .Where(r =>
-                            r.Id.Equals(request.keyId)
-                    ).SelectMany(e => e.CountryLocalNames.Select(c => c.Id));
+                            r.Id.Equals(request.CountryId)
+                            && r.CountryLocalNames.Any(e => e.Id.Equals(request.CountryLocalNameId))
+                    ).FirstOrDefaultAsync();
+        if (parentEntity is null)
+        {
+            EntityNotFoundException.ThrowIfNull(parentEntity, "Country", request.CountryId.ToString());
+        }
         
         var query = ReadOnlyRepository.Query<CountryLocalNameLocalizedDto>()
            .Where(r =>
-                ownedEntityIds.Contains(r.Id)
+                r.Id.Equals(request.CountryLocalNameId) 
            );
+           
         
-        return Task.FromResult(OnResponse(query));
+        return OnResponse(query);
+        
     }
 }

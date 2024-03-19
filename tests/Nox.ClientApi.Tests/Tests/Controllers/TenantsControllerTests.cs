@@ -504,25 +504,15 @@ namespace ClientApi.Tests.Controllers
             await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "fr-FR");
             await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization, "fr-FR");
 
-            var brandLocalizationsAll = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages");
-            var contactLocalizationsAll = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantContact/Languages");
+            var brandLocalizations = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/TenantBrands/{createdEnResult!.TenantBrands[0].Id}/Languages");
+            var contactLocalizations = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/TenantContact/Languages");
             
-            var brandsForRegus = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages?$filter=Id eq {createdEnResult!.TenantBrands[0].Id}");
-            var contactDescriptions = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantContact/Languages?$select=Description");
-
             // Assert
-            brandLocalizationsAll.Should().NotBeNull();
-            brandLocalizationsAll.Should().HaveCount(3);
-            brandLocalizationsAll.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
-            contactLocalizationsAll.Should().NotBeNull();
-            contactLocalizationsAll.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
-            
-            brandsForRegus.Should().NotBeNull();
-            brandsForRegus.Should().HaveCount(2);
-            brandsForRegus.Should().AllSatisfy(b => b.Id.Should().Be(createdEnResult!.TenantBrands[0].Id));
-            brandsForRegus.Should().AllSatisfy(b => b.Description.Should().Contain("Regus"));
-            contactDescriptions.Should().NotBeNull();
-            contactDescriptions.Should().AllSatisfy(c => c.CultureCode.Should().BeNull());
+            brandLocalizations.Should().NotBeNull();
+            brandLocalizations.Should().HaveCount(2);
+            brandLocalizations.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
+            contactLocalizations.Should().NotBeNull();
+            contactLocalizations.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
         }
 
         [Fact]

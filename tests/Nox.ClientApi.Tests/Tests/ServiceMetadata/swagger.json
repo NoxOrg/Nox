@@ -15913,15 +15913,25 @@
         }
       }
     },
-    "/api/v1/Countries/{key}/OCountryLocalNames/Languages": {
+    "/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "operationId": "GET_api/v1/Countries/{key}/OCountryLocalNames/Languages",
+        "operationId": "GET_api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages",
         "parameters": [
           {
             "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "relatedKey",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -69831,12 +69841,12 @@
         }
       }
     },
-    "/api/v1/Tenants/{key}/OTenantBrands/Languages": {
+    "/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages": {
       "get": {
         "tags": [
           "Tenants"
         ],
-        "operationId": "GET_api/v1/Tenants/{key}/OTenantBrands/Languages",
+        "operationId": "GET_api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages",
         "parameters": [
           {
             "name": "key",
@@ -69846,6 +69856,16 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -70904,12 +70924,12 @@
         }
       }
     },
-    "/api/v1/Tenants/{key}/OTenantContact/Languages": {
+    "/api/v1/Tenants/{key}/TenantContact/Languages": {
       "get": {
         "tags": [
           "Tenants"
         ],
-        "operationId": "GET_api/v1/Tenants/{key}/OTenantContact/Languages",
+        "operationId": "GET_api/v1/Tenants/{key}/TenantContact/Languages",
         "parameters": [
           {
             "name": "key",

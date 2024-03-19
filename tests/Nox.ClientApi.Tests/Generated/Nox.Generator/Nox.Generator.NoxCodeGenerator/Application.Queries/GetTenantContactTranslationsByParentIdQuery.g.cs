@@ -8,12 +8,13 @@ using YamlDotNet.Core.Tokens;
 
 using Nox.Application.Queries;
 using Nox.Application.Repositories;
+using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Queries;
 
-public record  GetTenantContactTranslationsByParentIdQuery(System.UInt32 keyId) : IRequest <IQueryable<TenantContactLocalizedDto>>;
+public record  GetTenantContactTranslationsByParentIdQuery(System.UInt32 TenantId) : IRequest <IQueryable<TenantContactLocalizedDto>>;
 
 internal partial class GetTenantContactTranslationsByParentIdQueryHandler:GetTenantContactTranslationsByParentIdQueryHandlerBase
 {
@@ -29,13 +30,14 @@ internal abstract class GetTenantContactTranslationsByParentIdQueryHandlerBase: 
 
     public IReadOnlyRepository ReadOnlyRepository { get; }
 
-    public virtual Task<IQueryable<TenantContactLocalizedDto>> Handle(GetTenantContactTranslationsByParentIdQuery request, CancellationToken cancellationToken)
+    public virtual  Task<IQueryable<TenantContactLocalizedDto>> Handle(GetTenantContactTranslationsByParentIdQuery request, CancellationToken cancellationToken)
     {    
         var query = ReadOnlyRepository.Query<TenantContactLocalizedDto>()
                     .Where(r =>
-                        r.TenantId.Equals(request.keyId)
+                        r.TenantId.Equals(request.TenantId)
                     );
+                
+                return  Task.FromResult(OnResponse(query));
         
-        return Task.FromResult(OnResponse(query));
     }
 }
