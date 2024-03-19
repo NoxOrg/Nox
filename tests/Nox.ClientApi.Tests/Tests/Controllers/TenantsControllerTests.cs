@@ -473,6 +473,12 @@ namespace ClientApi.Tests.Controllers
                         Name = "Regus",
                         Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
                     },
+                    new()
+                    {
+                        Name = "Basepoint",
+                        Description = "Basepoint Business Centres provide a wide range of high quality workspaces to let, including serviced and managed offices, workshops, trade counters and studios.",
+                    },
+                    
                 },
                 TenantContact = new TenantContactUpsertDto()
                 {
@@ -501,17 +507,20 @@ namespace ClientApi.Tests.Controllers
             var brandLocalizationsAll = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages");
             var contactLocalizationsAll = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantContact/Languages");
             
-            var brandDescriptions = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages?$select=Description");
+            var brandsForRegus = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantBrands/Languages?$filter=Id eq {createdEnResult!.TenantBrands[0].Id}");
             var contactDescriptions = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/OTenantContact/Languages?$select=Description");
 
             // Assert
             brandLocalizationsAll.Should().NotBeNull();
+            brandLocalizationsAll.Should().HaveCount(3);
             brandLocalizationsAll.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
             contactLocalizationsAll.Should().NotBeNull();
             contactLocalizationsAll.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
             
-            brandDescriptions.Should().NotBeNull();
-            brandDescriptions.Should().AllSatisfy(b => b.CultureCode.Should().BeNull());
+            brandsForRegus.Should().NotBeNull();
+            brandsForRegus.Should().HaveCount(2);
+            brandsForRegus.Should().AllSatisfy(b => b.Id.Should().Be(createdEnResult!.TenantBrands[0].Id));
+            brandsForRegus.Should().AllSatisfy(b => b.Description.Should().Contain("Regus"));
             contactDescriptions.Should().NotBeNull();
             contactDescriptions.Should().AllSatisfy(c => c.CultureCode.Should().BeNull());
         }
