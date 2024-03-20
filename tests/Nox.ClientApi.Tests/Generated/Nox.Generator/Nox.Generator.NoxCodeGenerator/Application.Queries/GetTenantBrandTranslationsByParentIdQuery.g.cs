@@ -37,10 +37,10 @@ internal abstract class GetTenantBrandTranslationsByParentIdQueryHandlerBase:  Q
                     .Where(r =>
                             r.Id.Equals(request.TenantId)
                             && r.TenantBrands.Any(e => e.Id.Equals(request.TenantBrandId))
-                    ).FirstOrDefaultAsync();
-        if (parentEntity is null)
+                    ).CountAsync();
+        if (parentEntity == 0)
         {
-            EntityNotFoundException.ThrowIfNull(parentEntity, "Tenant", request.TenantId.ToString());
+            throw new EntityNotFoundException("Tenant", request.TenantId.ToString());
         }
         
         var query = ReadOnlyRepository.Query<TenantBrandLocalizedDto>()

@@ -514,6 +514,35 @@ namespace ClientApi.Tests.Controllers
             contactLocalizations.Should().NotBeNull();
             contactLocalizations.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
         }
+        
+        [Fact]
+        public async Task GetTenantChildLocalizations_WhenProvidingInvalidTenantId_ReturnsNotFound()
+        {
+            // Arrange
+            var tenantId = 999999;
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            
+            // Act
+            var response = await GetAsync($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{createdEnResult!.TenantBrands[0].Id}/Languages");
+            
+            // Assert
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            
+        }
 
         [Fact]
         public async Task UpdateTenantBrandLocalization_WhenProvidingNonDefaultLocalizationAndItAlreadyExists_UpdatesCorrectLocalizations()

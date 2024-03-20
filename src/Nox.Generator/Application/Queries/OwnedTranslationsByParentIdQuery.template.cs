@@ -39,10 +39,10 @@ internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity
             .Where(r =>
                     r.{{parentEntityKeyName}}.Equals(request.{{parentKeyName}})
                     && r.{{entity.Name}}s.Any(e => e.{{entityKeyName}}.Equals(request.{{keyName}}))
-            ).FirstOrDefaultAsync();
-if (parentEntity is null)
+            ).CountAsync();
+if (parentEntity == 0)
 {
-    EntityNotFoundException.ThrowIfNull(parentEntity, "{{parentEntity.Name}}", request.{{parentKeyName}}.ToString());
+    throw new EntityNotFoundException("{{parentEntity.Name}}", request.{{parentKeyName}}.ToString());
 }
 
 var query = ReadOnlyRepository.Query<{{entity.Name}}LocalizedDto>()

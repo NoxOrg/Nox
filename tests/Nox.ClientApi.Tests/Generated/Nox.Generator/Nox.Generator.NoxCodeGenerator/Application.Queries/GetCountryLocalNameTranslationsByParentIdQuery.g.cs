@@ -37,10 +37,10 @@ internal abstract class GetCountryLocalNameTranslationsByParentIdQueryHandlerBas
                     .Where(r =>
                             r.Id.Equals(request.CountryId)
                             && r.CountryLocalNames.Any(e => e.Id.Equals(request.CountryLocalNameId))
-                    ).FirstOrDefaultAsync();
-        if (parentEntity is null)
+                    ).CountAsync();
+        if (parentEntity == 0)
         {
-            EntityNotFoundException.ThrowIfNull(parentEntity, "Country", request.CountryId.ToString());
+            throw new EntityNotFoundException("Country", request.CountryId.ToString());
         }
         
         var query = ReadOnlyRepository.Query<CountryLocalNameLocalizedDto>()
