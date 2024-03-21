@@ -460,6 +460,91 @@ namespace ClientApi.Tests.Controllers
         }
 
         [Fact]
+        public async Task GetTenantChildLocalizations_WhenProvidingTenantBrandAndTenantContactLocalizations_ReturnsCorrectLocalizations()
+        {
+            // Arrange
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                    new()
+                    {
+                        Name = "Basepoint",
+                        Description = "Basepoint Business Centres provide a wide range of high quality workspaces to let, including serviced and managed offices, workshops, trade counters and studios.",
+                    },
+                    
+                },
+                TenantContact = new TenantContactUpsertDto()
+                {
+                    Description = "For more information please write to the email address below.",
+                    Email = "test@test.com",
+                    Name = "Test"
+                }
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            var upsertTenantBrandLocalization = new TenantBrandLocalizedUpsertDto
+            {
+                Id = createdEnResult!.TenantBrands[0].Id,
+                Description = "Regus fait partie d’un collectif de marques mondiales et régionales d’espaces de travail qui forment le réseau IWG.",
+            };
+
+            var upsertTenantContactLocalization = new TenantContactLocalizedUpsertDto()
+            {
+                Description = "Pour plus d'informations, veuillez écrire à l'adresse e-mail ci-dessous.",
+            };
+
+            // Act
+            await UpsertTenantBrandLocalizationAsync(postTenantResult!.Id, upsertTenantBrandLocalization, "fr-FR");
+            await UpsertTenantContactLocalizationAsync(postTenantResult!.Id, upsertTenantContactLocalization, "fr-FR");
+
+            var brandLocalizations = await GetResponseAsync<List<TenantBrandLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/TenantBrands/{createdEnResult!.TenantBrands[0].Id}/Languages");
+            var contactLocalizations = await GetResponseAsync<List<TenantContactLocalizedDto>>($"{Endpoints.TenantsUrl}/{postTenantResult!.Id}/TenantContact/Languages");
+            
+            // Assert
+            brandLocalizations.Should().NotBeNull();
+            brandLocalizations.Should().HaveCount(2);
+            brandLocalizations.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
+            contactLocalizations.Should().NotBeNull();
+            contactLocalizations.Should().AllSatisfy(b => b.CultureCode.Should().NotBeNull());
+        }
+        
+        [Fact]
+        public async Task GetTenantChildLocalizations_WhenProvidingInvalidTenantId_ReturnsNotFound()
+        {
+            // Arrange
+            var tenantId = 999999;
+            var enTenant = new TenantCreateDto
+            {
+                Name = "IWG plc",
+                TenantBrands = new List<TenantBrandUpsertDto>
+                {
+                    new()
+                    {
+                        Name = "Regus",
+                        Description = "Regus is part of a collective of global and regional workspace brands that form the IWG network.",
+                    },
+                },
+            };
+            var postTenantResult = await CreateTenantAsync(enTenant);
+            var createdEnResult = await GetTenantByIdAsync(postTenantResult!.Id, language: "en-US");
+            
+            // Act
+            var response = await GetAsync($"{Endpoints.TenantsUrl}/{tenantId}/TenantBrands/{createdEnResult!.TenantBrands[0].Id}/Languages");
+            
+            // Assert
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            
+        }
+
+        [Fact]
         public async Task UpdateTenantBrandLocalization_WhenProvidingNonDefaultLocalizationAndItAlreadyExists_UpdatesCorrectLocalizations()
         {
             // Arrange

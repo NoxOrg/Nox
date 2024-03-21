@@ -442,6 +442,20 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 
 ##### Owned Entities Languages endpoints
 
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages` (e.g. `/api/Countries/1/CountryBarCode/Languages`) - for zeroOrOne/exactlyOne relationships only
+- **Description:** Retrieves translations for a (zero or one/exactly one) owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country). OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a queryable collection of `<OwnedEntityName>LocalizedDto` (e.g. `CountryBarCodeLocalizedDto`) objects.
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/<relatedKey>/Languages` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages`) - for zeroOrMany/oneOrMany relationships only
+- **Description:** Retrieves translations for a specific owned entity (e.g. CountryLocalName) associated with a specific entity (e.g. country) by ID. OData query is enabled for this endpoint. OData query is enabled for this endpoint.
+- **Path Parameters:**
+  `<key>`: ID of the entity.
+  `<relatedKey>`: ID of the owned entity.
+- **Response:** Returns a queryable collection of `<OwnedEntityName>LocalizedDto` (e.g. `CountryLocalNameLocalizedDto`) objects.
+
+
 ##### PUT `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryBarCode/Languages/en-GB`)
 - **Description:** Creates or updates translations for a owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country) and for a specific language.
 - **Path Parameters:**
