@@ -109,3 +109,10 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}
 }
+
+public class CreateWorkplaceValidator : AbstractValidator<CreateWorkplaceCommand>
+{
+    public CreateWorkplaceValidator()
+    { 
+    }
+}

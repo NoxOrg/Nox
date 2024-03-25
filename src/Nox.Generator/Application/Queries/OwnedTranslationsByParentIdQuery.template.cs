@@ -35,10 +35,10 @@ internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity
         {{ if isWithMultiEntity -}}
         
         var parentEntity = await ReadOnlyRepository.Query<{{parentEntity.Name}}Dto>()
-            .Include(e => e.{{entity.Name}}s)
+            .Include(e => e.{{entity.PluralName}})
             .Where(r =>
                     r.{{parentEntityKeyName}}.Equals(request.{{parentKeyName}})
-                    && r.{{entity.Name}}s.Any(e => e.{{entityKeyName}}.Equals(request.{{keyName}}))
+                    && r.{{entity.PluralName}}.Any(e => e.{{entityKeyName}}.Equals(request.{{keyName}}))
             ).CountAsync();
 if (parentEntity == 0)
 {

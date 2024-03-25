@@ -31,6 +31,7 @@ internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<
     public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplaceByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = ReadOnlyRepository.Query<WorkplaceDto>()
+            .Include(e => e.WorkplaceAddresses)
             .Where(r =>
                 r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));

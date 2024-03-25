@@ -28,6 +28,118 @@ namespace ClientApi.Presentation.Api.OData;
 public abstract partial class WorkplacesControllerBase : ODataController
 {
     
+    #region Owned Relationships
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<WorkplaceAddressDto>>> GetWorkplaceAddresses([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SingleOrDefault();
+        
+        if (item is null)
+        {
+            throw new EntityNotFoundException("Workplace", $"{key.ToString()}");
+        }
+        
+        return Ok(item.WorkplaceAddresses);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Workplaces/{key}/WorkplaceAddresses/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceAddressDto>> GetWorkplaceAddressesNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var child = await TryGetWorkplaceAddresses(key, new WorkplaceAddressKeyDto(relatedKey));
+        if (child is null)
+        {
+            throw new EntityNotFoundException("WorkplaceAddress", $"{relatedKey.ToString()}");
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PostToWorkplaceAddresses([FromRoute] System.Int64 key, [FromBody] WorkplaceAddressUpsertDto workplaceAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateWorkplaceAddressesForWorkplaceCommand(new WorkplaceKeyDto(key), workplaceAddress, _cultureCode, etag));
+        
+        var child = await TryGetWorkplaceAddresses(key, createdKey);
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<WorkplaceAddressDto>> PutToWorkplaceAddresses(System.Int64 key, [FromBody] EntityDtoCollection<WorkplaceAddressUpsertDto> workplaceAddresses)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKeys = await _mediator.Send(new UpdateWorkplaceAddressesForWorkplaceCommand(new WorkplaceKeyDto(key), workplaceAddresses.Values!, _cultureCode, etag));
+        
+        var children = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SingleOrDefault()?.WorkplaceAddresses?.Where(e => updatedKeys.Any(k => e.Id == k.keyId));
+        
+        return Ok(children);
+    }
+    
+    [HttpPut("/api/v1/Workplaces/{key}/WorkplaceAddresses/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceAddressDto>> PutToWorkplaceAddressNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] WorkplaceAddressUpsertDto workplaceAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        workplaceAddress.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateWorkplaceAddressForSingleWorkplaceCommand(new WorkplaceKeyDto(key), workplaceAddress, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SingleOrDefault()?.WorkplaceAddresses?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToWorkplaceAddresses(System.Int64 key, [FromBody] Delta<WorkplaceAddressUpsertDto> workplaceAddress)
+    {
+        if (!ModelState.IsValid || workplaceAddress is null)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var updatedProperties = Nox.Presentation.Api.OData.ODataApi.GetDeltaUpdatedProperties<WorkplaceAddressUpsertDto>(workplaceAddress);
+        
+        if(!updatedProperties.ContainsKey("Id") || updatedProperties["Id"] == null)
+        {
+            throw new Nox.Exceptions.BadRequestException("Id is required.");
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateWorkplaceAddressesForWorkplaceCommand(new WorkplaceKeyDto(key), new WorkplaceAddressKeyDto(updatedProperties["Id"]), updatedProperties, _cultureCode, etag));
+        
+        var child = await TryGetWorkplaceAddresses(key, updated!);
+        
+        return Ok(child);
+    }
+    
+    protected async Task<WorkplaceAddressDto?> TryGetWorkplaceAddresses(System.Int64 key, WorkplaceAddressKeyDto childKeyDto)
+    {
+        var parent = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).SingleOrDefault();
+        return parent?.WorkplaceAddresses.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    
     #region Relationships
     
     public virtual async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)

@@ -29,6 +29,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<CountryQualityOfLifeIndexPartialUpdateDto>();
         builder.ComplexType<StorePartialUpdateDto>();
         builder.ComplexType<WorkplacePartialUpdateDto>();
+        builder.ComplexType<WorkplaceAddressUpsertDto>();
         builder.ComplexType<StoreOwnerPartialUpdateDto>();
         builder.ComplexType<StoreLicensePartialUpdateDto>();
         builder.ComplexType<CurrencyPartialUpdateDto>();
@@ -80,11 +81,16 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<WorkplaceDto>("Workplaces");
 		builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceDto>().ContainsMany(e => e.WorkplaceAddresses).AutoExpand = true;
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
+
+        builder.EntitySet<WorkplaceAddressDto>("WorkplaceAddresses");
+		builder.EntityType<WorkplaceAddressDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceAddressLocalizedDto>().HasKey(e => new { e.Id });
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });

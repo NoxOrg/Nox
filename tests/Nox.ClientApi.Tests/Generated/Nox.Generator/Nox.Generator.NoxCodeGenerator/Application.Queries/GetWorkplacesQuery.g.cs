@@ -29,7 +29,8 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
 
     public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplacesQuery request, CancellationToken cancellationToken)
     {
-        var query = ReadOnlyRepository.Query<WorkplaceDto>();
+        var query = ReadOnlyRepository.Query<WorkplaceDto>()
+            .Include(e => e.WorkplaceAddresses);
        return Task.FromResult(OnResponse(query));
     }
 }

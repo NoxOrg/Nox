@@ -57,6 +57,7 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 
 		var entity = Repository.Query<ClientApi.Domain.Workplace>()
             .Where(x => x.Id == Dto.WorkplaceMetadata.CreateId(request.keyId))
+			.Include(e => e.WorkplaceAddresses)
 			.SingleOrDefault();
 		
 		if (entity == null)
@@ -72,4 +73,11 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 
 		return new WorkplaceKeyDto(entity.Id.Value);
 	}
+}
+
+public class UpdateWorkplaceValidator : AbstractValidator<UpdateWorkplaceCommand>
+{
+    public UpdateWorkplaceValidator()
+    { 
+    }
 }
