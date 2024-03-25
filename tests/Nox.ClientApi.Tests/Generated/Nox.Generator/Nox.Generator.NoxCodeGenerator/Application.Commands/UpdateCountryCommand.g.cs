@@ -57,7 +57,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 
 		var entity = Repository.Query<ClientApi.Domain.Country>()
             .Where(x => x.Id == Dto.CountryMetadata.CreateId(request.keyId))
-			.Include(e => e.CountryLocalNames).ThenInclude(e => e!.LocalizedCountryLocalNames)
+			.Include(e => e.CountryLocalNames)
 			.Include(e => e.CountryBarCode)
 			.Include(e => e.CountryTimeZones)
 			.Include(e => e.Holidays)

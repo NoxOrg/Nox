@@ -57,8 +57,8 @@ internal abstract class UpdateTenantCommandHandlerBase : CommandBase<UpdateTenan
 
 		var entity = Repository.Query<ClientApi.Domain.Tenant>()
             .Where(x => x.Id == Dto.TenantMetadata.CreateId(request.keyId))
-			.Include(e => e.TenantBrands).ThenInclude(e => e!.LocalizedTenantBrands)
-			.Include(e => e.TenantContact).ThenInclude(e => e!.LocalizedTenantContacts)
+			.Include(e => e.TenantBrands)
+			.Include(e => e.TenantContact)
 			.SingleOrDefault();
 		
 		if (entity == null)

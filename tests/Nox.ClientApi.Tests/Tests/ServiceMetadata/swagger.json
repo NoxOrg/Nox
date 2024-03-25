@@ -16739,9 +16739,7 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}": {
+      },
       "delete": {
         "tags": [
           "Countries"
@@ -70669,9 +70667,7 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}": {
+      },
       "delete": {
         "tags": [
           "Tenants"
@@ -71734,9 +71730,7 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}": {
+      },
       "delete": {
         "tags": [
           "Tenants"

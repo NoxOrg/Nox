@@ -64,7 +64,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
             {{- end }}            
 			{{- for relationship in entity.OwnedRelationships }}
             {{- navigationName = GetNavigationPropertyName entity relationship }}
-			.Include(e => e.{{navigationName}}){{- if relationship.Related.Entity.IsLocalized -}}.ThenInclude(e => e!.Localized{{relationship.EntityPlural}}){{- end}}
+			.Include(e => e.{{navigationName}})
 			{{- end }}
 			.SingleOrDefault();
 		
