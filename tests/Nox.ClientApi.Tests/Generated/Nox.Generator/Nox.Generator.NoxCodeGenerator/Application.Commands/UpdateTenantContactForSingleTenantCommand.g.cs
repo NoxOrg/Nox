@@ -22,11 +22,11 @@ using TenantEntity = ClientApi.Domain.Tenant;
 
 namespace ClientApi.Application.Commands;
 
-public partial record UpdateTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, TenantContactUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto>;
+public partial record UpdateTenantContactForSingleTenantCommand(TenantKeyDto ParentKeyDto, TenantContactUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TenantContactKeyDto>;
 
-internal partial class UpdateTenantContactForTenantCommandHandler : UpdateTenantContactForTenantCommandHandlerBase
+internal partial class UpdateTenantContactForSingleTenantCommandHandler : UpdateTenantContactForSingleTenantCommandHandlerBase
 {
-	public UpdateTenantContactForTenantCommandHandler(
+	public UpdateTenantContactForSingleTenantCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateTenantContactForTenantCommandHandler : UpdateTenant
 	}
 }
 
-internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandBase<UpdateTenantContactForTenantCommand, TenantContactEntity>, IRequestHandler <UpdateTenantContactForTenantCommand, TenantContactKeyDto>
+internal partial class UpdateTenantContactForSingleTenantCommandHandlerBase : CommandBase<UpdateTenantContactForSingleTenantCommand, TenantContactEntity>, IRequestHandler <UpdateTenantContactForSingleTenantCommand, TenantContactKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> _entityFactory;
 
-	protected UpdateTenantContactForTenantCommandHandlerBase(
+	protected UpdateTenantContactForSingleTenantCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<TenantContactEntity, TenantContactUpsertDto, TenantContactUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateTenantContactForTenantCommandHandlerBase : CommandB
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<TenantContactKeyDto> Handle(UpdateTenantContactForTenantCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TenantContactKeyDto> Handle(UpdateTenantContactForSingleTenantCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);

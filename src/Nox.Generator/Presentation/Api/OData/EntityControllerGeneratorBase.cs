@@ -44,6 +44,7 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
             return $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {keyPrefix}"
                 .Trim();
         }
+        
 
         return string.Empty;
     }

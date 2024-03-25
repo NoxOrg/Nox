@@ -22,11 +22,11 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record UpdateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ExchangeRateKeyDto>;
+public partial record UpdateExchangeRateForSingleCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <ExchangeRateKeyDto>;
 
-internal partial class UpdateExchangeRateForCurrencyCommandHandler : UpdateExchangeRateForCurrencyCommandHandlerBase
+internal partial class UpdateExchangeRateForSingleCurrencyCommandHandler : UpdateExchangeRateForSingleCurrencyCommandHandlerBase
 {
-	public UpdateExchangeRateForCurrencyCommandHandler(
+	public UpdateExchangeRateForSingleCurrencyCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateExchangeRateForCurrencyCommandHandler : UpdateExcha
 	}
 }
 
-internal partial class UpdateExchangeRateForCurrencyCommandHandlerBase : CommandBase<UpdateExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <UpdateExchangeRateForCurrencyCommand, ExchangeRateKeyDto>
+internal partial class UpdateExchangeRateForSingleCurrencyCommandHandlerBase : CommandBase<UpdateExchangeRateForSingleCurrencyCommand, ExchangeRateEntity>, IRequestHandler <UpdateExchangeRateForSingleCurrencyCommand, ExchangeRateKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> _entityFactory;
 
-	protected UpdateExchangeRateForCurrencyCommandHandlerBase(
+	protected UpdateExchangeRateForSingleCurrencyCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateUpsertDto, ExchangeRateUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateExchangeRateForCurrencyCommandHandlerBase : Command
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<ExchangeRateKeyDto> Handle(UpdateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<ExchangeRateKeyDto> Handle(UpdateExchangeRateForSingleCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -73,9 +73,9 @@ internal partial class UpdateExchangeRateForCurrencyCommandHandlerBase : Command
 	}
 }
 
-public class UpdateExchangeRateForCurrencyCommandValidator : AbstractValidator<UpdateExchangeRateForCurrencyCommand>
+public class UpdateExchangeRateForSingleCurrencyCommandValidator : AbstractValidator<UpdateExchangeRateForSingleCurrencyCommand>
 {
-    public UpdateExchangeRateForCurrencyCommandValidator()
+    public UpdateExchangeRateForSingleCurrencyCommandValidator()
     {
     }
 }

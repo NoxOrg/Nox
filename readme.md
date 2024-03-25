@@ -441,6 +441,36 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Response:** Returns a status code indicating success or failure.
 
 ##### Owned Entities Languages endpoints
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages` (e.g. `/api/Countries/1/CountryBarCode/Languages`) - for zeroOrOne/exactlyOne relationships only
+- **Description:** Retrieves translations for a (zero or one/exactly one) owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country). OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a queryable collection of `<OwnedEntityName>LocalizedDto` (e.g. `CountryBarCodeLocalizedDto`) objects.
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/<relatedKey>/Languages` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages`) - for zeroOrMany/oneOrMany relationships only
+- **Description:** Retrieves translations for a specific owned entity (e.g. CountryLocalName) associated with a specific entity (e.g. country) by ID. OData query is enabled for this endpoint. OData query is enabled for this endpoint.
+- **Path Parameters:**
+  `<key>`: ID of the entity.
+  `<relatedKey>`: ID of the owned entity.
+- **Response:** Returns a queryable collection of `<OwnedEntityName>LocalizedDto` (e.g. `CountryLocalNameLocalizedDto`) objects.
+
+
+##### PUT `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryBarCode/Languages/en-GB`)
+- **Description:** Creates or updates translations for a owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<cultureCode>`: CultureCode specifying language to create/update translations for.
+- **Request Body:** `<OwnedEntityName>LocalizedUpsertDto` (e.g. `CountryBarCodeLocalizedUpsertDto`) object.
+
+#### PUT `/api/<EntityPluralName>/<key>/<OwnedEntityPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages/en-GB`)
+- **Description:** Creates or updates translations for a specific owned entity (e.g. CountryLocalName) associated in a to-many relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the owned entity to create/update translations for.
+`<cultureCode>`: CultureCode specifying language to create/update translations for.
+- **Request Body:** `<OwnedEntityName>LocalizedUpsertDto` (e.g. `CountryLocalNameLocalizedUpsertDto`) object.
+
 ##### DELETE `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryBarCode/Languages/en-GB`)
 - **Description:** Deletes translations for a owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country) and for a specific language.
 - **Path Parameters:**
@@ -467,10 +497,11 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Response:** Returns a queryable collection of `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) objects. OData query is enabled for this endpoint.
 - **Query Parameters:** None
 
-##### DELETE `/api/<EntityPluralName>/<EntityName><EnumPluralName>Localized/<cultureCode>` (e.g. `/api/Countries/CountryContinentsLocalized/en-US`)
-- **Description:** Deletes the localized values of an enumeration (e.g. Continents) for a specific culture code in a specific entity (e.g. country).
+##### DELETE `/api/<EntityPluralName>/<EntityName><EnumPluralName>/<relatedKey>/Languages<cultureCode>` (e.g. `/api/Countries/CountryContinents/1/Languages/en-US`)
+- **Description:** Deletes the localized values for a specific enumeration value by ID (e.g. Continents) for a specific culture code in a specific entity (e.g. Country).
 - **Path Parameters:**
-`<cultureCode>`: Culture code of the localized values to delete.
+`<relatedKey>`: ID of the enumeration entity to delete translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for.
 - **Response:** Returns no content.
 
 ##### PUT `/api/<EntityPluralName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/Continents/1/Languages/en-US`)

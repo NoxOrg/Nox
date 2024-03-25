@@ -134,8 +134,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Workplaces/Ownerships/Languages`
   - **Description**: Retrieve localized values of Ownerships for a specific Workplace.
 
-- **DELETE** `/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}`
-  - **Description**: Delete the localized values of Ownerships for a specific culture code in Workplace.
+- **DELETE** `/api/v1/Workplaces/WorkplaceOwnerships/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Delete the localized values for a specific Ownerships by ID for a specific culture code in Workplace.
 
 - **PUT** `/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}`
   - **Description**: Update or create localized value of Ownerships for a specific Workplace. Requires relatedKey and cultureCode in the URL and a payload with the new value of WorkplaceOwnershipUpsertLocalizedDto.

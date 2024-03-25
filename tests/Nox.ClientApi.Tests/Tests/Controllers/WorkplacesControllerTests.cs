@@ -806,7 +806,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader("en-US"));
 
             var localizedDto = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages/tr-TR", upsertDto, headers, false);
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages"))?.ToList();
+            var localizations = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages"))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
@@ -854,7 +854,7 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             var newWorkplace = await CreateWorkplaceAndGetId();
 
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
+            var localizations = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
                 $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages",
                 CreateAcceptLanguageHeader("en-US")))?.ToList();
 
@@ -899,7 +899,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 headers, false);
             
             // Act
-            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages?$filter=CultureCode eq '{frCultureCode}'"))?.ToList();
+            var result = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages?$filter=CultureCode eq '{frCultureCode}'"))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
@@ -948,7 +948,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult!.Description.Should().Be(updatedDescription);
 
             // Get all localizations
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
+            var localizations = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
                 $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages",
                 CreateAcceptLanguageHeader("en-US")))?.ToList();
 

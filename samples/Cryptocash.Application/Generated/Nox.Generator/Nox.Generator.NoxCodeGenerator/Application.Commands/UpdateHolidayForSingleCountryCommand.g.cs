@@ -14,19 +14,19 @@ using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Exceptions;
 
-using ClientApi.Domain;
-using ClientApi.Application.Dto;
-using Dto = ClientApi.Application.Dto;
-using HolidayEntity = ClientApi.Domain.Holiday;
-using CountryEntity = ClientApi.Domain.Country;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Dto = Cryptocash.Application.Dto;
+using HolidayEntity = Cryptocash.Domain.Holiday;
+using CountryEntity = Cryptocash.Domain.Country;
 
-namespace ClientApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
-public partial record UpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto>;
+public partial record UpdateHolidayForSingleCountryCommand(CountryKeyDto ParentKeyDto, HolidayUpsertDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <HolidayKeyDto>;
 
-internal partial class UpdateHolidayForCountryCommandHandler : UpdateHolidayForCountryCommandHandlerBase
+internal partial class UpdateHolidayForSingleCountryCommandHandler : UpdateHolidayForSingleCountryCommandHandlerBase
 {
-	public UpdateHolidayForCountryCommandHandler(
+	public UpdateHolidayForSingleCountryCommandHandler(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory)
@@ -35,12 +35,12 @@ internal partial class UpdateHolidayForCountryCommandHandler : UpdateHolidayForC
 	}
 }
 
-internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<UpdateHolidayForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidayForCountryCommand, HolidayKeyDto>
+internal partial class UpdateHolidayForSingleCountryCommandHandlerBase : CommandBase<UpdateHolidayForSingleCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidayForSingleCountryCommand, HolidayKeyDto>
 {
 	private readonly IRepository _repository;
 	private readonly IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> _entityFactory;
 
-	protected UpdateHolidayForCountryCommandHandlerBase(
+	protected UpdateHolidayForSingleCountryCommandHandlerBase(
         IRepository repository,
 		NoxSolution noxSolution,
 		IEntityFactory<HolidayEntity, HolidayUpsertDto, HolidayUpsertDto> entityFactory)
@@ -50,7 +50,7 @@ internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<U
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<HolidayKeyDto> Handle(UpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<HolidayKeyDto> Handle(UpdateHolidayForSingleCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(request);
@@ -58,7 +58,7 @@ internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<U
 		var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(request.ParentKeyDto.keyId));
 
-		var parentEntity = await _repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
+		var parentEntity = await _repository.FindAndIncludeAsync<Cryptocash.Domain.Country>(keys.ToArray(),e => e.Holidays, cancellationToken);
 		EntityNotFoundException.ThrowIfNull(parentEntity, "Country",  "keyId");
 		var entity = parentEntity.Holidays.Find(e => e.Id == Dto.HolidayMetadata.CreateId(request.EntityDto.Id!.Value )); 
 		EntityNotFoundException.ThrowIfNull(entity, "Holiday",  "keyId");
@@ -73,9 +73,9 @@ internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<U
 	}
 }
 
-public class UpdateHolidayForCountryCommandValidator : AbstractValidator<UpdateHolidayForCountryCommand>
+public class UpdateHolidayForSingleCountryCommandValidator : AbstractValidator<UpdateHolidayForSingleCountryCommand>
 {
-    public UpdateHolidayForCountryCommandValidator()
-    { 
+    public UpdateHolidayForSingleCountryCommandValidator()
+    {
     }
 }

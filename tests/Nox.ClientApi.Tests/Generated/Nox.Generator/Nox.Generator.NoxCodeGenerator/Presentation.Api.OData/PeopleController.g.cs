@@ -55,7 +55,7 @@ public abstract partial class PeopleControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateUserContactSelectionForPersonCommand(new PersonKeyDto(key), userContactSelection, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateUserContactSelectionForSinglePersonCommand(new PersonKeyDto(key), userContactSelection, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetPersonByIdQuery(key))).SingleOrDefault()?.UserContactSelection;
         
