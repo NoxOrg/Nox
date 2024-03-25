@@ -30,8 +30,9 @@ internal partial class WorkplaceFactory : WorkplaceFactoryBase
     (
         IRepository repository,
         IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory,
-        NoxSolution noxSolution
-    ) : base(repository, workplaceLocalizedFactory, noxSolution)
+        NoxSolution noxSolution,
+        IEntityFactory<ClientApi.Domain.WorkplaceAddress, WorkplaceAddressUpsertDto, WorkplaceAddressUpsertDto> workplaceaddressfactory
+    ) : base(repository, workplaceLocalizedFactory, noxSolution, workplaceaddressfactory)
     {}
 }
 
@@ -40,16 +41,19 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     private readonly Nox.Types.CultureCode _defaultCultureCode;
     protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> WorkplaceLocalizedFactory;
     private readonly IRepository _repository;
+    protected IEntityFactory<ClientApi.Domain.WorkplaceAddress, WorkplaceAddressUpsertDto, WorkplaceAddressUpsertDto> WorkplaceAddressFactory {get;}
 
     public WorkplaceFactoryBase(
         IRepository repository,
         IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> workplaceLocalizedFactory,
-        NoxSolution noxSolution
+        NoxSolution noxSolution,
+        IEntityFactory<ClientApi.Domain.WorkplaceAddress, WorkplaceAddressUpsertDto, WorkplaceAddressUpsertDto> workplaceaddressfactory
         )
     {
         _repository = repository;
         WorkplaceLocalizedFactory = workplaceLocalizedFactory;
         _defaultCultureCode = Nox.Types.CultureCode.From(noxSolution!.Application!.Localization!.DefaultCulture);
+        WorkplaceAddressFactory = workplaceaddressfactory;
     }
 
     public virtual async Task<WorkplaceEntity> CreateEntityAsync(WorkplaceCreateDto createDto, Nox.Types.CultureCode cultureCode)
@@ -108,7 +112,20 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         var nextSequenceReferenceNumber =  await _repository.GetSequenceNextValueAsync(Nox.Solution.NoxCodeGenConventions.GetDatabaseSequenceName("Workplace", "ReferenceNumber"));
-        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,Dto.WorkplaceMetadata.ReferenceNumberTypeOptions);        
+        entity.EnsureReferenceNumber(nextSequenceReferenceNumber,Dto.WorkplaceMetadata.ReferenceNumberTypeOptions);
+        //createDto.WorkplaceAddresses?.ForEach(async dto =>
+        //{
+        //    var workplaceAddress = await WorkplaceAddressFactory.CreateEntityAsync(dto, cultureCode);
+        //    entity.CreateWorkplaceAddresses(workplaceAddress);
+        //});
+        if(createDto.WorkplaceAddresses is not null)
+        {
+            foreach (var dto in createDto.WorkplaceAddresses)
+            {
+                var workplaceAddress = WorkplaceAddressFactory.CreateEntityAsync(dto, cultureCode).Result;
+                entity.CreateWorkplaceAddresses(workplaceAddress);
+            }
+        }        
         return entity;
     }
 
@@ -142,7 +159,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
-        await Task.CompletedTask;
+	    await UpdateOwnedEntitiesAsync(entity, updateDto, cultureCode);
     }
 
     private void PartialUpdateEntityInternal(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
@@ -187,4 +204,48 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     }
     private bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
         => cultureCode == _defaultCultureCode;
+
+	private async Task UpdateOwnedEntitiesAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		await UpdateWorkplaceAddressesAsync(entity, updateDto, cultureCode);
+	}
+
+    private async Task UpdateWorkplaceAddressesAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+        if(updateDto.WorkplaceAddresses is null)
+            return;
+
+        if(!updateDto.WorkplaceAddresses.Any())
+        { 
+            _repository.DeleteOwned(entity.WorkplaceAddresses);
+			entity.DeleteAllWorkplaceAddresses();
+        }
+		else
+		{
+			var updatedWorkplaceAddresses = new List<ClientApi.Domain.WorkplaceAddress>();
+			foreach(var ownedUpsertDto in updateDto.WorkplaceAddresses)
+			{
+				if(ownedUpsertDto.Id is null)
+                {
+                    var ownedEntity = await WorkplaceAddressFactory.CreateEntityAsync(ownedUpsertDto, cultureCode);
+					updatedWorkplaceAddresses.Add(ownedEntity);
+                }
+				else
+				{
+					var key = Dto.WorkplaceAddressMetadata.CreateId(ownedUpsertDto.Id.NonNullValue<System.Guid>());
+					var ownedEntity = entity.WorkplaceAddresses.Find(x => x.Id == key);
+					if(ownedEntity is null)
+						updatedWorkplaceAddresses.Add(await WorkplaceAddressFactory.CreateEntityAsync(ownedUpsertDto, cultureCode));
+					else
+					{
+						await WorkplaceAddressFactory.UpdateEntityAsync(ownedEntity, ownedUpsertDto, cultureCode);
+						updatedWorkplaceAddresses.Add(ownedEntity);
+					}
+				}
+			}
+            _repository.DeleteOwned<ClientApi.Domain.WorkplaceAddress>(
+                entity.WorkplaceAddresses.Where(x => !updatedWorkplaceAddresses.Exists(upd => upd.Id == x.Id)).ToList());
+			entity.UpdateWorkplaceAddresses(updatedWorkplaceAddresses);
+		}
+	}
 }

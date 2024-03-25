@@ -32,6 +32,35 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/v1/Workplaces/{key}`
   - Description: Delete an existing Workplace.
 
+## Owned Relationships Endpoints
+
+### WorkplaceAddress
+
+#### Get WorkplaceAddresses
+- **GET** `/api/v1/Workplaces/{key}/WorkplaceAddresses`
+  - Description: Retrieve all WorkplaceAddresses for a specific Workplace.
+- **GET** `/api/v1/Workplaces/{key}/WorkplaceAddresses/{relatedKey}`
+  - Description: Retrieve a WorkplaceAddress by ID for a specific Workplace.
+
+#### Create WorkplaceAddress
+- **POST** `/api/v1/Workplaces/{key}/WorkplaceAddresses`
+  - Description: Create a new WorkplaceAddress for a specific Workplace.
+
+#### Update WorkplaceAddress
+- **PUT** `/api/v1/Workplaces/{key}/WorkplaceAddresses`
+  - Description: Update many WorkplaceAddress for a specific Workplace.
+#### Update WorkplaceAddress By Id
+- **PUT** `/api/v1/Workplaces/{key}/WorkplaceAddresses/{relatedKey}`
+  - Description: Update an existing WorkplaceAddress by ID for a specific Workplace.
+  
+#### Partially Update WorkplaceAddress
+- **PATCH** `/api/v1/Workplaces/{key}/WorkplaceAddresses`
+  - Description: Partially update an existing WorkplaceAddress for a specific Workplace.
+
+#### Delete WorkplaceAddress
+- **DELETE** `/api/v1/Workplaces/{key}/WorkplaceAddresses/{relatedKey}`
+  - Description: Delete an existing WorkplaceAddress for a specific Workplace.
+
 ## Relationships Endpoints
 
 ### Country
@@ -150,6 +179,12 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **DELETE** `/api/v1/Workplaces/{key}/Languages/{cultureCode}`
     - Description: Delete the translations for a specific culture code for a specific Workplace.
+
+- **PUT** `/api/v1/Workplaces/{key}/WorkplaceAddressesLocalized/{cultureCode}` 
+    - Description: Update or create value of WorkplaceAddressLocalized for a specific Workplace. Requires a payload with the new value of WorkplaceAddressLocalizedUpsertDto.
+
+- **DELETE** `/api/v1/Workplaces/{key}/WorkplaceAddresses/{relatedKey}/Languages/{cultureCode}` 
+    - Description: Delete the localized values of WorkplaceAddressLocalized for a specific culture code in Workplace.
 
 
 ## Other Related Endpoints

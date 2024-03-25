@@ -45,4 +45,8 @@ public partial class WorkplaceUpdateDtoBase: EntityDtoBase
     /// </summary>
     /// <remarks>Optional.</remarks>
     public virtual System.Int32? Type { get; set; }
+    /// <summary>
+    /// Workplace Workplace Addresses ZeroOrMany WorkplaceAddresses
+    /// </summary>
+    public virtual List<WorkplaceAddressUpsertDto>? WorkplaceAddresses { get; set; }
 }

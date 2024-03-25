@@ -22,6 +22,7 @@
 //  - tenant-contact.entity.nox.yaml
 //  - tenant.entity.nox.yaml
 //  - usercontactselection.entity.nox.yaml
+//  - workplace-address.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
 //  - countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
