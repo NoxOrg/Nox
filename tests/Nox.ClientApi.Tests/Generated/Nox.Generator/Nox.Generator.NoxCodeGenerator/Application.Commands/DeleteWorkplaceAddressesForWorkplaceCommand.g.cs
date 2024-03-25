@@ -57,9 +57,9 @@ internal partial class DeleteWorkplaceAddressesForWorkplaceCommandHandlerBase : 
 		{
 			throw new EntityNotFoundException("WorkplaceAddress.WorkplaceAddresses",  $"ownedId");
 		}
-		parentEntity.WorkplaceAddresses.Remove(entity);
+		parentEntity.DeleteWorkplaceAddresses(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);
