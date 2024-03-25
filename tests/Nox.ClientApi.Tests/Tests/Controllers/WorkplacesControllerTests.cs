@@ -864,6 +864,44 @@ namespace ClientApi.Tests.Tests.Controllers
             localizations.Should().Contain(l => l.Id == newWorkplace.Id);
         }
 
+        [Fact] 
+        public async Task GetOwnedEntityLocalizations_WithIrregularPluralName_Success()
+        {
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Example Workplace",
+                Description = "Description of Example Workplace.",
+                WorkplaceAddresses = new List<WorkplaceAddressUpsertDto> { new WorkplaceAddressUpsertDto { AddressLine = "123 Main St", Id = System.Guid.NewGuid()  } }
+            };
+
+            var workplace = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                Endpoints.WorkplacesUrl,
+                createDto,
+                CreateAcceptLanguageHeader("en-US"));
+
+            var upsertWorkplaceAddressLocalization = new WorkplaceAddressLocalizedUpsertDto
+            {
+                Id = createDto.WorkplaceAddresses[0].Id,
+                AddressLine = "123 R. principale",
+            };
+
+            await PutAsync<WorkplaceAddressLocalizedUpsertDto, WorkplaceAddressLocalizedDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplace!.Id}/WorkplaceAddresses/{createDto.WorkplaceAddresses![0].Id}/Languages/fr-FR",
+                upsertWorkplaceAddressLocalization, null, false);
+
+            // Act
+            var workplaceAddressesLocalizations = await GetResponseAsync<List<WorkplaceAddressLocalizedDto>>(
+                $"{Endpoints.WorkplacesUrl}/{workplace!.Id}/WorkplaceAddresses/{createDto.WorkplaceAddresses![0].Id}/Languages",
+                CreateAcceptLanguageHeader("fr-FR"));
+
+            // Assert
+            workplaceAddressesLocalizations.Should().NotBeNull();
+            workplaceAddressesLocalizations.Should().HaveCount(2);
+            workplaceAddressesLocalizations.Should().Contain(x => x.CultureCode == "en-US");
+            workplaceAddressesLocalizations!.First(x => x.CultureCode == "en-US").AddressLine.Should().Be("123 Main St");
+            workplaceAddressesLocalizations!.First(x => x.CultureCode == "fr-FR").AddressLine.Should().Be("123 R. principale");
+        }
+
         [Fact]
         public async Task Get_RetrieveWorkplaceLocalizationsWithODataQueryFilter_Success()
         {

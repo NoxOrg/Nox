@@ -33,6 +33,9 @@ erDiagram
     }
     Workplace}o..o|Country : "Workplace country"
     Workplace}o..o{Tenant : "Actve Tenants in the workplace"
+    Workplace||--o{WorkplaceAddress : "Workplace Addresses"
+    WorkplaceAddress {
+    }
     StoreOwner {
     }
     StoreOwner|o..|{Store : "Set of stores that this owner owns"
@@ -522,6 +525,7 @@ Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
 Ownership|Enumeration|Workplace Ownership.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
 Type|Enumeration|Workplace Type.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues], IsLocalized: false
+WorkplaceAddressId|Guid||Required, Owned Entity
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 TenantId|Nuid||Required, Foreign Key, Separator: -, PropertyNames: System.String[]
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -533,6 +537,22 @@ Description|Cardinality|Related Entity|Name|Can Manage Ref?|Can Manage Entity?
 -----------|-----------|--------------|----|---------------|------------------
 Workplace country|ZeroOrOne|Country|BelongsToCountry|Yes|Yes
 Actve Tenants in the workplace|ZeroOrMany|Tenant|TenantsInWorkplace|Yes|Yes
+
+
+### Workplace.WorkplaceAddress (Owned by Workplace)
+
+Workplace Address.
+
+[Domain Events](./domainEvents/WorkplaceAddressDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|Guid||Required, Primary Key
+AddressLine|Text|Address line.|Required, MaxLength: 200, IsLocalized: true
+
+
 
 
 

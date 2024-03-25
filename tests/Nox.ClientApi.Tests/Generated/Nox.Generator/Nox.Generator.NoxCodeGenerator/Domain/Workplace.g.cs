@@ -181,6 +181,44 @@ public abstract partial class WorkplaceBase : AuditableEntityBase, IEtag
     public virtual void DeleteAllRefToTenants()
     {
         Tenants.Clear();
+    }﻿
+
+    /// <summary>
+    /// Workplace Workplace Addresses ZeroOrMany WorkplaceAddresses
+    /// </summary>
+    public virtual List<WorkplaceAddress> WorkplaceAddresses { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new WorkplaceAddress entity.
+    /// </summary>
+    public virtual void CreateWorkplaceAddresses(WorkplaceAddress relatedWorkplaceAddress)
+    {
+        WorkplaceAddresses.Add(relatedWorkplaceAddress);
+    }
+    
+    /// <summary>
+    /// Updates all owned WorkplaceAddress entities.
+    /// </summary>
+    public virtual void UpdateWorkplaceAddresses(List<WorkplaceAddress> relatedWorkplaceAddress)
+    {
+        WorkplaceAddresses.Clear();
+        WorkplaceAddresses.AddRange(relatedWorkplaceAddress);
+    }
+    
+    /// <summary>
+    /// Deletes owned WorkplaceAddress entity.
+    /// </summary>
+    public virtual void DeleteWorkplaceAddresses(WorkplaceAddress relatedWorkplaceAddress)
+    {
+        WorkplaceAddresses.Remove(relatedWorkplaceAddress);
+    }
+    
+    /// <summary>
+    /// Deletes all owned WorkplaceAddress entities.
+    /// </summary>
+    public virtual void DeleteAllWorkplaceAddresses()
+    {
+        WorkplaceAddresses.Clear();
     }
 
         /// <summary>

@@ -63,4 +63,9 @@ public abstract class WorkplaceCreateDtoBase
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TenantCreateDto> Tenants { get; set; } = new();
+
+    /// <summary>
+    /// Workplace Workplace Addresses ZeroOrMany WorkplaceAddresses
+    /// </summary>
+    public virtual List<WorkplaceAddressUpsertDto> WorkplaceAddresses { get; set; } = new();
 }
