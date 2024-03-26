@@ -67,20 +67,22 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCo
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateTenantBrands(entity);
 			}
 			else
 			{
 				var ownedId = Dto.TenantBrandMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
 				entity = parentEntity.TenantBrands.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					throw new EntityNotFoundException("TenantBrand",  $"ownedId");
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToTenantBrands(entity);
+				}
 			}
 
-			parentEntity.CreateRefToTenantBrands(entity);
 			entities.Add(entity);
 		}
 
@@ -95,14 +97,14 @@ internal partial class UpdateTenantBrandsForTenantCommandHandlerBase : CommandCo
 	private async Task<TenantBrandEntity> CreateEntityAsync(TenantBrandUpsertDto upsertDto, TenantEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToTenantBrands(entity);
+		parent.CreateTenantBrands(entity);
 		return entity;
 	}
 }
 
-public class UpdateTenantBrandsForTenantValidator : AbstractValidator<UpdateTenantBrandsForTenantCommand>
+public class UpdateTenantBrandsForTenantCommandValidator : AbstractValidator<UpdateTenantBrandsForTenantCommand>
 {
-    public UpdateTenantBrandsForTenantValidator()
+    public UpdateTenantBrandsForTenantCommandValidator()
     {
     }
 }

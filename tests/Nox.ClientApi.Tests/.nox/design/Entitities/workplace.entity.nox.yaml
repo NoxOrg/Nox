@@ -86,6 +86,12 @@ relationships:
       relationship: zeroOrMany
       entity: Tenant
 
+ownedRelationships:
+    - name: Addresses
+      description: Workplace Addresses
+      relationship: zeroOrMany
+      entity: WorkplaceAddress
+
 persistence:
     isAudited: true
     create:

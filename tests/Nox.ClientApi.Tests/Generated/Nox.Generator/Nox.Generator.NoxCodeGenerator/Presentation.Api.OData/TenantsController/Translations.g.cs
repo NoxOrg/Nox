@@ -30,14 +30,24 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class TenantsControllerBase
 {
-    [HttpPut("/api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> PutTenantBrandLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] TenantBrandLocalizedUpsertDto tenantBrandLocalizedUpsertDto)
+    [HttpGet("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TenantBrandLocalizedDto>>> GetTenantBrandLanguagesNonConventional([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    {
+        var result = (await _mediator.Send(new GetTenantBrandTranslationsByParentIdQuery(key, relatedKey)));
+        
+        return Ok(result);
+    }
+    
+    [HttpPut("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> PutTenantBrandLocalized([FromRoute] System.UInt32 key,[FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode, [FromBody] TenantBrandLocalizedUpsertDto tenantBrandLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+        tenantBrandLocalizedUpsertDto.Id = relatedKey;
         var etag = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
@@ -62,8 +72,8 @@ public abstract partial class TenantsControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Tenants/{key}/TenantBrandsLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> DeleteTenantBrandLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<TenantBrandLocalizedDto>> DeleteTenantBrandLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)
         {
@@ -72,18 +82,27 @@ public abstract partial class TenantsControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        await _mediator.Send(new DeleteTenantBrandsTranslationsForTenantCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteTenantBrandsTranslationsForTenantCommand(key, relatedKey, Nox.Types.CultureCode.From(cultureCode)));
 
         return NoContent();
     }
-    [HttpPut("/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<TenantContactLocalizedDto>> PutTenantContactLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] TenantContactLocalizedUpsertDto tenantContactLocalizedUpsertDto)
+    [HttpGet("/api/v1/Tenants/{key}/TenantContact/Languages")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TenantContactLocalizedDto>>> GetTenantContactLanguagesNonConventional([FromRoute] System.UInt32 key)
+    {
+        var result = (await _mediator.Send(new GetTenantContactTranslationsByParentIdQuery(key)));
+        
+        return Ok(result);
+    }
+    
+    [HttpPut("/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<TenantContactLocalizedDto>> PutTenantContactLocalized([FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] TenantContactLocalizedUpsertDto tenantContactLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
         var etag = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
@@ -107,7 +126,7 @@ public abstract partial class TenantsControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}")]
+    [HttpDelete("/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<TenantContactLocalizedDto>> DeleteTenantContactLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)

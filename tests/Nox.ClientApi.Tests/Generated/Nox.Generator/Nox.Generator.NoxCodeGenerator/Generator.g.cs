@@ -22,6 +22,7 @@
 //  - tenant-contact.entity.nox.yaml
 //  - tenant.entity.nox.yaml
 //  - usercontactselection.entity.nox.yaml
+//  - workplace-address.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - apiConfiguration.nox.yaml
 //  - countries.encodedTargetUrl.ApiRouteMapping.nox.yaml
@@ -79,6 +80,7 @@
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationTranslationsQueryGenerator
+//  - Nox.Generator.Application.Queries.OwnedTranslationsByParentIdQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
@@ -106,6 +108,8 @@
 //  - Nox.Generator.Application.Commands.DeleteOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteOwnedEntityTranslationsCommandGenerator
 //  - Nox.Generator.Application.Commands.DeleteTranslationCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteZeroOrManyOwnedCommandGenerator
+//  - Nox.Generator.Application.Commands.DeleteZeroOrOneOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateCommandGenerator
 //  - Nox.Generator.Application.Commands.PartialUpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.RefToCommandGenerator

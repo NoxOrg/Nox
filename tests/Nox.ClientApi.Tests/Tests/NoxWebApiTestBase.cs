@@ -1,11 +1,14 @@
-﻿using AutoFixture;
+using AutoFixture;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
-using Nox.Application.Dto;
+
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
+
+using Nox.Application.Dto;
+using Nox.Extensions;
 
 namespace ClientApi.Tests;
 
@@ -55,13 +58,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         AddHeaders(httpClient, headers ?? new());
 
-        var result = await httpClient.GetAsync(requestUrl);
-        result.EnsureSuccessStatusCode();
-
-        var content = await result.Content.ReadAsStringAsync();
-        var data = DeserializeResponse<ODataCollectionResponse<TResult>>(content);
-
-        return data!.Value;
+        return await httpClient.GetODataCollectionResponseAsync<TResult>(requestUrl);
     }
     /// <summary>
     ///  Get collection result from a non Odata EndPoint
@@ -155,11 +152,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return await PostAsync<TValue, TResult>(requestUrl, data, new());
     }
 
-    public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    protected async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers, bool throwOnError = true)
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers);
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
 
@@ -169,16 +166,16 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return message;
     }
 
-    public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, bool throwOnError = true)
+    protected async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, bool throwOnError = true)
     {
         return await PutAsync<TValue>(requestUrl, data, new(), throwOnError);
     }
 
-    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    protected async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers, bool throwOnError = true)
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
 
@@ -231,17 +228,17 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
         var content = await message.Content.ReadAsStringAsync();
 
-        var result = DeserializeResponse<ODataCollectionResponse<TResult[]>>(content);
+        var result = DeserializeResponse<ODataCollectionDto<TResult[]>>(content);
 
         return result!.Value;
     }
 
-    public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true, Guid? etag = null)
         where TValue : class
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var responseMessage = await httpClient.PatchAsJsonAsync(requestUrl, delta);
 
@@ -257,12 +254,12 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         await PatchAsync<TValue>(requestUrl, delta, new());
     }
 
-    public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers)
+    protected async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>>? headers)
         where TValue : class
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var opts = new JsonSerializerOptions()
         {
@@ -286,11 +283,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return await PatchAsync<TValue, TResult>(requestUrl, delta, new());
     }
 
-    public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
+    public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>>? headers, bool throwOnError = true)
     {
         using var httpClient = CreateHttpClient();
 
-        AddHeaders(httpClient, headers ?? new());
+        AddHeaders(httpClient, headers ?? new Dictionary<string, IEnumerable<string>>());
 
         var message = await httpClient.DeleteAsync(requestUrl);
 
@@ -347,7 +344,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     private void EnsureOdataSingleResponse(string content)
     {
-        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        var oDataResponse = DeserializeResponse<ODataSingleDto>(content);
         oDataResponse.Should().NotBeNull();
         oDataResponse!.Context.Should().NotBeNullOrEmpty();
     }
@@ -355,7 +352,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     protected TResult? GetEntityByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
     {
         var ctx = _noxAppClient.GetDbContext();
-        var entity = ctx.Set<TResult>().Where(filter).FirstOrDefault();
+        var entity = ctx.Set<TResult>().FirstOrDefault(filter);
         return entity;
     }
 }

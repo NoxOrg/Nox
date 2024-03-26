@@ -60,7 +60,7 @@ internal abstract class CreateHolidaysForCountryCommandHandlerBase : CommandBase
 		}
 
 		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
-		parentEntity.CreateRefToHolidays(entity);
+		parentEntity.CreateHolidays(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

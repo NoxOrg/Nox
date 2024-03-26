@@ -11,7 +11,8 @@
                Required="@Required"
                RequiredError="@ErrorRequiredMessage(Title)"
                TextChanged="OnIdChanged"
-               Value="@CurrentId">
+               Value="@CurrentId"
+               Disabled="@Disabled">
         @foreach (SelectEntityModel item in SelectionList)
         {
             if (!string.IsNullOrWhiteSpace(item.Id)

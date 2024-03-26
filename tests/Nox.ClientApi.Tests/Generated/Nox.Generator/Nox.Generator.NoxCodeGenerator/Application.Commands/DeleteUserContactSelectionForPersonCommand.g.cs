@@ -16,7 +16,7 @@ using Dto = ClientApi.Application.Dto;
 using UserContactSelectionEntity = ClientApi.Domain.UserContactSelection;
 
 namespace ClientApi.Application.Commands;
-public partial record DeleteUserContactSelectionForPersonCommand(PersonKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteUserContactSelectionForPersonCommand(PersonKeyDto ParentKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 
 internal partial class DeleteUserContactSelectionForPersonCommandHandler : DeleteUserContactSelectionForPersonCommandHandlerBase
@@ -58,11 +58,13 @@ internal partial class DeleteUserContactSelectionForPersonCommandHandlerBase : C
 			throw new EntityNotFoundException("Person.UserContactSelection",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToUserContactSelection(entity);
+		parentEntity.DeleteUserContactSelection(entity);
 		
 		
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

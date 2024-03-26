@@ -50,9 +50,18 @@ This document provides information about the various endpoints available in our 
 - **POST** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 {{ end }}{{ if entity.Persistence.Update.IsEnabled && ownedRelationship.Related.Entity.Persistence.Update.IsEnabled }}
+{{- if ownedRelationship.WithSingleEntity }}
+#### Update {{ownedRelationship.Entity}}
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.Entity}}`
+  - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
+{{else}}
 #### Update {{ownedRelationship.Entity}}
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
-  - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
+  - Description: Update many {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
+#### Update {{ownedRelationship.Entity}} By Id
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
+  - Description: Update an existing {{ownedRelationship.Entity}} by ID for a specific {{entity.Name}}.
+{{- end}}
   
 #### Partially Update {{ownedRelationship.Entity}}
 - **PATCH** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
@@ -141,35 +150,37 @@ This section details the API endpoints related to enumeration attributes in a sp
   - **Description**: Retrieve non-conventional values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
 {{- if enumAtt.IsLocalized }}
   
-- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/Languages`
   - **Description**: Retrieve localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific {{entity.Name}}.
 
-- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized/{cultureCode}`
-  - **Description**: Delete the localized values of {{Pluralize (enumAtt.Attribute.Name)}} for a specific culture code in {{entity.Name}}.
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Delete the localized values for a specific {{Pluralize (enumAtt.Attribute.Name)}} by ID for a specific culture code in {{entity.Name}}.
 
-- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{entity.Name}}{{Pluralize (enumAtt.Attribute.Name)}}Localized`
-  - **Description**: Update or create localized values of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires a payload with the new values.
-{{- end}}{{end}}{{end}}
-{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires relatedKey and cultureCode in the URL and a payload with the new value of {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.{{- end}}{{end}}{{end}}{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
 ## Localized Endpoints
 {{~ end ~}}
 {{~ if entity.IsLocalized ~}}
 - **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages`
   - Description: Retrieve all translations for a specific {{entity.Name}}.
 
-- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
-    - Description: Update or create values of {{entity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
+    - Description: Update or create values of translations for a specific {{entity.Name}}. Requires a payload with the new value of {{entity.Name}}LocalizedUpsertDto.
 
-- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{entity.PluralName}}Localized/{cultureCode}`
-    - Description: Delete the localized values of {{entity.Name}}Localized for a specific culture code for a specific {{entity.Name}}.
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
+    - Description: Delete the translations for a specific culture code for a specific {{entity.Name}}.
 {{~ end ~}}
 {{~ if entity.HasLocalizedOwnedRelationships ~}}
 {{ for localizedRelationship in ownedLocalizedRelationships }}
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{cultureCode}` 
     - Description: Update or create value of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.
-
-- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{cultureCode}` 
+{{ if localizedRelationship.IsWithMultiEntity}}
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/{relatedKey}/Languages/{cultureCode}` 
     - Description: Delete the localized values of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific culture code in {{entity.Name}}.
+{{ else}}
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/Languages/{cultureCode}` 
+    - Description: Delete the localized values of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific culture code in {{entity.Name}}.
+{{- end -}}
 {{~ end ~}}
 {{~ end ~}}
 {{- if relatedEndpoints | array.size > 0 }}

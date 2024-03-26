@@ -84,7 +84,7 @@ public partial class CountryUpdateDtoBase: EntityDtoBase
     /// </summary>
     public virtual CountryBarCodeUpsertDto? CountryBarCode { get; set; } = null!;
     /// <summary>
-    /// Country uses ZeroOrMany CountryTimeZones
+    /// Country uses OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZoneUpsertDto>? CountryTimeZones { get; set; }
     /// <summary>

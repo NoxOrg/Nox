@@ -16,7 +16,7 @@ using Dto = TestWebApp.Application.Dto;
 using SecEntityOwnedRelExactlyOneEntity = TestWebApp.Domain.SecEntityOwnedRelExactlyOne;
 
 namespace TestWebApp.Application.Commands;
-public partial record DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneKeyDto ParentKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 
 internal partial class DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandler : DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase
@@ -58,11 +58,13 @@ internal partial class DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelati
 			throw new EntityNotFoundException("TestEntityOwnedRelationshipExactlyOne.SecEntityOwnedRelExactlyOne",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToSecEntityOwnedRelExactlyOne(entity);
+		parentEntity.DeleteSecEntityOwnedRelExactlyOne(entity);
 		
 		
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

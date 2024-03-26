@@ -125,7 +125,7 @@ ownedRelationships:
 
   - name: CountryTimeZone
     description: uses
-    relationship: zeroOrMany
+    relationship: oneOrMany
     entity: CountryTimeZone
 
   - name: CountryOwnedHolidays

@@ -93,6 +93,23 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return Ok(children);
     }
     
+    [HttpPut("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecEntityOwnedRelOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<SecEntityOwnedRelOneOrManyDto>> PutToSecEntityOwnedRelOneOrManyNonConventional(System.String key, System.String relatedKey, [FromBody] SecEntityOwnedRelOneOrManyUpsertDto secEntityOwnedRelOneOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        secEntityOwnedRelOneOrMany.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelOneOrManyForSingleTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), secEntityOwnedRelOneOrMany, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelOneOrManies?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
     public virtual async Task<ActionResult> PatchToSecEntityOwnedRelOneOrManies(System.String key, [FromBody] Delta<SecEntityOwnedRelOneOrManyUpsertDto> secEntityOwnedRelOneOrMany)
     {
         if (!ModelState.IsValid || secEntityOwnedRelOneOrMany is null)
@@ -112,18 +129,6 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         var child = await TryGetSecEntityOwnedRelOneOrManies(key, updated!);
         
         return Ok(child);
-    }
-    
-    [HttpDelete("/api/v1/TestEntityOwnedRelationshipOneOrManies/{key}/SecEntityOwnedRelOneOrManies/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteSecEntityOwnedRelOneOrManyNonConventional(System.String key, System.String relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelationshipOneOrManyCommand(new TestEntityOwnedRelationshipOneOrManyKeyDto(key), new SecEntityOwnedRelOneOrManyKeyDto(relatedKey)));
-        
-        return NoContent();
     }
     
     protected async Task<SecEntityOwnedRelOneOrManyDto?> TryGetSecEntityOwnedRelOneOrManies(System.String key, SecEntityOwnedRelOneOrManyKeyDto childKeyDto)

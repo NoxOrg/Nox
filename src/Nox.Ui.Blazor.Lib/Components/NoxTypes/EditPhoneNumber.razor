@@ -1,4 +1,13 @@
 ﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
 @using MudBlazor
 
-<MudText>Placeholder PhoneNumber</MudText>
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="true"
+              Disabled="@Disabled"
+              MaxLength="@MaxLength"
+              Validation="@(new Func<string, string>(Validate))"
+              TextChanged="OnPhoneNumberChanged"
+              Value="@PhoneNumber" />

@@ -67,20 +67,23 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandColle
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateHolidays(entity);
 			}
 			else
 			{
 				var ownedId = Dto.HolidayMetadata.CreateId(entityDto.Id.NonNullValue<System.Guid>());
 				entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+					parentEntity.CreateHolidays(entity);
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToHolidays(entity);
+				}
 			}
 
-			parentEntity.CreateRefToHolidays(entity);
 			entities.Add(entity);
 		}
 
@@ -95,14 +98,14 @@ internal partial class UpdateHolidaysForCountryCommandHandlerBase : CommandColle
 	private async Task<HolidayEntity> CreateEntityAsync(HolidayUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToHolidays(entity);
+		parent.CreateHolidays(entity);
 		return entity;
 	}
 }
 
-public class UpdateHolidaysForCountryValidator : AbstractValidator<UpdateHolidaysForCountryCommand>
+public class UpdateHolidaysForCountryCommandValidator : AbstractValidator<UpdateHolidaysForCountryCommand>
 {
-    public UpdateHolidaysForCountryValidator()
+    public UpdateHolidaysForCountryCommandValidator()
     { 
     }
 }

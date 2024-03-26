@@ -1,4 +1,5 @@
 ﻿using Nox.Solution;
+using System;
 using System.Text;
 
 namespace Nox.Docs.Extensions;
@@ -29,8 +30,11 @@ public static class NoxSolutionMermaidExtensions
 
             if (detail != ErdDetail.Summary)
             {
-                foreach ((var type, var member) in entity.GetAllMembers())
+                foreach (var iMember in entity.GetAllMembers())
                 {
+                    var type = iMember.Key;
+                    var member = iMember.Value;
+
                     if (type == EntityMemberType.OwnedRelationship)
                         continue;
 

@@ -1,5 +1,4 @@
-﻿// Generated
-#nullable enable
+﻿// Generated#nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData.Query;
 
@@ -28,20 +27,20 @@ public abstract partial class TestEntityForTypesControllerBase
         return Ok(result);        
     }
 
-    [HttpDelete("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFieldsLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult> DeleteEnumerationTestFieldsLocalizedNonConventional([FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/TestEntityForTypes/EnumerationTestFields/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult> DeleteEnumerationTestFieldsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand(cultureCodeValue!));                        
+        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteTestEntityForTypesEnumerationTestFieldsTranslationsCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), cultureCodeValue!));                        
         return NoContent();     
     }
 
-    [HttpPut("/api/v1/TestEntityForTypes/TestEntityForTypesEnumerationTestFieldsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>>> PutEnumerationTestFieldsLocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto> testEntityForTypesEnumerationTestFieldLocalizedDtos)
+    [HttpPut("/api/v1/TestEntityForTypes/EnumerationTestFields/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>> PutEnumerationTestFieldsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto testEntityForTypesEnumerationTestFieldLocalizedUpsertDto)
     {   
         
-        if (testEntityForTypesEnumerationTestFieldLocalizedDtos is null)
+        if (testEntityForTypesEnumerationTestFieldLocalizedUpsertDto is null)
         {
             throw new Nox.Exceptions.BadRequestInvalidFieldException();
         }
@@ -49,7 +48,8 @@ public abstract partial class TestEntityForTypesControllerBase
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertTestEntityForTypesEnumerationTestFieldsTranslationsCommand(testEntityForTypesEnumerationTestFieldLocalizedDtos.Items));                        
+        var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), testEntityForTypesEnumerationTestFieldLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
+        var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
         return Ok(result);       
     } 
 }

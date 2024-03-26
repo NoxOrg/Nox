@@ -34,6 +34,29 @@ This document provides information about the various endpoints available in our 
 
 ## Owned Relationships Endpoints
 
+### CountryBarCode
+
+#### Get CountryBarCodes
+- **GET** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Retrieve all CountryBarCodes for a specific Country.
+
+#### Create CountryBarCode
+- **POST** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Create a new CountryBarCode for a specific Country.
+
+#### Update CountryBarCode
+- **PUT** `/api/v1/Countries/{key}/CountryBarCode`
+  - Description: Update an existing CountryBarCode for a specific Country.
+
+  
+#### Partially Update CountryBarCode
+- **PATCH** `/api/v1/Countries/{key}/CountryBarCodes`
+  - Description: Partially update an existing CountryBarCode for a specific Country.
+
+#### Delete CountryBarCode
+- **DELETE** `/api/v1/Countries/{key}/CountryBarCodes/{relatedKey}`
+  - Description: Delete an existing CountryBarCode for a specific Country.
+
 ### CountryLocalNames
 
 #### Get CountryLocalNames
@@ -74,26 +97,26 @@ This document provides information about the various endpoints available in our 
 ## Enumerations Endpoints
 
 This section details the API endpoints related to enumeration attributes in a specific Country.
-- **GET** `/api/v1/Countries/Languages`
-  - **Description**: Retrieve non-conventional values of Languages for a specific Country.
+- **GET** `/api/v1/Countries/ContinentEnums`
+  - **Description**: Retrieve non-conventional values of ContinentEnums for a specific Country.
   
-- **GET** `/api/v1/Countries/CountryLanguagesLocalized`
-  - **Description**: Retrieve localized values of Languages for a specific Country.
+- **GET** `/api/v1/Countries/ContinentEnums/Languages`
+  - **Description**: Retrieve localized values of ContinentEnums for a specific Country.
 
-- **DELETE** `/api/v1/Countries/CountryLanguagesLocalized/{cultureCode}`
-  - **Description**: Delete the localized values of Languages for a specific culture code in Country.
+- **DELETE** `/api/v1/Countries/CountryContinentEnums/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Delete the localized values for a specific ContinentEnums by ID for a specific culture code in Country.
 
-- **PUT** `/api/v1/Countries/CountryLanguagesLocalized`
-  - **Description**: Update or create localized values of Languages for a specific Country. Requires a payload with the new values.
+- **PUT** `/api/v1/Countries/ContinentEnums/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of ContinentEnums for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentEnumsUpsertLocalizedDto.
 ## Localized Endpoints
 - **GET** `/api/v1/Countries/{key}/Languages`
   - Description: Retrieve all translations for a specific Country.
 
-- **PUT** `/api/v1/Countries/{key}/CountriesLocalized/{cultureCode}`
-    - Description: Update or create values of CountryLocalized for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.
+- **PUT** `/api/v1/Countries/{key}/Languages/{cultureCode}`
+    - Description: Update or create values of translations for a specific Country. Requires a payload with the new value of CountryLocalizedUpsertDto.
 
-- **DELETE** `/api/v1/Countries/{key}/CountriesLocalized/{cultureCode}`
-    - Description: Delete the localized values of CountryLocalized for a specific culture code for a specific Country.
+- **DELETE** `/api/v1/Countries/{key}/Languages/{cultureCode}`
+    - Description: Delete the translations for a specific culture code for a specific Country.
 
 
 ## Related Entities

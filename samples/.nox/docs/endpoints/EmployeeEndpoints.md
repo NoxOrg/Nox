@@ -48,7 +48,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update EmployeePhoneNumber
 - **PUT** `/api/Employees/{key}/EmployeePhoneNumbers`
-  - Description: Update an existing EmployeePhoneNumber for a specific Employee.
+  - Description: Update many EmployeePhoneNumber for a specific Employee.
+#### Update EmployeePhoneNumber By Id
+- **PUT** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
+  - Description: Update an existing EmployeePhoneNumber by ID for a specific Employee.
   
 #### Partially Update EmployeePhoneNumber
 - **PATCH** `/api/Employees/{key}/EmployeePhoneNumbers`

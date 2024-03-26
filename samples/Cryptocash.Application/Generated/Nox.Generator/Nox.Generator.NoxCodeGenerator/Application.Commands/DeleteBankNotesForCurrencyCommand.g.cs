@@ -16,7 +16,7 @@ using Dto = Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public partial record DeleteBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteBankNotesForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 internal partial class DeleteBankNotesForCurrencyCommandHandler : DeleteBankNotesForCurrencyCommandHandlerBase
 {
@@ -59,7 +59,9 @@ internal partial class DeleteBankNotesForCurrencyCommandHandlerBase : CommandBas
 		}
 		parentEntity.BankNotes.Remove(entity);
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

@@ -174,6 +174,13 @@ public partial class WorkplaceMetadata
         
     
         /// <summary>
+        /// Factory for property 'WorkplaceAddressId'
+        /// </summary>
+        public static Nox.Types.Guid CreateWorkplaceAddressId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
+    
+        /// <summary>
         /// Factory for property 'CountryId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)

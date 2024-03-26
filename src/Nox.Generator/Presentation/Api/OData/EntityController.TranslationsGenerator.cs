@@ -28,6 +28,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
         foreach (var entity in codeGenConventions.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity && (x.IsLocalized || x.HasLocalizedOwnedRelationships)))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
+            var ownedEntityKeyPrefix = "relatedKey";
 
             var keysForRouting = GetPrimaryKeysQuery(entity).Split(',').Select(x => x.Trim()).ToList();
             var ownedEntitiesWithLocalizedAttributes = entity.OwnedRelationships
@@ -36,11 +37,16 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                     IsWithMultiEntity = x.WithMultiEntity,
                     OwnedEntity = x.Related.Entity,
                     LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
-                    OwnedEntityKeysQuery = string.Join(", ", x.Related.Entity.Keys.Select(k => $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{k.Name}!.Value")),
+                    OwnedEntityKeysQuery = $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{x.Related.Entity.Keys.FirstOrDefault()?.Name}!.Value",
+                    OwnedEntityKey =  $"{x.Related.Entity.Name.ToLowerFirstChar()}LocalizedUpsertDto.{x.Related.Entity.Keys.FirstOrDefault()?.Name}",
+                    OwnedEntityKeysRoute = GetPrimaryKeysRoute(x.Related.Entity, codeGenConventions.Solution, ownedEntityKeyPrefix),
                     NavigationName = entity.GetNavigationPropertyName(x),
-                    UpdatedKeyPrimaryKeysQuery = x.WithMultiEntity 
+                    UpdatedKeyPrimaryKeysQuery = x.WithMultiEntity
                         ? GetPrimaryKeysQuery(x.Related.Entity, "updatedKey.key", true)
-                        : GetPrimaryKeysQuery(entity)
+                        : GetPrimaryKeysQuery(entity),
+                    KeysForRouting = GetPrimaryKeysQuery(x.Related.Entity, prefix: ownedEntityKeyPrefix).Split(',').Select(x => x.Trim()).ToList(),
+                    KeysRoute = GetPrimaryKeysRoute(x.Related.Entity, codeGenConventions.Solution, keyPrefix: ownedEntityKeyPrefix),
+                    KeysQuery = GetPrimaryKeysQuery(x.Related.Entity, prefix: ownedEntityKeyPrefix),
                 })
                 .Where(x => x.LocalizedAttributes.Any())
                 .ToList();

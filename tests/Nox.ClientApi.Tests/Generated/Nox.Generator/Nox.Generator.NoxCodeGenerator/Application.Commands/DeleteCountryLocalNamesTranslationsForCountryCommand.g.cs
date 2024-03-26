@@ -16,24 +16,26 @@ using CountryLocalNameLocalizedEntity = ClientApi.Domain.CountryLocalNameLocaliz
 
 namespace ClientApi.Application.Commands;
 
-public partial record  DeleteCountryLocalNamesTranslationsForCountryCommand(System.Int64 keyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
+public partial record  DeleteCountryLocalNamesTranslationsForCountryCommand(System.Int64 keyId, System.Int64 relatedKeyId, Nox.Types.CultureCode CultureCode) : IRequest<bool>;
 
 internal partial class DeleteCountryLocalNamesTranslationsForCountryCommandHandler : DeleteCountryLocalNamesTranslationsForCountryCommandHandlerBase
 {
     public DeleteCountryLocalNamesTranslationsForCountryCommandHandler(
-           IRepository repository,
-                  NoxSolution noxSolution) : base(repository, noxSolution)
+        IRepository repository,
+        NoxSolution noxSolution)
+        : base(repository, noxSolution)
     {
     }
 }
 
-internal abstract class DeleteCountryLocalNamesTranslationsForCountryCommandHandlerBase : CommandCollectionBase<DeleteCountryLocalNamesTranslationsForCountryCommand, CountryLocalNameLocalizedEntity>, IRequestHandler<DeleteCountryLocalNamesTranslationsForCountryCommand, bool>
+internal abstract class DeleteCountryLocalNamesTranslationsForCountryCommandHandlerBase : CommandBase<DeleteCountryLocalNamesTranslationsForCountryCommand, CountryLocalNameLocalizedEntity>, IRequestHandler<DeleteCountryLocalNamesTranslationsForCountryCommand, bool>
 {
     public IRepository Repository { get; }
 
     public DeleteCountryLocalNamesTranslationsForCountryCommandHandlerBase(
-           IRepository repository,
-           NoxSolution noxSolution) : base(noxSolution)
+        IRepository repository,
+        NoxSolution noxSolution) 
+        : base(noxSolution)
     {
         Repository = repository;
     }
@@ -46,20 +48,16 @@ internal abstract class DeleteCountryLocalNamesTranslationsForCountryCommandHand
         var keys = new List<object?>(1);
 		keys.Add(Dto.CountryMetadata.CreateId(command.keyId));
 
-        var parentEntity = await Repository.FindAndIncludeAsync<ClientApi.Domain.Country>(keys.ToArray(), p => p.CountryLocalNames,cancellationToken);
+        var parentEntity = await Repository.FindAsync<ClientApi.Domain.Country>(keys.ToArray(), cancellationToken);
         EntityNotFoundException.ThrowIfNull(parentEntity, "Country", "parentKeyId");
-        var entityKeys = parentEntity.CountryLocalNames.Select(x => x.Id).ToList();
-        var entities = await Repository.Query<CountryLocalNameLocalized>().Where(x => entityKeys.Contains(x.Id) && x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
-        
-        if (!entities.Any())
-        {
-            throw new EntityLocalizationNotFoundException("Country.CountryLocalNames",  String.Empty, command.CultureCode.ToString());
-        }
 
-        Repository.DeleteRange(entities);
-        await OnCompletedAsync(command, entities);        
+        var entity = await Repository.Query<ClientApi.Domain.CountryLocalNameLocalized>().SingleOrDefaultAsync(x => x.Id == Dto.CountryLocalNameMetadata.CreateId(command.relatedKeyId) && x.CultureCode == command.CultureCode, cancellationToken);
+                EntityLocalizationNotFoundException.ThrowIfNull(entity, "Country.CountryLocalNames", "entityKeyId", command.CultureCode.ToString());
         
+        Repository.Delete(entity);
+        await OnCompletedAsync(command, entity);
         await Repository.SaveChangesAsync(cancellationToken);
+        
         return true;
     }
 }

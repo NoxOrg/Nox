@@ -1,5 +1,4 @@
 ﻿// Generated
-
 #nullable enable
 
 using Microsoft.AspNetCore.OData;
@@ -30,6 +29,7 @@ internal static class ODataServiceCollectionExtensions
         builder.ComplexType<CountryQualityOfLifeIndexPartialUpdateDto>();
         builder.ComplexType<StorePartialUpdateDto>();
         builder.ComplexType<WorkplacePartialUpdateDto>();
+        builder.ComplexType<WorkplaceAddressUpsertDto>();
         builder.ComplexType<StoreOwnerPartialUpdateDto>();
         builder.ComplexType<StoreLicensePartialUpdateDto>();
         builder.ComplexType<CurrencyPartialUpdateDto>();
@@ -58,7 +58,6 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 		builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryLocalNameLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CountryLocalNameDto>().Function("Languages").ReturnsCollection<DtoNameSpace.CountryLocalNameLocalizedDto>();
 
 		builder.EntityType<CountryBarCodeDto>().HasKey(e => new {  });
 
@@ -82,12 +81,16 @@ internal static class ODataServiceCollectionExtensions
 
         builder.EntitySet<WorkplaceDto>("Workplaces");
 		builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceDto>().ContainsMany(e => e.WorkplaceAddresses).AutoExpand = true;
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
         builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
         builder.EntityType<WorkplaceLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<WorkplaceDto>().Function("Languages").ReturnsCollection<DtoNameSpace.WorkplaceLocalizedDto>();
         builder.EntityType<WorkplaceDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<WorkplaceDto>().Ignore(e => e.Etag);
+
+        builder.EntitySet<WorkplaceAddressDto>("WorkplaceAddresses");
+		builder.EntityType<WorkplaceAddressDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceAddressLocalizedDto>().HasKey(e => new { e.Id });
 
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
 		builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -119,11 +122,9 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TenantBrandDto>("TenantBrands");
 		builder.EntityType<TenantBrandDto>().HasKey(e => new { e.Id });
         builder.EntityType<TenantBrandLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<TenantBrandDto>().Function("Languages").ReturnsCollection<DtoNameSpace.TenantBrandLocalizedDto>();
 
 		builder.EntityType<TenantContactDto>().HasKey(e => new {  });
         builder.EntityType<TenantContactLocalizedDto>().HasKey(e => new {  });
-        builder.EntityType<TenantContactDto>().Function("Languages").ReturnsCollection<DtoNameSpace.TenantContactLocalizedDto>();
 
         builder.EntitySet<CountryTimeZoneDto>("CountryTimeZones");
 		builder.EntityType<CountryTimeZoneDto>().HasKey(e => new { e.Id });
@@ -155,12 +156,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>()
                             .Collection
                             .Function("Continents")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>();        
-        //TODO Remove when PUT API is migrated to use /Languages
-        builder.EntityType<CountryDto>()
-                .Collection
-                .Function("CountryContinentsLocalized")                
-                .ReturnsCollection<DtoNameSpace.CountryContinentLocalizedDto>(); 
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<StoreDto>()
                             .Collection
@@ -170,12 +166,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>()
                             .Collection
                             .Function("Ownerships")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>();        
-        //TODO Remove when PUT API is migrated to use /Languages
-        builder.EntityType<WorkplaceDto>()
-                .Collection
-                .Function("WorkplaceOwnershipsLocalized")                
-                .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipLocalizedDto>(); 
+                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>(); 
         // Setup Enumeration End Points
         builder.EntityType<WorkplaceDto>()
                             .Collection

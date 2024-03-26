@@ -27,7 +27,7 @@ public class SqlServerIntegrationFixture
             .Build();
 
         Services.AddSingleton<NoxSolution>(solution);
-        Services.AddSingleton(new NoxCodeGenConventions(solution));
+        Services.AddSingleton(new NoxCodeGenConventions(solution, yamlFile));
         Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => 
             new NoxClientAssemblyProvider(
                 Assembly.GetExecutingAssembly(),

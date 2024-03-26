@@ -67,20 +67,22 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateCountryTimeZones(entity);
 			}
 			else
 			{
 				var ownedId = Dto.CountryTimeZoneMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
 				entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					throw new EntityNotFoundException("CountryTimeZone",  $"ownedId");
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToCountryTimeZones(entity);
+				}
 			}
 
-			parentEntity.CreateRefToCountryTimeZones(entity);
 			entities.Add(entity);
 		}
 
@@ -95,14 +97,14 @@ internal partial class UpdateCountryTimeZonesForCountryCommandHandlerBase : Comm
 	private async Task<CountryTimeZoneEntity> CreateEntityAsync(CountryTimeZoneUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToCountryTimeZones(entity);
+		parent.CreateCountryTimeZones(entity);
 		return entity;
 	}
 }
 
-public class UpdateCountryTimeZonesForCountryValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
+public class UpdateCountryTimeZonesForCountryCommandValidator : AbstractValidator<UpdateCountryTimeZonesForCountryCommand>
 {
-    public UpdateCountryTimeZonesForCountryValidator()
+    public UpdateCountryTimeZonesForCountryCommandValidator()
     {
     }
 }

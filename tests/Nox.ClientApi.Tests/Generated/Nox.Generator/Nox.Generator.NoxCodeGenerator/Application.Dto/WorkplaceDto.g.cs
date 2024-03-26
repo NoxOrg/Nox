@@ -107,6 +107,11 @@ public abstract class WorkplaceDtoBase : EntityDtoBase
     /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
     /// </summary>
     public virtual List<TenantDto> Tenants { get; set; } = new();
+
+    /// <summary>
+    /// Workplace Workplace Addresses ZeroOrMany WorkplaceAddresses
+    /// </summary>
+    public virtual List<WorkplaceAddressDto> WorkplaceAddresses { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

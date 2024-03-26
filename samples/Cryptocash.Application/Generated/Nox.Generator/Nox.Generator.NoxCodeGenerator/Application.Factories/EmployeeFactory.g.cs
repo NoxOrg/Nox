@@ -108,14 +108,14 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         //createDto.EmployeePhoneNumbers?.ForEach(async dto =>
         //{
         //    var employeePhoneNumber = await EmployeePhoneNumberFactory.CreateEntityAsync(dto, cultureCode);
-        //    entity.CreateRefToEmployeePhoneNumbers(employeePhoneNumber);
+        //    entity.CreateEmployeePhoneNumbers(employeePhoneNumber);
         //});
         if(createDto.EmployeePhoneNumbers is not null)
         {
             foreach (var dto in createDto.EmployeePhoneNumbers)
             {
                 var employeePhoneNumber = EmployeePhoneNumberFactory.CreateEntityAsync(dto, cultureCode).Result;
-                entity.CreateRefToEmployeePhoneNumbers(employeePhoneNumber);
+                entity.CreateEmployeePhoneNumbers(employeePhoneNumber);
             }
         }        
         return await Task.FromResult(entity);
@@ -212,7 +212,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         if(!updateDto.EmployeePhoneNumbers.Any())
         { 
             _repository.DeleteOwned(entity.EmployeePhoneNumbers);
-			entity.DeleteAllRefToEmployeePhoneNumbers();
+			entity.DeleteAllEmployeePhoneNumbers();
         }
 		else
 		{
@@ -239,7 +239,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
 			}
             _repository.DeleteOwned<Cryptocash.Domain.EmployeePhoneNumber>(
                 entity.EmployeePhoneNumbers.Where(x => !updatedEmployeePhoneNumbers.Exists(upd => upd.Id == x.Id)).ToList());
-			entity.UpdateRefToEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
+			entity.UpdateEmployeePhoneNumbers(updatedEmployeePhoneNumbers);
 		}
 	}
 }

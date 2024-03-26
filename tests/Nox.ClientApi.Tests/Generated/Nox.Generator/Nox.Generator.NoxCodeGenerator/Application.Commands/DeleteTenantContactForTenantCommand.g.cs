@@ -16,7 +16,7 @@ using Dto = ClientApi.Application.Dto;
 using TenantContactEntity = ClientApi.Domain.TenantContact;
 
 namespace ClientApi.Application.Commands;
-public partial record DeleteTenantContactForTenantCommand(TenantKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteTenantContactForTenantCommand(TenantKeyDto ParentKeyDto, System.Guid? Etag) : IRequest <bool>;
 
 
 internal partial class DeleteTenantContactForTenantCommandHandler : DeleteTenantContactForTenantCommandHandlerBase
@@ -58,11 +58,13 @@ internal partial class DeleteTenantContactForTenantCommandHandlerBase : CommandB
 			throw new EntityNotFoundException("Tenant.TenantContact",  String.Empty);
 		}
 
-		parentEntity.DeleteRefToTenantContact(entity);
+		parentEntity.DeleteTenantContact(entity);
 		
 		
 		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
+		Repository.Update(parentEntity);
 		Repository.Delete(entity);
 		await Repository.SaveChangesAsync(cancellationToken);
 

@@ -67,20 +67,22 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateExchangeRates(entity);
 			}
 			else
 			{
 				var ownedId = Dto.ExchangeRateMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
 				entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					throw new EntityNotFoundException("ExchangeRate",  $"ownedId");
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToExchangeRates(entity);
+				}
 			}
 
-			parentEntity.CreateRefToExchangeRates(entity);
 			entities.Add(entity);
 		}
 
@@ -95,14 +97,14 @@ internal partial class UpdateExchangeRatesForCurrencyCommandHandlerBase : Comman
 	private async Task<ExchangeRateEntity> CreateEntityAsync(ExchangeRateUpsertDto upsertDto, CurrencyEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToExchangeRates(entity);
+		parent.CreateExchangeRates(entity);
 		return entity;
 	}
 }
 
-public class UpdateExchangeRatesForCurrencyValidator : AbstractValidator<UpdateExchangeRatesForCurrencyCommand>
+public class UpdateExchangeRatesForCurrencyCommandValidator : AbstractValidator<UpdateExchangeRatesForCurrencyCommand>
 {
-    public UpdateExchangeRatesForCurrencyValidator()
+    public UpdateExchangeRatesForCurrencyCommandValidator()
     {
     }
 }

@@ -60,7 +60,7 @@ internal abstract class CreateExchangeRatesForCurrencyCommandHandlerBase : Comma
 		}
 
 		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
-		parentEntity.CreateRefToExchangeRates(entity);
+		parentEntity.CreateExchangeRates(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

@@ -30,14 +30,24 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class CountriesControllerBase
 {
-    [HttpPut("/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> PutCountryLocalNameLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode, [FromBody] CountryLocalNameLocalizedUpsertDto countryLocalNameLocalizedUpsertDto)
+    [HttpGet("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages")]
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CountryLocalNameLocalizedDto>>> GetCountryLocalNameLanguagesNonConventional([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        var result = (await _mediator.Send(new GetCountryLocalNameTranslationsByParentIdQuery(key, relatedKey)));
+        
+        return Ok(result);
+    }
+    
+    [HttpPut("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> PutCountryLocalNameLocalized([FromRoute] System.Int64 key,[FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode, [FromBody] CountryLocalNameLocalizedUpsertDto countryLocalNameLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+        countryLocalNameLocalizedUpsertDto.Id = relatedKey;
         var etag = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(e=>e.Etag).SingleOrDefault();
         
         if (etag == System.Guid.Empty)
@@ -62,8 +72,8 @@ public abstract partial class CountriesControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> DeleteCountryLocalNameLocalized( [FromRoute] System.Int64 key, [FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<CountryLocalNameLocalizedDto>> DeleteCountryLocalNameLocalized( [FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)
         {
@@ -72,7 +82,7 @@ public abstract partial class CountriesControllerBase
 
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        await _mediator.Send(new DeleteCountryLocalNamesTranslationsForCountryCommand(key, Nox.Types.CultureCode.From(cultureCode)));
+        await _mediator.Send(new DeleteCountryLocalNamesTranslationsForCountryCommand(key, relatedKey, Nox.Types.CultureCode.From(cultureCode)));
 
         return NoContent();
     }

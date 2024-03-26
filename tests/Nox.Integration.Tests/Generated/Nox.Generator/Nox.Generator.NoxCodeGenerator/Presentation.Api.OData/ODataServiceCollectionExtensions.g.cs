@@ -1,5 +1,4 @@
 ﻿// Generated
-
 #nullable enable
 
 using Microsoft.AspNetCore.OData;
@@ -308,7 +307,6 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
 		builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityLocalizationLocalizedDto>().HasKey(e => new { e.Id });
-        builder.EntityType<TestEntityLocalizationDto>().Function("Languages").ReturnsCollection<DtoNameSpace.TestEntityLocalizationLocalizedDto>();
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
 
@@ -321,12 +319,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityForTypesDto>()
                             .Collection
                             .Function("EnumerationTestFields")
-                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();        
-        //TODO Remove when PUT API is migrated to use /Languages
-        builder.EntityType<TestEntityForTypesDto>()
-                .Collection
-                .Function("TestEntityForTypesEnumerationTestFieldsLocalized")                
-                .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>();
+                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
 
        
         if(configure != null) configure(builder);

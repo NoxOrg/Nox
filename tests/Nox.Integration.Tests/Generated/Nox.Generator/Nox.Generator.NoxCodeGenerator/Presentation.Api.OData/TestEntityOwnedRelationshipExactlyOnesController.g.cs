@@ -69,7 +69,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecEntityOwnedRelExactlyOneForSingleTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key), secEntityOwnedRelExactlyOne, _cultureCode, etag));
         
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
         
@@ -91,18 +91,6 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         var child = (await _mediator.Send(new GetTestEntityOwnedRelationshipExactlyOneByIdQuery(key))).SingleOrDefault()?.SecEntityOwnedRelExactlyOne;
         
         return Ok(child);
-    }
-    
-    [HttpDelete("/api/v1/TestEntityOwnedRelationshipExactlyOnes/{key}/SecEntityOwnedRelExactlyOne")]
-    public virtual async Task<ActionResult> DeleteSecEntityOwnedRelExactlyOneNonConventional(System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteSecEntityOwnedRelExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand(new TestEntityOwnedRelationshipExactlyOneKeyDto(key)));
-        
-        return NoContent();
     }
     
     #endregion

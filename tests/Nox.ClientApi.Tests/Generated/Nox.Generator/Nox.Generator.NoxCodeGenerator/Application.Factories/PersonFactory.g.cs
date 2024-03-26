@@ -104,7 +104,7 @@ internal abstract class PersonFactoryBase : IEntityFactory<PersonEntity, PersonC
         if (createDto.UserContactSelection is not null)
         {
             var userContactSelection = await UserContactSelectionFactory.CreateEntityAsync(createDto.UserContactSelection, cultureCode);
-            entity.CreateRefToUserContactSelection(userContactSelection);
+            entity.CreateUserContactSelection(userContactSelection);
         }        
         return await Task.FromResult(entity);
     }
@@ -170,14 +170,14 @@ internal abstract class PersonFactoryBase : IEntityFactory<PersonEntity, PersonC
         {
             if(entity.UserContactSelection is not null) 
                 _repository.DeleteOwned(entity.UserContactSelection);
-            entity.DeleteAllRefToUserContactSelection();
+            entity.DeleteAllUserContactSelection();
         }
 		else
 		{
             if(entity.UserContactSelection is not null)
                 await UserContactSelectionFactory.UpdateEntityAsync(entity.UserContactSelection, updateDto.UserContactSelection, cultureCode);
             else
-			    entity.CreateRefToUserContactSelection(await UserContactSelectionFactory.CreateEntityAsync(updateDto.UserContactSelection, cultureCode));
+			    entity.CreateUserContactSelection(await UserContactSelectionFactory.CreateEntityAsync(updateDto.UserContactSelection, cultureCode));
         }
 	}
 }

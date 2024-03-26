@@ -216,7 +216,7 @@ namespace Nox.Configuration
                             NoxAssemblyConfiguration.DtoAssembly,
                             NoxAssemblyConfiguration.ApplicationAssembly,
                             NoxAssemblyConfiguration.InfrastructureAssembly))
-                .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>()))
+                .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>(), string.Empty))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
                 .AddNoxMediatR(noxAndEntryAssemblies)

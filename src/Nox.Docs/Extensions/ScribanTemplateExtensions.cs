@@ -3,6 +3,8 @@ using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 namespace Nox.Docs.Extensions;

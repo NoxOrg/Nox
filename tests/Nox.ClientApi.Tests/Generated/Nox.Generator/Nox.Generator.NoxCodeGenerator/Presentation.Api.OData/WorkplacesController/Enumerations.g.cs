@@ -1,5 +1,4 @@
-﻿// Generated
-#nullable enable
+﻿// Generated#nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData.Query;
 
@@ -28,20 +27,20 @@ public abstract partial class WorkplacesControllerBase
         return Ok(result);        
     }
 
-    [HttpDelete("/api/v1/Workplaces/WorkplaceOwnershipsLocalized/{cultureCode}")]
-    public virtual async Task<ActionResult> DeleteOwnershipsLocalizedNonConventional([FromRoute] System.String cultureCode)
+    [HttpDelete("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult> DeleteOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   
         Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
 
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteWorkplacesOwnershipsTranslationsCommand(cultureCodeValue!));                        
+        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteWorkplacesOwnershipsTranslationsCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), cultureCodeValue!));                        
         return NoContent();     
     }
 
-    [HttpPut("/api/v1/Workplaces/WorkplaceOwnershipsLocalized")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> PutOwnershipsLocalizedNonConventional([FromBody] EnumerationLocalizedListDto<DtoNameSpace.WorkplaceOwnershipLocalizedDto> workplaceOwnershipLocalizedDtos)
+    [HttpPut("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<DtoNameSpace.WorkplaceOwnershipLocalizedDto>> PutOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.WorkplaceOwnershipLocalizedUpsertDto workplaceOwnershipLocalizedUpsertDto)
     {   
         
-        if (workplaceOwnershipLocalizedDtos is null)
+        if (workplaceOwnershipLocalizedUpsertDto is null)
         {
             throw new Nox.Exceptions.BadRequestInvalidFieldException();
         }
@@ -49,7 +48,8 @@ public abstract partial class WorkplacesControllerBase
         {
             throw new Nox.Exceptions.BadRequestException(ModelState);
         }
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertWorkplacesOwnershipsTranslationsCommand(workplaceOwnershipLocalizedDtos.Items));                        
+        var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertWorkplacesOwnershipsTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), workplaceOwnershipLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
+        var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
         return Ok(result);       
     }
     [HttpGet("/api/v1/Workplaces/Types")]

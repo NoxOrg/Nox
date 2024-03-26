@@ -48,7 +48,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update CountryLocalName
 - **PUT** `/api/v1/Countries/{key}/CountryLocalNames`
-  - Description: Update an existing CountryLocalName for a specific Country.
+  - Description: Update many CountryLocalName for a specific Country.
+#### Update CountryLocalName By Id
+- **PUT** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}`
+  - Description: Update an existing CountryLocalName by ID for a specific Country.
   
 #### Partially Update CountryLocalName
 - **PATCH** `/api/v1/Countries/{key}/CountryLocalNames`
@@ -69,8 +72,9 @@ This document provides information about the various endpoints available in our 
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode
-- **PUT** `/api/v1/Countries/{key}/CountryBarCodes`
+- **PUT** `/api/v1/Countries/{key}/CountryBarCode`
   - Description: Update an existing CountryBarCode for a specific Country.
+
   
 #### Partially Update CountryBarCode
 - **PATCH** `/api/v1/Countries/{key}/CountryBarCodes`
@@ -94,7 +98,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update CountryTimeZone
 - **PUT** `/api/v1/Countries/{key}/CountryTimeZones`
-  - Description: Update an existing CountryTimeZone for a specific Country.
+  - Description: Update many CountryTimeZone for a specific Country.
+#### Update CountryTimeZone By Id
+- **PUT** `/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Update an existing CountryTimeZone by ID for a specific Country.
   
 #### Partially Update CountryTimeZone
 - **PATCH** `/api/v1/Countries/{key}/CountryTimeZones`
@@ -118,7 +125,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update Holiday
 - **PUT** `/api/v1/Countries/{key}/Holidays`
-  - Description: Update an existing Holiday for a specific Country.
+  - Description: Update many Holiday for a specific Country.
+#### Update Holiday By Id
+- **PUT** `/api/v1/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Update an existing Holiday by ID for a specific Country.
   
 #### Partially Update Holiday
 - **PATCH** `/api/v1/Countries/{key}/Holidays`
@@ -227,38 +237,37 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Countries/Continents`
   - **Description**: Retrieve non-conventional values of Continents for a specific Country.
   
-- **GET** `/api/v1/Countries/CountryContinentsLocalized`
+- **GET** `/api/v1/Countries/Continents/Languages`
   - **Description**: Retrieve localized values of Continents for a specific Country.
 
-- **DELETE** `/api/v1/Countries/CountryContinentsLocalized/{cultureCode}`
-  - **Description**: Delete the localized values of Continents for a specific culture code in Country.
+- **DELETE** `/api/v1/Countries/CountryContinents/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Delete the localized values for a specific Continents by ID for a specific culture code in Country.
 
-- **PUT** `/api/v1/Countries/CountryContinentsLocalized`
-  - **Description**: Update or create localized values of Continents for a specific Country. Requires a payload with the new values.
+- **PUT** `/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of Continents for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentUpsertLocalizedDto.
 ## Localized Endpoints
 
 - **PUT** `/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}` 
     - Description: Update or create value of CountryLocalNameLocalized for a specific Country. Requires a payload with the new value of CountryLocalNameLocalizedUpsertDto.
 
-- **DELETE** `/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}` 
+- **DELETE** `/api/v1/Countries/{key}/CountryLocalNames/{relatedKey}/Languages/{cultureCode}` 
     - Description: Delete the localized values of CountryLocalNameLocalized for a specific culture code in Country.
 
 - **PUT** `/api/v1/Countries/{key}/CountryBarCodeLocalized/{cultureCode}` 
     - Description: Update or create value of CountryBarCodeLocalized for a specific Country. Requires a payload with the new value of CountryBarCodeLocalizedUpsertDto.
 
-- **DELETE** `/api/v1/Countries/{key}/CountryBarCodeLocalized/{cultureCode}` 
+- **DELETE** `/api/v1/Countries/{key}/CountryBarCode/Languages/{cultureCode}` 
     - Description: Delete the localized values of CountryBarCodeLocalized for a specific culture code in Country.
-
 - **PUT** `/api/v1/Countries/{key}/CountryTimeZonesLocalized/{cultureCode}` 
     - Description: Update or create value of CountryTimeZoneLocalized for a specific Country. Requires a payload with the new value of CountryTimeZoneLocalizedUpsertDto.
 
-- **DELETE** `/api/v1/Countries/{key}/CountryTimeZonesLocalized/{cultureCode}` 
+- **DELETE** `/api/v1/Countries/{key}/CountryTimeZones/{relatedKey}/Languages/{cultureCode}` 
     - Description: Delete the localized values of CountryTimeZoneLocalized for a specific culture code in Country.
 
 - **PUT** `/api/v1/Countries/{key}/HolidaysLocalized/{cultureCode}` 
     - Description: Update or create value of HolidayLocalized for a specific Country. Requires a payload with the new value of HolidayLocalizedUpsertDto.
 
-- **DELETE** `/api/v1/Countries/{key}/HolidaysLocalized/{cultureCode}` 
+- **DELETE** `/api/v1/Countries/{key}/Holidays/{relatedKey}/Languages/{cultureCode}` 
     - Description: Delete the localized values of HolidayLocalized for a specific culture code in Country.
 
 

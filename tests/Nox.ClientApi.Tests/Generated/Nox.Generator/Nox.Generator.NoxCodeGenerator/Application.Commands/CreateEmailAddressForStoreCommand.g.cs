@@ -60,7 +60,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		}
 
 		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
-		parentEntity.CreateRefToEmailAddress(entity);
+		parentEntity.CreateEmailAddress(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

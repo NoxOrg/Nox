@@ -35,7 +35,9 @@ internal class EntityDtoEnumerationGenerator : INoxCodeGenerator
                 .Select(attribute => new { 
                     Attribute = attribute, 
                     EntityNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name), 
-                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
+                    EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
+                    EntityDtoNameForUpsertLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForUpsertLocalizedEnumeration(entity.Name, attribute.Name),
+                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
 
             if (!enumerationAttributes.Any())

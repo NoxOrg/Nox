@@ -1,0 +1,39 @@
+#
+# workplace-address.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: WorkplaceAddress
+
+description: Workplace Address
+pluralName: WorkplaceAddresses
+keys:
+
+  - name: Id
+    type: guid
+    isRequired: true
+
+attributes:
+
+  - name: AddressLine
+    description: Address line
+    type: text
+    textTypeOptions:
+        isLocalized: true
+        maxLength: 200
+    isRequired: true
+
+persistence:
+  isAudited: false
+  create:
+    isEnabled: true
+    raiseEvents: domainEventsOnly
+  read:
+    isEnabled: true
+  update:
+    isEnabled: true
+    raiseEvents: domainEventsOnly
+  delete:
+    isEnabled: true
+    raiseEvents: domainEventsOnly

@@ -79,24 +79,27 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 			if(entityDto.{{key.Name}} is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.Create{{relationshipName}}(entity);
 			}
 			else
 			{
 				var owned{{key.Name}} = Dto.{{entity.Name}}Metadata.Create{{key.Name}}(entityDto.{{key.Name}}.NonNullValue<{{keyType key}}>());
 				entity = parentEntity.{{relationshipName}}.SingleOrDefault(x => x.{{key.Name}} == owned{{key.Name}});
 				if (entity is null)
+				{ 
 					{{- if !(IsNoxTypeCreatable key.Type) }}
 					throw new EntityNotFoundException("{{entity.Name}}",  $"{{keysToString entity.Keys 'owned'}}");
 					{{- else }}
 					entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+					parentEntity.Create{{relationshipName}}(entity);
 					{{- end }}
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefTo{{relationshipName}}(entity);
+				}
 			}
 
-			parentEntity.CreateRefTo{{relationshipName}}(entity);
 			entities.Add(entity);
 		}
 
@@ -111,16 +114,16 @@ internal partial class {{className}}HandlerBase : CommandCollectionBase<{{classN
 	private async Task<{{entity.Name}}Entity> CreateEntityAsync({{entity.Name}}UpsertDto upsertDto, {{parent.Name}}Entity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefTo{{relationshipName}}(entity);
+		parent.Create{{relationshipName}}(entity);
 		return entity;
 	}
 }
 
 {{- if (entity.Keys | array.size) > 0 }}
 
-public class Update{{relationshipName}}For{{parent.Name}}Validator : AbstractValidator<{{className}}>
+public class {{className}}Validator : AbstractValidator<{{className}}>
 {
-    public Update{{relationshipName}}For{{parent.Name}}Validator()
+    public {{className}}Validator()
     {
 		{{- for key in entity.Keys }}
 			{{- if key.Type == "Guid" }} {{ continue; }}

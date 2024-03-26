@@ -7,12 +7,12 @@
 		<Nullable>enable</Nullable>
 		<PackageScribanIncludeSource>true</PackageScribanIncludeSource>
 		<DebugType>embedded</DebugType>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>		
 		<NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup>
 		<IsPackable>true</IsPackable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>Nox.Generator.Tasks</PackageId>
 		<Authors>The Nox Factory</Authors>
 		<Description>Nox generators library</Description>
@@ -22,12 +22,12 @@
 		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoxOrg/Nox.Lib.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageIcon>nox.png</PackageIcon>
+		<PackageIcon>nox.png</PackageIcon>		
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" PrivateAssets="all" ExcludeAssets="Runtime" />		
-		<PackageReference Include="YamlDotNet" Version="15.1.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="YamlDotNet" Version="15.1.2" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="FluentValidation" Version="11.9.0" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="System.Text.Json" Version="8.0.2" PrivateAssets="all" GeneratePathProperty="true" />
@@ -35,6 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.Docs\Nox.Docs.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
@@ -44,6 +45,7 @@
 		<Compile Remove="Validation\**" />
 		<EmbeddedResource Remove="Validation\**" />
 		<None Remove="Validation\**" />
+		<Compile Include="..\Nox.Generator\Common\StringExtensions.cs" Link="StringExtensions.cs" />
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 

@@ -30,7 +30,7 @@ namespace TestWebApp.Presentation.Api.OData;
 
 public abstract partial class TestEntityLocalizationsControllerBase
 {
-    [HttpPut("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
+    [HttpPut("/api/v1/TestEntityLocalizations/{key}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> PutTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode, [FromBody] TestEntityLocalizationLocalizedUpsertDto testEntityLocalizationLocalizedUpsertDto)
     {
         if (!ModelState.IsValid)
@@ -58,7 +58,7 @@ public abstract partial class TestEntityLocalizationsControllerBase
         return Ok(item);
     }
 
-    [HttpDelete("/api/v1/TestEntityLocalizations/{key}/TestEntityLocalizationsLocalized/{cultureCode}")]
+    [HttpDelete("/api/v1/TestEntityLocalizations/{key}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<TestEntityLocalizationLocalizedDto>> DeleteTestEntityLocalizationLocalized( [FromRoute] System.String key, [FromRoute] System.String cultureCode)
     {
         if (!ModelState.IsValid)

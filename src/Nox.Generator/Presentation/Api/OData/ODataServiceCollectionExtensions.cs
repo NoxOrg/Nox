@@ -36,7 +36,8 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
                   entity,
                   attribute,
                   codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
-                  codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto"
+                  codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
+                  codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
               )).ToArray();
 
             if (enumerations.Any())
@@ -52,6 +53,6 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
             .GenerateSourceCodeFromResource(templateName);
 
     }
-    internal sealed record class EntityEnumerations(Entity Entity, NoxSimpleTypeDefinition Attribute, string EntityNameForEnumeration, string EntityNameForLocalizedEnumeration);
+    internal sealed record class EntityEnumerations(Entity Entity, NoxSimpleTypeDefinition Attribute, string EntityNameForEnumeration, string EntityNameForLocalizedEnumeration, string EntityDtoNameForLocalizedEnumeration);
 
 }

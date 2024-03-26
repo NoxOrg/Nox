@@ -423,7 +423,96 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Description:** Retrieves a list of all translations for a specific entity (e.g. countries) by ID. OData query is enabled for this endpoint.
 - **Path Parameters:**
 `<key>`: ID of the entity to retrieve translations for.
-- **Response:** Returns a queryable collection of `<LocalizedEntity>Dto` (e.g. `CountryLocalizedDto`) objects.
+- **Response:** Returns a queryable collection of `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) objects.
+
+##### PUT `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+- **Description:** Creates or updates translations for a specific entity (e.g. countries) by ID and for a specific language by CulcutreCode.
+- **Path Parameters:**
+`<key>`: ID of the entity to create/update translations for.
+`<cultureCode>`: CultureCode specifying language to create/update translations for.
+- **Request Body:** `<Entity>LocalizedUpsertDto` (e.g. `CountryLocalizedUpsertDto`) object.
+- **Response:** Returns `<Entity>LocalizedDto` (e.g. `CountryLocalizedDto`) object.
+
+##### DELETE `/api/<EntityPluralName>/<key>/Languages/<cultureCode>` (e.g. `/api/Countries/1/Languages/en-GB`)
+- **Description:** Deletes translations for a specific entity (e.g. countries) by ID and for a specific language by CultureCode.
+- **Path Parameters:**
+`<key>`: ID of the entity to delete  translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
+
+##### Owned Entities Languages endpoints
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages` (e.g. `/api/Countries/1/CountryBarCode/Languages`) - for zeroOrOne/exactlyOne relationships only
+- **Description:** Retrieves translations for a (zero or one/exactly one) owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country). OData query is enabled for this endpoint.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+- **Response:** Returns a queryable collection of `<OwnedEntityName>LocalizedDto` (e.g. `CountryBarCodeLocalizedDto`) objects.
+
+##### GET `/api/<EntityPluralName>/<key>/<OwnedEntityName>/<relatedKey>/Languages` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages`) - for zeroOrMany/oneOrMany relationships only
+- **Description:** Retrieves translations for a specific owned entity (e.g. CountryLocalName) associated with a specific entity (e.g. country) by ID. OData query is enabled for this endpoint. OData query is enabled for this endpoint.
+- **Path Parameters:**
+  `<key>`: ID of the entity.
+  `<relatedKey>`: ID of the owned entity.
+- **Response:** Returns a queryable collection of `<OwnedEntityName>LocalizedDto` (e.g. `CountryLocalNameLocalizedDto`) objects.
+
+
+##### PUT `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryBarCode/Languages/en-GB`)
+- **Description:** Creates or updates translations for a owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<cultureCode>`: CultureCode specifying language to create/update translations for.
+- **Request Body:** `<OwnedEntityName>LocalizedUpsertDto` (e.g. `CountryBarCodeLocalizedUpsertDto`) object.
+
+#### PUT `/api/<EntityPluralName>/<key>/<OwnedEntityPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages/en-GB`)
+- **Description:** Creates or updates translations for a specific owned entity (e.g. CountryLocalName) associated in a to-many relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the owned entity to create/update translations for.
+`<cultureCode>`: CultureCode specifying language to create/update translations for.
+- **Request Body:** `<OwnedEntityName>LocalizedUpsertDto` (e.g. `CountryLocalNameLocalizedUpsertDto`) object.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<OwnedEntityName>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryBarCode/Languages/en-GB`)
+- **Description:** Deletes translations for a owned entity (e.g. CountryBarCode) associated in a to-one relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
+
+##### DELETE `/api/<EntityPluralName>/<key>/<OwnedEntityPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/1/CountryLocalNames/1/Languages/en-GB`)
+- **Description:** Deletes translations for a specific owned entity (e.g. CountryLocalName) associated in a to-many relationship with a specific entity (e.g. Country) and for a specific language.
+- **Path Parameters:**
+`<key>`: ID of the entity.
+`<relatedKey>`: ID of the owned entity to delete  translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for. 
+- **Response:** Returns a status code indicating success or failure.
+
+#### Enumerations Endpoints
+##### GET `/api/<EntityPluralName>/<EnumPluralName>` (e.g. `/api/Countries/Continents`)
+- **Description:** Retrieves non-conventional values of an enumeration (e.g. Continents) for a specific entity (e.g. country).
+- **Response:** Returns a queryable collection of `<EntityName><EnumName>Dto` (e.g. `CountryContinentDto`) objects.
+- **Query Parameters:** None
+
+##### GET `/api/<EntityPluralName>/<EnumPluralName>/Languages` (e.g. `/api/Countries/Continents/Languages`)
+- **Description:** Retrieves localized values of an enumeration (e.g. Continents) for a specific entity (e.g. country).
+- **Response:** Returns a queryable collection of `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) objects. OData query is enabled for this endpoint.
+- **Query Parameters:** None
+
+##### DELETE `/api/<EntityPluralName>/<EntityName><EnumPluralName>/<relatedKey>/Languages<cultureCode>` (e.g. `/api/Countries/CountryContinents/1/Languages/en-US`)
+- **Description:** Deletes the localized values for a specific enumeration value by ID (e.g. Continents) for a specific culture code in a specific entity (e.g. Country).
+- **Path Parameters:**
+`<relatedKey>`: ID of the enumeration entity to delete translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for.
+- **Response:** Returns no content.
+
+##### PUT `/api/<EntityPluralName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/Continents/1/Languages/en-US`)
+- **Description:** Updates or creates localized value of an enumeration (e.g. Continents) for a specific entity (e.g. country). Requires relatedKey and cultureCode in the URL and a payload with the new value of `<EntityName><EnumName>UpsertLocalizedDto` (e.g. `CountryContinentUpsertLocalizedDto`).
+- **Path Parameters:**
+`<relatedKey>`: ID of the enumeration value.
+`<cultureCode>`: Culture code of the localized value.
+- **Request Body:** `<EntityName><EnumName>UpsertLocalizedDto` (e.g. `CountryContinentUpsertLocalizedDto`) object.
+- **Response:** Returns the updated or created `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) object.
+- **Query Parameters:** None
+
 
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 

@@ -93,6 +93,23 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(children);
     }
     
+    [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    public virtual async Task<ActionResult<EmployeePhoneNumberDto>> PutToEmployeePhoneNumberNonConventional(System.Guid key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpsertDto employeePhoneNumber)
+    {
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        employeePhoneNumber.Id = relatedKey;
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberForSingleEmployeeCommand(new EmployeeKeyDto(key), employeePhoneNumber, _cultureCode, etag));
+        
+        var child = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault()?.EmployeePhoneNumbers?.SingleOrDefault(e => e.Id == updatedKey.keyId);
+        
+        return Ok(child);
+    }
+    
     public virtual async Task<ActionResult> PatchToEmployeePhoneNumbers(System.Guid key, [FromBody] Delta<EmployeePhoneNumberUpsertDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid || employeePhoneNumber is null)
@@ -112,18 +129,6 @@ public abstract partial class EmployeesControllerBase : ODataController
         var child = await TryGetEmployeePhoneNumbers(key, updated!);
         
         return Ok(child);
-    }
-    
-    [HttpDelete("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult> DeleteEmployeePhoneNumberNonConventional(System.Guid key, System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            throw new Nox.Exceptions.BadRequestException(ModelState);
-        }
-        var result = await _mediator.Send(new DeleteEmployeePhoneNumbersForEmployeeCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey)));
-        
-        return NoContent();
     }
     
     protected async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumbers(System.Guid key, EmployeePhoneNumberKeyDto childKeyDto)

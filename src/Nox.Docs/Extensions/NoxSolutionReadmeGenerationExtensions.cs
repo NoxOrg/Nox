@@ -1,5 +1,7 @@
 ﻿using Nox.Docs.Models;
 using Nox.Solution;
+using System;
+using System.IO;
 
 namespace Nox.Docs.Extensions;
 
@@ -27,7 +29,12 @@ public static class NoxSolutionReadmeGenerationExtensions
         CreateFolderIfDoesNotExist(filePath);
 
         // make sure all newlines are cr+lf - messes with git otherwise
+        //. net standard
+#if (NET6_0_OR_GREATER)
         var sanitizedContent = fileContent.ReplaceLineEndings("\r\n");
+#else   
+        var sanitizedContent = fileContent.Replace("\r\n", "\n").Replace("\r", "\n"); 
+#endif
 
         File.WriteAllText(filePath, sanitizedContent);
     }

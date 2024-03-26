@@ -67,20 +67,22 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 			if(entityDto.Id is null)
 			{
 				entity = await CreateEntityAsync(entityDto, parentEntity, request.CultureCode);
+				parentEntity.CreateCountryLocalNames(entity);
 			}
 			else
 			{
 				var ownedId = Dto.CountryLocalNameMetadata.CreateId(entityDto.Id.NonNullValue<System.Int64>());
 				entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 				if (entity is null)
+				{
 					throw new EntityNotFoundException("CountryLocalName",  $"ownedId");
+				}
 				else
+				{
 					await _entityFactory.UpdateEntityAsync(entity, entityDto, request.CultureCode);
-
-				parentEntity.DeleteRefToCountryLocalNames(entity);
+				}
 			}
 
-			parentEntity.CreateRefToCountryLocalNames(entity);
 			entities.Add(entity);
 		}
 
@@ -95,14 +97,14 @@ internal partial class UpdateCountryLocalNamesForCountryCommandHandlerBase : Com
 	private async Task<CountryLocalNameEntity> CreateEntityAsync(CountryLocalNameUpsertDto upsertDto, CountryEntity parent, Nox.Types.CultureCode cultureCode)
 	{
 		var entity = await _entityFactory.CreateEntityAsync(upsertDto, cultureCode);
-		parent.CreateRefToCountryLocalNames(entity);
+		parent.CreateCountryLocalNames(entity);
 		return entity;
 	}
 }
 
-public class UpdateCountryLocalNamesForCountryValidator : AbstractValidator<UpdateCountryLocalNamesForCountryCommand>
+public class UpdateCountryLocalNamesForCountryCommandValidator : AbstractValidator<UpdateCountryLocalNamesForCountryCommand>
 {
-    public UpdateCountryLocalNamesForCountryValidator()
+    public UpdateCountryLocalNamesForCountryCommandValidator()
     {
     }
 }

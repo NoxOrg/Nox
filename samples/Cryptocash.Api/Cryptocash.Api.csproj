@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <IsPackable>false</IsPackable>
+	<UsingTask TaskName="Nox.Generator.Tasks.NoxGeneratorTask" AssemblyFile="..\..\src\Nox.Generator.Tasks\bin\Debug\netstandard2.0\Nox.Generator.Tasks.dll" />
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IsPackable>false</IsPackable>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    </PropertyGroup>
+	</PropertyGroup>
 
 	<PropertyGroup>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
 	</PropertyGroup>
-	
+
 	<Target Name="CleanSourceGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
 		<RemoveDir Directories="Generated" />
 	</Target>
@@ -28,225 +28,43 @@
 		</AdditionalFiles>
 		<AdditionalFiles Include="../.nox/docs/**/*.md" LinkBase="Docs">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\cryptocash.solution.nox.yaml">
-		  <Link>.nox\design\cryptocash.solution.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\cryptocash.infrastructure.nox.yaml">
-		  <Link>.nox\design\infrastructure\cryptocash.infrastructure.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\monitoring\cryptocash.monitoring.nox.yaml">
-		  <Link>.nox\design\infrastructure\monitoring\cryptocash.monitoring.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\endpoints\cryptocash.endpoints.nox.yaml">
-		  <Link>.nox\design\infrastructure\endpoints\cryptocash.endpoints.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\messaging\cryptocash.messaging.nox.yaml">
-		  <Link>.nox\design\infrastructure\messaging\cryptocash.messaging.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\dependencies\cryptocash.dependencies.nox.yaml">
-		  <Link>.nox\design\infrastructure\dependencies\cryptocash.dependencies.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\dependencies\dataConnections\NoxReferenceData.dataConnection.nox.yaml">
-		  <Link>.nox\design\infrastructure\dependencies\dataConnections\NoxReferenceData.dataConnection.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\infrastructure\persistence\cryptocash.persistence.nox.yaml">
-		  <Link>.nox\design\infrastructure\persistence\cryptocash.persistence.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\presentation\cryptocash.presentation.nox.yaml">
-		  <Link>.nox\design\presentation\cryptocash.presentation.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\presentation\apiConfiguration\cryptocash.apiConfiguration.nox.yaml">
-		  <Link>.nox\design\presentation\apiConfiguration\cryptocash.apiConfiguration.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\presentation\apiConfiguration\apiRouteMappings\countriesByName.apiRouteMapping.nox.yaml">
-		  <Link>.nox\design\presentation\apiConfiguration\apiRouteMappings\countriesByName.apiRouteMapping.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\application\cryptocash.application.nox.yaml">
-		  <Link>.nox\design\application\cryptocash.application.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\cryptocash.domain.nox.yaml">
-		  <Link>.nox\design\domain\cryptocash.domain.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\ExchangeRate.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\ExchangeRate.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Customer.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Customer.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Holiday.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Holiday.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\PaymentProvider.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\PaymentProvider.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\BankNote.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\BankNote.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\CashStockOrder.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\CashStockOrder.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\EmployeePhoneNumber.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\EmployeePhoneNumber.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Commission.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Commission.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Transaction.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Transaction.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\VendingMachine.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\VendingMachine.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Landlord.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Landlord.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Country.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Country.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Currency.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Currency.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Employee.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Employee.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\MinimumCashStock.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\MinimumCashStock.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\Booking.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\Booking.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\CountryTimeZone.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\CountryTimeZone.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\design\domain\entities\PaymentDetail.entity.nox.yaml">
-		  <Link>.nox\design\domain\entities\PaymentDetail.entity.nox.yaml</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\CustomApiRoutes.md">
-		  <Link>.nox\docs\CustomApiRoutes.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\README.md">
-		  <Link>.nox\docs\README.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\IntegrationEvents.md">
-		  <Link>.nox\docs\IntegrationEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\LandLordEndpoints.md">
-		  <Link>.nox\docs\endpoints\LandLordEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\CustomerEndpoints.md">
-		  <Link>.nox\docs\endpoints\CustomerEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\CommissionEndpoints.md">
-		  <Link>.nox\docs\endpoints\CommissionEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\CountryEndpoints.md">
-		  <Link>.nox\docs\endpoints\CountryEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\VendingMachineEndpoints.md">
-		  <Link>.nox\docs\endpoints\VendingMachineEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\CashStockOrderEndpoints.md">
-		  <Link>.nox\docs\endpoints\CashStockOrderEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\MinimumCashStockEndpoints.md">
-		  <Link>.nox\docs\endpoints\MinimumCashStockEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\PaymentDetailEndpoints.md">
-		  <Link>.nox\docs\endpoints\PaymentDetailEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\TransactionEndpoints.md">
-		  <Link>.nox\docs\endpoints\TransactionEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\BookingEndpoints.md">
-		  <Link>.nox\docs\endpoints\BookingEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\PaymentProviderEndpoints.md">
-		  <Link>.nox\docs\endpoints\PaymentProviderEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\CurrencyEndpoints.md">
-		  <Link>.nox\docs\endpoints\CurrencyEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\endpoints\EmployeeEndpoints.md">
-		  <Link>.nox\docs\endpoints\EmployeeEndpoints.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\CashStockOrderDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\CashStockOrderDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\VendingMachineDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\VendingMachineDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\BankNoteDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\BankNoteDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\CountryDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\CountryDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\CustomerDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\CustomerDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\ExchangeRateDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\ExchangeRateDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\CurrencyDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\CurrencyDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\PaymentProviderDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\PaymentProviderDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\EmployeeDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\EmployeeDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\EmployeePhoneNumberDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\EmployeePhoneNumberDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\CommissionDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\CommissionDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\LandLordDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\LandLordDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\CountryTimeZoneDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\CountryTimeZoneDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\MinimumCashStockDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\MinimumCashStockDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\PaymentDetailDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\PaymentDetailDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\BookingDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\BookingDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\HolidayDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\HolidayDomainEvents.md</Link>
-		</AdditionalFiles>
-		<AdditionalFiles Update="..\.nox\docs\domainEvents\TransactionDomainEvents.md">
-		  <Link>.nox\docs\domainEvents\TransactionDomainEvents.md</Link>
-		</AdditionalFiles>
+		</AdditionalFiles>		
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AdditionalFiles Include="generator.nox.yaml" />
+		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 
-   <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
-        <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.2.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
 
-    <ItemGroup>
-	    <ProjectReference Include="..\..\src\Nox.Core\Nox.Core.csproj" />
-	    <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
-	    <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
-	    <ProjectReference Include="..\Cryptocash.Application\Cryptocash.Application.csproj" />
-	    <ProjectReference Include="..\Cryptocash.Infrastructure\Cryptocash.Infrastructure.csproj" />
-     </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Nox.Core\Nox.Core.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+		<ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+		<ProjectReference Include="..\Cryptocash.Application\Cryptocash.Application.csproj" />
+		<ProjectReference Include="..\Cryptocash.Infrastructure\Cryptocash.Infrastructure.csproj" />
+	</ItemGroup>
+  <PropertyGroup>
+    <OutputDirectory>Nox.Generated</OutputDirectory>
+  </PropertyGroup>
+	<ItemGroup>
+		<InputFiles Include="../.nox/design/**/*.yaml" />
+		<InputFiles Include="*generator.nox.yaml" />
+	</ItemGroup>
+	<Target Name="NoxGeneratorBeforeTarget" BeforeTargets="CoreCompile" Inputs="@(InputFiles)" Outputs="$(OutputDirectory)">
+		<NoxGeneratorTask NoxYamlFiles="@(InputFiles)" OutputDirectory="$(OutputDirectory)"></NoxGeneratorTask>
+	</Target>
 
+	<Target Name="NoxGeneratorAfterTarget" AfterTargets="CoreClean">
+		<RemoveDir Directories="$(OutputDirectory)" />
+	</Target>
 </Project>

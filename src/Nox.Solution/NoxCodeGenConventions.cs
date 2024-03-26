@@ -9,12 +9,17 @@ public class NoxCodeGenConventions
 {
     private readonly NoxSolution _noxSolution;
 
-    public NoxCodeGenConventions(NoxSolution noxSolution)
+    public NoxCodeGenConventions(NoxSolution noxSolution, string solutionPath)
     {
         _noxSolution = noxSolution;
+        SolutionPath = solutionPath;
     }
 
     public NoxSolution Solution => _noxSolution;
+    /// <summary>
+    /// Entry yaml file for the solution
+    /// </summary>
+    public string SolutionPath { get; }
     public string RootNameSpace => _noxSolution.Name;
     public string DomainNameSpace => $"{RootNameSpace}.Domain";
     public string DomainNamespaceAlias => $"{RootNameSpace}Domain";
@@ -59,6 +64,7 @@ public class NoxCodeGenConventions
     /// </summary>
     public string GetEntityNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
     public string GetEntityDtoNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}LocalizedDto";
+    public string GetEntityDtoNameForUpsertLocalizedEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}LocalizedUpsertDto";
     /// <summary>
     /// Computes the Entity Name that holds the translated values of an localized entity.
     /// </summary>
@@ -76,6 +82,7 @@ public class NoxCodeGenConventions
     /// Localization culture field name.
     /// </summary>
     public string LocalizationCultureField => "CultureCode";
+    
 
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
 

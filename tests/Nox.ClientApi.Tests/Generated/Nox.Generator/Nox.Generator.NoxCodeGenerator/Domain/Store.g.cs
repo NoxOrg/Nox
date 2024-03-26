@@ -284,7 +284,7 @@ public abstract partial class StoreBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Creates a new EmailAddress entity.
     /// </summary>
-    public virtual void CreateRefToEmailAddress(EmailAddress relatedEmailAddress)
+    public virtual void CreateEmailAddress(EmailAddress relatedEmailAddress)
     {
         EmailAddress = relatedEmailAddress;
     }
@@ -292,7 +292,7 @@ public abstract partial class StoreBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes owned EmailAddress entity.
     /// </summary>
-    public virtual void DeleteRefToEmailAddress(EmailAddress relatedEmailAddress)
+    public virtual void DeleteEmailAddress(EmailAddress relatedEmailAddress)
     {
         EmailAddress = null;
     }
@@ -300,7 +300,7 @@ public abstract partial class StoreBase : AuditableEntityBase, IEtag
     /// <summary>
     /// Deletes all owned EmailAddress entities.
     /// </summary>
-    public virtual void DeleteAllRefToEmailAddress()
+    public virtual void DeleteAllEmailAddress()
     {
         EmailAddress = null;
     }

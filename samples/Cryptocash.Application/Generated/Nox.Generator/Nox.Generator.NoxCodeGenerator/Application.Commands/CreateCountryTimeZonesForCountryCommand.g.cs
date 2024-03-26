@@ -60,7 +60,7 @@ internal abstract class CreateCountryTimeZonesForCountryCommandHandlerBase : Com
 		}
 
 		var entity = await RntityFactory.CreateEntityAsync(request.EntityDto, request.CultureCode);
-		parentEntity.CreateRefToCountryTimeZones(entity);
+		parentEntity.CreateCountryTimeZones(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

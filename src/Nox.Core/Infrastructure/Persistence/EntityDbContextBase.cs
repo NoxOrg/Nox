@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Linq.Dynamic.Core;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -270,6 +271,25 @@ namespace Nox.Infrastructure.Persistence
             }
             return entity;
         }
+
+        async ValueTask<T?> IRepository.FindAndIncludeAsync<T, TProperty, TChildProperty>(object?[]? keyValues,
+            Expression<Func<T, IEnumerable<TProperty>>> includeExpression,
+            Expression<Func<TProperty, IEnumerable<TChildProperty>>> thenIncludeExpression, CancellationToken cancellationToken)
+            where T : class
+            where TProperty : class
+            where TChildProperty : class
+        {
+            var entity = await Set<T>().FindAsync(keyValues, cancellationToken);
+            if (entity is not null)
+            {                
+                await Entry(entity)
+                    .Collection(includeExpression)
+                    .Query().Include(thenIncludeExpression)
+                    .LoadAsync(cancellationToken);
+            }
+            return entity;
+        }
+    
         async ValueTask<T?> IRepository.FindAndIncludeAsync<T>(object?[]? keyValues, Expression<Func<T, object?>> includeExpression, CancellationToken cancellationToken) where T : class
         {
             var entity = await Set<T>().FindAsync(keyValues, cancellationToken);
@@ -279,7 +299,23 @@ namespace Nox.Infrastructure.Persistence
             }
             return entity;
         }
-
+        
+        async ValueTask<T?> IRepository.FindAndIncludeAsync<T, TProperty, TChildProperty>(object?[]? keyValues,
+            Expression<Func<T, TProperty?>> includeExpression,
+            Expression<Func<TProperty, IEnumerable<TChildProperty>>> thenIncludeExpression, CancellationToken cancellationToken)
+            where T : class
+            where TProperty : class
+            where TChildProperty : class
+        {
+            var entity = await Set<T>().FindAsync(keyValues, cancellationToken);
+            if (entity is not null)
+            {                
+                await Entry(entity).Reference(includeExpression)
+                    .Query().Include(thenIncludeExpression)
+                    .LoadAsync(cancellationToken);
+            }
+            return entity;
+        }
         async ValueTask<T> IRepository.AddAsync<T>(T entity, CancellationToken cancellationToken)
         {
             var entry = await AddAsync(entity, cancellationToken);

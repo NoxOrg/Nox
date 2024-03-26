@@ -7,6 +7,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Domain;
+using Nox.Exceptions;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Abstractions.Extensions;
@@ -19,7 +20,7 @@ namespace {{codeGenConventions.ApplicationNameSpace}}.Commands;
 
 {{-deleteCommand = 'Delete' +  (entity.PluralName) +  (Pluralize (enumAtt.Attribute.Name)) + 'TranslationsCommand' }}
 {{-enumEntity = enumAtt.EntityNameForLocalizedEnumeration }}
-public partial record  {{deleteCommand}}(Nox.Types.CultureCode {{codeGenConventions.LocalizationCultureField}}) : IRequest<bool>;
+public partial record  {{deleteCommand}}(Enumeration Id, Nox.Types.CultureCode {{codeGenConventions.LocalizationCultureField}}) : IRequest<bool>;
 
 internal partial class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
 {
@@ -29,7 +30,7 @@ internal partial class {{deleteCommand}}Handler : {{deleteCommand}}HandlerBase
 	{
 	}
 }
-internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{deleteCommand}}, {{enumEntity}}>, IRequestHandler<{{deleteCommand}}, bool>
+internal abstract class {{deleteCommand}}HandlerBase : CommandBase<{{deleteCommand}}, {{enumEntity}}>, IRequestHandler<{{deleteCommand}}, bool>
 {
 	public IRepository Repository { get; }
 
@@ -44,19 +45,19 @@ internal abstract class {{deleteCommand}}HandlerBase : CommandCollectionBase<{{d
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
+		
+		var enumEntity = await Repository.FindAsync<{{entity.Name}}{{enumAtt.Attribute.Name}}>(command.Id, cancellationToken);
+        EntityNotFoundException.ThrowIfNull(enumEntity, "{{enumEntity}}", command.Id.Value.ToString());
 
-		var localizedEnums = await Repository.Query<{{entity.Name}}{{enumAtt.Attribute.Name}}Localized>().Where(x => x.CultureCode == command.CultureCode).ToListAsync(cancellationToken);
+		var localizedEnum = await Repository.Query<{{entity.Name}}{{enumAtt.Attribute.Name}}Localized>()
+			.FirstOrDefaultAsync(x => x.Id == command.Id && x.CultureCode == command.CultureCode, cancellationToken);
+		EntityLocalizationNotFoundException.ThrowIfNull(localizedEnum, "{{enumEntity}}",  command.Id.Value.ToString(), command.{{codeGenConventions.LocalizationCultureField}}.ToString());
 		
-		if(!localizedEnums.Any())
-		{
-			return false;
-		}
-		
-		await OnCompletedAsync(command, localizedEnums);
-		
-		Repository.DeleteRange(localizedEnums);
-		
-		await Repository.SaveChangesAsync(cancellationToken);
+		Repository.Delete(localizedEnum);
+
+        await OnCompletedAsync(command, localizedEnum);
+        await Repository.SaveChangesAsync(cancellationToken);
+
 		return true;
 	}
 }

@@ -1,4 +1,7 @@
-﻿namespace Nox.Docs.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Nox.Docs.Models;
 
 public class MarkdownFile
 {

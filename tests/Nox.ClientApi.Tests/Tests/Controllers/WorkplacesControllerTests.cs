@@ -805,8 +805,8 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateEtagHeader(postResult!.Etag),
                 CreateAcceptLanguageHeader("en-US"));
 
-            var localizedDto = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/WorkplacesLocalized/tr-TR", upsertDto, headers, false);
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages"))?.ToList();
+            var localizedDto = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages/tr-TR", upsertDto, headers, false);
+            var localizations = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}/Languages"))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
@@ -839,7 +839,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 upsertDto,
                 headers, false);
 
@@ -854,7 +854,7 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             var newWorkplace = await CreateWorkplaceAndGetId();
 
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
+            var localizations = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
                 $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages",
                 CreateAcceptLanguageHeader("en-US")))?.ToList();
 
@@ -862,6 +862,44 @@ namespace ClientApi.Tests.Tests.Controllers
             localizations.Should().NotBeNull();
             localizations.Should().NotBeEmpty();
             localizations.Should().Contain(l => l.Id == newWorkplace.Id);
+        }
+
+        [Fact] 
+        public async Task GetOwnedEntityLocalizations_WithIrregularPluralName_Success()
+        {
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Example Workplace",
+                Description = "Description of Example Workplace.",
+                WorkplaceAddresses = new List<WorkplaceAddressUpsertDto> { new WorkplaceAddressUpsertDto { AddressLine = "123 Main St", Id = System.Guid.NewGuid()  } }
+            };
+
+            var workplace = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                Endpoints.WorkplacesUrl,
+                createDto,
+                CreateAcceptLanguageHeader("en-US"));
+
+            var upsertWorkplaceAddressLocalization = new WorkplaceAddressLocalizedUpsertDto
+            {
+                Id = createDto.WorkplaceAddresses[0].Id,
+                AddressLine = "123 R. principale",
+            };
+
+            await PutAsync<WorkplaceAddressLocalizedUpsertDto, WorkplaceAddressLocalizedDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplace!.Id}/WorkplaceAddresses/{createDto.WorkplaceAddresses![0].Id}/Languages/fr-FR",
+                upsertWorkplaceAddressLocalization, null, false);
+
+            // Act
+            var workplaceAddressesLocalizations = await GetResponseAsync<List<WorkplaceAddressLocalizedDto>>(
+                $"{Endpoints.WorkplacesUrl}/{workplace!.Id}/WorkplaceAddresses/{createDto.WorkplaceAddresses![0].Id}/Languages",
+                CreateAcceptLanguageHeader("fr-FR"));
+
+            // Assert
+            workplaceAddressesLocalizations.Should().NotBeNull();
+            workplaceAddressesLocalizations.Should().HaveCount(2);
+            workplaceAddressesLocalizations.Should().Contain(x => x.CultureCode == "en-US");
+            workplaceAddressesLocalizations!.First(x => x.CultureCode == "en-US").AddressLine.Should().Be("123 Main St");
+            workplaceAddressesLocalizations!.First(x => x.CultureCode == "fr-FR").AddressLine.Should().Be("123 R. principale");
         }
 
         [Fact]
@@ -880,7 +918,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(frCultureCode));
 
             await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{frCultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{frCultureCode}",
                 frUpsertDto,
                 headers, false);
 
@@ -894,21 +932,17 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(trCultureCode));
             
             await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{trCultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{trCultureCode}",
                 trUpsertDto,
                 headers, false);
             
             // Act
-            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages?$filter=CultureCode eq '{frCultureCode}'"))?.ToList();
+            var result = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>($"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages?$filter=CultureCode eq '{frCultureCode}'"))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
             result.Should().ContainSingle(l => l.Id == newWorkplace.Id && l.CultureCode == frCultureCode && l.Description == frUpsertDto.Description);
-            ////localizations.Should().NotBeNull();
-            ////localizations.Should().HaveCount(2);
-            ////localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "fr-FR" && l.Description == frCreateDto.Description);
-            ////localizations.Should().ContainSingle(l => l.Id == postResult!.Id && l.CultureCode == "tr-TR" && l.Description == upsertDto.Description);
         }
 
         [Fact]
@@ -930,7 +964,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             var initialPutResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 initialUpsertDto,
                 headers, false);
 
@@ -944,7 +978,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var putResult = await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 upsertDto,
                 headers, false);
 
@@ -952,7 +986,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult!.Description.Should().Be(updatedDescription);
 
             // Get all localizations
-            var localizations = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
+            var localizations = (await GetResponseAsync<IEnumerable<WorkplaceLocalizedDto>>(
                 $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages",
                 CreateAcceptLanguageHeader("en-US")))?.ToList();
 
@@ -1001,12 +1035,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 CreateAcceptLanguageHeader(cultureCode));
 
             await PutAsync<WorkplaceLocalizedUpsertDto, WorkplaceLocalizedDto>(
-                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/WorkplacesLocalized/{cultureCode}",
+                $"{Endpoints.WorkplacesUrl}/{newWorkplace.Id}/Languages/{cultureCode}",
                 upsertDto,
                 headers, false);
 
             // Act
-            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/{cultureCode}");
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/Languages/{cultureCode}");
             var arResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang={cultureCode}", CreateAcceptLanguageHeader(cultureCode)))?.ToList();
 
             // Assert
@@ -1024,7 +1058,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var newWorkplace = await CreateWorkplaceAndGetId();
 
             // Act
-            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/WorkplacesLocalized/en-US", false);
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{newWorkplace!.Id}/Languages/en-US", false);
 
             // Assert
             deleteResult!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -1084,18 +1118,12 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task CreateWorkplace_WithLocalizedOwnershipId_ReturnsLocalizedOwnershipIdAndName()
         {
             // Arrange
-            await PutAsync($"{Endpoints.WorkplacesUrl}/WorkplaceOwnershipsLocalized", new EnumerationLocalizedListDto<WorkplaceOwnershipLocalizedDto>
+            
+            await PutAsync($"{Endpoints.WorkplacesUrl}/Ownerships/1000/Languages/fr-FR", new WorkplaceOwnershipLocalizedUpsertDto()
             {
-                Items = new List<WorkplaceOwnershipLocalizedDto>
-                {
-                    new() 
-                    {
-                        Id = 1000,
-                        CultureCode = "fr-FR",
-                        Name = "Entièrement possédé"
-                    }
-                }
+                Name = "Entièrement possédé"
             });
+
 
             var createDto = new WorkplaceCreateDto
             {

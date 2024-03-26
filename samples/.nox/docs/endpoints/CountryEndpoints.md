@@ -48,7 +48,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update CountryTimeZone
 - **PUT** `/api/Countries/{key}/CountryTimeZones`
-  - Description: Update an existing CountryTimeZone for a specific Country.
+  - Description: Update many CountryTimeZone for a specific Country.
+#### Update CountryTimeZone By Id
+- **PUT** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+  - Description: Update an existing CountryTimeZone by ID for a specific Country.
   
 #### Partially Update CountryTimeZone
 - **PATCH** `/api/Countries/{key}/CountryTimeZones`
@@ -72,7 +75,10 @@ This document provides information about the various endpoints available in our 
 
 #### Update Holiday
 - **PUT** `/api/Countries/{key}/Holidays`
-  - Description: Update an existing Holiday for a specific Country.
+  - Description: Update many Holiday for a specific Country.
+#### Update Holiday By Id
+- **PUT** `/api/Countries/{key}/Holidays/{relatedKey}`
+  - Description: Update an existing Holiday by ID for a specific Country.
   
 #### Partially Update Holiday
 - **PATCH** `/api/Countries/{key}/Holidays`
