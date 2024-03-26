@@ -1063,7 +1063,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getCountryResponse!.CountryLocalNames.Should().NotBeNull();
         getCountryResponse!.CountryLocalNames!.Should().HaveCount(3);
     }
-#if RELEASE //Issue in Postgres
+
     [Fact]
     public async Task Put_WithCountryLocalNames_FromListToEmpty_Success()
     {
@@ -1100,6 +1100,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getCountryResponse!.CountryLocalNames.Should().NotBeNull();
         getCountryResponse!.CountryLocalNames!.Should().HaveCount(0);
     }
+
     [Fact]
     public async Task Put_WithCountryLocalNames_FromListToList_Success()
     {
@@ -1149,7 +1150,7 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         getCountryResponse!.CountryLocalNames!.First(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(1).Id)!.Name.Should().Be(expectedName);
         getCountryResponse!.CountryLocalNames!.Should().NotContain(x => x.Id == initialGetCountryResponse!.CountryLocalNames.ElementAt(2).Id);
     }
-#endif
+
     [Fact]
     public async Task Put_WithCountryLocalNames_InvalidId_Fails()
     {
@@ -1445,7 +1446,6 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
     #region DELETE
 
     #region DELETE Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
-#if RELEASE //Issue in Postgres
     [Fact]
     public async Task Delete_OwnedEntityViaParentKey_DeletesOwnedEntity()
     {
@@ -1470,7 +1470,6 @@ public partial class CountriesControllerTests : NoxWebApiTestBase
         countryResponse.Should().NotBeNull();
         countryResponse!.CountryLocalNames.Should().BeEmpty();
     }
-#endif
     #endregion DELETE Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
 
     #region DELETE [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode

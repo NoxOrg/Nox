@@ -57,9 +57,9 @@ internal partial class DeleteExchangeRatesForCurrencyCommandHandlerBase : Comman
 		{
 			throw new EntityNotFoundException("ExchangeRate.ExchangeRates",  $"ownedId");
 		}
-		parentEntity.ExchangeRates.Remove(entity);
+		parentEntity.DeleteExchangeRates(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

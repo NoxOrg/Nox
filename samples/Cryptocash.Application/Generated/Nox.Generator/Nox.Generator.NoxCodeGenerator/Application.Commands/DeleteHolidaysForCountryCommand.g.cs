@@ -57,9 +57,9 @@ internal partial class DeleteHolidaysForCountryCommandHandlerBase : CommandBase<
 		{
 			throw new EntityNotFoundException("Holiday.Holidays",  $"ownedId");
 		}
-		parentEntity.Holidays.Remove(entity);
+		parentEntity.DeleteHolidays(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

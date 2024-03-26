@@ -57,9 +57,9 @@ internal partial class DeleteCountryTimeZonesForCountryCommandHandlerBase : Comm
 		{
 			throw new EntityNotFoundException("CountryTimeZone.CountryTimeZones",  $"ownedId");
 		}
-		parentEntity.CountryTimeZones.Remove(entity);
+		parentEntity.DeleteCountryTimeZones(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

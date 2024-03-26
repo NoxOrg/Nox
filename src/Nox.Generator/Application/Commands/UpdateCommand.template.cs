@@ -76,7 +76,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		entity.Etag = request.Etag ?? System.Guid.Empty;
 		{{- end }}
 		
 		await OnCompletedAsync(request, entity);		

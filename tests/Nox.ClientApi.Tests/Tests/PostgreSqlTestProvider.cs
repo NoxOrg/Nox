@@ -22,6 +22,6 @@ public class PostgreSqlTestProvider : PostgresDatabaseProvider
         return optionsBuilder.UseNpgsql(ConnectionString, opts =>
         {
             opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
-        });
+        }).EnableDetailedErrors();
     }
 }

@@ -66,7 +66,7 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 		}
 
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		entity.Etag = request.Etag ?? System.Guid.Empty;
 		
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();

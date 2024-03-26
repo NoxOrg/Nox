@@ -57,9 +57,9 @@ internal partial class DeleteCountryLocalNamesForCountryCommandHandlerBase : Com
 		{
 			throw new EntityNotFoundException("CountryLocalName.CountryLocalNames",  $"ownedId");
 		}
-		parentEntity.CountryLocalNames.Remove(entity);
+		parentEntity.DeleteCountryLocalNames(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);
