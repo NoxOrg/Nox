@@ -15,6 +15,7 @@ Member|Type|Description
 Name|Text|Teanant Brand Name
 Description|Text|Teanant Brand Description
 Email|Email|Teanant Brand Email
+Status|Enumeration|Tenant Contact Status
 
 
 ### `TenantContactUpdated`
@@ -28,6 +29,7 @@ Member|Type|Description
 Name|Text|Teanant Brand Name
 Description|Text|Teanant Brand Description
 Email|Email|Teanant Brand Email
+Status|Enumeration|Tenant Contact Status
 
 
 ### `TenantContactDeleted`
@@ -41,4 +43,5 @@ Member|Type|Description
 Name|Text|Teanant Brand Name
 Description|Text|Teanant Brand Description
 Email|Email|Teanant Brand Email
+Status|Enumeration|Tenant Contact Status
 

@@ -10728,49 +10728,6 @@
       }
     },
     "/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}": {
-      "delete": {
-        "tags": [
-          "Countries"
-        ],
-        "operationId": "DELETE_api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}",
-        "parameters": [
-          {
-            "name": "relatedKey",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "cultureCode",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "description": "Concurrency check id",
-            "style": "simple",
-            "schema": {
-              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
       "put": {
         "tags": [
           "Countries"
@@ -11217,6 +11174,49 @@
                 }
               }
             }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "DELETE_api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}",
+        "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -66628,6 +66628,96 @@
         }
       }
     },
+    "/api/v1/Tenants/TenantBrands/Statuses/{relatedKey}/Languages/{cultureCode}": {
+      "delete": {
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "DELETE_api/v1/Tenants/TenantBrands/Statuses/{relatedKey}/Languages/{cultureCode}",
+        "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/v1/Tenants/TenantContact/Statuses/{relatedKey}/Languages/{cultureCode}": {
+      "delete": {
+        "tags": [
+          "Tenants"
+        ],
+        "operationId": "DELETE_api/v1/Tenants/TenantContact/Statuses/{relatedKey}/Languages/{cultureCode}",
+        "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/v1/Tenants/{key}/TenantBrands": {
       "delete": {
         "tags": [
@@ -77887,49 +77977,6 @@
       }
     },
     "/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}": {
-      "delete": {
-        "tags": [
-          "Workplaces"
-        ],
-        "operationId": "DELETE_api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}",
-        "parameters": [
-          {
-            "name": "relatedKey",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "cultureCode",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "If-Match",
-            "in": "header",
-            "description": "Concurrency check id",
-            "style": "simple",
-            "schema": {
-              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
       "put": {
         "tags": [
           "Workplaces"
@@ -78376,6 +78423,49 @@
                 }
               }
             }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Workplaces"
+        ],
+        "operationId": "DELETE_api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}",
+        "parameters": [
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cultureCode",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "description": "Concurrency check id",
+            "style": "simple",
+            "schema": {
+              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$",
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -114322,6 +114412,15 @@
           "description": {
             "type": "string",
             "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -114384,6 +114483,11 @@
           "description": {
             "minLength": 1,
             "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -114403,6 +114507,11 @@
           "description": {
             "minLength": 1,
             "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -114432,6 +114541,15 @@
             "nullable": true
           },
           "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "statusName": {
             "type": "string",
             "nullable": true
           }
@@ -114489,6 +114607,11 @@
           "email": {
             "minLength": 1,
             "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -114507,6 +114630,11 @@
           "email": {
             "minLength": 1,
             "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false

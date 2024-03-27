@@ -101,6 +101,8 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
             Dto.TenantBrandMetadata.CreateName(createDto.Name.NonNullValue<System.String>())));
         exceptionCollector.Collect("Description", () => entity.SetIfNotNull(createDto.Description, (entity) => entity.Description = 
             Dto.TenantBrandMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Status", () => entity.SetIfNotNull(createDto.Status, (entity) => entity.Status = 
+            Dto.TenantBrandMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -111,6 +113,14 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
         ExceptionCollector<NoxTypeValidationException> exceptionCollector = new();
         exceptionCollector.Collect("Name",() => entity.Name = Dto.TenantBrandMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = Dto.TenantBrandMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
+        if(updateDto.Status is null)
+        {
+             entity.Status = null;
+        }
+        else
+        {
+            exceptionCollector.Collect("Status",() =>entity.Status = Dto.TenantBrandMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
+        }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -133,6 +143,15 @@ internal abstract class TenantBrandFactoryBase : IEntityFactory<TenantBrandEntit
             ArgumentNullException.ThrowIfNull(DescriptionUpdateValue, "Attribute 'Description' can't be null.");
             {
                 exceptionCollector.Collect("Description",() =>entity.Description = Dto.TenantBrandMetadata.CreateDescription(DescriptionUpdateValue));
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Status", out var StatusUpdateValue))
+        {
+            if (StatusUpdateValue == null) { entity.Status = null; }
+            else
+            {
+                exceptionCollector.Collect("Status",() =>entity.Status = Dto.TenantBrandMetadata.CreateStatus(StatusUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

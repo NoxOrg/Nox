@@ -42,4 +42,10 @@ public abstract class TenantBrandUpsertDtoBase: EntityDtoBase
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Description is required")]
     public virtual System.String? Description { get; set; }
+
+    /// <summary>
+    /// Tenant Brand Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual System.Int32? Status { get; set; }
 }

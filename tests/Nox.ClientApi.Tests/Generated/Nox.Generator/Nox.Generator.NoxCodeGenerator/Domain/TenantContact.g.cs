@@ -91,6 +91,12 @@ public abstract partial class TenantContactBase : EntityBase, IOwnedEntity
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.Email Email { get;  set; } = null!;
+
+    /// <summary>
+    /// Tenant Contact Status    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Status { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

@@ -118,6 +118,12 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **DELETE** `/api/v1/Countries/{key}/Languages/{cultureCode}`
     - Description: Delete the translations for a specific culture code for a specific Country.
 
+- **DELETE** `/api/v1/Countries/CountryBarCode/Statuses/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific Status and culture code in CountryBarCode.
+
+- **DELETE** `/api/v1/Countries/CountryLocalNames/Statuses/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific Status and culture code in CountryLocalNames.
+
 
 ## Related Entities
 

@@ -1,4 +1,5 @@
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using Nox.Docs.Extensions;
 using FluentAssertions;
 using Scriban;
@@ -30,24 +31,32 @@ public class ScribanTemplateExtensionsTests
             .Build();
 
         var entity = noxSolution.Domain!.Entities.First(x => x.Name == "Country");
-        
-        var enumerationAttributes =
-            entity
-                .Attributes
-                .Where(attribute => attribute.Type == NoxType.Enumeration)
-                .Select(attribute => new {
-                    Attribute = attribute,
-                    EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
-                    EntityNameForLocalizedEnumeration =  $"{entity.Name}{attribute.Name}LocalizedDto",
-                    IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true,
-                    EntityDtoNameForUpsertLocalizedEnumeration = $"{entity.Name}{attribute.Name}UpsertLocalizedDto"
-                });
+
+        var enumerationAttributes = entity.Attributes
+            .Where(attribute => attribute.Type == NoxType.Enumeration)
+            .Select(attribute => new
+            {
+                Attribute = attribute,
+                EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
+                EntityNameForLocalizedEnumeration = $"{entity.Name}{attribute.Name}LocalizedDto",
+                IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true,
+                EntityDtoNameForUpsertLocalizedEnumeration = $"{entity.Name}{attribute.Name}UpsertLocalizedDto"
+            });
+
+        var ownedEntitiesWithLocalizedAttributes = entity.OwnedRelationships
+            .Select(x => new
+            {
+                IsWithMultiEntity = x.WithMultiEntity,
+                OwnedEntity = x.Related.Entity,
+                LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
+            });
 
         var model = new Dictionary<string, object>
         {
             ["apiRoutePrefix"] = noxSolution.Presentation!.ApiConfiguration!.ApiRoutePrefix,
             ["entity"] = entity,
             ["enumerationAttributes"] = enumerationAttributes,
+            ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
         };
 
         var template = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();

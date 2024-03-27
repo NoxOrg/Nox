@@ -144,12 +144,16 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **DELETE** `/api/v1/Tenants/{key}/TenantBrands/{relatedKey}/Languages/{cultureCode}` 
     - Description: Delete the localized values of TenantBrandLocalized for a specific culture code in Tenant.
+- **DELETE** `/api/v1/Tenants/TenantBrands/Statuses/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific Status and culture code in TenantBrand.
 
 - **PUT** `/api/v1/Tenants/{key}/TenantContactLocalized/{cultureCode}` 
     - Description: Update or create value of TenantContactLocalized for a specific Tenant. Requires a payload with the new value of TenantContactLocalizedUpsertDto.
 
 - **DELETE** `/api/v1/Tenants/{key}/TenantContact/Languages/{cultureCode}` 
-    - Description: Delete the localized values of TenantContactLocalized for a specific culture code in Tenant.
+    - Description: Delete the localized values of TenantContactLocalized for a specific culture code in Tenant.- **DELETE** `/api/v1/Tenants/TenantContact/Statuses/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific Status and culture code in TenantContact.
+
 
 ## Other Related Endpoints
 

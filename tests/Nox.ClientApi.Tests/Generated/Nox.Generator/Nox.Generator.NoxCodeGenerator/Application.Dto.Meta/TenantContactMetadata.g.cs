@@ -63,6 +63,35 @@ public partial class TenantContactMetadata
         public static Nox.Types.Email CreateEmail(System.String value)
             => Nox.Types.Email.From(value);
         
+    
+        /// <summary>
+        /// Type options for property 'Status'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions StatusTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1,
+                    Name = "Active",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2,
+                    Name = "Inactive",
+                },
+            },
+            IsLocalized = true,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Status'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateStatus(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, StatusTypeOptions);
+        
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
@@ -75,4 +104,8 @@ public partial class TenantContactMetadata
         /// User Interface for property 'Email'
         /// </summary>
         public static TypeUserInterface? EmailUiOptions {get; private set;} = null; 
+        /// <summary>
+        /// User Interface for property 'Status'
+        /// </summary>
+        public static TypeUserInterface? StatusUiOptions {get; private set;} = null; 
 }
