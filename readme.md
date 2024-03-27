@@ -513,6 +513,14 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Response:** Returns the updated or created `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) object.
 - **Query Parameters:** None
 
+#### Owned Entity Enumerations Endpoints
+
+##### DELETE `/api/<EntityPluralName>/<EntityName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/CountryLocalNames/Continents/1/Languages/en-US`)
+- **Description:** Deletes the localized values for a specific enumeration value by ID (e.g. Continents) for a specific culture code in a specific owned entity (e.g. Country Local Name).
+- **Path Parameters:**
+`<relatedKey>`: ID of the enumeration entity to delete translations for.
+`<cultureCode>`: CultureCode specifying language to delete translations for.
+- **Response:** Returns no content.
 
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 

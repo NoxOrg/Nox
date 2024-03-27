@@ -16,6 +16,7 @@ internal static class TenantContactExtensions
         dto.SetIfNotNull(entity?.Name, (dto) => dto.Name =entity!.Name!.Value);
         dto.SetIfNotNull(entity?.Description, (dto) => dto.Description =entity!.Description!.Value);
         dto.SetIfNotNull(entity?.Email, (dto) => dto.Email =entity!.Email!.Value);
+        dto.SetIfNotNull(entity?.Status, (dto) => dto.Status =entity!.Status!.Value);
 
         return dto;
     }

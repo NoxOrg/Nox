@@ -103,6 +103,8 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
             Dto.TenantContactMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>())));
         exceptionCollector.Collect("Email", () => entity.SetIfNotNull(createDto.Email, (entity) => entity.Email = 
             Dto.TenantContactMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>())));
+        exceptionCollector.Collect("Status", () => entity.SetIfNotNull(createDto.Status, (entity) => entity.Status = 
+            Dto.TenantContactMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>())));
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);        
         return await Task.FromResult(entity);
@@ -114,6 +116,14 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
         exceptionCollector.Collect("Name",() => entity.Name = Dto.TenantContactMetadata.CreateName(updateDto.Name.NonNullValue<System.String>()));
         if(IsDefaultCultureCode(cultureCode)) exceptionCollector.Collect("Description",() => entity.Description = Dto.TenantContactMetadata.CreateDescription(updateDto.Description.NonNullValue<System.String>()));
         exceptionCollector.Collect("Email",() => entity.Email = Dto.TenantContactMetadata.CreateEmail(updateDto.Email.NonNullValue<System.String>()));
+        if(updateDto.Status is null)
+        {
+             entity.Status = null;
+        }
+        else
+        {
+            exceptionCollector.Collect("Status",() =>entity.Status = Dto.TenantContactMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
+        }
 
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);
         await Task.CompletedTask;
@@ -144,6 +154,15 @@ internal abstract class TenantContactFactoryBase : IEntityFactory<TenantContactE
             ArgumentNullException.ThrowIfNull(EmailUpdateValue, "Attribute 'Email' can't be null.");
             {
                 exceptionCollector.Collect("Email",() =>entity.Email = Dto.TenantContactMetadata.CreateEmail(EmailUpdateValue));
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Status", out var StatusUpdateValue))
+        {
+            if (StatusUpdateValue == null) { entity.Status = null; }
+            else
+            {
+                exceptionCollector.Collect("Status",() =>entity.Status = Dto.TenantContactMetadata.CreateStatus(StatusUpdateValue));
             }
         }
         CreateUpdateEntityInvalidDataException.ThrowIfAnyNoxTypeValidationException(exceptionCollector.ValidationErrors);

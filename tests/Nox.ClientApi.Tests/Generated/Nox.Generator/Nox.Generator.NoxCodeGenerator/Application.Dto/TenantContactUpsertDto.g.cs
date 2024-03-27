@@ -44,4 +44,10 @@ public abstract class TenantContactUpsertDtoBase: EntityDtoBase
     /// <remarks>Required.</remarks>
     [Required(ErrorMessage = "Email is required")]
     public virtual System.String? Email { get; set; }
+
+    /// <summary>
+    /// Tenant Contact Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public virtual System.Int32? Status { get; set; }
 }
