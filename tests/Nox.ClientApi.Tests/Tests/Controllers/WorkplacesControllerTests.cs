@@ -521,7 +521,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult!.Description.Should().Be(updatDto.Description);
             postResult!.Description.Should().Be(createDto.Description);
 
-            //Etags must be different
+            putResult.Etag.Should().Be(getResult!.Etag);
             postResult.Etag.Should().NotBe(putResult.Etag);
 
         }
