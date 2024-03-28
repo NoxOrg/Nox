@@ -521,13 +521,8 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult!.Description.Should().Be(updatDto.Description);
             postResult!.Description.Should().Be(createDto.Description);
 
-            //Etags must be different
-
-#pragma warning disable S125
-            // Sections of code should not be commented out
-            //postResult.Etag.Should().NotBe(putResult.Etag);
-#pragma warning restore S125 // Sections of code should not be commented out
             putResult.Etag.Should().Be(getResult!.Etag);
+            postResult.Etag.Should().NotBe(putResult.Etag);
 
         }
 
