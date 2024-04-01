@@ -67,6 +67,7 @@ internal abstract class UpdatePersonCommandHandlerBase : CommandBase<UpdatePerso
 
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag ?? System.Guid.Empty;
+		Repository.Update(entity);
 		
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();
