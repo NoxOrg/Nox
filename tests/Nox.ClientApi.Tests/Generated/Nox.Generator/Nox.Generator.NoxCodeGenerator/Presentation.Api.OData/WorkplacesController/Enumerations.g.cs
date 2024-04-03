@@ -1,8 +1,8 @@
 ﻿// Generated#nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData.Query;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nox.Application.Dto;
 
 using DtoNameSpace = ClientApi.Application.Dto;
@@ -13,33 +13,23 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class WorkplacesControllerBase
 {
+    [EnableQuery]
     [HttpGet("/api/v1/Workplaces/Ownerships")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipDto>>> GetOwnershipsNonConventional()
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipDto>>> GetWorkplaceOwnershipsNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsQuery(_cultureCode));                        
         return Ok(result);        
     }
     [EnableQuery]
     [HttpGet("/api/v1/Workplaces/Ownerships/Languages")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> GetOwnershipsLanguagesNonConventional()
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceOwnershipLocalizedDto>>> GetWorkplaceOwnershipsLanguagesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsTranslationsQuery());                        
         return Ok(result);        
     }
-
-    [HttpDelete("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
-    public virtual async Task<ActionResult> DeleteOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
-    {   
-        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
-
-        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteWorkplacesOwnershipsTranslationsCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), cultureCodeValue!));                        
-        return NoContent();     
-    }
-
     [HttpPut("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
-    public virtual async Task<ActionResult<DtoNameSpace.WorkplaceOwnershipLocalizedDto>> PutOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.WorkplaceOwnershipLocalizedUpsertDto workplaceOwnershipLocalizedUpsertDto)
+    public virtual async Task<ActionResult<DtoNameSpace.WorkplaceOwnershipLocalizedDto>> PutWorkplaceOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.WorkplaceOwnershipLocalizedUpsertDto workplaceOwnershipLocalizedUpsertDto)
     {   
-        
         if (workplaceOwnershipLocalizedUpsertDto is null)
         {
             throw new Nox.Exceptions.BadRequestInvalidFieldException();
@@ -51,9 +41,18 @@ public abstract partial class WorkplacesControllerBase
         var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertWorkplacesOwnershipsTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), workplaceOwnershipLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
         var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
         return Ok(result);       
+    } 
+    [HttpDelete("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult> DeleteWorkplaceOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
+    {   
+        Nox.Exceptions.BadRequestException.ThrowIfNotValid(Nox.Types.CultureCode.TryFrom(cultureCode, out var cultureCodeValue));
+
+        var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteWorkplacesOwnershipsTranslationsCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), cultureCodeValue!));                        
+        return NoContent();     
     }
+    [EnableQuery]
     [HttpGet("/api/v1/Workplaces/Types")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceTypeDto>>> GetTypesNonConventional()
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.WorkplaceTypeDto>>> GetWorkplaceTypesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesTypesQuery(_cultureCode));                        
         return Ok(result);        

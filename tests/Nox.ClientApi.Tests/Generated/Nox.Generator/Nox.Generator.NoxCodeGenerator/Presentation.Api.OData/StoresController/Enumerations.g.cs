@@ -1,8 +1,8 @@
 ﻿// Generated#nullable enable
 using System.Collections.Generic;
 using Microsoft.AspNetCore.OData.Query;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nox.Application.Dto;
 
 using DtoNameSpace = ClientApi.Application.Dto;
@@ -13,8 +13,9 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class StoresControllerBase
 {
+    [EnableQuery]
     [HttpGet("/api/v1/Stores/Statuses")]
-    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.StoreStatusDto>>> GetStatusesNonConventional()
+    public virtual async Task<ActionResult<IQueryable<DtoNameSpace.StoreStatusDto>>> GetStoreStatusesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetStoresStatusesQuery(_cultureCode));                        
         return Ok(result);        

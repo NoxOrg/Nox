@@ -74,19 +74,16 @@ internal static class ODataServiceCollectionExtensions
         {{- end }}
         {{- end }}
 
-        {{- for enumeration in enumerationAttributes #Configure Enumeration endpoints}} 
-        // Setup Enumeration End Points
-        builder.EntityType<{{enumeration.Entity.Name}}Dto>()
-                            .Collection
-                            .Function("{{Pluralize (enumeration.Attribute.Name)}}")
-                            .ReturnsCollection<DtoNameSpace.{{enumeration.EntityNameForEnumeration}}>();
-        {{- end }}
+        ////{{- for enumeration in enumerationAttributes #Configure Enumeration endpoints}} 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<{{enumeration.Entity.Name}}Dto > ()
+        ////                    .Collection
+        ////                    .Function("{{Pluralize (enumeration.Attribute.Name)}}");
+        ////{{- end }}
 
-       
-        if(configure != null) configure(builder);
-
-        services.AddControllers()
-            .AddOData(options =>
+        if (configure != null) configure(builder);
+                services.AddControllers()
+                .AddOData(options =>
                 {
                     options.Select()
                         .EnableQueryFeatures(null)

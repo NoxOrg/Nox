@@ -151,38 +151,48 @@ internal static class ODataServiceCollectionExtensions
 
 		builder.EntityType<UserContactSelectionDto>().HasKey(e => new {  });
 
-		builder.EntityType<EmailAddressDto>().HasKey(e => new {  }); 
-        // Setup Enumeration End Points
-        builder.EntityType<CountryDto>()
-                            .Collection
-                            .Function("Continents")
-                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
-        // Setup Enumeration End Points
-        builder.EntityType<StoreDto>()
-                            .Collection
-                            .Function("Statuses")
-                            .ReturnsCollection<DtoNameSpace.StoreStatusDto>(); 
-        // Setup Enumeration End Points
-        builder.EntityType<WorkplaceDto>()
-                            .Collection
-                            .Function("Ownerships")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceOwnershipDto>(); 
-        // Setup Enumeration End Points
-        builder.EntityType<WorkplaceDto>()
-                            .Collection
-                            .Function("Types")
-                            .ReturnsCollection<DtoNameSpace.WorkplaceTypeDto>(); 
-        // Setup Enumeration End Points
-        builder.EntityType<TenantDto>()
-                            .Collection
-                            .Function("Statuses")
-                            .ReturnsCollection<DtoNameSpace.TenantStatusDto>();
+		builder.EntityType<EmailAddressDto>().HasKey(e => new {  });
 
-       
-        if(configure != null) configure(builder);
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<CountryDto > ()
+        ////                    .Collection
+        ////                    .Function("Continents");
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<StoreDto > ()
+        ////                    .Collection
+        ////                    .Function("Statuses");
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<WorkplaceDto > ()
+        ////                    .Collection
+        ////                    .Function("Ownerships");
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<WorkplaceDto > ()
+        ////                    .Collection
+        ////                    .Function("Types");
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<TenantDto > ()
+        ////                    .Collection
+        ////                    .Function("Statuses");
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<TenantBrandDto > ()
+        ////                    .Collection
+        ////                    .Function("Statuses");
+        //// 
+        ////// Setup Enumeration End Points
+        ////builder.EntityType<TenantContactDto > ()
+        ////                    .Collection
+        ////                    .Function("Statuses");
+        ////
 
-        services.AddControllers()
-            .AddOData(options =>
+        if (configure != null) configure(builder);
+                services.AddControllers()
+                .AddOData(options =>
                 {
                     options.Select()
                         .EnableQueryFeatures(null)

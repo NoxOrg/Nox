@@ -503,7 +503,7 @@ public partial class CountriesControllerAdHocTests : NoxWebApiTestBase
 
 
 		// Act
-		var result = (await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
+		var result = (await GetResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/Continents"))?.ToList();
 
 
 		result.Should().NotBeNull();

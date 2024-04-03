@@ -6,6 +6,7 @@ using Xunit.Abstractions;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using ClientApi.Tests.Tests.Models;
 using Nox.Application.Dto;
+using Nox.Types;
 
 namespace ClientApi.Tests.Controllers
 {
@@ -87,6 +88,173 @@ namespace ClientApi.Tests.Controllers
 
         #region Owned Entities
 
+        #region Enumerations
+        [Fact]
+        public async Task WhenGettingTenantContactStatusEnumeration_WithDataExisting_ReturnsResult()
+        {
+            // Arrange
+            // Act
+            var result = await GetResponseAsync<List<TenantContactStatusDto>>(Endpoints.TenantsUrl + "/TenantContact/Statuses");
+            
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantContactStatusDto> 
+            { 
+                new() { Id = 1, Name = "Active" }, 
+                new() { Id = 2, Name = "Inactive" }
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantContactStatusEnumeration_WithODataFilter_ReturnsFilteredResult()
+        {
+            // Arrange
+            // Act
+            var result = await GetResponseAsync<List<TenantContactStatusDto>>(Endpoints.TenantsUrl + "/TenantContact/Statuses?$filter=Name eq 'Active'");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantContactStatusDto>
+            {
+                new() { Id = 1, Name = "Active" }
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantBrandsStatusEnumeration_WithDataExisting_ReturnsResult()
+        {
+            // Arrange
+            // Act
+            var result = await GetResponseAsync<List<TenantBrandStatusDto>>(Endpoints.TenantsUrl + "/TenantBrands/Statuses");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantBrandStatusDto>
+            {
+                new() { Id = 1, Name = "Active" },
+                new() { Id = 2, Name = "Inactive" }
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantBrandsStatusEnumeration_WithODataFilter_ReturnsFilteredResult()
+        {
+            // Arrange
+            // Act
+            var result = await GetResponseAsync<List<TenantBrandStatusDto>>(Endpoints.TenantsUrl + "/TenantBrands/Statuses?$filter=Name eq 'Active'");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantBrandStatusDto>
+            {
+                new() { Id = 1, Name = "Active" }
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantContactStatusEnumerationLocalizations_WithDataExisting_ReturnsResult()
+        {
+            // Arrange
+            // TODO Can be replaced with PUT enum localized call when implemented
+            var context = GetDbContext();
+            var tenantContactStatusLocalized = new ClientApi.Domain.TenantContactStatusLocalized
+            {
+                Id = TenantContactMetadata.CreateStatus(1),
+                CultureCode = CultureCode.From("de-DE"),
+                Name = "Aktiv",
+            };
+            await context.AddAsync(tenantContactStatusLocalized);
+            await context.SaveChangesAsync();
+            // Act
+            var result = await GetResponseAsync<List<TenantContactStatusLocalizedDto>>(Endpoints.TenantsUrl + "/TenantContact/Statuses/Languages");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantContactStatusLocalizedDto>
+            {
+                new() { Id = 1, Name = "Active", CultureCode = "en-US" },
+                new() { Id = 1, Name = "Aktiv", CultureCode = "de-DE" },
+                new() { Id = 2, Name = "Inactive", CultureCode = "en-US" },
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantContactStatusEnumerationLocalizations_WithODataFilter_ReturnsFilteredResult()
+        {
+            // Arrange
+            // TODO Can be replaced with PUT enum localized call when implemented
+            var context = GetDbContext();
+            var tenantContactStatusLocalized = new ClientApi.Domain.TenantContactStatusLocalized
+            {
+                Id = TenantContactMetadata.CreateStatus(1),
+                CultureCode = CultureCode.From("de-DE"),
+                Name = "Aktiv",
+            };
+            await context.AddAsync(tenantContactStatusLocalized);
+            await context.SaveChangesAsync();
+            // Act
+            var result = await GetResponseAsync<List<TenantContactStatusLocalizedDto>>(Endpoints.TenantsUrl + "/TenantContact/Statuses/Languages?$filter=CultureCode eq 'de-DE'");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantContactStatusLocalizedDto>
+            {
+                new() { Id = 1, Name = "Aktiv", CultureCode = "de-DE" },
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantBrandsStatusEnumerationLocalizations_WithDataExisting_ReturnsResult()
+        {
+            // Arrange
+            // TODO Can be replaced with PUT enum localized call when implemented
+            var context = GetDbContext();
+            var tenantBrandStatusLocalized = new ClientApi.Domain.TenantBrandStatusLocalized
+            {
+                Id = TenantBrandMetadata.CreateStatus(1),
+                CultureCode = CultureCode.From("de-DE"),
+                Name = "Aktiv",
+            };
+            await context.AddAsync(tenantBrandStatusLocalized);
+            await context.SaveChangesAsync();
+            // Act
+            var result = await GetResponseAsync<List<TenantBrandStatusLocalizedDto>>(Endpoints.TenantsUrl + "/TenantBrands/Statuses/Languages");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantBrandStatusLocalizedDto>
+            {
+                new() { Id = 1, Name = "Active", CultureCode = "en-US" },
+                new() { Id = 1, Name = "Aktiv", CultureCode = "de-DE" },
+                new() { Id = 2, Name = "Inactive", CultureCode = "en-US" },
+            });
+        }
+
+        [Fact]
+        public async Task WhenGettingTenantCBrandsStatusEnumerationLocalizations_WithODataFilter_ReturnsFilteredResult()
+        {
+            // Arrange
+            // TODO Can be replaced with PUT enum localized call when implemented
+            var context = GetDbContext();
+            var tenantBrandStatusLocalized = new ClientApi.Domain.TenantBrandStatusLocalized
+            {
+                Id = TenantBrandMetadata.CreateStatus(1),
+                CultureCode = CultureCode.From("de-DE"),
+                Name = "Aktiv",
+            };
+            await context.AddAsync(tenantBrandStatusLocalized);
+            await context.SaveChangesAsync();
+            // Act
+            var result = await GetResponseAsync<List<TenantBrandStatusLocalizedDto>>(Endpoints.TenantsUrl + "/TenantBrands/Statuses/Languages?$filter=CultureCode eq 'de-DE'");
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(new List<TenantBrandStatusLocalizedDto>
+            {
+                new() { Id = 1, Name = "Aktiv", CultureCode = "de-DE" },
+            });
+        }
+        #endregion Enumerations
         #region Localizations
 
         [Fact]

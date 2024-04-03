@@ -69,6 +69,12 @@ public abstract partial class TenantBrandBase : EntityBase, IOwnedEntity
     /// </summary>
     /// <remarks>Required.</remarks>   
     public Nox.Types.Text Description { get;  set; } = null!;
+
+    /// <summary>
+    /// Tenant Contact Status    
+    /// </summary>
+    /// <remarks>Optional.</remarks>   
+    public Nox.Types.Enumeration? Status { get;  set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

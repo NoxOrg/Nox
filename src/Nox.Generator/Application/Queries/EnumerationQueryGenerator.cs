@@ -16,8 +16,6 @@ internal class EnumerationQueryGenerator : ApplicationEntityDependentGeneratorBa
 
         foreach (var entity in entities)
         {
-            if (entity.IsOwnedEntity)
-                continue;
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
