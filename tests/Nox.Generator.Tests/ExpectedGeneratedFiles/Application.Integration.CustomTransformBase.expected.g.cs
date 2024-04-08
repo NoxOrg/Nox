@@ -3,10 +3,11 @@
 #nullable enable
 
 using AutoMapper;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
-public abstract class TestIntegrationTransformBase
+public abstract class TestIntegrationTransformBase: INoxTransform
 {
     public string IntegrationName => "TestIntegration";
 

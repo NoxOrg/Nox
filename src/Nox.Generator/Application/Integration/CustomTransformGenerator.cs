@@ -28,18 +28,7 @@ internal class CustomTransformGenerator: INoxCodeGenerator
             return;
         }
 
-        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.Custom))
-        {
-            //create the transformation class
-            context.CancellationToken.ThrowIfCancellationRequested();
-            new TemplateCodeBuilder(context, codeGenConventions)
-                .WithClassName($"{customTransformIntegration.Name}TransformBase")
-                .WithFileNamePrefix("Application.Integration.CustomTransform")
-                .WithObject("integration", customTransformIntegration)
-                .GenerateSourceCodeFromResource("Application.Integration.CustomTransformBase");
-        }
-        
-        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.CustomMap))
+        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.Mapping))
         {
             //Create the source Dto
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -63,6 +52,8 @@ internal class CustomTransformGenerator: INoxCodeGenerator
                 .WithClassName($"{customTransformIntegration.Name}TransformBase")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
                 .WithObject("integration", customTransformIntegration)
+                .WithObject("sourceDtoName", $"{customTransformIntegration.Name}SourceDto")
+                .WithObject("targetDtoName", $"{customTransformIntegration.Name}TargetDto")
                 .GenerateSourceCodeFromResource("Application.Integration.CustomMapTransformBase");
         }
     }

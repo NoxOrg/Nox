@@ -13,7 +13,7 @@ public class NoxIntegrationDbContext: DbContext
     private readonly INoxIntegrationDatabaseProvider? _dbProvider;
     private readonly INoxClientAssemblyProvider? _clientAssemblyProvider;
     
-    public DbSet<IntegrationMergeState>? MergeStates { get; set; }
+    public DbSet<MergeState>? MergeStates { get; set; }
 
     //This constructor is used at design time for migrations. It is internal so that derived applications are forced to user the public constructor
     internal NoxIntegrationDbContext(DbContextOptions<NoxIntegrationDbContext> options) : base(options)
@@ -56,9 +56,9 @@ public class NoxIntegrationDbContext: DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<IntegrationMergeState>().ToTable("IntegrationMergeStates", IntegrationSchema);
-        modelBuilder.Entity<IntegrationMergeState>().HasKey(m => m.Id);
-        modelBuilder.Entity<IntegrationMergeState>().HasAlternateKey(c => new { c.Integration, c.Property });
+        modelBuilder.Entity<MergeState>().ToTable("MergeStates", IntegrationSchema);
+        modelBuilder.Entity<MergeState>().HasKey(m => m.Id);
+        modelBuilder.Entity<MergeState>().HasAlternateKey(c => new { c.Integration, c.Property });
         base.OnModelCreating(modelBuilder);
     }
 }

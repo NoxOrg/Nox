@@ -218,7 +218,26 @@ public class SolutionDeserializationTests
         Assert.Equal("EditDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![1]);
         Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Source!.Watermark!.SequentialKeyColumns![0]);
         
-        Assert.Equal(IntegrationTransformType.Default, noxConfig.Application.Integrations[0].Transformation.Type);
+        Assert.Equal(IntegrationTransformType.Mapping, noxConfig.Application.Integrations[0].Transformation.Type);
+        
+        Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping);
+        Assert.Equal(2, noxConfig.Application.Integrations[0].Transformation.Mapping!.Count);
+
+        Assert.Equal("IdColumn", noxConfig.Application.Integrations[0].Transformation.Mapping![0].Name);
+        Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![0].Source);
+        Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Transformation.Mapping![0].Source!.Name);
+        Assert.Equal(IntegrationMapDataType.Integer, noxConfig.Application.Integrations[0].Transformation.Mapping![0].Source!.Type);
+        Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target);
+        Assert.Equal("Id", noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target!.Name);
+        Assert.Equal(IntegrationMapDataType.Integer, noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target!.Type);
+        
+        Assert.Equal("CalculatedField", noxConfig.Application.Integrations[0].Transformation.Mapping![1].Name);
+        Assert.Null(noxConfig.Application.Integrations[0].Transformation.Mapping![1].Source);
+        Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![1].Target);
+        Assert.Equal("MyCalculatedField", noxConfig.Application.Integrations[0].Transformation.Mapping![1].Target!.Name);
+        Assert.Equal(IntegrationMapDataType.Integer, noxConfig.Application.Integrations[0].Transformation.Mapping![1].Target!.Type);
+        
+        Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target);
         
         Assert.NotNull(noxConfig.Application.Integrations[0].Target);
         Assert.Equal("Country", noxConfig.Application.Integrations[0].Target.Name);

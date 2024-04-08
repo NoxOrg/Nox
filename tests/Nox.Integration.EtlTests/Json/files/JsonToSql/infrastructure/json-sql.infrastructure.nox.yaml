@@ -1,0 +1,6 @@
+dependencies:
+  $ref: ./dependencies/json-sql.dependencies.nox.yaml
+  
+persistence:
+  $ref: ./persistence/json-sql.persistence.nox.yaml
+  

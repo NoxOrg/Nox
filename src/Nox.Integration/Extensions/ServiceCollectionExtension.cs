@@ -25,15 +25,9 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection RegisterTransformHandler(this IServiceCollection services, Type handlerType)
+    public static IServiceCollection RegisterIntegrationTransform(this IServiceCollection services, Type transformType)
     {
-        services.AddTransient(typeof(INoxCustomTransform), handlerType);
-        return services;
-    }
-    
-    public static IServiceCollection RegisterTransformHandler<THandler>(this IServiceCollection services) where THandler: INoxCustomTransform
-    {
-        services.AddTransient(typeof(INoxCustomTransform), typeof(THandler));
+        services.AddTransient(typeof(INoxTransform<INoxTransformDto, INoxTransformDto>), transformType);
         return services;
     }
 
@@ -54,7 +48,7 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection RegisterCreateEvents(this IServiceCollection services)
+    private static IServiceCollection RegisterCreateEvents(this IServiceCollection services)
     {
         var events = Assembly
             .GetEntryAssembly()!
@@ -70,7 +64,7 @@ public static class ServiceCollectionExtension
         return services;
     }
     
-    public static IServiceCollection RegisterUpdateEvents(this IServiceCollection services)
+    private static IServiceCollection RegisterUpdateEvents(this IServiceCollection services)
     {
         var events = Assembly
             .GetEntryAssembly()!
@@ -86,7 +80,7 @@ public static class ServiceCollectionExtension
         return services;
     }
     
-    public static IServiceCollection RegisterExecuteCompleteEvents(this IServiceCollection services)
+    private static IServiceCollection RegisterExecuteCompleteEvents(this IServiceCollection services)
     {
         services.AddTransient<EtlExecuteCompletedDto>();
         services.AddTransient<EtlExecuteCompletedEvent>();

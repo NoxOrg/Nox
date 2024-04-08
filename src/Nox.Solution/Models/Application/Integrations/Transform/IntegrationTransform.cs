@@ -12,9 +12,9 @@ public class IntegrationTransform
     [Required]
     [Title("The type of transformation.")]
     [Description("Specify the type of transformation. Options include default, customCode and customMap.")]
-    public IntegrationTransformType Type { get; internal set; } = IntegrationTransformType.Default;
+    public IntegrationTransformType Type { get; internal set; } = IntegrationTransformType.Dynamic;
     
     [Title("The custom mapping to use for the transformation.")]
     [Description("Specify the mapping to use for the transformation.")]
-    public IReadOnlyDictionary<string, IntegrationTransformMap>? Mapping { get; internal set; }
+    public IReadOnlyList<IntegrationMapping>? Mapping { get; internal set; }
 }

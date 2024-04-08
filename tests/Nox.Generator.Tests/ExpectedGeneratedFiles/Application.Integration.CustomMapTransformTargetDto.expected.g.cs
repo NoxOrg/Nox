@@ -2,17 +2,19 @@
 
 #nullable enable
 
+using Nox.Integration.Abstractions.Interfaces;
+
 namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
-public sealed class TestIntegrationTargetDto
+public sealed class TestIntegrationTargetDto: INoxTransformDto
 {
-    public virtual System.Int32? IntField { get; set; }
-    public virtual System.Double? DoubleField { get; set; }
-    public virtual System.Boolean? BoolField { get; set; }
-    public virtual System.String? StringField { get; set; }
-    public virtual System.DateOnly? DateField { get; set; }
-    public virtual System.TimeOnly? TimeField { get; set; }
-    public virtual System.DateTime? DateTimeField { get; set; }
-    public virtual System.Guid? GuidField { get; set; }
-    public virtual System.Double? CalculatedValue { get; set; }
+    public System.Int32? IntField { get; set; }
+    public System.Double? DoubleField { get; set; }
+    public System.Boolean? BoolField { get; set; }
+    public System.String? StringField { get; set; }
+    public System.DateOnly? DateField { get; set; }
+    public System.TimeOnly? TimeField { get; set; }
+    public System.DateTime? DateTimeField { get; set; }
+    public System.Guid? GuidField { get; set; }
+    public System.Double? CalculatedValue { get; set; }
 }

@@ -8,5 +8,6 @@ public interface INoxReceiveAdapter
 {
     IntegrationSourceAdapterType AdapterType { get; }
     IDataFlowExecutableSource<ExpandoObject> DataFlowSource { get; }
+    
     void ApplyFilter(List<string> filterColumns, IntegrationMergeStates mergeStates);
 }

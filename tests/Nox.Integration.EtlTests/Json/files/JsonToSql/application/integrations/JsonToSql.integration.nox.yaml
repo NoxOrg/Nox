@@ -1,0 +1,81 @@
+#
+# JsonToSql.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/integration.json
+#
+
+name: JsonToSqlIntegration
+description: a Sample integration that sources data from a Json file and persists to a Database Table
+mergeType: mergeNew
+
+schedule:
+  start: every day at 2am
+  retry:
+    limit: 5
+    delaySeconds: 5
+    doubleDelayLimit: 10
+  runOnStartup: true
+
+source:
+  name: SampleSource
+  description: Sources Country data from a Json File
+  dataConnectionName: JsonSource
+  sourceAdapterType: file
+  fileOptions: 
+    filename: CountryMaster.json
+    
+transformation: 
+  type: mapping
+  mapping: 
+    - name: idColumn # mapping item name
+      source:
+        name: CountryId 
+        type: integer 
+      target:
+        name: Id
+        type: integer 
+      
+    - name: nameColumn 
+      source:
+        name: CountryName
+        type: string
+      target:
+        name: Name
+        type: string
+        
+    - name: populationColumn 
+      source:
+        name: NoOfPeople
+        type: integer
+      target:
+        name: Population
+        type: integer
+        
+    - name: CreateDate 
+      source:
+        name: DateCreated
+        type: string
+      target:
+        name: CreateDate
+        type: dateTime
+        
+    - name: EditDate
+      source:
+        name: DateChanged
+        type: string
+      target:
+        name: EditDate
+        type: dateTime
+
+target:
+  name: TestTarget
+  dataConnectionName: TestTargetDb
+  targetAdapterType: databaseTable
+  tableOptions:
+    tableName: JsonToSql
+    watermark:
+      dateColumns:
+        - "CreateDate"
+        - "EditDate"
+      sequentialKeyColumns:
+        - "Id"

@@ -24,7 +24,7 @@ source:
     filename: CountryMaster.json
 
 transformation:
-  type: customMap
+  type: mapping
   mapping:
     id:
       sourceName: CountryId

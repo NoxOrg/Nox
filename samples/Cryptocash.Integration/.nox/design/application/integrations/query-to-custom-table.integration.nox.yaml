@@ -42,7 +42,7 @@ source:
     minimumExpectedRecords: 10
 
 transformation:
-  type: custom
+  type: mapping
 
 target:
   name: SampleTarget

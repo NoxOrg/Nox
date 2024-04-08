@@ -1,0 +1,7 @@
+name: TestTargetDb
+provider: sqlServer
+serverUri: localhost
+user: sa
+password: Developer*123
+port : 1433
+options: pooling=false;encrypt=false;

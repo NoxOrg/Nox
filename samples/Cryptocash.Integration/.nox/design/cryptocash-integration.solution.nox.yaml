@@ -21,7 +21,7 @@ overview: >
   
 domain:
   $ref: ./domain/cryptocash-integration.domain.nox.yaml
-
+  
 infrastructure:
   $ref: ./infrastructure/cryptocash-integration.infrastructure.nox.yaml
 

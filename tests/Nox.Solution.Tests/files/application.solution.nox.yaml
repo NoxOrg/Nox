@@ -52,7 +52,20 @@ application:
             - "CountryId"
       
       transformation:
-        type: default
+        type: mapping
+        mapping: 
+          - name: IdColumn
+            source:
+              name: CountryId
+              type: integer
+            target:
+              name: Id
+              type: integer
+              
+          - name: CalculatedField
+            target: 
+              name: MyCalculatedField
+              type: integer
       
       target:
         name: Country
@@ -90,7 +103,7 @@ application:
             - "CountryId"
 
       transformation:
-        type: custom
+        type: mapping
 
       target:
         name: CountryTarget

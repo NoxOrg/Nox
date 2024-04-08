@@ -1,16 +1,24 @@
-using System.Dynamic;
-using Nox.Integration.Abstractions.Interfaces;
+using Nox.Integration.Abstractions.Events;
 
 namespace Nox.Integration.EtlTests.Json;
 
-public class JsonToSqlTransform: JsonToSqlTransformHandlerBase, INoxCustomTransform
+public class JsonToSqlTransform: JsonToSqlTransformHandlerBase<SourceDto>
 {
-    public dynamic Invoke(dynamic sourceRecord)
+    public JsonToSqlTransform()
     {
-        dynamic result = new ExpandoObject();
-        result.Id = sourceRecord.CountryId;
-        result.Name = sourceRecord.Name;
-        result.Population = sourceRecord.Population;
-        return result;
+        TransformEvent += OnTransform;
+    }
+
+    private void OnTransform(object sender, NoxTransformEventArgs<SourceDto, TargetDto> args)
+    {
+        var source = args.Source;
+        var target = args.Target;
+        
+        //Map the source to target
+        target.Id = source.CountryId;
+        target.Name = source.CountryName;
+        target.Population = source.NoOfPeople;
+        target.CreateDate = DateTime.Parse(source.DateCreated);
+        target.EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged);
     }
 }

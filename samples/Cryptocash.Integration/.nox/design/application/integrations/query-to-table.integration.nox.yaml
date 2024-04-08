@@ -43,7 +43,7 @@ source:
     minimumExpectedRecords: 10
     
 transformation:
-  type: default  
+  type: dynamic  
 
 target:
   name: SampleTarget

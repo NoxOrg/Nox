@@ -394,7 +394,7 @@ application:
             - "CountryId"
       
       transformation:
-        type: default
+        type: dynamic
       
       target:
         name: Country
