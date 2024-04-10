@@ -5,11 +5,11 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.Adapters;
 
-public static class DatabaseSendExtensions
+public static class DatabaseTargetExtensions
 {
-    public static CustomDestination LinkToDatabaseTable(this IDataFlowSource<ExpandoObject> source, INoxDatabaseSendAdapter sendAdapter, List<string>? idColumns, List<string>? dateColumns)
+    public static CustomDestination<ExpandoObject> LinkToDatabaseTable(this IDataFlowSource<ExpandoObject> source, INoxDatabaseTargetAdapter TargetAdapter, List<string>? idColumns, List<string>? dateColumns)
     {
-        var tableTarget = sendAdapter.TableTarget!;
+        var tableTarget = TargetAdapter.TableTarget!;
         if (idColumns != null && idColumns.Any())
         {
             var mergeIdColumns = idColumns.Select(idColumn => new IdColumn { IdPropertyName = idColumn }).ToList();
@@ -23,7 +23,7 @@ public static class DatabaseSendExtensions
         }
 
         source.LinkTo(tableTarget);
-        var result = new CustomDestination();
+        var result = new CustomDestination<ExpandoObject>();
         tableTarget.LinkTo(result);
         return result;
     }

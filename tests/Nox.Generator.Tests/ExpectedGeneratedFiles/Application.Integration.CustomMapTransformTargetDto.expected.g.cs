@@ -8,13 +8,14 @@ namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
 public sealed class TestIntegrationTargetDto: INoxTransformDto
 {
-    public System.Int32? IntField { get; set; }
-    public System.Double? DoubleField { get; set; }
-    public System.Boolean? BoolField { get; set; }
-    public System.String? StringField { get; set; }
-    public System.DateOnly? DateField { get; set; }
-    public System.TimeOnly? TimeField { get; set; }
-    public System.DateTime? DateTimeField { get; set; }
-    public System.Guid? GuidField { get; set; }
-    public System.Double? CalculatedValue { get; set; }
+    public System.Int32 TargetId { get; set; }
+    public System.Double? TargetDouble { get; set; }
+    public System.Boolean? TargetBool { get; set; }
+    public System.String? TargetString { get; set; }
+    public System.String RequiredTargetString { get; set; } = String.Empty;
+    public System.DateOnly? TargetDate { get; set; }
+    public System.TimeOnly? TargetTime { get; set; }
+    public System.DateTime? TargetDateTime { get; set; }
+    public System.Guid? TargetGuid { get; set; }
+    public System.Int32? TargetCalculated { get; set; }
 }

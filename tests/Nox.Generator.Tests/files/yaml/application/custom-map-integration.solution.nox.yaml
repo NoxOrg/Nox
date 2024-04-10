@@ -11,50 +11,84 @@ application:
       mergeType: mergeNew
       
       transformation:
-        type: customMap
+        type: mapping
         mapping:
-          intField:
-            sourceName: SourceId
-            sourceType: integer
-            targetType: integer
+          - source: 
+              name: SourceId
+              type: integer
+                            
+            target: 
+              name: TargetId
+              type: integer
+            isRequired: true
             
-          doubleField:
-            sourceName: sourceDouble
-            sourceType: double
-            targetType: double
-            
-          boolField:
-            sourceName: sourceBool
-            sourceType: bool
-            targetType: bool
-            
-          stringField:
-            sourceName: SourceName
-            sourceType: string
-            targetType: string
-            
-          dateField:
-            sourceName: sourceDate
-            sourceType: date
-            targetType: date
-          
-          timeField:
-            sourceName: sourceTime
-            sourceType: time
-            targetType: time
-          
-          dateTimeField:
-            sourceName: sourceDateTime
-            sourceType: dateTime
-            targetType: dateTime
-            
-          guidField:
-            sourceName: sourceGuid
-            sourceType: guid
-            targetType: guid
-          
-          calculatedValue:
-            targetType: double
+          - source:
+              name: SourceDouble
+              type: double
+                
+            target:
+              name: TargetDouble
+              type: double
+                
+          - source:
+              name: SourceBool
+              type: bool
+
+            target:
+              name: TargetBool
+              type: bool
+                
+          - source:
+              name: SourceString
+              type: string
+
+            target:
+              name: TargetString
+              type: string
+              
+          - source: 
+              name: RequiredSourceString
+              type: string
+            target:
+              name: RequiredTargetString
+              type: string
+            isRequired: true           
+                
+          - source:
+              name: SourceDate
+              type: date
+
+            target:
+              name: TargetDate
+              type: date
+                
+          - source:
+              name: SourceTime
+              type: time
+
+            target:
+              name: TargetTime
+              type: time
+                
+          - source:
+              name: SourceDateTime
+              type: dateTime
+
+            target:
+              name: TargetDateTime
+              type: dateTime
+                
+          - source:
+              name: SourceGuid
+              type: guid
+
+            target:
+              name: TargetGuid
+              type: guid
+                
+          - target:
+              name: TargetCalculated
+              type: integer
 
       schedule:
         start: every day at 2am

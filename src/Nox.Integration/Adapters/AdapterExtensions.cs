@@ -1,35 +1,34 @@
 using System.Reflection;
 using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions.Interfaces;
-using Nox.Integration.Adapters.File;
 using Nox.Solution;
 
 namespace Nox.Integration.Adapters;
 
 public static class AdapterExtensions
 {
-    internal static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, string integrationName, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
+    internal static INoxIntegration WithSourceAdapter(this INoxIntegration instance, string integrationName, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
         var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == sourceDefinition.DataConnectionName);
         switch (sourceDefinition.SourceAdapterType)
         {
             case IntegrationSourceAdapterType.DatabaseQuery:
-                instance.WithDatabaseReceiveAdapter(integrationName, sourceDefinition.QueryOptions!, dataConnection!);
+                instance.WithDatabaseSourceAdapter(integrationName, sourceDefinition.QueryOptions!, dataConnection!);
                 break;
             case IntegrationSourceAdapterType.File:
-                instance.WithFileReceiveAdapter(integrationName, sourceDefinition.FileOptions!, dataConnection!);
+                instance.WithFileSourceAdapter(integrationName, sourceDefinition.FileOptions!, dataConnection!);
                 break;
         }
         return instance;
     }
 
-    internal static INoxIntegration WithSendAdapter(this INoxIntegration instance, string integrationName, IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
+    internal static INoxIntegration WithTargetAdapter(this INoxIntegration instance, string integrationName, IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
         var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == targetDefinition.DataConnectionName);
         switch (targetDefinition.TargetAdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
-                instance.WithDatabaseTableSendAdapter(targetDefinition.TableOptions!, dataConnection!);
+                instance.WithDatabaseTableTargetAdapter(targetDefinition.TableOptions!, dataConnection!);
                 break;
         }
 

@@ -1,13 +1,12 @@
-using System.Dynamic;
 using ETLBox;
 using Nox.Integration.Abstractions.Models;
 
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxReceiveAdapter
+public interface INoxTypedSourceAdapter<TSource>
+    where TSource: INoxTransformDto
 {
     IntegrationSourceAdapterType AdapterType { get; }
-    IDataFlowExecutableSource<ExpandoObject> DataFlowSource { get; }
-    
+    IDataFlowExecutableSource<TSource> DataFlowSource { get; }
     void ApplyFilter(List<string> filterColumns, IntegrationMergeStates mergeStates);
 }

@@ -3,7 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Mvc;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace {{ codeGenConventions.ODataNameSpace }};

@@ -7,7 +7,7 @@ public class JsonToTableRecordCreatedEventHandler: INotificationHandler<JsonToTa
 {
     private readonly ILogger _logger;
 
-    public JsonToTableRecordCreatedEventHandler(ILogger<QueryToCustomTableRecordCreatedEventHandler> logger)
+    public JsonToTableRecordCreatedEventHandler(ILogger<QueryToTableRecordCreatedEventHandler> logger)
     {
         _logger = logger;
     }

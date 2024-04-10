@@ -8,7 +8,7 @@ public class JsonToTableExecuteCompletedEventHandler: INotificationHandler<JsonT
 {
     private readonly ILogger _logger;
 
-    public JsonToTableExecuteCompletedEventHandler(ILogger<QueryToCustomTableExecuteCompletedEventHandler> logger)
+    public JsonToTableExecuteCompletedEventHandler(ILogger<QueryToTableExecuteCompletedEventHandler> logger)
     {
         _logger = logger;
     }

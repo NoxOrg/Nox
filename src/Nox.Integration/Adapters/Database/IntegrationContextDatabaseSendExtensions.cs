@@ -5,14 +5,14 @@ using Nox.Solution;
 
 namespace Nox.Integration.Adapters;
 
-public static class IntegrationContextDatabaseSendExtensions
+public static class IntegrationContextDatabaseTargetExtensions
 {
-    internal static INoxIntegration WithDatabaseTableSendAdapter(this INoxIntegration instance, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
+    internal static INoxIntegration WithDatabaseTableTargetAdapter(this INoxIntegration instance, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.SendAdapter = CreateSqlServerTableAdapter(instance.Name, options, dataConnectionDefinition);
+                instance.TargetAdapter = CreateSqlServerTableAdapter(instance.Name, options, dataConnectionDefinition);
                 break;
                 default:
                     throw new NotImplementedException();
@@ -21,7 +21,7 @@ public static class IntegrationContextDatabaseSendExtensions
         return instance;
     }
     
-    internal static SqlServerTableSendAdapter CreateSqlServerTableAdapter(string integrationName, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerTableTargetAdapter CreateSqlServerTableAdapter(string integrationName, IntegrationTargetTableOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -31,16 +31,16 @@ public static class IntegrationContextDatabaseSendExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerTableSendAdapter(csb.ConnectionString, options.SchemaName, null, options.TableName);
+        var adapter = new SqlServerTableTargetAdapter(csb.ConnectionString, options.SchemaName, null, options.TableName);
         return adapter;
     }
     
-    internal static INoxIntegration WithStoredProcedureSendAdapter(this INoxIntegration instance, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
+    internal static INoxIntegration WithStoredProcedureTargetAdapter(this INoxIntegration instance, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.SendAdapter = CreateSqlServerProcAdapter(instance.Name, options, dataConnectionDefinition);
+                instance.TargetAdapter = CreateSqlServerProcAdapter(instance.Name, options, dataConnectionDefinition);
                 break;
             default:
                 throw new NotImplementedException();
@@ -49,7 +49,7 @@ public static class IntegrationContextDatabaseSendExtensions
         return instance;
     }
 
-    internal static SqlServerTableSendAdapter CreateSqlServerProcAdapter(string integrationName, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerTableTargetAdapter CreateSqlServerProcAdapter(string integrationName, IntegrationTargetStoredProcedureOptions options, DataConnection dataConnectionDefinition)
 
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
@@ -60,7 +60,7 @@ public static class IntegrationContextDatabaseSendExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerTableSendAdapter(csb.ConnectionString, options.SchemaName, options.StoredProcedure, null);
+        var adapter = new SqlServerTableTargetAdapter(csb.ConnectionString, options.SchemaName, options.StoredProcedure, null);
         return adapter;
     }
 }

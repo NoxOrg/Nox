@@ -25,12 +25,12 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection RegisterIntegrationTransform(this IServiceCollection services, Type transformType)
+    public static IServiceCollection RegisterIntegrationTransform<TTransform>(this IServiceCollection services)
     {
-        services.AddTransient(typeof(INoxTransform<INoxTransformDto, INoxTransformDto>), transformType);
+        services.AddTransient(typeof(INoxTransform<INoxTransformDto, INoxTransformDto>), typeof(TTransform));
         return services;
     }
-
+    
     private static IServiceCollection RegisterEventPayloads(this IServiceCollection services)
     {
         var payloads = Assembly

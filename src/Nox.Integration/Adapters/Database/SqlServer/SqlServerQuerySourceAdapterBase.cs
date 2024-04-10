@@ -1,6 +1,3 @@
-using System.Dynamic;
-using ETLBox;
-using ETLBox.DataFlow;
 using ETLBox.SqlServer;
 using Nox.Integration.Abstractions.Constants;
 using Nox.Integration.Abstractions.Interfaces;
@@ -8,36 +5,27 @@ using Nox.Integration.Abstractions.Models;
 
 namespace Nox.Integration.Adapters.SqlServer;
 
-public class SqlServerQueryReceiveAdapter: INoxDatabaseReceiveAdapter
+public abstract class SqlServerQuerySourceAdapterBase
 {
-    private readonly SqlConnectionManager _connectionManager;
+    internal readonly SqlConnectionManager BaseConnectionManager;
 
-    private string _query;
+    internal string BaseQuery;
     
     public IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.DatabaseQuery;
+    internal int BaseMinimumExpectedRecords { get; }
     
-    public IDataFlowExecutableSource<ExpandoObject> DataFlowSource =>
-        new DbSource<ExpandoObject>
-        {
-            ConnectionManager = _connectionManager,
-            Sql = _query
-        };
-
-    public void ApplyFilter(List<string> filterColumns, IntegrationMergeStates mergeStates)
+    protected SqlServerQuerySourceAdapterBase(string query, int minimumExpectedRecords, string connectionString)
     {
-        _query = SetQueryFilters(_query, filterColumns, mergeStates);
+        BaseQuery = query;
+        BaseMinimumExpectedRecords = minimumExpectedRecords;
+        BaseConnectionManager = new SqlConnectionManager(new SqlConnectionString(connectionString));
     }
-
-    public string Query => _query;
-    public int MinimumExpectedRecords { get; }
-
-    public SqlServerQueryReceiveAdapter(string query, int minimumExpectedRecords, string connectionString)
+    
+    public void ApplyFilter(IEnumerable<string> filterColumns, IntegrationMergeStates mergeStates)
     {
-        _query = query;
-        MinimumExpectedRecords = minimumExpectedRecords;
-        _connectionManager = new SqlConnectionManager(new SqlConnectionString(connectionString));
+        BaseQuery = SetQueryFilters(BaseQuery, filterColumns, mergeStates);
     }
-
+    
     private string SetQueryFilters(string sql, IEnumerable<string> filterColumns, IntegrationMergeStates mergeStates)
     {
         var result = sql;
@@ -72,5 +60,4 @@ public class SqlServerQueryReceiveAdapter: INoxDatabaseReceiveAdapter
 
         return result;
     }
-    
 }

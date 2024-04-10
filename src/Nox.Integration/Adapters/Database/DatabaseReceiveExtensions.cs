@@ -5,21 +5,21 @@ using Nox.Solution;
 
 namespace Nox.Integration.Adapters;
 
-public static class DatabaseReceiveExtensions
+public static class DatabaseSourceExtensions
 {
-    internal static INoxIntegration WithDatabaseReceiveAdapter(this INoxIntegration instance, string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
+    internal static INoxIntegration WithDatabaseSourceAdapter(this INoxIntegration instance, string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
     {
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.ReceiveAdapter = CreateSqlServerReceiveAdapter(integrationName, options, dataConnectionDefinition);
+                instance.SourceAdapter = CreateSqlServerSourceAdapter(integrationName, options, dataConnectionDefinition);
                 break;
         }
 
         return instance;
     }
     
-    private static SqlServerQueryReceiveAdapter CreateSqlServerReceiveAdapter(string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
+    private static SqlServerQuerySourceAdapter CreateSqlServerSourceAdapter(string integrationName, IntegrationSourceQueryOptions options, DataConnection dataConnectionDefinition)
     {
         var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
         {
@@ -29,7 +29,7 @@ public static class DatabaseReceiveExtensions
             InitialCatalog = dataConnectionDefinition.Name,
             ApplicationName = integrationName
         };
-        var adapter = new SqlServerQueryReceiveAdapter(options.Query, options.MinimumExpectedRecords!.Value, csb.ConnectionString);
+        var adapter = new SqlServerQuerySourceAdapter(options.Query, options.MinimumExpectedRecords!.Value, csb.ConnectionString);
         return adapter;
     }
 }

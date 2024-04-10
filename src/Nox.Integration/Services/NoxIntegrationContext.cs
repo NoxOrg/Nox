@@ -93,11 +93,9 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         var updatedEvent = _updatedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
         var completedEvent = _completedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
 
-        //Determine the type of the receive adapter
-
         return new NoxIntegration(_logger, definition, _dbContextFactory, _publisher, createdEvent, updatedEvent, completedEvent)
-            .WithReceiveAdapter(definition.Name, definition.Source, _solution.DataConnections)
-            .WithSendAdapter(definition.Name, definition.Target, _solution.DataConnections)
+            .WithSourceAdapter(definition.Name, definition.Source, _solution.DataConnections)
+            .WithTargetAdapter(definition.Name, definition.Target, _solution.DataConnections)
             .WithTargetDto(definition.Target, _solution.Domain);
     }
     

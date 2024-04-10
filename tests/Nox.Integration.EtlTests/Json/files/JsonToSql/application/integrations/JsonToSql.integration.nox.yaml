@@ -27,45 +27,47 @@ source:
 transformation: 
   type: mapping
   mapping: 
-    - name: idColumn # mapping item name
-      source:
+    - source:
         name: CountryId 
         type: integer 
       target:
         name: Id
         type: integer 
       
-    - name: nameColumn 
-      source:
+    - source:
         name: CountryName
         type: string
       target:
         name: Name
         type: string
         
-    - name: populationColumn 
-      source:
+    - source:
         name: NoOfPeople
         type: integer
       target:
         name: Population
         type: integer
         
-    - name: CreateDate 
-      source:
+    - source:
         name: DateCreated
         type: string
       target:
         name: CreateDate
         type: dateTime
         
-    - name: EditDate
-      source:
+    - source:
         name: DateChanged
         type: string
       target:
         name: EditDate
         type: dateTime
+        
+    - source:
+        name: ConcurrencyId
+        type: string
+      target:
+        name: Etag
+        type: guid
 
 target:
   name: TestTarget

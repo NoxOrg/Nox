@@ -223,15 +223,14 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping);
         Assert.Equal(2, noxConfig.Application.Integrations[0].Transformation.Mapping!.Count);
 
-        Assert.Equal("IdColumn", noxConfig.Application.Integrations[0].Transformation.Mapping![0].Name);
         Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![0].Source);
         Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Transformation.Mapping![0].Source!.Name);
         Assert.Equal(IntegrationMapDataType.Integer, noxConfig.Application.Integrations[0].Transformation.Mapping![0].Source!.Type);
         Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target);
         Assert.Equal("Id", noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target!.Name);
         Assert.Equal(IntegrationMapDataType.Integer, noxConfig.Application.Integrations[0].Transformation.Mapping![0].Target!.Type);
+        Assert.True(noxConfig.Application.Integrations[0].Transformation.Mapping![0].IsRequired);
         
-        Assert.Equal("CalculatedField", noxConfig.Application.Integrations[0].Transformation.Mapping![1].Name);
         Assert.Null(noxConfig.Application.Integrations[0].Transformation.Mapping![1].Source);
         Assert.NotNull(noxConfig.Application.Integrations[0].Transformation.Mapping![1].Target);
         Assert.Equal("MyCalculatedField", noxConfig.Application.Integrations[0].Transformation.Mapping![1].Target!.Name);

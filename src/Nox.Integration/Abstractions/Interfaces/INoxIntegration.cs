@@ -14,8 +14,8 @@ internal interface INoxIntegration
     
     internal IntegrationTransformType TransformType { get; }
     
-    internal INoxReceiveAdapter? ReceiveAdapter { get; set; }
-    internal INoxSendAdapter? SendAdapter { get; set; }
+    internal INoxSourceAdapter? SourceAdapter { get; set; }
+    internal INoxTargetAdapter? TargetAdapter { get; set; }
 
     internal Type? DtoType { get; set; }
     

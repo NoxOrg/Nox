@@ -37,8 +37,8 @@ internal sealed class NoxIntegration: INoxIntegration
     public IntegrationMergeType MergeType { get; }
     
     public IntegrationTransformType TransformType { get; }
-    public INoxReceiveAdapter? ReceiveAdapter { get; set; }
-    public INoxSendAdapter? SendAdapter { get; set; }
+    public INoxSourceAdapter? SourceAdapter { get; set; }
+    public INoxTargetAdapter? TargetAdapter { get; set; }
     
     public Type? DtoType { get; set; }
     public List<string>? TargetIdColumns { get; private set; } = null;
@@ -77,7 +77,7 @@ internal sealed class NoxIntegration: INoxIntegration
             _mergeStates = await GetMergeStates();
             if (SourceFilterColumns != null && SourceFilterColumns.Any())
             {
-                ReceiveAdapter!.ApplyFilter(SourceFilterColumns, _mergeStates);
+                SourceAdapter!.ApplyFilter(SourceFilterColumns, _mergeStates);
             }
 
             switch (MergeType)
@@ -99,67 +99,36 @@ internal sealed class NoxIntegration: INoxIntegration
             throw;
         }
     }
-
-    private async Task ExecuteMergeNew()
-    {
-        var source = ReceiveAdapter!.DataFlowSource;
-        
-        CustomDestination postProcessDestination;
-        switch (SendAdapter!.AdapterType)
-        {
-            case IntegrationTargetAdapterType.DatabaseTable:
-                postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
-                break;
-            default:
-                throw new NotImplementedException($"Send adapter type: {Enum.GetName(SendAdapter!.AdapterType)} has not been implemented!");
-        }
-        
-        postProcessDestination.WriteAction = PostProcessWriteAction;
-
-        try
-        {
-            await Network.ExecuteAsync(source);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogCritical("Failed to execute MergeNew for integration: {integrationName}", Name);
-            _logger.LogError("{message}", ex.Message);
-            throw;
-        }
-
-        await SendExecuteCompletedEvent(_inserts, _updates, _unChanged);
-        LogMergeAnalytics(_inserts, _updates, _unChanged);
-    }
     
     private async Task ExecuteMergeNew(INoxTransform<INoxTransformDto, INoxTransformDto>? transform)
     {
-        var source = ReceiveAdapter!.DataFlowSource;
+        var source = SourceAdapter!.DataFlowSource;
         
         IDataFlowSource<ExpandoObject>? transformSource = null;
         
         if (TransformType == IntegrationTransformType.Mapping)
         {
             if (transform == null) throw new NoxIntegrationException("Cannot execute this transform, the mapping class has not registered.");
-            var rowTransform = new RowTransformation(record => RowTransformationFunc(record, transform));
+            var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(record => RowTransformationFunc(record, transform));
             transformSource = source.LinkTo(rowTransform);
         }
 
-        CustomDestination postProcessDestination;
-        switch (SendAdapter!.AdapterType)
+        CustomDestination<ExpandoObject> postProcessDestination;
+        switch (TargetAdapter!.AdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
                 if (transformSource != null)
                 {
-                    postProcessDestination = transformSource.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
+                    postProcessDestination = transformSource.LinkToDatabaseTable((INoxDatabaseTargetAdapter)TargetAdapter, TargetIdColumns, TargetDateColumns);
                 }
                 else
                 {
-                    postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
+                    postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseTargetAdapter)TargetAdapter, TargetIdColumns, TargetDateColumns);
                 }
 
                 break;
             default:
-                throw new NotImplementedException($"Send adapter type: {Enum.GetName(SendAdapter!.AdapterType)} has not been implemented!");
+                throw new NotImplementedException($"Target adapter type: {Enum.GetName(TargetAdapter!.AdapterType)} has not been implemented!");
         }
         
         postProcessDestination.WriteAction = PostProcessWriteAction;
@@ -175,7 +144,7 @@ internal sealed class NoxIntegration: INoxIntegration
             throw;
         }
 
-        await SendExecuteCompletedEvent(_inserts, _updates, _unChanged);
+        await TargetExecuteCompletedEvent(_inserts, _updates, _unChanged);
         LogMergeAnalytics(_inserts, _updates, _unChanged);
     }
 
@@ -186,19 +155,19 @@ internal sealed class NoxIntegration: INoxIntegration
         return JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(targetRecord))!;
     }
 
-    private void PostProcessWriteAction(ExpandoObject row, int index)
+    private void PostProcessWriteAction(dynamic row, int index)
     {
         var record = (IDictionary<string, object?>)row;
         if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Insert)
         {
             _inserts++;
-            SendCreatedEvent(record).ConfigureAwait(false);
+            TargetCreatedEvent(record).ConfigureAwait(false);
             UpdateMergeStates(record);
         }
         else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Update)
         {
             _updates++;
-            SendUpdatedEvent(record).ConfigureAwait(false);
+            TargetUpdatedEvent(record).ConfigureAwait(false);
             UpdateMergeStates(record);
         }
         else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Exists)
@@ -445,21 +414,21 @@ internal sealed class NoxIntegration: INoxIntegration
         }
     }
     
-    private async Task SendCreatedEvent(IDictionary<string, object?> record)
+    private async Task TargetCreatedEvent(IDictionary<string, object?> record)
     {
         if (_createdEvent == null) return;
         _createdEvent.SetDto(record.ResolvePayload(_createdEvent));
         await _publisher.Publish(_createdEvent);
     }
 
-    private async Task SendUpdatedEvent(IDictionary<string, object?> record)
+    private async Task TargetUpdatedEvent(IDictionary<string, object?> record)
     {
         if (_updatedEvent == null) return;
         _updatedEvent.SetDto(record.ResolvePayload(_updatedEvent));
         await _publisher.Publish(_updatedEvent);
     }
     
-    private async Task SendExecuteCompletedEvent(int inserts, int updates, int unChanged)
+    private async Task TargetExecuteCompletedEvent(int inserts, int updates, int unChanged)
     {
         if (_completedEvent == null) return;
         _completedEvent.SetDto(new EtlExecuteCompletedDto

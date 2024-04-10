@@ -1,6 +1,6 @@
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxSendAdapter
+public interface INoxTypedTargetAdapter
 {
     public IntegrationTargetAdapterType AdapterType { get; }
    

@@ -25,6 +25,53 @@ source:
 
 transformation:
   type: mapping
+  mapping:
+    - source:
+        name: CountryId
+        type: integer
+      target:
+        name: Id
+        type: integer
+      isRequired: true
+        
+    - source:
+        name: CountryName
+        type: string
+      target:
+        name: Name
+        type: string
+      isRequired: true
+        
+    - source: 
+        name: NoOfInhabitants
+        type: integer
+      target:
+        name: Population
+        type: integer
+      isRequired: true
+      
+    - source:
+        name: DateCreated
+        type: string
+      target:
+        name: CreateDate
+        type: dateTime
+      isRequired: true
+      
+    - source:
+        name: DateChanged
+        type: string
+      target:
+        name: EditDate
+        type: dateTime
+      
+    - source: 
+        name: ConcurrencyStamp
+        type: string
+      target: 
+        name: Etag
+        type: guid
+      isRequired: true
 
 target:
   name: SampleTarget

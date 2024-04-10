@@ -20,5 +20,6 @@ public class JsonToSqlTransform: JsonToSqlTransformHandlerBase<SourceDto>
         target.Population = source.NoOfPeople;
         target.CreateDate = DateTime.Parse(source.DateCreated);
         target.EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged);
+        target.Etag = new Guid(source.ConcurrencyId);
     }
 }

@@ -54,16 +54,15 @@ application:
       transformation:
         type: mapping
         mapping: 
-          - name: IdColumn
-            source:
+          - source:
               name: CountryId
               type: integer
             target:
               name: Id
               type: integer
+            isRequired: true
               
-          - name: CalculatedField
-            target: 
+          - target: 
               name: MyCalculatedField
               type: integer
       

@@ -17,9 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.AddNox();
 
 //You have to register all your integration transformation handlers.
-builder.Services.RegisterIntegrationTransform<QueryToCustomTableTransform>();
 builder.Services.RegisterIntegrationTransform<JsonToTableTransform>();
-builder.Services.RegisterIntegrationTransform<JsonToTableMapTransform>();
 
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 

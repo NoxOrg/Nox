@@ -5,7 +5,7 @@
 using Nox.Integration.Abstractions.Interfaces;
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Integration.CustomTransform;
-{{func getCSharpDataType(sourceType)
+{{-func getCSharpDataType(sourceType)
     case sourceType
         when "Integer"
             ret "System.Int32"
@@ -27,9 +27,19 @@ namespace {{codeGenConventions.ApplicationNameSpace}}.Integration.CustomTransfor
             ret "unknown"
     end 
 end}}
+
+{{-func getNonNullValue(sourceType)
+   case sourceType
+       when "String"
+           ret " = String.Empty;"
+       else
+            ret ""
+   end             
+end}}
+
 public sealed class {{className}}: INoxTransformDto
 {
     {{- for map in transformation.Mapping }}
-    {{if map.Value.SourceType }}public {{ getCSharpDataType map.Value.SourceType }}? {{ map.Value.SourceName | string.capitalize }} { get; set; }{{ end }}
-    {{- end }}
+    {{if (map.Source) }}public {{ getCSharpDataType map.Source.Type }}{{ if !map.IsRequired}}?{{end}} {{ map.Source.Name | string.capitalize }} { get; set; }{{ if map.IsRequired }}{{ getNonNullValue map.Source.Type }}{{ end }}{{ end }}
+{{- end }}
 }
