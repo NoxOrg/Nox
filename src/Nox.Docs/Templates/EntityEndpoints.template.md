@@ -157,7 +157,20 @@ This section details the API endpoints related to enumeration attributes in a sp
   - **Description**: Delete the localized values for a specific {{Pluralize (enumAtt.Attribute.Name)}} by ID for a specific culture code in {{entity.Name}}.
 
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
-  - **Description**: Update or create localized value of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires relatedKey and cultureCode in the URL and a payload with the new value of {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.{{- end}}{{end}}{{end}}{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
+  - **Description**: Update or create localized value of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires relatedKey and cultureCode in the URL and a payload with the new value of {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.{{- end}}{{end}}
+  
+{{- for ownedRelationship in ownedRelationshipsWithEnumerationAttributes }}
+{{- for ownedEnumAtt in ownedRelationship.EnumerationAttributes}}
+
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity ownedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (ownedEnumAtt.Attribute.Name)}}`
+  - **Description**: Retrieve non-conventional values of {{Pluralize (ownedEnumAtt.Attribute.Name)}} for {{ownedRelationship.OwnedEntity.Name}} for {{entity.Name}}.
+
+{{- if ownedEnumAtt.IsLocalized }}
+- **GET** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity ownedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (ownedEnumAtt.Attribute.Name)}}/Languages`
+  - **Description**: Retrieve localized values of of {{Pluralize (ownedEnumAtt.Attribute.Name)}} for {{ownedRelationship.OwnedEntity.Name}} for {{entity.Name}}.
+{{end}}
+{{end}}{{end}}
+{{end}}{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
 ## Localized Endpoints
 {{~ end ~}}
 {{~ if entity.IsLocalized ~}}

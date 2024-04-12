@@ -108,6 +108,14 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Countries/ContinentEnums/{relatedKey}/Languages/{cultureCode}`
   - **Description**: Update or create localized value of ContinentEnums for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentEnumsUpsertLocalizedDto.
+
+- **GET** `/api/v1/Countries/CountryBarCode/Statuses`
+  - **Description**: Retrieve non-conventional values of Statuses for CountryBarCode for Country.
+- **GET** `/api/v1/Countries/CountryBarCode/Statuses/Languages`
+  - **Description**: Retrieve localized values of of Statuses for CountryBarCode for Country.
+
+
+
 ## Localized Endpoints
 - **GET** `/api/v1/Countries/{key}/Languages`
   - Description: Retrieve all translations for a specific Country.

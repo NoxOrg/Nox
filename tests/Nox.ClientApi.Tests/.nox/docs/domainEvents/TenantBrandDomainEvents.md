@@ -15,6 +15,7 @@ Member|Type|Description
 Id|AutoNumber|
 Name|Text|Teanant Brand Name
 Description|Text|Teanant Brand Description
+Status|Enumeration|Tenant Contact Status
 
 
 ### `TenantBrandUpdated`
@@ -28,6 +29,7 @@ Member|Type|Description
 Id|AutoNumber|
 Name|Text|Teanant Brand Name
 Description|Text|Teanant Brand Description
+Status|Enumeration|Tenant Contact Status
 
 
 ### `TenantBrandDeleted`
@@ -41,4 +43,5 @@ Member|Type|Description
 Id|AutoNumber|
 Name|Text|Teanant Brand Name
 Description|Text|Teanant Brand Description
+Status|Enumeration|Tenant Contact Status
 

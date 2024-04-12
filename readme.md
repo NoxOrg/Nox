@@ -513,6 +513,15 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Response:** Returns the updated or created `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) object.
 - **Query Parameters:** None
 
+#### Owned Entity Enumerations Endpoints
+
+##### GET `/api/<EntityPluralName>/<OwnedEntityName>/<EnumPluralName>` (e.g. `/api/Countries/CountryLocalNames/Continents`)
+- **Description:** Retrieves non-conventional values of an enumeration (e.g. Continents) in an owned entity (e.g. Country Local Name). OData query is enabled for this endpoint.
+- **Response:** Returns a queryable collection of `<OwnedEntityName><EnumName>LocalizedDto` (e.g. `CountryLocalNameContinentLocalizedDto`) objects.
+
+##### GET `/api/<EntityPluralName>/<OwnedEntityName>/<EnumPluralName>/Languages` (e.g. `/api/Countries/CountryLocalNames/Continents/Languages`)
+- **Description:** Retrieves localized values of an enumeration (e.g. Continents) in an owned entity (e.g. Country Local Name). OData query is enabled for this endpoint.
+- **Response:** Returns a queryable collection of `<OwnedEntityName><EnumName>LocalizedDto` (e.g. `CountryLocalNameContinentLocalizedDto`) objects.
 
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 

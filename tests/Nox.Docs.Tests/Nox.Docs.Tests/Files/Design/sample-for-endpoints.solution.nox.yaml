@@ -225,6 +225,15 @@ domain:
           description: Bar code number
           type: number
 
+        - name: Status
+          description: Bar Code Status
+          type: enumeration
+          enumerationTypeOptions:
+            isLocalized: true
+            values:
+              - { id: 1, name: Active }
+              - { id: 2, name: Inactive }
+
     - name: CountryLocalNames
       description: The name of a country in other languages
 
