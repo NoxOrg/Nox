@@ -1,8 +1,6 @@
-using Nox.Integration.Abstractions.Interfaces;
-
 namespace Nox.Integration.EtlTests.Json;
 
-public class SourceDto: INoxTransformDto
+public class SourceDto
 {
     public int CountryId { get; set; }
     public string CountryName { get; set; } = string.Empty;

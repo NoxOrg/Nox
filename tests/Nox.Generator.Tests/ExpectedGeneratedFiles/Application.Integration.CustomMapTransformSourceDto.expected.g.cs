@@ -2,11 +2,9 @@
 
 #nullable enable
 
-using Nox.Integration.Abstractions.Interfaces;
-
 namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
-public sealed class TestIntegrationSourceDto: INoxTransformDto
+public sealed class TestIntegrationSourceDto
 {
     public System.Int32 SourceId { get; set; }
     public System.Double? SourceDouble { get; set; }

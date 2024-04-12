@@ -6,3 +6,4 @@ public interface INoxIntegrationContext
 
     void ExecuteStartupIntegrations();
 }
+

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Threading.Tasks;
 using ETLBox.DataFlow;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Adapters.SqlServer;
 using Nox.Integration.EtlTests.Json;
+using Xunit;
 
 namespace Nox.Integration.EtlTests.SqlServer;
 
@@ -33,7 +36,33 @@ public class SqlServerTests: IClassFixture<SqlServerIntegrationFixture>
         var sourceAdapter = new SqlServerQuerySourceAdapter("SELECT CountryId AS Id, Name, Population, CreateDate, EditDate, NEWID() AS Etag FROM CountryMaster", 5, 
             "data source=LocalHost;user id=sa; password=Developer*123; database=CountrySource; pooling=false;encrypt=false");
         
-        var targetAdapter = new SqlServerTableTargetAdapter("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
+        var targetAdapter = new SqlServerTargetAdapter("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
+            null, null, tableName: "SqlToSql");
+        
+        var source = sourceAdapter.DataFlowSource;
+
+        var idCols = new List<string> { "Id" };
+        var compCols = new List<string> { "CreateDate", "EditDate" };
+
+        var target = targetAdapter.TableTarget!
+            .WithMergeFields(idCols, compCols);
+        
+        var metricsTarget = targetAdapter.MetricsTarget;
+        
+        source
+            .LinkTo(target)
+            .LinkTo(metricsTarget);
+
+        await Network.ExecuteAsync(source);
+    }
+    
+    [Fact]
+    public async Task Can_Do_Sql_to_Sql_dynamic()
+    {
+        var sourceAdapter = new SqlServerQuerySourceAdapter<ExpandoObject>("SELECT CountryId AS Id, Name, Population, CreateDate, EditDate, NEWID() AS Etag FROM CountryMaster", 5, 
+            "data source=LocalHost;user id=sa; password=Developer*123; database=CountrySource; pooling=false;encrypt=false");
+        
+        var targetAdapter = new SqlServerTargetAdapter<ExpandoObject>("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
             null, null, tableName: "SqlToSql");
         
         var source = sourceAdapter.DataFlowSource;

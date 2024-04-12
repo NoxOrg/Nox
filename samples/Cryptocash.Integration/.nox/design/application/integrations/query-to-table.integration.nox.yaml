@@ -37,7 +37,7 @@ source:
         CreateDate, 
         EditDate,
         CONVERT(datetime, CreateDate) AS AsAt,
-        Etag
+        NEWID() AS Etag
       FROM 
         dbo.CountryMaster
     minimumExpectedRecords: 10

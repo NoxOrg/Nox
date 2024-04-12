@@ -60,7 +60,6 @@ public class JsonFileSourceAdapter: JsonFileSourceAdapterBase, INoxFileSourceAda
 }
 
 public class JsonFileSourceAdapter<TSource>: JsonFileSourceAdapterBase, INoxFileSourceAdapter<TSource>
-    where TSource: INoxTransformDto
 {
     public JsonFileSourceAdapter(string filename, string baseUri): base(filename, baseUri)
     {

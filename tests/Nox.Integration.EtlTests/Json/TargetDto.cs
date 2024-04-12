@@ -1,9 +1,8 @@
 using ETLBox.DataFlow;
-using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.EtlTests.Json;
 
-public class TargetDto: MergeableRow, INoxTransformDto
+public class TargetDto: MergeableRow
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

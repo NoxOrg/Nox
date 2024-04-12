@@ -1,29 +1,22 @@
-using AutoMapper;
 using CryptocashIntegration.Application.Integration.CustomTransform;
-using Nox.Integration.Abstractions.Events;
 using Nox.Integration.Abstractions.Interfaces;
 
 namespace Cryptocash.Integration.Integrations;
 
-public class JsonToTableTransform: JsonToTableTransformBase<JsonToTableSourceDto>
+public class JsonToTableTransform: JsonToTableTransformBase, INoxTransform<JsonToTableSourceDto, JsonToTableTargetDto>
 {
-    public JsonToTableTransform()
+    public JsonToTableTargetDto Invoke(JsonToTableSourceDto source)
     {
-        TransformEvent += OnTransform;
+        var result = new JsonToTableTargetDto
+        {
+            //Map the source to target
+            Id = source.CountryId,
+            Name = source.CountryName,
+            Population = source.NoOfInhabitants,
+            CreateDate = DateTime.Parse(source.DateCreated),
+            EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged),
+            Etag = new Guid(source.ConcurrencyStamp)
+        };
+        return result;
     }
-
-    private void OnTransform(object sender, NoxTransformEventArgs<JsonToTableSourceDto, JsonToTableTargetDto> args)
-    {
-        var source = args.Source;
-        var target = args.Target;
-        
-        //Map the source to target
-        target.Id = source.CountryId;
-        target.Name = source.CountryName;
-        target.Population = source.NoOfInhabitants;
-        target.CreateDate = DateTime.Parse(source.DateCreated);
-        target.EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged);
-        target.Etag = new Guid(source.ConcurrencyStamp);
-    }
-    
 }

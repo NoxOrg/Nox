@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using ETLBox;
 using ETLBox.DataFlow;
 

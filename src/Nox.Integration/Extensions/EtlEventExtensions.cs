@@ -7,31 +7,38 @@ namespace Nox.Integration.Extensions;
 
 public static class EtlEventExtensions
 {
-    public static IEtlEventDto ResolvePayload(this IDictionary<string, object?> record, IEtlEvent<IEtlEventDto> @event)
+    public static IEtlEventDto ResolvePayload<TRecord>(this TRecord record, IEtlEvent<IEtlEventDto> @event)
     {
         var payloadType = @event.Dto!.GetType();
         var payload = Activator.CreateInstance(payloadType);
+        var recordProperties = typeof(TRecord).GetProperties();
+        
         foreach (var prop in payloadType.GetProperties())
         {
-            var sourceVal = record[prop.Name];
-            if (sourceVal == null) continue;
-            try
+            var recordProp = recordProperties.FirstOrDefault(rp => rp.Name.Equals(prop.Name, StringComparison.OrdinalIgnoreCase));
+            if (recordProp != null)
             {
-                prop.SetValue(payload, sourceVal);
-            }
-            catch (ArgumentException)
-            {
-                if (!TryChangeType(sourceVal, prop.PropertyType, out var result))
+                var sourceVal = recordProp.GetValue(record);
+                if (sourceVal == null) continue;
+                try
+                {
+                    prop.SetValue(payload, sourceVal);
+                }
+                catch (ArgumentException)
+                {
+                    if (!TryChangeType(sourceVal, prop.PropertyType, out var result))
+                    {
+                        throw new NoxIntegrationTypeConversionException($"Unable to convert source type ({sourceVal.GetType().Name}) to target type ({prop.PropertyType.Name}).");
+                    }
+
+                    prop.SetValue(payload, result);
+                }
+                catch
                 {
                     throw new NoxIntegrationTypeConversionException($"Unable to convert source type ({sourceVal.GetType().Name}) to target type ({prop.PropertyType.Name}).");
                 }
-
-                prop.SetValue(payload, result);
             }
-            catch
-            {
-                throw new NoxIntegrationTypeConversionException($"Unable to convert source type ({sourceVal.GetType().Name}) to target type ({prop.PropertyType.Name}).");
-            }
+            
         }
         return (IEtlEventDto)payload!;
     }

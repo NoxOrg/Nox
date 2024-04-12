@@ -27,7 +27,7 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection RegisterIntegrationTransform<TTransform>(this IServiceCollection services)
     {
-        services.AddTransient(typeof(INoxTransform<INoxTransformDto, INoxTransformDto>), typeof(TTransform));
+        services.AddTransient(typeof(INoxTransform), typeof(TTransform));
         return services;
     }
     
@@ -97,19 +97,4 @@ public static class ServiceCollectionExtension
  
         return services;
     }
-    
-    private static bool IsSubclassOfRawGeneric(Type generic, Type? toCheck)
-    {
-        while (toCheck != typeof(object))
-        {
-            var cur = toCheck is { IsGenericType: true } ? toCheck.GetGenericTypeDefinition() : toCheck;
-            if (generic == cur) {
-                return true;
-            }
-            toCheck = toCheck?.BaseType;
-        }
-
-        return false;
-    }
-    
 }

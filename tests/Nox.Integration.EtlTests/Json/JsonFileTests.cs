@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Threading.Tasks;
 using ETLBox;
 using ETLBox.DataFlow;
 using ETLBox.Json;
@@ -11,6 +13,7 @@ using Nox.Integration.Adapters.Json;
 using Nox.Integration.Adapters.SqlServer;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions;
+using Xunit;
 
 namespace Nox.Integration.EtlTests.Json;
 
@@ -39,7 +42,7 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
     [Fact]
     public async Task Can_Execute_Json_To_Sql_Table()
     {
-        var targetAdapter = new SqlServerTableTargetAdapter<TargetDto>("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
+        var targetAdapter = new SqlServerTargetAdapter<TargetDto>("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
             null, null, tableName: "JsonToSql");
         
         var sourceAdapter = new JsonFileSourceAdapter<SourceDto>("CountryMaster.json", "./Json/files/");
@@ -62,29 +65,4 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
 
         await Network.ExecuteAsync(source);
     }
-    
-    private CustomDestination<TTarget> GetMetricsTarget<TTarget>()
-        where TTarget: INoxTransformDto
-    {
-        var result = new CustomDestination<TTarget>();
-        result.WriteAction = (dto, i) =>
-        {
-            var record = (IDictionary<string, object?>)JsonConvert.DeserializeObject<ExpandoObject>(JsonConvert.SerializeObject(dto))!;
-            var changeActionId = (long)record["ChangeAction"]!;
-            if (changeActionId == 1)
-            {
-                Console.Write("Inserted");
-            }
-            else if (changeActionId == 2)
-            {
-                Console.WriteLine("Updated");
-            }
-            else if (changeActionId == 0)
-            {
-                Console.WriteLine("Unchanged");
-            }
-        };
-        return result;
-    }
-    
 }

@@ -1,4 +1,4 @@
-namespace Nox.Integration.Adapters;
+namespace Nox.Integration.Abstractions.Models;
 
 public class TargetAdapterMetrics
 {

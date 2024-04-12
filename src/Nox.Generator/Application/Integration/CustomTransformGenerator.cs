@@ -36,7 +36,7 @@ internal class CustomTransformGenerator: INoxCodeGenerator
                 .WithClassName($"{customTransformIntegration.Name}SourceDto")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
                 .WithObject("transformation", customTransformIntegration.Transformation)
-                .GenerateSourceCodeFromResource("Application.Integration.MappedTransformSourceDto");
+                .GenerateSourceCodeFromResource("Application.Integration.TransformSourceDto");
             
             //Create the target dto
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -44,7 +44,7 @@ internal class CustomTransformGenerator: INoxCodeGenerator
                 .WithClassName($"{customTransformIntegration.Name}TargetDto")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
                 .WithObject("transformation", customTransformIntegration.Transformation)
-                .GenerateSourceCodeFromResource("Application.Integration.MappedTransformTargetDto");
+                .GenerateSourceCodeFromResource("Application.Integration.TransformTargetDto");
             
             //create the transformation class
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -54,7 +54,7 @@ internal class CustomTransformGenerator: INoxCodeGenerator
                 .WithObject("integration", customTransformIntegration)
                 .WithObject("sourceDtoName", $"{customTransformIntegration.Name}SourceDto")
                 .WithObject("targetDtoName", $"{customTransformIntegration.Name}TargetDto")
-                .GenerateSourceCodeFromResource("Application.Integration.MappedTransformBase");
+                .GenerateSourceCodeFromResource("Application.Integration.TransformBase");
         }
     }
 }

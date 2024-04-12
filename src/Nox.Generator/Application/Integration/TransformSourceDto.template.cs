@@ -2,8 +2,6 @@
 
 #nullable enable
 
-using Nox.Integration.Abstractions.Interfaces;
-
 namespace {{codeGenConventions.ApplicationNameSpace}}.Integration.CustomTransform;
 {{-func getCSharpDataType(sourceType)
     case sourceType
@@ -37,7 +35,7 @@ end}}
    end             
 end}}
 
-public sealed class {{className}}: INoxTransformDto
+public sealed class {{className}}
 {
     {{- for map in transformation.Mapping }}
     {{if (map.Source) }}public {{ getCSharpDataType map.Source.Type }}{{ if !map.IsRequired}}?{{end}} {{ map.Source.Name | string.capitalize }} { get; set; }{{ if map.IsRequired }}{{ getNonNullValue map.Source.Type }}{{ end }}{{ end }}

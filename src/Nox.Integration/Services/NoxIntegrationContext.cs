@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.Reflection;
 using Elastic.Apm;
 using Elastic.Apm.Api;
 using MediatR;
@@ -15,7 +16,7 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
 {
     private readonly ILogger _logger;
     private readonly NoxSolution _solution;
-    private readonly IDictionary<string, INoxTransform<INoxTransformDto, INoxTransformDto>>? _transforms;
+    private readonly IDictionary<string, INoxTransform>? _transforms;
     private readonly IEnumerable<EtlRecordCreatedEvent<IEtlEventDto>>? _createdEvents;
     private readonly IEnumerable<EtlRecordUpdatedEvent<IEtlEventDto>>? _updatedEvents;
     private readonly IEnumerable<EtlExecuteCompletedEvent>? _completedEvents;
@@ -27,7 +28,7 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         NoxSolution solution, 
         INoxIntegrationDbContextFactory dbContextFactory,
         IPublisher publisher,
-        IEnumerable<INoxTransform<INoxTransformDto, INoxTransformDto>>? transforms = null,
+        IEnumerable<INoxTransform>? transforms = null,
         IEnumerable<EtlRecordCreatedEvent<IEtlEventDto>>? createdEvents = null,
         IEnumerable<EtlRecordUpdatedEvent<IEtlEventDto>>? updatedEvents = null,
         IEnumerable<EtlExecuteCompletedEvent>? completedEvents = null)
@@ -52,14 +53,46 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         try
         {
             var apmTransaction = Agent.Tracer.StartTransaction(name, ApiConstants.ActionExec);
-            INoxTransform<INoxTransformDto, INoxTransformDto>? transform = null;
+            INoxTransform? transform = null;
             if (_transforms != null && _transforms.TryGetValue(name, out var foundTransform))
             {
                 transform = foundTransform;
             }
 
-            var instance = CreateInstance(name);
-            await instance.ExecuteAsync(apmTransaction, transform);
+            var definition = _solution.Application!.Integrations!.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            if (definition == null)
+            {
+                throw new NoxIntegrationException($"Integration: {name} not found in yaml definition!");
+            }
+        
+            //Resolve the events
+            var createdEvent = _createdEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
+            var updatedEvent = _updatedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
+            var completedEvent = _completedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
+
+            object? sourceAdapter;
+            object? targetAdapter;
+            Type? instanceType;
+
+            if (transform == null)
+            {
+                sourceAdapter = AdapterHelpers.CreateSourceAdapter(typeof(ExpandoObject), name, definition.Source, _solution.DataConnections);
+                targetAdapter = AdapterHelpers.CreateTargetAdapter(typeof(ExpandoObject), name, definition.Target, _solution.DataConnections);
+                instanceType = typeof(NoxIntegration<,>).MakeGenericType(typeof(ExpandoObject), typeof(ExpandoObject));
+            }
+            else
+            {
+                sourceAdapter = AdapterHelpers.CreateSourceAdapter(transform.SourceType, name, definition.Source, _solution.DataConnections);
+                targetAdapter = AdapterHelpers.CreateTargetAdapter(transform.TargetType, name, definition.Target, _solution.DataConnections);
+                instanceType = typeof(NoxIntegration<,>).MakeGenericType(transform.SourceType, transform.TargetType);
+            }
+            
+            var instance = Activator.CreateInstance(instanceType, _logger, definition, _dbContextFactory, _publisher, sourceAdapter, targetAdapter,
+                createdEvent, updatedEvent, completedEvent);
+
+            var task = (Task)instanceType.InvokeMember("ExecuteAsync", BindingFlags.InvokeMethod, null, instance, new object?[]{apmTransaction, transform})!;
+            await task;
+
         }
         catch (Exception ex)
         {
@@ -80,24 +113,24 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
         }
     }
 
-    private INoxIntegration CreateInstance(string name)
-    {
-        var definition = _solution.Application!.Integrations!.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-        if (definition == null)
-        {
-            throw new NoxIntegrationException($"Integration: {name} not found in yaml definition!");
-        }
-        
-        //Resolve the events
-        var createdEvent = _createdEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
-        var updatedEvent = _updatedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
-        var completedEvent = _completedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
-
-        return new NoxIntegration(_logger, definition, _dbContextFactory, _publisher, createdEvent, updatedEvent, completedEvent)
-            .WithSourceAdapter(definition.Name, definition.Source, _solution.DataConnections)
-            .WithTargetAdapter(definition.Name, definition.Target, _solution.DataConnections)
-            .WithTargetDto(definition.Target, _solution.Domain);
-    }
+    // private INoxIntegration<TSource, TTarget> CreateDynamicInstance(string name)
+    // {
+    //     var definition = _solution.Application!.Integrations!.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+    //     if (definition == null)
+    //     {
+    //         throw new NoxIntegrationException($"Integration: {name} not found in yaml definition!");
+    //     }
+    //     
+    //     //Resolve the events
+    //     var createdEvent = _createdEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
+    //     var updatedEvent = _updatedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
+    //     var completedEvent = _completedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
+    //
+    //     return new NoxIntegration(_logger, definition, _dbContextFactory, _publisher, createdEvent, updatedEvent, completedEvent)
+    //         .WithSourceAdapter(definition.Name, definition.Source, _solution.DataConnections)
+    //         .WithTargetAdapter(definition.Name, definition.Target, _solution.DataConnections)
+    //         .WithTargetDto(definition.Target, _solution.Domain);
+    // }
     
 }
 

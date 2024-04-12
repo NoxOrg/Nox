@@ -1,25 +1,18 @@
-using Nox.Integration.Abstractions.Events;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.EtlTests.Json;
 
-public class JsonToSqlTransform: JsonToSqlTransformHandlerBase<SourceDto>
+public class JsonToSqlTransform: JsonToSqlTransformBase, INoxTransform<SourceDto, TargetDto>
 {
-    public JsonToSqlTransform()
+    public TargetDto Invoke(SourceDto source)
     {
-        TransformEvent += OnTransform;
-    }
-
-    private void OnTransform(object sender, NoxTransformEventArgs<SourceDto, TargetDto> args)
-    {
-        var source = args.Source;
-        var target = args.Target;
-        
-        //Map the source to target
-        target.Id = source.CountryId;
-        target.Name = source.CountryName;
-        target.Population = source.NoOfPeople;
-        target.CreateDate = DateTime.Parse(source.DateCreated);
-        target.EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged);
-        target.Etag = new Guid(source.ConcurrencyId);
+        var result = new TargetDto();
+        result.Id = source.CountryId;
+        result.Name = source.CountryName;
+        result.Population = source.NoOfPeople;
+        result.CreateDate = DateTime.Parse(source.DateCreated);
+        result.EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged);
+        result.Etag = new Guid(source.ConcurrencyId);
+        return result;
     }
 }

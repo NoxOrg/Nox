@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Nox.Integration.Abstractions.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -26,10 +27,18 @@ public class NoxIntegrationController : Controller
         OperationId = "Execute{{ integration.Name }}"
     )]
     [HttpPost("[action]")]
-    public ActionResult Execute{{ integration.Name }}()
+    public async Task<ActionResult> Execute{{ integration.Name }}()
     {
-        _integrationContext.ExecuteIntegrationAsync("{{ integration.Name }}");
-        return Ok();
+        try
+        {
+            await _integrationContext.ExecuteIntegrationAsync("{{ integration.Name }}");
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
     {{- end }}
     
