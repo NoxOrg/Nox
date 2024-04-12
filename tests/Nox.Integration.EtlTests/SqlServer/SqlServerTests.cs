@@ -30,7 +30,8 @@ public class SqlServerTests: IClassFixture<SqlServerIntegrationFixture>
         await context.ExecuteIntegrationAsync("SqlToSqlIntegration");
     }
 
-    [Fact]
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
+    //[Fact]
     public async Task Can_Do_Sql_to_Sql()
     {
         var sourceAdapter = new SqlServerQuerySourceAdapter("SELECT CountryId AS Id, Name, Population, CreateDate, EditDate, NEWID() AS Etag FROM CountryMaster", 5, 
@@ -56,7 +57,8 @@ public class SqlServerTests: IClassFixture<SqlServerIntegrationFixture>
         await Network.ExecuteAsync(source);
     }
     
-    [Fact]
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
+    //[Fact]
     public async Task Can_Do_Sql_to_Sql_dynamic()
     {
         var sourceAdapter = new SqlServerQuerySourceAdapter<ExpandoObject>("SELECT CountryId AS Id, Name, Population, CreateDate, EditDate, NEWID() AS Etag FROM CountryMaster", 5, 

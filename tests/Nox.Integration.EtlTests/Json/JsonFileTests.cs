@@ -1,19 +1,9 @@
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Threading.Tasks;
-using ETLBox;
 using ETLBox.DataFlow;
-using ETLBox.Json;
-using ETLBox.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Nox.Integration.Abstractions.Interfaces;
-using Nox.Integration.Adapters;
 using Nox.Integration.Adapters.Json;
 using Nox.Integration.Adapters.SqlServer;
-using Nox.Integration.Exceptions;
 using Nox.Integration.Extensions;
-using Xunit;
 
 namespace Nox.Integration.EtlTests.Json;
 
@@ -27,8 +17,8 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
     }
 
     
-    //[Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
-    [Fact]
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
+    //[Fact]
     public async Task Can_integrate_json_to_sql_table()
     {
         _sqlFixture.Configure("./Json/files/JsonToSql/json-sql.solution.nox.yaml");
@@ -39,7 +29,9 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
         await context.ExecuteIntegrationAsync("JsonToSqlIntegration");
     }
 
-    [Fact]
+    
+    [Fact (Skip = "This test can only be run locally if you have a local sql server instance and have created the CountrySource database using ./files/Create_CountrySource.sql")]
+    //[Fact]
     public async Task Can_Execute_Json_To_Sql_Table()
     {
         var targetAdapter = new SqlServerTargetAdapter<TargetDto>("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
