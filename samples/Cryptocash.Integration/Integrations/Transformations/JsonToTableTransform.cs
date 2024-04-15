@@ -1,3 +1,4 @@
+using System.Globalization;
 using CryptocashIntegration.Application.Integration.CustomTransform;
 using Nox.Integration.Abstractions.Interfaces;
 
@@ -13,8 +14,8 @@ public class JsonToTableTransform: JsonToTableTransformBase, INoxTransform<JsonT
             Id = source.CountryId,
             Name = source.CountryName,
             Population = source.NoOfInhabitants,
-            CreateDate = DateTime.Parse(source.DateCreated),
-            EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged),
+            CreateDate = DateTime.Parse(source.DateCreated, CultureInfo.InvariantCulture),
+            EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged, CultureInfo.InvariantCulture),
             Etag = new Guid(source.ConcurrencyStamp)
         };
         return result;

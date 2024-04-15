@@ -8,20 +8,22 @@ namespace Nox.Integration.Adapters.SqlServer;
 
 public class SqlServerTargetAdapter: SqlServerTargetAdapterBase, INoxDatabaseTargetAdapter
 {
+    private readonly MergeMode _mergeMode;
+    
     public DbMerge<ExpandoObject>? TableTarget =>
         new(BaseConnectionManager, TableName)
         {
             CacheMode = CacheMode.Partial,
-            MergeMode = MergeMode.InsertsAndUpdates
+            MergeMode = _mergeMode
         };
 
     public CustomDestination<ExpandoObject>? StoredProcTarget { get; }
 
     public CustomDestination<ExpandoObject> MetricsTarget => CreateMetricsTarget();
     
-    public SqlServerTargetAdapter(string connectionString, string? schemaName, string? storedProcedure, string? tableName): base(connectionString, schemaName, storedProcedure, tableName)
+    public SqlServerTargetAdapter(string connectionString, string? schemaName, string? storedProcedure, string? tableName, MergeMode mergeMode): base(connectionString, schemaName, storedProcedure, tableName)
     {
-        
+        _mergeMode = mergeMode;
     }
 
     private CustomDestination<ExpandoObject> CreateMetricsTarget()
@@ -37,20 +39,22 @@ public class SqlServerTargetAdapter: SqlServerTargetAdapterBase, INoxDatabaseTar
 
 public class SqlServerTargetAdapter<TTarget>: SqlServerTargetAdapterBase, INoxDatabaseTargetAdapter<TTarget>
 {
-    public DbMerge<TTarget>? TableTarget =>
+    private readonly MergeMode _mergeMode;
+    
+    public DbMerge<TTarget> TableTarget =>
         new(BaseConnectionManager, TableName)
         {
             CacheMode = CacheMode.Partial,
-            MergeMode = MergeMode.InsertsAndUpdates
+            MergeMode = _mergeMode
         };
 
     public CustomDestination<TTarget>? StoredProcTarget { get; }
 
     public CustomDestination<TTarget> MetricsTarget => CreateMetricsTarget();
     
-    public SqlServerTargetAdapter(string connectionString, string? schemaName, string? storedProcedure, string? tableName): base(connectionString, schemaName, storedProcedure, tableName)
+    public SqlServerTargetAdapter(string connectionString, string? schemaName, string? storedProcedure, string? tableName, MergeMode mergeMode): base(connectionString, schemaName, storedProcedure, tableName)
     {
-        
+        _mergeMode = mergeMode;
     }
 
     private CustomDestination<TTarget> CreateMetricsTarget()

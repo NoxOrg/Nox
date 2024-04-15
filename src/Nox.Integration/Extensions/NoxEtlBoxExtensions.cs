@@ -1,4 +1,5 @@
-﻿using ETLBoxOffice.LicenseManager;
+﻿using ETLBox;
+using ETLBoxOffice.LicenseManager;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Services;
@@ -26,5 +27,18 @@ public static class NoxEtlBoxExtensions
     {
         services.AddScoped<IEtlBoxLicenseProvider, EtlBoxLicenseValueProvider>();
         return services;
+    }
+
+    public static MergeMode ToEtlBoxMergeMode(this IntegrationMergeType mergeType)
+    {
+        switch (mergeType)
+        {
+            case IntegrationMergeType.MergeNew:
+                return MergeMode.InsertsAndUpdates;
+            case IntegrationMergeType.AddNew:
+                return MergeMode.InsertsOnly;
+        }
+
+        throw new NotImplementedException($"Merge Type: {mergeType.ToString()} has not been implemented!");
     }
 }

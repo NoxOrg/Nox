@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Reflection;
+using Humanizer.Localisation.Formatters;
 
 namespace Nox.Integration.Helpers;
 
@@ -23,7 +25,7 @@ public static class ObjectHelpers
         if (prop != null)
         {
             var value = prop.GetValue(instance);
-            if (DateTime.TryParse(value?.ToString(), out var dateValue))
+            if (DateTime.TryParse(value?.ToString(), CultureInfo.InvariantCulture, out var dateValue))
             {
                 return dateValue;
             }
@@ -42,7 +44,7 @@ public static class ObjectHelpers
         if (prop != null)
         {
             var rawValue = prop.GetValue(instance);
-            if (DateTime.TryParse(rawValue?.ToString(), out var dateValue))
+            if (DateTime.TryParse(rawValue?.ToString(), CultureInfo.InvariantCulture, out var dateValue))
             {
                 value = dateValue;
                 return true;

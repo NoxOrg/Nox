@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
+using ETLBox;
 using ETLBox.DataFlow;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions.Interfaces;
@@ -38,7 +39,7 @@ public class SqlServerTests: IClassFixture<SqlServerIntegrationFixture>
             "data source=LocalHost;user id=sa; password=Developer*123; database=CountrySource; pooling=false;encrypt=false");
         
         var targetAdapter = new SqlServerTargetAdapter("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
-            null, null, tableName: "SqlToSql");
+            null, null, tableName: "SqlToSql", MergeMode.InsertsAndUpdates);
         
         var source = sourceAdapter.DataFlowSource;
 
@@ -65,7 +66,7 @@ public class SqlServerTests: IClassFixture<SqlServerIntegrationFixture>
             "data source=LocalHost;user id=sa; password=Developer*123; database=CountrySource; pooling=false;encrypt=false");
         
         var targetAdapter = new SqlServerTargetAdapter<ExpandoObject>("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
-            null, null, tableName: "SqlToSql");
+            null, null, tableName: "SqlToSql", MergeMode.InsertsAndUpdates);
         
         var source = sourceAdapter.DataFlowSource;
 

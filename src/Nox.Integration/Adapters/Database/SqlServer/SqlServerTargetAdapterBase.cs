@@ -19,24 +19,25 @@ public abstract class SqlServerTargetAdapterBase
     
     public TargetAdapterMetrics Metrics { get; }
     
-    
     public IntegrationTargetAdapterType AdapterType => IntegrationTargetAdapterType.DatabaseTable;
     
     public event InsertEventHandler? OnInsert;
-    protected void RaiseOnInsert(dynamic dataRecord)
+
+    private void RaiseOnInsert(dynamic dataRecord)
     {
         OnInsert?.Invoke(this, new MetricsEventArgs(dataRecord));
         Metrics.Inserts++;
     }
     
     public event UpdateEventHandler? OnUpdate;
-    protected void RaiseOnUpdate(dynamic dataRecord)
+
+    private void RaiseOnUpdate(dynamic dataRecord)
     {
         OnUpdate?.Invoke(this, new MetricsEventArgs(dataRecord));
         Metrics.Updates++;
     }
-    
-    protected void RaiseOnUnchanged()
+
+    private void RaiseOnUnchanged()
     {
         Metrics.Unchanged++;
     }

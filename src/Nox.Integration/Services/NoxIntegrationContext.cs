@@ -77,13 +77,13 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
             if (transform == null)
             {
                 sourceAdapter = AdapterHelpers.CreateSourceAdapter(typeof(ExpandoObject), name, definition.Source, _solution.DataConnections);
-                targetAdapter = AdapterHelpers.CreateTargetAdapter(typeof(ExpandoObject), name, definition.Target, _solution.DataConnections);
+                targetAdapter = AdapterHelpers.CreateTargetAdapter(typeof(ExpandoObject), definition, _solution.DataConnections);
                 instanceType = typeof(NoxIntegration<,>).MakeGenericType(typeof(ExpandoObject), typeof(ExpandoObject));
             }
             else
             {
                 sourceAdapter = AdapterHelpers.CreateSourceAdapter(transform.SourceType, name, definition.Source, _solution.DataConnections);
-                targetAdapter = AdapterHelpers.CreateTargetAdapter(transform.TargetType, name, definition.Target, _solution.DataConnections);
+                targetAdapter = AdapterHelpers.CreateTargetAdapter(transform.TargetType, definition, _solution.DataConnections);
                 instanceType = typeof(NoxIntegration<,>).MakeGenericType(transform.SourceType, transform.TargetType);
             }
             

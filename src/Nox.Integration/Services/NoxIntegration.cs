@@ -81,15 +81,7 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
                 _sourceAdapter.ApplyFilter(SourceFilterColumns, _mergeStates);
             }
 
-            switch (MergeType)
-            {
-                case IntegrationMergeType.MergeNew:
-                    await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteMergeNew(transform));
-                    break;
-                case IntegrationMergeType.AddNew:
-                    //await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteAddNew(transform));
-                    break;
-            }
+            await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteInternal(transform));
 
             await SetLastMergeStates();
             _logger.LogInformation("{0}. Component {1}. Action {2}. Status {3}.", Name, "NoxIntegration", MergeType.ToString(), "success");
@@ -102,7 +94,7 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
     }
 
     //Execute with no transform
-    private async Task ExecuteMergeNew(INoxTransform<TSource, TTarget>? transform)
+    private async Task ExecuteInternal(INoxTransform<TSource, TTarget>? transform)
     {
         var source = _sourceAdapter.DataFlowSource;
         switch (_targetAdapter.AdapterType)
@@ -171,11 +163,6 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
     {
         TargetUpdatedEvent(args.DataRecord).ConfigureAwait(false);
         UpdateMergeStates(args.DataRecord);
-    }
-
-    private Task ExecuteAddNew(INoxTransform<TSource, TTarget>? transform)
-    {
-        return Task.CompletedTask;
     }
 
     private void AddSourceFilterColumns(IntegrationSource source)

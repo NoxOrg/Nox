@@ -7,15 +7,14 @@ namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxTargetAdapter
 {
-    public IntegrationTargetAdapterType AdapterType { get; }
-    public CustomDestination<ExpandoObject> MetricsTarget { get; }
+    CustomDestination<ExpandoObject> MetricsTarget { get; }
     
-    public TargetAdapterMetrics Metrics { get; }
+    TargetAdapterMetrics Metrics { get; }
 }
 
 public interface INoxTargetAdapter<TTarget>
 {
-    public IntegrationTargetAdapterType AdapterType { get; }
-    public CustomDestination<TTarget> MetricsTarget { get; }
-    public TargetAdapterMetrics Metrics { get; }
+    IntegrationTargetAdapterType AdapterType { get; }
+    CustomDestination<TTarget> MetricsTarget { get; }
+    TargetAdapterMetrics Metrics { get; }
 }

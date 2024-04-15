@@ -1,3 +1,4 @@
+using ETLBox;
 using ETLBox.DataFlow;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions.Interfaces;
@@ -35,7 +36,7 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
     public async Task Can_Execute_Json_To_Sql_Table()
     {
         var targetAdapter = new SqlServerTargetAdapter<TargetDto>("data source=LocalHost;user id=sa; password=Developer*123; database=TestTargetDb; pooling=false;encrypt=false", 
-            null, null, tableName: "JsonToSql");
+            null, null, tableName: "JsonToSql", MergeMode.InsertsAndUpdates);
         
         var sourceAdapter = new JsonFileSourceAdapter<SourceDto>("CountryMaster.json", "./Json/files/");
 

@@ -11,7 +11,7 @@ public abstract class SqlServerQuerySourceAdapterBase
 
     internal string BaseQuery;
     
-    public IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.DatabaseQuery;
+    public static IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.DatabaseQuery;
     internal int BaseMinimumExpectedRecords { get; }
     
     protected SqlServerQuerySourceAdapterBase(string query, int minimumExpectedRecords, string connectionString)
@@ -44,7 +44,7 @@ public abstract class SqlServerQuerySourceAdapterBase
         return result;
     }
 
-    private string ReplaceMergeField(string source, MergeState mergeState, string columnName)
+    private static string ReplaceMergeField(string source, MergeState mergeState, string columnName)
     {
         if (mergeState.LastDateLoadedUtc.Equals(IntegrationContextConstants.MinSqlMergeDate))
         {

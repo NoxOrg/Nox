@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Nox.Integration.Abstractions.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -24,20 +25,36 @@ public class NoxIntegrationController : Controller
         OperationId = "ExecuteQueryToTable"
     )]
     [HttpPost("[action]")]
-    public ActionResult ExecuteQueryToTable()
+    public async Task<ActionResult> ExecuteQueryToTable()
     {
-        _integrationContext.ExecuteIntegrationAsync("QueryToTable");
-        return Ok();
+        try
+        {
+            await _integrationContext.ExecuteIntegrationAsync("QueryToTable");
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
     [SwaggerOperation(
         Description = "Execute integration JsonToTable",
         OperationId = "ExecuteJsonToTable"
     )]
     [HttpPost("[action]")]
-    public ActionResult ExecuteJsonToTable()
+    public async Task<ActionResult> ExecuteJsonToTable()
     {
-        _integrationContext.ExecuteIntegrationAsync("JsonToTable");
-        return Ok();
+        try
+        {
+            await _integrationContext.ExecuteIntegrationAsync("JsonToTable");
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
     
 }

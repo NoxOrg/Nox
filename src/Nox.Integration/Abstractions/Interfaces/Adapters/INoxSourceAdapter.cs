@@ -6,7 +6,7 @@ namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxSourceAdapter
 {
-    IntegrationSourceAdapterType AdapterType { get; }
+    static IntegrationSourceAdapterType AdapterType { get; }
     IDataFlowExecutableSource<ExpandoObject> DataFlowSource { get; }
 
     void ApplyFilter(IEnumerable<string> filterColumns, IntegrationMergeStates mergeStates);
@@ -14,7 +14,7 @@ public interface INoxSourceAdapter
 
 public interface INoxSourceAdapter<TSource>
 {
-    IntegrationSourceAdapterType AdapterType { get; }
+    static IntegrationSourceAdapterType AdapterType { get; }
     IDataFlowExecutableSource<TSource> DataFlowSource { get; }
     void ApplyFilter(IEnumerable<string> filterColumns, IntegrationMergeStates mergeStates);
 }
