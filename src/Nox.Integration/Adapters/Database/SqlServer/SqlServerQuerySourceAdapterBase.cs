@@ -33,31 +33,26 @@ public abstract class SqlServerQuerySourceAdapterBase
         {
             if (mergeStates.Any(ms => ms.Key.Equals(filterColumn, StringComparison.InvariantCultureIgnoreCase)))
             {
-                if (mergeStates[filterColumn].LastDateLoadedUtc.Equals(IntegrationContextConstants.MinSqlMergeDate))
-                {
-                    result = result.Replace($"@{filterColumn}", $"'{IntegrationContextConstants.MinSqlMergeDate:yyyy-MM-dd HH:mm:ss:fff}'");
-                }
-                else
-                {
-                    result = result.Replace($"@{filterColumn}", $"'{mergeStates[filterColumn].LastDateLoadedUtc:yyyy-MM-dd HH:mm:ss:fff}'");
-                }
+                result = ReplaceMergeField(sql, mergeStates[filterColumn], filterColumn);
             }
             else
             {
-                if (mergeStates.Any(c => c.Key.Equals(IntegrationContextConstants.DefaultFilterProperty, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    if (mergeStates[IntegrationContextConstants.DefaultFilterProperty].LastDateLoadedUtc.Equals(IntegrationContextConstants.MinSqlMergeDate))
-                    {
-                        result = result.Replace($"@{filterColumn}", $"'{IntegrationContextConstants.MinSqlMergeDate:yyyy-MM-dd HH:mm:ss:fff}'");
-                    }
-                    else
-                    {
-                        result = result.Replace($"@{filterColumn}", $"'{mergeStates[IntegrationContextConstants.DefaultFilterProperty].LastDateLoadedUtc:yyyy-MM-dd HH:mm:ss:fff}'");
-                    }   
-                }
+                result = ReplaceMergeField(sql, mergeStates[IntegrationContextConstants.DefaultFilterProperty], filterColumn);
             }
         }
 
         return result;
+    }
+
+    private string ReplaceMergeField(string source, MergeState mergeState, string columnName)
+    {
+        if (mergeState.LastDateLoadedUtc.Equals(IntegrationContextConstants.MinSqlMergeDate))
+        {
+            return source.Replace($"@{columnName}", $"'{IntegrationContextConstants.MinSqlMergeDate:yyyy-MM-dd HH:mm:ss:fff}'");
+        }
+        else
+        {
+            return source.Replace($"@{columnName}", $"'{mergeState.LastDateLoadedUtc:yyyy-MM-dd HH:mm:ss:fff}'");
+        }
     }
 }

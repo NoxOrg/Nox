@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.Reflection;
 using Elastic.Apm.Api;
 using ETLBox;
 using ETLBox.DataFlow;
@@ -10,6 +11,7 @@ using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Adapters;
 using Nox.Integration.Extensions;
+using Nox.Integration.Helpers;
 using Nox.Solution;
 
 namespace Nox.Integration.Services;
@@ -69,7 +71,7 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
         _completedEvent = completedEvent;
     }
     
-    public async Task ExecuteAsync(ITransaction apmTransaction, INoxTransform<TSource, TTarget>? transform = null)
+    public async Task ExecuteAsync(ITransaction apmTransaction, INoxTransform<TSource, TTarget>? transform)
     {
         try
         {
@@ -304,40 +306,26 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
         if (_mergeStates == null) return;
         var recordProperties = record!.GetType().GetProperties();
         
-        foreach (var filterColumn in _mergeStates.Keys)
+        foreach (var dateColumn in _mergeStates.Keys)
         {
-            var filterColumnProperty = recordProperties.FirstOrDefault(rp => rp.Name.Equals(filterColumn, StringComparison.OrdinalIgnoreCase));
-            if (filterColumnProperty != null)
+            if (ObjectHelpers.TryGetDateTimePropertyValue(record, dateColumn, recordProperties, out var mergeDate))
             {
-                var filterColumnValue = filterColumnProperty.GetValue(record);
-                if (filterColumnValue == null) continue;
-                
-                if (DateTime.TryParse(filterColumnValue.ToString(), out var fieldValue))
+                if (mergeDate != null && mergeDate > _mergeStates[dateColumn].LastDateLoadedUtc)
                 {
-                    if (fieldValue > _mergeStates[filterColumn].LastDateLoadedUtc)
-                    {
-                        var changeEntry = _mergeStates[filterColumn];
-                        changeEntry.LastDateLoadedUtc = fieldValue;
-                        changeEntry.IsUpdated = true;
-                        _mergeStates[filterColumn] = changeEntry;
-                    }
+                    var changeEntry = _mergeStates[dateColumn];
+                    changeEntry.LastDateLoadedUtc = mergeDate.Value;
+                    changeEntry.IsUpdated = true;
+                    _mergeStates[dateColumn] = changeEntry;
                 }
             }
             else
             {
-                var changeDateColumnProperty = recordProperties.FirstOrDefault(rp => rp.Name.Equals("ChangeDate", StringComparison.OrdinalIgnoreCase));
-                if (filterColumnProperty != null)
+                if (ObjectHelpers.TryGetDateTimePropertyValue(record, "ChangeDate", recordProperties, out var changeDate))
                 {
-                    var changeDateValue = filterColumnProperty.GetValue(record);
-                    if (changeDateValue == null) continue;
-                    
-                    if (DateTime.TryParse(changeDateValue.ToString(), out var changeDate))
-                    {
-                        var changeEntry = _mergeStates[IntegrationContextConstants.DefaultFilterProperty];
-                        changeEntry.LastDateLoadedUtc = changeDate.ToUniversalTime();
-                        changeEntry.IsUpdated = true;
-                        _mergeStates[IntegrationContextConstants.DefaultFilterProperty] = changeEntry;    
-                    }
+                    var changeEntry = _mergeStates[IntegrationContextConstants.DefaultFilterProperty];
+                    changeEntry.LastDateLoadedUtc = changeDate!.Value.ToUniversalTime();
+                    changeEntry.IsUpdated = true;
+                    _mergeStates[IntegrationContextConstants.DefaultFilterProperty] = changeEntry;    
                 }
             }
         }

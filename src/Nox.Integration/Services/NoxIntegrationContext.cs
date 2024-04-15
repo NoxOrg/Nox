@@ -115,25 +115,5 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
             }    
         }
     }
-
-    // private INoxIntegration<TSource, TTarget> CreateDynamicInstance(string name)
-    // {
-    //     var definition = _solution.Application!.Integrations!.FirstOrDefault(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-    //     if (definition == null)
-    //     {
-    //         throw new NoxIntegrationException($"Integration: {name} not found in yaml definition!");
-    //     }
-    //     
-    //     //Resolve the events
-    //     var createdEvent = _createdEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
-    //     var updatedEvent = _updatedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
-    //     var completedEvent = _completedEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);
-    //
-    //     return new NoxIntegration(_logger, definition, _dbContextFactory, _publisher, createdEvent, updatedEvent, completedEvent)
-    //         .WithSourceAdapter(definition.Name, definition.Source, _solution.DataConnections)
-    //         .WithTargetAdapter(definition.Name, definition.Target, _solution.DataConnections)
-    //         .WithTargetDto(definition.Target, _solution.Domain);
-    // }
-    
 }
 

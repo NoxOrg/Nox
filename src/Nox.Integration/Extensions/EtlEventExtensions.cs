@@ -1,7 +1,9 @@
+using System.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Exceptions;
+using Nox.Integration.Helpers;
 
 namespace Nox.Integration.Extensions;
 
@@ -15,11 +17,9 @@ public static class EtlEventExtensions
         
         foreach (var prop in payloadType.GetProperties())
         {
-            var recordProp = recordProperties.FirstOrDefault(rp => rp.Name.Equals(prop.Name, StringComparison.OrdinalIgnoreCase));
-            if (recordProp != null)
+            var sourceVal = ObjectHelpers.GetPropertyValue(record, prop.Name, recordProperties);
+            if (sourceVal != null)
             {
-                var sourceVal = recordProp.GetValue(record);
-                if (sourceVal == null) continue;
                 try
                 {
                     prop.SetValue(payload, sourceVal);
@@ -38,7 +38,6 @@ public static class EtlEventExtensions
                     throw new NoxIntegrationTypeConversionException($"Unable to convert source type ({sourceVal.GetType().Name}) to target type ({prop.PropertyType.Name}).");
                 }
             }
-            
         }
         return (IEtlEventDto)payload!;
     }
@@ -66,4 +65,6 @@ public static class EtlEventExtensions
 
         return false;
     }
+
+    
 }
