@@ -30,24 +30,21 @@ public class ScribanTemplateExtensionsTests
             .Build();
 
         var entity = noxSolution.Domain!.Entities.First(x => x.Name == "Country");
-        
-        var enumerationAttributes =
-            entity
-                .Attributes
-                .Where(attribute => attribute.Type == NoxType.Enumeration)
-                .Select(attribute => new {
-                    Attribute = attribute,
-                    EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
-                    EntityNameForLocalizedEnumeration =  $"{entity.Name}{attribute.Name}LocalizedDto",
-                    IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true,
-                    EntityDtoNameForUpsertLocalizedEnumeration = $"{entity.Name}{attribute.Name}UpsertLocalizedDto"
-                });
+
+        var enumerationAttributes = GetEnumerationAttributes(entity);
+        var ownedRelationshipsWithEnumerationAttributes = entity.OwnedRelationships.Select(x => new
+        {
+            IsWithMultiEntity = x.WithMultiEntity,
+            OwnedEntity = x.Related.Entity,
+            EnumerationAttributes = GetEnumerationAttributes(x.Related.Entity)
+        });
 
         var model = new Dictionary<string, object>
         {
             ["apiRoutePrefix"] = noxSolution.Presentation!.ApiConfiguration!.ApiRoutePrefix,
             ["entity"] = entity,
             ["enumerationAttributes"] = enumerationAttributes,
+            ["ownedRelationshipsWithEnumerationAttributes"] = ownedRelationshipsWithEnumerationAttributes,
         };
 
         var template = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();
@@ -63,4 +60,16 @@ public class ScribanTemplateExtensionsTests
 
     private static string ReadMarkdownFile(string name)
         => File.ReadAllText($"./Files/Markdown/{name}");
+
+    private static IEnumerable<object> GetEnumerationAttributes(Entity entity)
+        => entity.Attributes
+        .Where(attribute => attribute.Type == NoxType.Enumeration)
+        .Select(attribute => new
+        {
+            Attribute = attribute,
+            EntityNameForEnumeration = $"{entity.Name}{attribute.Name}Dto",
+            EntityNameForLocalizedEnumeration = $"{entity.Name}{attribute.Name}LocalizedDto",
+            IsLocalized = attribute.EnumerationTypeOptions?.IsLocalized == true,
+            EntityDtoNameForUpsertLocalizedEnumeration = $"{entity.Name}{attribute.Name}UpsertLocalizedDto"
+        });
 }

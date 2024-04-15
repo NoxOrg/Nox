@@ -45,6 +45,8 @@ public abstract class TenantBrandDtoBase : EntityDtoBase
         else
             result.Add("Description", new [] { "Description is Required." });
     
+        if (this.Status is not null)
+            CollectValidationExceptions("Status", () => TenantBrandMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -66,4 +68,11 @@ public abstract class TenantBrandDtoBase : EntityDtoBase
     /// </summary>
     /// <remarks>Required.</remarks>
     public System.String Description { get; set; } = default!;
+
+    /// <summary>
+    /// Tenant Brand Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.Int32? Status { get; set; }
+    public string? StatusName { get; set; } = default!;
 }

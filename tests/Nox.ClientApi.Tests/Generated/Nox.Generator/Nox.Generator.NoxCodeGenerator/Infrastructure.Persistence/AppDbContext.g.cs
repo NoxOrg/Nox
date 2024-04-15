@@ -99,6 +99,10 @@ public abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.
     public virtual DbSet<DomainNameSpace.WorkplaceOwnershipLocalized> WorkplacesOwnershipsLocalized { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.WorkplaceType> WorkplacesTypes { get; set; } = null!;
     public virtual DbSet<DomainNameSpace.TenantStatus> TenantsStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.TenantBrandStatus> TenantBrandsStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.TenantBrandStatusLocalized> TenantBrandsStatusesLocalized { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.TenantContactStatus> TenantContactsStatuses { get; set; } = null!;
+    public virtual DbSet<DomainNameSpace.TenantContactStatusLocalized> TenantContactsStatusesLocalized { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

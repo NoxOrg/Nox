@@ -50,6 +50,8 @@ public abstract class TenantContactDtoBase : EntityDtoBase
         else
             result.Add("Email", new [] { "Email is Required." });
     
+        if (this.Status is not null)
+            CollectValidationExceptions("Status", () => TenantContactMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -72,4 +74,11 @@ public abstract class TenantContactDtoBase : EntityDtoBase
     /// </summary>
     /// <remarks>Required.</remarks>
     public System.String Email { get; set; } = default!;
+
+    /// <summary>
+    /// Tenant Brand Status     
+    /// </summary>
+    /// <remarks>Optional.</remarks>
+    public System.Int32? Status { get; set; }
+    public string? StatusName { get; set; } = default!;
 }

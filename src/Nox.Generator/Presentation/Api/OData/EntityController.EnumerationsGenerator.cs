@@ -3,6 +3,8 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
+
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Generator.Presentation.Api.OData;
@@ -24,28 +26,19 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
 
         const string templateName = @"Presentation.Api.OData.EntityController.Enumerations";
 
-        foreach (var entity in codeGenConventions.Solution.Domain.Entities)
+        foreach (var entity in codeGenConventions.Solution.Domain.Entities.Where(e => !e.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            if (entity.IsOwnedEntity)
-            {
-                continue;
-            }
-            var enumerationAttributes =
-                entity
-                .Attributes
-                .Where(attribute => attribute.Type == NoxType.Enumeration)
-                .Select(attribute => new {
-                    Attribute = attribute,
-                    EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
-                    EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
-                    EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
-                    EntityDtoNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
-                    EntityDtoNameForUpsertLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForUpsertLocalizedEnumeration(entity.Name, attribute.Name),
-                });
+            var enumerations = CreateEnumerations(entity, codeGenConventions);
 
-            if (!enumerationAttributes.Any())
+            foreach (var relationship in entity.OwnedRelationships)
+            {
+                var ownedEntityEnumerations = CreateEnumerations(relationship.Related.Entity, codeGenConventions, relationship.WithSingleEntity, relationship.WithMultiEntity);
+                enumerations = enumerations.Concat(ownedEntityEnumerations);
+            }
+
+            if (!enumerations.Any())
             {
                 continue;
             }
@@ -55,8 +48,34 @@ internal class EntityControllerEnumerationsGenerator : EntityControllerGenerator
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Enumerations")
                 .WithObject("entity", entity)
-                .WithObject("enumerationAttributes", enumerationAttributes)
+                .WithObject("enumerationAttributes", enumerations)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }
+
+    private IEnumerable<object> CreateEnumerations(
+        Entity entity,
+        NoxCodeGenConventions codeGenConventions,
+        bool isSingleOwned = false,
+        bool isMultiOwned = false)
+    {
+        return entity.Attributes
+            .Where(IsEnumeration)
+            .Select(attribute => new
+            {
+                EntityName = entity.Name,
+                EntityPluralName = entity.PluralName,
+                IsSingleOwnedEntity = isSingleOwned,
+                IsMultiOwnedEntity = isMultiOwned,
+                Attribute = attribute,
+                EntityNameForEnumeration = codeGenConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto",
+                EntityNameForLocalizedEnumeration = codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto",
+                EntityDtoNameForLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name),
+                EntityDtoNameForEnumeration = codeGenConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name),
+                EntityDtoNameForUpsertLocalizedEnumeration = codeGenConventions.GetEntityDtoNameForUpsertLocalizedEnumeration(entity.Name, attribute.Name),
+            });
+    }
+
+    private bool IsEnumeration(NoxSimpleTypeDefinition attribute)
+        => attribute.Type == NoxType.Enumeration;
 }

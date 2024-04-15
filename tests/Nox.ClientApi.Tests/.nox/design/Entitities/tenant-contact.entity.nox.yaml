@@ -34,6 +34,16 @@ attributes:
     type: email
     isRequired: true
 
+  - name: Status
+    description: Tenant Brand Status
+    type: enumeration
+    enumerationTypeOptions:
+      values:
+        - { id: 1, name: Active }
+        - { id: 2, name: Inactive }
+      isLocalized: true
+    isRequired: false
+
 persistence:
   isAudited: false
   create:

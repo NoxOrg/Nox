@@ -513,6 +513,16 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 - **Response:** Returns the updated or created `<EntityName><EnumName>LocalizedDto` (e.g. `CountryContinentLocalizedDto`) object.
 - **Query Parameters:** None
 
+#### Owned Entity Enumerations Endpoints
+
+##### PUT `/api/<EntityPluralName>/<OwnedEntityName>/<EnumPluralName>/<relatedKey>/Languages` (e.g. `/api/Countries/CountryLocalNames/Continents/Languages/<cultureCode>`)
+- **Description:** Updates or creates localized value for a specific enumeration value by ID (e.g. Continents) for a specific culture code in an owned entity (e.g. Country Local Name).
+- **Path Parameters:**
+`<relatedKey>`: ID of the enumeration value.
+`<cultureCode>`: Culture code of the localized value.
+- **Request Body:** `<OwnedEntityName><EnumName>UpsertLocalizedDto` (e.g. `CountryLocalNameContinentUpsertLocalizedDto`) object.
+- **Response:** Returns the updated or created `<OwnedEntityName><EnumName>LocalizedDto` (e.g. `CountryLocalNameContinentLocalizedDto`) object.
+- **Query Parameters:** None
 
 [version-shield]: https://img.shields.io/nuget/v/Nox.Generator.svg?style=for-the-badge
 

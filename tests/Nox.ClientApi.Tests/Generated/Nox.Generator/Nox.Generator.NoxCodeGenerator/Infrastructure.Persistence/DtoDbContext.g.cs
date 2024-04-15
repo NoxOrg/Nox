@@ -95,6 +95,10 @@ public abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repo
     public virtual DbSet<DtoNameSpace.WorkplaceOwnershipLocalizedDto> WorkplacesOwnershipsLocalized { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.WorkplaceTypeDto> WorkplacesTypes { get; set; } = null!;
     public virtual DbSet<DtoNameSpace.TenantStatusDto> TenantsStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.TenantBrandStatusDto> TenantBrandsStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.TenantBrandStatusLocalizedDto> TenantBrandsStatusesLocalized { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.TenantContactStatusDto> TenantContactsStatuses { get; set; } = null!;
+    public virtual DbSet<DtoNameSpace.TenantContactStatusLocalizedDto> TenantContactsStatusesLocalized { get; set; } = null!;
 
     public IQueryable<T> Query<T>() where T : class
     {
