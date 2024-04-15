@@ -57,9 +57,9 @@ internal partial class DeleteEmployeePhoneNumbersForEmployeeCommandHandlerBase :
 		{
 			throw new EntityNotFoundException("EmployeePhoneNumber.EmployeePhoneNumbers",  $"ownedId");
 		}
-		parentEntity.EmployeePhoneNumbers.Remove(entity);
+		parentEntity.DeleteEmployeePhoneNumbers(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

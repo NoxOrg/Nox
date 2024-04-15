@@ -67,7 +67,8 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		}
 
 		await EntityFactory.UpdateEntityAsync(entity, request.EntityDto, request.CultureCode);
-		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		entity.Etag = request.Etag ?? System.Guid.Empty;
+		Repository.Update(entity);
 		
 		await OnCompletedAsync(request, entity);		
 		await Repository.SaveChangesAsync();

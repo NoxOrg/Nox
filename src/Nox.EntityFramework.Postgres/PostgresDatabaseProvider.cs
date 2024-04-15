@@ -48,7 +48,8 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
 
         return optionsBuilder
             //.UseLazyLoadingProxies()
-            .UseNpgsql(ConnectionString, opts => { 
+            .UseNpgsql(ConnectionString, opts =>
+            {
                 opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
                 if (migrationAssemblyName is not null)
                 {

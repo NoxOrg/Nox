@@ -57,9 +57,9 @@ internal partial class DeleteSecEntityOwnedRelOneOrManiesForTestEntityOwnedRelat
 		{
 			throw new EntityNotFoundException("SecEntityOwnedRelOneOrMany.SecEntityOwnedRelOneOrManies",  $"ownedId");
 		}
-		parentEntity.SecEntityOwnedRelOneOrManies.Remove(entity);
+		parentEntity.DeleteSecEntityOwnedRelOneOrManies(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);

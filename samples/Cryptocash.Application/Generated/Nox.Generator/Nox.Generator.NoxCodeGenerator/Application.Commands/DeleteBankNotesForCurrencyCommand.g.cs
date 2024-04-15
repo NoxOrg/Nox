@@ -57,9 +57,9 @@ internal partial class DeleteBankNotesForCurrencyCommandHandlerBase : CommandBas
 		{
 			throw new EntityNotFoundException("BankNote.BankNotes",  $"ownedId");
 		}
-		parentEntity.BankNotes.Remove(entity);
+		parentEntity.DeleteBankNotes(entity);
 		
-		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		parentEntity.Etag = request.Etag ?? System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 		Repository.Update(parentEntity);
 		Repository.Delete(entity);
