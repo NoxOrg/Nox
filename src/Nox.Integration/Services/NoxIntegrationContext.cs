@@ -102,14 +102,17 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
     
     public void ExecuteStartupIntegrations()
     {
-        var startupIntegrations = _solution.Application!.Integrations!.Where(i => i.Schedule?.RunOnStartup == true).ToList();
-        foreach (var integration in startupIntegrations)
+        if (_solution.Application?.Integrations != null)
         {
-            Task.Run(async () => await ExecuteIntegrationAsync(integration.Name)).ContinueWith((t) =>
+            var startupIntegrations = _solution.Application!.Integrations!.Where(i => i.Schedule?.RunOnStartup == true).ToList();
+            foreach (var integration in startupIntegrations)
             {
-                if (t.IsFaulted) _logger.LogError(t.Exception, $"Error executing {integration.Name} integration at startup.");
-                if (t.IsCompletedSuccessfully) _logger.LogInformation($"Successfully executed {integration.Name} integration at startup.");
-            });
+                Task.Run(async () => await ExecuteIntegrationAsync(integration.Name)).ContinueWith((t) =>
+                {
+                    if (t.IsFaulted) _logger.LogError(t.Exception, $"Error executing {integration.Name} integration at startup.");
+                    if (t.IsCompletedSuccessfully) _logger.LogInformation($"Successfully executed {integration.Name} integration at startup.");
+                });
+            }    
         }
     }
 

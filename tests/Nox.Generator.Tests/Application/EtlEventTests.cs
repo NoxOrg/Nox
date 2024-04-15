@@ -12,13 +12,13 @@ public class EtlEventTests
         var sourcePaths = new[]
         {
             $"./{path}generator.nox.yaml",
-            $"./{path}custom-integration.solution.nox.yaml"
+            $"./{path}custom-map-integration.solution.nox.yaml"
         };
         
         // Assert the driver doesn't recompute the output
         GeneratorFixture.GenerateSourceCodeFor(sourcePaths)
             .AssertOutputResult()
-            .AssertFileCount(25)
+            .AssertFileCount(26)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Application.Integration.EtlEvents.CreatedEventDto.expected.g.cs", "Application.Integration.EtlEvents.TestIntegrationRecordCreatedDto.g.cs")

@@ -150,7 +150,7 @@ internal class YamlReferenceResolver
     public void ResolveVariables(IDictionary<string, string?> variables)
     {
 
-        // replace all variables conaining variable refs
+        // replace all variables containing variable refs
         foreach (var variable in variables)
         {
             if (variable.Value is null) continue;
