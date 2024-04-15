@@ -40,7 +40,7 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
             _logger.LogInformation("Yaml definition does not contain any Integration definitions.");
         }
         
-        _transforms = transforms?.ToList().ToDictionary(k => k.IntegrationName, v => v);
+        _transforms = transforms?.AsEnumerable().ToDictionary(k => k.IntegrationName, v => v);
         _createdEvents = createdEvents;
         _updatedEvents = updatedEvents;
         _completedEvents = completedEvents;
@@ -115,8 +115,8 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
             {
                 Task.Run(async () => await ExecuteIntegrationAsync(integration.Name)).ContinueWith((t) =>
                 {
-                    if (t.IsFaulted) _logger.LogError(t.Exception, $"Error executing {integration.Name} integration at startup.");
-                    if (t.IsCompletedSuccessfully) _logger.LogInformation($"Successfully executed {integration.Name} integration at startup.");
+                    if (t.IsFaulted) _logger.LogError(t.Exception, "{action} integration: {name} at startup.", "Error executing", integration.Name);
+                    if (t.IsCompletedSuccessfully) _logger.LogInformation("{action} integration: {name} at startup.", "Successfully executed", integration.Name);
                 });
             }    
         }

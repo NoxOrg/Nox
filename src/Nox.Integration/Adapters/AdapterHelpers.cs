@@ -39,7 +39,7 @@ public static class AdapterHelpers
     
     internal static INoxIntegration<TSource, TTarget> WithSchedule<TSource, TTarget>(this INoxIntegration<TSource, TTarget> instance, IntegrationSchedule schedule)
     {
-        //todo add the integration to the hangfire job scheduler.
+        //Add the integration to the hangfire job scheduler.
         return instance;
     }
 
@@ -54,7 +54,7 @@ public static class AdapterHelpers
         var entity = domainDefinition.Entities.FirstOrDefault(e => e.Persistence.TableName!.Equals(tableName, StringComparison.OrdinalIgnoreCase));
         if (entity != null)
         {
-            var dtoType = Assembly.GetEntryAssembly()!.GetTypes().FirstOrDefault(t => t.IsClass && t.Name.Equals($"{entity.Name}Dto"));
+            var dtoType = Array.Find(Assembly.GetEntryAssembly()!.GetTypes(), t => t.IsClass && t.Name.Equals($"{entity.Name}Dto"));
             if (dtoType != null) instance.DtoType = dtoType;
         }
         

@@ -96,61 +96,52 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
     //Execute with no transform
     private async Task ExecuteInternal(INoxTransform<TSource, TTarget>? transform)
     {
-        var source = _sourceAdapter.DataFlowSource;
-        switch (_targetAdapter.AdapterType)
+        try
         {
-            case IntegrationTargetAdapterType.DatabaseTable:
-                var dbAdapter = (INoxDatabaseTargetAdapter<TTarget>)_targetAdapter;
-                var tableTarget = dbAdapter.TableTarget!
-                    .WithMergeFields(TargetIdColumns, TargetDateColumns);
-                var metricsTarget = dbAdapter.MetricsTarget;
-                dbAdapter.OnInsert += TargetAdapterOnInsert;
-                dbAdapter.OnUpdate += TargetAdapterOnUpdate;
+            var source = _sourceAdapter.DataFlowSource;
+            switch (_targetAdapter.AdapterType)
+            {
+                case IntegrationTargetAdapterType.DatabaseTable:
+                    var dbAdapter = (INoxDatabaseTargetAdapter<TTarget>)_targetAdapter;
+                    var tableTarget = dbAdapter.TableTarget!
+                        .WithMergeFields(TargetIdColumns, TargetDateColumns);
+                    var metricsTarget = dbAdapter.MetricsTarget;
+                    dbAdapter.OnInsert += TargetAdapterOnInsert;
+                    dbAdapter.OnUpdate += TargetAdapterOnUpdate;
 
-                if (transform == null)
-                {
-                    var dynamicSource = source as IDataFlowExecutableSource<ExpandoObject>;
-                    var dynamicTarget = tableTarget as IDataFlowDestination<ExpandoObject>;
-                    var dynamicMetrics = metricsTarget as CustomDestination<ExpandoObject>;
-                    dynamicSource!
-                        .LinkTo(dynamicTarget)
-                        .LinkTo(dynamicMetrics);  
-                    try
+                    if (transform == null)
                     {
+                        var dynamicSource = source as IDataFlowExecutableSource<ExpandoObject>;
+                        var dynamicTarget = tableTarget as IDataFlowDestination<ExpandoObject>;
+                        var dynamicMetrics = metricsTarget as CustomDestination<ExpandoObject>;
+                        dynamicSource!
+                            .LinkTo(dynamicTarget)
+                            .LinkTo(dynamicMetrics);
                         await Network.ExecuteAsync(dynamicSource);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        _logger.LogCritical("Failed to execute MergeNew for integration: {integrationName}", Name);
-                        _logger.LogError("{message}", ex.Message);
-                        throw;
-                    }
-                }
-                else
-                {
-                    var rowTransform = new RowTransformation<TSource, TTarget>(record => transform.Invoke(record));
-                    source
-                        .LinkTo<TTarget>(rowTransform)
-                        .LinkTo<TTarget>(tableTarget)
-                        .LinkTo(metricsTarget);
-                    try
-                    {
+                        var rowTransform = new RowTransformation<TSource, TTarget>(record => transform.Invoke(record));
+                        source
+                            .LinkTo<TTarget>(rowTransform)
+                            .LinkTo<TTarget>(tableTarget)
+                            .LinkTo(metricsTarget);
                         await Network.ExecuteAsync(source);
                     }
-                    catch (Exception ex)
-                    {
-                        _logger.LogCritical("Failed to execute MergeNew for integration: {integrationName}", Name);
-                        _logger.LogError("{message}", ex.Message);
-                        throw;
-                    }
-                }
-                
-                break;
-            default:
-                throw new NotImplementedException($"Target adapter type: {Enum.GetName(_targetAdapter.AdapterType)} has not been implemented!");
-        }
 
-        await PostExecuteAction(_targetAdapter.Metrics);
+                    break;
+                default:
+                    throw new NotImplementedException($"Target adapter type: {Enum.GetName(_targetAdapter.AdapterType)} has not been implemented!");
+            }
+
+            await PostExecuteAction(_targetAdapter.Metrics);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, "Failed to execute integration: {integrationName}", Name);
+            _logger.LogError("{message}", ex.Message);
+            throw;
+        }
     }
     
     private void TargetAdapterOnInsert(object sender, MetricsEventArgs args)
@@ -344,6 +335,8 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
 
     private async Task PostExecuteAction(TargetAdapterMetrics metrics, bool logUpdates = true)
     {
+        const string component = "NoxIntegration";
+        
         if (_completedEvent != null)
         {
             _completedEvent.SetDto(new EtlExecuteCompletedDto
@@ -370,15 +363,15 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
             }
         }
 
-        if ((metrics.Inserts == 0 && metrics.Updates == 0) || (metrics.Inserts == 0 && logUpdates == false))
+        if ((metrics.Inserts == 0 && metrics.Updates == 0) || (metrics.Inserts == 0 && !logUpdates))
         {
             if (metrics.Unchanged > 0)
             {
-                _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "nochanges", metrics.Unchanged, lastTimestamp);
+                _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "nochanges", metrics.Unchanged, lastTimestamp);
             }
             else
             {
-                _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "nochanges", 0, lastTimestamp);
+                _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "nochanges", 0, lastTimestamp);
             }
 
             return;
@@ -396,8 +389,8 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
                 lastTimestamp = changes.Max();
             }
             
-            _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "insert", metrics.Inserts, lastTimestamp);
-            _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "update", metrics.Updates, lastTimestamp);
+            _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "insert", metrics.Inserts, lastTimestamp);
+            _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "update", metrics.Updates, lastTimestamp);
         }
     }
     

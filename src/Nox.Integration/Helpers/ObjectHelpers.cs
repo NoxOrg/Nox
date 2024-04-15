@@ -9,7 +9,7 @@ public static class ObjectHelpers
     public static object? GetPropertyValue(object? instance, string name, PropertyInfo[] properties)
     {
         if (instance == null) return null;
-        var prop = properties.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        var prop = Array.Find(properties, p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         if (prop != null)
         {
             return prop.GetValue(instance);
@@ -21,7 +21,7 @@ public static class ObjectHelpers
     public static DateTime? GetDateTimePropertyValue(object? instance, string name, PropertyInfo[] properties)
     {
         if (instance == null) return null;
-        var prop = properties.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        var prop = Array.Find(properties, p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         if (prop != null)
         {
             var value = prop.GetValue(instance);
