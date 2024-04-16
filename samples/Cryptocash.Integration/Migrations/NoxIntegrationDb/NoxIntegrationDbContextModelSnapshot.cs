@@ -22,13 +22,11 @@ namespace Cryptocash.Integration.Migrations.NoxIntegrationDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Nox.Integration.IntegrationMergeState", b =>
+            modelBuilder.Entity("Nox.Integration.Abstractions.Models.MergeState", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Integration")
                         .IsRequired()
@@ -50,7 +48,7 @@ namespace Cryptocash.Integration.Migrations.NoxIntegrationDb
 
                     b.HasAlternateKey("Integration", "Property");
 
-                    b.ToTable("IntegrationMergeStates", "integration");
+                    b.ToTable("MergeStates", "integration");
                 });
 #pragma warning restore 612, 618
         }

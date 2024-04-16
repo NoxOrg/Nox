@@ -5,7 +5,6 @@
 // Found files ->
 //  - cryptocash-integration.application.nox.yaml
 //  - json-to-table.integration.nox.yaml
-//  - query-to-custom-table.integration.nox.yaml
 //  - query-to-table.integration.nox.yaml
 //  - cryptocash-integration.solution.nox.yaml
 //  - cryptocash-integration.domain.nox.yaml

@@ -27,8 +27,7 @@ public class Integration
     [Required]
     public IntegrationSource Source { get; internal set; } = null!;
 
-    [Required]
-    public IntegrationTransformType TransformationType { get; internal set; } = IntegrationTransformType.DefaultTransform;
+    [Required] public IntegrationTransform Transformation { get; internal set; } = null!;
 
     [Required]
     public IntegrationTarget Target { get; internal set; } = null!;

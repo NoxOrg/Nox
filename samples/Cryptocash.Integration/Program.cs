@@ -1,10 +1,11 @@
+
 using Cryptocash.Integration.Integrations;
-using Cryptocash.Integration.Integrations.TransformHandlers;
 using Nox;
 using Nox.Integration.Abstractions.Models;
 using Nox.Integration.Extensions;
 
 using CryptocashIntegration.Presentation;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +17,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.AddNox();
 
 //You have to register all your integration transformation handlers.
-builder.Services.RegisterTransformHandler<QueryToCustomTableTransformHandler>();
-builder.Services.RegisterTransformHandler<JsonToTableTransformHandler>();
+builder.Services.RegisterIntegrationTransform<JsonToTableTransform>();
 
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 
-//builder.AddNox((noxOptions) => noxOptions.WithNoxLogging((loggerConfiguration) =>
-//    loggerConfiguration.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day))
-//);
+// builder.AddNox((noxOptions) => noxOptions.WithNoxLogging((loggerConfiguration) =>
+//     loggerConfiguration.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day))
+// );
 
 var app = builder.Build();
 

@@ -15,7 +15,7 @@
     "schedule",
     "mergeType",
     "source",
-    "transformationType",
+    "transformation",
     "target"
   ],
   "properties": {
@@ -134,11 +134,21 @@
         }
       ]
     },
-    "transformationType": {    
-      "type": "string",
-      "enum": [
-        "customTransform",
-        "defaultTransform"
+    "transformation": {    
+      "anyOf": [
+        { "$ref": "integrationTransform.json" },
+        {
+          "additionalProperties": false, 
+          "required": ["$ref"],
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
       ]
     },
     "target": {    

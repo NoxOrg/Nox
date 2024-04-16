@@ -2,8 +2,9 @@
 
 #nullable enable
 
+using System;
 using Microsoft.AspNetCore.Mvc;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CryptocashIntegration.Presentation.Api.OData;
@@ -24,30 +25,36 @@ public class NoxIntegrationController : Controller
         OperationId = "ExecuteQueryToTable"
     )]
     [HttpPost("[action]")]
-    public ActionResult ExecuteQueryToTable()
+    public async Task<ActionResult> ExecuteQueryToTable()
     {
-        _integrationContext.ExecuteIntegrationAsync("QueryToTable");
-        return Ok();
-    }
-    [SwaggerOperation(
-        Description = "Execute integration QueryToCustomTable",
-        OperationId = "ExecuteQueryToCustomTable"
-    )]
-    [HttpPost("[action]")]
-    public ActionResult ExecuteQueryToCustomTable()
-    {
-        _integrationContext.ExecuteIntegrationAsync("QueryToCustomTable");
-        return Ok();
+        try
+        {
+            await _integrationContext.ExecuteIntegrationAsync("QueryToTable");
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
     [SwaggerOperation(
         Description = "Execute integration JsonToTable",
         OperationId = "ExecuteJsonToTable"
     )]
     [HttpPost("[action]")]
-    public ActionResult ExecuteJsonToTable()
+    public async Task<ActionResult> ExecuteJsonToTable()
     {
-        _integrationContext.ExecuteIntegrationAsync("JsonToTable");
-        return Ok();
+        try
+        {
+            await _integrationContext.ExecuteIntegrationAsync("JsonToTable");
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
     }
     
 }

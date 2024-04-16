@@ -4,16 +4,16 @@ using Nox.Integration.Abstractions.Models;
 
 namespace Cryptocash.Integration.Integrations;
 
-public class QueryToCustomTableExecuteCompletedEventHandler: INotificationHandler<QueryToCustomTableExecuteCompletedEvent>
+public class QueryToTableExecuteCompletedEventHandler: INotificationHandler<QueryToTableExecuteCompletedEvent>
 {
     private readonly ILogger _logger;
 
-    public QueryToCustomTableExecuteCompletedEventHandler(ILogger<QueryToCustomTableExecuteCompletedEventHandler> logger)
+    public QueryToTableExecuteCompletedEventHandler(ILogger<QueryToTableExecuteCompletedEventHandler> logger)
     {
         _logger = logger;
     }
     
-    public Task Handle(QueryToCustomTableExecuteCompletedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(QueryToTableExecuteCompletedEvent notification, CancellationToken cancellationToken)
     {
         var payload = (EtlExecuteCompletedDto)notification.Dto!;
         _logger.LogInformation("Received: {0}\n " +

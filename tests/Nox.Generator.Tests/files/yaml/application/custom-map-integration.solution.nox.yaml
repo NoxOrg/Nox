@@ -1,0 +1,166 @@
+name: TestIntegrationSolution
+
+description: Yaml file for integration tests
+
+application:
+
+  integrations:
+
+    - name: TestIntegration
+      description: a Test integration that sources data from Sql Server and persists to a Database Table
+      mergeType: mergeNew
+      
+      transformation:
+        type: mapping
+        mapping:
+          - source: 
+              name: SourceId
+              type: integer
+                            
+            target: 
+              name: TargetId
+              type: integer
+            isRequired: true
+            
+          - source:
+              name: SourceDouble
+              type: double
+                
+            target:
+              name: TargetDouble
+              type: double
+                
+          - source:
+              name: SourceBool
+              type: bool
+
+            target:
+              name: TargetBool
+              type: bool
+                
+          - source:
+              name: SourceString
+              type: string
+
+            target:
+              name: TargetString
+              type: string
+              
+          - source: 
+              name: RequiredSourceString
+              type: string
+            target:
+              name: RequiredTargetString
+              type: string
+            isRequired: true           
+                
+          - source:
+              name: SourceDate
+              type: date
+
+            target:
+              name: TargetDate
+              type: date
+                
+          - source:
+              name: SourceTime
+              type: time
+
+            target:
+              name: TargetTime
+              type: time
+                
+          - source:
+              name: SourceDateTime
+              type: dateTime
+
+            target:
+              name: TargetDateTime
+              type: dateTime
+                
+          - source:
+              name: SourceGuid
+              type: guid
+
+            target:
+              name: TargetGuid
+              type: guid
+                
+          - target:
+              name: TargetCalculated
+              type: integer
+
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+
+      source:
+        name: SampleSource
+        description: Sources Test data from a Sql Server database
+        dataConnectionName: TestSource
+        sourceAdapterType: databaseQuery
+        queryOptions:
+          query: SELECT Id, Name FROM TestMaster
+          minimumExpectedRecords: 5
+
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumns:
+            - "Id"
+
+      target:
+        name: SampleTarget
+        dataConnectionName: EtlTest
+        targetAdapterType: databaseTable
+        tableOptions:
+          tableName: TestEntities
+
+domain:
+  entities:
+    - name: TestEntity
+
+      description: Test Entity and related data
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          description: Country unique identifier
+          type: number
+
+      attributes:
+
+        - name: Name
+          description: Test Entity's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+infrastructure:
+  
+  dependencies:
+    
+    dataConnections:
+      - name: TestSource
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        port: 1433
+        options: pooling=false;encrypt=false;
+
+      - name: EtlTest
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        port : 1433
+        options: pooling=false;encrypt=false;

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Nox.Yaml.Tests.TestDesigns.Sample.Models;
+using Nox.Yaml.VariableProviders.Environment;
 
 namespace Nox.Yaml.Tests;
 
@@ -51,7 +52,10 @@ public class YamlConfigurationBuilderTests
 
         var reader = new YamlConfigurationReader<TestDesigns.Nox.Models.NoxSolution,NoxSolutionBasicsOnly>()
             .WithSingleFileMatching("*.solution.nox.yaml")
-            .WithSearchFromExecutionFolder("./TestDesigns/Nox/Yaml/cryptoCash/");
+            .WithSearchFromExecutionFolder("./TestDesigns/Nox/Yaml/cryptoCash/")
+            .WithEnvironmentVariableDefaultsProvider(
+                new EnvironmentVariableDefaultsProvider<NoxSolutionBasicsOnly>(s => s.Variables ?? new Dictionary<string, object>())
+            );
 
         // Act
 

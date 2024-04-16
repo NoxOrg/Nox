@@ -1,6 +1,0 @@
-dependencies:
-  $ref: ./dependencies/custom.dependencies.nox.yaml
-  
-persistence:
-  $ref: ./persistence/custom.persistence.nox.yaml
-  

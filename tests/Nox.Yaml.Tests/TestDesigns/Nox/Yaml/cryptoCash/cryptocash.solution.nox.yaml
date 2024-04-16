@@ -18,6 +18,10 @@ overview: >
   allowing customers to book and pay for cash pick-up at an cash vending machine/ATM,
   managing physical stock levels at the ATM's and
   the managing the pricing and fees associated with cash transacting.
+  
+variables:
+  DB_USER: sa
+  DB_PASSWORD: Developer*123
 
 domain:
   $ref: ./domain/cryptocash.domain.nox.yaml

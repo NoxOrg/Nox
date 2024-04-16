@@ -1,7 +1,7 @@
 #
 # CountrySync.integration.nox.yaml
 #
-# yaml-language-server: $schema=../../../../Schemas/integration.json
+# yaml-language-server: $schema=../../../../../../../../Schemas/integration.json
 #
 
 name: CountrySync
@@ -22,7 +22,8 @@ source:
     query: SELECT * FROM dbo.Countries
     minimumExpectedRecords: 10
     
-transformationType: defaultTransform    
+transformation:
+  type: dynamic
 
 target:
   name: CountryEntities
