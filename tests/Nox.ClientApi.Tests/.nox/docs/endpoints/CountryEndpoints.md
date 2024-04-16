@@ -245,9 +245,6 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}`
   - **Description**: Update or create localized value of Continents for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentUpsertLocalizedDto.
-
-
-
 ## Localized Endpoints
 
 - **PUT** `/api/v1/Countries/{key}/CountryLocalNamesLocalized/{cultureCode}` 

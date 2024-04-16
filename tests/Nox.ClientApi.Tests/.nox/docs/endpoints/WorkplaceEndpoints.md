@@ -170,9 +170,6 @@ This section details the API endpoints related to enumeration attributes in a sp
   - **Description**: Update or create localized value of Ownerships for a specific Workplace. Requires relatedKey and cultureCode in the URL and a payload with the new value of WorkplaceOwnershipUpsertLocalizedDto.
 - **GET** `/api/v1/Workplaces/Types`
   - **Description**: Retrieve non-conventional values of Types for a specific Workplace.
-
-
-
 ## Localized Endpoints
 - **GET** `/api/v1/Workplaces/{key}/Languages`
   - Description: Retrieve all translations for a specific Workplace.
