@@ -515,7 +515,7 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 
 #### Owned Entity Enumerations Endpoints
 
-##### PUT `/api/<EntityPluralName>/<OwnedEntityName>/<EnumPluralName>/<relatedKey>/Languages` (e.g. `/api/Countries/CountryLocalNames/Continents/Languages/<cultureCode>`)
+##### PUT `/api/<EntityPluralName>/<OwnedEntityName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/CountryLocalNames/Continents/Languages/en-US`)
 - **Description:** Updates or creates localized value for a specific enumeration value by ID (e.g. Continents) for a specific culture code in an owned entity (e.g. Country Local Name).
 - **Path Parameters:**
 `<relatedKey>`: ID of the enumeration value.
