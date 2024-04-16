@@ -108,6 +108,10 @@ public class Entity : YamlConfigNode<NoxSolution, Domain>
         => !HasCompositeKey && Attributes.Any(x => x.IsLocalized);
 
     [YamlIgnore]
+    public bool HasLocalizedEnum
+        => Attributes.Any(x => x.IsLocalizedEnum);
+
+    [YamlIgnore]
     public bool HasLocalizedOwnedRelationships
         => OwnedRelationships.Any(x => x.Related.Entity.IsLocalized);
 

@@ -46,7 +46,7 @@ public abstract class TenantContactUpsertDtoBase: EntityDtoBase
     public virtual System.String? Email { get; set; }
 
     /// <summary>
-    /// Tenant Brand Status     
+    /// Tenant Contact Status     
     /// </summary>
     /// <remarks>Optional.</remarks>
     public virtual System.Int32? Status { get; set; }

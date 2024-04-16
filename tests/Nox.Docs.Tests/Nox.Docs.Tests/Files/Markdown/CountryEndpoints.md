@@ -108,10 +108,6 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **PUT** `/api/v1/Countries/ContinentEnums/{relatedKey}/Languages/{cultureCode}`
   - **Description**: Update or create localized value of ContinentEnums for a specific Country. Requires relatedKey and cultureCode in the URL and a payload with the new value of CountryContinentEnumsUpsertLocalizedDto.
-
-- **PUT** `/api/v1/Countries/CountryBarCode/Statuses/{relatedKey/Languages/{cultureCode}`
-  - **Description**: Update or create localized value of Statuses for CountryBarCode for Country. Requires relatedKey and cultureCode in the url and a payload with the new value of CountryBarCodeStatusUpsertLocalizedDto
-
 ## Localized Endpoints
 - **GET** `/api/v1/Countries/{key}/Languages`
   - Description: Retrieve all translations for a specific Country.
@@ -121,6 +117,18 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 - **DELETE** `/api/v1/Countries/{key}/Languages/{cultureCode}`
     - Description: Delete the translations for a specific culture code for a specific Country.
+
+- **PUT** `/api/v1/Countries/CountryBarCode/Statuses/{relatedKey/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of Statuses for CountryBarCode for Country. Requires relatedKey and cultureCode in the url and a payload with the new value of 
+
+- **DELETE** `/api/v1/Countries/CountryBarCode/Statuses/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific Status and culture code in CountryBarCode.
+
+- **PUT** `/api/v1/Countries/CountryLocalNames/Statuses/{relatedKey/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of Statuses for CountryLocalNames for Country. Requires relatedKey and cultureCode in the url and a payload with the new value of 
+
+- **DELETE** `/api/v1/Countries/CountryLocalNames/Statuses/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific Status and culture code in CountryLocalNames.
 
 
 ## Related Entities

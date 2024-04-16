@@ -3,7 +3,7 @@
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Tenant Brand Status.
+/// Tenant Contact Status.
 /// </summary> 
 public enum TenantContactStatusEnum
 {

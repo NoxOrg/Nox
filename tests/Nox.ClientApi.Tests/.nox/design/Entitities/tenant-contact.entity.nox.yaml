@@ -35,7 +35,7 @@ attributes:
     isRequired: true
 
   - name: Status
-    description: Tenant Brand Status
+    description: Tenant Contact Status
     type: enumeration
     enumerationTypeOptions:
       values:

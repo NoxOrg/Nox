@@ -76,7 +76,7 @@ public abstract class TenantContactDtoBase : EntityDtoBase
     public System.String Email { get; set; } = default!;
 
     /// <summary>
-    /// Tenant Brand Status     
+    /// Tenant Contact Status     
     /// </summary>
     /// <remarks>Optional.</remarks>
     public System.Int32? Status { get; set; }

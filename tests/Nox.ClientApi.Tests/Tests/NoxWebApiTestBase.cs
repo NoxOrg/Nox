@@ -9,6 +9,7 @@ using Xunit.Abstractions;
 
 using Nox.Application.Dto;
 using Nox.Extensions;
+using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Tests;
 
@@ -32,7 +33,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     /// TODO  enableMessagingTests is causing the GitHub CI to hang...
     /// </summary>
     protected NoxWebApiTestBase(
-        ITestOutputHelper testOutput,      
+        ITestOutputHelper testOutput,
         ITestDatabaseService testDatabaseService,
         bool enableMessagingTests = false,
         string? environment = null)
@@ -351,8 +352,10 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
 
     protected TResult? GetEntityByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
     {
-        var ctx = _noxAppClient.GetDbContext();
+        var ctx = GetDbContext();
         var entity = ctx.Set<TResult>().FirstOrDefault(filter);
         return entity;
     }
+
+    protected AppDbContext GetDbContext() => _noxAppClient.GetDbContext();
 }

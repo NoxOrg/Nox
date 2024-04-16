@@ -42,19 +42,11 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
                     LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
                 });
 
-            var ownedRelationshipsWithEnumerationAttributes = entity.OwnedRelationships.Select(x => new
-            {
-                IsWithMultiEntity = x.WithMultiEntity,
-                OwnedEntity = x.Related.Entity,
-                EnumerationAttributes = x.Related.Entity.GetEnumerationAttributes()
-            });
-
             var model = new Dictionary<string, object>
             {
                 ["apiRoutePrefix"] = apiRoutePrefix,
                 ["entity"] = entity,
                 ["enumerationAttributes"] = entity.GetEnumerationAttributes(),
-                ["ownedRelationshipsWithEnumerationAttributes"] = ownedRelationshipsWithEnumerationAttributes,
                 ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
                 ["relatedEndpoints"] = relatedEndpoints
             };

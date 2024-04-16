@@ -93,7 +93,7 @@ public abstract partial class TenantContactBase : EntityBase, IOwnedEntity
     public Nox.Types.Email Email { get;  set; } = null!;
 
     /// <summary>
-    /// Tenant Brand Status    
+    /// Tenant Contact Status    
     /// </summary>
     /// <remarks>Optional.</remarks>   
     public Nox.Types.Enumeration? Status { get;  set; } = null!;

@@ -157,17 +157,7 @@ This section details the API endpoints related to enumeration attributes in a sp
   - **Description**: Delete the localized values for a specific {{Pluralize (enumAtt.Attribute.Name)}} by ID for a specific culture code in {{entity.Name}}.
 
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{Pluralize (enumAtt.Attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
-  - **Description**: Update or create localized value of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires relatedKey and cultureCode in the URL and a payload with the new value of {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.{{- end}}{{end}}
-
-{{~ for ownedRelationship in ownedRelationshipsWithEnumerationAttributes }}
-{{- for ownedEnumAtt in ownedRelationship.EnumerationAttributes}}
-{{- if ownedEnumAtt.IsLocalized -}}
-- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity ownedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (ownedEnumAtt.Attribute.Name)}}/{relatedKey/Languages/{cultureCode}`
-  - **Description**: Update or create localized value of {{Pluralize (ownedEnumAtt.Attribute.Name)}} for {{ownedRelationship.OwnedEntity.Name}} for {{entity.Name}}. Requires relatedKey and cultureCode in the url and a payload with the new value of {{ownedEnumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}
-
-{{- end -}}
-{{- end }}{{end }}
-{{ end }}{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
+  - **Description**: Update or create localized value of {{Pluralize(enumAtt.Attribute.Name)}} for a specific {{entity.Name}}. Requires relatedKey and cultureCode in the URL and a payload with the new value of {{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}}.{{- end}}{{end}}{{end}}{{- if entity.IsLocalized || entity.HasLocalizedOwnedRelationships }}
 ## Localized Endpoints
 {{~ end ~}}
 {{~ if entity.IsLocalized ~}}
@@ -180,8 +170,8 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/Languages/{cultureCode}`
     - Description: Delete the translations for a specific culture code for a specific {{entity.Name}}.
 {{~ end ~}}
-{{~ if entity.HasLocalizedOwnedRelationships ~}}
 {{ for localizedRelationship in ownedLocalizedRelationships }}
+{{~ if localizedRelationship.OwnedEntity.IsLocalized ~}}
 - **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{key}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}Localized/{cultureCode}` 
     - Description: Update or create value of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific {{entity.Name}}. Requires a payload with the new value of {{localizedRelationship.OwnedEntity.Name}}LocalizedUpsertDto.
 {{ if localizedRelationship.IsWithMultiEntity}}
@@ -192,7 +182,18 @@ This section details the API endpoints related to enumeration attributes in a sp
     - Description: Delete the localized values of {{localizedRelationship.OwnedEntity.Name}}Localized for a specific culture code in {{entity.Name}}.
 {{- end -}}
 {{~ end ~}}
+{{~ if localizedRelationship.OwnedEntity.HasLocalizedEnum ~}}
+{{~ for attribute in localizedRelationship.OwnedEntity.Attributes ~}}
+{{~ if attribute.IsLocalizedEnum ~}}
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (attribute.Name)}}/{relatedKey/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of {{Pluralize (attribute.Name)}} for {{localizedRelationship.OwnedEntity.Name}} for {{entity.Name}}. Requires relatedKey and cultureCode in the url and a payload with the new value of {{attribute.EntityDtoNameForUpsertLocalizedEnumeration}}
+
+- **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
+    - Description: Delete the localized values for a specific {{attribute.Name}} and culture code in {{localizedRelationship.OwnedEntity.Name}}.
 {{~ end ~}}
+{{~ end ~}}
+{{~ end ~}}
+{{- end -}}
 {{- if relatedEndpoints | array.size > 0 }}
 
 ## Other Related Endpoints

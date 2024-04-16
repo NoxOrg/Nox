@@ -48,3 +48,4 @@ This document provides information about the various endpoints available in our 
 #### Partially Update UserContactSelection
 - **PATCH** `/api/v1/People/{key}/UserContactSelections`
   - Description: Partially update an existing UserContactSelection for a specific Person.
+

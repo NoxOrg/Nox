@@ -316,6 +316,7 @@ This section details the API endpoints related to enumeration attributes in a sp
 
 
 
+
 ## Other Related Endpoints
 
 - **GET** `/api/v1/Stores/{storesKey}/Country/{countryKey}/Workplaces`

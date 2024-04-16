@@ -1,4 +1,5 @@
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using Nox.Docs.Extensions;
 using FluentAssertions;
 using Scriban;
@@ -32,19 +33,20 @@ public class ScribanTemplateExtensionsTests
         var entity = noxSolution.Domain!.Entities.First(x => x.Name == "Country");
 
         var enumerationAttributes = GetEnumerationAttributes(entity);
-        var ownedRelationshipsWithEnumerationAttributes = entity.OwnedRelationships.Select(x => new
-        {
-            IsWithMultiEntity = x.WithMultiEntity,
-            OwnedEntity = x.Related.Entity,
-            EnumerationAttributes = GetEnumerationAttributes(x.Related.Entity)
-        });
+        var ownedEntitiesWithLocalizedAttributes = entity.OwnedRelationships
+            .Select(x => new
+            {
+                IsWithMultiEntity = x.WithMultiEntity,
+                OwnedEntity = x.Related.Entity,
+                LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
+            });
 
         var model = new Dictionary<string, object>
         {
             ["apiRoutePrefix"] = noxSolution.Presentation!.ApiConfiguration!.ApiRoutePrefix,
             ["entity"] = entity,
             ["enumerationAttributes"] = enumerationAttributes,
-            ["ownedRelationshipsWithEnumerationAttributes"] = ownedRelationshipsWithEnumerationAttributes,
+            ["ownedLocalizedRelationships"] = ownedEntitiesWithLocalizedAttributes,
         };
 
         var template = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();

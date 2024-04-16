@@ -226,13 +226,14 @@ domain:
           type: number
 
         - name: Status
-          description: Bar Code Status
+          description: Bar code status
           type: enumeration
           enumerationTypeOptions:
-            isLocalized: true
             values:
               - { id: 1, name: Active }
               - { id: 2, name: Inactive }
+            isLocalized: true
+          isRequired: false
 
     - name: CountryLocalNames
       description: The name of a country in other languages
@@ -266,6 +267,16 @@ domain:
             minLength: 4
             maxLength: 63
           isRequired: true
+
+        - name: Status
+          description: Local name status
+          type: enumeration
+          enumerationTypeOptions:
+            values:
+              - { id: 1, name: Active }
+              - { id: 2, name: Inactive }
+            isLocalized: true
+          isRequired: false
 
     - name: People
       description: The people who inhabit countries
