@@ -19,7 +19,23 @@ public abstract partial class TenantsControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTenantsStatusesQuery(_cultureCode));                        
         return Ok(result);        
     }
-         
+        
+    [HttpPut("/api/v1/Tenants/TenantBrands/Statuses/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<DtoNameSpace.TenantBrandStatusLocalizedDto>> PutTenantBrandStatusesLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.TenantBrandStatusLocalizedUpsertDto tenantBrandStatusLocalizedUpsertDto)
+    {   
+        if (tenantBrandStatusLocalizedUpsertDto is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertTenantBrandsStatusesTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), tenantBrandStatusLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
+        var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetTenantBrandsStatusesTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
+        return Ok(result);       
+    }
+
     [HttpDelete("/api/v1/Tenants/TenantBrands/Statuses/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteTenantBrandStatusesLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   
@@ -28,7 +44,23 @@ public abstract partial class TenantsControllerBase
         var result = await _mediator.Send(new ApplicationCommandsNameSpace.DeleteTenantBrandsStatusesTranslationsCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), cultureCodeValue!));                        
         return NoContent();     
     }
-         
+        
+    [HttpPut("/api/v1/Tenants/TenantContact/Statuses/{relatedKey}/Languages/{cultureCode}")]
+    public virtual async Task<ActionResult<DtoNameSpace.TenantContactStatusLocalizedDto>> PutTenantContactStatusesLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.TenantContactStatusLocalizedUpsertDto tenantContactStatusLocalizedUpsertDto)
+    {   
+        if (tenantContactStatusLocalizedUpsertDto is null)
+        {
+            throw new Nox.Exceptions.BadRequestInvalidFieldException();
+        }
+        if (!ModelState.IsValid)
+        {
+            throw new Nox.Exceptions.BadRequestException(ModelState);
+        }
+        var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertTenantContactsStatusesTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), tenantContactStatusLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
+        var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetTenantContactsStatusesTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
+        return Ok(result);       
+    }
+
     [HttpDelete("/api/v1/Tenants/TenantContact/Statuses/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteTenantContactStatusesLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   

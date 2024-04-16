@@ -26,7 +26,6 @@ public abstract partial class WorkplacesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsTranslationsQuery());                        
         return Ok(result);        
     }
-
     [HttpPut("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<DtoNameSpace.WorkplaceOwnershipLocalizedDto>> PutWorkplaceOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.WorkplaceOwnershipLocalizedUpsertDto workplaceOwnershipLocalizedUpsertDto)
     {   
@@ -41,7 +40,8 @@ public abstract partial class WorkplacesControllerBase
         var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertWorkplacesOwnershipsTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), workplaceOwnershipLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
         var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetWorkplacesOwnershipsTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
         return Ok(result);       
-    } 
+    }
+
     [HttpDelete("/api/v1/Workplaces/Ownerships/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteWorkplaceOwnershipsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   

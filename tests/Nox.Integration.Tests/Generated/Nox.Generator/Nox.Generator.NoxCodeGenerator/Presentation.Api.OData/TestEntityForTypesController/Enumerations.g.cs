@@ -26,7 +26,6 @@ public abstract partial class TestEntityForTypesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery());                        
         return Ok(result);        
     }
-
     [HttpPut("/api/v1/TestEntityForTypes/EnumerationTestFields/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto>> PutTestEntityForTypesEnumerationTestFieldsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedUpsertDto testEntityForTypesEnumerationTestFieldLocalizedUpsertDto)
     {   
@@ -41,7 +40,8 @@ public abstract partial class TestEntityForTypesControllerBase
         var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertTestEntityForTypesEnumerationTestFieldsTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), testEntityForTypesEnumerationTestFieldLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
         var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetTestEntityForTypesEnumerationTestFieldsTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
         return Ok(result);       
-    } 
+    }
+
     [HttpDelete("/api/v1/TestEntityForTypes/EnumerationTestFields/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteTestEntityForTypesEnumerationTestFieldsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   

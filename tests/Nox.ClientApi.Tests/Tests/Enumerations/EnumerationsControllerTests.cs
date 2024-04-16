@@ -60,16 +60,10 @@ public class EnumerationsControllerTests : NoxWebApiTestBase
             }
         });
 
-        // Can be replaced with POST enum localized call when implemented
-        var context = GetDbContext();
-        var tenantContactStatusLocalized = new ClientApi.Domain.TenantContactStatusLocalized
+        await PutAsync($"{Endpoints.TenantsUrl}/TenantContact/Statuses/1/Languages/de-DE", new TenantContactStatusLocalizedUpsertDto
         {
-            Id = TenantMetadata.CreateStatus(1),
-            CultureCode = CultureCode.From("de-DE"),
             Name = "Aktiv",
-        };
-        await context.AddAsync(tenantContactStatusLocalized);
-        await context.SaveChangesAsync();
+        });
 
         // Act
         var response = await DeleteAsync($"{Endpoints.TenantsUrl}/TenantContact/Statuses/1/Languages/de-DE");
@@ -122,16 +116,10 @@ public class EnumerationsControllerTests : NoxWebApiTestBase
             },
         });
 
-        // Can be replaced with POST enum localized call when implemented
-        var context = GetDbContext();
-        var tenantBrandStatusLocalized = new ClientApi.Domain.TenantBrandStatusLocalized
+        await PutAsync($"{Endpoints.TenantsUrl}/TenantBrands/Statuses/1/Languages/de-DE", new TenantBrandStatusLocalizedUpsertDto
         {
-            Id = TenantMetadata.CreateStatus(1),
-            CultureCode = CultureCode.From("de-DE"),
             Name = "Aktiv",
-        };
-        await context.AddAsync(tenantBrandStatusLocalized);
-        await context.SaveChangesAsync();
+        });
 
         // Act
         var response = await DeleteAsync($"{Endpoints.TenantsUrl}/TenantBrands/Statuses/1/Languages/de-DE");

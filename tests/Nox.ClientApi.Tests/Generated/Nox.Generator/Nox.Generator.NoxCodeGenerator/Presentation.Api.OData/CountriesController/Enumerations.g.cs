@@ -26,7 +26,6 @@ public abstract partial class CountriesControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsTranslationsQuery());                        
         return Ok(result);        
     }
-
     [HttpPut("/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult<DtoNameSpace.CountryContinentLocalizedDto>> PutCountryContinentsLocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String cultureCode, [FromBody] DtoNameSpace.CountryContinentLocalizedUpsertDto countryContinentLocalizedUpsertDto)
     {   
@@ -41,7 +40,8 @@ public abstract partial class CountriesControllerBase
         var upsertedKeyDto = await _mediator.Send(new ApplicationCommandsNameSpace.UpsertCountriesContinentsTranslationCommand(Nox.Types.Enumeration.FromDatabase(relatedKey), countryContinentLocalizedUpsertDto, Nox.Types.CultureCode.From(cultureCode)));                        
         var result = (await _mediator.Send(new ApplicationQueriesNameSpace.GetCountriesContinentsTranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.cultureCode);
         return Ok(result);       
-    } 
+    }
+
     [HttpDelete("/api/v1/Countries/Continents/{relatedKey}/Languages/{cultureCode}")]
     public virtual async Task<ActionResult> DeleteCountryContinentsLocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String cultureCode)
     {   

@@ -50,35 +50,6 @@ public partial class CountryQueryToTableMetadata
         public static Nox.Types.Number CreatePopulation(System.Int32 value)
             => Nox.Types.Number.From(value);
         
-    
-        /// <summary>
-        /// Type options for property 'Status'
-        /// </summary>
-        public static Nox.Types.EnumerationTypeOptions StatusTypeOptions {get; private set;} = new ()
-        {
-            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
-            {
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 1,
-                    Name = "Active",
-                },
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 2,
-                    Name = "Inactive",
-                },
-            },
-            IsLocalized = true,
-        };
-    
-    
-        /// <summary>
-        /// Factory for property 'Status'
-        /// </summary>
-        public static Nox.Types.Enumeration CreateStatus(System.Int32 value)
-            => Nox.Types.Enumeration.From(value, StatusTypeOptions);
-        
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
@@ -86,5 +57,5 @@ public partial class CountryQueryToTableMetadata
         /// <summary>
         /// User Interface for property 'Population'
         /// </summary>
-        public static TypeUserInterface? DescriptionUiOptions {get; private set;} = null; 
+        public static TypeUserInterface? PopulationUiOptions {get; private set;} = null; 
 }

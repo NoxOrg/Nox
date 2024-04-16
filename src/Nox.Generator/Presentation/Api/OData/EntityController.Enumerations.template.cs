@@ -41,7 +41,9 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(enumAtt.EntityPluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsQuery());                        
         return Ok(result);        
     }
-
+    {{- end -}}
+    {{- end }} 
+    {{- if (enumAtt.Attribute.EnumerationTypeOptions.IsLocalized) }}
     [HttpPut("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entityRoute}}/{{Pluralize (enumAtt.Attribute.Name)}}/{%{{}%}relatedKey{%{}}%}/Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult<DtoNameSpace.{{enumAtt.EntityDtoNameForLocalizedEnumeration}}>> Put{{enumAtt.EntityName}}{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromRoute] System.Int32 relatedKey,[FromRoute] System.String {{cultureCode}}, [FromBody] DtoNameSpace.{{enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}} {{ToLowerFirstChar enumAtt.EntityDtoNameForUpsertLocalizedEnumeration}})
     {   
@@ -57,9 +59,7 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         var result = (await _mediator.Send(new ApplicationQueriesNameSpace.Get{{(enumAtt.EntityPluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}TranslationsQuery())).SingleOrDefault(x => x.Id == upsertedKeyDto.Id && x.CultureCode == upsertedKeyDto.{{cultureCode}});
         return Ok(result);       
     }
-    {{- end -}}
-    {{- end }} 
-    {{- if (enumAtt.Attribute.EnumerationTypeOptions.IsLocalized) }} 
+
     [HttpDelete("{{solution.Presentation.ApiConfiguration.ApiRoutePrefix}}/{{entityRoute}}/{{Pluralize (enumAtt.Attribute.Name)}}/{%{{}%}relatedKey{%{}}%}/Languages/{%{{}%}{{cultureCode}}{%{}}%}")]
     public virtual async Task<ActionResult> Delete{{enumAtt.EntityName}}{{Pluralize (enumAtt.Attribute.Name)}}LocalizedNonConventional([FromRoute] System.Int32 relatedKey, [FromRoute] System.String {{cultureCode}})
     {   

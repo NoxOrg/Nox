@@ -41,6 +41,7 @@ public static class NoxSolutionEntityEndpointsMarkdownExtensions
                     OwnedEntity = x.Related.Entity,
                     LocalizedAttributes = x.Related.Entity.GetLocalizedAttributes(),
                 });
+
             var model = new Dictionary<string, object>
             {
                 ["apiRoutePrefix"] = apiRoutePrefix,

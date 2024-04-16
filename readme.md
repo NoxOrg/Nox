@@ -515,6 +515,15 @@ The following endpoints are generated based on `relationship => apiGenerateRefer
 
 #### Owned Entity Enumerations Endpoints
 
+##### PUT `/api/<EntityPluralName>/<OwnedEntityName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/CountryLocalNames/Continents/Languages/en-US`)
+- **Description:** Updates or creates localized value for a specific enumeration value by ID (e.g. Continents) for a specific culture code in an owned entity (e.g. Country Local Name).
+- **Path Parameters:**
+`<relatedKey>`: ID of the enumeration value.
+`<cultureCode>`: Culture code of the localized value.
+- **Request Body:** `<OwnedEntityName><EnumName>UpsertLocalizedDto` (e.g. `CountryLocalNameContinentUpsertLocalizedDto`) object.
+- **Response:** Returns the updated or created `<OwnedEntityName><EnumName>LocalizedDto` (e.g. `CountryLocalNameContinentLocalizedDto`) object.
+- **Query Parameters:** None
+
 ##### DELETE `/api/<EntityPluralName>/<EntityName>/<EnumPluralName>/<relatedKey>/Languages/<cultureCode>` (e.g. `/api/Countries/CountryLocalNames/Continents/1/Languages/en-US`)
 - **Description:** Deletes the localized values for a specific enumeration value by ID (e.g. Continents) for a specific culture code in a specific owned entity (e.g. Country Local Name).
 - **Path Parameters:**

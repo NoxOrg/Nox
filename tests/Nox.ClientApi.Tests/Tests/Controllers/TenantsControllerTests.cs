@@ -1112,6 +1112,90 @@ namespace ClientApi.Tests.Controllers
 
         #endregion Localizations
 
+        #region Enums
+        [Fact]
+        public async Task UpsertTenantBrandsStatusLocalizations_WhenLocalizationDoesntExist_CreatesLocalization()
+        {
+            // Arrange
+            var dto = new TenantBrandStatusLocalizedUpsertDto { Name = "Aktiv" };
+
+            // Act
+            var response= await PutAsync($"{Endpoints.TenantsUrl}/TenantBrands/Statuses/1/Languages/de-DE", dto);
+
+            // Assert
+            response.Should().NotBeNull();
+            response!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = DeserializeResponse<TenantBrandStatusLocalizedDto>(content);
+
+            result!.CultureCode.Should().Be("de-DE");
+            result.Name.Should().Be("Aktiv");
+        }
+
+        [Fact]
+        public async Task UpsertTenantBrandsStatusLocalizations_WhenLocalizationAlreadyExists_UpdatesLocalization()
+        {
+            // Arrange
+            var dto = new TenantBrandStatusLocalizedUpsertDto { Name = "Aktif" };
+            await PutAsync($"{Endpoints.TenantsUrl}/TenantBrands/Statuses/1/Languages/fr-FR", dto);
+
+            // Act
+            var response = await PutAsync($"{Endpoints.TenantsUrl}/TenantBrands/Statuses/1/Languages/fr-FR", dto);
+
+            // Assert
+            response.Should().NotBeNull();
+            response!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = DeserializeResponse<TenantBrandStatusLocalizedDto>(content);
+
+            result!.CultureCode.Should().Be("fr-FR");
+            result.Name.Should().Be("Aktif");
+        }
+
+        [Fact]
+        public async Task UpsertTenantContactStatusLocalizations_WhenLocalizationDoesntExist_CreatesLocalization()
+        {
+            // Arrange
+            var dto = new TenantContactStatusLocalizedUpsertDto { Name = "Aktiv" };
+
+            // Act
+            var response = await PutAsync($"{Endpoints.TenantsUrl}/TenantContact/Statuses/1/Languages/de-DE", dto);
+
+            // Assert
+            response.Should().NotBeNull();
+            response!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = DeserializeResponse<TenantContactStatusLocalizedDto>(content);
+
+            result!.CultureCode.Should().Be("de-DE");
+            result.Name.Should().Be("Aktiv");
+        }
+
+        [Fact]
+        public async Task UpsertTenantContactStatusLocalizations_WhenLocalizationAlreadyExists_UpdatesLocalization()
+        {
+            // Arrange
+            var dto = new TenantContactStatusLocalizedUpsertDto { Name = "Aktif" };
+            await PutAsync($"{Endpoints.TenantsUrl}/TenantBrands/Statuses/1/Languages/fr-FR", dto);
+
+            // Act
+            var response = await PutAsync($"{Endpoints.TenantsUrl}/TenantContact/Statuses/1/Languages/fr-FR", dto);
+
+            // Assert
+            response.Should().NotBeNull();
+            response!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var result = DeserializeResponse<TenantContactStatusLocalizedDto>(content);
+
+            result!.CultureCode.Should().Be("fr-FR");
+            result.Name.Should().Be("Aktif");
+        }
+        #endregion Enums
+
         #endregion Owned Entities
 
         #region Many to Many Relations

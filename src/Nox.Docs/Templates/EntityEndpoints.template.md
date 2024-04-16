@@ -185,6 +185,9 @@ This section details the API endpoints related to enumeration attributes in a sp
 {{~ if localizedRelationship.OwnedEntity.HasLocalizedEnum ~}}
 {{~ for attribute in localizedRelationship.OwnedEntity.Attributes ~}}
 {{~ if attribute.IsLocalizedEnum ~}}
+- **PUT** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (attribute.Name)}}/{relatedKey/Languages/{cultureCode}`
+  - **Description**: Update or create localized value of {{Pluralize (attribute.Name)}} for {{localizedRelationship.OwnedEntity.Name}} for {{entity.Name}}. Requires relatedKey and cultureCode in the url and a payload with the new value of {{attribute.EntityDtoNameForUpsertLocalizedEnumeration}}
+
 - **DELETE** `{{apiRoutePrefix}}/{{entity.PluralName}}/{{GetNavigationPropertyName entity localizedRelationship.OwnedEntity.OwningRelationship}}/{{Pluralize (attribute.Name)}}/{relatedKey}/Languages/{cultureCode}`
     - Description: Delete the localized values for a specific {{attribute.Name}} and culture code in {{localizedRelationship.OwnedEntity.Name}}.
 {{~ end ~}}
