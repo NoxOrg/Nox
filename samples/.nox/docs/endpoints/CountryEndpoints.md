@@ -271,6 +271,8 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/CountryUsedByCustomers`
   - Description: Delete all existing Customers for a specific Country.
 
+
+
 ## Other Related Endpoints
 
 - **GET** `/api/Countries/{countriesKey}/Currency/{currencyKey}/MinimumCashStocks`

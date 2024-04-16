@@ -313,6 +313,7 @@ This section details the API endpoints related to enumeration attributes in a sp
 - **GET** `/api/v1/Stores/Statuses`
   - **Description**: Retrieve non-conventional values of Statuses for a specific Store.
 
+
 ## Other Related Endpoints
 
 - **GET** `/api/v1/Stores/{storesKey}/Country/{countryKey}/Workplaces`

@@ -181,6 +181,8 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Currencies/{key}/CurrencyUsedByMinimumCashStocks`
   - Description: Delete all existing MinimumCashStocks for a specific Currency.
 
+
+
 ## Other Related Endpoints
 
 - **GET** `/api/Currencies/{currenciesKey}/Countries/{countriesKey}/Commissions`

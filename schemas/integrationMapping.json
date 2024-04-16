@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Definition namespace for attributes describing the transformation mapping of a field.",
+  "description": "This section details integration transformation mapping attributes like sourceName, sourceType, targetType.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "target"
+  ],
+  "properties": {
+    "source": {    
+      "title": "Definition namespace for integration mapping fields.",
+      "description": "This section details integration transformation mapping field attributes like Name and Type.",
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the field.",
+          "description": "Specify the name of the field. For json and xml files it refers to the attribute name. For csv files must start at Column1 and end at the last column to be imported. For xlsx files it refers to the column heading.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "title": "The data type of the field",
+          "description": "Specify the data type of the field. Valid values are integer, double, bool, string, date, time, datetime, guid",
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "bool",
+                "date",
+                "dateTime",
+                "double",
+                "guid",
+                "integer",
+                "string",
+                "time"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "target": {    
+      "title": "Definition namespace for integration mapping fields.",
+      "description": "This section details integration transformation mapping field attributes like Name and Type.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the field.",
+          "description": "Specify the name of the field. For json and xml files it refers to the attribute name. For csv files must start at Column1 and end at the last column to be imported. For xlsx files it refers to the column heading.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "title": "The data type of the field",
+          "description": "Specify the data type of the field. Valid values are integer, double, bool, string, date, time, datetime, guid",
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "bool",
+                "date",
+                "dateTime",
+                "double",
+                "guid",
+                "integer",
+                "string",
+                "time"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "isRequired": {    
+      "title": "Is the field required?",
+      "description": "Specify whether the field is required.",
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
