@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Nox.Integration.Abstractions;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.EtlTests;
 

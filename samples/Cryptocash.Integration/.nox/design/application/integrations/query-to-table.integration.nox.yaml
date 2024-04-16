@@ -37,12 +37,13 @@ source:
         CreateDate, 
         EditDate,
         CONVERT(datetime, CreateDate) AS AsAt,
-        Etag
+        NEWID() AS Etag
       FROM 
         dbo.CountryMaster
     minimumExpectedRecords: 10
     
-transformationType: defaultTransform    
+transformation:
+  type: dynamic  
 
 target:
   name: SampleTarget

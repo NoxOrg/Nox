@@ -3,27 +3,25 @@ using MediatR;
 
 namespace Cryptocash.Integration.Integrations;
 
-public class QueryToCustomTableRecordCreatedEventHandler: INotificationHandler<QueryToCustomTableRecordCreatedEvent>
+public class QueryToTableRecordCreatedEventHandler: INotificationHandler<QueryToTableRecordCreatedEvent>
 {
     private readonly ILogger _logger;
 
-    public QueryToCustomTableRecordCreatedEventHandler(ILogger<QueryToCustomTableRecordCreatedEventHandler> logger)
+    public QueryToTableRecordCreatedEventHandler(ILogger<QueryToTableRecordCreatedEventHandler> logger)
     {
         _logger = logger;
     }
     
-    public Task Handle(QueryToCustomTableRecordCreatedEvent notification, CancellationToken cancellationToken)
+    public Task Handle(QueryToTableRecordCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var payload = (QueryToCustomTableRecordCreatedDto)notification.Dto!;
+        var payload = (QueryToTableRecordCreatedDto)notification.Dto!;
         _logger.LogInformation("Received: {0}\n " +
                                "Payload\n" +
                                "------------------------------\n" +
                                "Id: {1}\n" +
                                "Name: {2}\n" +
-                               "Population: {3}\n" +
-                               "CreateDate: {4}\n" +
-                               "EditDate: {5}\n", 
-            "CountryQueryToCustomTableEtlRecordCreatedEvent", payload.Id, payload.Name, payload.Population, payload.CreateDate, payload.EditDate);
+                               "Population: {3}\n",
+            "CountryQueryToTableEtlRecordCreatedEvent", payload, payload.Name, payload.Population);
         return Task.CompletedTask;
     }
 }

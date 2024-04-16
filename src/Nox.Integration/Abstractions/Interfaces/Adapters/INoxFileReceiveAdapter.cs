@@ -1,8 +1,9 @@
-using Nox.Types;
-
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxFileReceiveAdapter: INoxReceiveAdapter
+public interface INoxFileSourceAdapter: INoxSourceAdapter
 {
-    IReadOnlyList<NoxSimpleTypeDefinition> Attributes { get; }
+}
+
+public interface INoxFileSourceAdapter<TSource>: INoxSourceAdapter<TSource>
+{
 }

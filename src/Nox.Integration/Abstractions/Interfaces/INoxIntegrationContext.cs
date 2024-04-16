@@ -1,4 +1,4 @@
-namespace Nox.Integration.Abstractions;
+namespace Nox.Integration.Abstractions.Interfaces;
 
 public interface INoxIntegrationContext
 {
@@ -6,3 +6,4 @@ public interface INoxIntegrationContext
 
     void ExecuteStartupIntegrations();
 }
+

@@ -40,7 +40,7 @@
       <None Update="files\Minimal\infrastructure\dependencies\dataConnections\countrySource.dataConnection.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="files\Minimal\infrastructure\dependencies\dataConnections\etlSample.dataConnection.nox.yaml">
+      <None Update="files\Minimal\infrastructure\dependencies\dataConnections\target.dataConnection.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="files\Minimal\infrastructure\dependencies\minimal.dependencies.nox.yaml">
@@ -130,10 +130,109 @@
       <None Update="files\source-data\CountryMaster.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="SqlServer\files\SourceFilter\application\integrations\SqlToSqlFilter.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\application\source-filter.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\infrastructure\dependencies\dataConnections\countrySource.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\infrastructure\dependencies\dataConnections\etlSample.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\infrastructure\dependencies\source-filter.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\infrastructure\persistence\source-filter.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\infrastructure\source-filter.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\SourceFilter\source-filter.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\minimal.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\infrastructure\minimal.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\infrastructure\persistence\minimal.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\infrastructure\dependencies\minimal.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\infrastructure\dependencies\dataConnections\target.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\infrastructure\dependencies\dataConnections\source.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\application\minimal.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="SqlServer\files\Minimal\application\integrations\SqlToSql.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\custom.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\infrastructure\custom.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\infrastructure\persistence\custom.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\infrastructure\dependencies\custom.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\infrastructure\dependencies\dataConnections\target.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\infrastructure\dependencies\dataConnections\source.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\application\custom.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CustomTransform\files\application\integrations\SqlToSqlCustom.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\json-sql.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\infrastructure\json-sql.infrastructure.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\infrastructure\persistence\json-sql.persistence.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\infrastructure\dependencies\json-sql.dependencies.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\infrastructure\dependencies\dataConnections\target.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\infrastructure\dependencies\dataConnections\source.dataConnection.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\application\json-sql.application.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\JsonToSql\application\integrations\JsonToSql.integration.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Json\files\CountryMaster.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="files\source-data\" />
+      <Folder Include="SqlServer\files\" />
     </ItemGroup>
 
 </Project>

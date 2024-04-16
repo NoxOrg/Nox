@@ -1,2 +1,0 @@
-integrations:
-  - $ref: ./integrations/SqlToSqlCustom.integration.nox.yaml

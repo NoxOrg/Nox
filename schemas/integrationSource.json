@@ -170,37 +170,13 @@
           "description": "This section specified attributes related to an integration source of type File. Attributes include the name and attributes of the file to ingest.",
           "type": "object",
           "required": [
-            "filename",
-            "recordAttributes"
+            "filename"
           ],
           "properties": {
             "filename": {    
               "title": "The file name.",
               "description": "The name of the file that will be ingested.",
               "type": "string"
-            },
-            "recordAttributes": {    
-              "title": "The attributes of the source file record.",
-              "description": "One or more attributes describing the composition of the source file record.",
-              "type": "array",
-              "items":   {
-                "anyOf": [
-                  { "$ref": "type.json" },
-                  {
-                    "additionalProperties": false, 
-                    "required": ["$ref"],
-                    "type": "object",
-                    "properties": {
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri",
-                        "pattern": "^[^\\s]*$"
-                      }
-                    }
-                  }
-                ]
-              },
-              "additionalProperties": false
             }
           },
           "additionalProperties": false

@@ -25,18 +25,12 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection RegisterTransformHandler(this IServiceCollection services, Type handlerType)
+    public static IServiceCollection RegisterIntegrationTransform<TTransform>(this IServiceCollection services)
     {
-        services.AddTransient(typeof(INoxCustomTransformHandler), handlerType);
+        services.AddTransient(typeof(INoxTransform), typeof(TTransform));
         return services;
     }
     
-    public static IServiceCollection RegisterTransformHandler<THandler>(this IServiceCollection services) where THandler: INoxCustomTransformHandler
-    {
-        services.AddTransient(typeof(INoxCustomTransformHandler), typeof(THandler));
-        return services;
-    }
-
     private static IServiceCollection RegisterEventPayloads(this IServiceCollection services)
     {
         var payloads = Assembly
@@ -54,7 +48,7 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection RegisterCreateEvents(this IServiceCollection services)
+    private static IServiceCollection RegisterCreateEvents(this IServiceCollection services)
     {
         var events = Assembly
             .GetEntryAssembly()!
@@ -70,7 +64,7 @@ public static class ServiceCollectionExtension
         return services;
     }
     
-    public static IServiceCollection RegisterUpdateEvents(this IServiceCollection services)
+    private static IServiceCollection RegisterUpdateEvents(this IServiceCollection services)
     {
         var events = Assembly
             .GetEntryAssembly()!
@@ -86,7 +80,7 @@ public static class ServiceCollectionExtension
         return services;
     }
     
-    public static IServiceCollection RegisterExecuteCompleteEvents(this IServiceCollection services)
+    private static IServiceCollection RegisterExecuteCompleteEvents(this IServiceCollection services)
     {
         services.AddTransient<EtlExecuteCompletedDto>();
         services.AddTransient<EtlExecuteCompletedEvent>();
@@ -103,19 +97,4 @@ public static class ServiceCollectionExtension
  
         return services;
     }
-    
-    private static bool IsSubclassOfRawGeneric(Type generic, Type? toCheck)
-    {
-        while (toCheck != typeof(object))
-        {
-            var cur = toCheck is { IsGenericType: true } ? toCheck.GetGenericTypeDefinition() : toCheck;
-            if (generic == cur) {
-                return true;
-            }
-            toCheck = toCheck?.BaseType;
-        }
-
-        return false;
-    }
-    
 }

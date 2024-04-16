@@ -1,6 +1,0 @@
-dependencies:
-  $ref: ./dependencies/json-source.dependencies.nox.yaml
-  
-persistence:
-  $ref: ./persistence/json-source.persistence.nox.yaml
-  

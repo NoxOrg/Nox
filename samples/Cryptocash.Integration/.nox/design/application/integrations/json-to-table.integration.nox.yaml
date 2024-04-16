@@ -22,34 +22,60 @@ source:
   sourceAdapterType: file
   fileOptions: 
     filename: CountryMaster.json
-    recordAttributes:
-      - name: Name
-        description: Country's name
-        type: text
-        textTypeOptions:
-          minLength: 4
-          maxLength: 63
-        isRequired: true
 
-      - name: Population
-        description: Country's population
-        type: number
-        isRequired: true
-
-      - name: CreateDate
-        description: The date on which the country record was created
+transformation:
+  type: mapping
+  mapping:
+    - source:
+        name: CountryId
+        type: integer
+      target:
+        name: Id
+        type: integer
+      isRequired: true
+        
+    - source:
+        name: CountryName
+        type: string
+      target:
+        name: Name
+        type: string
+      isRequired: true
+        
+    - source: 
+        name: NoOfInhabitants
+        type: integer
+      target:
+        name: Population
+        type: integer
+      isRequired: true
+      
+    - source:
+        name: DateCreated
+        type: string
+      target:
+        name: CreateDate
         type: dateTime
-        isRequired: true
-
-      - name: EditDate
-        description: The date on which the country record was last updated
+      isRequired: true
+      
+    - source:
+        name: DateChanged
+        type: string
+      target:
+        name: EditDate
         type: dateTime
-
-transformationType: customTransform
+      
+    - source: 
+        name: ConcurrencyStamp
+        type: string
+      target: 
+        name: Etag
+        type: guid
+      isRequired: true
 
 target:
   name: SampleTarget
-  description: The CountriesQueryToCustomTable table of the Cryptocash database
+  description: The CountriesJsonToTable table of the Cryptocash database
   dataConnectionName: CryptocashEtlDb
   targetAdapterType: databaseTable
   tableOptions:
