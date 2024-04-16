@@ -40,7 +40,7 @@ public static class ObjectHelpers
     {
         value = null;
         if (instance == null) return false;
-        var prop = properties.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        var prop = Array.Find(properties, p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         if (prop != null)
         {
             var rawValue = prop.GetValue(instance);

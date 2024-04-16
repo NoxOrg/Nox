@@ -139,7 +139,6 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
         catch (Exception ex)
         {
             _logger.LogCritical(ex, "Failed to execute integration: {integrationName}", Name);
-            _logger.LogError("{message}", ex.Message);
             throw;
         }
     }
