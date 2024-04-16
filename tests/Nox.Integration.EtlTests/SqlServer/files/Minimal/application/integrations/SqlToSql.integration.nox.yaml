@@ -1,0 +1,42 @@
+#
+# SqlToSql.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/integration.json
+#
+
+name: SqlToSqlIntegration
+description: a Sample integration that sources data from Sql Server and persists to a SqlDatabase Table
+mergeType: mergeNew
+
+schedule:
+  start: every day at 2am
+  retry:
+    limit: 5
+    delaySeconds: 5
+    doubleDelayLimit: 10
+  runOnStartup: true
+
+source:
+  name: SampleSource
+  description: Sources Country data from a Sql Server database
+  dataConnectionName: CountrySource
+  sourceAdapterType: databaseQuery
+  queryOptions:
+    query: SELECT CountryId AS Id, Name, Population, CreateDate, EditDate FROM CountryMaster
+    minimumExpectedRecords: 5
+
+transformation:
+  type: dynamic
+
+target:
+  name: TestTarget
+  dataConnectionName: TestTargetDb
+  targetAdapterType: databaseTable
+  tableOptions:
+    tableName: SqlToSql
+    watermark:
+      dateColumns:
+        - "CreateDate"
+        - "EditDate"
+      sequentialKeyColumns:
+        - "Id"

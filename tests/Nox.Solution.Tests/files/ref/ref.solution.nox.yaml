@@ -75,7 +75,8 @@ application:
           sequentialKeyColumns: 
             - "CountryId"
           
-      transformationType: defaultTransform
+      transformation:
+        type: dynamic
 
       target:
         name: Country

@@ -1,3 +1,0 @@
-dataConnections:
-  - $ref: ./dataConnections/countrySource.dataConnection.nox.yaml
-  - $ref: ./dataConnections/etlSample.dataConnection.nox.yaml

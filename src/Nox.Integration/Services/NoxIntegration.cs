@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.Reflection;
 using Elastic.Apm.Api;
 using ETLBox;
 using ETLBox.DataFlow;
@@ -8,19 +9,23 @@ using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions.Constants;
 using Nox.Integration.Abstractions.Interfaces;
 using Nox.Integration.Abstractions.Models;
-using Nox.Integration.Exceptions;
+using Nox.Integration.Adapters;
 using Nox.Integration.Extensions;
-using Nox.Integration.Extensions.Send;
+using Nox.Integration.Helpers;
 using Nox.Solution;
 
 namespace Nox.Integration.Services;
 
-internal sealed class NoxIntegration: INoxIntegration
+internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource, TTarget>
+    
 {
     private readonly ILogger _logger;
     private readonly INoxIntegrationDbContextFactory _dbContextFactory;
     private IntegrationMergeStates? _mergeStates;
     private readonly IPublisher _publisher;
+    private readonly INoxSourceAdapter<TSource> _sourceAdapter;
+    private readonly INoxTargetAdapter<TTarget> _targetAdapter;
+    
     private readonly EtlExecuteCompletedEvent? _completedEvent;
     private readonly EtlRecordCreatedEvent<IEtlEventDto>? _createdEvent;
     private readonly EtlRecordUpdatedEvent<IEtlEventDto>? _updatedEvent;
@@ -31,8 +36,6 @@ internal sealed class NoxIntegration: INoxIntegration
     public IntegrationMergeType MergeType { get; }
     
     public IntegrationTransformType TransformType { get; }
-    public INoxReceiveAdapter? ReceiveAdapter { get; set; }
-    public INoxSendAdapter? SendAdapter { get; set; }
     
     public Type? DtoType { get; set; }
     public List<string>? TargetIdColumns { get; private set; } = null;
@@ -45,6 +48,8 @@ internal sealed class NoxIntegration: INoxIntegration
         Solution.Integration definition, 
         INoxIntegrationDbContextFactory dbContextFactory, 
         IPublisher publisher,
+        INoxSourceAdapter<TSource> sourceAdapter,
+        INoxTargetAdapter<TTarget> targetAdapter,
         EtlRecordCreatedEvent<IEtlEventDto>? createdEvent,
         EtlRecordUpdatedEvent<IEtlEventDto>? updatedEvent,
         EtlExecuteCompletedEvent? completedEvent)
@@ -56,7 +61,9 @@ internal sealed class NoxIntegration: INoxIntegration
         Schedule = definition.Schedule;
         Description = definition.Description;
         MergeType = definition.MergeType;
-        TransformType = definition.TransformationType;
+        TransformType = definition.Transformation.Type;
+        _sourceAdapter = sourceAdapter;
+        _targetAdapter = targetAdapter;
         AddSourceFilterColumns(definition.Source);
         AddTargetWatermark(definition.Target);
         _createdEvent = createdEvent;
@@ -64,25 +71,17 @@ internal sealed class NoxIntegration: INoxIntegration
         _completedEvent = completedEvent;
     }
     
-    public async Task ExecuteAsync(ITransaction apmTransaction, INoxCustomTransformHandler? handler = null)
+    public async Task ExecuteAsync(ITransaction apmTransaction, INoxTransform<TSource, TTarget>? transform)
     {
         try
         {
             _mergeStates = await GetMergeStates();
             if (SourceFilterColumns != null && SourceFilterColumns.Any())
             {
-                ReceiveAdapter!.ApplyFilter(SourceFilterColumns, _mergeStates);
+                _sourceAdapter.ApplyFilter(SourceFilterColumns, _mergeStates);
             }
 
-            switch (MergeType)
-            {
-                case IntegrationMergeType.MergeNew:
-                    await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteMergeNew(handler));
-                    break;
-                case IntegrationMergeType.AddNew:
-                    await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteAddNew(handler));
-                    break;
-            }
+            await apmTransaction.CaptureSpan(MergeType.ToString(), ApiConstants.ActionExec, async () => await ExecuteInternal(transform));
 
             await SetLastMergeStates();
             _logger.LogInformation("{0}. Component {1}. Action {2}. Status {3}.", Name, "NoxIntegration", MergeType.ToString(), "success");
@@ -94,80 +93,66 @@ internal sealed class NoxIntegration: INoxIntegration
         }
     }
 
-    private async Task ExecuteMergeNew(INoxCustomTransformHandler? handler)
+    //Execute with no transform
+    private async Task ExecuteInternal(INoxTransform<TSource, TTarget>? transform)
     {
-        var unChanged = 0;
-        var inserts = 0;
-        var updates = 0;
-
-        var source = ReceiveAdapter!.DataFlowSource;
-
-        IDataFlowSource<ExpandoObject>? transformSource = null;
-
-        if (TransformType == IntegrationTransformType.CustomTransform)
-        {
-            if (handler == null) throw new NoxIntegrationException("Cannot execute custom transform, handler not registered.");
-            var rowTransform = new RowTransformation<ExpandoObject, ExpandoObject>(sourceRecord => handler.Invoke(sourceRecord));
-            transformSource = source.LinkTo(rowTransform);
-        }
-        
-        var postProcessDestination = new CustomDestination();
-        switch (SendAdapter!.AdapterType)
-        {
-            case IntegrationTargetAdapterType.DatabaseTable:
-                if (transformSource != null)
-                {
-                    postProcessDestination = transformSource.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
-                }
-                else
-                {
-                    postProcessDestination = source.LinkToDatabaseTable((INoxDatabaseSendAdapter)SendAdapter, TargetIdColumns, TargetDateColumns);
-                }
-
-                break;
-            default:
-                throw new NotImplementedException($"Send adapter type: {Enum.GetName(SendAdapter!.AdapterType)} has not been implemented!");
-        }
-
-        postProcessDestination.WriteAction = (row, _) =>
-        {
-            var record = (IDictionary<string, object?>)row;
-            if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Insert)
-            {
-                inserts++;
-                SendCreatedEvent(record).ConfigureAwait(false);
-                UpdateMergeStates(record);
-            }
-            else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Update)
-            {
-                updates++;
-                SendUpdatedEvent(record).ConfigureAwait(false);
-                UpdateMergeStates(record);
-            }
-            else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Exists)
-            {
-                unChanged++;
-            }
-        };
-
         try
         {
-            await Network.ExecuteAsync(source);
+            var source = _sourceAdapter.DataFlowSource;
+            switch (_targetAdapter.AdapterType)
+            {
+                case IntegrationTargetAdapterType.DatabaseTable:
+                    var dbAdapter = (INoxDatabaseTargetAdapter<TTarget>)_targetAdapter;
+                    var tableTarget = dbAdapter.TableTarget!
+                        .WithMergeFields(TargetIdColumns, TargetDateColumns);
+                    var metricsTarget = dbAdapter.MetricsTarget;
+                    dbAdapter.OnInsert += TargetAdapterOnInsert;
+                    dbAdapter.OnUpdate += TargetAdapterOnUpdate;
+
+                    if (transform == null)
+                    {
+                        var dynamicSource = source as IDataFlowExecutableSource<ExpandoObject>;
+                        var dynamicTarget = tableTarget as IDataFlowDestination<ExpandoObject>;
+                        var dynamicMetrics = metricsTarget as CustomDestination<ExpandoObject>;
+                        dynamicSource!
+                            .LinkTo(dynamicTarget)
+                            .LinkTo(dynamicMetrics);
+                        await Network.ExecuteAsync(dynamicSource);
+                    }
+                    else
+                    {
+                        var rowTransform = new RowTransformation<TSource, TTarget>(record => transform.Invoke(record));
+                        source
+                            .LinkTo<TTarget>(rowTransform)
+                            .LinkTo<TTarget>(tableTarget)
+                            .LinkTo(metricsTarget);
+                        await Network.ExecuteAsync(source);
+                    }
+
+                    break;
+                default:
+                    throw new NotImplementedException($"Target adapter type: {Enum.GetName(_targetAdapter.AdapterType)} has not been implemented!");
+            }
+
+            await PostExecuteAction(_targetAdapter.Metrics);
         }
         catch (Exception ex)
         {
-            _logger.LogCritical("Failed to execute MergeNew for integration: {integrationName}", Name);
-            _logger.LogError("{message}", ex.Message);
+            _logger.LogCritical(ex, "Failed to execute integration: {integrationName}", Name);
             throw;
         }
-
-        await SendExecuteCompletedEvent(inserts, updates, unChanged);
-        LogMergeAnalytics(inserts, updates, unChanged);
     }
-
-    private Task ExecuteAddNew(INoxCustomTransformHandler? handler)
+    
+    private void TargetAdapterOnInsert(object sender, MetricsEventArgs args)
     {
-        return Task.CompletedTask;
+        TargetCreatedEvent(args.DataRecord).ConfigureAwait(false);
+        UpdateMergeStates(args.DataRecord);
+    }
+    
+    private void TargetAdapterOnUpdate(object sender, MetricsEventArgs args)
+    {
+        TargetUpdatedEvent(args.DataRecord).ConfigureAwait(false);
+        UpdateMergeStates(args.DataRecord);
     }
 
     private void AddSourceFilterColumns(IntegrationSource source)
@@ -221,7 +206,7 @@ internal sealed class NoxIntegration: INoxIntegration
             foreach(var filterColumn in SourceFilterColumns)
             {
                 var lastMergeTimestamp = await GetLastMergeTimestamp(dbContext, filterColumn);
-                result[filterColumn] = new IntegrationMergeState
+                result[filterColumn] = new MergeState
                 {
                     Integration = Name,
                     Property = filterColumn,
@@ -233,7 +218,7 @@ internal sealed class NoxIntegration: INoxIntegration
         if (!addedFilterColumn)
         {
             var lastMergeTimestamp = await GetLastMergeTimestamp(dbContext, IntegrationContextConstants.DefaultFilterProperty);
-            result[IntegrationContextConstants.DefaultFilterProperty] = new IntegrationMergeState
+            result[IntegrationContextConstants.DefaultFilterProperty] = new MergeState
             {
                 Integration = Name,
                 Property = IntegrationContextConstants.DefaultFilterProperty,
@@ -262,7 +247,7 @@ internal sealed class NoxIntegration: INoxIntegration
         }
         else
         {
-            timestamp = new IntegrationMergeState
+            timestamp = new MergeState
             {
                 Integration = Name,
                 Property = filterName,
@@ -293,39 +278,31 @@ internal sealed class NoxIntegration: INoxIntegration
         }
     }
 
-    private void UpdateMergeStates(IDictionary<string, object?> record)
+    private void UpdateMergeStates(TTarget record)
     {
         if (_mergeStates == null) return;
-        foreach (var filterColumn in _mergeStates.Keys)
+        var recordProperties = record!.GetType().GetProperties();
+        
+        foreach (var dateColumn in _mergeStates.Keys)
         {
-            if (record.TryGetValue(filterColumn, out var filterColumnValue))
+            if (ObjectHelpers.TryGetDateTimePropertyValue(record, dateColumn, recordProperties, out var mergeDate))
             {
-                if (filterColumnValue == null) continue;
-                
-                if (DateTime.TryParse(filterColumnValue.ToString(), out var fieldValue))
+                if (mergeDate != null && mergeDate > _mergeStates[dateColumn].LastDateLoadedUtc)
                 {
-                    if (fieldValue > _mergeStates[filterColumn].LastDateLoadedUtc)
-                    {
-                        var changeEntry = _mergeStates[filterColumn];
-                        changeEntry.LastDateLoadedUtc = fieldValue;
-                        changeEntry.IsUpdated = true;
-                        _mergeStates[filterColumn] = changeEntry;
-                    }
+                    var changeEntry = _mergeStates[dateColumn];
+                    changeEntry.LastDateLoadedUtc = mergeDate.Value;
+                    changeEntry.IsUpdated = true;
+                    _mergeStates[dateColumn] = changeEntry;
                 }
             }
             else
             {
-                if (record.TryGetValue("ChangeDate", out var changeDate))
+                if (ObjectHelpers.TryGetDateTimePropertyValue(record, "ChangeDate", recordProperties, out var changeDate))
                 {
-                    if (changeDate == null) continue;
-                    
-                    if (DateTime.TryParse(changeDate.ToString(), out var changeDateValue))
-                    {
-                        var changeEntry = _mergeStates[IntegrationContextConstants.DefaultFilterProperty];
-                        changeEntry.LastDateLoadedUtc = changeDateValue.ToUniversalTime();
-                        changeEntry.IsUpdated = true;
-                        _mergeStates[IntegrationContextConstants.DefaultFilterProperty] = changeEntry;    
-                    }
+                    var changeEntry = _mergeStates[IntegrationContextConstants.DefaultFilterProperty];
+                    changeEntry.LastDateLoadedUtc = changeDate!.Value.ToUniversalTime();
+                    changeEntry.IsUpdated = true;
+                    _mergeStates[IntegrationContextConstants.DefaultFilterProperty] = changeEntry;    
                 }
             }
         }
@@ -355,8 +332,21 @@ internal sealed class NoxIntegration: INoxIntegration
         timestamp.LastDateLoadedUtc = lastMergeDateTime;
     }
 
-    private void LogMergeAnalytics(int inserts, int updates, int unChanged, bool logUpdates = true)
+    private async Task PostExecuteAction(TargetAdapterMetrics metrics, bool logUpdates = true)
     {
+        const string component = "NoxIntegration";
+        
+        if (_completedEvent != null)
+        {
+            _completedEvent.SetDto(new EtlExecuteCompletedDto
+            {
+                Inserts = metrics.Inserts,
+                Updates = metrics.Updates,
+                Unchanged = metrics.Unchanged
+            });
+            await _publisher.Publish(_completedEvent);
+        }
+
         var lastTimestamp = IntegrationContextConstants.MinSqlMergeDate;
 
         if (_mergeStates != null)
@@ -372,15 +362,15 @@ internal sealed class NoxIntegration: INoxIntegration
             }
         }
 
-        if ((inserts == 0 && updates == 0) || (inserts == 0 && logUpdates == false))
+        if ((metrics.Inserts == 0 && metrics.Updates == 0) || (metrics.Inserts == 0 && !logUpdates))
         {
-            if (unChanged > 0)
+            if (metrics.Unchanged > 0)
             {
-                _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "nochanges", unChanged, lastTimestamp);
+                _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "nochanges", metrics.Unchanged, lastTimestamp);
             }
             else
             {
-                _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "nochanges", 0, lastTimestamp);
+                _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "nochanges", 0, lastTimestamp);
             }
 
             return;
@@ -398,35 +388,23 @@ internal sealed class NoxIntegration: INoxIntegration
                 lastTimestamp = changes.Max();
             }
             
-            _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "insert", inserts, lastTimestamp);
-            _logger.LogInformation("{0}. Component {1}. Action {2}. Documents {3}. last merge at {4}", Name, "NoxIntegration", "update", updates, lastTimestamp);
+            _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "insert", metrics.Inserts, lastTimestamp);
+            _logger.LogInformation("{name}. Component {component}. Action {action}. Documents {documents}. last merge at {timestamp}", Name, component, "update", metrics.Updates, lastTimestamp);
         }
     }
     
-    private async Task SendCreatedEvent(IDictionary<string, object?> record)
+    private async Task TargetCreatedEvent(TTarget record)
     {
         if (_createdEvent == null) return;
         _createdEvent.SetDto(record.ResolvePayload(_createdEvent));
         await _publisher.Publish(_createdEvent);
     }
 
-    private async Task SendUpdatedEvent(IDictionary<string, object?> record)
+    private async Task TargetUpdatedEvent(TTarget record)
     {
         if (_updatedEvent == null) return;
         _updatedEvent.SetDto(record.ResolvePayload(_updatedEvent));
         await _publisher.Publish(_updatedEvent);
-    }
-    
-    private async Task SendExecuteCompletedEvent(int inserts, int updates, int unChanged)
-    {
-        if (_completedEvent == null) return;
-        _completedEvent.SetDto(new EtlExecuteCompletedDto
-        {
-            Inserts = inserts,
-            Updates = updates,
-            Unchanged = unChanged
-        });
-        await _publisher.Publish(_completedEvent);
     }
 
 }

@@ -10,7 +10,7 @@
     <PackageReference Include="Basic.Reference.Assemblies.Net70" Version="1.5.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.10.4" />
+    <PackageReference Include="Azure.Identity" Version="1.11.0" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.14" />
@@ -48,8 +48,17 @@
     <!--  Copy to output all files under ExpectedGeneratedFiles-->
     <ItemGroup>                
         <Compile Remove="ExpectedGeneratedFiles\**\*.*" />
+        <None Include="ExpectedGeneratedFiles\Application.Integration.CustomMapTransformTargetDto.expected.g.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>                
+        <None Include="ExpectedGeneratedFiles\Application.Integration.CustomMapTransformSourceDto.expected.g.cs">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Include="ExpectedGeneratedFiles\**\*.*">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="files\yaml\application\custom-map-integration.solution.nox.yaml">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
     <!--  Copy to output all files and folders under files-->

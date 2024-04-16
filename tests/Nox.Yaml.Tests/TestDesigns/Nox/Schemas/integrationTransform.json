@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Definition namespace for attributes describing the transformation of an integration integration.",
+  "description": "This section details integration transformation attributes like transformType and mapping among other.",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {    
+      "title": "The type of transformation.",
+      "description": "Specify the type of transformation. Options include default, customCode and customMap.",
+      "type": "string",
+      "enum": [
+        "dynamic",
+        "mapping"
+      ]
+    },
+    "mapping": {    
+      "title": "The custom mapping to use for the transformation.",
+      "description": "Specify the mapping to use for the transformation.",
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "integrationMapping.json" },
+          {
+            "additionalProperties": false, 
+            "required": ["$ref"],
+            "type": "object",
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}

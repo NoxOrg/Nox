@@ -14,6 +14,7 @@ using Nox.Solution;
 using Microsoft.Extensions.Logging;
 using Elastic.Apm.NetCoreAll;
 using Nox.Extensions;
+using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox;
 

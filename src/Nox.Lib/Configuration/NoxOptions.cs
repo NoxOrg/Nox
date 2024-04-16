@@ -22,7 +22,6 @@ using Nox.Yaml.VariableProviders.Environment;
 using Nox.Domain;
 using Nox.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Nox.Integration.SqlServer;
 using SqlKata.Compilers;
 using Nox.Presentation.Api.Swagger;
 using Elastic.Apm.SerilogEnricher;
@@ -33,6 +32,8 @@ using Nox.Exceptions;
 using System.Collections.Immutable;
 using Microsoft.Extensions.Hosting;
 using Nox.Extensions;
+using Nox.Integration.Adapters;
+using Nox.Integration.Adapters.SqlServer;
 
 namespace Nox.Configuration
 {

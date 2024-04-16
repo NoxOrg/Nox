@@ -1,0 +1,13 @@
+#
+# json-sql.persistence.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/persistence.json
+#
+
+databaseServer:
+  name: TestIntegrationDb
+  provider: sqlServer
+  options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;encrypt=false
+  serverUri: localhost
+  user: sa
+  password: Developer*123

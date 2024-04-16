@@ -1,0 +1,17 @@
+#
+# json-sql.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: JsonToSqlIntegration
+
+description: Yaml file for testing integrations
+
+application:
+  
+  $ref: ./application/json-sql.application.nox.yaml
+
+infrastructure:
+  $ref: ./infrastructure/json-sql.infrastructure.nox.yaml
