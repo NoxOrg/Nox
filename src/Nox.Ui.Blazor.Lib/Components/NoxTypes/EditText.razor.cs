@@ -18,6 +18,9 @@ public partial class EditText : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public EventCallback<string> TextChanged { get; set; }
 
     [Parameter]

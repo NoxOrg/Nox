@@ -19,6 +19,9 @@ public partial class EditTemperature : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public bool HideSpinButtons { get; set; } = true;
 
     [Parameter]

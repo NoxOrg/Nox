@@ -8,6 +8,7 @@
         <MudTextField Label="@Title"
                       Variant="Variant.Outlined"
                       Clearable="true"
+                      Required="@RequiredStreetNumber"
                       Disabled="@Disabled"
                       TextChanged="OnStreetNumberChanged"
                       MaxLength="@MaxLengthStreetNumber"
@@ -17,7 +18,7 @@
         <MudTextField Label="@TitleAddressLine1"
                       Variant="Variant.Outlined"
                       Clearable="true"
-                      Required="true"
+                      Required="@RequiredAddressLine1"
                       Disabled="@Disabled"
                       RequiredError="@ErrorRequiredMessage(TitleAddressLine1)"
                       TextChanged="OnAddressLine1Changed"
@@ -27,6 +28,7 @@
     <MudItem xs="6">
         <MudTextField Label="@TitleAddressLine2"
                       Variant="Variant.Outlined"
+                      Required="@RequiredAddressLine2"
                       Clearable="true"
                       Disabled="@Disabled"
                       TextChanged="OnAddressLine2Changed"
@@ -36,6 +38,7 @@
     <MudItem xs="6">
         <MudTextField Label="@TitleRoute"
                       Variant="Variant.Outlined"
+                      Required="@RequiredRoute"
                       Clearable="true"
                       Disabled="@Disabled"
                       TextChanged="OnRouteChanged"
@@ -45,6 +48,7 @@
     <MudItem xs="6">
         <MudTextField Label="@TitleLocality"
                       Variant="Variant.Outlined"
+                      Required="@RequiredLocality"
                       Clearable="true"
                       Disabled="@Disabled"
                       TextChanged="OnLocalityChanged"
@@ -54,6 +58,7 @@
     <MudItem xs="6">
         <MudTextField Label="@TitleNeighborhood"
                       Variant="Variant.Outlined"
+                      Required="@RequiredNeighborhood"
                       Clearable="true"
                       Disabled="@Disabled"
                       TextChanged="OnNeighborhoodChanged"
@@ -63,6 +68,7 @@
     <MudItem xs="6">
         <MudTextField Label="@TitleAdministrativeArea1"
                       Variant="Variant.Outlined"
+                      Required="@RequiredAdministrativeArea1"
                       Clearable="true"
                       Disabled="@Disabled"
                       TextChanged="OnAdministrativeArea1Changed"
@@ -72,6 +78,7 @@
     <MudItem xs="6">
         <MudTextField Label="@TitleAdministrativeArea2"
                       Variant="Variant.Outlined"
+                      Required="@RequiredAdministrativeArea2"
                       Clearable="true"
                       Disabled="@Disabled"
                       TextChanged="OnAdministrativeArea2Changed"
@@ -82,7 +89,7 @@
         <MudTextField Label="@TitlePostalCode"
                       Variant="Variant.Outlined"
                       Clearable="true"
-                      Required="true"
+                      Required="@RequiredPostalCode"
                       Disabled="@Disabled"
                       RequiredError="@ErrorRequiredMessage(TitlePostalCode)"
                       TextChanged="OnPostalCodeChanged"
@@ -93,7 +100,7 @@
         <MudSelect Label="@TitleCountryId"
                     Variant="Variant.Outlined"
                     Clearable="true"
-                    Required="true"
+                    Required="@RequiredCountryId"
                     Disabled="@Disabled"
                     RequiredError="@ErrorRequiredMessage(TitleCountryId)"
                     TextChanged="OnCountryIdChanged"

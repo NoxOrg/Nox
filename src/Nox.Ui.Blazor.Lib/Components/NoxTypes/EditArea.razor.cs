@@ -20,6 +20,9 @@ public partial class EditArea : ComponentBase
     [Parameter]
     public bool Disabled { get; set; } = false;
 
+    [Parameter]
+    public bool Required { get; set; } = false;
+
     public string ErrorRequiredMessage
     {
         get

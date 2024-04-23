@@ -29,6 +29,9 @@ public partial class EditDateTimeRange : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public EventCallback<DateTimeRangeModel?> DateTimeRangeChanged { get; set; }
 
     [Parameter]

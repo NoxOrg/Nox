@@ -35,6 +35,9 @@ public partial class EditDate : ComponentBase
     [Parameter]
     public bool Disabled { get; set; } = false;
 
+    [Parameter]
+    public bool Required { get; set; } = false;
+
     #endregion
 
     protected override void OnInitialized()

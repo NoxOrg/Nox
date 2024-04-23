@@ -21,6 +21,9 @@ public partial class EditDayOfWeek : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public EventCallback<ushort?> DayOfWeekChanged { get; set; }
 
     public static Dictionary<ushort, string> DayOfWeekSelectionList { get; set; } = new();

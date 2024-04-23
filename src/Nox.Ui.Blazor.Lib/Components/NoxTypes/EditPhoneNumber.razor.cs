@@ -19,6 +19,9 @@ public partial class EditPhoneNumber : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public int MaxLength { get; set; } = 30;
 
     protected async Task OnPhoneNumberChanged(string newValue)

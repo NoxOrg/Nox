@@ -8,7 +8,7 @@
                              Variant="Variant.Outlined"
                              FullWidth="true"
                              Clearable="true"
-                             Required="false"
+                             Required="@Required"
                              Disabled="@Disabled"
                              HideSpinButtons="@HideSpinButtons"
                              RequiredError="@ErrorRequiredMessage"
@@ -21,6 +21,7 @@
         <MudItem xs="6">
             <MudSelect @bind-Value="@Money.CurrencyCode"
                        Label="@TitleCurrencyCode"
+                       Required="@Required"
                        Variant="Variant.Outlined"
                        TextChanged="OnCurrencyCodeChanged">
                 @foreach (var currency in CurrencyCodes)
