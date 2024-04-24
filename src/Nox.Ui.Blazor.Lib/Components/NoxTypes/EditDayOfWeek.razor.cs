@@ -43,14 +43,14 @@ public partial class EditDayOfWeek : ComponentBase
 
             foreach (var CurrentDay in days)
             {
-                DayOfWeekSelectionList?.Add((ushort)CurrentDay.I, CurrentDay.M);
+                DayOfWeekSelectionList.Add((ushort)CurrentDay.I, CurrentDay.M);
             }
         }
 
         if (DayOfWeek != null
                 && DayOfWeek >= 1
                 && DayOfWeek <= 12
-                && DayOfWeekSelectionList?.Count > 0)
+                && DayOfWeekSelectionList.Count > 0)
         {
             CurrentDayOfWeekStr = DayOfWeekSelectionList[(ushort)DayOfWeek];
         }
