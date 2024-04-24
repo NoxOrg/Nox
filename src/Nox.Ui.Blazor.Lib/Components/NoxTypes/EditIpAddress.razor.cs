@@ -19,6 +19,9 @@ public partial class EditIpAddress : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public string Type { get; set; } = "IpV4";
 
     [Parameter]

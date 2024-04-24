@@ -41,6 +41,9 @@ public partial class EditTime : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public string? TitleMinute { get; set; }
 
     [Parameter]

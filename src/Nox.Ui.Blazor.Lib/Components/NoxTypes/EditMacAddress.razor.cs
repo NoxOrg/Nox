@@ -20,6 +20,9 @@ public partial class EditMacAddress : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
     public EventCallback<string> MacAddressChanged { get; set; }
 
     public string ErrorRequiredMessage

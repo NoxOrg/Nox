@@ -16,6 +16,36 @@ public partial class EditStreetAddress : ComponentBase
     [Parameter]
     public bool Disabled { get; set; } = false;
 
+    [Parameter]
+    public bool RequiredStreetNumber { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredAddressLine1 { get; set; } = true;
+
+    [Parameter]
+    public bool RequiredAddressLine2 { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredRoute { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredLocality { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredNeighborhood { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredAdministrativeArea1 { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredAdministrativeArea2 { get; set; } = false;
+
+    [Parameter]
+    public bool RequiredPostalCode { get; set; } = true;
+
+    [Parameter]
+    public bool RequiredCountryId { get; set; } = true;
+
     public string? CurrentStreetNumber { get; set; }
 
     public string? CurrentAddressLine1 { get; set; }
