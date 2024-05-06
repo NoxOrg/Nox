@@ -29,16 +29,14 @@ var app = builder.Build();
 
 var events = app.Services.GetServices<EtlExecuteCompletedEvent>();
 
-app.UseNox();
-
 // For Development only
-// {
-//     using var scope = app.Services.CreateScope();
-//     var dbContext = scope.ServiceProvider.GetRequiredService<CryptocashIntegration.Infrastructure.Persistence.AppDbContext>();
+// using var scope = app.Services.CreateScope();
+// var dbContext = scope.ServiceProvider.GetRequiredService<CryptocashIntegration.Infrastructure.Persistence.AppDbContext>();
 //
-//     dbContext.Database.EnsureDeleted();
-//     dbContext.Database.EnsureCreated();
-// }
+// dbContext.Database.EnsureDeleted();
+// dbContext.Database.EnsureCreated();
+
+app.UseNox();
 
 app.UseHttpsRedirection();
 

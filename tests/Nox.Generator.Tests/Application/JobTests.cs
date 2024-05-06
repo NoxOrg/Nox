@@ -2,10 +2,10 @@ using Xunit;
 
 namespace Nox.Generator.Tests.Application;
 
-public class CustomTransformTests
+public class JobTests
 {
     [Fact]
-    public void Can_generate_files_for_a_mapping_transform()
+    public void Can_generate_a_job_for_an_integration()
     {
         var path = "files/yaml/application/";
 
@@ -23,6 +23,7 @@ public class CustomTransformTests
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .AssertFileExistsAndContent("Application.Integration.CustomMapTransformBase.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTransformBase.g.cs")
             .AssertFileExistsAndContent("Application.Integration.CustomMapTransformSourceDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationSourceDto.g.cs")
-            .AssertFileExistsAndContent("Application.Integration.CustomMapTransformTargetDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTargetDto.g.cs");
+            .AssertFileExistsAndContent("Application.Integration.CustomMapTransformTargetDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTargetDto.g.cs")
+            .AssertFileExistsAndContent("Application.Integration.Job.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationJob.g.cs");
     }
 }

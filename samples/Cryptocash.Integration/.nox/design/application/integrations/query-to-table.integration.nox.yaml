@@ -6,13 +6,14 @@
 
 name: QueryToTable
 
-description: Synchronization of Country data from a sample sql database table using a query statement, to a Nox entity store database table.
+description: Synchronization of Country data from a sample sql database table using a SQL query statement, to a Nox database table.
 
-mergeType: mergeNew
+mergeType: mergeNew #mergeNew upserts records from the source to the target
+#mergeType: addNew #addNew only inserts new record, does not update existing records.
 
 schedule:
-  start: Every week on Sunday at 3am
-  runOnStartup: false
+  start: Every week on Sunday at 3am #interpreter converts this to a cron expression
+  runOnStartup: false #if this is true this integration will run immediately on startup of the service, regardless of the schedule
 
 source:
   name: SampleSource

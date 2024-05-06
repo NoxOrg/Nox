@@ -72,7 +72,6 @@ public abstract partial class DtoDbContextBase : DbContext, Nox.Application.Repo
 
     
         public virtual DbSet<CountryQueryToTableDto> CountryQueryToTables { get; set; } = null!;
-        public virtual DbSet<CountryQueryToCustomTableDto> CountryQueryToCustomTables { get; set; } = null!;
         public virtual DbSet<CountryJsonToTableDto> CountryJsonToTables { get; set; } = null!;
 
     public IQueryable<T> Query<T>() where T : class

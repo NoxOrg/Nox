@@ -39,7 +39,6 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         _entityContextPerEntityName = new(StringComparer.OrdinalIgnoreCase)
         {
             { "CountryQueryToTables", (Repository.Query<CryptocashIntegration.Domain.CountryQueryToTable>(), "Id") },
-            { "CountryQueryToCustomTables", (Repository.Query<CryptocashIntegration.Domain.CountryQueryToCustomTable>(), "Id") },
             { "CountryJsonToTables", (Repository.Query<CryptocashIntegration.Domain.CountryJsonToTable>(), "Id") }
         };
 
@@ -101,12 +100,6 @@ internal abstract class RelationshipChainValidatorBase: IRelationshipChainValida
         {
             if (!System.Int32.TryParse(key, out var value)) return false;
             parsedKey = CountryQueryToTableMetadata.CreateId(value);
-            return true;
-        }
-        if (entityName.Equals("CountryQueryToCustomTables", StringComparison.OrdinalIgnoreCase))
-        {
-            if (!System.Int32.TryParse(key, out var value)) return false;
-            parsedKey = CountryQueryToCustomTableMetadata.CreateId(value);
             return true;
         }
         if (entityName.Equals("CountryJsonToTables", StringComparison.OrdinalIgnoreCase))

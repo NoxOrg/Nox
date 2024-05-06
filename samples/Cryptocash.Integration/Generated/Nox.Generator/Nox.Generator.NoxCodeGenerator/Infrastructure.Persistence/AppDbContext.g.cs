@@ -79,7 +79,6 @@ public abstract partial class AppDbContextBase : Nox.Infrastructure.Persistence.
         }
     
     public virtual DbSet<CryptocashIntegration.Domain.CountryQueryToTable> CountryQueryToTables { get; set; } = null!;
-    public virtual DbSet<CryptocashIntegration.Domain.CountryQueryToCustomTable> CountryQueryToCustomTables { get; set; } = null!;
     public virtual DbSet<CryptocashIntegration.Domain.CountryJsonToTable> CountryJsonToTables { get; set; } = null!;
     
 

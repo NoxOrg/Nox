@@ -34,6 +34,8 @@ using Microsoft.Extensions.Hosting;
 using Nox.Extensions;
 using Nox.Integration.Adapters;
 using Nox.Integration.Adapters.SqlServer;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Nox.Configuration
 {
@@ -258,7 +260,6 @@ namespace Nox.Configuration
                     .Enrich.WithEcsHttpContext(httpAccessor!)
                     .WriteTo.Debug()
                     .WriteTo.Console(new EcsTextFormatter());
-
                     _loggerConfigurationAction?.Invoke(loggerConfig);
                 });
             }
