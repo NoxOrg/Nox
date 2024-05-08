@@ -26,7 +26,7 @@
 {{- end }}
 {{- if entity.Persistence.Read.IsEnabled }}
     <MudItem xs="12">
-        <{{entity.PluralName}}DataGrid />
+        <{{entity.PluralName}}DataGrid @ref="referencedDataGrid" />
     </MudItem>
 {{- end }}
 </MudGrid>
@@ -35,6 +35,7 @@
 {{- if entity.Persistence.Create.IsEnabled }}
 #region ADD
     private bool showAddDialog = false;
+    private {{entity.PluralName}}DataGrid? referencedDataGrid;
 
     private void ShowAddDialog()
     {
@@ -48,7 +49,8 @@
 
     private void Add{{entity.Name}}Submit()
     {
-        showAddDialog = false;
+        showAddDialog = false;        
+        referencedDataGrid?.RefreshDataGrid();
     }
 #endregion ADD
 {{- end }}
