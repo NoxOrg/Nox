@@ -62,11 +62,11 @@ internal class SchemaProperty
 
         IsNullable = ActualType.IsNullable();
 
-        GenerateSchema = info.GetCustomAttribute<GenerateJsonSchema>(false) != null;
+        GenerateSchema = info.GetCustomAttribute<GenerateJsonSchemaAttribute>(false) != null;
 
         if (GenerateSchema)
         {
-            SchemaName = info.GetCustomAttribute<GenerateJsonSchema>(false)?.SchemaName ?? UnderlyingType.Name.ToCamelCase();
+            SchemaName = info.GetCustomAttribute<GenerateJsonSchemaAttribute>(false)?.SchemaName ?? UnderlyingType.Name.ToCamelCase();
         }
 
         Name = (info.GetCustomAttribute<YamlMemberAttribute>()?.Alias ?? info.Name).ToCamelCase();

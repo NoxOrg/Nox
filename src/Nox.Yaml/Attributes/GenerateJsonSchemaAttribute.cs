@@ -2,11 +2,11 @@
 
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public class GenerateJsonSchema : Attribute
+public class GenerateJsonSchemaAttribute : Attribute
 {
     public string? SchemaName { get; private set; }
 
-    public GenerateJsonSchema(string? schemaName = null)
+    public GenerateJsonSchemaAttribute(string? schemaName = null)
     {
         SchemaName = schemaName;
     }
