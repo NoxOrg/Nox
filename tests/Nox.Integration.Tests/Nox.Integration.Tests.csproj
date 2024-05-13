@@ -52,7 +52,7 @@
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
 		<PackageReference Include="Moq" Version="4.20.70" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-		<PackageReference Include="Npgsql" Version="7.0.6" />
+		<PackageReference Include="Npgsql" Version="7.0.7" />
 		<PackageReference Include="Testcontainers" Version="3.7.0" />
 		<PackageReference Include="Testcontainers.MsSql" Version="3.7.0" />
 		<PackageReference Include="Testcontainers.PostgreSql" Version="3.7.0" />
