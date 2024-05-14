@@ -19,17 +19,18 @@
         <MudText>Search section</MudText>
     </MudItem>
     <MudItem xs="12">
-        <Actions OnAdd="ShowAddDialog" />
+        <Actions OnClick="ShowAddDialog" />
     </MudItem>
     <AddEmployeeForm @bind-IsVisible="showAddDialog" OnSubmit="AddEmployeeSubmit" OnCancel="HideAddDialog" />
     <MudItem xs="12">
-        <EmployeesDataGrid />
+        <EmployeesDataGrid @ref="referencedDataGrid" />
     </MudItem>
 </MudGrid>
 
 @code{
 #region ADD
     private bool showAddDialog = false;
+    private EmployeesDataGrid? referencedDataGrid;
 
     private void ShowAddDialog()
     {
@@ -43,7 +44,8 @@
 
     private void AddEmployeeSubmit()
     {
-        showAddDialog = false;
+        showAddDialog = false;        
+        referencedDataGrid?.RefreshDataGrid();
     }
 #endregion ADD
 }

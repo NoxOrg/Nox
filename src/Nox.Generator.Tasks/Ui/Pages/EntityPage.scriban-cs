@@ -20,7 +20,7 @@
     </MudItem>
 {{- if entity.Persistence.Create.IsEnabled }}
     <MudItem xs="12">
-        <Actions OnAdd="ShowAddDialog" />
+        <Actions OnClick="ShowAddDialog" />
     </MudItem>
     <Add{{entity.Name}}Form @bind-IsVisible="showAddDialog" OnSubmit="Add{{entity.Name}}Submit" OnCancel="HideAddDialog" />
 {{- end }}

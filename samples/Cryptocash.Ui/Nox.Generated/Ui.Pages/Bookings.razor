@@ -19,17 +19,18 @@
         <MudText>Search section</MudText>
     </MudItem>
     <MudItem xs="12">
-        <Actions OnAdd="ShowAddDialog" />
+        <Actions OnClick="ShowAddDialog" />
     </MudItem>
     <AddBookingForm @bind-IsVisible="showAddDialog" OnSubmit="AddBookingSubmit" OnCancel="HideAddDialog" />
     <MudItem xs="12">
-        <BookingsDataGrid />
+        <BookingsDataGrid @ref="referencedDataGrid" />
     </MudItem>
 </MudGrid>
 
 @code{
 #region ADD
     private bool showAddDialog = false;
+    private BookingsDataGrid? referencedDataGrid;
 
     private void ShowAddDialog()
     {
@@ -43,7 +44,8 @@
 
     private void AddBookingSubmit()
     {
-        showAddDialog = false;
+        showAddDialog = false;        
+        referencedDataGrid?.RefreshDataGrid();
     }
 #endregion ADD
 }
