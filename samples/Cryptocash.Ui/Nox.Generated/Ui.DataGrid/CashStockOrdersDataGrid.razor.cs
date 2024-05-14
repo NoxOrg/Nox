@@ -11,6 +11,11 @@ public partial class CashStockOrdersDataGrid : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadData();
+    }
+
+    public async Task LoadData()
+    {
         try
         {
             IsLoading = true;
@@ -20,5 +25,11 @@ public partial class CashStockOrdersDataGrid : ComponentBase
         {
             IsLoading = false;
         }
+    }
+
+    public async Task RefreshDataGrid()
+    {
+        await LoadData();
+        StateHasChanged();
     }
 }
