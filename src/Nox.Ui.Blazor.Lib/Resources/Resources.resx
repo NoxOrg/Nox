@@ -126,6 +126,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditEntity" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
   <data name="FieldIsRequired" xml:space="preserve">
     <value>{0} is required.</value>
   </data>
