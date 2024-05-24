@@ -4,17 +4,23 @@
 
 @inherits ComponentBase
 
-<MudButton OnClick="OnAddClicked"
+<MudButton OnClick="OnClicked"
            Variant="Variant.Filled"
-           StartIcon="@Icons.Material.Filled.Add"
-           Color="Color.Info">@Resources.Resources.Add.ToUpper()</MudButton>
+           StartIcon="@StartIcon"
+           Color="Color.Info">@Title</MudButton>
 
-@code {
+    @code {
     [Parameter]
-    public EventCallback OnAdd { get; set; }
+    public EventCallback OnClick { get; set; }
 
-    private async Task OnAddClicked()
+    [Parameter]
+    public string? Title { get; set; } = @Resources.Resources.Add.ToUpper();
+
+    [Parameter]
+    public string? StartIcon { get; set; } = @Icons.Material.Filled.Add;
+
+    private async Task OnClicked()
     {
-        await OnAdd.InvokeAsync();
+        await OnClick.InvokeAsync();
     }
 }

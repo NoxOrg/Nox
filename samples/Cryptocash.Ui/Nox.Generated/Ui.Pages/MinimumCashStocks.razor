@@ -19,17 +19,18 @@
         <MudText>Search section</MudText>
     </MudItem>
     <MudItem xs="12">
-        <Actions OnAdd="ShowAddDialog" />
+        <Actions OnClick="ShowAddDialog" />
     </MudItem>
     <AddMinimumCashStockForm @bind-IsVisible="showAddDialog" OnSubmit="AddMinimumCashStockSubmit" OnCancel="HideAddDialog" />
     <MudItem xs="12">
-        <MinimumCashStocksDataGrid />
+        <MinimumCashStocksDataGrid @ref="referencedDataGrid" />
     </MudItem>
 </MudGrid>
 
 @code{
 #region ADD
     private bool showAddDialog = false;
+    private MinimumCashStocksDataGrid? referencedDataGrid;
 
     private void ShowAddDialog()
     {
@@ -43,7 +44,8 @@
 
     private void AddMinimumCashStockSubmit()
     {
-        showAddDialog = false;
+        showAddDialog = false;        
+        referencedDataGrid?.RefreshDataGrid();
     }
 #endregion ADD
 }
