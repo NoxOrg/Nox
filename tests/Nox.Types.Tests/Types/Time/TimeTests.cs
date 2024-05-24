@@ -236,7 +236,7 @@ public class TimeTests
 
     [Theory]
     [InlineData("en-GB", "03:05:52")]
-    [InlineData("en-US", "3:05:52AM")]
+    [InlineData("en-US", "3:05:52 AM")]
     public void ToString_WithTickConstructor_ReturnsDefaultFormattedStringInProvidedCulture(string culture, string expectedResult)
     {
         void Test()
@@ -312,8 +312,8 @@ public class TimeTests
     [InlineData("en-US", "HH:mm:ss fff", "03:05:52 500")]
     [InlineData("en-US", "hh:mm:ss fff tt", "03:05:52 500 AM")]
     [InlineData("en-US", "HH:mm:ss fff tt", "03:05:52 500 AM")]
-    [InlineData("en-US", "t", "3:05AM")]
-    [InlineData("en-US", "T", "3:05:52AM")]
+    [InlineData("en-US", "t", "3:05 AM")]
+    [InlineData("en-US", "T", "3:05:52 AM")]
     [InlineData("en-GB", "h:mm", "3:05")]
     [InlineData("en-GB", "hh:mm", "03:05")]
     [InlineData("en-GB", "HH:mm", "03:05")]
@@ -369,7 +369,7 @@ public class TimeTests
 
     [Theory]
     [InlineData("en-GB", "13:05:52")]
-    [InlineData("en-US", "1:05:52PM")]
+    [InlineData("en-US", "1:05:52 PM")]
     public void ToString_WithNoFormatParameter_ReturnsDefaultFormattedStringInProvidedCulture(string culture, string expectedResult)
     {
         void Test()
@@ -448,8 +448,8 @@ public class TimeTests
     [InlineData("en-US", "HH:mm:ss fff", "13:05:52 500")]
     [InlineData("en-US", "hh:mm:ss fff tt", "01:05:52 500 PM")]
     [InlineData("en-US", "HH:mm:ss fff tt", "13:05:52 500 PM")]
-    [InlineData("en-US", "t", "1:05PM")]
-    [InlineData("en-US", "T", "1:05:52PM")]
+    [InlineData("en-US", "t", "1:05 PM")]
+    [InlineData("en-US", "T", "1:05:52 PM")]
     [InlineData("en-GB", "h:mm", "1:05")]
     [InlineData("en-GB", "hh:mm", "01:05")]
     [InlineData("en-GB", "HH:mm", "13:05")]
