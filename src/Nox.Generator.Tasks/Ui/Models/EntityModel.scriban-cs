@@ -43,4 +43,8 @@ public abstract class {{className}}Base: IEntityModel
     /// </summary>
     public virtual {{attributeType attribute}}? {{attribute.Name}} { get; set; }
 {{- end }}
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; set; }
+
 }
