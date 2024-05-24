@@ -347,7 +347,7 @@ public class DateTimeRangeTests
 
     [Theory]
     [InlineData("en-GB", "20/06/2023 10:05:00 +08:00 - 20/08/2023 10:05:00 +00:00")]
-    [InlineData("en-US", "6/20/2023 10:05:00 AM +08:00 - 8/20/2023 10:05:00 AM +00:00")]
+    [InlineData("en-US", "6/20/2023 10:05:00AM +08:00 - 8/20/2023 10:05:00AM +00:00")]
     public void ToString_WithCultureParameter_ReturnsFormattedString(string culture, string expectedResult)
     {
         void Test()
