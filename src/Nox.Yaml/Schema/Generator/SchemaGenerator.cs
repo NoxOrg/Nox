@@ -7,7 +7,7 @@ namespace Nox.Yaml.Schema.Generator;
 internal class SchemaGenerator
 {
 
-    private static readonly string[] _anyTypeList = new[] { "string", "number", "boolean", "array", "object" };
+    private static readonly string[] AnyTypeList = { "string", "number", "boolean", "array", "object" };
 
     private readonly HashSet<Type> _generatedSchemas = new();
 
@@ -246,7 +246,7 @@ internal class SchemaGenerator
 
         if(schemaProperty.Type.Equals("any"))
         {
-            js.AppendProperty("type", _anyTypeList);
+            js.AppendProperty("type", AnyTypeList);
         }
         else
         {

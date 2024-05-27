@@ -16,7 +16,8 @@ public class JsonToTableTransform: JsonToTableTransformBase, INoxTransform<JsonT
             Population = source.NoOfInhabitants,
             CreateDate = DateTime.Parse(source.DateCreated, CultureInfo.InvariantCulture),
             EditDate = string.IsNullOrWhiteSpace(source.DateChanged) ? null : DateTime.Parse(source.DateChanged, CultureInfo.InvariantCulture),
-            Etag = new Guid(source.ConcurrencyStamp)
+            Etag = new Guid(source.ConcurrencyStamp),
+            PopulationMillions = source.NoOfInhabitants/1000000
         };
         return result;
     }

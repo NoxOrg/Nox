@@ -12,7 +12,6 @@
   ],
   "required": [
     "name",
-    "schedule",
     "mergeType",
     "source",
     "transformation",
@@ -40,7 +39,14 @@
     "schedule": {    
       "title": "Scheduling of the Integration.",
       "description": "Specify when and how frequently the Integration source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
-      "type": "object",
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
       "required": [
         "start"
       ],

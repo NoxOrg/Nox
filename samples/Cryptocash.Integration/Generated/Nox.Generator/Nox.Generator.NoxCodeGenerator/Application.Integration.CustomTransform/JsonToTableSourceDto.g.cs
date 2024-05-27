@@ -12,4 +12,5 @@ public sealed class JsonToTableSourceDto
     public System.String DateCreated { get; set; } = String.Empty;
     public System.String? DateChanged { get; set; }
     public System.String ConcurrencyStamp { get; set; } = String.Empty;
+    
 }

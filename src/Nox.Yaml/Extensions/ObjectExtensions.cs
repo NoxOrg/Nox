@@ -107,11 +107,7 @@ public static class ObjectExtensions
                 {
                     var value = dictionary[key];
                     var fullPath = string.IsNullOrEmpty(path) ? $"[{key}]" : $"{path}[{key}]";
-                    if (value == null)
-                    {
-                        // do nothing;
-                    }
-                    else
+                    if (value != null)
                     {
                         value.WalkObjectTypes(propertyAction, fullPath, parent);
                     }
