@@ -24,6 +24,6 @@ public class JobTests
             .AssertFileExistsAndContent("Application.Integration.CustomMapTransformBase.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTransformBase.g.cs")
             .AssertFileExistsAndContent("Application.Integration.CustomMapTransformSourceDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationSourceDto.g.cs")
             .AssertFileExistsAndContent("Application.Integration.CustomMapTransformTargetDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTargetDto.g.cs")
-            .AssertFileExistsAndContent("Application.Integration.Job.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationJob.g.cs");
+            .AssertFileExistsAndContent("Application.Integration.Job.expected.g.cs", "Application.Integration.Jobs.TestIntegrationJob.g.cs");
     }
 }

@@ -13,7 +13,7 @@ public class TestIntegrationJob: JobBase
     private readonly INoxIntegrationContext _context;
     
     public TestIntegrationJob(
-        ILogger<IJob> logger,
+        ILogger<TestIntegrationJob> logger,
         INoxIntegrationContext context) : base(logger)
     {
         _context = context;
