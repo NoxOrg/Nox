@@ -34,7 +34,7 @@ internal class IntegrationJobGenerator: INoxCodeGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{scheduledIntegration.Name}Job")
-                .WithFileNamePrefix("Application.Integration.CustomTransform")
+                .WithFileNamePrefix("Application.Integration.Jobs")
                 .WithObject("integrationName", scheduledIntegration.Name)
                 .WithObject("cronExpression", scheduledIntegration.Schedule!.Start.ToCronExpression().ToString())
                 .GenerateSourceCodeFromResource("Application.Integration.IntegrationJob");

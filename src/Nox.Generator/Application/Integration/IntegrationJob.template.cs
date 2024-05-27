@@ -13,7 +13,7 @@ public class {{className}}: JobBase
     private readonly INoxIntegrationContext _context;
     
     public {{className}}(
-        ILogger<IJob> logger,
+        ILogger<{{className}}> logger,
         INoxIntegrationContext context) : base(logger)
     {
         _context = context;

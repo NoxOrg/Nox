@@ -37,8 +37,7 @@ namespace Nox.Extensions
             string databaseConnectionString)
         {
             var registrations = new List<JobRegistration>()
-                .AddApplicationJobs(noxEntryAssemblies)
-                .AddIntegrationJobs(solution);
+                .AddApplicationJobs(noxEntryAssemblies);
 
             if (registrations.Any())
             {
@@ -87,12 +86,6 @@ namespace Nox.Extensions
                     var jobAttribute = job.GetCustomAttributes(typeof(NoxJobAttribute), false).Cast<NoxJobAttribute>().Single();
                     return new JobRegistration(jobAttribute.Name,jobAttribute.CronExpression, job);
                 }).ToList());
-            return registrations;
-        }
-        
-        private static List<JobRegistration> AddIntegrationJobs(this List<JobRegistration> registrations, NoxSolution solution)
-        {
-            
             return registrations;
         }
     }
