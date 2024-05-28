@@ -1,7 +1,10 @@
 ﻿@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Services
+@using Nox.Ui.Blazor.Lib.Resources
 @using {{codeGenConventions.UiNameSpace}}.Forms.Add
+@using {{codeGenConventions.UiNameSpace}}.Forms.Edit
 @using {{codeGenConventions.UiNameSpace}}.DataGrid
+@using {{codeGenConventions.UiNameSpace}}.Models
 
 @namespace {{codeGenConventions.UiNameSpace}}.Pages
 
@@ -19,23 +22,28 @@
         <MudText>Search section</MudText>
     </MudItem>
 {{- if entity.Persistence.Create.IsEnabled }}
-    <MudItem xs="12">
-        <Actions OnClick="ShowAddDialog" />
+    <MudItem xs="12" Style="margin:15px 0px 15px 0px;text-align:right;">
+        <Actions OnClick="ShowAddDialog" Title="@Resources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
     </MudItem>
     <Add{{entity.Name}}Form @bind-IsVisible="showAddDialog" OnSubmit="Add{{entity.Name}}Submit" OnCancel="HideAddDialog" />
 {{- end }}
+{{- if entity.Persistence.Update.IsEnabled }}
+    <Edit{{entity.Name}}Form @bind-IsVisible="showEditDialog" OnSubmit="Edit{{entity.Name}}Submit" OnCancel="HideEditDialog" {{entity.Name}}="selectedEntity" />
+{{- end }}
 {{- if entity.Persistence.Read.IsEnabled }}
     <MudItem xs="12">
-        <{{entity.PluralName}}DataGrid @ref="referencedDataGrid" />
+        <{{entity.PluralName}}DataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" />
     </MudItem>
 {{- end }}
 </MudGrid>
 
 @code{
 {{- if entity.Persistence.Create.IsEnabled }}
+
+private {{entity.PluralName}}DataGrid? referencedDataGrid;
+
 #region ADD
     private bool showAddDialog = false;
-    private {{entity.PluralName}}DataGrid? referencedDataGrid;
 
     private void ShowAddDialog()
     {
@@ -51,6 +59,33 @@
     {
         showAddDialog = false;        
         referencedDataGrid?.RefreshDataGrid();
+    }
+#endregion ADD
+{{- end }}
+
+{{- if entity.Persistence.Update.IsEnabled }}
+#region EDIT
+    private bool showEditDialog = false;   
+    
+    [Parameter]
+    public {{entity.Name}}Model? selectedEntity { get; set; }   
+
+    private void ShowEditDialog({{entity.Name}}Model? currentSelected)
+    {
+        selectedEntity = currentSelected;
+        showEditDialog = true;
+    }
+
+    private void HideEditDialog()
+    {
+        showEditDialog = false;
+    }
+
+    private void Edit{{entity.Name}}Submit()
+    {
+        showEditDialog = false;    
+        selectedEntity = null;
+        referencedDataGrid?.RefreshDataGrid();        
     }
 #endregion ADD
 {{- end }}

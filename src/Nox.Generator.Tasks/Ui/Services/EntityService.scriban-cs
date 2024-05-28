@@ -72,6 +72,19 @@ internal abstract partial class {{className}}Base : I{{className}}
 
     public async Task<{{entity.Name}}Model?> UpdateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}})
     {
+        if ({{ToLowerFirstChar entity.Name}}.Etag != Guid.Empty)
+        {
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{{{ToLowerFirstChar entity.Name}}.Etag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
         var item = await _httpClient.PutAsync<{{entity.Name}}UpdateDto, {{entity.Name}}Dto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto({{ToLowerFirstChar entity.Name}}));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }

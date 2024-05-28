@@ -9,6 +9,9 @@ public partial class {{className}} : ComponentBase
     private List<{{entity.Name}}Model> {{entity.PluralName}} = new(); 
     private bool IsLoading = true;
 
+    [Parameter]
+    public EventCallback<{{entity.Name}}Model?> OnSelectionChanged { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -31,5 +34,13 @@ public partial class {{className}} : ComponentBase
     {
         await LoadData();
         StateHasChanged();
+    }
+
+    public async Task SelectedOnClick({{entity.Name}}Model? currentSelection)
+    {
+        if (currentSelection != null)
+        {
+            await OnSelectionChanged.InvokeAsync(currentSelection);
+        }        
     }
 }
