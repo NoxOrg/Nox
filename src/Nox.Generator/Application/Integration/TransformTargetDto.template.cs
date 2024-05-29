@@ -39,7 +39,9 @@ end}}
 
 public sealed class {{className}}: MergeableRow
 {
-    {{- for map in transformation.Mapping }}
-    {{if (map.Target) }}public {{ getCSharpDataType map.Target.Type }}{{ if !map.IsRequired}}?{{end}} {{ map.Target.Name | string.capitalize }} { get; set; }{{ if map.IsRequired}}{{ getNonNullValue map.Target.Type }}{{end}}{{ end }}
+{{- for map in transformation.Mapping }}
+    {{- if (map.Target) }}
+    public {{ getCSharpDataType map.Target.Type }}{{- if !map.IsRequired}}?{{end}} {{ map.Target.Name | string.capitalize }} { get; set; }{{- if map.IsRequired}}{{ getNonNullValue map.Target.Type }}{{- end}}
+    {{- end }}
 {{- end }}
 }

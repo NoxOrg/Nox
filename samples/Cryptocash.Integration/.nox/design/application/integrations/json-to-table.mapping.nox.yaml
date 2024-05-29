@@ -4,7 +4,6 @@
 # yaml-language-server: $schema=../../../../../schemas/integrationTransform.json
 #
 
-type: mapping
 mapping:
   - source:
       name: CountryId
@@ -45,13 +44,14 @@ mapping:
       name: EditDate
       type: dateTime
 
-  - source:
-      name: ConcurrencyStamp
-      type: string
-    target:
-      name: Etag
-      type: guid
-    isRequired: true
+# Left this here as a reminder - Integrations that target Nox Entity tables are not allowed to target Etag attribute.
+#  - source:
+#      name: ConcurrencyStamp
+#      type: string
+#    target:
+#      name: Etag
+#      type: guid
+#    isRequired: true
     
   - target:
       name: PopulationMillions

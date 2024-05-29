@@ -13,6 +13,5 @@ public sealed class JsonToTableTargetDto: MergeableRow
     public System.Int32 Population { get; set; }
     public System.DateTime CreateDate { get; set; }
     public System.DateTime? EditDate { get; set; }
-    public System.Guid Etag { get; set; }
     public System.Int32? PopulationMillions { get; set; }
 }

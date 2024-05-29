@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
@@ -28,33 +30,57 @@ internal class CustomTransformGenerator: INoxCodeGenerator
             return;
         }
 
-        foreach (var customTransformIntegration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation.Type == IntegrationTransformType.Mapping))
+        foreach (var integration in codeGenConventions.Solution.Application.Integrations.Where(i => i.Transformation?.Mapping != null))
         {
             //Create the source Dto
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
-                .WithClassName($"{customTransformIntegration.Name}SourceDto")
+                .WithClassName($"{integration.Name}SourceDto")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
-                .WithObject("transformation", customTransformIntegration.Transformation)
+                .WithObject("transformation", integration.Transformation!)
                 .GenerateSourceCodeFromResource("Application.Integration.TransformSourceDto");
+            
+            ValidateMap(integration.Transformation!.Mapping!);
             
             //Create the target dto
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
-                .WithClassName($"{customTransformIntegration.Name}TargetDto")
+                .WithClassName($"{integration.Name}TargetDto")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
-                .WithObject("transformation", customTransformIntegration.Transformation)
+                .WithObject("transformation", integration.Transformation)
                 .GenerateSourceCodeFromResource("Application.Integration.TransformTargetDto");
             
             //create the transformation class
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
-                .WithClassName($"{customTransformIntegration.Name}TransformBase")
+                .WithClassName($"{integration.Name}TransformBase")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
-                .WithObject("integration", customTransformIntegration)
-                .WithObject("sourceDtoName", $"{customTransformIntegration.Name}SourceDto")
-                .WithObject("targetDtoName", $"{customTransformIntegration.Name}TargetDto")
+                .WithObject("integration", integration)
+                .WithObject("sourceDtoName", $"{integration.Name}SourceDto")
+                .WithObject("targetDtoName", $"{integration.Name}TargetDto")
                 .GenerateSourceCodeFromResource("Application.Integration.TransformBase");
         }
+    }
+
+    private void ValidateMap(IReadOnlyList<IntegrationMapping> mapping)
+    {
+        if (mapping.Any(m => m.Target.Name!.Equals("etag", StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new Exception("Integrations that target a Nox entity table are not allowed to have a mapping for the Etag attribute!");
+        }
+
+        foreach (var map in mapping)
+        {
+            if (map.Source != null)
+            {
+                var validMapping = MappingConstants.ValidMappings[map.Source.Type.ToString().ToLower()];
+                if (!validMapping.Contains(map.Target.Type.ToString().ToLower()))
+                {
+                    throw new Exception($"Mapping from {map.Source.Type.ToString()} to {map.Target.Type.ToString()} is not allowed in a Nox integration mapping!");
+                }    
+            }
+        }
+        
+        
     }
 }

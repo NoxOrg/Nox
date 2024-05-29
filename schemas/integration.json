@@ -14,7 +14,6 @@
     "name",
     "mergeType",
     "source",
-    "transformation",
     "target"
   ],
   "properties": {

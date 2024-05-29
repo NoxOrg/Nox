@@ -42,9 +42,6 @@ source:
       FROM 
         dbo.CountryMaster
     minimumExpectedRecords: 10
-    
-transformation:
-  type: dynamic  
 
 target:
   name: SampleTarget

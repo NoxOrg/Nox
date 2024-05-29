@@ -8,7 +8,8 @@ public interface INoxTransform
 }
 
 public interface INoxTransform<in TSource, out TTarget>: INoxTransform
+    where TSource: class
+    where TTarget: class
 {
-    
     TTarget Invoke(TSource source);
 }

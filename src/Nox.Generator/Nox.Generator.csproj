@@ -29,14 +29,9 @@
 	
 	<ItemGroup>
 	  <Compile Remove="**\**\*.template.cs" />
-	  <Compile Remove="Extensions\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="**\**\*.template.cs" />
-	</ItemGroup>
-	<ItemGroup>
-	  <EmbeddedResource Remove="Extensions\**" />
-	  <None Remove="Extensions\**" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />

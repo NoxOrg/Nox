@@ -1,20 +1,15 @@
-﻿// Generated
-
-#nullable enable
-
 using System.Globalization;
 using CryptocashIntegration.Application.Integration.CustomTransform;
 using Nox.Integration.Abstractions.Interfaces;
 using AutoMapper;
-using Nox.Solution;
 
-namespace CryptocashIntegration.Application.Integration.CustomTransform;
+namespace Cryptocash.Integration;
 
-public abstract class JsonToTableTransformBase: INoxTransform<JsonToTableSourceDto, JsonToTableTargetDto>
+public abstract class TestTransformBase: INoxTransform<JsonToTableSourceDto, JsonToTableTargetDto>
 {
     private readonly IMapper _mapper;
     
-    protected JsonToTableTransformBase()
+    protected TestTransformBase()
     {
         _mapper = new MapperConfiguration(cfg =>
         {
@@ -22,8 +17,8 @@ public abstract class JsonToTableTransformBase: INoxTransform<JsonToTableSourceD
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CountryId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CountryName))
                 .ForMember(dest => dest.Population, opt => opt.MapFrom(src => src.NoOfInhabitants))
-                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => DateTime.Parse(src.DateCreated)))
-                .ForMember(dest => dest.EditDate, opt => opt.MapFrom(src => src.DateChanged == null ? (DateTime?)null : DateTime.Parse(src.DateChanged)));
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.DateCreated))
+                .ForMember(dest => dest.EditDate, opt => opt.MapFrom(src => src.DateChanged));
         }).CreateMapper();
     }
     

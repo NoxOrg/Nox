@@ -1,10 +1,8 @@
-using System.Globalization;
 using CryptocashIntegration.Application.Integration.CustomTransform;
-using Nox.Integration.Abstractions.Interfaces;
 
-namespace Cryptocash.Integration.Integrations;
+namespace Cryptocash.Integration;
 
-public class JsonToTableTransform: JsonToTableTransformBase
+public class TestTransform: TestTransformBase
 {
     public override JsonToTableTargetDto Invoke(JsonToTableSourceDto source)
     {
