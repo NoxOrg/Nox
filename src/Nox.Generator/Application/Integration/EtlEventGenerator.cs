@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Application.Integration;
 
@@ -40,14 +41,14 @@ internal class EtlEventGenerator: INoxCodeGenerator
             var tableName = targetDefinition.TableOptions.TableName;
         
             //Find the entity from the table name
-            var entity = domainDefinition.Entities.FirstOrDefault(e => e.Persistence.TableName!.Equals(tableName, StringComparison.OrdinalIgnoreCase));
-            if (entity == null) continue;
+            if (!domainDefinition.HasEntity(tableName)) continue;
+            var entity = domainDefinition.GetEntityByTableName(tableName);
             
             //Created Event Payload
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordCreatedDto")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
-                .WithObject("entity", entity)
+                .WithObject("entity", entity!)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlCreatedEventDto");
             
             //Created Event
@@ -61,7 +62,7 @@ internal class EtlEventGenerator: INoxCodeGenerator
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordUpdatedDto")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
-                .WithObject("entity", entity)
+                .WithObject("entity", entity!)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlUpdatedEventDto");
             
             //Updated event

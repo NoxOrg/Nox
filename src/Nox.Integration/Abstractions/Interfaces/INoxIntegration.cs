@@ -4,6 +4,8 @@ using Nox.Solution;
 namespace Nox.Integration.Abstractions.Interfaces;
 
 internal interface INoxIntegration<out TSource, in TTarget> 
+    where TSource : class 
+    where TTarget : class
 {
     string Name { get; }
     string? Description { get; }

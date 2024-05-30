@@ -64,12 +64,6 @@ internal sealed class NoxIntegrationContext: INoxIntegrationContext
             {
                 throw new NoxIntegrationException($"Integration: {name} not found in yaml definition!");
             }
-
-            if (definition.Transformation.Type == IntegrationTransformType.Mapping && transform == null)
-            {
-                throw new NoxIntegrationConfigurationException(
-                    $"Integration {definition.Name} has been configured for {definition.Transformation.Type.ToString()} transformation, but a compatible transform function has not been registered!");
-            }
         
             //Resolve the events
             var createdEvent = _createdEvents?.FirstOrDefault(e => e.IntegrationName == definition.Name);

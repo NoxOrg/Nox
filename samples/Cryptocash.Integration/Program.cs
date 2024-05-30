@@ -1,4 +1,5 @@
 
+using Cryptocash.Integration;
 using Cryptocash.Integration.Integrations;
 using Nox;
 using Nox.Integration.Abstractions.Models;
@@ -18,6 +19,7 @@ builder.AddNox();
 
 //You have to register all your integration transformation handlers.
 builder.Services.RegisterIntegrationTransform<JsonToTableTransform>();
+//builder.Services.RegisterIntegrationTransform<TestTransform>();
 
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 

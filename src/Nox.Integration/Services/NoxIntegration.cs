@@ -17,7 +17,8 @@ using Nox.Solution;
 namespace Nox.Integration.Services;
 
 internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource, TTarget>
-    
+    where TSource: class
+    where TTarget: class
 {
     private readonly ILogger _logger;
     private readonly INoxIntegrationDbContextFactory _dbContextFactory;
@@ -61,7 +62,6 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
         Schedule = definition.Schedule;
         Description = definition.Description;
         MergeType = definition.MergeType;
-        TransformType = definition.Transformation.Type;
         _sourceAdapter = sourceAdapter;
         _targetAdapter = targetAdapter;
         AddSourceFilterColumns(definition.Source);
