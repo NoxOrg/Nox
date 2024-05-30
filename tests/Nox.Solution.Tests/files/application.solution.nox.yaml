@@ -100,9 +100,6 @@ application:
           sequentialKeyColumns: 
             - "CountryId"
 
-      transformation:
-        type: mapping
-
       target:
         name: CountryTarget
         dataConnectionName: BusinessSystemDatabase
