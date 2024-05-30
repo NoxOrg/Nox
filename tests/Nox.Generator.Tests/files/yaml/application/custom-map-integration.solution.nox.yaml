@@ -36,118 +36,533 @@ application:
       
       transformation:
         mapping:
+          #integer -> integer
           - source:
-              name: SourceId
+              name: SourceField
               type: integer
 
             target:
-              name: TargetId
+              name: TargetField
+              type: integer
+
+          - source:
+              name: SourceField
+              type: integer
+
+            target:
+              name: TargetFieldRequired
               type: integer
             isRequired: true
 
+          #integer -> double
           - source:
-              name: SourceDouble
+              name: SourceField
+              type: integer
+
+            target:
+              name: TargetField
               type: double
 
+          - source:
+              name: SourceField
+              type: integer
+
             target:
-              name: TargetDouble
+              name: TargetFieldRequired
+              type: double
+            isRequired: true
+                        
+          #integer -> bool
+          - source:
+              name: SourceField
+              type: integer
+            
+            target:
+              name: TargetField
+              type: bool
+
+          - source:
+              name: SourceField
+              type: integer
+            
+            target:
+              name: TargetFieldRequired
+              type: bool
+            isRequired: true
+          
+          #integer -> string
+          - source:
+              name: SourceField
+              type: integer
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: integer
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          
+          #double -> integer
+          - source:
+              name: SourceField
+              type: double
+            
+            target:
+              name: TargetField
+              type: integer
+
+          - source:
+              name: SourceField
+              type: double
+            
+            target:
+              name: TargetFieldRequired
+              type: integer
+            isRequired: true
+          
+          #double -> double
+          - source:
+              name: SourceField
+              type: double
+            
+            target:
+              name: TargetField
               type: double
 
           - source:
-              name: SourceBool
+              name: SourceField
+              type: double
+            
+            target:
+              name: TargetFieldRequired
+              type: double
+            isRequired: true
+          
+          #double -> string
+          - source:
+              name: SourceField
+              type: double
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: double
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          
+          #bool -> integer
+          - source:
+              name: SourceField
               type: bool
-
+            
             target:
-              name: TargetBool
-              type: bool
-
-          - source:
-              name: SourceString
-              type: string
-
-            target:
-              name: TargetString
-              type: string
-
-          - source:
-              name: RequiredSourceString
-              type: string
-            target:
-              name: RequiredTargetString
-              type: string
-            isRequired: true
-
-          - source:
-              name: SourceDate
-              type: date
-
-            target:
-              name: TargetDate
-              type: date
-              
-          - source:
-              name: SourceDateRequired
-              type: date
-
-            target:
-              name: TargetDateRequired
-              type: date
-            isRequired: true
-
-          - source:
-              name: SourceTime
-              type: time
-
-            target:
-              name: TargetTime
-              type: time
-              
-          - source:
-              name: SourceTimeRequired
-              type: time
-
-            target:
-              name: TargetTimeRequired
-              type: time
-            isRequired: true
-
-          - source:
-              name: SourceDateTime
-              type: dateTime
-
-            target:
-              name: TargetDateTime
-              type: dateTime
-              
-          - source:
-              name: SourceDateTimeRequired
-              type: dateTime
-
-            target:
-              name: TargetDateTimeRequired
-              type: dateTime
-            isRequired: true
-
-          - source:
-              name: SourceGuid
-              type: guid
-
-            target:
-              name: TargetGuid
-              type: guid
-              
-          - source:
-              name: SourceGuidRequired
-              type: guid
-
-            target:
-              name: TargetGuidRequired
-              type: guid
-            isRequired: true
-
-          - target:
-              name: TargetCalculated
+              name: TargetField
               type: integer
+
+          - source:
+              name: SourceField
+              type: bool
+            
+            target:
+              name: TargetFieldRequired
+              type: integer
+            isRequired: true
+          
+          #bool -> bool
+          - source:
+              name: SourceField
+              type: bool
+            
+            target:
+              name: TargetField
+              type: bool
+
+          - source:
+              name: SourceField
+              type: bool
+            
+            target:
+              name: TargetFieldRequired
+              type: bool
+            isRequired: true
+          
+          #bool -> string
+          - source:
+              name: SourceField
+              type: bool
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: bool
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          
+          #string -> integer
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: integer
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: integer
+            isRequired: true
+          
+          #string -> double
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: double
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: double
+            isRequired: true
+          
+          #string -> bool
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: bool
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: bool
+            isRequired: true
+          
+          #string -> string
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          #string -> date
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: date
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: date
+            isRequired: true
+          
+          #string -> time
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: time
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: time
+            isRequired: true
+          
+          #string -> dateTime
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: dateTime
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: dateTime
+            isRequired: true
+          
+          #string -> guid
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetField
+              type: guid
+
+          - source:
+              name: SourceField
+              type: string
+            
+            target:
+              name: TargetFieldRequired
+              type: guid
+            isRequired: true
+          
+          
+          #date -> string
+          - source:
+              name: SourceField
+              type: date
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: date
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          #date -> date
+          - source:
+              name: SourceField
+              type: date
+            
+            target:
+              name: TargetField
+              type: date
+
+          - source:
+              name: SourceField
+              type: date
+            
+            target:
+              name: TargetFieldRequired
+              type: date
+            isRequired: true
+          
+          #date -> dateTime
+          - source:
+              name: SourceField
+              type: date
+            
+            target:
+              name: TargetField
+              type: dateTime
+
+          - source:
+              name: SourceField
+              type: date
+            
+            target:
+              name: TargetFieldRequired
+              type: dateTime
+            isRequired: true
+          
+          
+          #time -> string
+          - source:
+              name: SourceField
+              type: time
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: time
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          #time -> time
+          - source:
+              name: SourceField
+              type: time
+            
+            target:
+              name: TargetField
+              type: time
+
+          - source:
+              name: SourceField
+              type: time
+            
+            target:
+              name: TargetFieldRequired
+              type: time
+            isRequired: true
+          
+          
+          #dateTime -> string
+          - source:
+              name: SourceField
+              type: dateTime
+            
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: dateTime
+            
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          #dateTime -> date
+          - source:
+              name: SourceField
+              type: dateTime
+            
+            target:
+              name: TargetField
+              type: date
+
+          - source:
+              name: SourceField
+              type: dateTime
+            
+            target:
+              name: TargetFieldRequired
+              type: date
+            isRequired: true
+          
+          #dateTime -> time
+          - source:
+              name: SourceField
+              type: dateTime
+            
+            target:
+              name: TargetField
+              type: time
+
+          - source:
+              name: SourceField
+              type: dateTime
+            
+            target:
+              name: TargetFieldRequired
+              type: time
+            isRequired: true
+          
+          #dateTime -> dateTime
+          - source:
+              name: SourceField
+              type: dateTime
+
+            target:
+              name: TargetField
+              type: dateTime 
+
+          - source:
+              name: SourceField
+              type: dateTime
+
+            target:
+              name: TargetFieldRequired
+              type: dateTime
+            isRequired: true
+          
+          #giud -> string
+          - source:
+              name: SourceField
+              type: guid
+
+            target:
+              name: TargetField
+              type: string
+
+          - source:
+              name: SourceField
+              type: guid
+
+            target:
+              name: TargetFieldRequired
+              type: string
+            isRequired: true
+          
+          #giud -> guid
+          - source:
+              name: SourceField
+              type: guid
+
+            target:
+              name: TargetField
+              type: guid
+
+          - source:
+              name: SourceField
+              type: guid
+
+            target:
+              name: TargetFieldRequired
+              type: guid
+            isRequired: true
 
       target:
         name: SampleTarget

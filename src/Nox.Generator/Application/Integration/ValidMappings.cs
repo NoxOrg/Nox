@@ -8,7 +8,7 @@ internal static class MappingConstants
     public static ReadOnlyDictionary<string, string[]> ValidMappings => new(new Dictionary<string, string[]>
     {
         {"integer", new []{"integer", "double", "bool", "string"}},
-        {"double", new []{"integer", "double", "bool", "string"}},
+        {"double", new []{"integer", "double", "string"}},
         {"bool", new []{"integer", "bool", "string"}},
         {"string", new []{"integer", "double", "bool", "string", "date", "time", "datetime", "guid"}},
         {"date", new []{"string", "date", "datetime"}},

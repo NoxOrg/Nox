@@ -48,7 +48,7 @@ internal class EtlEventGenerator: INoxCodeGenerator
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordCreatedDto")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
-                .WithObject("entity", entity)
+                .WithObject("entity", entity!)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlCreatedEventDto");
             
             //Created Event
@@ -62,7 +62,7 @@ internal class EtlEventGenerator: INoxCodeGenerator
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}RecordUpdatedDto")
                 .WithFileNamePrefix("Application.Integration.EtlEvents")
-                .WithObject("entity", entity)
+                .WithObject("entity", entity!)
                 .GenerateSourceCodeFromResource("Application.Integration.EtlUpdatedEventDto");
             
             //Updated event

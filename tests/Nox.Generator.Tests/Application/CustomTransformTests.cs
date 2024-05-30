@@ -22,10 +22,10 @@ public class CustomTransformTests
             .AssertOutputResult()
             .AssertFileCount(27)
             .AssertContent()
-            .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .AssertFileExistsAndContent("Application.Integration.CustomMapTransformBase.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTransformBase.g.cs")
-            .AssertFileExistsAndContent("Application.Integration.CustomMapTransformSourceDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationSourceDto.g.cs")
-            .AssertFileExistsAndContent("Application.Integration.CustomMapTransformTargetDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTargetDto.g.cs");
+            .WithExpectedFilesFolder("./ExpectedGeneratedFiles/Integration/Transform")
+            .AssertFileExistsAndContent("TransformBase.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTransformBase.g.cs")
+            .AssertFileExistsAndContent("SourceDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationSourceDto.g.cs")
+            .AssertFileExistsAndContent("TargetDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTargetDto.g.cs");
     }
     
     [Fact]
@@ -41,7 +41,6 @@ public class CustomTransformTests
             .AssertOutputResult()
             .AssertFileCount(6)
             .AssertContent()
-            .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
             .SourceContains("Generator.g.cs", "Mapping from Integer to DateTime is not allowed in a Nox integration mapping!");
     }
 }

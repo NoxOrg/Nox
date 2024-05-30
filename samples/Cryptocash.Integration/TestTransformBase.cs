@@ -33,3 +33,4 @@ public abstract class TestTransformBase: INoxTransform<JsonToTableSourceDto, Jso
 
     public Type TargetType => typeof(JsonToTableTargetDto);
 }
+

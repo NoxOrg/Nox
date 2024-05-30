@@ -30,8 +30,8 @@ public class Application
 
     [Title("The Jobs that this application runs.")]    
     [AdditionalProperties(false)]
-    [UniqueItemProperties(nameof(Job.Name))]
-    public IReadOnlyList<Job> Jobs { get; internal set; } = Array.Empty<Job>();
+    [UniqueItemProperties(nameof(EtlJob.Name))]
+    public IReadOnlyList<EtlJob> Jobs { get; internal set; } = Array.Empty<EtlJob>();
 
     public Localization Localization { get; internal set; } = new Localization();
 }

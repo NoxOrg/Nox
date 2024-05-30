@@ -2,7 +2,7 @@
 
 #nullable enable
 
-using ETLBox.DataFlow;
+{{if (hasEntity)}}using Nox.Integration.Abstractions.Models;{{ else }}using ETLBox.DataFlow;{{- end}}
 
 namespace {{codeGenConventions.ApplicationNameSpace}}.Integration.CustomTransform;
 {{-func getCSharpDataType(sourceType)
@@ -37,11 +37,14 @@ end}}
     end        
 end}}
 
-public sealed class {{className}}: MergeableRow
+public sealed class {{className}}: {{if (hasEntity)}}NoxEntityTargetDto{{ else  }}MergeableRow{{end}}
 {
 {{- for map in transformation.Mapping }}
     {{- if (map.Target) }}
     public {{ getCSharpDataType map.Target.Type }}{{- if !map.IsRequired}}?{{end}} {{ map.Target.Name | string.capitalize }} { get; set; }{{- if map.IsRequired}}{{ getNonNullValue map.Target.Type }}{{- end}}
+    {{- end }}
+    {{- if (hasEntity)}}
+        
     {{- end }}
 {{- end }}
 }

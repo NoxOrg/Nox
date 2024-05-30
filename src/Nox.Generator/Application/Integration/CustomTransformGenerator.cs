@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Application.Integration;
 
@@ -41,13 +42,21 @@ internal class CustomTransformGenerator: INoxCodeGenerator
                 .GenerateSourceCodeFromResource("Application.Integration.TransformSourceDto");
             
             ValidateMap(integration.Transformation!.Mapping!);
+
+            var hasEntity = false;
+            if (integration.Target.TableOptions != null)
+            {
+                hasEntity = codeGenConventions.Solution.Domain?.GetEntityByTableName(integration.Target.TableOptions!.TableName) != null;
+            }
             
+            //TODO: If we can get the source or target definitions, i.e. tables, we can get the table definition, then we can generate the dtos from this instead of the mapping. Mapping will override the definitions
             //Create the target dto
             context.CancellationToken.ThrowIfCancellationRequested();
             new TemplateCodeBuilder(context, codeGenConventions)
                 .WithClassName($"{integration.Name}TargetDto")
                 .WithFileNamePrefix("Application.Integration.CustomTransform")
                 .WithObject("transformation", integration.Transformation)
+                .WithObject("hasEntity", hasEntity)
                 .GenerateSourceCodeFromResource("Application.Integration.TransformTargetDto");
             
             //create the transformation class

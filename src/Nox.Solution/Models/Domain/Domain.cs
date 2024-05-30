@@ -23,7 +23,7 @@ public class Domain : YamlConfigNode<NoxSolution, NoxSolution>
 
     public Entity GetEntityByName(string entityName) => _entitiesByName![entityName];
 
-    public Entity GetEntityByTableName(string tableName) => Entities.Single(e => e.Persistence.TableName!.Equals(tableName, StringComparison.OrdinalIgnoreCase));
+    public Entity? GetEntityByTableName(string tableName) => Entities.FirstOrDefault(e => e.Persistence.TableName!.Equals(tableName, StringComparison.OrdinalIgnoreCase));
     
     private Dictionary<string, Entity>? _entitiesByName;
 
