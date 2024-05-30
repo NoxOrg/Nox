@@ -2,11 +2,11 @@
 
 #nullable enable
 
-using ETLBox.DataFlow;
+using Nox.Integration.Abstractions.Models;
 
 namespace TestIntegrationSolution.Application.Integration.CustomTransform;
 
-public sealed class TestIntegrationTargetDto: MergeableRow
+public sealed class TestIntegrationTargetDto: NoxEntityTargetDto
 {
     public System.Int32? TargetField { get; set; }
     public System.Int32 TargetFieldRequired { get; set; }

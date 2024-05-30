@@ -52,7 +52,6 @@ application:
             - "CountryId"
       
       transformation:
-        type: mapping
         mapping: 
           - source:
               name: CountryId
