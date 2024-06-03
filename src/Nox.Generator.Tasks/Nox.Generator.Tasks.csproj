@@ -39,7 +39,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Nox.Docs\Nox.Docs.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" />
-		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
