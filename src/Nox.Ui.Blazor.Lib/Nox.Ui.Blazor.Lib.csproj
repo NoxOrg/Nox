@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -31,9 +31,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.15" />
-		<PackageReference Include="MudBlazor" Version="6.11.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.6" />
+		<PackageReference Include="MudBlazor" Version="6.19.1" />
 	</ItemGroup>
 
 	<ItemGroup>

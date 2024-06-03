@@ -2,7 +2,7 @@
   <UsingTask TaskName="Nox.Generator.Tasks.NoxGeneratorTask" AssemblyFile="..\..\src\Nox.Generator.Tasks\bin\Debug\netstandard2.0\Nox.Generator.Tasks.dll" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>435ebf39-2d2b-4f80-b323-7853bbd643ce</UserSecretsId>
@@ -13,11 +13,11 @@
 
   <ItemGroup>
 	<PackageReference Include="AutoMapper" Version="13.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" NoWarn="NU1605" />
-  	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.14" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="2.17.0" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.17.0" />
-    <PackageReference Include="MudBlazor" Version="6.11.1" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" NoWarn="NU1605" />
+  	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.6" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="2.19.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.19.0" />
+    <PackageReference Include="MudBlazor" Version="6.19.1" />
   </ItemGroup>
 
   <ItemGroup>

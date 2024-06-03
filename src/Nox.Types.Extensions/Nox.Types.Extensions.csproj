@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="GeoTimeZone" Version="5.3.0" />
-		<PackageReference Include="Nox.Reference.Data.World" Version="1.1.10" />
+		<PackageReference Include="Nox.Reference.Data.World" Version="1.1.11" />
 	</ItemGroup>
 
 	<ItemGroup>
