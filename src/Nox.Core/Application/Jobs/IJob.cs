@@ -9,7 +9,7 @@ public interface IJob
     /// <summary>
     /// Run the job, if failed, throw exception
     /// </summary>
-    void Run();
+    Task Run();
 }
 
 

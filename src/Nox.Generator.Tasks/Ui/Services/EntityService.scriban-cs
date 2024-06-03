@@ -94,6 +94,7 @@ internal abstract partial class {{className}}Base : I{{className}}
         }
 
         var item = await _httpClient.PutAsync<{{entity.Name}}UpdateDto, {{entity.Name}}Dto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto({{ToLowerFirstChar entity.Name}}));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

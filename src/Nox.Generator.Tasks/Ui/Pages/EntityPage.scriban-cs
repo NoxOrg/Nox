@@ -199,5 +199,4 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
     }
 #endregion DELETE
 {{- end }}
-
 }

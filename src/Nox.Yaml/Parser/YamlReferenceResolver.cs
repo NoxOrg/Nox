@@ -12,8 +12,6 @@ internal class YamlReferenceResolver
 
     private readonly Regex _variableRegex = new(@"\$\{\{\s*(?<type>[\w\.\-_:]+)\.(?<variable>[\w\.\-_:]+)\s*\}\}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
 
-    private readonly string _rootKey;
-
     private readonly IDictionary<string, Func<TextReader>> _filesAndContent;
 
     private readonly IList<YamlLineInfo> _content;
@@ -28,13 +26,11 @@ internal class YamlReferenceResolver
     {
         _filesAndContent = filesAndContent;
 
-        _rootKey = rootKey;
-        
         YamlTypeConverters = yamlTypeConverters?.ToImmutableArray() ?? Array.Empty<IYamlTypeConverter>().ToImmutableArray();
 
         _content = new List<YamlLineInfo>();
 
-        ReadYamlStreamRecursive(_rootKey, string.Empty);
+        ReadYamlStreamRecursive(rootKey, string.Empty);
 
         _contentAsStringBuilder = ToStringBuilder();
 

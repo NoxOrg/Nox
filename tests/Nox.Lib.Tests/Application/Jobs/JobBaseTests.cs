@@ -61,9 +61,10 @@ namespace Nox.Lib.Tests.Application.Jobs
         public FakeJob(ILogger<IJob> logger) : base(logger)
         {
         }
-        override public void Run()
+        override public Task Run()
         {
             Logger.LogInformation("Job {jobName} is running", GetType().Name);
+            return Task.CompletedTask;
         }
     }
 }

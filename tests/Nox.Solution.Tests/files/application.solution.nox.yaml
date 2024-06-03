@@ -52,7 +52,6 @@ application:
             - "CountryId"
       
       transformation:
-        type: mapping
         mapping: 
           - source:
               name: CountryId
@@ -100,9 +99,6 @@ application:
             - "EditDate"
           sequentialKeyColumns: 
             - "CountryId"
-
-      transformation:
-        type: mapping
 
       target:
         name: CountryTarget

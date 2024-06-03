@@ -5,6 +5,7 @@ using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using System.Collections.Immutable;
 using System.Reflection;
+using MassTransit;
 
 namespace Nox.Extensions
 {
@@ -26,17 +27,23 @@ namespace Nox.Extensions
                 _ => throw new NotImplementedException()
             };
 
-            services.AddNoxJobs(noxEntryAssemblies, noxSolution.Infrastructure!.Persistence!.DatabaseServer.Provider, connectionString);
+            services.AddNoxJobs(noxEntryAssemblies, noxSolution, connectionString);
 
             return services;
         }
         public static IServiceCollection AddNoxJobs(this IServiceCollection services,
             Assembly[] noxEntryAssemblies,
-            DatabaseServerProvider databaseProvider,
+            NoxSolution solution,
             string databaseConnectionString)
         {
-            RegisterJobs(services, noxEntryAssemblies);
-            RegisterHangFire(services, databaseProvider, databaseConnectionString);
+            var registrations = new List<JobRegistration>()
+                .AddApplicationJobs(noxEntryAssemblies);
+
+            if (registrations.Any())
+            {
+                RegisterJobs(services, registrations, noxEntryAssemblies);
+                RegisterHangFire(services, solution.Infrastructure.Persistence!.DatabaseServer.Provider, databaseConnectionString);    
+            }
 
             return services;
         }
@@ -58,7 +65,7 @@ namespace Nox.Extensions
             services.AddHangfireServer();
         }
 
-        private static void RegisterJobs(IServiceCollection services, Assembly[] noxEntryAssemblies)
+        private static void RegisterJobs(IServiceCollection services, List<JobRegistration> registrations, Assembly[] noxEntryAssemblies)
         {
             services.Scan(scan => scan
             .FromAssemblies(noxEntryAssemblies)
@@ -66,17 +73,20 @@ namespace Nox.Extensions
             .AsSelf()
             .WithTransientLifetime());
 
-            var jobsRegistration = noxEntryAssemblies.SelectMany(assembly => assembly.GetTypes())
+            services.AddSingleton<IJobRegistry>(serviceProvider => new JobRegistry(serviceProvider, registrations));
+            services.AddTransient<IJobScheduler, JobScheduler>();
+        }
+
+        private static List<JobRegistration> AddApplicationJobs(this List<JobRegistration> registrations, Assembly[] noxEntryAssemblies)
+        {
+            registrations.AddRange(noxEntryAssemblies.SelectMany(assembly => assembly.GetTypes())
                 .Where(type => !type.IsAbstract && type.GetInterfaces().Contains(typeof(IJob)))
                 .Where(job => job.GetCustomAttributes(typeof(NoxJobAttribute), false).Length == 1)
                 .Select(job => {
                     var jobAttribute = job.GetCustomAttributes(typeof(NoxJobAttribute), false).Cast<NoxJobAttribute>().Single();
                     return new JobRegistration(jobAttribute.Name,jobAttribute.CronExpression, job);
-                    }).ToList();
-                
-
-            services.AddSingleton<IJobRegistry>(serviceProvider => new JobRegistry(serviceProvider, jobsRegistration));
-            services.AddTransient<IJobScheduler, JobScheduler>();
+                }).ToList());
+            return registrations;
         }
     }
 }

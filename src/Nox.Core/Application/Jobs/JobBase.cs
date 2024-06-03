@@ -11,8 +11,9 @@ public abstract class JobBase : IJob
         Logger = logger;
     }
 
-    public virtual void Run()
+    public virtual Task Run()
     {
         Logger.LogWarning("Job {TypeName} does not have a implementation", GetType().Name);
+        return Task.CompletedTask;
     }
 }

@@ -8,7 +8,5 @@ entities:
 
   - $ref: ./entities/CountryQueryToTable.entity.nox.yaml
     
-  - $ref: ./entities/CountryQueryToCustomTable.entity.nox.yaml
-    
   - $ref: ./entities/CountryJsonToTable.entity.nox.yaml
   

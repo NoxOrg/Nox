@@ -18,7 +18,6 @@ public class Integration
     [Description("A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful.")]
     public string? Description { get; set; }
     
-    [Required]
     public IntegrationSchedule? Schedule { get; internal set; }
     
     [Required] 
@@ -27,7 +26,7 @@ public class Integration
     [Required]
     public IntegrationSource Source { get; internal set; } = null!;
 
-    [Required] public IntegrationTransform Transformation { get; internal set; } = null!;
+    public IntegrationTransform? Transformation { get; internal set; }
 
     [Required]
     public IntegrationTarget Target { get; internal set; } = null!;

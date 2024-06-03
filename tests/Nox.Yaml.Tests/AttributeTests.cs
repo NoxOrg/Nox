@@ -18,7 +18,7 @@ public class AttributeTests
 
         // Act
 
-        var attr = type.GetCustomAttribute<GenerateJsonSchema>();
+        var attr = type.GetCustomAttribute<GenerateJsonSchemaAttribute>();
 
         // Assert
 

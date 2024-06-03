@@ -38,12 +38,16 @@ public static class AdapterHelpers
     }
     
     internal static INoxIntegration<TSource, TTarget> WithSchedule<TSource, TTarget>(this INoxIntegration<TSource, TTarget> instance, IntegrationSchedule schedule)
+        where TSource : class 
+        where TTarget : class
     {
         //Add the integration to the hangfire job scheduler.
         return instance;
     }
 
     internal static INoxIntegration<TSource, TTarget> WithTargetDto<TSource, TTarget>(this INoxIntegration<TSource, TTarget> instance, IntegrationTarget targetDefinition, Nox.Solution.Domain? domainDefinition)
+        where TSource : class 
+        where TTarget : class
     {
         if (targetDefinition.TableOptions == null) return instance;
         if (domainDefinition == null) return instance;
