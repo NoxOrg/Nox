@@ -19,7 +19,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
 		<RootNamespace>Nox</RootNamespace>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>

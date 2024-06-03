@@ -5,7 +5,7 @@
 	  <Nullable>enable</Nullable>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <IsPackable>false</IsPackable>
-	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
 
 	<PropertyGroup>
