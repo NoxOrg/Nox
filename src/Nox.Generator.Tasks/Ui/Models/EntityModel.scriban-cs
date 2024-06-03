@@ -6,6 +6,7 @@ end -}}
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
+using System.Text.Json.Serialization;
 
 namespace {{codeGenConventions.UiNameSpace}}.Models;
 
@@ -43,4 +44,8 @@ public abstract class {{className}}Base: IEntityModel
     /// </summary>
     public virtual {{attributeType attribute}}? {{attribute.Name}} { get; set; }
 {{- end }}
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; set; }
+
 }

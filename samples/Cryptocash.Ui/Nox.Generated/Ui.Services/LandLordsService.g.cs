@@ -16,7 +16,7 @@ public interface ILandLordsService
     public Task<LandLordModel?> GetByIdAsync(string id);
     public Task<LandLordModel?> CreateAsync(LandLordModel landLord);
     public Task<LandLordModel?> UpdateAsync(LandLordModel landLord);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(LandLordModel landLord);
 }
 
 internal partial class LandLordsService : LandLordsServiceBase
@@ -72,12 +72,54 @@ internal abstract partial class LandLordsServiceBase : ILandLordsService
 
     public async Task<LandLordModel?> UpdateAsync(LandLordModel landLord)
     {
-        var item = await _httpClient.PutAsync<LandLordUpdateDto, LandLordDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(landLord));
+        if (landLord.Etag != Guid.Empty)
+        {
+            string currentEtag = landLord.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (landLord.Id != null)
+        {
+            currentID = landLord.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<LandLordUpdateDto, LandLordDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(landLord));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(LandLordModel landLord)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (landLord.Etag != Guid.Empty)
+        {
+            string currentEtag = landLord.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (landLord.Id != null)
+        {
+            currentID = landLord.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 }

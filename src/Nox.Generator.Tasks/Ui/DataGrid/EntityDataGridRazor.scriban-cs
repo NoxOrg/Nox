@@ -17,20 +17,36 @@
           Style="border-style:solid;border-width:2px;border-color:lightgray;"
           Dense="true">
     <HeaderContent>
+        {{- if entity.Persistence.Update.IsEnabled }}
+        <MudTh>Select</MudTh>
+        {{- end }}
         {{- for attribute in entity.Attributes }}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
         <MudTh>{{attribute.Name}}</MudTh>
         {{- end }}
+        {{- if entity.Persistence.Delete.IsEnabled }}
+        <MudTh>Delete</MudTh>
+        {{- end }}
     </HeaderContent>
     <RowTemplate>
+        {{- if entity.Persistence.Update.IsEnabled }}
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
+        </MudTd>
+        {{- end }}
         {{- for attribute in entity.Attributes }}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
         <MudTd>
             <View{{attribute.Type}} {{attribute.Type}}="@context.{{attribute.Name}}" />
+        </MudTd>
+        {{- end }}
+        {{- if entity.Persistence.Delete.IsEnabled }}
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
         {{- end }}
     </RowTemplate>
