@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-	<UsingTask TaskName="Nox.Generator.Tasks.NoxGeneratorTask" AssemblyFile="..\..\src\Nox.Generator.Tasks\bin\Debug\netstandard2.0\Nox.Generator.Tasks.dll" />
+	<UsingTask TaskName="Nox.Generator.Tasks.NoxGeneratorTask" AssemblyFile="$(MSBuildProjectDirectory)\..\..\src\Nox.Generator.Tasks\bin\Debug\netstandard2.0\Nox.Generator.Tasks.dll" />
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
