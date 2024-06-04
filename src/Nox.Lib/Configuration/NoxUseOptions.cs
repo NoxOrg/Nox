@@ -187,7 +187,9 @@ internal class NoxUseOptions : INoxUseOptions
         switch (noxSolution.Infrastructure.Monitoring.Provider)
         {
             case MonitoringProvider.ElasticApm:
+#pragma warning disable CS0618 // Type or member is obsolete
                 builder.UseAllElasticApm(noxSolution.Infrastructure.Monitoring.ElasticApmServer!.ToConfiguration());
+#pragma warning restore CS0618 // Type or member is obsolete
                 break;
             default:
                 throw new NotImplementedException($"Unknown provider {noxSolution.Infrastructure.Monitoring.Provider}");
