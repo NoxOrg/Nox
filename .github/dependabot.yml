@@ -13,10 +13,3 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-      - dependency-name: "MediatR" #until upgrade to .Net 8
-      - dependency-name: "Microsoft.Build.Framework" #until upgrade to .Net
-      - dependency-name: "Microsoft.CodeAnalysis.CSharp.Workspaces" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
-      - dependency-name: "Microsoft.CodeAnalysis.CSharp" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
-      - dependency-name: "Microsoft.CSharp" #until upgrade to .Net 8 / Requires Latest VS, we do not want this
-      - dependency-name: "Serilog*"  #until upgrade to .Net 8 
-      - dependency-name: "Microsoft.OData.Core"  #dependabot is crashing when updating this package
