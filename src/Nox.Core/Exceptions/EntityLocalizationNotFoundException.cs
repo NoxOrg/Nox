@@ -1,10 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net;
-using System.Runtime.Serialization;
 
 namespace Nox.Exceptions;
 
-[Serializable]
 public class EntityLocalizationNotFoundException : Exception, IApplicationException
 {
     public EntityLocalizationNotFoundException(string entityName, string entityId, string cultureCode)
@@ -23,10 +21,6 @@ public class EntityLocalizationNotFoundException : Exception, IApplicationExcept
         : base(message, inner)
     {
         ErrorDetails = message;
-    }
-    protected EntityLocalizationNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
     }
 
     public virtual HttpStatusCode? StatusCode => HttpStatusCode.NotFound;

@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 
 namespace Nox.Exceptions;
 
-[Serializable]
 public class EntityNotFoundException : Exception, IApplicationException
 {
     public EntityNotFoundException(string entityName, string entityId)
@@ -25,10 +24,7 @@ public class EntityNotFoundException : Exception, IApplicationException
     {
         ErrorDetails = message;
     }
-    protected EntityNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
+
     public virtual HttpStatusCode? StatusCode => HttpStatusCode.NotFound;
 
     public virtual string ErrorCode => "entity_not_found";

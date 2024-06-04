@@ -2,7 +2,6 @@
 
 namespace Nox.Exceptions;
 
-[Serializable]
 public class RelatedEntityNotFoundException : EntityNotFoundException, IApplicationException
 {
     public RelatedEntityNotFoundException(string entityName, string entityId)
@@ -19,10 +18,6 @@ public class RelatedEntityNotFoundException : EntityNotFoundException, IApplicat
         : base(message, inner)
     {
     }
-    protected RelatedEntityNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
-    public override string ErrorCode => "related_entity_not_found";
 
+    public override string ErrorCode => "related_entity_not_found";
 }

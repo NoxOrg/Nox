@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 
 namespace Nox.Types;
 
-[Serializable]
 public class NoxTypeValidationException : Exception
 {
     private readonly List<ValidationFailure> _errors = new();
@@ -17,9 +16,5 @@ public class NoxTypeValidationException : Exception
         _errors.AddRange(errors);
     }
 
-    protected NoxTypeValidationException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
-    {
-    }
     public override string Message => $"{base.Message} {string.Join("\n", Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"))}";
 }

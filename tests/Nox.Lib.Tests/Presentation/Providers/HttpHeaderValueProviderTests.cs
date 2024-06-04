@@ -33,7 +33,7 @@ public class HttpHeaderValueProviderTests
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers.Add(HeaderNames.AcceptLanguage, string.Empty);
+        httpContext.Request.Headers.Append(HeaderNames.AcceptLanguage, string.Empty);
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
@@ -53,7 +53,7 @@ public class HttpHeaderValueProviderTests
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers.Add(HeaderNames.AcceptLanguage, value);
+        httpContext.Request.Headers.Append(HeaderNames.AcceptLanguage, value);
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
