@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Nox.Exceptions;
 
-[Serializable]
 public class RelationshipDeletionException : Exception, IApplicationException
 {
     public RelationshipDeletionException(string message)
@@ -13,11 +12,6 @@ public class RelationshipDeletionException : Exception, IApplicationException
 
     public RelationshipDeletionException(string message, Exception inner)
         : base(message, inner)
-    {
-    }
-
-    protected RelationshipDeletionException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

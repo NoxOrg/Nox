@@ -7,13 +7,15 @@ namespace Cryptocash.Tests;
 
 public class CryptocashCountryDtoDataCreationTests
 {
+    private static readonly JsonSerializerOptions JsonOptions = CreateJsonSerializerOptions();
+
 #nullable enable
 
     /// <summary>
     /// Test used to create one-off CountryDto JSON data from Reference Data - to use make sure source json files are available otherwise test just returns empty string - use returning rtnJson value from Convert_Country_ReferenceData_to_DtoDataAsync to create the CryptocashCountry.Json file manually
     /// </summary>
     [Fact(Skip = "Only used as one-off to create DataSeeder Country JSON file")]
-    public async void Create_CountryDto_data_from_CountryReferenceData()
+    public async Task Create_CountryDto_data_from_CountryReferenceData()
     {
         var rootPath = "../../../../.nox";        
 
@@ -118,13 +120,7 @@ public class CryptocashCountryDtoDataCreationTests
                     }                 
                 }
 
-                var jsonOptions = new JsonSerializerOptions()
-                {
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
-                };
-                jsonOptions.Converters.Add(new JsonStringEnumConverter());
-
-                string rtnJson = System.Text.Json.JsonSerializer.Serialize(CreatedData, jsonOptions);
+                string rtnJson = System.Text.Json.JsonSerializer.Serialize(CreatedData, JsonOptions);
 
                 return rtnJson;
             }
@@ -541,5 +537,17 @@ public class CryptocashCountryDtoDataCreationTests
         }
 
         return new();
+    }
+
+    private static JsonSerializerOptions CreateJsonSerializerOptions()
+    {
+        var jsonOptions = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
+
+        jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+        return jsonOptions;
     }
 }

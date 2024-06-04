@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Nox.Types;
 
-[Serializable]
 public class NoxGuidTypeException : Exception
 {
     public NoxGuidTypeException()
@@ -16,9 +15,4 @@ public class NoxGuidTypeException : Exception
     public NoxGuidTypeException(string message, Exception innerException)
         : base(message, innerException)
     { }
-
-    protected NoxGuidTypeException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-        : base(serializationInfo, streamingContext)
-    {
-    }
 }
