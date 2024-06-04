@@ -94,6 +94,7 @@ internal abstract partial class CountriesServiceBase : ICountriesService
         }
 
         var item = await _httpClient.PutAsync<CountryUpdateDto, CountryDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(country));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

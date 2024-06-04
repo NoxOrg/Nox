@@ -94,6 +94,7 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
         }
 
         var item = await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(cashStockOrder));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

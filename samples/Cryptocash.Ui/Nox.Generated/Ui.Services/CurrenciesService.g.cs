@@ -94,6 +94,7 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
         }
 
         var item = await _httpClient.PutAsync<CurrencyUpdateDto, CurrencyDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(currency));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

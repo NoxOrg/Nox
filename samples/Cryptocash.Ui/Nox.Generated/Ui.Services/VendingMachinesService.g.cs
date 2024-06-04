@@ -94,6 +94,7 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
         }
 
         var item = await _httpClient.PutAsync<VendingMachineUpdateDto, VendingMachineDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(vendingMachine));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

@@ -94,6 +94,7 @@ internal abstract partial class BookingsServiceBase : IBookingsService
         }
 
         var item = await _httpClient.PutAsync<BookingUpdateDto, BookingDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(booking));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
