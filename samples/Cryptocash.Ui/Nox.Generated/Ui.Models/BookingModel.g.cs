@@ -3,6 +3,7 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -64,4 +65,8 @@ public abstract class BookingModelBase: IEntityModel
     /// Booking's related vat number     
     /// </summary>
     public virtual VatNumberModel? VatNumber { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; set; }
+
 }

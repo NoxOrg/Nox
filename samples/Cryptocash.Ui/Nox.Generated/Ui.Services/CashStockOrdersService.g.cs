@@ -16,7 +16,7 @@ public interface ICashStockOrdersService
     public Task<CashStockOrderModel?> GetByIdAsync(string id);
     public Task<CashStockOrderModel?> CreateAsync(CashStockOrderModel cashStockOrder);
     public Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(CashStockOrderModel cashStockOrder);
 }
 
 internal partial class CashStockOrdersService : CashStockOrdersServiceBase
@@ -72,12 +72,54 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
 
     public async Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder)
     {
-        var item = await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(cashStockOrder));
+        if (cashStockOrder.Etag != Guid.Empty)
+        {
+            string currentEtag = cashStockOrder.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (cashStockOrder.Id != null)
+        {
+            currentID = cashStockOrder.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(cashStockOrder));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(CashStockOrderModel cashStockOrder)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (cashStockOrder.Etag != Guid.Empty)
+        {
+            string currentEtag = cashStockOrder.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (cashStockOrder.Id != null)
+        {
+            currentID = cashStockOrder.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 }

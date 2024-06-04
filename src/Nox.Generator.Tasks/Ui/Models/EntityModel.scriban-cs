@@ -6,6 +6,7 @@ end -}}
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
+using System.Text.Json.Serialization;
 
 namespace {{codeGenConventions.UiNameSpace}}.Models;
 

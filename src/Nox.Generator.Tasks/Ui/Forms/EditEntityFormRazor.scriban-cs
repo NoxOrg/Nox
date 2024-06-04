@@ -18,7 +18,7 @@ end -}}
 
 <MudDialog @bind-IsVisible="@IsVisible" Options="@EditDialogOptions">
     <TitleContent>
-        <MudText Typo="Typo.h6">@string.Format(NoxResources.AddEntity, "{{entity.Name}}")</MudText>
+        <MudText Typo="Typo.h6">@string.Format(NoxResources.EditEntity, "{{entity.Name}}")</MudText>
     </TitleContent>
     <DialogContent>
         <MudForm Model="@{{entity.Name}}">

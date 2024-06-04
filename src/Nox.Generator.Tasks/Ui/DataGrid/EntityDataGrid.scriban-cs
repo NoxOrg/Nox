@@ -12,6 +12,9 @@ public partial class {{className}} : ComponentBase
     [Parameter]
     public EventCallback<{{entity.Name}}Model?> OnSelectionChanged { get; set; }
 
+    [Parameter]
+    public EventCallback<{{entity.Name}}Model?> OnDeleteChanged { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -41,6 +44,14 @@ public partial class {{className}} : ComponentBase
         if (currentSelection != null)
         {
             await OnSelectionChanged.InvokeAsync(currentSelection);
+        }        
+    }
+
+    public async Task DeleteOnClick({{entity.Name}}Model? currentSelection)
+    {
+        if (currentSelection != null)
+        {
+            await OnDeleteChanged.InvokeAsync(currentSelection);
         }        
     }
 }

@@ -16,7 +16,7 @@ public interface IPaymentProvidersService
     public Task<PaymentProviderModel?> GetByIdAsync(string id);
     public Task<PaymentProviderModel?> CreateAsync(PaymentProviderModel paymentProvider);
     public Task<PaymentProviderModel?> UpdateAsync(PaymentProviderModel paymentProvider);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(PaymentProviderModel paymentProvider);
 }
 
 internal partial class PaymentProvidersService : PaymentProvidersServiceBase
@@ -72,12 +72,54 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
 
     public async Task<PaymentProviderModel?> UpdateAsync(PaymentProviderModel paymentProvider)
     {
-        var item = await _httpClient.PutAsync<PaymentProviderUpdateDto, PaymentProviderDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(paymentProvider));
+        if (paymentProvider.Etag != Guid.Empty)
+        {
+            string currentEtag = paymentProvider.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (paymentProvider.Id != null)
+        {
+            currentID = paymentProvider.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<PaymentProviderUpdateDto, PaymentProviderDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(paymentProvider));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(PaymentProviderModel paymentProvider)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (paymentProvider.Etag != Guid.Empty)
+        {
+            string currentEtag = paymentProvider.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (paymentProvider.Id != null)
+        {
+            currentID = paymentProvider.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 }

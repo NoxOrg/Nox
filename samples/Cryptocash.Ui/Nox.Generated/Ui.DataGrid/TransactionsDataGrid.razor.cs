@@ -9,6 +9,12 @@ public partial class TransactionsDataGrid : ComponentBase
     private List<TransactionModel> Transactions = new(); 
     private bool IsLoading = true;
 
+    [Parameter]
+    public EventCallback<TransactionModel?> OnSelectionChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<TransactionModel?> OnDeleteChanged { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -31,5 +37,21 @@ public partial class TransactionsDataGrid : ComponentBase
     {
         await LoadData();
         StateHasChanged();
+    }
+
+    public async Task SelectedOnClick(TransactionModel? currentSelection)
+    {
+        if (currentSelection != null)
+        {
+            await OnSelectionChanged.InvokeAsync(currentSelection);
+        }        
+    }
+
+    public async Task DeleteOnClick(TransactionModel? currentSelection)
+    {
+        if (currentSelection != null)
+        {
+            await OnDeleteChanged.InvokeAsync(currentSelection);
+        }        
     }
 }

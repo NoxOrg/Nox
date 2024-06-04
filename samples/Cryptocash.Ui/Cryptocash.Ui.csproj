@@ -24,11 +24,6 @@
     <ProjectReference Include="..\..\src\Nox.Ui.Blazor.Lib\Nox.Ui.Blazor.Lib.csproj" />
     <ProjectReference Include="..\Cryptocash.Application.Dto\Cryptocash.Application.Dto.csproj" />
   </ItemGroup>
-	
-
-  <ItemGroup>
-    <RazorComponent Include="Nox.Generated\**\*.razor" />
-  </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="../.nox/design/**/*.yaml" LinkBase="Design">

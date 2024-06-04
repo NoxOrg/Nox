@@ -43,7 +43,7 @@ public partial class {{className}} : ComponentBase
 
             if ({{entity.Name}} != null)
             {
-                var result = await CountriesService.UpdateAsync({{entity.Name}});
+                var result = await {{entity.PluralName}}Service.UpdateAsync({{entity.Name}});
 
                 if (result is null)
                     HasError = true;

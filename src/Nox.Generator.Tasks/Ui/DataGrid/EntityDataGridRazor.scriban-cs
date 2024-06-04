@@ -26,6 +26,9 @@
         {{- end }}
         <MudTh>{{attribute.Name}}</MudTh>
         {{- end }}
+        {{- if entity.Persistence.Delete.IsEnabled }}
+        <MudTh>Delete</MudTh>
+        {{- end }}
     </HeaderContent>
     <RowTemplate>
         {{- if entity.Persistence.Update.IsEnabled }}
@@ -39,6 +42,11 @@
         {{- end }}
         <MudTd>
             <View{{attribute.Type}} {{attribute.Type}}="@context.{{attribute.Name}}" />
+        </MudTd>
+        {{- end }}
+        {{- if entity.Persistence.Delete.IsEnabled }}
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
         {{- end }}
     </RowTemplate>
