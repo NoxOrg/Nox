@@ -94,7 +94,6 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
         }
 
         var item = await _httpClient.PutAsync<PaymentProviderUpdateDto, PaymentProviderDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(paymentProvider));
-
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

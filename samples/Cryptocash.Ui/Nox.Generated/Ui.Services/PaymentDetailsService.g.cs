@@ -94,7 +94,6 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
         }
 
         var item = await _httpClient.PutAsync<PaymentDetailUpdateDto, PaymentDetailDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(paymentDetail));
-
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
