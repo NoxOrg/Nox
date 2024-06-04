@@ -7,6 +7,8 @@ namespace Cryptocash.Tests;
 
 public class CryptocashCountryDtoDataCreationTests
 {
+    private static readonly JsonSerializerOptions JsonOptions = CreateJsonSerializerOptions();
+
 #nullable enable
 
     /// <summary>
@@ -118,13 +120,7 @@ public class CryptocashCountryDtoDataCreationTests
                     }                 
                 }
 
-                var jsonOptions = new JsonSerializerOptions()
-                {
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
-                };
-                jsonOptions.Converters.Add(new JsonStringEnumConverter());
-
-                string rtnJson = System.Text.Json.JsonSerializer.Serialize(CreatedData, jsonOptions);
+                string rtnJson = System.Text.Json.JsonSerializer.Serialize(CreatedData, JsonOptions);
 
                 return rtnJson;
             }
@@ -541,5 +537,17 @@ public class CryptocashCountryDtoDataCreationTests
         }
 
         return new();
+    }
+
+    private static JsonSerializerOptions CreateJsonSerializerOptions()
+    {
+        var jsonOptions = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
+
+        jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+        return jsonOptions;
     }
 }
