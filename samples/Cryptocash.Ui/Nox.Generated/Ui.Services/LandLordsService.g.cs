@@ -94,7 +94,6 @@ internal abstract partial class LandLordsServiceBase : ILandLordsService
         }
 
         var item = await _httpClient.PutAsync<LandLordUpdateDto, LandLordDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(landLord));
-
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

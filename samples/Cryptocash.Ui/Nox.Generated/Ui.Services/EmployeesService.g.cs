@@ -94,7 +94,6 @@ internal abstract partial class EmployeesServiceBase : IEmployeesService
         }
 
         var item = await _httpClient.PutAsync<EmployeeUpdateDto, EmployeeDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(employee));
-
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

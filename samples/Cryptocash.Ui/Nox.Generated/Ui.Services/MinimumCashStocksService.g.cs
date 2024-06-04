@@ -94,7 +94,6 @@ internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStock
         }
 
         var item = await _httpClient.PutAsync<MinimumCashStockUpdateDto, MinimumCashStockDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(minimumCashStock));
-
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

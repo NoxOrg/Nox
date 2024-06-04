@@ -94,7 +94,6 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
         }
 
         var item = await _httpClient.PutAsync<CommissionUpdateDto, CommissionDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(commission));
-
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
