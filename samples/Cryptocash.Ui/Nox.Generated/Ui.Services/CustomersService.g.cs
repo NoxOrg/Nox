@@ -94,6 +94,7 @@ internal abstract partial class CustomersServiceBase : ICustomersService
         }
 
         var item = await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(customer));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 

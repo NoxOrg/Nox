@@ -94,6 +94,7 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
         }
 
         var item = await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(transaction));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
