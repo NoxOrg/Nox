@@ -9,12 +9,6 @@ public partial class LandLordsDataGrid : ComponentBase
     private List<LandLordModel> LandLords = new(); 
     private bool IsLoading = true;
 
-    [Parameter]
-    public EventCallback<LandLordModel?> OnSelectionChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<LandLordModel?> OnDeleteChanged { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -37,21 +31,5 @@ public partial class LandLordsDataGrid : ComponentBase
     {
         await LoadData();
         StateHasChanged();
-    }
-
-    public async Task SelectedOnClick(LandLordModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnSelectionChanged.InvokeAsync(currentSelection);
-        }        
-    }
-
-    public async Task DeleteOnClick(LandLordModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnDeleteChanged.InvokeAsync(currentSelection);
-        }        
     }
 }

@@ -85,6 +85,10 @@
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>
 		</Content>
+		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Nox.Cron.dll">
+			<Pack>true</Pack>
+			<PackagePath>analyzers\dotnet\cs</PackagePath>
+		</Content>
 		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\FluentValidation.dll">
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>

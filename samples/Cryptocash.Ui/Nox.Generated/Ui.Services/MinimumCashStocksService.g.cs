@@ -16,7 +16,7 @@ public interface IMinimumCashStocksService
     public Task<MinimumCashStockModel?> GetByIdAsync(string id);
     public Task<MinimumCashStockModel?> CreateAsync(MinimumCashStockModel minimumCashStock);
     public Task<MinimumCashStockModel?> UpdateAsync(MinimumCashStockModel minimumCashStock);
-    public Task DeleteAsync(MinimumCashStockModel minimumCashStock);
+    public Task DeleteAsync(string id);
 }
 
 internal partial class MinimumCashStocksService : MinimumCashStocksServiceBase
@@ -72,54 +72,12 @@ internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStock
 
     public async Task<MinimumCashStockModel?> UpdateAsync(MinimumCashStockModel minimumCashStock)
     {
-        if (minimumCashStock.Etag != Guid.Empty)
-        {
-            string currentEtag = minimumCashStock.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (minimumCashStock.Id != null)
-        {
-            currentID = minimumCashStock.Id.ToString();
-        }
-
-        var item = await _httpClient.PutAsync<MinimumCashStockUpdateDto, MinimumCashStockDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(minimumCashStock));
+        var item = await _httpClient.PutAsync<MinimumCashStockUpdateDto, MinimumCashStockDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(minimumCashStock));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(MinimumCashStockModel minimumCashStock)
+    public async Task DeleteAsync(string id)
     {
-        if (minimumCashStock.Etag != Guid.Empty)
-        {
-            string currentEtag = minimumCashStock.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (minimumCashStock.Id != null)
-        {
-            currentID = minimumCashStock.Id.ToString();
-        }
-
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
     }
 }

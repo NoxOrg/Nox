@@ -9,12 +9,6 @@ public partial class PaymentDetailsDataGrid : ComponentBase
     private List<PaymentDetailModel> PaymentDetails = new(); 
     private bool IsLoading = true;
 
-    [Parameter]
-    public EventCallback<PaymentDetailModel?> OnSelectionChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<PaymentDetailModel?> OnDeleteChanged { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -37,21 +31,5 @@ public partial class PaymentDetailsDataGrid : ComponentBase
     {
         await LoadData();
         StateHasChanged();
-    }
-
-    public async Task SelectedOnClick(PaymentDetailModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnSelectionChanged.InvokeAsync(currentSelection);
-        }        
-    }
-
-    public async Task DeleteOnClick(PaymentDetailModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnDeleteChanged.InvokeAsync(currentSelection);
-        }        
     }
 }
