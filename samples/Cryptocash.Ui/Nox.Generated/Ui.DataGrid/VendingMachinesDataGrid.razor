@@ -17,7 +17,6 @@
           Style="border-style:solid;border-width:2px;border-color:lightgray;"
           Dense="true">
     <HeaderContent>
-        <MudTh>Select</MudTh>
         <MudTh>MacAddress</MudTh>
         <MudTh>PublicIp</MudTh>
         <MudTh>GeoLocation</MudTh>
@@ -25,12 +24,8 @@
         <MudTh>SerialNumber</MudTh>
         <MudTh>InstallationFootPrint</MudTh>
         <MudTh>RentPerSquareMetre</MudTh>
-        <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd>
-             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
-        </MudTd>
         <MudTd>
             <ViewMacAddress MacAddress="@context.MacAddress" />
         </MudTd>
@@ -51,9 +46,6 @@
         </MudTd>
         <MudTd>
             <ViewMoney Money="@context.RentPerSquareMetre" />
-        </MudTd>
-        <MudTd>
-             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
     </RowTemplate>
     <NoRecordsContent>

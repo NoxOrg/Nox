@@ -16,7 +16,7 @@ public interface IVendingMachinesService
     public Task<VendingMachineModel?> GetByIdAsync(string id);
     public Task<VendingMachineModel?> CreateAsync(VendingMachineModel vendingMachine);
     public Task<VendingMachineModel?> UpdateAsync(VendingMachineModel vendingMachine);
-    public Task DeleteAsync(VendingMachineModel vendingMachine);
+    public Task DeleteAsync(string id);
 }
 
 internal partial class VendingMachinesService : VendingMachinesServiceBase
@@ -72,54 +72,12 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
 
     public async Task<VendingMachineModel?> UpdateAsync(VendingMachineModel vendingMachine)
     {
-        if (vendingMachine.Etag != Guid.Empty)
-        {
-            string currentEtag = vendingMachine.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (vendingMachine.Id != null)
-        {
-            currentID = vendingMachine.Id.ToString();
-        }
-
-        var item = await _httpClient.PutAsync<VendingMachineUpdateDto, VendingMachineDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(vendingMachine));
+        var item = await _httpClient.PutAsync<VendingMachineUpdateDto, VendingMachineDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(vendingMachine));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(VendingMachineModel vendingMachine)
+    public async Task DeleteAsync(string id)
     {
-        if (vendingMachine.Etag != Guid.Empty)
-        {
-            string currentEtag = vendingMachine.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (vendingMachine.Id != null)
-        {
-            currentID = vendingMachine.Id.ToString();
-        }
-
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
     }
 }

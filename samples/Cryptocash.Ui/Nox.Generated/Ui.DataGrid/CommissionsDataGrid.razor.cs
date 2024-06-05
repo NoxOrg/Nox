@@ -9,12 +9,6 @@ public partial class CommissionsDataGrid : ComponentBase
     private List<CommissionModel> Commissions = new(); 
     private bool IsLoading = true;
 
-    [Parameter]
-    public EventCallback<CommissionModel?> OnSelectionChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<CommissionModel?> OnDeleteChanged { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -37,21 +31,5 @@ public partial class CommissionsDataGrid : ComponentBase
     {
         await LoadData();
         StateHasChanged();
-    }
-
-    public async Task SelectedOnClick(CommissionModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnSelectionChanged.InvokeAsync(currentSelection);
-        }        
-    }
-
-    public async Task DeleteOnClick(CommissionModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnDeleteChanged.InvokeAsync(currentSelection);
-        }        
     }
 }

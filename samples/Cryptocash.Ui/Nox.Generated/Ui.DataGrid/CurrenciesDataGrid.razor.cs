@@ -9,12 +9,6 @@ public partial class CurrenciesDataGrid : ComponentBase
     private List<CurrencyModel> Currencies = new(); 
     private bool IsLoading = true;
 
-    [Parameter]
-    public EventCallback<CurrencyModel?> OnSelectionChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<CurrencyModel?> OnDeleteChanged { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -37,21 +31,5 @@ public partial class CurrenciesDataGrid : ComponentBase
     {
         await LoadData();
         StateHasChanged();
-    }
-
-    public async Task SelectedOnClick(CurrencyModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnSelectionChanged.InvokeAsync(currentSelection);
-        }        
-    }
-
-    public async Task DeleteOnClick(CurrencyModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnDeleteChanged.InvokeAsync(currentSelection);
-        }        
     }
 }

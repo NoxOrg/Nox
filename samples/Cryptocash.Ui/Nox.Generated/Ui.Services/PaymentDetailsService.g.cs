@@ -16,7 +16,7 @@ public interface IPaymentDetailsService
     public Task<PaymentDetailModel?> GetByIdAsync(string id);
     public Task<PaymentDetailModel?> CreateAsync(PaymentDetailModel paymentDetail);
     public Task<PaymentDetailModel?> UpdateAsync(PaymentDetailModel paymentDetail);
-    public Task DeleteAsync(PaymentDetailModel paymentDetail);
+    public Task DeleteAsync(string id);
 }
 
 internal partial class PaymentDetailsService : PaymentDetailsServiceBase
@@ -72,54 +72,12 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
 
     public async Task<PaymentDetailModel?> UpdateAsync(PaymentDetailModel paymentDetail)
     {
-        if (paymentDetail.Etag != Guid.Empty)
-        {
-            string currentEtag = paymentDetail.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (paymentDetail.Id != null)
-        {
-            currentID = paymentDetail.Id.ToString();
-        }
-
-        var item = await _httpClient.PutAsync<PaymentDetailUpdateDto, PaymentDetailDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(paymentDetail));
+        var item = await _httpClient.PutAsync<PaymentDetailUpdateDto, PaymentDetailDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(paymentDetail));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(PaymentDetailModel paymentDetail)
+    public async Task DeleteAsync(string id)
     {
-        if (paymentDetail.Etag != Guid.Empty)
-        {
-            string currentEtag = paymentDetail.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (paymentDetail.Id != null)
-        {
-            currentID = paymentDetail.Id.ToString();
-        }
-
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
     }
 }

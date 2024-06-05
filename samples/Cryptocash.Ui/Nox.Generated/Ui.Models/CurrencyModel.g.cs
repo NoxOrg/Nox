@@ -3,7 +3,6 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
-using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -90,8 +89,4 @@ public abstract class CurrencyModelBase: IEntityModel
     /// Currency's minor value when converted to major     
     /// </summary>
     public virtual MoneyModel? MinorToMajorValue { get; set; }
-
-    [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; set; }
-
 }
