@@ -33,7 +33,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Hangfire" Version="1.8.12" />
-		<PackageReference Include="Nox.Cron" Version="8.0.1" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
