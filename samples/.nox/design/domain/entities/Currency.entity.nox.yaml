@@ -34,6 +34,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Currency Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -46,6 +47,7 @@ attributes:
     type: currencyNumber     
     isRequired: true  
     userInterface:
+      label: Currency Id
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -61,6 +63,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Currency Symbol
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -76,6 +79,7 @@ attributes:
       maxLength: 63
     isRequired: false
     userInterface:
+      label: Thousands Separator
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -91,6 +95,7 @@ attributes:
       maxLength: 63
     isRequired: false
     userInterface:
+      label: Decimal Separator
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -103,6 +108,7 @@ attributes:
     type: boolean
     isRequired: true
     userInterface:
+      label: Space Between
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -115,6 +121,7 @@ attributes:
     type: boolean
     isRequired: true
     userInterface:
+      label: Symbol On Left
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -127,6 +134,7 @@ attributes:
     type: number     
     isRequired: true  
     userInterface:
+      label: Decimal Digits
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -142,6 +150,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Major Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -157,6 +166,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Major Symbol
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -172,6 +182,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Minor Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -187,6 +198,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Minor Symbol
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -199,6 +211,7 @@ attributes:
     type: money     
     isRequired: true  
     userInterface:
+      label: Minor to Major Value
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

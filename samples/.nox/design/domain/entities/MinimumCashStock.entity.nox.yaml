@@ -22,7 +22,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -31,6 +31,7 @@ attributes:
     type: money     
     isRequired: true  
     userInterface:
+      label: Amount
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

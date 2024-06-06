@@ -22,7 +22,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -33,7 +33,9 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true
+    isReadonly: true
     userInterface:
+      label: Payment Provider
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -49,6 +51,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Provider Type
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

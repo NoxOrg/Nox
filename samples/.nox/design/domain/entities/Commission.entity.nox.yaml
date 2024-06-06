@@ -22,7 +22,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -31,6 +31,7 @@ attributes:
     type: percentage     
     isRequired: true  
     userInterface:
+      label: Commission Rate
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -43,6 +44,7 @@ attributes:
     type: dateTime     
     isRequired: true  
     userInterface:
+      label: Effective At
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

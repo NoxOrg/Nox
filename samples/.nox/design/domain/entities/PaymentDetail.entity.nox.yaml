@@ -13,7 +13,7 @@ userInterface:
 
 keys:
 
-  - name: Id
+  - name: Id    
     isRequired: true
     description: Customer payment account unique identifier 
     type: autoNumber
@@ -22,7 +22,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -34,6 +34,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Payment Account
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -49,6 +50,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Account Number
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -64,6 +66,7 @@ attributes:
       maxLength: 63
     isRequired: false
     userInterface:
+      label: Account Sort Code
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

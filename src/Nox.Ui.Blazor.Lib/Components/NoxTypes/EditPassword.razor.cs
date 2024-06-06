@@ -23,6 +23,20 @@ public partial class EditPassword : ComponentBase
     [Parameter]
     public HashingAlgorithm HashingAlgorithm { get; set; } = HashingAlgorithm.SHA256;
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool Required { get; set; } = false;
+
+    public string ErrorRequiredMessage
+    {
+        get
+        {
+            return string.Format(Resources.Resources.FieldIsRequired, Title).Trim();
+        }
+    }
+
     protected override void OnInitialized()
     {
         if (TypeOptions is not null)

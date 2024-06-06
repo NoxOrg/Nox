@@ -21,8 +21,8 @@ keys:
       showInSearchResults: never
       canSearch: true
       canFilter: false
-      showOnCreateForm: true
-      showOnUpdateForm: true
+      showOnCreateForm: false
+      showOnUpdateForm: false
 
 attributes:
 
@@ -31,6 +31,7 @@ attributes:
     type: money     
     isRequired: true  
     userInterface:
+      label: Amount From
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -43,6 +44,7 @@ attributes:
     type: money     
     isRequired: true  
     userInterface:
+      label: Amount To
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -55,6 +57,7 @@ attributes:
     type: dateTimeRange   
     isRequired: true  
     userInterface:
+      label: Requested Pick Up Date
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -67,6 +70,7 @@ attributes:
     type: dateTimeRange   
     isRequired: false  
     userInterface:
+      label: Picked Up Date
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -79,6 +83,7 @@ attributes:
     type: dateTime  
     isRequired: false  
     userInterface:
+      label: Expiry Date
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -91,6 +96,7 @@ attributes:
     type: dateTime  
     isRequired: false  
     userInterface:
+      label: Cancelled Date
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -106,6 +112,7 @@ attributes:
       returns: string
     isRequired: false  
     userInterface:
+      label: Status
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -118,6 +125,7 @@ attributes:
     type: vatNumber  
     isRequired: false  
     userInterface:
+      label: Vat Number
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

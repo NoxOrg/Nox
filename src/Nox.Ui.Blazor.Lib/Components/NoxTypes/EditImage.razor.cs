@@ -21,6 +21,20 @@ public partial class EditImage : ComponentBase
     [Parameter]
     public IEnumerable<ImageFormatType>? ImageFormatTypes { get; set; }
 
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public bool Required { get; set; } = false;
+
+    public string ErrorRequiredMessage
+    {
+        get
+        {
+            return string.Format(Resources.Resources.FieldIsRequired, Title).Trim();
+        }
+    }
+
     protected override void OnInitialized()
     {
         if (TypeOptions is not null)

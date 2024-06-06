@@ -24,7 +24,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -64,6 +64,7 @@ attributes:
     type: latLong     
     isRequired: true  
     userInterface:
+      label: GeoLocation
       pageGroup: Location
       showInSearchResults: optionalAndOnByDefault
       canSort: true
@@ -78,6 +79,7 @@ attributes:
     type: streetAddress
     isRequired: true
     userInterface:
+      label: Address
       pageGroup: Location
       showInSearchResults: optionalAndOnByDefault
       canSort: true

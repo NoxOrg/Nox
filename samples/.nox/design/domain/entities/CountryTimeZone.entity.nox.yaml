@@ -19,7 +19,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -28,6 +28,7 @@ attributes:
     type: timeZoneCode     
     isRequired: true  
     userInterface:
+      label: Time Zone Code
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

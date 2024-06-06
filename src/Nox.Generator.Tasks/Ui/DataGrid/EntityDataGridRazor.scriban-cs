@@ -1,4 +1,14 @@
-﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+﻿{{- func getDisplayLabel(attribute)   
+    if attribute.UserInterface.Label
+      ret attribute.UserInterface.Label
+    else if attribute.Name
+      ret attribute.Name
+    else 
+      ret ""
+    end  
+end -}}
+
+@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Nox.Ui.Blazor.Lib.Components.NoxTypes
 
 @using {{codeGenConventions.UiNameSpace}}.Services
@@ -24,7 +34,7 @@
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
-        <MudTh>{{attribute.Name}}</MudTh>
+        <MudTh>{{getDisplayLabel attribute}}</MudTh>
         {{- end }}
         {{- if entity.Persistence.Delete.IsEnabled }}
         <MudTh>Delete</MudTh>

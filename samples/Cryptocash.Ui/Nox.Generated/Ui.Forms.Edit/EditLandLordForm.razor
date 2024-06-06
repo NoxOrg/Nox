@@ -18,11 +18,13 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditText @bind-Text="LandLord.Name" 
-                        Title="Name" TypeOptions="@LandLordMetadata.NameTypeOptions" />
+                        Title="Name" TypeOptions="@LandLordMetadata.NameTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditStreetAddress @bind-StreetAddress="LandLord.Address" 
-                        Title="Address"/>
+                        Title="Address" Required="true"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

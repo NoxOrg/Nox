@@ -16,7 +16,7 @@ public interface ITransactionsService
     public Task<TransactionModel?> GetByIdAsync(string id);
     public Task<TransactionModel?> CreateAsync(TransactionModel transaction);
     public Task<TransactionModel?> UpdateAsync(TransactionModel transaction);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(TransactionModel transaction);
 }
 
 internal partial class TransactionsService : TransactionsServiceBase
@@ -72,12 +72,55 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
 
     public async Task<TransactionModel?> UpdateAsync(TransactionModel transaction)
     {
-        var item = await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(transaction));
+        if (transaction.Etag != Guid.Empty)
+        {
+            string currentEtag = transaction.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (transaction.Id != null)
+        {
+            currentID = transaction.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(transaction));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(TransactionModel transaction)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (transaction.Etag != Guid.Empty)
+        {
+            string currentEtag = transaction.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (transaction.Id != null)
+        {
+            currentID = transaction.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 }

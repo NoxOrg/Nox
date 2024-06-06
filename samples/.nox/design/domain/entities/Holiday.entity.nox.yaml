@@ -19,7 +19,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -31,6 +31,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -46,6 +47,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Type
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -58,6 +60,7 @@ attributes:
     type: date     
     isRequired: true  
     userInterface:
+      label: Date
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

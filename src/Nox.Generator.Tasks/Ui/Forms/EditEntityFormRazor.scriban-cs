@@ -1,8 +1,17 @@
-﻿{{- func showOnCreate(attribute)
-	ret attribute.UserInterface?.ShowOnCreateForm == true
+﻿{{- func showOnUpdate(attribute)
+	ret attribute.UserInterface?.ShowOnUpdateForm == true
 end -}}
 {{- func attributePrimitiveType(attribute)
 	ret componentsInfo[attribute.Name].ComponentType | string.remove 'System.'
+end -}}
+{{- func getDisplayLabel(attribute)   
+    if attribute.UserInterface && attribute.UserInterface?.Label
+      ret attribute.UserInterface?.Label
+    else if attribute.Name
+      ret attribute.Name
+    else 
+      ret ""
+    end  
 end -}}
 
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
@@ -24,22 +33,27 @@ end -}}
         <MudForm Model="@{{entity.Name}}">
             <MudGrid Style="margin-top:15px;">
             {{- for key in entity.Keys }}
-                {{- if !IsNoxTypeCreatable key.Type || !(showOnCreate key) }}
+                {{- if !IsNoxTypeUpdatable key.Type || !(showOnUpdate key) }}
                 {{- continue; }}
                 {{- end }}
                 <MudItem xs="12">
-                    <Edit{{key.Type}} @bind-{{key.Type}}="{{entity.Name}}.{{key.Name}}" Title="{{key.Name}}" />
+                    <Edit{{key.Type}} @bind-{{key.Type}}="{{entity.Name}}.{{key.Name}}" Title="{{getDisplayLabel key}}"
+                    {{- if key.IsRequired }} Required="true"{{ end }}
+                    {{- if key.IsReadonly }} Disabled="true"{{ end }}
+                    />
                 </MudItem>
             {{- end }}
             {{- for attribute in entity.Attributes }}
-                {{- if !IsNoxTypeCreatable attribute.Type || !(showOnCreate attribute) }}
+                {{- if !IsNoxTypeUpdatable attribute.Type || !(showOnUpdate attribute) }}
                 {{- continue; }}
                 {{- end }}
                 <MudItem xs="12">
                     <Edit{{attribute.Type}} @bind-{{attribute.Type}}="{{entity.Name}}.{{attribute.Name}}" 
-                        Title="{{attribute.Name}}" 
+                        Title="{{getDisplayLabel attribute}}" 
                         {{- if attribute.Type == "Number" }} T="{{attributePrimitiveType attribute}}"{{ end }}
-                        {{- if attributesWithTypeOptions | array.contains attribute.Name }} TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions" {{ end -}}
+                        {{- if attributesWithTypeOptions | array.contains attribute.Name }} TypeOptions="@{{entity.Name}}Metadata.{{attribute.Name}}TypeOptions"{{ end -}}
+                        {{- if attribute.IsRequired }} Required="true"{{ end }}
+                        {{- if attribute.IsReadonly }} Disabled="true"{{ end }}
                         />
                 </MudItem>
             {{- end }}

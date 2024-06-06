@@ -17,11 +17,16 @@
           Style="border-style:solid;border-width:2px;border-color:lightgray;"
           Dense="true">
     <HeaderContent>
-        <MudTh>PaymentAccountName</MudTh>
-        <MudTh>PaymentAccountNumber</MudTh>
-        <MudTh>PaymentAccountSortCode</MudTh>
+        <MudTh>Select</MudTh>
+        <MudTh>Payment Account</MudTh>
+        <MudTh>Account Number</MudTh>
+        <MudTh>Account Sort Code</MudTh>
+        <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
+        </MudTd>
         <MudTd>
             <ViewText Text="@context.PaymentAccountName" />
         </MudTd>
@@ -30,6 +35,9 @@
         </MudTd>
         <MudTd>
             <ViewText Text="@context.PaymentAccountSortCode" />
+        </MudTd>
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
     </RowTemplate>
     <NoRecordsContent>
