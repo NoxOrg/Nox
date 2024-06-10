@@ -1,5 +1,7 @@
 ﻿using Nox.Common;
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Nox.Types;
 
@@ -8,7 +10,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
 {
-    private static readonly HashSet<string> _currencyCodes = EnumExtensions.ToHashSet<CurrencyCode>();
+    public static readonly ImmutableHashSet<string> Values = EnumExtensions.ToHashSet<CurrencyCode>().ToImmutableHashSet();
 
     /// <summary>
     /// Creates a new instance of <see cref="CurrencyCode3"/>
@@ -41,7 +43,7 @@ public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
     {
         var result = base.Validate();
 
-        if (!_currencyCodes.Contains(Value))
+        if (!Values.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CurrencyCode3 type with unsupported value '{Value}'."));
         }

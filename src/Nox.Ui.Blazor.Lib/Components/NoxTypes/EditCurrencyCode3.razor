@@ -1,0 +1,18 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using Nox.Ui.Blazor.Lib.Models
+@using MudBlazor
+
+<MudSelect Label="@Title"
+           Variant="Variant.Outlined"
+           FullWidth="true"
+           Clearable="true"
+           Disabled="@Disabled"
+           Required="@Required"
+           RequiredError="@ErrorRequiredMessage"
+           TextChanged="OnCurrencyCode3Changed"
+           @bind-Value="CurrencyCodes">
+    @foreach (var currencyCode in CurrencyCodes)
+    {
+        <MudSelectItem Value="@currencyCode">@currencyCode</MudSelectItem>
+    }
+</MudSelect>

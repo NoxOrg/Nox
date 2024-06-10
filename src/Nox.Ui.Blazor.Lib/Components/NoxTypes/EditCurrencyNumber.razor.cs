@@ -19,7 +19,7 @@ public partial class EditCurrencyNumber : ComponentBase
     [Parameter]
     public EventCallback<short?> CurrencyNumberChanged { get; set; }
 
-    private List<short> CurrencyNumbers { get; set; } = Nox.Types.CurrencyNumber.Values.ToList();
+    private List<short> CurrencyNumbers { get; set; } = [.. Types.CurrencyNumber.Values];
 
     public string ErrorRequiredMessage
     {

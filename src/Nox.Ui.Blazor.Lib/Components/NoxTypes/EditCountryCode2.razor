@@ -1,0 +1,17 @@
+﻿@namespace Nox.Ui.Blazor.Lib.Components.NoxTypes
+@using MudBlazor
+
+<MudSelect Label="@Title"
+           Variant="Variant.Outlined"
+           FullWidth="true"
+           Clearable="true"  
+           Disabled="@Disabled"
+           Required="@Required"
+           RequiredError="@ErrorRequiredMessage"
+           TextChanged="OnCountryCode2Changed"
+           @bind-Value="CountryCode2">
+    @foreach (var countryCode in CountryCodes)
+    {
+        <MudSelectItem Value="@countryCode">@countryCode</MudSelectItem>
+    }
+</MudSelect>
