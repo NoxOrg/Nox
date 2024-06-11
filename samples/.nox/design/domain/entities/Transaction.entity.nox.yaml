@@ -22,7 +22,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -34,6 +34,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Transaction Type
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -46,6 +47,7 @@ attributes:
     type: dateTime     
     isRequired: true  
     userInterface:
+      label: Processed On
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -58,6 +60,7 @@ attributes:
     type: money     
     isRequired: true  
     userInterface:
+      label: Amount
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -73,6 +76,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Reference
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

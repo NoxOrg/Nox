@@ -18,31 +18,38 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditMacAddress @bind-MacAddress="VendingMachine.MacAddress" 
-                        Title="MacAddress"/>
+                        Title="MacAddress" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditIpAddress @bind-IpAddress="VendingMachine.PublicIp" 
-                        Title="PublicIp"/>
+                        Title="Public Ip" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditLatLong @bind-LatLong="VendingMachine.GeoLocation" 
-                        Title="GeoLocation"/>
+                        Title="GeoLocation" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditStreetAddress @bind-StreetAddress="VendingMachine.StreetAddress" 
-                        Title="StreetAddress"/>
+                        Title="Address" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="VendingMachine.SerialNumber" 
-                        Title="SerialNumber" TypeOptions="@VendingMachineMetadata.SerialNumberTypeOptions" />
+                        Title="Serial Number" TypeOptions="@VendingMachineMetadata.SerialNumberTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditArea @bind-Area="VendingMachine.InstallationFootPrint" 
-                        Title="InstallationFootPrint"/>
+                        Title="Installation Area"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditMoney @bind-Money="VendingMachine.RentPerSquareMetre" 
-                        Title="RentPerSquareMetre"/>
+                        Title="Rent per Square Metre"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

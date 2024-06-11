@@ -22,7 +22,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -34,6 +34,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -46,6 +47,7 @@ attributes:
     type: streetAddress
     isRequired: true
     userInterface:
+      label: Address
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

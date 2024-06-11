@@ -16,7 +16,7 @@ public interface ICountriesService
     public Task<CountryModel?> GetByIdAsync(string id);
     public Task<CountryModel?> CreateAsync(CountryModel country);
     public Task<CountryModel?> UpdateAsync(CountryModel country);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(CountryModel country);
 }
 
 internal partial class CountriesService : CountriesServiceBase
@@ -72,12 +72,55 @@ internal abstract partial class CountriesServiceBase : ICountriesService
 
     public async Task<CountryModel?> UpdateAsync(CountryModel country)
     {
-        var item = await _httpClient.PutAsync<CountryUpdateDto, CountryDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(country));
+        if (country.Etag != Guid.Empty)
+        {
+            string currentEtag = country.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (country.Id != null)
+        {
+            currentID = country.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<CountryUpdateDto, CountryDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(country));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(CountryModel country)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (country.Etag != Guid.Empty)
+        {
+            string currentEtag = country.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (country.Id != null)
+        {
+            currentID = country.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 }

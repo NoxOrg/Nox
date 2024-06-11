@@ -24,7 +24,7 @@ keys:
       canSearch: true
       canFilter: false
       showOnCreateForm: false
-      showOnUpdateForm: true
+      showOnUpdateForm: false
 
 attributes:
 
@@ -36,6 +36,7 @@ attributes:
       maxLength: 63      
     isRequired: true  
     userInterface:
+      label: First Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -51,6 +52,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Last Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -63,6 +65,7 @@ attributes:
     type: email
     isRequired: true
     userInterface:
+      label: Email
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -75,6 +78,7 @@ attributes:
     type: streetAddress
     isRequired: true
     userInterface:
+      label: Address
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -87,6 +91,7 @@ attributes:
     type: phoneNumber
     isRequired: false
     userInterface:
+      label: Mobile
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

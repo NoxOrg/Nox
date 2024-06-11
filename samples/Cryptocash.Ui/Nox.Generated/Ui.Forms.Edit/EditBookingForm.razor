@@ -17,35 +17,39 @@
         <MudForm Model="@Booking">
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
-                    <EditGuid @bind-Guid="Booking.Id" Title="Id" />
-                </MudItem>
-                <MudItem xs="12">
                     <EditMoney @bind-Money="Booking.AmountFrom" 
-                        Title="AmountFrom"/>
+                        Title="Amount From" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditMoney @bind-Money="Booking.AmountTo" 
-                        Title="AmountTo"/>
+                        Title="Amount To" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTimeRange @bind-DateTimeRange="Booking.RequestedPickUpDate" 
-                        Title="RequestedPickUpDate"/>
+                        Title="Requested Pick Up Date" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTimeRange @bind-DateTimeRange="Booking.PickedUpDateTime" 
-                        Title="PickedUpDateTime"/>
+                        Title="Picked Up Date"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="Booking.ExpiryDateTime" 
-                        Title="ExpiryDateTime"/>
+                        Title="Expiry Date"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="Booking.CancelledDateTime" 
-                        Title="CancelledDateTime"/>
+                        Title="Cancelled Date"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditVatNumber @bind-VatNumber="Booking.VatNumber" 
-                        Title="VatNumber"/>
+                        Title="Vat Number"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

@@ -2,13 +2,14 @@
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public partial class EditCountryCode3 : ComponentBase
+public partial class EditCurrencyCode3 : ComponentBase
 {
     [Parameter]
-    public string? CountryCode3 { get; set; }
+    public string? CurrencyCode3 { get; set; }
 
     [Parameter]
     public string? Title { get; set; }
+
     [Parameter]
     public bool Required { get; set; }
 
@@ -16,7 +17,9 @@ public partial class EditCountryCode3 : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
-    public EventCallback<string?> CountryCode3Changed { get; set; }
+    public EventCallback<string?> CurrencyCode3Changed { get; set; }
+
+    private List<string> CurrencyCodes { get; set; } = [.. Types.CurrencyCode3.Values.OrderBy(code => code)];
 
     public string ErrorRequiredMessage
     {
@@ -26,11 +29,9 @@ public partial class EditCountryCode3 : ComponentBase
         }
     }
 
-    private List<string> CountryCodes { get; set; } = [.. Types.CountryCode3.Values.OrderBy(code => code)];
-
-    protected async Task OnCountryCode3Changed(string newValue)
+    protected async Task OnCurrencyCode3Changed(string newValue)
     {
-        CountryCode3 = newValue;
-        await CountryCode3Changed.InvokeAsync(CountryCode3);
+        CurrencyCode3 = newValue;
+        await CurrencyCode3Changed.InvokeAsync(CurrencyCode3);
     }
 }

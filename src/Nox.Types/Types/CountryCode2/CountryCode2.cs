@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Nox.Types;
 
@@ -7,8 +8,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CountryCode2 : ValueObject<string, CountryCode2>
 {
-    private static readonly HashSet<string> _countryCode2s = new()
-    {
+    public static readonly ImmutableHashSet<string> Values = ImmutableHashSet.Create<string>(
         "AF", "AX", "AL", "DZ", "AS", "AD", "AO", "AI", "AQ", "AG", "AR", "AM", "AW", "AU", "AT", "AZ",
         "BS", "BH", "BD", "BB", "BY", "BE", "BZ", "BJ", "BM", "BT", "BO", "BA", "BW", "BV", "BR", "VG",
         "IO", "BN", "BG", "BF", "BI", "KH", "CM", "CA", "CV", "KY", "CF", "TD", "CL", "CN", "HK", "MO",
@@ -25,14 +25,14 @@ public sealed class CountryCode2 : ValueObject<string, CountryCode2>
         "LK", "SD", "SR", "SJ", "SZ", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TL", "TG", "TK", "TO",
         "TT", "TN", "TR", "TM", "TC", "TV", "UG", "UA", "AE", "GB", "US", "UM", "UY", "UZ", "VU", "VE",
         "VN", "VI", "WF", "EH", "YE", "ZM", "ZW"
-    };
+    );
 
     /// <inheritdoc/>
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
 
-        if (!_countryCode2s.Contains(Value))
+        if (!Values.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CountryCode2 type with unsupported value '{Value}'."));
         }

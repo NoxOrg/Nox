@@ -3,6 +3,7 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -39,4 +40,8 @@ public abstract class PaymentDetailModelBase: IEntityModel
     /// Payment account sort code     
     /// </summary>
     public virtual System.String? PaymentAccountSortCode { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; set; }
+
 }

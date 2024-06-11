@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Collections.Immutable;
 
 namespace Nox.Ui.Blazor.Lib.Components.NoxTypes;
 
-public partial class EditCountryCode3 : ComponentBase
+public partial class EditCountryCode2 : ComponentBase
 {
     [Parameter]
-    public string? CountryCode3 { get; set; }
+    public string? CountryCode2 { get; set; }
 
     [Parameter]
     public string? Title { get; set; }
@@ -16,7 +17,7 @@ public partial class EditCountryCode3 : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
-    public EventCallback<string?> CountryCode3Changed { get; set; }
+    public EventCallback<string?> CountryCode2Changed { get; set; }
 
     public string ErrorRequiredMessage
     {
@@ -26,11 +27,11 @@ public partial class EditCountryCode3 : ComponentBase
         }
     }
 
-    private List<string> CountryCodes { get; set; } = [.. Types.CountryCode3.Values.OrderBy(code => code)];
+    private List<string> CountryCodes { get; set; } = [.. Types.CountryCode2.Values.OrderBy(code => code)];
 
-    protected async Task OnCountryCode3Changed(string newValue)
+    protected async Task OnCountryCode2Changed(string newValue)
     {
-        CountryCode3 = newValue;
-        await CountryCode3Changed.InvokeAsync(CountryCode3);
+        CountryCode2 = newValue;
+        await CountryCode2Changed.InvokeAsync(CountryCode2);
     }
 }

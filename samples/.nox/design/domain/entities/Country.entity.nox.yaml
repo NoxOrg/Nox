@@ -34,6 +34,7 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Country Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -49,6 +50,7 @@ attributes:
       maxLength: 63
     isRequired: false
     userInterface:
+      label: Official Name
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -61,6 +63,7 @@ attributes:
     type: countryNumber     
     isRequired: false  
     userInterface:
+      label: Country Id
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -73,6 +76,7 @@ attributes:
     type: countryCode3     
     isRequired: false  
     userInterface:
+      label: Country Code
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -85,6 +89,7 @@ attributes:
     type: latLong     
     isRequired: false  
     userInterface:
+      label: Geo Coordinates
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -100,6 +105,7 @@ attributes:
       maxLength: 63
     isRequired: false
     userInterface:
+      label: Flag Emoji
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -112,6 +118,7 @@ attributes:
     type: image     
     isRequired: false  
     userInterface:
+      label: Flag SVG
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -124,6 +131,7 @@ attributes:
     type: image     
     isRequired: false  
     userInterface:
+      label: Flag PNG
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -136,6 +144,7 @@ attributes:
     type: image     
     isRequired: false  
     userInterface:
+      label: Coat of Arms SVG
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -148,6 +157,7 @@ attributes:
     type: image     
     isRequired: false  
     userInterface:
+      label: Coat of Arms PNG
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -160,6 +170,7 @@ attributes:
     type: url     
     isRequired: false  
     userInterface:
+      label: Google Maps URL
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -172,6 +183,7 @@ attributes:
     type: url     
     isRequired: false  
     userInterface:
+      label: Open Street Maps URL
       showInSearchResults: optionalAndOffByDefault
       canSort: false
       canSearch: false
@@ -184,6 +196,7 @@ attributes:
     type: dayOfWeek     
     isRequired: true  
     userInterface:
+      label: Start of Week
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -196,6 +209,7 @@ attributes:
     type: number     
     isRequired: true  
     userInterface:
+      label: Population
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true

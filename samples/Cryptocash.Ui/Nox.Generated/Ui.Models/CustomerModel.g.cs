@@ -3,6 +3,7 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -49,4 +50,8 @@ public abstract class CustomerModelBase: IEntityModel
     /// Customer's mobile number     
     /// </summary>
     public virtual System.String? MobileNumber { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; set; }
+
 }

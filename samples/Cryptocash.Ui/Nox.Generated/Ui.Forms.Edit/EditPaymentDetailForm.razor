@@ -18,15 +18,18 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditText @bind-Text="PaymentDetail.PaymentAccountName" 
-                        Title="PaymentAccountName" TypeOptions="@PaymentDetailMetadata.PaymentAccountNameTypeOptions" />
+                        Title="Payment Account" TypeOptions="@PaymentDetailMetadata.PaymentAccountNameTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="PaymentDetail.PaymentAccountNumber" 
-                        Title="PaymentAccountNumber" TypeOptions="@PaymentDetailMetadata.PaymentAccountNumberTypeOptions" />
+                        Title="Account Number" TypeOptions="@PaymentDetailMetadata.PaymentAccountNumberTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="PaymentDetail.PaymentAccountSortCode" 
-                        Title="PaymentAccountSortCode" TypeOptions="@PaymentDetailMetadata.PaymentAccountSortCodeTypeOptions" />
+                        Title="Account Sort Code" TypeOptions="@PaymentDetailMetadata.PaymentAccountSortCodeTypeOptions"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>
