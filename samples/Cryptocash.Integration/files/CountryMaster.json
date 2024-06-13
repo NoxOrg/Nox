@@ -3,2040 +3,2040 @@
    "CountryId": 1,
    "CountryName": "Aruba",
    "NoOfInhabitants": 106445,
-   "DateCreated": "2023-06-17 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-06-17 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "DD21AA7D-528B-46EC-8DEB-0747620C40B2"
  },
  {
    "CountryId": 2,
    "CountryName": "Africa Eastern and Southern",
    "NoOfInhabitants": 720839314,
-   "DateCreated": "2023-02-14 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-02-14 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "03B82435-FAE0-4287-B480-60A550070D0C"
  },
  {
    "CountryId": 3,
    "CountryName": "Afghanistan",
    "NoOfInhabitants": 41128771,
-   "DateCreated": "2023-04-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-04-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "B81A19CA-94C9-42C3-A35B-F1AA92431B4E"
  },
  {
    "CountryId": 4,
    "CountryName": "Africa Western and Central",
    "NoOfInhabitants": 490330870,
-   "DateCreated": "2023-08-04 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-08-04 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "5B50CFDE-8D2C-4FF9-8E23-68ADD68CF2E1"
  },
  {
    "CountryId": 5,
    "CountryName": "Angola",
    "NoOfInhabitants": 35588987,
-   "DateCreated": "2023-10-12 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-12 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "3B1597AC-C841-4EAD-A99D-70DA14884B5C"
  },
  {
    "CountryId": 6,
    "CountryName": "Albania",
    "NoOfInhabitants": 2775634,
-   "DateCreated": "2023-09-23 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-23 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "3936D277-0066-47AF-8ED8-53E585DFEE8D"
  },
  {
    "CountryId": 7,
    "CountryName": "Andorra",
    "NoOfInhabitants": 79824,
-   "DateCreated": "2023-08-19 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-08-19 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "89E03373-7A73-4BCA-96F2-31BCF7FFCCB6"
  },
  {
    "CountryId": 8,
    "CountryName": "Arab World",
    "NoOfInhabitants": 464684914,
-   "DateCreated": "2023-10-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "CF4DB254-55D5-4A64-9C22-D52B7A0DDB3A"
  },
  {
    "CountryId": 9,
    "CountryName": "United Arab Emirates",
    "NoOfInhabitants": 9441129,
-   "DateCreated": "2023-09-19 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-19 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "2F2E8698-FA3E-4A10-9D45-E26F95D5B2C1"
  },
  {
    "CountryId": 10,
    "CountryName": "Argentina",
    "NoOfInhabitants": 46234830,
-   "DateCreated": "2023-10-14 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-14 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "1D2FAA08-F114-470C-AE76-120833CF5601"
  },
  {
    "CountryId": 11,
    "CountryName": "Armenia",
    "NoOfInhabitants": 2780469,
-   "DateCreated": "2023-02-03 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-02-03 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "02F5890B-48D5-49B2-BFDE-C9815CA9FF4B"
  },
  {
    "CountryId": 12,
    "CountryName": "American Samoa",
    "NoOfInhabitants": 44273,
-   "DateCreated": "2023-08-26 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-08-26 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "9EDB185A-C982-4A9C-80F2-E9E5EE037B00"
  },
  {
    "CountryId": 13,
    "CountryName": "Antigua and Barbuda",
    "NoOfInhabitants": 93763,
-   "DateCreated": "2023-06-19 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-06-19 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "28B31397-8E39-4F68-8611-65004E2829E5"
  },
  {
    "CountryId": 14,
    "CountryName": "Australia",
    "NoOfInhabitants": 25978935,
-   "DateCreated": "2023-06-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-06-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "EB0D7970-F4DF-4AF1-914C-F14542CCEC44"
  },
  {
    "CountryId": 15,
    "CountryName": "Austria",
    "NoOfInhabitants": 9042528,
-   "DateCreated": "2023-08-24 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-08-24 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "A0F8EFB6-6FD0-4DEF-B024-A38F7C0C9FEF"
  },
  {
    "CountryId": 16,
    "CountryName": "Azerbaijan",
    "NoOfInhabitants": 10175016,
-   "DateCreated": "2023-03-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-03-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "CE034794-0378-413A-8181-CD93FADEC6F4"
  },
  {
    "CountryId": 17,
    "CountryName": "Burundi",
    "NoOfInhabitants": 12889576,
-   "DateCreated": "2023-09-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "A11C90B1-66B2-4015-859B-69386D2981AF"
  },
  {
    "CountryId": 18,
    "CountryName": "Belgium",
    "NoOfInhabitants": 11669446,
-   "DateCreated": "2023-03-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-03-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "7B0F3655-4B7E-41A1-8D4D-8C83314AA198"
  },
  {
    "CountryId": 19,
    "CountryName": "Benin",
    "NoOfInhabitants": 13352864,
-   "DateCreated": "2023-05-28 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-05-28 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "B0C46076-2308-4B74-8F89-1112479B25F1"
  },
  {
    "CountryId": 20,
    "CountryName": "Burkina Faso",
    "NoOfInhabitants": 22673762,
-   "DateCreated": "2023-09-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "FE15C450-C4EE-4DAF-AB21-FB00B290DED8"
  },
  {
    "CountryId": 21,
    "CountryName": "Bangladesh",
    "NoOfInhabitants": 171186372,
-   "DateCreated": "2023-09-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "4645A5C3-AA0E-4152-9B44-4D7E497AB95E"
  },
  {
    "CountryId": 22,
    "CountryName": "Bulgaria",
    "NoOfInhabitants": 6465097,
-   "DateCreated": "2023-08-17 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-08-17 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "4C4BCE2E-BB72-451A-8EF7-30C5616AA238"
  },
  {
    "CountryId": 23,
    "CountryName": "Bahrain",
    "NoOfInhabitants": 1472233,
-   "DateCreated": "2023-05-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-05-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "DB51B1B5-AFB0-4738-9D84-47C2C8606BE5"
  },
  {
    "CountryId": 24,
    "CountryName": "Bahamas, The",
    "NoOfInhabitants": 409984,
-   "DateCreated": "2023-06-11 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-06-11 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "A4CB01DA-E319-4B47-A2BD-E8E291720834"
  },
  {
    "CountryId": 25,
    "CountryName": "Bosnia and Herzegovina",
    "NoOfInhabitants": 3233526,
-   "DateCreated": "2023-05-04 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-05-04 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "33A47234-B41D-4F2C-8D7B-28DB67AA8451"
  },
  {
    "CountryId": 26,
    "CountryName": "Belarus",
    "NoOfInhabitants": 9208701,
-   "DateCreated": "2023-09-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "2C4DB9BF-6892-4D0C-AAF5-18B247C26866"
  },
  {
    "CountryId": 27,
    "CountryName": "Belize",
    "NoOfInhabitants": 405272,
-   "DateCreated": "2023-06-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-06-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "2BAA9FD2-F022-4F23-9476-157FB3A1902D"
  },
  {
    "CountryId": 28,
    "CountryName": "Bermuda",
    "NoOfInhabitants": 63532,
-   "DateCreated": "2023-02-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-02-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "F43AD809-E371-4D09-8D27-4850338F7328"
  },
  {
    "CountryId": 29,
    "CountryName": "Bolivia",
    "NoOfInhabitants": 12224110,
-   "DateCreated": "2023-07-06 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-07-06 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "AD85B823-ED13-4B97-842B-185769F5E3EA"
  },
  {
    "CountryId": 30,
    "CountryName": "Brazil",
    "NoOfInhabitants": 215313498,
-   "DateCreated": "2023-09-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "B7B36275-81CC-4D25-B16A-F456FBA82F0D"
  },
  {
    "CountryId": 31,
    "CountryName": "Barbados",
    "NoOfInhabitants": 281635,
-   "DateCreated": "2023-05-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-05-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "89544C36-A6B9-4237-9DF9-97384F8E5E29"
  },
  {
    "CountryId": 32,
    "CountryName": "Brunei Darussalam",
    "NoOfInhabitants": 449002,
-   "DateCreated": "2023-08-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-08-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "622F3261-278F-4923-A22B-595AA4593EE4"
  },
  {
    "CountryId": 33,
    "CountryName": "Bhutan",
    "NoOfInhabitants": 782455,
-   "DateCreated": "2023-02-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-02-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "3FB19C13-F8AD-4011-AF37-6A18253DCA0A"
  },
  {
    "CountryId": 34,
    "CountryName": "Botswana",
    "NoOfInhabitants": 2630296,
-   "DateCreated": "2023-10-21 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-21 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "14713243-61F2-4DDA-86C3-AF82C9757A4F"
  },
  {
    "CountryId": 35,
    "CountryName": "Central African Republic",
    "NoOfInhabitants": 5579144,
-   "DateCreated": "2023-06-09 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-06-09 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "72AE510E-A552-4883-BD5E-C22207460203"
  },
  {
    "CountryId": 36,
    "CountryName": "Canada",
    "NoOfInhabitants": 38929902,
-   "DateCreated": "2023-04-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-04-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "CBEA2471-15BA-4980-9800-ACB160B3E32F"
  },
  {
    "CountryId": 37,
    "CountryName": "Central Europe and the Baltics",
    "NoOfInhabitants": 100648571,
-   "DateCreated": "2023-01-24 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-01-24 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "DDB51CAD-CBE9-4FCE-8198-F41E40F9AF0F"
  },
  {
    "CountryId": 38,
    "CountryName": "Switzerland",
    "NoOfInhabitants": 8769741,
-   "DateCreated": "2023-10-17 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-17 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "AA69180F-AD34-4292-924D-AE57D0C32BA4"
  },
  {
    "CountryId": 39,
    "CountryName": "Channel Islands",
    "NoOfInhabitants": 174079,
-   "DateCreated": "2023-09-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "EC7C11C8-5762-4E3F-8F70-55F3DE906709"
  },
  {
    "CountryId": 40,
    "CountryName": "Chile",
    "NoOfInhabitants": 19603733,
-   "DateCreated": "2023-10-11 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-11 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "F8A6D15D-3906-4F87-98D9-55B5C0D80A6F"
  },
  {
    "CountryId": 41,
    "CountryName": "China",
    "NoOfInhabitants": 1412175000,
-   "DateCreated": "2023-07-23 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-07-23 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "7DD52B37-D754-4532-9EBF-8B8DC96057E0"
  },
  {
    "CountryId": 42,
    "CountryName": "Cote d'Ivoire",
    "NoOfInhabitants": 28160542,
-   "DateCreated": "2023-09-04 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-04 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "DE51DB5B-987D-41EC-ACAD-DE288ED2EE8A"
  },
  {
    "CountryId": 43,
    "CountryName": "Cameroon",
    "NoOfInhabitants": 27914536,
-   "DateCreated": "2023-07-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-07-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "AAB52314-6529-4B3D-89CF-6AA38318418F"
  },
  {
    "CountryId": 44,
    "CountryName": "Congo, Dem. Rep.",
    "NoOfInhabitants": 99010212,
-   "DateCreated": "2023-07-14 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-07-14 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "2AC1708C-6C87-46A6-BA7A-175B21084C15"
  },
  {
    "CountryId": 45,
    "CountryName": "Congo, Rep.",
    "NoOfInhabitants": 5970424,
-   "DateCreated": "2023-01-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-01-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "EECE63A1-210E-4C5E-A272-EA08B7614F2A"
  },
  {
    "CountryId": 46,
    "CountryName": "Colombia",
    "NoOfInhabitants": 51874024,
-   "DateCreated": "2023-03-06 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-03-06 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "E07C5B77-2FC6-46FF-9C0F-F4A3E38D6457"
  },
  {
    "CountryId": 47,
    "CountryName": "Comoros",
    "NoOfInhabitants": 836774,
-   "DateCreated": "2023-10-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-10-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "32CDA460-F267-4E60-9A1A-0EDFD1929265"
  },
  {
    "CountryId": 48,
    "CountryName": "Cabo Verde",
    "NoOfInhabitants": 593149,
-   "DateCreated": "2023-09-21 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-21 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "D182BC03-D051-4F23-A7C6-C3E2EBC600F7"
  },
  {
    "CountryId": 49,
    "CountryName": "Costa Rica",
    "NoOfInhabitants": 5180829,
-   "DateCreated": "2023-09-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-11-06 07:33:02.8766667 +00:00",
+   "CreateDate": "2023-09-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-11-06 07:33:02.8766667 +00:00",
    "ConcurrencyStamp": "5432BEF0-8583-477C-9140-2C5B86D89666"
  },
  {
    "CountryId": 50,
    "CountryName": "Caribbean small states",
    "NoOfInhabitants": 7505478,
-   "DateCreated": "2023-05-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-25 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-25 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "A5E53D64-BBE3-47D5-9E13-EDB31649B774"
  },
  {
    "CountryId": 51,
    "CountryName": "Cuba",
    "NoOfInhabitants": 11212191,
-   "DateCreated": "2023-03-06 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-26 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-06 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-26 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "46C6E8A7-3510-49A8-A0B0-9FD4C86B9C8B"
  },
  {
    "CountryId": 52,
    "CountryName": "Curacao",
    "NoOfInhabitants": 149996,
-   "DateCreated": "2023-09-03 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-03 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "CEB8D9B6-2EC4-4144-8A47-40BB9A16131A"
  },
  {
    "CountryId": 53,
    "CountryName": "Cayman Islands",
    "NoOfInhabitants": 68706,
-   "DateCreated": "2023-02-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-21 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-21 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "4C02C373-A48A-4796-A336-53C0FBC824B6"
  },
  {
    "CountryId": 54,
    "CountryName": "Cyprus",
    "NoOfInhabitants": 1251488,
-   "DateCreated": "2023-07-26 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-26 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "40509EDD-32E0-433D-ABA1-CE6904E292B3"
  },
  {
    "CountryId": 55,
    "CountryName": "Czechia",
    "NoOfInhabitants": 10526073,
-   "DateCreated": "2023-02-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-15 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-15 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "A7CE3895-EAFD-464D-8204-2EB73C124765"
  },
  {
    "CountryId": 56,
    "CountryName": "Germany",
    "NoOfInhabitants": 84079811,
-   "DateCreated": "2023-01-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-26 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-26 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "679D7DF0-AD64-4D6F-B7E6-73CAD7532150"
  },
  {
    "CountryId": 57,
    "CountryName": "Djibouti",
    "NoOfInhabitants": 1120849,
-   "DateCreated": "2023-01-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-01 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-01 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "5373568C-3C91-49B6-9843-A246226E9B85"
  },
  {
    "CountryId": 58,
    "CountryName": "Dominica",
    "NoOfInhabitants": 72737,
-   "DateCreated": "2023-06-03 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-03 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "5F531637-3ECB-46CE-AD75-AD13E99A9040"
  },
  {
    "CountryId": 59,
    "CountryName": "Denmark",
    "NoOfInhabitants": 5903037,
-   "DateCreated": "2023-05-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-27 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-27 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3ECF3299-36FC-4EFD-AB16-328B3F6458E1"
  },
  {
    "CountryId": 60,
    "CountryName": "Dominican Republic",
    "NoOfInhabitants": 11228821,
-   "DateCreated": "2023-01-12 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-18 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-12 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-18 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "98BBD4D7-D276-432F-9229-E4E4C1CE7759"
  },
  {
    "CountryId": 61,
    "CountryName": "Algeria",
    "NoOfInhabitants": 44903225,
-   "DateCreated": "2023-01-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-18 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-18 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "FCFEE955-0248-4650-84C2-93EA3F2D48C3"
  },
  {
    "CountryId": 62,
    "CountryName": "East Asia & Pacific (excluding high income)",
    "NoOfInhabitants": 2129112126,
-   "DateCreated": "2023-04-03 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-27 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-03 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-27 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "457ADAC0-F80F-4E50-974D-0ABB9DFB47F2"
  },
  {
    "CountryId": 65,
    "CountryName": "Europe & Central Asia (excluding high income)",
    "NoOfInhabitants": 397493238,
-   "DateCreated": "2023-02-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-09 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-09 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3F546963-3144-4C59-A273-A9A4D4BE5351"
  },
  {
    "CountryId": 66,
    "CountryName": "Europe & Central Asia",
    "NoOfInhabitants": 920631231,
-   "DateCreated": "2023-01-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-29 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-29 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "431B4698-250D-4911-9B43-11348E3D2EB0"
  },
  {
    "CountryId": 67,
    "CountryName": "Ecuador",
    "NoOfInhabitants": 18001000,
-   "DateCreated": "2023-04-06 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-05 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-06 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-05 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "8A66CAA0-F248-4E92-B34E-3839DA397E7E"
  },
  {
    "CountryId": 68,
    "CountryName": "Egypt, Arab Rep.",
    "NoOfInhabitants": 110990103,
-   "DateCreated": "2023-06-03 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-03 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "2C91F5B3-283E-48DF-A5F0-0FD70A59601E"
  },
  {
    "CountryId": 69,
    "CountryName": "Euro area",
    "NoOfInhabitants": 344519132,
-   "DateCreated": "2023-06-25 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-25 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "B2D6A210-DDE4-4F6D-8622-6EBEDAA5A1EF"
  },
  {
    "CountryId": 70,
    "CountryName": "Eritrea",
    "NoOfInhabitants": 3684032,
-   "DateCreated": "2023-02-24 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-24 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "AA0F8E2A-407F-40CE-B9F5-E5131D5B99CF"
  },
  {
    "CountryId": 71,
    "CountryName": "Spain",
    "NoOfInhabitants": 47615034,
-   "DateCreated": "2023-07-11 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-11 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "CDAA6C93-1B42-49D1-8688-8EB911F0530B"
  },
  {
    "CountryId": 72,
    "CountryName": "Estonia",
    "NoOfInhabitants": 1344768,
-   "DateCreated": "2023-10-25 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-25 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9724D8D8-C356-4F17-B581-0A74FA309E58"
  },
  {
    "CountryId": 73,
    "CountryName": "Ethiopia",
    "NoOfInhabitants": 123379924,
-   "DateCreated": "2023-02-17 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-12 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-17 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-12 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "B02602C1-9F54-4D89-B5E0-2B39854D6D52"
  },
  {
    "CountryId": 74,
    "CountryName": "European Union",
    "NoOfInhabitants": 447956050,
-   "DateCreated": "2023-09-13 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-13 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "E0B83677-8EB8-4AA2-8C9E-7CBD851A9C23"
  },
  {
    "CountryId": 75,
    "CountryName": "Fragile and conflict affected situations",
    "NoOfInhabitants": 1019139254,
-   "DateCreated": "2023-06-26 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-26 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F573ADDC-9F68-444F-930B-E7D6E72BE91A"
  },
  {
    "CountryId": 76,
    "CountryName": "Finland",
    "NoOfInhabitants": 5556880,
-   "DateCreated": "2023-03-03 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-10 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-03 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-10 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "106F4D8C-BE7A-499C-967D-3090DBAFAAAF"
  },
  {
    "CountryId": 77,
    "CountryName": "Fiji",
    "NoOfInhabitants": 929766,
-   "DateCreated": "2023-10-07 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-07 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "05874E8F-595D-4236-835B-9362C60C7E60"
  },
  {
    "CountryId": 78,
    "CountryName": "France",
    "NoOfInhabitants": 67935660,
-   "DateCreated": "2023-01-28 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-12 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-28 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-12 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "96C037EF-5EFA-495C-AA4E-CEAC88E83087"
  },
  {
    "CountryId": 79,
    "CountryName": "Faroe Islands",
    "NoOfInhabitants": 53090,
-   "DateCreated": "2023-10-11 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-11 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F4F17B67-1711-4A23-A768-1EA06E2A5B31"
  },
  {
    "CountryId": 80,
    "CountryName": "Micronesia, Fed. Sts.",
    "NoOfInhabitants": 114164,
-   "DateCreated": "2023-07-22 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-22 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "A2E28963-CDB5-487E-AD53-802ECFCE1D3C"
  },
  {
    "CountryId": 81,
    "CountryName": "Gabon",
    "NoOfInhabitants": 2388992,
-   "DateCreated": "2023-03-26 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-10 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-26 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-10 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "6CD77DB9-3A53-4E1C-BD95-3642CB628DDF"
  },
  {
    "CountryId": 82,
    "CountryName": "United Kingdom",
    "NoOfInhabitants": 66971411,
-   "DateCreated": "2023-05-09 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-24 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-09 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-24 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "C2AA21B3-1B16-4C48-B205-B3DD04190216"
  },
  {
    "CountryId": 83,
    "CountryName": "Georgia",
    "NoOfInhabitants": 3712502,
-   "DateCreated": "2023-03-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-11 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-11 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "6CBB5C23-E327-4A96-A3F5-6E3AC9E1ED49"
  },
  {
    "CountryId": 84,
    "CountryName": "Ghana",
    "NoOfInhabitants": 33475870,
-   "DateCreated": "2023-06-19 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-19 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "2FAAB545-4D9F-42CE-8C62-BC1EC1512199"
  },
  {
    "CountryId": 85,
    "CountryName": "Gibraltar",
    "NoOfInhabitants": 32649,
-   "DateCreated": "2023-03-26 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-08 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-26 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-08 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D622EF06-BC7C-4F1B-938A-E63AE0ADA11A"
  },
  {
    "CountryId": 86,
    "CountryName": "Guinea",
    "NoOfInhabitants": 13859341,
-   "DateCreated": "2023-01-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-02 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-02 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "AC91DE45-B208-4BF9-BBAE-B47C2A22DA64"
  },
  {
    "CountryId": 87,
    "CountryName": "Gambia, The",
    "NoOfInhabitants": 2705992,
-   "DateCreated": "2023-09-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "0118093D-3C9F-4436-8590-4E3D7BCEEB35"
  },
  {
    "CountryId": 88,
    "CountryName": "Guinea-Bissau",
    "NoOfInhabitants": 2105566,
-   "DateCreated": "2023-02-04 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-03 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-04 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-03 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "B6C93AFF-FB74-44E9-9BFD-A6181E9E71D7"
  },
  {
    "CountryId": 89,
    "CountryName": "Equatorial Guinea",
    "NoOfInhabitants": 1674908,
-   "DateCreated": "2023-01-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-08 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-08 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "0417CD95-92AC-4161-BB8B-7EF7543350E6"
  },
  {
    "CountryId": 90,
    "CountryName": "Greece",
    "NoOfInhabitants": 10566531,
-   "DateCreated": "2023-01-02 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-18 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-02 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-18 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "CE28E443-DE5A-425D-994B-E438D12E41AC"
  },
  {
    "CountryId": 91,
    "CountryName": "Grenada",
    "NoOfInhabitants": 125438,
-   "DateCreated": "2023-05-02 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-12 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-02 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-12 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "A2951AEC-F55C-4376-BBAA-EA1CDC7DB427"
  },
  {
    "CountryId": 92,
    "CountryName": "Greenland",
    "NoOfInhabitants": 56661,
-   "DateCreated": "2023-08-10 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-10 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "C81DD2E7-DF11-4887-9F78-2B1F63D46020"
  },
  {
    "CountryId": 93,
    "CountryName": "Guatemala",
    "NoOfInhabitants": 17357886,
-   "DateCreated": "2023-03-21 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-23 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-21 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-23 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "7F32F478-39D2-4C79-9DD8-5FC3470558C2"
  },
  {
    "CountryId": 94,
    "CountryName": "Guam",
    "NoOfInhabitants": 171774,
-   "DateCreated": "2023-05-14 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-03 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-14 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-03 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3E7D77D6-EB36-4A28-8096-0265C039EFDC"
  },
  {
    "CountryId": 95,
    "CountryName": "Guyana",
    "NoOfInhabitants": 808726,
-   "DateCreated": "2023-10-01 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-01 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "AED3BFCA-0D69-411D-8DAF-34EF0E4D66FB"
  },
  {
    "CountryId": 96,
    "CountryName": "High income",
    "NoOfInhabitants": 1244899026,
-   "DateCreated": "2023-01-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-05 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-05 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "F4152265-5D3F-4832-AA06-FDE2B76C346C"
  },
  {
    "CountryId": 97,
    "CountryName": "Hong Kong SAR, China",
    "NoOfInhabitants": 7346100,
-   "DateCreated": "2023-03-02 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-02 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "CEEDBAE5-67BC-43D2-B928-C754FBFBB127"
  },
  {
    "CountryId": 98,
    "CountryName": "Honduras",
    "NoOfInhabitants": 10432860,
-   "DateCreated": "2023-08-19 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-19 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "C0435BF6-5592-463F-A4D6-94224716B58E"
  },
  {
    "CountryId": 99,
    "CountryName": "Heavily indebted poor countries (HIPC)",
    "NoOfInhabitants": 884288332,
-   "DateCreated": "2023-05-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "288D208F-F239-4D46-95B8-890FB643E4D8"
  },
  {
    "CountryId": 100,
    "CountryName": "Croatia",
    "NoOfInhabitants": 3854000,
-   "DateCreated": "2023-01-04 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-25 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-04 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-25 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D27B818A-D8E1-4AA3-B76C-9EB6509BC763"
  },
  {
    "CountryId": 101,
    "CountryName": "Haiti",
    "NoOfInhabitants": 11584996,
-   "DateCreated": "2023-08-11 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-11 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "36616D52-DD8B-426F-96A5-49D6D6F722CD"
  },
  {
    "CountryId": 102,
    "CountryName": "Hungary",
    "NoOfInhabitants": 9683505,
-   "DateCreated": "2023-01-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-09 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-09 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "65CB583B-BD92-4CF1-B708-7AF1EF8BF5F0"
  },
  {
    "CountryId": 105,
    "CountryName": "IDA total",
    "NoOfInhabitants": 1839971350,
-   "DateCreated": "2023-06-26 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-26 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F8F42FC0-B227-4B63-B915-002106E20893"
  },
  {
    "CountryId": 106,
    "CountryName": "IDA blend",
    "NoOfInhabitants": 607735968,
-   "DateCreated": "2023-09-28 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-28 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "5EA030FD-EEA8-48D8-B093-D23B2FA24225"
  },
  {
    "CountryId": 107,
    "CountryName": "Indonesia",
    "NoOfInhabitants": 275501339,
-   "DateCreated": "2023-10-26 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-26 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "87A39AD4-8802-44B6-8F24-3B5C7D48C9BB"
  },
  {
    "CountryId": 108,
    "CountryName": "IDA only",
    "NoOfInhabitants": 1232235382,
-   "DateCreated": "2023-06-01 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-01 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "6D8D7C50-34B8-4D7D-B082-81C7D4EFA325"
  },
  {
    "CountryId": 109,
    "CountryName": "Isle of Man",
    "NoOfInhabitants": 84519,
-   "DateCreated": "2023-08-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "8085C104-0704-48A8-8497-2594019E23A6"
  },
  {
    "CountryId": 110,
    "CountryName": "India",
    "NoOfInhabitants": 1417173173,
-   "DateCreated": "2023-08-03 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-03 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9159D2EE-06B9-487D-985C-4C04DD32AF86"
  },
  {
    "CountryId": 112,
    "CountryName": "Ireland",
    "NoOfInhabitants": 5086988,
-   "DateCreated": "2023-07-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "6D22B416-F2E3-496A-9313-B9811CC907BF"
  },
  {
    "CountryId": 113,
    "CountryName": "Iran, Islamic Rep.",
    "NoOfInhabitants": 88550570,
-   "DateCreated": "2023-10-15 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-15 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "BA548F54-B275-419D-9DB4-EBD0C2BE2F70"
  },
  {
    "CountryId": 114,
    "CountryName": "Iraq",
    "NoOfInhabitants": 44496122,
-   "DateCreated": "2023-09-06 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-06 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "D77AB32D-4D56-40DE-9A70-D266E87A4B6E"
  },
  {
    "CountryId": 115,
    "CountryName": "Iceland",
    "NoOfInhabitants": 381900,
-   "DateCreated": "2023-10-13 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-13 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "24B473A4-7158-4688-8E40-0036CCB79D9D"
  },
  {
    "CountryId": 116,
    "CountryName": "Israel",
    "NoOfInhabitants": 9550600,
-   "DateCreated": "2023-08-29 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-29 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "EB05AD46-37CD-4E3E-A944-1B0884E6B8E5"
  },
  {
    "CountryId": 117,
    "CountryName": "Italy",
    "NoOfInhabitants": 58856847,
-   "DateCreated": "2023-05-07 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-09 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-07 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-09 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "C3921BA7-1C62-4725-9121-D06F936BC995"
  },
  {
    "CountryId": 118,
    "CountryName": "Jamaica",
    "NoOfInhabitants": 2827377,
-   "DateCreated": "2023-06-30 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-30 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "BAB496D1-5858-466B-85B1-0FE9E508DEF9"
  },
  {
    "CountryId": 119,
    "CountryName": "Jordan",
    "NoOfInhabitants": 11285869,
-   "DateCreated": "2023-04-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "39D59D27-86DD-46E5-8D64-4870E6AB68A0"
  },
  {
    "CountryId": 120,
    "CountryName": "Japan",
    "NoOfInhabitants": 125124989,
-   "DateCreated": "2023-05-21 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-24 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-21 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-24 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "E045A910-761C-41B8-9C72-C230D3D6B7BE"
  },
  {
    "CountryId": 121,
    "CountryName": "Kazakhstan",
    "NoOfInhabitants": 19621972,
-   "DateCreated": "2023-03-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-27 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-27 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "27248740-6412-48F1-BD62-F6EA244C5B2F"
  },
  {
    "CountryId": 122,
    "CountryName": "Kenya",
    "NoOfInhabitants": 54027487,
-   "DateCreated": "2023-06-06 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-06 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "0DE3F7C6-2F95-4355-ABD7-06A54500C372"
  },
  {
    "CountryId": 123,
    "CountryName": "Kyrgyz Republic",
    "NoOfInhabitants": 6803300,
-   "DateCreated": "2023-06-29 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-29 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "73FED836-948F-49BC-B61F-323DAE92FB85"
  },
  {
    "CountryId": 124,
    "CountryName": "Cambodia",
    "NoOfInhabitants": 16767842,
-   "DateCreated": "2023-01-15 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-11 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-15 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-11 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "53437D52-1A96-4BD8-B051-97BA0D748F9D"
  },
  {
    "CountryId": 125,
    "CountryName": "Kiribati",
    "NoOfInhabitants": 131232,
-   "DateCreated": "2023-04-11 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-19 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-11 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-19 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "BAAF1979-4A5B-4119-B0AB-538C00ACF0E0"
  },
  {
    "CountryId": 126,
    "CountryName": "St. Kitts and Nevis",
    "NoOfInhabitants": 47657,
-   "DateCreated": "2023-01-29 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-18 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-29 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-18 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "BD9D6E5F-7A62-4534-B7F6-083FF9DCD8F1"
  },
  {
    "CountryId": 127,
    "CountryName": "Korea, Rep.",
    "NoOfInhabitants": 51628117,
-   "DateCreated": "2023-05-21 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-26 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-21 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-26 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "C7BD9957-7861-442B-AC7C-017D55EDC573"
  },
  {
    "CountryId": 128,
    "CountryName": "Kuwait",
    "NoOfInhabitants": 4268873,
-   "DateCreated": "2023-02-25 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-25 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "578C1E0D-FEFE-426A-9464-1F4C49AC51D3"
  },
  {
    "CountryId": 129,
    "CountryName": "Latin America & Caribbean (excluding high income)",
    "NoOfInhabitants": 596596955,
-   "DateCreated": "2023-01-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-06 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-06 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D77CF060-776C-456C-B326-FE9B9B327B48"
  },
  {
    "CountryId": 130,
    "CountryName": "Lao PDR",
    "NoOfInhabitants": 7529475,
-   "DateCreated": "2023-04-09 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-14 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-09 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-14 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "FDB4F6E6-77A6-40CC-82BC-73A4CE0976F7"
  },
  {
    "CountryId": 131,
    "CountryName": "Lebanon",
    "NoOfInhabitants": 5489739,
-   "DateCreated": "2023-02-08 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-29 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-08 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-29 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "5C587EDF-3B26-476F-AA70-63FFB0B4C9BA"
  },
  {
    "CountryId": 132,
    "CountryName": "Liberia",
    "NoOfInhabitants": 5302681,
-   "DateCreated": "2023-08-02 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-02 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "10F5AA57-88E8-47D0-851A-2A08DA90A99F"
  },
  {
    "CountryId": 133,
    "CountryName": "Libya",
    "NoOfInhabitants": 6812341,
-   "DateCreated": "2023-10-02 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-02 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "AAF81B0D-4B7D-4FF4-B293-9C42A4F0210D"
  },
  {
    "CountryId": 134,
    "CountryName": "St. Lucia",
    "NoOfInhabitants": 179857,
-   "DateCreated": "2023-06-15 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-15 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "386B226B-5C8C-49EF-83BE-41ECE3E0DCD8"
  },
  {
    "CountryId": 135,
    "CountryName": "Latin America & Caribbean",
    "NoOfInhabitants": 659311105,
-   "DateCreated": "2023-07-16 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-16 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "E3DCAB3C-9234-4BD9-9A60-C6F546B1F098"
  },
  {
    "CountryId": 136,
    "CountryName": "Least developed countries: UN classification",
    "NoOfInhabitants": 1125179454,
-   "DateCreated": "2023-04-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-05 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-05 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "4EF54770-8BC4-47D5-AF4F-D118B8F82CA3"
  },
  {
    "CountryId": 137,
    "CountryName": "Low income",
    "NoOfInhabitants": 703727949,
-   "DateCreated": "2023-08-05 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-05 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "93CB0560-32D0-4BC6-8BD9-6363970D5D97"
  },
  {
    "CountryId": 138,
    "CountryName": "Liechtenstein",
    "NoOfInhabitants": 39327,
-   "DateCreated": "2023-06-27 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-27 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "D2DC360C-CDF4-48E9-BD70-DEFAEACFD138"
  },
  {
    "CountryId": 139,
    "CountryName": "Sri Lanka",
    "NoOfInhabitants": 22181000,
-   "DateCreated": "2023-07-18 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-18 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "EFCCED26-22EF-4709-8C6C-09FC6A4EA6EA"
  },
  {
    "CountryId": 142,
    "CountryName": "Lesotho",
    "NoOfInhabitants": 2305825,
-   "DateCreated": "2023-03-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-12 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-12 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "734752F2-341D-4522-A9E8-9314A42D9D1D"
  },
  {
    "CountryId": 144,
    "CountryName": "Lithuania",
    "NoOfInhabitants": 2833000,
-   "DateCreated": "2023-10-13 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-13 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "E4F6FD4A-0672-48E0-93A1-A98BDC2E9474"
  },
  {
    "CountryId": 145,
    "CountryName": "Luxembourg",
    "NoOfInhabitants": 650774,
-   "DateCreated": "2023-06-09 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-09 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "45D2245F-7149-4778-BF8C-767062061755"
  },
  {
    "CountryId": 146,
    "CountryName": "Latvia",
    "NoOfInhabitants": 1883379,
-   "DateCreated": "2023-08-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "4E3EB5E9-0493-4F54-BA95-85452FBD6040"
  },
  {
    "CountryId": 147,
    "CountryName": "Macao SAR, China",
    "NoOfInhabitants": 695168,
-   "DateCreated": "2023-03-21 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-21 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "F71448B8-83DE-4D73-A839-3D34975D7DED"
  },
  {
    "CountryId": 148,
    "CountryName": "St. Martin (French part)",
    "NoOfInhabitants": 31791,
-   "DateCreated": "2023-06-12 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-12 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "EB18D312-0B03-4CFF-AD91-E2C0ADE631D2"
  },
  {
    "CountryId": 149,
    "CountryName": "Morocco",
    "NoOfInhabitants": 37457971,
-   "DateCreated": "2023-10-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "5C46BDD8-4A2C-4F00-953A-D847F1AC7F1C"
  },
  {
    "CountryId": 150,
    "CountryName": "Monaco",
    "NoOfInhabitants": 36469,
-   "DateCreated": "2023-09-13 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-13 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "97C53D5C-20D0-44D0-A808-FDB9A649BDC3"
  },
  {
    "CountryId": 151,
    "CountryName": "Moldova",
    "NoOfInhabitants": 2592477,
-   "DateCreated": "2023-04-18 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-14 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-18 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-14 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "23C252F8-B96B-490A-AD89-A9E191A6C6DE"
  },
  {
    "CountryId": 152,
    "CountryName": "Madagascar",
    "NoOfInhabitants": 29611714,
-   "DateCreated": "2023-05-14 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-08 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-14 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-08 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3479B7E0-9149-4B8D-98D8-5D0CFDACD4FA"
  },
  {
    "CountryId": 153,
    "CountryName": "Maldives",
    "NoOfInhabitants": 523787,
-   "DateCreated": "2023-06-02 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-02 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "69CE308C-742A-4542-AFB7-C5E5209B69BF"
  },
  {
    "CountryId": 154,
    "CountryName": "Middle East & North Africa",
    "NoOfInhabitants": 493264873,
-   "DateCreated": "2023-05-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-25 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-25 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3F97A9BB-0DD3-4EB3-A02F-D8AA0C7F10BE"
  },
  {
    "CountryId": 155,
    "CountryName": "Mexico",
    "NoOfInhabitants": 127504125,
-   "DateCreated": "2023-02-06 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-04 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-06 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-04 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "1A83D45C-B27C-46CC-A959-AABBCB6B83CE"
  },
  {
    "CountryId": 156,
    "CountryName": "Marshall Islands",
    "NoOfInhabitants": 41569,
-   "DateCreated": "2023-10-05 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-05 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "5EC1E843-6DF9-463C-8149-2FF60CEA9CCF"
  },
  {
    "CountryId": 158,
    "CountryName": "North Macedonia",
    "NoOfInhabitants": 2057679,
-   "DateCreated": "2023-01-12 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-01 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-12 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-01 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "9BCA040E-A8E7-4B3E-8616-054C83E3F847"
  },
  {
    "CountryId": 159,
    "CountryName": "Mali",
    "NoOfInhabitants": 22593590,
-   "DateCreated": "2023-09-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "856E82EF-47F3-47CE-9FB0-9CCF15AF1786"
  },
  {
    "CountryId": 160,
    "CountryName": "Malta",
    "NoOfInhabitants": 523417,
-   "DateCreated": "2023-04-11 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-25 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-11 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-25 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "84D9188A-4548-461D-A8C5-BE899CBF9B81"
  },
  {
    "CountryId": 161,
    "CountryName": "Myanmar",
    "NoOfInhabitants": 54179306,
-   "DateCreated": "2023-01-23 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-24 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-23 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-24 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "04208F61-C1E7-419A-BB33-E491FE9EE422"
  },
  {
    "CountryId": 162,
    "CountryName": "Middle East & North Africa (excluding high income)",
    "NoOfInhabitants": 424328381,
-   "DateCreated": "2023-04-26 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-06 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-26 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-06 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "26840AAC-AADB-4F3C-B112-59E10700CD1D"
  },
  {
    "CountryId": 163,
    "CountryName": "Montenegro",
    "NoOfInhabitants": 616159,
-   "DateCreated": "2023-02-14 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-18 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-14 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-18 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "09826FE9-73D6-4B65-8191-64048A0E55C0"
  },
  {
    "CountryId": 164,
    "CountryName": "Mongolia",
    "NoOfInhabitants": 3398366,
-   "DateCreated": "2023-05-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-20 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-20 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "FF30BCA4-05DD-4E72-8083-3D2D614A6544"
  },
  {
    "CountryId": 165,
    "CountryName": "Northern Mariana Islands",
    "NoOfInhabitants": 49551,
-   "DateCreated": "2023-09-15 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-15 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "A5D5EBCE-0B78-4BFF-AC02-A91EABB8D6AD"
  },
  {
    "CountryId": 166,
    "CountryName": "Mozambique",
    "NoOfInhabitants": 32969518,
-   "DateCreated": "2023-06-24 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-24 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "E9039B2E-863B-4168-B0C1-4F057E6BA737"
  },
  {
    "CountryId": 167,
    "CountryName": "Mauritania",
    "NoOfInhabitants": 4736139,
-   "DateCreated": "2023-10-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "636D80AD-9BD1-4A50-88D8-5C49E9869E64"
  },
  {
    "CountryId": 168,
    "CountryName": "Mauritius",
    "NoOfInhabitants": 1262523,
-   "DateCreated": "2023-06-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "36B663F1-64D9-428A-9DA7-007F06854BFB"
  },
  {
    "CountryId": 169,
    "CountryName": "Malawi",
    "NoOfInhabitants": 20405317,
-   "DateCreated": "2023-09-05 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-05 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "D706F269-7488-4C71-92D8-948C60E0325E"
  },
  {
    "CountryId": 170,
    "CountryName": "Malaysia",
    "NoOfInhabitants": 33938221,
-   "DateCreated": "2023-02-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-26 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-26 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "A7792AD2-FAF0-48E8-B863-6B884CD86567"
  },
  {
    "CountryId": 171,
    "CountryName": "North America",
    "NoOfInhabitants": 372280991,
-   "DateCreated": "2023-03-18 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-09 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-18 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-09 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "075A933B-0A47-40E9-83A1-E739F2672989"
  },
  {
    "CountryId": 172,
    "CountryName": "Namibia",
    "NoOfInhabitants": 2567012,
-   "DateCreated": "2023-05-18 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-19 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-18 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-19 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "CD28B333-F42D-4463-9DBD-2EC20290D226"
  },
  {
    "CountryId": 173,
    "CountryName": "New Caledonia",
    "NoOfInhabitants": 276780,
-   "DateCreated": "2023-04-07 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-03 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-07 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-03 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "836D5518-35C4-4E89-9D63-9D9A0DC2BF12"
  },
  {
    "CountryId": 174,
    "CountryName": "Niger",
    "NoOfInhabitants": 26207977,
-   "DateCreated": "2023-06-16 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-16 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F6DF7AE3-3781-4625-A25F-B3764F6C9F62"
  },
  {
    "CountryId": 175,
    "CountryName": "Nigeria",
    "NoOfInhabitants": 218541212,
-   "DateCreated": "2023-07-30 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-30 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9FCE07A1-4DB4-47F1-952A-1A476BC235DA"
  },
  {
    "CountryId": 176,
    "CountryName": "Nicaragua",
    "NoOfInhabitants": 6948392,
-   "DateCreated": "2023-02-09 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-01 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-09 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-01 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "BFB4CECB-D390-45C7-9037-F5A96AE57B83"
  },
  {
    "CountryId": 177,
    "CountryName": "Netherlands",
    "NoOfInhabitants": 17703090,
-   "DateCreated": "2023-06-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "4595AEF1-16FB-4C65-8C7D-93C1AA94EC5D"
  },
  {
    "CountryId": 178,
    "CountryName": "Norway",
    "NoOfInhabitants": 5457127,
-   "DateCreated": "2023-06-02 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-02 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "07AD17FD-B1A7-4AC6-AF7D-91A30CCEB485"
  },
  {
    "CountryId": 179,
    "CountryName": "Nepal",
    "NoOfInhabitants": 30547580,
-   "DateCreated": "2023-07-04 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-04 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "8241FC9D-9E7E-47C6-8217-033161C9808C"
  },
  {
    "CountryId": 180,
    "CountryName": "Nauru",
    "NoOfInhabitants": 12668,
-   "DateCreated": "2023-10-20 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-20 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "44747771-3F32-4861-B78D-297F260DD699"
  },
  {
    "CountryId": 181,
    "CountryName": "New Zealand",
    "NoOfInhabitants": 5124100,
-   "DateCreated": "2023-10-30 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-30 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "ECDFACCB-1A3C-42DF-8018-AA0189268B2B"
  },
  {
    "CountryId": 182,
    "CountryName": "OECD members",
    "NoOfInhabitants": 1377613713,
-   "DateCreated": "2023-08-08 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-08 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "FFB667C1-BD84-47B5-AE17-4903361E00BB"
  },
  {
    "CountryId": 183,
    "CountryName": "Oman",
    "NoOfInhabitants": 4576298,
-   "DateCreated": "2023-10-24 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-24 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "8FC23E36-CA42-49FF-82B8-BC4924D64F2B"
  },
  {
    "CountryId": 184,
    "CountryName": "Other small states",
    "NoOfInhabitants": 33136283,
-   "DateCreated": "2023-01-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-06 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-06 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "2F36E677-A3CD-4733-931B-4893259E773B"
  },
  {
    "CountryId": 185,
    "CountryName": "Pakistan",
    "NoOfInhabitants": 235824862,
-   "DateCreated": "2023-05-02 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-11 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-02 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-11 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "4BA0840A-58BD-4759-8B3E-852539AF3A17"
  },
  {
    "CountryId": 186,
    "CountryName": "Panama",
    "NoOfInhabitants": 4408581,
-   "DateCreated": "2023-01-08 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-29 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-08 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-29 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D8DCD6C6-C7B8-4400-A043-FBE9F94CAB82"
  },
  {
    "CountryId": 187,
    "CountryName": "Peru",
    "NoOfInhabitants": 34049588,
-   "DateCreated": "2023-08-14 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-14 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "2C1F3620-D013-4C4B-B954-321665785E51"
  },
  {
    "CountryId": 188,
    "CountryName": "Philippines",
    "NoOfInhabitants": 115559009,
-   "DateCreated": "2023-07-14 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-14 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9025F0D0-D5B1-403E-B61A-A20400042CB5"
  },
  {
    "CountryId": 189,
    "CountryName": "Palau",
    "NoOfInhabitants": 18055,
-   "DateCreated": "2023-07-09 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-09 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "382FCE47-0A05-40AB-B3F4-F67FB3B9D893"
  },
  {
    "CountryId": 190,
    "CountryName": "Papua New Guinea",
    "NoOfInhabitants": 10142619,
-   "DateCreated": "2023-02-07 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-30 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-07 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-30 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "5060A50E-CAFE-44DD-B3A6-D86A5E4077FB"
  },
  {
    "CountryId": 191,
    "CountryName": "Poland",
    "NoOfInhabitants": 37561599,
-   "DateCreated": "2023-03-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-02 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-02 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D62486EB-32DF-44B5-96F0-6B3A7063B98C"
  },
  {
    "CountryId": 192,
    "CountryName": "Pre-demographic dividend",
    "NoOfInhabitants": 1038012552,
-   "DateCreated": "2023-09-22 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-22 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "D8C44F7F-4041-4072-BAB0-2B8B93157F19"
  },
  {
    "CountryId": 193,
    "CountryName": "Puerto Rico",
    "NoOfInhabitants": 3221789,
-   "DateCreated": "2023-02-07 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-25 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-07 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-25 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "4D5F6BF4-913A-41AA-B8BC-3A28F8C3CB9B"
  },
  {
    "CountryId": 194,
    "CountryName": "Korea, Dem. People's Rep.",
    "NoOfInhabitants": 26069416,
-   "DateCreated": "2023-08-03 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-03 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "B3FC51C7-6FE9-42DB-9E4A-3A0F1F8362A4"
  },
  {
    "CountryId": 195,
    "CountryName": "Portugal",
    "NoOfInhabitants": 10379007,
-   "DateCreated": "2023-05-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-15 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-15 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "113A8AEC-730F-43E6-A81F-87D7FEBED883"
  },
  {
    "CountryId": 196,
    "CountryName": "Paraguay",
    "NoOfInhabitants": 6780744,
-   "DateCreated": "2023-08-09 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-09 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "FB54CC83-A999-443E-968C-036D293D957D"
  },
  {
    "CountryId": 197,
    "CountryName": "West Bank and Gaza",
    "NoOfInhabitants": 5043612,
-   "DateCreated": "2023-09-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "476EFFC2-C2F1-4F5B-A0EC-C240DC377DC9"
  },
  {
    "CountryId": 198,
    "CountryName": "Pacific island small states",
    "NoOfInhabitants": 2639019,
-   "DateCreated": "2023-09-11 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-11 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "EF519D06-42A6-41CC-BE51-3DEFAFCA0C9B"
  },
  {
    "CountryId": 199,
    "CountryName": "Post-demographic dividend",
    "NoOfInhabitants": 1113419395,
-   "DateCreated": "2023-04-24 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-19 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-24 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-19 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "CFCB708C-C06A-4D3B-9F44-FD1029B1EDA0"
  },
  {
    "CountryId": 200,
    "CountryName": "French Polynesia",
    "NoOfInhabitants": 306279,
-   "DateCreated": "2023-08-06 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-06 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "66F1B5E5-45AD-4EF1-A5EF-C097B58747BD"
  },
  {
    "CountryId": 201,
    "CountryName": "Qatar",
    "NoOfInhabitants": 2695122,
-   "DateCreated": "2023-06-03 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-03 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "3E1EC11B-E18C-4B87-9442-F29846C98FE2"
  },
  {
    "CountryId": 202,
    "CountryName": "Romania",
    "NoOfInhabitants": 18956666,
-   "DateCreated": "2023-10-11 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-11 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9B24EFAF-5F00-48FB-ADB2-45DF6937924C"
  },
  {
    "CountryId": 203,
    "CountryName": "Russian Federation",
    "NoOfInhabitants": 143555736,
-   "DateCreated": "2023-03-28 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-14 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-28 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-14 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "05F912A0-E95C-4D00-93C5-182566ACBC4C"
  },
  {
    "CountryId": 204,
    "CountryName": "Rwanda",
    "NoOfInhabitants": 13776698,
-   "DateCreated": "2023-02-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-29 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-29 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "8160838C-2F61-4400-92E9-220E212384B8"
  },
  {
    "CountryId": 205,
    "CountryName": "South Asia",
    "NoOfInhabitants": 1919348000,
-   "DateCreated": "2023-06-15 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-15 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "DF339BB1-2838-4ED2-84B2-5DFDBAC9BE7A"
  },
  {
    "CountryId": 206,
    "CountryName": "Saudi Arabia",
    "NoOfInhabitants": 36408820,
-   "DateCreated": "2023-01-27 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-30 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-27 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-30 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "C366C194-C676-442C-926D-36C30DB17E10"
  },
  {
    "CountryId": 207,
    "CountryName": "Sudan",
    "NoOfInhabitants": 46874204,
-   "DateCreated": "2023-07-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "100E4085-0EB2-40CD-A05E-43AC712DB43B"
  },
  {
    "CountryId": 208,
    "CountryName": "Senegal",
    "NoOfInhabitants": 17316449,
-   "DateCreated": "2023-09-01 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-01 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "798C0DDA-9AD9-4001-BEFC-03417996C7BA"
  },
  {
    "CountryId": 209,
    "CountryName": "Singapore",
    "NoOfInhabitants": 5637022,
-   "DateCreated": "2023-05-29 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-14 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-29 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-14 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "DD82F258-8484-4200-80A0-6B629F6563CA"
  },
  {
    "CountryId": 210,
    "CountryName": "Solomon Islands",
    "NoOfInhabitants": 724273,
-   "DateCreated": "2023-03-08 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-03 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-08 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-03 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "99C3FB6C-4A4E-4281-B91F-DEA5EEB4E2E9"
  },
  {
    "CountryId": 211,
    "CountryName": "Sierra Leone",
    "NoOfInhabitants": 8605718,
-   "DateCreated": "2023-10-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "0AE6C52D-EED0-402A-9E55-5CF09E32871D"
  },
  {
    "CountryId": 212,
    "CountryName": "El Salvador",
    "NoOfInhabitants": 6336392,
-   "DateCreated": "2023-07-21 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-21 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "78BEB4F8-9044-43C0-A0BF-57FDD27FFDC1"
  },
  {
    "CountryId": 213,
    "CountryName": "San Marino",
    "NoOfInhabitants": 33660,
-   "DateCreated": "2023-08-20 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-20 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "D6EF8AD7-E519-45C5-9BE7-56E867DE58FA"
  },
  {
    "CountryId": 214,
    "CountryName": "Somalia",
    "NoOfInhabitants": 17597511,
-   "DateCreated": "2023-07-10 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-10 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F729D2AD-64CC-4017-AB6F-BCC78485B5EA"
  },
  {
    "CountryId": 215,
    "CountryName": "Serbia",
    "NoOfInhabitants": 6760087,
-   "DateCreated": "2023-09-09 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-09 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9102F25A-8E65-4753-B93F-B49B71D0D77B"
  },
  {
    "CountryId": 216,
    "CountryName": "Sub-Saharan Africa (excluding high income)",
    "NoOfInhabitants": 1211070124,
-   "DateCreated": "2023-01-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-12 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-12 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "9BBB205C-FE95-46AF-AB3E-F77E2807E3CC"
  },
  {
    "CountryId": 217,
    "CountryName": "South Sudan",
    "NoOfInhabitants": 10913164,
-   "DateCreated": "2023-09-04 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-04 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "4394072F-5D9B-44F5-9E9D-DA08019170E5"
  },
  {
    "CountryId": 218,
    "CountryName": "Sub-Saharan Africa",
    "NoOfInhabitants": 1211170184,
-   "DateCreated": "2023-02-12 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-13 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-12 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-13 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "905FFE28-9280-40FF-9862-30A4FB24664B"
  },
  {
    "CountryId": 219,
    "CountryName": "Small states",
    "NoOfInhabitants": 43280780,
-   "DateCreated": "2023-04-17 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-02-13 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-17 00:00:00.0000000 +00:00",
+   "EditDate": "2023-02-13 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "554EC0C7-0309-4727-9DB7-56D62397410F"
  },
  {
    "CountryId": 220,
    "CountryName": "Sao Tome and Principe",
    "NoOfInhabitants": 227380,
-   "DateCreated": "2023-06-11 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-11 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "B3D28F33-EE42-4754-8E1F-DAC47FAD779E"
  },
  {
    "CountryId": 221,
    "CountryName": "Suriname",
    "NoOfInhabitants": 618040,
-   "DateCreated": "2023-04-01 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-05-12 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-01 00:00:00.0000000 +00:00",
+   "EditDate": "2023-05-12 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "9E82267A-5A5C-4848-99E6-978CB84A9D1A"
  },
  {
    "CountryId": 222,
    "CountryName": "Slovak Republic",
    "NoOfInhabitants": 5431752,
-   "DateCreated": "2023-03-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-21 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-21 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "510B7D71-1557-4CDD-8855-D9A5BADF0FBA"
  },
  {
    "CountryId": 223,
    "CountryName": "Slovenia",
    "NoOfInhabitants": 2108732,
-   "DateCreated": "2023-10-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "17C5C1EB-8D5E-44DF-84FF-C32D4F83566C"
  },
  {
    "CountryId": 224,
    "CountryName": "Sweden",
    "NoOfInhabitants": 10486941,
-   "DateCreated": "2023-10-26 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-26 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F119ED95-29DE-4566-B0D1-555A010FBEF6"
  },
  {
    "CountryId": 225,
    "CountryName": "Eswatini",
    "NoOfInhabitants": 1201670,
-   "DateCreated": "2023-01-12 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-02 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-12 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-02 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "87553043-A703-4E39-804E-09230C5637FD"
  },
  {
    "CountryId": 226,
    "CountryName": "Sint Maarten (Dutch part)",
    "NoOfInhabitants": 43389,
-   "DateCreated": "2023-07-15 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-15 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "50AA31C2-181F-41C5-8136-1A8B0ACDD23D"
  },
  {
    "CountryId": 227,
    "CountryName": "Seychelles",
    "NoOfInhabitants": 100060,
-   "DateCreated": "2023-07-05 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-05 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "29F7C6E4-162A-4351-9438-B9F05F47F046"
  },
  {
    "CountryId": 228,
    "CountryName": "Syrian Arab Republic",
    "NoOfInhabitants": 22125249,
-   "DateCreated": "2023-02-03 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-03 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-03 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-03 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "827A3E04-645A-467B-A891-BB31B7D6E9B2"
  },
  {
    "CountryId": 229,
    "CountryName": "Turks and Caicos Islands",
    "NoOfInhabitants": 45703,
-   "DateCreated": "2023-03-11 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-23 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-11 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-23 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "EDCCF156-4684-45E8-8644-4F663E8A3971"
  },
  {
    "CountryId": 230,
    "CountryName": "Chad",
    "NoOfInhabitants": 17723315,
-   "DateCreated": "2023-05-05 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-07 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-05 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-07 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "01AAC503-3D9B-437B-B32B-7B2B21C50233"
  },
  {
    "CountryId": 231,
    "CountryName": "East Asia & Pacific (IDA & IBRD countries)",
    "NoOfInhabitants": 2103055378,
-   "DateCreated": "2023-04-24 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-03-30 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-24 00:00:00.0000000 +00:00",
+   "EditDate": "2023-03-30 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "2A846016-E14D-498B-890B-BED888F60B1A"
  },
  {
    "CountryId": 232,
    "CountryName": "Europe & Central Asia (IDA & IBRD countries)",
    "NoOfInhabitants": 457865503,
-   "DateCreated": "2023-10-13 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-13 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "710FDC8B-5D8D-4EE0-8DFC-362E1C4CD1BE"
  },
  {
    "CountryId": 233,
    "CountryName": "Togo",
    "NoOfInhabitants": 8848699,
-   "DateCreated": "2023-03-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-26 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-26 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "31D6B65E-DB3B-4612-B730-16EAED5F9840"
  },
  {
    "CountryId": 234,
    "CountryName": "Thailand",
    "NoOfInhabitants": 71697030,
-   "DateCreated": "2023-03-16 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-18 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-16 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-18 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D710C931-F4FF-40BF-B46A-3793B5509FCA"
  },
  {
    "CountryId": 235,
    "CountryName": "Tajikistan",
    "NoOfInhabitants": 9952787,
-   "DateCreated": "2023-10-02 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-02 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "99650E87-4A2C-4B07-A995-AFF290BA4210"
  },
  {
    "CountryId": 236,
    "CountryName": "Turkmenistan",
    "NoOfInhabitants": 6430770,
-   "DateCreated": "2023-02-09 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-22 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-09 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-22 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "32C5969C-3BC7-4EBA-A8BD-F01ECDAE9EB2"
  },
  {
    "CountryId": 237,
    "CountryName": "Latin America & the Caribbean (IDA & IBRD countrie",
    "NoOfInhabitants": 643602758,
-   "DateCreated": "2023-07-17 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-17 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "D9EC8087-7489-4F36-ABA6-33E2F80EFB89"
  },
  {
    "CountryId": 238,
    "CountryName": "Timor-Leste",
    "NoOfInhabitants": 1341296,
-   "DateCreated": "2023-01-07 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-06 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-07 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-06 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "51F8F042-11FE-45E2-AD59-D6FF5F95AC4C"
  },
  {
    "CountryId": 239,
    "CountryName": "Middle East & North Africa (IDA & IBRD countries)",
    "NoOfInhabitants": 419284769,
-   "DateCreated": "2023-09-20 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-20 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "B7B77626-E865-41AE-BAAB-53BC9F0C6755"
  },
  {
    "CountryId": 240,
    "CountryName": "Tonga",
    "NoOfInhabitants": 106858,
-   "DateCreated": "2023-09-12 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-09-12 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "BCE0E2E6-5C5F-41ED-B426-4489C7E2150E"
  },
  {
    "CountryId": 241,
    "CountryName": "South Asia (IDA & IBRD)",
    "NoOfInhabitants": 1919348000,
-   "DateCreated": "2023-07-25 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-25 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "9FF60928-2E4D-4369-A49C-9790CFACE837"
  },
  {
    "CountryId": 242,
    "CountryName": "Sub-Saharan Africa (IDA & IBRD countries)",
    "NoOfInhabitants": 1211170184,
-   "DateCreated": "2023-06-06 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-06 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "44C50502-45B1-47BE-A135-529A37491E7B"
  },
  {
    "CountryId": 243,
    "CountryName": "Trinidad and Tobago",
    "NoOfInhabitants": 1531044,
-   "DateCreated": "2023-05-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-04-02 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-04-02 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "E8DE2B8A-E3EA-44EF-AF96-233E4928D449"
  },
  {
    "CountryId": 244,
    "CountryName": "Tunisia",
    "NoOfInhabitants": 12356117,
-   "DateCreated": "2023-10-27 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-27 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "60A5C9C5-F3C2-4616-96C1-F0F15358B128"
  },
  {
    "CountryId": 245,
    "CountryName": "Turkiye",
    "NoOfInhabitants": 85341241,
-   "DateCreated": "2023-04-04 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-02 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-04-04 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-02 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "854353B1-418A-42E7-A59D-9204B925C45A"
  },
  {
    "CountryId": 246,
    "CountryName": "Tuvalu",
    "NoOfInhabitants": 11312,
-   "DateCreated": "2023-02-19 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-01-05 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-19 00:00:00.0000000 +00:00",
+   "EditDate": "2023-01-05 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "C563E260-FF86-4987-9160-B357A3E1D536"
  },
  {
    "CountryId": 247,
    "CountryName": "Tanzania",
    "NoOfInhabitants": 65497748,
-   "DateCreated": "2023-03-12 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-09-14 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-03-12 00:00:00.0000000 +00:00",
+   "EditDate": "2023-09-14 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "4763D2CC-D44B-43F0-976F-C6C42D2C2301"
  },
  {
    "CountryId": 248,
    "CountryName": "Uganda",
    "NoOfInhabitants": 47249585,
-   "DateCreated": "2023-06-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "FAE7B321-E01A-4D98-A911-61D6476318B8"
  },
  {
    "CountryId": 249,
    "CountryName": "Ukraine",
    "NoOfInhabitants": 38000000,
-   "DateCreated": "2023-05-27 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-23 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-05-27 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-23 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "B5473612-627E-4605-8716-3A2A633AF449"
  },
  {
    "CountryId": 251,
    "CountryName": "Uruguay",
    "NoOfInhabitants": 3422794,
-   "DateCreated": "2023-06-14 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-14 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "AF1EED97-79BB-4A8D-95F8-DFD17BC5580F"
  },
  {
    "CountryId": 252,
    "CountryName": "United States",
    "NoOfInhabitants": 333287557,
-   "DateCreated": "2023-07-23 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-23 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "2E5A8576-D443-4DEE-9F31-A2BDFE5F2CCB"
  },
  {
    "CountryId": 253,
    "CountryName": "Uzbekistan",
    "NoOfInhabitants": 35648100,
-   "DateCreated": "2023-01-31 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-06 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-31 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-06 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3B073D59-C403-4C83-90F0-44DB5063E31C"
  },
  {
    "CountryId": 254,
    "CountryName": "St. Vincent and the Grenadines",
    "NoOfInhabitants": 103948,
-   "DateCreated": "2023-06-01 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-06-01 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "08CF274F-85E9-4830-8B4C-3709E977457C"
  },
  {
    "CountryId": 255,
    "CountryName": "Venezuela, RB",
    "NoOfInhabitants": 28301696,
-   "DateCreated": "2023-10-21 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-10-21 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "CCD42B9C-1B6E-4591-9437-AFECDA93A8AE"
  },
  {
    "CountryId": 256,
    "CountryName": "British Virgin Islands",
    "NoOfInhabitants": 31305,
-   "DateCreated": "2023-08-28 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-28 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "C74D164F-FF28-4106-B872-D0223420F774"
  },
  {
    "CountryId": 257,
    "CountryName": "Virgin Islands (U.S.)",
    "NoOfInhabitants": 105413,
-   "DateCreated": "2023-08-09 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-09 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "5F4A062C-C57D-4378-83C7-8C81BBF21B36"
  },
  {
    "CountryId": 258,
    "CountryName": "Viet Nam",
    "NoOfInhabitants": 98186856,
-   "DateCreated": "2023-07-25 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-07-25 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "8B5D2169-5AEB-4B7D-9E3C-5F1635AC0ED9"
  },
  {
    "CountryId": 259,
    "CountryName": "Vanuatu",
    "NoOfInhabitants": 326740,
-   "DateCreated": "2023-02-22 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-07-24 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-02-22 00:00:00.0000000 +00:00",
+   "EditDate": "2023-07-24 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "D65D361D-64FA-46C9-B7BA-AD9573E98428"
  },
  {
    "CountryId": 261,
    "CountryName": "Samoa",
    "NoOfInhabitants": 222382,
-   "DateCreated": "2023-01-20 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-06-28 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-20 00:00:00.0000000 +00:00",
+   "EditDate": "2023-06-28 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "3900BD7C-EE11-43FD-9E73-8110B90A0B9B"
  },
  {
    "CountryId": 262,
    "CountryName": "Kosovo",
    "NoOfInhabitants": 1761985,
-   "DateCreated": "2023-08-06 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-06 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "03216C2D-6EAF-4BD7-97FD-1E0EA67BBC4D"
  },
  {
    "CountryId": 263,
    "CountryName": "Yemen, Rep.",
    "NoOfInhabitants": 33696614,
-   "DateCreated": "2023-01-10 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-08-03 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-10 00:00:00.0000000 +00:00",
+   "EditDate": "2023-08-03 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "7035037F-C58C-494E-938D-585818B1F679"
  },
  {
    "CountryId": 264,
    "CountryName": "South Africa",
    "NoOfInhabitants": 59893885,
-   "DateCreated": "2023-01-13 00:00:00.0000000 +00:00",
-   "DateChanged": "2023-10-26 00:00:00.0000000 +00:00",
+   "CreateDate": "2023-01-13 00:00:00.0000000 +00:00",
+   "EditDate": "2023-10-26 00:00:00.0000000 +00:00",
    "ConcurrencyStamp": "509B3C6A-ACC7-480D-949F-8E6AA66FDF74"
  },
  {
    "CountryId": 265,
    "CountryName": "Zambia",
    "NoOfInhabitants": 20017675,
-   "DateCreated": "2023-08-15 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-15 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "F1FD6C2B-02F2-4CE2-B4EF-28D88F4A18C2"
  },
  {
    "CountryId": 266,
    "CountryName": "Zimbabwe",
    "NoOfInhabitants": 16320537,
-   "DateCreated": "2023-08-31 00:00:00.0000000 +00:00",
-   "DateChanged": "",
+   "CreateDate": "2023-08-31 00:00:00.0000000 +00:00",
+   "EditDate": "",
    "ConcurrencyStamp": "020806B5-86BC-4DBA-99C0-F53C7AA169AB"
  }
 ]

@@ -17,10 +17,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.AddNox();
 
-//You have to register all your integration transformation handlers.
-builder.Services.RegisterIntegrationTransform<JsonToTableTransform>();
-//builder.Services.RegisterIntegrationTransform<TestTransform>();
-
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 
 // builder.AddNox((noxOptions) => noxOptions.WithNoxLogging((loggerConfiguration) =>

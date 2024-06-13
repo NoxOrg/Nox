@@ -18,38 +18,31 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditMoney @bind-Money="Booking.AmountFrom" 
-                        Title="Amount From" Required="true"
-                        />
+                        Title="AmountFrom"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditMoney @bind-Money="Booking.AmountTo" 
-                        Title="Amount To" Required="true"
-                        />
+                        Title="AmountTo"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTimeRange @bind-DateTimeRange="Booking.RequestedPickUpDate" 
-                        Title="Requested Pick Up Date" Required="true"
-                        />
+                        Title="RequestedPickUpDate"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTimeRange @bind-DateTimeRange="Booking.PickedUpDateTime" 
-                        Title="Picked Up Date"
-                        />
+                        Title="PickedUpDateTime"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="Booking.ExpiryDateTime" 
-                        Title="Expiry Date"
-                        />
+                        Title="ExpiryDateTime"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="Booking.CancelledDateTime" 
-                        Title="Cancelled Date"
-                        />
+                        Title="CancelledDateTime"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditVatNumber @bind-VatNumber="Booking.VatNumber" 
-                        Title="Vat Number"
-                        />
+                        Title="VatNumber"/>
                 </MudItem>
             </MudGrid>            
         </MudForm>

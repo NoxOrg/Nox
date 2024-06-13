@@ -18,18 +18,15 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditMoney @bind-Money="CashStockOrder.Amount" 
-                        Title="Amount" Required="true"
-                        />
+                        Title="Amount"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditDate @bind-Date="CashStockOrder.RequestedDeliveryDate" 
-                        Title="Requested Delivery Date" Required="true"
-                        />
+                        Title="RequestedDeliveryDate"/>
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="CashStockOrder.DeliveryDateTime" 
-                        Title="Delivery Date"
-                        />
+                        Title="DeliveryDateTime"/>
                 </MudItem>
             </MudGrid>            
         </MudForm>
