@@ -1,12 +1,7 @@
 ﻿@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Services
-@using Nox.Ui.Blazor.Lib.Resources
 @using Cryptocash.Ui.Forms.Add
-@using Cryptocash.Ui.Forms.Edit
 @using Cryptocash.Ui.DataGrid
-@using Cryptocash.Ui.Models
-@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
-@using Cryptocash.Ui.Services
 
 @namespace Cryptocash.Ui.Pages
 
@@ -16,9 +11,6 @@
 @{
     AppState.PageTitle = "Currencies";
 }
-@inject IDialogService DialogService
-
-@inject ICurrenciesService CurrenciesService
 
 <MudText>Currencies</MudText>
 
@@ -26,61 +18,19 @@
     <MudItem xs="12">
         <MudText>Search section</MudText>
     </MudItem>
-    <MudItem xs="12" Style="margin:15px 0px 15px 0px;text-align:right;">
-        <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
+    <MudItem xs="12">
+        <Actions OnClick="ShowAddDialog" />
     </MudItem>
     <AddCurrencyForm @bind-IsVisible="showAddDialog" OnSubmit="AddCurrencySubmit" OnCancel="HideAddDialog" />
-    <EditCurrencyForm @bind-IsVisible="showEditDialog" OnSubmit="EditCurrencySubmit" OnCancel="HideEditDialog" Currency="selectedEntity" />
     <MudItem xs="12">
-        <CurrenciesDataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
+        <CurrenciesDataGrid @ref="referencedDataGrid" />
     </MudItem>
 </MudGrid>
-<MudDialog @bind-IsVisible="showDeleteDialog" Options="ConfirmationDialogOptions">
-        <TitleContent>
-            <MudGrid>
-                <MudItem Style="background-color:red;margin-top:5px;" xs="12">
-                    <MudText Typo="Typo.h6" Style="color:white;">@string.Format(NoxResources.DeleteEntity, "Currency")</MudText>
-                </MudItem>
-            </MudGrid>
-        </TitleContent>
-        <DialogContent>
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudText Typo="Typo.h6">@string.Format(NoxResources.DeleteConfirmation, "Currency")</MudText>
-                </MudItem>
-            </MudGrid>
-            @if (HasDeleteError) {
-            <ErrorSummary />
-            <MudText Color="Color.Error">ERROR</MudText>
-        }
-        </DialogContent>
-        <DialogActions>
-            <MudButton OnClick="@HideDeleteConfirmation"
-                       Variant="Variant.Outlined"
-                       Color="Color.Error"
-                       Style="Margin:15px;">
-                @NoxResources.Cancel.ToUpper()
-            </MudButton>
-            <MudButton OnClick="@DeleteCurrencySubmit"
-                       Variant="Variant.Filled"
-                       Color="Color.Error"
-                       Style="Margin:15px;"
-                       Disabled="@IsDeleteLoading">
-                <MudText>@NoxResources.Delete.ToUpper()</MudText>
-                @if (IsDeleteLoading)
-                {
-                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" />
-                }
-            </MudButton>
-        </DialogActions>
-    </MudDialog>
 
 @code{
-
-private CurrenciesDataGrid? referencedDataGrid;
-
 #region ADD
     private bool showAddDialog = false;
+    private CurrenciesDataGrid? referencedDataGrid;
 
     private void ShowAddDialog()
     {
@@ -98,85 +48,4 @@ private CurrenciesDataGrid? referencedDataGrid;
         referencedDataGrid?.RefreshDataGrid();
     }
 #endregion ADD
-#region EDIT
-    private bool showEditDialog = false;   
-    
-    [Parameter]
-    public CurrencyModel? selectedEntity { get; set; }   
-
-    private void ShowEditDialog(CurrencyModel? currentSelected)
-    {
-        selectedEntity = currentSelected;
-        showEditDialog = true;
-    }
-
-    private void HideEditDialog()
-    {
-        showEditDialog = false;
-    }
-
-    private void EditCurrencySubmit()
-    {
-        showEditDialog = false;    
-        selectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
-    }
-#endregion EDIT
-#region DELETE
-    private bool showDeleteDialog = false; 
-    
-    private bool IsDeleteLoading = false;
-
-    private bool HasDeleteError = false;
-    
-    [Parameter]
-    public CurrencyModel? deleteEntity { get; set; }   
-
-    public DialogOptions ConfirmationDialogOptions { get; set; } = new()
-    {
-        ClassBackground = "dialog-blur-class",
-        DisableBackdropClick = true,
-        Position = DialogPosition.TopCenter,
-        MaxWidth = MaxWidth.Medium
-    };
-
-    private void ShowDeleteConfirmation(CurrencyModel? currentSelected)
-    {
-        deleteEntity = currentSelected;
-        showDeleteDialog = true;
-    }
-
-    private void HideDeleteConfirmation()
-    {
-        showDeleteDialog = false;
-    }
-
-    private async Task DeleteCurrencySubmit()
-    {
-        try
-        {
-            IsDeleteLoading = true;
-
-            if (deleteEntity != null)
-            {
-                await CurrenciesService.DeleteAsync(deleteEntity);
-            }
-            else
-            {
-                HasDeleteError = true;
-            }
-        }
-        catch
-        {
-            HasDeleteError = true;
-        }
-        finally
-        {
-            IsDeleteLoading = false;
-            showDeleteDialog = false;    
-            deleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
-        }               
-    }
-#endregion DELETE
 }

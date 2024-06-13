@@ -63,6 +63,7 @@
     <ItemGroup>
       <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
       <Folder Include="Migrations\" />
+      <Folder Include="Mixed\" />
     </ItemGroup>
     
     <ItemGroup>

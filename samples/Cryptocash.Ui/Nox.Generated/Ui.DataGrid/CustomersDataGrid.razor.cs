@@ -9,12 +9,6 @@ public partial class CustomersDataGrid : ComponentBase
     private List<CustomerModel> Customers = new(); 
     private bool IsLoading = true;
 
-    [Parameter]
-    public EventCallback<CustomerModel?> OnSelectionChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<CustomerModel?> OnDeleteChanged { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
@@ -37,21 +31,5 @@ public partial class CustomersDataGrid : ComponentBase
     {
         await LoadData();
         StateHasChanged();
-    }
-
-    public async Task SelectedOnClick(CustomerModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnSelectionChanged.InvokeAsync(currentSelection);
-        }        
-    }
-
-    public async Task DeleteOnClick(CustomerModel? currentSelection)
-    {
-        if (currentSelection != null)
-        {
-            await OnDeleteChanged.InvokeAsync(currentSelection);
-        }        
     }
 }

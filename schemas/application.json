@@ -113,7 +113,7 @@
       ],
       "items":   {
         "anyOf": [
-          { "$ref": "job.json" },
+          { "$ref": "etlJob.json" },
           {
             "additionalProperties": false, 
             "required": ["$ref"],

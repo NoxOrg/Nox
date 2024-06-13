@@ -19,15 +19,24 @@ public static class ServiceCollectionExtension
             .RegisterEventPayloads()
             .RegisterCreateEvents()
             .RegisterUpdateEvents()
-            .RegisterExecuteCompleteEvents();
+            .RegisterExecuteCompleteEvents()
+            .RegisterIntegrationTransforms();
         var optionsBuilder = new NoxIntegrationOptionsBuilder(services);
         integrationOptionsAction?.Invoke(optionsBuilder);
+        
         return services;
     }
 
-    public static IServiceCollection RegisterIntegrationTransform<TTransform>(this IServiceCollection services)
+    private static IServiceCollection RegisterIntegrationTransforms(this IServiceCollection services)
     {
-        services.AddTransient(typeof(INoxTransform), typeof(TTransform));
+        var transforms = Assembly
+            .GetEntryAssembly()!
+            .GetTypes()
+            .Where(t => t.IsClass && t.IsAssignableTo(typeof(INoxTransform)) && !t.Name.EndsWith("base", StringComparison.OrdinalIgnoreCase));
+        foreach (var transform in transforms)
+        {
+            services.AddTransient(typeof(INoxTransform), transform);
+        }
         return services;
     }
     

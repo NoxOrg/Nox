@@ -3,7 +3,6 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
-using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -35,8 +34,4 @@ public abstract class LandLordModelBase: IEntityModel
     /// Landlord's street address     
     /// </summary>
     public virtual StreetAddressModel? Address { get; set; }
-
-    [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; set; }
-
 }

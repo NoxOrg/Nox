@@ -17,19 +17,14 @@
           Style="border-style:solid;border-width:2px;border-color:lightgray;"
           Dense="true">
     <HeaderContent>
-        <MudTh>Select</MudTh>
-        <MudTh>First Name</MudTh>
-        <MudTh>Last Name</MudTh>
-        <MudTh>Email</MudTh>
+        <MudTh>FirstName</MudTh>
+        <MudTh>LastName</MudTh>
+        <MudTh>EmailAddress</MudTh>
         <MudTh>Address</MudTh>
-        <MudTh>First Day</MudTh>
-        <MudTh>Last Day</MudTh>
-        <MudTh>Delete</MudTh>
+        <MudTh>FirstWorkingDay</MudTh>
+        <MudTh>LastWorkingDay</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd>
-             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
-        </MudTd>
         <MudTd>
             <ViewText Text="@context.FirstName" />
         </MudTd>
@@ -47,9 +42,6 @@
         </MudTd>
         <MudTd>
             <ViewDate Date="@context.LastWorkingDay" />
-        </MudTd>
-        <MudTd>
-             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
     </RowTemplate>
     <NoRecordsContent>

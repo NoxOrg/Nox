@@ -3,7 +3,6 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
-using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -55,8 +54,4 @@ public abstract class EmployeeModelBase: IEntityModel
     /// Employee's last working day     
     /// </summary>
     public virtual System.DateTime? LastWorkingDay { get; set; }
-
-    [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; set; }
-
 }

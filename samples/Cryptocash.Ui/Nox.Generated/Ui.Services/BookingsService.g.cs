@@ -16,7 +16,7 @@ public interface IBookingsService
     public Task<BookingModel?> GetByIdAsync(string id);
     public Task<BookingModel?> CreateAsync(BookingModel booking);
     public Task<BookingModel?> UpdateAsync(BookingModel booking);
-    public Task DeleteAsync(BookingModel booking);
+    public Task DeleteAsync(string id);
 }
 
 internal partial class BookingsService : BookingsServiceBase
@@ -72,55 +72,12 @@ internal abstract partial class BookingsServiceBase : IBookingsService
 
     public async Task<BookingModel?> UpdateAsync(BookingModel booking)
     {
-        if (booking.Etag != Guid.Empty)
-        {
-            string currentEtag = booking.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (booking.Id != null)
-        {
-            currentID = booking.Id.ToString();
-        }
-
-        var item = await _httpClient.PutAsync<BookingUpdateDto, BookingDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(booking));
-
+        var item = await _httpClient.PutAsync<BookingUpdateDto, BookingDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(booking));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(BookingModel booking)
+    public async Task DeleteAsync(string id)
     {
-        if (booking.Etag != Guid.Empty)
-        {
-            string currentEtag = booking.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (booking.Id != null)
-        {
-            currentID = booking.Id.ToString();
-        }
-
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
     }
 }

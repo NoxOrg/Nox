@@ -16,7 +16,7 @@ public interface ICustomersService
     public Task<CustomerModel?> GetByIdAsync(string id);
     public Task<CustomerModel?> CreateAsync(CustomerModel customer);
     public Task<CustomerModel?> UpdateAsync(CustomerModel customer);
-    public Task DeleteAsync(CustomerModel customer);
+    public Task DeleteAsync(string id);
 }
 
 internal partial class CustomersService : CustomersServiceBase
@@ -72,55 +72,12 @@ internal abstract partial class CustomersServiceBase : ICustomersService
 
     public async Task<CustomerModel?> UpdateAsync(CustomerModel customer)
     {
-        if (customer.Etag != Guid.Empty)
-        {
-            string currentEtag = customer.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (customer.Id != null)
-        {
-            currentID = customer.Id.ToString();
-        }
-
-        var item = await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(customer));
-
+        var item = await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(customer));
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(CustomerModel customer)
+    public async Task DeleteAsync(string id)
     {
-        if (customer.Etag != Guid.Empty)
-        {
-            string currentEtag = customer.Etag.ToString();
-
-            Dictionary<string, IEnumerable<string>> headers = new()
-            {
-                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
-            };
-            _httpClient.DefaultRequestHeaders.Clear();
-            foreach (var header in headers)
-            {
-                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-        }
-
-        string? currentID = string.Empty;
-        if (customer.Id != null)
-        {
-            currentID = customer.Id.ToString();
-        }
-
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
     }
 }

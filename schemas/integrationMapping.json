@@ -10,9 +10,6 @@
       "type": "null"
     }
   ],
-  "required": [
-    "target"
-  ],
   "properties": {
     "source": {    
       "title": "Definition namespace for integration mapping fields.",
@@ -24,9 +21,6 @@
         {
           "type": "null"
         }
-      ],
-      "required": [
-        "type"
       ],
       "properties": {
         "name": {    
@@ -48,14 +42,14 @@
             {
               "type": "string",
               "enum": [
-                "bool",
+                "boolean",
                 "date",
                 "dateTime",
-                "double",
-                "guid",
+                "decimal",
                 "integer",
                 "string",
-                "time"
+                "time",
+                "uniqueIdentifier"
               ]
             },
             {
@@ -69,9 +63,13 @@
     "target": {    
       "title": "Definition namespace for integration mapping fields.",
       "description": "This section details integration transformation mapping field attributes like Name and Type.",
-      "type": "object",
-      "required": [
-        "type"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "name": {    
@@ -93,14 +91,14 @@
             {
               "type": "string",
               "enum": [
-                "bool",
+                "boolean",
                 "date",
                 "dateTime",
-                "double",
-                "guid",
+                "decimal",
                 "integer",
                 "string",
-                "time"
+                "time",
+                "uniqueIdentifier"
               ]
             },
             {

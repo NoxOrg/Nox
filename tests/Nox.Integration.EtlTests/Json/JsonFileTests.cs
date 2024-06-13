@@ -23,7 +23,6 @@ public class JsonFileTests: IClassFixture<SqlServerIntegrationFixture>
     public async Task Can_integrate_json_to_sql_table()
     {
         _sqlFixture.Configure("./Json/files/JsonToSql/json-sql.solution.nox.yaml");
-        _sqlFixture.Services!.RegisterIntegrationTransform<JsonToSqlTransform>();
         _sqlFixture.Initialize();
         
         var context = _sqlFixture.ServiceProvider!.GetRequiredService<INoxIntegrationContext>();

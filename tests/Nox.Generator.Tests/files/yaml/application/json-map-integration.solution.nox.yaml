@@ -1,0 +1,172 @@
+#
+# JsonToCustomTable.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integration.json
+#
+
+name: TestIntegrationSolution
+
+description: Yaml file for integration tests
+
+application:
+  integrations:
+    - name: JsonToTable
+
+      description: -Synchronization of Country data from a sample Json file to
+        a Nox database table using a custom transformation.
+      
+      mergeType: mergeNew
+      
+      source:
+        name: SampleSource
+        description: Curated dataset of country information.
+        dataConnectionName: CountryJsonSource
+      
+        sourceAdapterType: file
+        fileOptions:
+          filename: CountryMaster.json
+      
+      transformation:
+        mapping:
+          - source:
+              name: CountryId
+              type: integer
+            target:
+              name: Id
+      
+          - source:
+              name: CountryName
+              type: string
+            target:
+              name: Name
+      
+          - source:
+              name: NoOfInhabitants
+              type: integer
+            target:
+              name: Population
+      
+          #CreateDate and EditDate not mapped, as they exist on source and target, so should auto map
+          
+          # This demonstrated a field that only exists in the source
+          - source:
+              name: ConcurrencyStamp
+              type: string
+      
+      
+      target:
+        name: SampleTarget
+        description: The CountriesJsonToTable table of the Cryptocash database
+        dataConnectionName: CryptocashEtlDb
+        targetAdapterType: databaseTable
+        tableOptions:
+          tableName: CountriesJsonToTable
+          watermark:
+            sequentialKeyColumns:
+              - Id
+            dateColumns:
+              - CreateDate
+              - EditDate
+
+domain:
+  entities:
+    - name: CountryJsonToTable
+
+      description: Country and related data for Json file integration
+  
+      keys:
+  
+        - name: Id
+          isRequired: true
+          description: Country unique identifier
+          type: autoNumber
+  
+      attributes:
+  
+        - name: Name
+          description: Country's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+  
+        - name: Population
+          description: Country's population
+          type: number
+          isRequired: true
+  
+        - name: CreateDate
+          description: The date on which the country record was created
+          type: dateTime
+          isRequired: true
+  
+        - name: EditDate
+          description: The date on which the country record was last updated
+          type: dateTime
+  
+        - name: PopulationMillions
+          description: This holds a calculated value, set in the transform function. value = NoFoInhabitants / 1million
+          type: number
+          numberTypeOptions:
+  
+  
+        - name: NameWithLower
+          description: This holds a concat of CountryName, which is set in the transform function
+          type: text
+  
+      persistence:
+        isAudited: false
+        tableName: CountriesJsonToTable
+        create:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        delete:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+          
+infrastructure:
+  
+  dependencies:
+    
+    dataConnections:
+      - name: TestSource
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        port: 1433
+        options: pooling=false;encrypt=false;
+
+      - name: EtlTest
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        port : 1433
+        options: pooling=false;encrypt=false;
+          
+      - name: CountrySource
+        provider: sqlServer
+        options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;encrypt=false
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        
+      - name: CountryJsonSource
+        provider: jsonFile
+        serverUri: ./files
+  
+  persistence:      
+    databaseServer:
+      name: CryptocashEtlDb
+      provider: sqlServer
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;encrypt=false
+      serverUri: localhost
+      user: sa
+      password: Developer*123

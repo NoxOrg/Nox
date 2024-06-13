@@ -1,5 +1,4 @@
 // Generated
-
 #nullable enable
 
 using System.Globalization;
@@ -19,122 +18,53 @@ public abstract class TestIntegrationTransformBase: INoxTransform<TestIntegratio
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<TestIntegrationSourceDto, TestIntegrationTargetDto>()
-                //Integer -> Integer?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> Integer
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> Double?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> Double
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> Bool?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> Bool
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Integer -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Double -> Integer?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Double -> Integer
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Double -> Double?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Double -> Double
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Double -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Double -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Bool -> Integer?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Bool -> Integer
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Bool -> Bool?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Bool -> Bool
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Bool -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Bool -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //String -> Integer?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (int?)null : int.Parse(src.SourceField)))
-                //String -> Integer
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => int.Parse(src.SourceField)))
-                //String -> Double?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (double?)null : double.Parse(src.SourceField)))
-                //String -> Double
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => double.Parse(src.SourceField)))
-                //String -> Bool?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (bool?)null : bool.Parse(src.SourceField)))
-                //String -> Bool
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => bool.Parse(src.SourceField)))
-                //String -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (string?)null : src.SourceField))
-                //String -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //String -> Date?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (DateOnly?)null : DateOnly.Parse(src.SourceField)))
-                //String -> Date
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => DateOnly.Parse(src.SourceField)))
-                //String -> Time?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (TimeOnly?)null : TimeOnly.Parse(src.SourceField)))
-                //String -> Time
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => TimeOnly.Parse(src.SourceField)))
-                //String -> DateTime?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (DateTime?)null : DateTime.Parse(src.SourceField)))
-                //String -> DateTime
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => DateTime.Parse(src.SourceField)))
-                //String -> Guid?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.SourceField) ? (Guid?)null : Guid.Parse(src.SourceField)))
-                //String -> Guid
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => Guid.Parse(src.SourceField)))
-                //Date -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Date -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Date -> Date?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Date -> Date
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Date -> DateTime?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src == null ? (DateTime?)null : src.SourceField.ToDateTime(new TimeOnly(0, 0))))
-                //Date -> DateTime
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField.ToDateTime(new TimeOnly(0, 0))))
-                //Time -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Time -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Time -> Time?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Time -> Time
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //DateTime -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //DateTime -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //DateTime -> Date?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src == null ? (DateOnly?)null : DateOnly.FromDateTime(src.SourceField)))
-                //DateTime -> Date
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.SourceField)))
-                //DateTime -> Time?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src == null ? (TimeOnly?)null : TimeOnly.FromDateTime(src.SourceField)))
-                //DateTime -> Time
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => TimeOnly.FromDateTime(src.SourceField)))
-                //DateTime -> DateTime?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //DateTime -> DateTime
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Guid -> String?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Guid -> String
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField))
-                //Guid -> Guid?
-                .ForMember(dest => dest.TargetField, opt => opt.MapFrom(src => src.SourceField))
-                //Guid -> Guid
-                .ForMember(dest => dest.TargetFieldRequired, opt => opt.MapFrom(src => src.SourceField));
+                .ForMember(dest => dest.IdTarget, opt => opt.MapFrom(src => src.IdSource))
+                .ForMember(dest => dest.NameTarget, opt => opt.MapFrom(src => src.AreaSource))
+                .ForMember(dest => dest.NameTargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.NameSource) ? (string?)null : src.NameSource))
+                .ForMember(dest => dest.AreaTarget, opt => opt.MapFrom(src => src.AreaTarget))
+                .ForMember(dest => dest.AreaTargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.AreaSourceNull) ? (string?)null : src.AreaSourceNull))
+                .ForMember(dest => dest.BoolTarget, opt => opt.MapFrom(src => src.BoolTarget))
+                .ForMember(dest => dest.BoolTargetNull, opt => opt.MapFrom(src => src.BoolTargetNull))
+                .ForMember(dest => dest.ColorTarget, opt => opt.MapFrom(src => src.ColorTarget))
+                .ForMember(dest => dest.ColorTargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.ColorTargetNull) ? (string?)null : src.ColorTargetNull))
+                .ForMember(dest => dest.CountryCode2Target, opt => opt.MapFrom(src => src.CountryCode2Target))
+                .ForMember(dest => dest.CountryCode2TargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.CountryCode2TargetNull) ? (string?)null : src.CountryCode2TargetNull))
+                .ForMember(dest => dest.CountryCode3Target, opt => opt.MapFrom(src => src.CountryCode3Target))
+                .ForMember(dest => dest.CountryCode3TargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.CountryCode3TargetNull) ? (string?)null : src.CountryCode3TargetNull))
+                .ForMember(dest => dest.CountryNimberTarget, opt => opt.MapFrom(src => src.CountryNimberTarget))
+                .ForMember(dest => dest.CountryNimberTargetNull, opt => opt.MapFrom(src => src.CountryNimberTargetNull))
+                .ForMember(dest => dest.CultureCodeTarget, opt => opt.MapFrom(src => src.CultureCodeTarget))
+                .ForMember(dest => dest.CultureCodeTargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.CultureCodeTargetNull) ? (string?)null : src.CultureCodeTargetNull))
+                .ForMember(dest => dest.CurrencyCode3Target, opt => opt.MapFrom(src => src.CurrencyCode3Target))
+                .ForMember(dest => dest.CurrencyCode3TargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.CurrencyCode3TargetNull) ? (string?)null : src.CurrencyCode3TargetNull))
+                .ForMember(dest => dest.CurrencyNumberTarget, opt => opt.MapFrom(src => src.CurrencyNumberTarget))
+                .ForMember(dest => dest.CurrencyNumberTargetNull, opt => opt.MapFrom(src => src.CurrencyNumberTargetNull))
+                .ForMember(dest => dest.DateTarget, opt => opt.MapFrom(src => src.DateTarget))
+                .ForMember(dest => dest.DateTargetNull, opt => opt.MapFrom(src => src.DateTargetNull))
+                .ForMember(dest => dest.DateTimeTarget, opt => opt.MapFrom(src => src.DateTimeTarget))
+                .ForMember(dest => dest.DateTimeTargetNull, opt => opt.MapFrom(src => src.DateTimeTargetNull))
+                .ForMember(dest => dest.DateTimeDurationTarget, opt => opt.MapFrom(src => src.DateTimeDurationTarget))
+                .ForMember(dest => dest.DateTimeDurationTargetNull, opt => opt.MapFrom(src => src.DateTimeDurationTargetNull))
+                .ForMember(dest => dest.DateTimeRangeTarget_Start, opt => opt.MapFrom(src => src.DateTimeRangeTarget_Start))
+                .ForMember(dest => dest.DateTimeRangeTarget_End, opt => opt.MapFrom(src => src.DateTimeRangeTarget_End))
+                .ForMember(dest => dest.DateTimeRangeTargetNull_Start, opt => opt.MapFrom(src => src.DateTimeRangeTargetNull_Start))
+                .ForMember(dest => dest.DateTimeRangeTargetNull_End, opt => opt.MapFrom(src => src.DateTimeRangeTargetNull_End))
+                .ForMember(dest => dest.DateTimeScheduleTarget, opt => opt.MapFrom(src => src.DateTimeScheduleTarget))
+                .ForMember(dest => dest.DateTimeScheduleTargetNull, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.DateTimeScheduleTargetNull) ? (string?)null : src.DateTimeScheduleTargetNull))
+                .ForMember(dest => dest.DistanceTarget, opt => opt.MapFrom(src => src.DistanceTarget))
+                .ForMember(dest => dest.DistanceTargetNull, opt => opt.MapFrom(src => src.DistanceTargetNull))
+                .ForMember(dest => dest.GuidTarget, opt => opt.MapFrom(src => src.GuidTarget))
+                .ForMember(dest => dest.GuidTargetNull, opt => opt.MapFrom(src => src.GuidTargetNull))
+                .ForMember(dest => dest.LatLongTarget_Latitude, opt => opt.MapFrom(src => src.LatLongTarget_Latitude))
+                .ForMember(dest => dest.LatLongTarget_Longitude, opt => opt.MapFrom(src => src.LatLongTarget_Longitude))
+                .ForMember(dest => dest.LatLongTargetNull_Latitude, opt => opt.MapFrom(src => src.LatLongTargetNull_Latitude))
+                .ForMember(dest => dest.LatLongTargetNull_Longitude, opt => opt.MapFrom(src => src.LatLongTargetNull_Longitude))
+                .ForMember(dest => dest.MoneyTarget_Amount, opt => opt.MapFrom(src => src.MoneyTarget_Amount))
+                .ForMember(dest => dest.MoneyTarget_CurrencyCode, opt => opt.MapFrom(src => src.MoneyTarget_CurrencyCode))
+                .ForMember(dest => dest.MoneyTargetNull_Amount, opt => opt.MapFrom(src => src.MoneyTargetNull_Amount))
+                .ForMember(dest => dest.MoneyTargetNull_CurrencyCode, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.MoneyTargetNull_CurrencyCode) ? (string?)null : src.MoneyTargetNull_CurrencyCode))
+                .ForMember(dest => dest.TimeTarget, opt => opt.MapFrom(src => src.TimeTarget))
+                .ForMember(dest => dest.TimeTargetNull, opt => opt.MapFrom(src => src.TimeTargetNull));
         }).CreateMapper();
     }
     

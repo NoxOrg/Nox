@@ -3,11 +3,11 @@ namespace Nox;
 public enum IntegrationMapDataType
 {
     @Integer,
-    @Double,
-    @Bool,
+    @Decimal,
+    @Boolean,
     @String,
     @Date,
     @Time,
     @DateTime,
-    @Guid
+    @UniqueIdentifier
 }
