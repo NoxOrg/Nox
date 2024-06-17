@@ -28,7 +28,7 @@ internal class EntityPageGenerator : INoxFileGenerator
         foreach (var entity in entities)
         {
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
-                .WithFileExtension("razor")
+                .WithFileExtension("razor.cs")
                 .WithClassName($"{entity.PluralName}")
                 .WithFileNamePrefix($"Ui.Pages")
                 .WithObject("entity", entity)

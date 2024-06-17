@@ -1125,9 +1125,9 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
             if (!String.IsNullOrWhiteSpace(CurrencyId))
             {
-                CurrencyCode TempCurrencyCode;
-                Enum.TryParse(CurrencyId, out TempCurrencyCode);
-                if (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode))
+                CurrencyCode TempCurrencyCode;                
+                System.Enum.TryParse(CurrencyId, out TempCurrencyCode);
+                if (System.Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode))
                 {
                     return TempCurrencyCode;
                 }

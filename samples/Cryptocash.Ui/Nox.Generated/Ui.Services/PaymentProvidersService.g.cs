@@ -7,6 +7,8 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Generated.Data.Generic;
+using Cryptocash.Ui.Configuration;
 
 namespace Cryptocash.Ui.Services;
 
@@ -56,6 +58,22 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<PaymentProviderDto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<PaymentProviderModel>();
+    }
+
+    public async Task<EntityData<PaymentProviderModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<PaymentProviderDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<PaymentProviderModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<PaymentProviderModel>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<PaymentProviderModel?> GetByIdAsync(string id)
@@ -123,4 +141,17 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
+
+    public Paging Paging { get; set; } = new Paging()
+    {
+        CurrentPage = 0,
+        CurrentPageSize = 10,
+        EntityTotal = 0,
+        PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+    };
 }

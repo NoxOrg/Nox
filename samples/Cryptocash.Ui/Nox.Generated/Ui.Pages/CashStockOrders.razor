@@ -30,7 +30,7 @@
         <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
     </MudItem>
     <AddCashStockOrderForm @bind-IsVisible="showAddDialog" OnSubmit="AddCashStockOrderSubmit" OnCancel="HideAddDialog" />
-    <EditCashStockOrderForm @bind-IsVisible="showEditDialog" OnSubmit="EditCashStockOrderSubmit" OnCancel="HideEditDialog" CashStockOrder="selectedEntity" />
+    <EditCashStockOrderForm @bind-IsVisible="showEditDialog" OnSubmit="EditCashStockOrderSubmit" OnCancel="HideEditDialog" CashStockOrder="SelectedEntity" />
     <MudItem xs="12">
         <CashStockOrdersDataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
@@ -74,109 +74,3 @@
             </MudButton>
         </DialogActions>
     </MudDialog>
-
-@code{
-
-private CashStockOrdersDataGrid? referencedDataGrid;
-
-#region ADD
-    private bool showAddDialog = false;
-
-    private void ShowAddDialog()
-    {
-        showAddDialog = true;
-    }
-
-    private void HideAddDialog()
-    {
-        showAddDialog = false;
-    }
-
-    private void AddCashStockOrderSubmit()
-    {
-        showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
-    }
-#endregion ADD
-#region EDIT
-    private bool showEditDialog = false;   
-    
-    [Parameter]
-    public CashStockOrderModel? selectedEntity { get; set; }   
-
-    private void ShowEditDialog(CashStockOrderModel? currentSelected)
-    {
-        selectedEntity = currentSelected;
-        showEditDialog = true;
-    }
-
-    private void HideEditDialog()
-    {
-        showEditDialog = false;
-    }
-
-    private void EditCashStockOrderSubmit()
-    {
-        showEditDialog = false;    
-        selectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
-    }
-#endregion EDIT
-#region DELETE
-    private bool showDeleteDialog = false; 
-    
-    private bool IsDeleteLoading = false;
-
-    private bool HasDeleteError = false;
-    
-    [Parameter]
-    public CashStockOrderModel? deleteEntity { get; set; }   
-
-    public DialogOptions ConfirmationDialogOptions { get; set; } = new()
-    {
-        ClassBackground = "dialog-blur-class",
-        DisableBackdropClick = true,
-        Position = DialogPosition.TopCenter,
-        MaxWidth = MaxWidth.Medium
-    };
-
-    private void ShowDeleteConfirmation(CashStockOrderModel? currentSelected)
-    {
-        deleteEntity = currentSelected;
-        showDeleteDialog = true;
-    }
-
-    private void HideDeleteConfirmation()
-    {
-        showDeleteDialog = false;
-    }
-
-    private async Task DeleteCashStockOrderSubmit()
-    {
-        try
-        {
-            IsDeleteLoading = true;
-
-            if (deleteEntity != null)
-            {
-                await CashStockOrdersService.DeleteAsync(deleteEntity);
-            }
-            else
-            {
-                HasDeleteError = true;
-            }
-        }
-        catch
-        {
-            HasDeleteError = true;
-        }
-        finally
-        {
-            IsDeleteLoading = false;
-            showDeleteDialog = false;    
-            deleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
-        }               
-    }
-#endregion DELETE
-}

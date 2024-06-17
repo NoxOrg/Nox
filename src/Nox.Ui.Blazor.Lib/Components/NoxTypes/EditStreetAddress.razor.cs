@@ -17,6 +17,9 @@ public partial class EditStreetAddress : ComponentBase
     public bool Disabled { get; set; } = false;
 
     [Parameter]
+    public bool? Required { get; set; } = null;
+
+    [Parameter]
     public bool RequiredStreetNumber { get; set; } = false;
 
     [Parameter]
@@ -148,6 +151,13 @@ public partial class EditStreetAddress : ComponentBase
             CurrentAdministrativeArea2 = StreetAddress.AdministrativeArea2;
             CurrentPostalCode = StreetAddress.PostalCode;
             CurrentCountryId = StreetAddress.CountryId;
+        }
+
+        if (Required != null && Required == true)
+        {
+            RequiredAddressLine1 = true;
+            RequiredPostalCode = true;
+            RequiredCountryId = true;
         }
     }
 

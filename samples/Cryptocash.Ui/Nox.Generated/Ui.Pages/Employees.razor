@@ -30,7 +30,7 @@
         <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
     </MudItem>
     <AddEmployeeForm @bind-IsVisible="showAddDialog" OnSubmit="AddEmployeeSubmit" OnCancel="HideAddDialog" />
-    <EditEmployeeForm @bind-IsVisible="showEditDialog" OnSubmit="EditEmployeeSubmit" OnCancel="HideEditDialog" Employee="selectedEntity" />
+    <EditEmployeeForm @bind-IsVisible="showEditDialog" OnSubmit="EditEmployeeSubmit" OnCancel="HideEditDialog" Employee="SelectedEntity" />
     <MudItem xs="12">
         <EmployeesDataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
@@ -74,109 +74,3 @@
             </MudButton>
         </DialogActions>
     </MudDialog>
-
-@code{
-
-private EmployeesDataGrid? referencedDataGrid;
-
-#region ADD
-    private bool showAddDialog = false;
-
-    private void ShowAddDialog()
-    {
-        showAddDialog = true;
-    }
-
-    private void HideAddDialog()
-    {
-        showAddDialog = false;
-    }
-
-    private void AddEmployeeSubmit()
-    {
-        showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
-    }
-#endregion ADD
-#region EDIT
-    private bool showEditDialog = false;   
-    
-    [Parameter]
-    public EmployeeModel? selectedEntity { get; set; }   
-
-    private void ShowEditDialog(EmployeeModel? currentSelected)
-    {
-        selectedEntity = currentSelected;
-        showEditDialog = true;
-    }
-
-    private void HideEditDialog()
-    {
-        showEditDialog = false;
-    }
-
-    private void EditEmployeeSubmit()
-    {
-        showEditDialog = false;    
-        selectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
-    }
-#endregion EDIT
-#region DELETE
-    private bool showDeleteDialog = false; 
-    
-    private bool IsDeleteLoading = false;
-
-    private bool HasDeleteError = false;
-    
-    [Parameter]
-    public EmployeeModel? deleteEntity { get; set; }   
-
-    public DialogOptions ConfirmationDialogOptions { get; set; } = new()
-    {
-        ClassBackground = "dialog-blur-class",
-        DisableBackdropClick = true,
-        Position = DialogPosition.TopCenter,
-        MaxWidth = MaxWidth.Medium
-    };
-
-    private void ShowDeleteConfirmation(EmployeeModel? currentSelected)
-    {
-        deleteEntity = currentSelected;
-        showDeleteDialog = true;
-    }
-
-    private void HideDeleteConfirmation()
-    {
-        showDeleteDialog = false;
-    }
-
-    private async Task DeleteEmployeeSubmit()
-    {
-        try
-        {
-            IsDeleteLoading = true;
-
-            if (deleteEntity != null)
-            {
-                await EmployeesService.DeleteAsync(deleteEntity);
-            }
-            else
-            {
-                HasDeleteError = true;
-            }
-        }
-        catch
-        {
-            HasDeleteError = true;
-        }
-        finally
-        {
-            IsDeleteLoading = false;
-            showDeleteDialog = false;    
-            deleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
-        }               
-    }
-#endregion DELETE
-}

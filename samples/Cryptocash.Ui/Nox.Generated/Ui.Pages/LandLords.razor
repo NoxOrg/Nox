@@ -30,7 +30,7 @@
         <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
     </MudItem>
     <AddLandLordForm @bind-IsVisible="showAddDialog" OnSubmit="AddLandLordSubmit" OnCancel="HideAddDialog" />
-    <EditLandLordForm @bind-IsVisible="showEditDialog" OnSubmit="EditLandLordSubmit" OnCancel="HideEditDialog" LandLord="selectedEntity" />
+    <EditLandLordForm @bind-IsVisible="showEditDialog" OnSubmit="EditLandLordSubmit" OnCancel="HideEditDialog" LandLord="SelectedEntity" />
     <MudItem xs="12">
         <LandLordsDataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
@@ -74,109 +74,3 @@
             </MudButton>
         </DialogActions>
     </MudDialog>
-
-@code{
-
-private LandLordsDataGrid? referencedDataGrid;
-
-#region ADD
-    private bool showAddDialog = false;
-
-    private void ShowAddDialog()
-    {
-        showAddDialog = true;
-    }
-
-    private void HideAddDialog()
-    {
-        showAddDialog = false;
-    }
-
-    private void AddLandLordSubmit()
-    {
-        showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
-    }
-#endregion ADD
-#region EDIT
-    private bool showEditDialog = false;   
-    
-    [Parameter]
-    public LandLordModel? selectedEntity { get; set; }   
-
-    private void ShowEditDialog(LandLordModel? currentSelected)
-    {
-        selectedEntity = currentSelected;
-        showEditDialog = true;
-    }
-
-    private void HideEditDialog()
-    {
-        showEditDialog = false;
-    }
-
-    private void EditLandLordSubmit()
-    {
-        showEditDialog = false;    
-        selectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
-    }
-#endregion EDIT
-#region DELETE
-    private bool showDeleteDialog = false; 
-    
-    private bool IsDeleteLoading = false;
-
-    private bool HasDeleteError = false;
-    
-    [Parameter]
-    public LandLordModel? deleteEntity { get; set; }   
-
-    public DialogOptions ConfirmationDialogOptions { get; set; } = new()
-    {
-        ClassBackground = "dialog-blur-class",
-        DisableBackdropClick = true,
-        Position = DialogPosition.TopCenter,
-        MaxWidth = MaxWidth.Medium
-    };
-
-    private void ShowDeleteConfirmation(LandLordModel? currentSelected)
-    {
-        deleteEntity = currentSelected;
-        showDeleteDialog = true;
-    }
-
-    private void HideDeleteConfirmation()
-    {
-        showDeleteDialog = false;
-    }
-
-    private async Task DeleteLandLordSubmit()
-    {
-        try
-        {
-            IsDeleteLoading = true;
-
-            if (deleteEntity != null)
-            {
-                await LandLordsService.DeleteAsync(deleteEntity);
-            }
-            else
-            {
-                HasDeleteError = true;
-            }
-        }
-        catch
-        {
-            HasDeleteError = true;
-        }
-        finally
-        {
-            IsDeleteLoading = false;
-            showDeleteDialog = false;    
-            deleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
-        }               
-    }
-#endregion DELETE
-}

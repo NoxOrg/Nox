@@ -18,7 +18,11 @@ end -}}
 
 @inject I{{entity.PluralName}}Service {{entity.PluralName}}Service
 
-<MudTable T="{{entity.Name}}Model" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<{{entity.Name}}Model>>>(ServerReload))"
+          @ref="{{entity.Name}}DataGridTable"
+          CurrentPage="Convert.ToInt32({{entity.PluralName}}Service!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32({{entity.PluralName}}Service!.Paging?.CurrentPageSize)"
+          T="{{entity.Name}}Model" 
           Items="@{{entity.PluralName}}" 
           Loading="@IsLoading"
           Hover="true"                                  
@@ -63,4 +67,7 @@ end -}}
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="{{entity.PluralName}}Service!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

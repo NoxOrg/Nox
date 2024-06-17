@@ -7,12 +7,14 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using {{codeGenConventions.DtoNameSpace}};
 using {{codeGenConventions.UiNameSpace}}.Models;
+using {{codeGenConventions.UiNameSpace}}.Data;
 
 namespace {{codeGenConventions.UiNameSpace}}.Services;
 
 public interface I{{className}}
 {
     public Task<List<{{entity.Name}}Model>> GetAllAsync();
+    public Task<EntityData<{{entity.Name}}Model>?> GetAllFilteredPagedAsync(string? query)
     public Task<{{entity.Name}}Model?> GetByIdAsync(string id);
     public Task<{{entity.Name}}Model?> CreateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
     public Task<{{entity.Name}}Model?> UpdateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
@@ -56,6 +58,22 @@ internal abstract partial class {{className}}Base : I{{className}}
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<{{entity.Name}}Dto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<{{entity.Name}}Model>();
+    }
+
+    public async Task<EntityData<{{entity.Name}}Model>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<{{entity.Name}}Dto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<{{entity.Name}}Model> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<{{entity.Name}}Model>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<{{entity.Name}}Model?> GetByIdAsync(string id)
@@ -123,4 +141,17 @@ internal abstract partial class {{className}}Base : I{{className}}
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
+
+    public Paging Paging { get; set; } = new Paging()
+    {
+        CurrentPage = 0,
+        CurrentPageSize = 10,
+        EntityTotal = 0,
+        PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+    };
 }
