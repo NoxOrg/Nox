@@ -3,7 +3,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Tasks.Ui.Components;
 
-internal class ServiceConfigurationGenerator : INoxFileGenerator
+internal class PagingGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,11 +20,11 @@ internal class ServiceConfigurationGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Configuration.ServiceConfiguration";
+        var templateName = @"Tasks.Ui.Data.Paging";
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
-            .WithClassName($"ServiceConfiguration")
-            .WithFileNamePrefix($"Ui.Configuration")
+            .WithClassName($"Paging")
+            .WithFileNamePrefix($"Ui.Data")
             .GenerateSourceCodeFromResource(templateName);
     }
 }

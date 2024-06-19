@@ -142,16 +142,48 @@ internal abstract partial class {{className}}Base : I{{className}}
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 
-    public Paging Paging { get; set; } = new Paging()
+    public ApiUiService IntialiseApiUiService()
     {
-        CurrentPage = 0,
-        CurrentPageSize = 10,
-        EntityTotal = 0,
-        PageSizeList = new List<int> {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder> {
+            new SortOrder()
+            {
+                PropertyName = "SerialNumber",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            }
+        };
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter> {
+            new SearchFilter()
+            {
+                PropertyName = "SerialNumber",
+                SearchFilterType = SearchFilterType.Eq,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            }
+        };        
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption> {
+            new ShowInSearchResultsOption() {
+                PropertyName = "SerialNumber",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.Always
+            }
+        };
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
                 3,
                 5,
                 10,
                 20
             }
-    };
+        };
+
+        return rtnApiUiService;
+    }
 }

@@ -3,7 +3,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Tasks.Ui.Components;
 
-internal class SearchFilterGenerator : INoxFileGenerator
+internal class ServiceConfigurationGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
@@ -20,11 +20,11 @@ internal class SearchFilterGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Configuration.SearchFilter";
+        var templateName = @"Tasks.Ui.Data.ServiceConfiguration";
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
-            .WithClassName($"SearchFilter")
-            .WithFileNamePrefix($"Ui.Configuration")
+            .WithClassName($"ServiceConfiguration")
+            .WithFileNamePrefix($"Ui.Data")
             .GenerateSourceCodeFromResource(templateName);
     }
 }

@@ -20,11 +20,11 @@ internal class SortOrderGenerator : INoxFileGenerator
             return;
         }
 
-        var templateName = @"Tasks.Ui.Configuration.SortOrder";
+        var templateName = @"Tasks.Ui.Data.SortOrder";
 
         new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
             .WithClassName($"SortOrder")
-            .WithFileNamePrefix($"Ui.Configuration")
+            .WithFileNamePrefix($"Ui.Data")
             .GenerateSourceCodeFromResource(templateName);
     }
 }

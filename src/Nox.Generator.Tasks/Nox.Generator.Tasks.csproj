@@ -45,10 +45,7 @@
 		<Compile Remove="Validation\**" />
 		<EmbeddedResource Remove="Validation\**" />
 		<None Remove="Validation\**" />
-		<None Remove="Ui\Configuration\Paging.scriban-cs" />
-		<None Remove="Ui\Configuration\SearchFilter.scriban-cs" />
-		<None Remove="Ui\Configuration\ServiceConfiguration.scriban-cs" />
-		<None Remove="Ui\Configuration\SortOrder.scriban-cs" />
+		<None Remove="Ui\Data\ApiUiService.scriban-cs" />
 		<None Remove="Ui\Data\EntityData.scriban-cs" />
 		<None Remove="Ui\Enums\SearchFilterLocation.scriban-cs" />
 		<None Remove="Ui\Enums\SearchFilterType.scriban-cs" />

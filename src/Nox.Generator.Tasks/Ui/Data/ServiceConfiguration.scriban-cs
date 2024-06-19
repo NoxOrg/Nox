@@ -2,7 +2,7 @@
 using {{codeGenConventions.UiNameSpace}}.Enum;
 using {{codeGenConventions.UiNameSpace}}.Helper;
 
-namespace {{codeGenConventions.UiNameSpace}}.Configuration;
+namespace {{codeGenConventions.UiNameSpace}}.Data;
 
 public class ServiceConfiguration
 {

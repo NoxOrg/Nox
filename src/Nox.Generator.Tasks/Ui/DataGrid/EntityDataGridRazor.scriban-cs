@@ -38,7 +38,20 @@ end -}}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
-        <MudTh>{{getDisplayLabel attribute}}</MudTh>
+        @if (CurrentApiUiService!.IsPropertyOrdered("{{attribute.Name}}"))
+        {
+            <MudTh>
+                <MudTableSortLabel T="{{attribute.Name}}Model"
+                                    SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "{{attribute.Name}}"))"
+                                    InitialDirection="@GetPropertyMudSortDirection("{{attribute.Name}}")">
+                    {{getDisplayLabel attribute}}
+                </MudTableSortLabel>
+            </MudTh>
+        }
+        else
+        {
+            <MudTh>{{getDisplayLabel attribute}}</MudTh>
+        }
         {{- end }}
         {{- if entity.Persistence.Delete.IsEnabled }}
         <MudTh>Delete</MudTh>

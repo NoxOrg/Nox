@@ -1,10 +1,10 @@
-using Cryptocash.Ui.Generated.Data.ApiSetting;
-using Cryptocash.Ui.Generated.Data.Enum;
-using Cryptocash.Ui.Generated.Data.Helper;
+﻿using {{codeGenConventions.UiNameSpace}}.Data;
+using {{codeGenConventions.UiNameSpace}}.Enum;
+using {{codeGenConventions.UiNameSpace}}.Helper;
 using Microsoft.Extensions.Azure;
 using System.Text;
 
-namespace Cryptocash.Ui.Generated.Data.Generic;
+namespace {{codeGenConventions.UiNameSpace}}.Data;
 
 /// <summary>
 /// ApiUiService which defines and manages Api Data access and Search Filter, View, Order, Paging and Action Settings

@@ -1,6 +1,6 @@
 ﻿using {{codeGenConventions.UiNameSpace}}.Enum;
 
-namespace {{codeGenConventions.UiNameSpace}}.Configuration;
+namespace {{codeGenConventions.UiNameSpace}}.Data;
 
 /// <summary>
 /// Filter class to handle Search filters for Api search query

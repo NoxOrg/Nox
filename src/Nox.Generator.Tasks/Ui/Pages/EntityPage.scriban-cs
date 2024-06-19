@@ -2,6 +2,10 @@
     ret true 
 end -}}
 
+{{- func getViewDrawerEnabled(entity)   
+    ret true 
+end -}}
+
 using Nox.Ui.Blazor.Lib.Components.Generic;
 using Nox.Ui.Blazor.Lib.Services;
 using Nox.Ui.Blazor.Lib.Resources;
@@ -19,9 +23,157 @@ namespace {{codeGenConventions.UiNameSpace}}.Pages;
 public partial class {{className}} : ComponentBase
 {
 
+    public ApiUiService CurrentApiUiService { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentApiUiService = {{entity.PluralName}}Service.IntialiseApiUiService();
+    }
+
+{{- if getSearchEnabled entity }}
+
+#region Search
+
+    public bool IsOpenSearchFilterDrawer = false;
+
+    public bool IsSearchFilterPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.SearchFilterList != null
+                && CurrentApiUiService.SearchFilterList.Any();
+        }
+    }
+
+    public async Task Search()
+    {
+        IsOpenSearchFilterDrawer = false;
+
+        if (IsPagingPopulated)
+        {
+            CurrentApiUiService!.Paging!.ResetPaging();
+        }
+
+        if (IsSearchFilterPopulated)
+        {
+            CurrentApiUiService!.ResetFilterSearchFilterList();
+            CurrentApiUiService!.UpdateMainSearchFilterList(SearchMainValue);
+            CurrentApiUiService!.UpdateFilterSearchFilterList();
+        }
+
+        if (DataGridTable != null)
+        {
+            await DataGridTable!.ReloadServerData();
+        }
+    }
+
+    public async void SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
+    {
+        if (CurrentEvent != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
+        {
+            await Search();
+        }
+    }
+
+    public void OpenSearchFilterDrawer(bool Open)
+    {
+        IsOpenSearchFilterDrawer = Open;
+    }
+
+    public async Task ApplySearchFilterList()
+    {
+        IsOpenSearchFilterDrawer = false;
+
+        if (IsPagingPopulated)
+        {
+            CurrentApiUiService!.Paging!.ResetPaging();
+        }
+
+        if (IsSearchFilterPopulated)
+        {
+            SearchMainValue = string.Empty;
+            CurrentApiUiService!.ResetMainSearchFilterList();
+            CurrentApiUiService!.UpdateMainSearchFilterList(SearchMainValue);
+            CurrentApiUiService!.UpdateFilterSearchFilterList();
+        }
+
+        if (DataGridTable != null)
+        {
+            await DataGridTable!.ReloadServerData();
+        }
+    }
+
+    public void ClearSearchFilter(MouseEventArgs CurrentValue, SearchFilter CurrentFilter)
+    {
+        if (CurrentFilter != null
+            && CurrentValue != null
+            && !string.IsNullOrWhiteSpace(CurrentFilter.PropertyName)
+            && IsSearchFilterPopulated)
+        {
+            CurrentApiUiService!.UpdateSearchFilter(String.Empty, CurrentFilter);
+        }
+    }
+
+    public void ClearMainSearchFilterList()
+    {
+        if (IsSearchFilterPopulated)
+        {
+            SearchMainValue = string.Empty;
+            CurrentApiUiService!.ResetMainSearchFilterList();
+        }
+    }
+
+#endregion
+
+{{- end }}
+
+{{- if getViewDrawerEnabled entity }}
+
+#region View
+
+    public bool IsOpenViewDrawer = false;
+
+    public bool IsViewPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.ViewList != null
+                    && CurrentApiUiService.ViewList.Any();
+        }
+    }
+
+    public void OpenViewDrawer(bool Open)
+    {
+        IsOpenViewDrawer = Open;
+    }
+
+    public void ApplyViewList()
+    {
+        IsOpenViewDrawer = false;
+
+        if (IsViewPopulated)
+        {
+            CurrentApiUiService!.ApplyShowInSearchList();
+        }
+    }
+
+    public void ResetViewList()
+    {
+        IsOpenViewDrawer = false;
+
+        if (IsViewPopulated)
+        {
+            CurrentApiUiService!.ResetShowInSearchList();
+        }
+    }
+
+#endregion
+
+{{- end }}
+
 {{- if entity.Persistence.Create.IsEnabled }}
 
-private {{entity.PluralName}}DataGrid? referencedDataGrid;
+    private {{entity.PluralName}}DataGrid? referencedDataGrid;
 
 #region ADD
     private bool showAddDialog = false;
