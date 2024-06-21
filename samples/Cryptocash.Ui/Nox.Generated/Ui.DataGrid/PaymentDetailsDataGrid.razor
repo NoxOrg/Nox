@@ -8,8 +8,12 @@
 
 @inject IPaymentDetailsService PaymentDetailsService
 
-<MudTable T="PaymentDetailModel" 
-          Items="@PaymentDetails" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<PaymentDetailModel>>>(ServerReload))"
+          @ref="PaymentDetailDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="PaymentDetailModel" 
+          Items="@PaymentDetailsData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,9 +22,57 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Payment Account</MudTh>
-        <MudTh>Account Number</MudTh>
-        <MudTh>Account Sort Code</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentAccountName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentDetailModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentAccountName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentAccountName")">
+                        Payment Account
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Payment Account</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountNumber"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentAccountNumber"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentDetailModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentAccountNumber"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentAccountNumber")">
+                        Account Number
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Account Number</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountSortCode"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentAccountSortCode"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentDetailModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentAccountSortCode"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentAccountSortCode")">
+                        Account Sort Code
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Account Sort Code</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -43,4 +95,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="PaymentDetailsService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

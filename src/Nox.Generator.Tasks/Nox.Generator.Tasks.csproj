@@ -47,6 +47,7 @@
 		<None Remove="Validation\**" />
 		<None Remove="Ui\Data\ApiUiService.scriban-cs" />
 		<None Remove="Ui\Data\EntityData.scriban-cs" />
+		<None Remove="Ui\Data\ShowInSearchResultsOption.scriban-cs" />
 		<None Remove="Ui\Enums\SearchFilterLocation.scriban-cs" />
 		<None Remove="Ui\Enums\SearchFilterType.scriban-cs" />
 		<None Remove="Ui\Enums\ShowInSearchResultsOptionType.scriban-cs" />

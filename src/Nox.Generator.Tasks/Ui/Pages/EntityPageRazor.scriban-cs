@@ -1,22 +1,13 @@
-﻿{{- func getSearchEnabled(entity)   
-    ret true 
-end -}}
-
-{{- func getSearchDrawerEnabled(entity)   
-    ret true 
-end -}}
-
-{{- func getViewDrawerEnabled(entity)   
-    ret true 
-end -}}
-
-@using Nox.Ui.Blazor.Lib.Components.Generic
+﻿@using Nox.Ui.Blazor.Lib.Components.Generic
 @using Nox.Ui.Blazor.Lib.Services
 @using Nox.Ui.Blazor.Lib.Resources
 @using {{codeGenConventions.UiNameSpace}}.Forms.Add
 @using {{codeGenConventions.UiNameSpace}}.Forms.Edit
 @using {{codeGenConventions.UiNameSpace}}.DataGrid
 @using {{codeGenConventions.UiNameSpace}}.Models
+@using {{codeGenConventions.UiNameSpace}}.Helper
+@using {{codeGenConventions.UiNameSpace}}.Enum
+@using {{codeGenConventions.UiNameSpace}}.Data
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using {{codeGenConventions.UiNameSpace}}.Services
 
@@ -38,7 +29,7 @@ end -}}
 <MudText>{{entity.PluralName}}</MudText>
 
 <MudGrid Spacing="0">
-{{- if getSearchEnabled entity }}
+{{- if getSearchEnabled }}
     <MudItem xs="12">
         <MudGrid Spacing="2" Style="margin-top:10px;">
                 <MudItem xs="6">
@@ -61,8 +52,6 @@ end -}}
                                            Color="Color.Info">Search</MudButton>
                             </td>
 
-                            {{- if getSearchDrawerEnabled entity }}
-
                             <td style="padding-left:20px;">
                                 <MudButton OnClick="@(() => OpenSearchFilterDrawer(true))"
                                            Variant="Variant.Text"
@@ -70,9 +59,7 @@ end -}}
                                            Color="Color.Info">Filters</MudButton>
                             </td>
 
-                            {{- end }}
-
-                            {{- if getViewDrawerEnabled entity }}
+                            {{- if getViewDrawerEnabled }}
 
                              <td style="padding-left:20px;">
                                 <MudButton OnClick="@(() => OpenViewDrawer(true))"
@@ -146,7 +133,7 @@ end -}}
     </MudDialog>
 {{- end }}
 
-{{- if getSearchDrawerEnabled entity }}
+{{- if getSearchEnabled }}
 
     @if (IsOpenSearchFilterDrawer)
     {
@@ -193,9 +180,9 @@ end -}}
                                                        Clearable="true"
                                                        OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
                                                        SelectedValues="CurrentApiUiService!.GetSearchFilterValueList(CurrentFilter)">
-                                                @foreach (string CurrentOption in CurrentFilter.SearchValueOptionList)
+                                                @foreach (var CurrentOption in CurrentFilter.SearchValueOptionList)
                                                 {
-                                                    <MudSelectItem Value="@(CurrentOption)" />
+                                                    <MudSelectItem Value="@(CurrentOption.Value)" />
                                                 }
                                             </MudSelect>
                                         }
@@ -242,7 +229,7 @@ end -}}
 
 {{- end }}
 
-{{- if getViewDrawerEnabled entity }}
+{{- if getViewDrawerEnabled }}
 
     @if (IsOpenViewDrawer)
     {

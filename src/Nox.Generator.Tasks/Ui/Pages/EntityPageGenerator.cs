@@ -27,11 +27,20 @@ internal class EntityPageGenerator : INoxFileGenerator
 
         foreach (var entity in entities)
         {
+            var getSearchEnabled = entity.Attributes
+                .Any(a => a.UserInterface?.CanSearch == true);
+
+            var getViewDrawerEnabled = entity.Attributes
+                .Any(a => a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOffByDefault
+                    || a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOnByDefault);
+
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
                 .WithFileExtension("razor.cs")
                 .WithClassName($"{entity.PluralName}")
                 .WithFileNamePrefix($"Ui.Pages")
                 .WithObject("entity", entity)
+                .WithObject("getSearchEnabled", getSearchEnabled)
+                .WithObject("getViewDrawerEnabled", getViewDrawerEnabled)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

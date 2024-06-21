@@ -8,8 +8,12 @@
 
 @inject ICurrenciesService CurrenciesService
 
-<MudTable T="CurrencyModel" 
-          Items="@Currencies" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CurrencyModel>>>(ServerReload))"
+          @ref="CurrencyDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="CurrencyModel" 
+          Items="@CurrenciesData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,19 +22,227 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Currency Name</MudTh>
-        <MudTh>Currency Id</MudTh>
-        <MudTh>Currency Symbol</MudTh>
-        <MudTh>Thousands Separator</MudTh>
-        <MudTh>Decimal Separator</MudTh>
-        <MudTh>Space Between</MudTh>
-        <MudTh>Symbol On Left</MudTh>
-        <MudTh>Decimal Digits</MudTh>
-        <MudTh>Major Name</MudTh>
-        <MudTh>Major Symbol</MudTh>
-        <MudTh>Minor Name</MudTh>
-        <MudTh>Minor Symbol</MudTh>
-        <MudTh>Minor to Major Value</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Name"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Name"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Name")">
+                        Currency Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Currency Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CurrencyIsoNumeric"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("CurrencyIsoNumeric"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CurrencyIsoNumeric"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("CurrencyIsoNumeric")">
+                        Currency Id
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Currency Id</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Symbol"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Symbol"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Symbol"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Symbol")">
+                        Currency Symbol
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Currency Symbol</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("ThousandsSeparator"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("ThousandsSeparator"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "ThousandsSeparator"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("ThousandsSeparator")">
+                        Thousands Separator
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Thousands Separator</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("DecimalSeparator"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("DecimalSeparator"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "DecimalSeparator"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("DecimalSeparator")">
+                        Decimal Separator
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Decimal Separator</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SpaceBetweenAmountAndSymbol"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("SpaceBetweenAmountAndSymbol"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "SpaceBetweenAmountAndSymbol"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("SpaceBetweenAmountAndSymbol")">
+                        Space Between
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Space Between</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SymbolOnLeft"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("SymbolOnLeft"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "SymbolOnLeft"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("SymbolOnLeft")">
+                        Symbol On Left
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Symbol On Left</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("DecimalDigits"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("DecimalDigits"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "DecimalDigits"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("DecimalDigits")">
+                        Decimal Digits
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Decimal Digits</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MajorName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MajorName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MajorName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MajorName")">
+                        Major Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Major Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MajorSymbol"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MajorSymbol"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MajorSymbol"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MajorSymbol")">
+                        Major Symbol
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Major Symbol</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MinorName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MinorName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MinorName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MinorName")">
+                        Minor Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Minor Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MinorSymbol"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MinorSymbol"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MinorSymbol"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MinorSymbol")">
+                        Minor Symbol
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Minor Symbol</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MinorToMajorValue"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MinorToMajorValue"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CurrencyModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MinorToMajorValue"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MinorToMajorValue")">
+                        Minor to Major Value
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Minor to Major Value</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -83,4 +295,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrenciesService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

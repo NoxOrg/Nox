@@ -5,6 +5,9 @@
 @using Cryptocash.Ui.Forms.Edit
 @using Cryptocash.Ui.DataGrid
 @using Cryptocash.Ui.Models
+@using Cryptocash.Ui.Helper
+@using Cryptocash.Ui.Enum
+@using Cryptocash.Ui.Data
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Cryptocash.Ui.Services
 
@@ -24,7 +27,44 @@
 
 <MudGrid Spacing="0">
     <MudItem xs="12">
-        <MudText>Search section</MudText>
+        <MudGrid Spacing="2" Style="margin-top:10px;">
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="@SearchMainValue"
+                                  Label="Search"
+                                  Variant="Variant.Outlined"
+                                  FullWidth="true"
+                                  Clearable="true"
+                                  OnClearButtonClick="@(() => ClearMainSearchFilterList())"
+                                  OnKeyUp="@(e=>SearchEnterSubmit(e))"
+                                  Placeholder="@CurrentApiUiService!.SearchLabel"></MudTextField>
+                </MudItem>
+                <MudItem xs="3" Class="align-left justify-left" Style="margin-top:15px;">
+                    <table>
+                        <tr>
+                            <td style="padding-left:10px;">
+                                <MudButton OnClick="Search"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Search"
+                                           Color="Color.Info">Search</MudButton>
+                            </td>
+
+                            <td style="padding-left:20px;">
+                                <MudButton OnClick="@(() => OpenSearchFilterDrawer(true))"
+                                           Variant="Variant.Text"
+                                           StartIcon="@Icons.Material.Filled.FilterAlt"
+                                           Color="Color.Info">Filters</MudButton>
+                            </td>
+
+                             <td style="padding-left:20px;">
+                                <MudButton OnClick="@(() => OpenViewDrawer(true))"
+                                           Variant="Variant.Text"
+                                           StartIcon="@Icons.Material.Filled.DisplaySettings"
+                                           Color="Color.Info">View</MudButton>
+                            </td>                           
+                        </tr>
+                    </table>
+                </MudItem>
+            </MudGrid>
     </MudItem>
     <MudItem xs="12" Style="margin:15px 0px 15px 0px;text-align:right;">
         <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
@@ -32,7 +72,7 @@
     <AddBookingForm @bind-IsVisible="showAddDialog" OnSubmit="AddBookingSubmit" OnCancel="HideAddDialog" />
     <EditBookingForm @bind-IsVisible="showEditDialog" OnSubmit="EditBookingSubmit" OnCancel="HideEditDialog" Booking="SelectedEntity" />
     <MudItem xs="12">
-        <BookingsDataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
+        <BookingsDataGrid @ref="referencedDataGrid" bind-CurrentApiUiService="@CurrentApiUiService" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
 </MudGrid>
 <MudDialog @bind-IsVisible="showDeleteDialog" Options="ConfirmationDialogOptions">
@@ -74,3 +114,154 @@
             </MudButton>
         </DialogActions>
     </MudDialog>
+
+    @if (IsOpenSearchFilterDrawer)
+    {
+        <MudDrawer @bind-Open="IsOpenSearchFilterDrawer"
+                   Width="400px"
+                   Height="100%"
+                   Anchor="Anchor.End"
+                   Elevation="1"
+                   Variant="@DrawerVariant.Temporary">
+            <MudDrawerHeader>
+                <table style="width:100%">
+                    <tr>
+                        <td style="text-align:left">
+                            <MudText Typo="Typo.h6">@NoxResources.Filters</MudText>
+                        </td>
+                        <td style="text-align:right">
+                            <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                           Color="Color.Info"
+                                           OnClick="@(() => OpenSearchFilterDrawer(false))"></MudIconButton>
+                        </td>
+                    </tr>
+                </table>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                @if (IsSearchFilterPopulated)
+                {
+                    <table style="width:100%;">
+                        @foreach (SearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == SearchFilterLocation.FilterSearch))
+                        {
+                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+
+                            if (CurrentFilter.IsDropdownSelection)
+                            {
+                                <tr>
+                                    <td style="padding:15px 25px 0px 25px;">
+                                        @if (CurrentFilter.SearchValueOptionList != null)
+                                        {
+                                            <MudSelect Dense="true"
+                                                       T="string"
+                                                       Label="@LabelName"
+                                                       Variant="Variant.Outlined"
+                                                       Placeholder="@NoxResources.PleaseSelect"
+                                                       ValueChanged="@(e=>CurrentApiUiService!.UpdateSearchFilter(e,CurrentFilter))"
+                                                       Clearable="true"
+                                                       OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
+                                                       SelectedValues="CurrentApiUiService!.GetSearchFilterValueList(CurrentFilter)">
+                                                @foreach (var CurrentOption in CurrentFilter.SearchValueOptionList)
+                                                {
+                                                    <MudSelectItem Value="@(CurrentOption.Value)" />
+                                                }
+                                            </MudSelect>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td style="padding:15px 25px 0px 25px;">
+                                        <MudTextField Label="@LabelName"
+                                                      Variant="Variant.Outlined"
+                                                      FullWidth="true"
+                                                      TextChanged="@(e=>CurrentApiUiService!.UpdateSearchFilter(e,CurrentFilter))"
+                                                      OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
+                                                      T="string"
+                                                      Clearable="true"
+                                                      Value="CurrentApiUiService!.GetSearchFilterValue(CurrentFilter)"></MudTextField>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <table style="width:100%;margin-top:20px;">
+                        <tr>
+                            <td style="text-align:left;padding:25px;width:50%;">
+                                <MudButton OnClick="@(() => CurrentApiUiService!.ResetFilterSearchFilterList())"
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Info"
+                                           FullWidth="true">@NoxResources.ClearAll</MudButton>
+                            </td>
+                            <td style="text-align:right;padding:25px;width:50%;">
+                                <MudButton OnClick="ApplySearchFilterList"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Info"
+                                           FullWidth="true">@NoxResources.Apply</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </MudNavMenu>
+        </MudDrawer>
+    }
+
+    @if (IsOpenViewDrawer)
+    {
+        <MudDrawer @bind-Open="IsOpenViewDrawer"
+                   Width="400px"
+                   Height="100%"
+                   Anchor="Anchor.End"
+                   Elevation="1"
+                   Variant="@DrawerVariant.Temporary">
+            <MudDrawerHeader>
+                <table style="width:100%">
+                    <tr>
+                        <td style="text-align:left;">
+                            <MudText Typo="Typo.h6">@NoxResources.ViewColumns</MudText>
+                        </td>
+                        <td style="text-align:right">
+                            <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                           Color="Color.Info"
+                                           OnClick="@(() => OpenViewDrawer(false))"></MudIconButton>
+                        </td>
+                    </tr>
+                </table>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                @if (IsViewPopulated)
+                {
+                    @foreach (ShowInSearchResultsOption CurrentFilter in CurrentApiUiService!.ViewList!)
+                    {
+                        string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+                        bool IsChecked = (CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.OptionalAndOnByDefault)
+                        || CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.Always));
+                        <MudSwitch Label="@labelName"
+                                   Color="Color.Info"
+                                   Value="IsChecked"
+                                   ValueChanged="@(e=>CurrentApiUiService!.UpdateShowInSearch(e,CurrentFilter))"
+                                   T="bool"
+                                   Style="padding:15px 0px 0px 25px;"
+                                   Disabled="CurrentFilter.IsSetViewDisabled" />
+                    }
+                    <table style="width:100%;margin-top:20px;">
+                        <tr>
+                            <td style="text-align:left;padding:25px;width:50%;">
+                                <MudButton OnClick="ResetViewList"
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Info"
+                                           FullWidth="true">@NoxResources.DefaultView</MudButton>
+                            </td>
+                            <td style="text-align:right;padding:25px;width:50%;">
+                                <MudButton OnClick="ApplyViewList"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Info"
+                                           FullWidth="true">@NoxResources.Apply</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </MudNavMenu>
+        </MudDrawer>
+    }

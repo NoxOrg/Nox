@@ -8,8 +8,12 @@
 
 @inject IMinimumCashStocksService MinimumCashStocksService
 
-<MudTable T="MinimumCashStockModel" 
-          Items="@MinimumCashStocks" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<MinimumCashStockModel>>>(ServerReload))"
+          @ref="MinimumCashStockDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="MinimumCashStockModel" 
+          Items="@MinimumCashStocksData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,7 +22,23 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Amount</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Amount"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Amount"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="MinimumCashStockModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Amount"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Amount")">
+                        Amount
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Amount</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -35,4 +55,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="MinimumCashStocksService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

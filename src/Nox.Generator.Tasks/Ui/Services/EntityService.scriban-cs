@@ -8,17 +8,19 @@ using Nox.Ui.Blazor.Lib.Contracts;
 using {{codeGenConventions.DtoNameSpace}};
 using {{codeGenConventions.UiNameSpace}}.Models;
 using {{codeGenConventions.UiNameSpace}}.Data;
+using {{codeGenConventions.UiNameSpace}}.Enum;
 
 namespace {{codeGenConventions.UiNameSpace}}.Services;
 
 public interface I{{className}}
 {
     public Task<List<{{entity.Name}}Model>> GetAllAsync();
-    public Task<EntityData<{{entity.Name}}Model>?> GetAllFilteredPagedAsync(string? query)
+    public Task<EntityData<{{entity.Name}}Model>?> GetAllFilteredPagedAsync(string? query);
     public Task<{{entity.Name}}Model?> GetByIdAsync(string id);
     public Task<{{entity.Name}}Model?> CreateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
     public Task<{{entity.Name}}Model?> UpdateAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
     public Task DeleteAsync({{entity.Name}}Model {{ToLowerFirstChar entity.Name}});
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class {{className}} : {{className}}Base
@@ -146,30 +148,105 @@ internal abstract partial class {{className}}Base : I{{className}}
     {
         ApiUiService rtnApiUiService = new();
 
-        rtnApiUiService.OrderList = new List<SortOrder> {
-            new SortOrder()
+        rtnApiUiService.OrderList = new List<SortOrder>();            
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesByOrder | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.OrderList.Add(new SortOrder()
             {
-                PropertyName = "SerialNumber",
+                PropertyName = "{{attribute.Name}}",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
-            }
-        };
+            });
+        {{- end }}
 
-        rtnApiUiService.SearchFilterList = new List<SearchFilter> {
-            new SearchFilter()
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesBySearchTypeEqual | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
-                PropertyName = "SerialNumber",
+                PropertyName = "{{attribute.Name}}",
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
-            }
-        };        
+            });
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption> {
-            new ShowInSearchResultsOption() {
-                PropertyName = "SerialNumber",
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "{{attribute.Name}}",
+                SearchFilterType = SearchFilterType.Eq,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+        {{- end }}
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesBySearchTypeContains | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "{{attribute.Name}}",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "{{attribute.Name}}",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+        {{- end }}               
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>(); 
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesByViewTypeAlways | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "{{attribute.Name}}",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.Always
-            }
-        };
+            });
+        {{- end }}  
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesByViewTypeNever | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "{{attribute.Name}}",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.Never
+            });
+        {{- end }}  
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesByViewTypeOptionalOff | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "{{attribute.Name}}",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
+            });
+        {{- end }}
+
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesByViewTypeOptionalOn | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "{{attribute.Name}}",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+        {{- end }}        
 
         rtnApiUiService.Paging = new Paging()
         {

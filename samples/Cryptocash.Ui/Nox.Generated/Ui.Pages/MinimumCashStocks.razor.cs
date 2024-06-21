@@ -5,9 +5,11 @@ using Cryptocash.Ui.Forms.Add;
 using Cryptocash.Ui.Forms.Edit;
 using Cryptocash.Ui.DataGrid;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
 using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources;
 using Cryptocash.Ui.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
 namespace Cryptocash.Ui.Pages;
@@ -15,7 +17,163 @@ namespace Cryptocash.Ui.Pages;
 public partial class MinimumCashStocks : ComponentBase
 {
 
-private MinimumCashStocksDataGrid? referencedDataGrid;
+    public ApiUiService CurrentApiUiService { get; set; } = new();
+
+    private MinimumCashStocksDataGrid? referencedDataGrid;
+
+
+
+    protected override void OnInitialized()
+    {
+        CurrentApiUiService = MinimumCashStocksService.IntialiseApiUiService();
+    }
+
+#region Paging
+
+   public bool IsPagingPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.Paging != null;
+        }
+    }
+
+#endregion
+
+#region Search
+
+    private bool IsOpenSearchFilterDrawer = false;
+
+    public string SearchMainValue { get; set; } = string.Empty;
+
+    public bool IsSearchFilterPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.SearchFilterList != null
+                && CurrentApiUiService.SearchFilterList.Count > 0;
+        }
+    }
+
+    public async Task Search()
+    {
+        IsOpenSearchFilterDrawer = false;
+
+        if (IsPagingPopulated)
+        {
+            CurrentApiUiService!.Paging!.ResetPaging();
+        }
+
+        if (IsSearchFilterPopulated)
+        {
+            CurrentApiUiService!.ResetFilterSearchFilterList();
+            CurrentApiUiService!.UpdateMainSearchFilterList(SearchMainValue);
+            CurrentApiUiService!.UpdateFilterSearchFilterList();
+        }
+
+        if (referencedDataGrid != null)
+        {
+            await referencedDataGrid.Search();
+        }
+    }
+
+    public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
+    {
+        if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
+        {
+            await referencedDataGrid.Search();
+        }
+    }
+
+    public void OpenSearchFilterDrawer(bool Open)
+    {
+        IsOpenSearchFilterDrawer = Open;
+    }
+
+    public async Task ApplySearchFilterList()
+    {
+        IsOpenSearchFilterDrawer = false;
+
+        if (IsPagingPopulated)
+        {
+            CurrentApiUiService!.Paging!.ResetPaging();
+        }
+
+        if (IsSearchFilterPopulated)
+        {
+            SearchMainValue = string.Empty;
+            CurrentApiUiService!.ResetMainSearchFilterList();
+            CurrentApiUiService!.UpdateMainSearchFilterList(SearchMainValue);
+            CurrentApiUiService!.UpdateFilterSearchFilterList();
+        }
+
+        if (referencedDataGrid != null)
+        {
+            await referencedDataGrid.Search();
+        }
+    }
+
+    public void ClearSearchFilter(MouseEventArgs CurrentValue, SearchFilter CurrentFilter)
+    {
+        if (CurrentFilter != null
+            && CurrentValue != null
+            && !string.IsNullOrWhiteSpace(CurrentFilter.PropertyName)
+            && IsSearchFilterPopulated)
+        {
+            CurrentApiUiService!.UpdateSearchFilter(String.Empty, CurrentFilter);
+        }
+    }
+
+    public void ClearMainSearchFilterList()
+    {
+        if (IsSearchFilterPopulated)
+        {
+            SearchMainValue = string.Empty;
+            CurrentApiUiService!.ResetMainSearchFilterList();
+        }
+    }
+
+#endregion
+
+#region View
+
+    private bool IsOpenViewDrawer = false;
+
+    public bool IsViewPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.ViewList != null
+                    && CurrentApiUiService.ViewList.Count > 0;
+        }
+    }
+
+    public void OpenViewDrawer(bool Open)
+    {
+        IsOpenViewDrawer = Open;
+    }
+
+    public void ApplyViewList()
+    {
+        IsOpenViewDrawer = false;
+
+        if (IsViewPopulated)
+        {
+            CurrentApiUiService!.ApplyShowInSearchList();
+        }
+    }
+
+    public void ResetViewList()
+    {
+        IsOpenViewDrawer = false;
+
+        if (IsViewPopulated)
+        {
+            CurrentApiUiService!.ResetShowInSearchList();
+        }
+    }
+
+#endregion    
 
 #region ADD
     private bool showAddDialog = false;

@@ -1,6 +1,6 @@
 ﻿using Cryptocash.Ui.Enum;
 
-namespace Cryptocash.Ui.Configuration;
+namespace Cryptocash.Ui.Data;
 
 /// <summary>
 /// Filter class to handle Search filters for Api search query

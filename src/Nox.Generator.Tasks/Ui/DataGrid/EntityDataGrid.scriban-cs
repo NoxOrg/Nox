@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 using {{codeGenConventions.UiNameSpace}}.Models;
+using {{codeGenConventions.UiNameSpace}}.Data;
 using {{codeGenConventions.UiNameSpace}}.Services;
+using {{codeGenConventions.UiNameSpace}}.Enum;
+using MudBlazor;
 
 namespace {{codeGenConventions.UiNameSpace}}.DataGrid;
 
@@ -35,14 +38,20 @@ public partial class {{className}} : ComponentBase
         CurrentApiUiService.ResetOrderList();  
         CurrentApiUiService.ResetShowInSearchList();
 
-
+        await Search();
 
         IsLoading = false;
     }
 
+    public async Task RefreshDataGrid()
+    {
+        await Search();
+        StateHasChanged();
+    }
+
     #region Data
 
-    public async Task<TableData<T>> ServerReload(TableState State)
+    public async Task<TableData<{{entity.Name}}Model>> ServerReload(TableState State)
     {
         if (IsPagingPopulated)
         {
@@ -52,7 +61,7 @@ public partial class {{className}} : ComponentBase
 
         await GetApiEntityData();
 
-        return new TableData<T>() { TotalItems = Convert.ToInt32(ApiEntityData?.EntityTotal), Items = PagedData };
+        return new TableData<{{entity.Name}}Model>() { TotalItems = Convert.ToInt32({{entity.Name}}EntityData?.EntityTotal), Items = PagedData };
     }
 
     public bool IsPagingPopulated
@@ -67,20 +76,20 @@ public partial class {{className}} : ComponentBase
     {
         string CurrentApiQuery = CurrentApiUiService!.ApiGetQuery;
 
-        if (ApiEntityData == null
+        if ({{entity.Name}}EntityData == null
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            ApiEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            {{entity.Name}}EntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
 
             PreviousAPiQuery = CurrentApiQuery;
 
             if (IsPagingPopulated)
             {
-                CurrentApiUiService!.Paging!.SetEntityTotal(ApiEntityData?.EntityTotal);
+                CurrentApiUiService!.Paging!.SetEntityTotal({{entity.Name}}EntityData?.EntityTotal);
             }
 
-            PagedData = ApiEntityData?.EntityList;
+            PagedData = {{entity.Name}}EntityData?.EntityList;
         }
     }
 
@@ -161,7 +170,7 @@ public partial class {{className}} : ComponentBase
                         OrderType = SortOrderDirection.Descending;
                         break;
                 }
-                CurrentApiUiService?.OrderList?[Convert.ToInt32(Index)].UpdateCurrentOrderDirection(OrderType);
+                CurrentApiUiService.OrderList?[Convert.ToInt32(Index)].UpdateCurrentOrderDirection(OrderType);
             }
 
             CurrentApiUiService!.SwitchOffOtherOrderList(PropertyName);

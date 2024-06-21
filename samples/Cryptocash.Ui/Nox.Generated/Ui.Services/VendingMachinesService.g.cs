@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IVendingMachinesService
 {
     public Task<List<VendingMachineModel>> GetAllAsync();
+    public Task<EntityData<VendingMachineModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<VendingMachineModel?> GetByIdAsync(string id);
     public Task<VendingMachineModel?> CreateAsync(VendingMachineModel vendingMachine);
     public Task<VendingMachineModel?> UpdateAsync(VendingMachineModel vendingMachine);
     public Task DeleteAsync(VendingMachineModel vendingMachine);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class VendingMachinesService : VendingMachinesServiceBase
@@ -56,6 +60,22 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<VendingMachineDto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<VendingMachineModel>();
+    }
+
+    public async Task<EntityData<VendingMachineModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<VendingMachineDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<VendingMachineModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<VendingMachineModel>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<VendingMachineModel?> GetByIdAsync(string id)
@@ -122,5 +142,164 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
         }
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "MacAddress",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "PublicIp",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "GeoLocation",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "StreetAddress",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "SerialNumber",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "InstallationFootPrint",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "RentPerSquareMetre",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MacAddress",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MacAddress",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PublicIp",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PublicIp",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "GeoLocation",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "GeoLocation",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "StreetAddress",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "StreetAddress",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "SerialNumber",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "SerialNumber",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "InstallationFootPrint",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "InstallationFootPrint",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RentPerSquareMetre",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RentPerSquareMetre",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });               
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

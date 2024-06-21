@@ -1,6 +1,6 @@
 ﻿using Cryptocash.Ui.Enum;
 
-namespace Cryptocash.Ui.Configuration;
+namespace Cryptocash.Ui.Data;
 
 /// <summary>
 /// Setting class to define column order options used on returned result entities from target Api in the Ui

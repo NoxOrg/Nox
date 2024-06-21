@@ -1,4 +1,4 @@
-﻿namespace Cryptocash.Ui.Configuration;
+﻿namespace Cryptocash.Ui.Data;
 
 /// <summary>
 /// Setting class to define Pagination filter options used on returned result entities from target Api in the Ui

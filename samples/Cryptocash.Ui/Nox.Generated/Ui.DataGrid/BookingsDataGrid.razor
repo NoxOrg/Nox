@@ -8,8 +8,12 @@
 
 @inject IBookingsService BookingsService
 
-<MudTable T="BookingModel" 
-          Items="@Bookings" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<BookingModel>>>(ServerReload))"
+          @ref="BookingDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="BookingModel" 
+          Items="@BookingsData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,14 +22,142 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Amount From</MudTh>
-        <MudTh>Amount To</MudTh>
-        <MudTh>Requested Pick Up Date</MudTh>
-        <MudTh>Picked Up Date</MudTh>
-        <MudTh>Expiry Date</MudTh>
-        <MudTh>Cancelled Date</MudTh>
-        <MudTh>Status</MudTh>
-        <MudTh>Vat Number</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("AmountFrom"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("AmountFrom"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "AmountFrom"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("AmountFrom")">
+                        Amount From
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Amount From</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("AmountTo"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("AmountTo"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "AmountTo"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("AmountTo")">
+                        Amount To
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Amount To</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RequestedPickUpDate"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("RequestedPickUpDate"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "RequestedPickUpDate"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("RequestedPickUpDate")">
+                        Requested Pick Up Date
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Requested Pick Up Date</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PickedUpDateTime"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PickedUpDateTime"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PickedUpDateTime"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PickedUpDateTime")">
+                        Picked Up Date
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Picked Up Date</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("ExpiryDateTime"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("ExpiryDateTime"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "ExpiryDateTime"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("ExpiryDateTime")">
+                        Expiry Date
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Expiry Date</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CancelledDateTime"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("CancelledDateTime"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CancelledDateTime"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("CancelledDateTime")">
+                        Cancelled Date
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Cancelled Date</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Status"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Status"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Status"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Status")">
+                        Status
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Status</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("VatNumber"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("VatNumber"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="BookingModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "VatNumber"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("VatNumber")">
+                        Vat Number
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Vat Number</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -63,4 +195,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="BookingsService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

@@ -8,8 +8,12 @@
 
 @inject IEmployeesService EmployeesService
 
-<MudTable T="EmployeeModel" 
-          Items="@Employees" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<EmployeeModel>>>(ServerReload))"
+          @ref="EmployeeDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="EmployeeModel" 
+          Items="@EmployeesData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,12 +22,108 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>First Name</MudTh>
-        <MudTh>Last Name</MudTh>
-        <MudTh>Email</MudTh>
-        <MudTh>Address</MudTh>
-        <MudTh>First Day</MudTh>
-        <MudTh>Last Day</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FirstName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("FirstName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="EmployeeModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "FirstName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("FirstName")">
+                        First Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>First Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("LastName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("LastName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="EmployeeModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "LastName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("LastName")">
+                        Last Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Last Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EmailAddress"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("EmailAddress"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="EmployeeModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "EmailAddress"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("EmailAddress")">
+                        Email
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Email</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Address"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Address"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="EmployeeModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Address"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Address")">
+                        Address
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Address</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FirstWorkingDay"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("FirstWorkingDay"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="EmployeeModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "FirstWorkingDay"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("FirstWorkingDay")">
+                        First Day
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>First Day</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("LastWorkingDay"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("LastWorkingDay"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="EmployeeModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "LastWorkingDay"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("LastWorkingDay")">
+                        Last Day
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Last Day</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -55,4 +155,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="EmployeesService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

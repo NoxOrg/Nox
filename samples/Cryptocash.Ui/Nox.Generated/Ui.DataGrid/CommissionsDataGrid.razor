@@ -8,8 +8,12 @@
 
 @inject ICommissionsService CommissionsService
 
-<MudTable T="CommissionModel" 
-          Items="@Commissions" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CommissionModel>>>(ServerReload))"
+          @ref="CommissionDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="CommissionModel" 
+          Items="@CommissionsData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,8 +22,40 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Commission Rate</MudTh>
-        <MudTh>Effective At</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Rate"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Rate"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CommissionModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Rate"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Rate")">
+                        Commission Rate
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Commission Rate</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EffectiveAt"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("EffectiveAt"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CommissionModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "EffectiveAt"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("EffectiveAt")">
+                        Effective At
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Effective At</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -39,4 +75,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CommissionsService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

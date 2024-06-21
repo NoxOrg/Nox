@@ -2,7 +2,7 @@
 using Cryptocash.Ui.Enum;
 using Cryptocash.Ui.Helper;
 
-namespace Cryptocash.Ui.Configuration;
+namespace Cryptocash.Ui.Data;
 
 public class ServiceConfiguration
 {

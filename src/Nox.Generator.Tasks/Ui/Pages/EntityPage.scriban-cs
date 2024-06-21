@@ -1,21 +1,15 @@
-﻿{{- func getSearchEnabled(entity)   
-    ret true 
-end -}}
-
-{{- func getViewDrawerEnabled(entity)   
-    ret true 
-end -}}
-
-using Nox.Ui.Blazor.Lib.Components.Generic;
+﻿using Nox.Ui.Blazor.Lib.Components.Generic;
 using Nox.Ui.Blazor.Lib.Services;
 using Nox.Ui.Blazor.Lib.Resources;
 using {{codeGenConventions.UiNameSpace}}.Forms.Add;
 using {{codeGenConventions.UiNameSpace}}.Forms.Edit;
 using {{codeGenConventions.UiNameSpace}}.DataGrid;
 using {{codeGenConventions.UiNameSpace}}.Models;
+using {{codeGenConventions.UiNameSpace}}.Data;
 using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources;
 using {{codeGenConventions.UiNameSpace}}.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
 namespace {{codeGenConventions.UiNameSpace}}.Pages;
@@ -25,23 +19,41 @@ public partial class {{className}} : ComponentBase
 
     public ApiUiService CurrentApiUiService { get; set; } = new();
 
-    protected override async Task OnInitializedAsync()
+    private {{entity.PluralName}}DataGrid? referencedDataGrid;
+
+
+
+    protected override void OnInitialized()
     {
         CurrentApiUiService = {{entity.PluralName}}Service.IntialiseApiUiService();
     }
 
-{{- if getSearchEnabled entity }}
+#region Paging
+
+   public bool IsPagingPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.Paging != null;
+        }
+    }
+
+#endregion
+
+{{- if getSearchEnabled }}
 
 #region Search
 
-    public bool IsOpenSearchFilterDrawer = false;
+    private bool IsOpenSearchFilterDrawer = false;
+
+    public string SearchMainValue { get; set; } = string.Empty;
 
     public bool IsSearchFilterPopulated
     {
         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -61,17 +73,17 @@ public partial class {{className}} : ComponentBase
             CurrentApiUiService!.UpdateFilterSearchFilterList();
         }
 
-        if (DataGridTable != null)
+        if (referencedDataGrid != null)
         {
-            await DataGridTable!.ReloadServerData();
+            await referencedDataGrid.Search();
         }
     }
 
-    public async void SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
+    public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
     {
-        if (CurrentEvent != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
+        if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
         {
-            await Search();
+            await referencedDataGrid.Search();
         }
     }
 
@@ -97,9 +109,9 @@ public partial class {{className}} : ComponentBase
             CurrentApiUiService!.UpdateFilterSearchFilterList();
         }
 
-        if (DataGridTable != null)
+        if (referencedDataGrid != null)
         {
-            await DataGridTable!.ReloadServerData();
+            await referencedDataGrid.Search();
         }
     }
 
@@ -127,18 +139,18 @@ public partial class {{className}} : ComponentBase
 
 {{- end }}
 
-{{- if getViewDrawerEnabled entity }}
+{{- if getViewDrawerEnabled }}
 
 #region View
 
-    public bool IsOpenViewDrawer = false;
+    private bool IsOpenViewDrawer = false;
 
     public bool IsViewPopulated
     {
         get
         {
             return CurrentApiUiService.ViewList != null
-                    && CurrentApiUiService.ViewList.Any();
+                    && CurrentApiUiService.ViewList.Count > 0;
         }
     }
 
@@ -171,9 +183,7 @@ public partial class {{className}} : ComponentBase
 
 {{- end }}
 
-{{- if entity.Persistence.Create.IsEnabled }}
-
-    private {{entity.PluralName}}DataGrid? referencedDataGrid;
+{{- if entity.Persistence.Create.IsEnabled }}    
 
 #region ADD
     private bool showAddDialog = false;

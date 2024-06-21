@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IMinimumCashStocksService
 {
     public Task<List<MinimumCashStockModel>> GetAllAsync();
+    public Task<EntityData<MinimumCashStockModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<MinimumCashStockModel?> GetByIdAsync(string id);
     public Task<MinimumCashStockModel?> CreateAsync(MinimumCashStockModel minimumCashStock);
     public Task<MinimumCashStockModel?> UpdateAsync(MinimumCashStockModel minimumCashStock);
     public Task DeleteAsync(MinimumCashStockModel minimumCashStock);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class MinimumCashStocksService : MinimumCashStocksServiceBase
@@ -56,6 +60,22 @@ internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStock
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<MinimumCashStockDto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<MinimumCashStockModel>();
+    }
+
+    public async Task<EntityData<MinimumCashStockModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<MinimumCashStockDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<MinimumCashStockModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<MinimumCashStockModel>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<MinimumCashStockModel?> GetByIdAsync(string id)
@@ -122,5 +142,50 @@ internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStock
         }
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "Amount",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });               
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

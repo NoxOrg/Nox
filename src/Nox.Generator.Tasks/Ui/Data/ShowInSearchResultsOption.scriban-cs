@@ -1,10 +1,10 @@
-using Cryptocash.Ui.Generated.Data.Enum;
+﻿using {{codeGenConventions.UiNameSpace}}.Enum;
 
-namespace Cryptocash.Ui.Generated.Data.ApiSetting;
+namespace {{codeGenConventions.UiNameSpace}}.Data;
 
-    /// <summary>
-    /// Setting class to define column ShowInSearchResultsOption used on returned result entities from target Api in the Ui
-    /// </summary>
+/// <summary>
+/// Setting class to define column ShowInSearchResultsOption used on returned result entities from target Api in the Ui
+/// </summary>
 public class ShowInSearchResultsOption
 {
     private ShowInSearchResultsType? _currentShowInSearchResultsOption = null;

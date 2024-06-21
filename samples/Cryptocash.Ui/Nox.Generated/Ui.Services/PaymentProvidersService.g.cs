@@ -7,18 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
-using Cryptocash.Ui.Generated.Data.Generic;
-using Cryptocash.Ui.Configuration;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IPaymentProvidersService
 {
     public Task<List<PaymentProviderModel>> GetAllAsync();
+    public Task<EntityData<PaymentProviderModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<PaymentProviderModel?> GetByIdAsync(string id);
     public Task<PaymentProviderModel?> CreateAsync(PaymentProviderModel paymentProvider);
     public Task<PaymentProviderModel?> UpdateAsync(PaymentProviderModel paymentProvider);
     public Task DeleteAsync(PaymentProviderModel paymentProvider);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class PaymentProvidersService : PaymentProvidersServiceBase
@@ -142,16 +144,67 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
     }
 
-    public Paging Paging { get; set; } = new Paging()
+    public ApiUiService IntialiseApiUiService()
     {
-        CurrentPage = 0,
-        CurrentPageSize = 10,
-        EntityTotal = 0,
-        PageSizeList = new List<int> {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "PaymentProviderName",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "PaymentProviderType",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentProviderName",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentProviderName",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentProviderType",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentProviderType",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });               
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
                 3,
                 5,
                 10,
                 20
             }
-    };
+        };
+
+        return rtnApiUiService;
+    }
 }

@@ -20,10 +20,10 @@ end -}}
 
 <MudTable ServerData="@(new Func<TableState, Task<TableData<{{entity.Name}}Model>>>(ServerReload))"
           @ref="{{entity.Name}}DataGridTable"
-          CurrentPage="Convert.ToInt32({{entity.PluralName}}Service!.Paging?.CurrentPage)"
-          RowsPerPage="Convert.ToInt32({{entity.PluralName}}Service!.Paging?.CurrentPageSize)"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
           T="{{entity.Name}}Model" 
-          Items="@{{entity.PluralName}}" 
+          Items="@{{entity.PluralName}}Data" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -38,19 +38,22 @@ end -}}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
-        @if (CurrentApiUiService!.IsPropertyOrdered("{{attribute.Name}}"))
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("{{attribute.Name}}"))
         {
-            <MudTh>
-                <MudTableSortLabel T="{{attribute.Name}}Model"
-                                    SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "{{attribute.Name}}"))"
-                                    InitialDirection="@GetPropertyMudSortDirection("{{attribute.Name}}")">
-                    {{getDisplayLabel attribute}}
-                </MudTableSortLabel>
-            </MudTh>
-        }
-        else
-        {
-            <MudTh>{{getDisplayLabel attribute}}</MudTh>
+            @if (CurrentApiUiService!.IsPropertyOrdered("{{attribute.Name}}"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="{{entity.Name}}Model"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "{{attribute.Name}}"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("{{attribute.Name}}")">
+                        {{getDisplayLabel attribute}}
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>{{getDisplayLabel attribute}}</MudTh>
+            }
         }
         {{- end }}
         {{- if entity.Persistence.Delete.IsEnabled }}
