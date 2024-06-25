@@ -33,7 +33,7 @@ attributes:
     userInterface:
       label: Amount From
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -46,7 +46,7 @@ attributes:
     userInterface:
       label: Amount To
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -59,7 +59,7 @@ attributes:
     userInterface:
       label: Requested Pick Up Date
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -72,7 +72,7 @@ attributes:
     userInterface:
       label: Picked Up Date
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -127,7 +127,7 @@ attributes:
     userInterface:
       label: Vat Number
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true

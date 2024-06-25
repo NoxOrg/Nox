@@ -80,7 +80,7 @@ public partial class EmployeesDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            EmployeeEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            EmployeeEntityData = await EmployeesService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

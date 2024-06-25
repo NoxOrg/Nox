@@ -80,7 +80,7 @@ public partial class CommissionsDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            CommissionEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            CommissionEntityData = await CommissionsService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

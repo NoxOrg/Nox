@@ -80,7 +80,7 @@ public partial class LandLordsDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            LandLordEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            LandLordEntityData = await LandLordsService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

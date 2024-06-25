@@ -7,6 +7,8 @@ namespace Cryptocash.Ui.Data;
 /// </summary>
 public class EntityData<T>
 {
+#nullable enable
+
     /// <summary>
     /// Property EntityTotal as total of entities from Api across all pages
     /// </summary>

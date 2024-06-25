@@ -163,12 +163,6 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
             });
             rtnApiUiService.OrderList.Add(new SortOrder()
             {
-                PropertyName = "Amount",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
                 PropertyName = "Reference",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
@@ -178,6 +172,7 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "TransactionType",
+                DisplayLabel = "Transaction Type",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -185,12 +180,14 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "TransactionType",
+                DisplayLabel = "Transaction Type",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -198,12 +195,14 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
+                DisplayLabel = "Amount",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -211,12 +210,14 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
+                DisplayLabel = "Amount",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Reference",
+                DisplayLabel = "Reference",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -224,11 +225,36 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Reference",
+                DisplayLabel = "Reference",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "TransactionType",
+                DisplayLabel = "Transaction Type",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Reference",
+                DisplayLabel = "Reference",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

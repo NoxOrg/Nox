@@ -80,7 +80,7 @@ public partial class CashStockOrdersDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            CashStockOrderEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            CashStockOrderEntityData = await CashStockOrdersService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

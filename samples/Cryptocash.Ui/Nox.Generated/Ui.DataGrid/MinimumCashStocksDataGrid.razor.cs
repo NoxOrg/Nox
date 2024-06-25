@@ -80,7 +80,7 @@ public partial class MinimumCashStocksDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            MinimumCashStockEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            MinimumCashStockEntityData = await MinimumCashStocksService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

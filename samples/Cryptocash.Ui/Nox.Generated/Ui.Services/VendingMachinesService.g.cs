@@ -163,31 +163,7 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             });
             rtnApiUiService.OrderList.Add(new SortOrder()
             {
-                PropertyName = "GeoLocation",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "StreetAddress",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
                 PropertyName = "SerialNumber",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "InstallationFootPrint",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "RentPerSquareMetre",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
             });
@@ -196,6 +172,7 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "MacAddress",
+                DisplayLabel = "MacAddress",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -203,12 +180,14 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "MacAddress",
+                DisplayLabel = "MacAddress",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PublicIp",
+                DisplayLabel = "Public Ip",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -216,12 +195,14 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PublicIp",
+                DisplayLabel = "Public Ip",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "GeoLocation",
+                DisplayLabel = "GeoLocation",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -229,12 +210,14 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "GeoLocation",
+                DisplayLabel = "GeoLocation",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "StreetAddress",
+                DisplayLabel = "Address",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -242,12 +225,14 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "StreetAddress",
+                DisplayLabel = "Address",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "SerialNumber",
+                DisplayLabel = "Serial Number",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -255,12 +240,14 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "SerialNumber",
+                DisplayLabel = "Serial Number",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "InstallationFootPrint",
+                DisplayLabel = "Installation Area",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -268,12 +255,14 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "InstallationFootPrint",
+                DisplayLabel = "Installation Area",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RentPerSquareMetre",
+                DisplayLabel = "Rent per Square Metre",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -281,11 +270,54 @@ internal abstract partial class VendingMachinesServiceBase : IVendingMachinesSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RentPerSquareMetre",
+                DisplayLabel = "Rent per Square Metre",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "MacAddress",
+                DisplayLabel = "MacAddress",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PublicIp",
+                DisplayLabel = "Public Ip",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "GeoLocation",
+                DisplayLabel = "GeoLocation",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "StreetAddress",
+                DisplayLabel = "Address",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "SerialNumber",
+                DisplayLabel = "Serial Number",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "InstallationFootPrint",
+                DisplayLabel = "Installation Area",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "RentPerSquareMetre",
+                DisplayLabel = "Rent per Square Metre",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

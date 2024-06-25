@@ -80,7 +80,7 @@ public partial class BookingsDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            BookingEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            BookingEntityData = await BookingsService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

@@ -72,7 +72,7 @@
     <AddCurrencyForm @bind-IsVisible="showAddDialog" OnSubmit="AddCurrencySubmit" OnCancel="HideAddDialog" />
     <EditCurrencyForm @bind-IsVisible="showEditDialog" OnSubmit="EditCurrencySubmit" OnCancel="HideEditDialog" Currency="SelectedEntity" />
     <MudItem xs="12">
-        <CurrenciesDataGrid @ref="referencedDataGrid" bind-CurrentApiUiService="@CurrentApiUiService" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
+        <CurrenciesDataGrid @ref="referencedDataGrid" CurrentApiUiService="@CurrentApiUiService" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
 </MudGrid>
 <MudDialog @bind-IsVisible="showDeleteDialog" Options="ConfirmationDialogOptions">
@@ -143,7 +143,7 @@
                     <table style="width:100%;">
                         @foreach (SearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == SearchFilterLocation.FilterSearch))
                         {
-                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.DisplayLabel);
 
                             if (CurrentFilter.IsDropdownSelection)
                             {
@@ -234,7 +234,7 @@
                 {
                     @foreach (ShowInSearchResultsOption CurrentFilter in CurrentApiUiService!.ViewList!)
                     {
-                        string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+                        string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.DisplayLabel);
                         bool IsChecked = (CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.OptionalAndOnByDefault)
                         || CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.Always));
                         <MudSwitch Label="@labelName"

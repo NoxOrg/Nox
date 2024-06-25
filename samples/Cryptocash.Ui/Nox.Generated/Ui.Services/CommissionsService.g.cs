@@ -166,6 +166,7 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Rate",
+                DisplayLabel = "Commission Rate",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -173,12 +174,14 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Rate",
+                DisplayLabel = "Commission Rate",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "EffectiveAt",
+                DisplayLabel = "Effective At",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -186,11 +189,24 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "EffectiveAt",
+                DisplayLabel = "Effective At",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Rate",
+                DisplayLabel = "Commission Rate",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "EffectiveAt",
+                DisplayLabel = "Effective At",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

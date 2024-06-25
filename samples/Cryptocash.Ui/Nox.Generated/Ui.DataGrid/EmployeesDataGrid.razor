@@ -130,24 +130,42 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewText Text="@context.FirstName" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.LastName" />
-        </MudTd>
-        <MudTd>
-            <ViewEmail Email="@context.EmailAddress" />
-        </MudTd>
-        <MudTd>
-            <ViewStreetAddress StreetAddress="@context.Address" />
-        </MudTd>
-        <MudTd>
-            <ViewDate Date="@context.FirstWorkingDay" />
-        </MudTd>
-        <MudTd>
-            <ViewDate Date="@context.LastWorkingDay" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FirstName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.FirstName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("LastName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.LastName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EmailAddress"))
+        {
+            <MudTd>
+                <ViewEmail Email="@context.EmailAddress" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Address"))
+        {
+            <MudTd>
+                <ViewStreetAddress StreetAddress="@context.Address" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FirstWorkingDay"))
+        {
+            <MudTd>
+                <ViewDate Date="@context.FirstWorkingDay" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("LastWorkingDay"))
+        {
+            <MudTd>
+                <ViewDate Date="@context.LastWorkingDay" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -156,6 +174,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="EmployeesService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

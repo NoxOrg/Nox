@@ -80,7 +80,7 @@ public partial class PaymentProvidersDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            PaymentProviderEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            PaymentProviderEntityData = await PaymentProvidersService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

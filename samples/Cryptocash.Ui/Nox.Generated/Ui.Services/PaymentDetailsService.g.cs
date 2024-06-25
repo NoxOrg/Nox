@@ -172,6 +172,7 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountName",
+                DisplayLabel = "Payment Account",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -179,12 +180,14 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountName",
+                DisplayLabel = "Payment Account",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -192,12 +195,14 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -205,11 +210,30 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentAccountName",
+                DisplayLabel = "Payment Account",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

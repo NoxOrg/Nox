@@ -80,7 +80,7 @@ public partial class CurrenciesDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            CurrencyEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            CurrencyEntityData = await CurrenciesService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

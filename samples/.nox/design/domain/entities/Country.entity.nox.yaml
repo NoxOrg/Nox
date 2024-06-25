@@ -92,7 +92,7 @@ attributes:
     userInterface:
       label: Geo Coordinates
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -199,7 +199,7 @@ attributes:
     userInterface:
       label: Start of Week
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true

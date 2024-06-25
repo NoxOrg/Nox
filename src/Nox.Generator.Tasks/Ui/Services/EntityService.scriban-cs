@@ -1,4 +1,14 @@
-﻿// Generated
+﻿{{- func getDisplayLabel(attribute)   
+    if attribute.UserInterface.Label
+      ret attribute.UserInterface.Label
+    else if attribute.Name
+      ret attribute.Name
+    else 
+      ret ""
+    end  
+end -}}
+
+// Generated
 
 #nullable enable
 
@@ -171,6 +181,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -178,6 +189,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
@@ -190,6 +202,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -197,6 +210,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
@@ -211,6 +225,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.Always
             });
         {{- end }}  
@@ -222,6 +237,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.Never
             });
         {{- end }}  
@@ -233,6 +249,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
         {{- end }}
@@ -244,6 +261,7 @@ internal abstract partial class {{className}}Base : I{{className}}
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
         {{- end }}        

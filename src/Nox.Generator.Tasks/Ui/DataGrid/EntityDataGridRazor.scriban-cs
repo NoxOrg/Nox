@@ -70,9 +70,12 @@ end -}}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
-        <MudTd>
-            <View{{attribute.Type}} {{attribute.Type}}="@context.{{attribute.Name}}" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("{{attribute.Name}}"))
+        {
+            <MudTd>
+                <View{{attribute.Type}} {{attribute.Type}}="@context.{{attribute.Name}}" />
+            </MudTd>
+        }
         {{- end }}
         {{- if entity.Persistence.Delete.IsEnabled }}
         <MudTd>
@@ -84,6 +87,6 @@ end -}}
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="{{entity.PluralName}}Service!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

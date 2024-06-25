@@ -80,7 +80,7 @@ public partial class TransactionsDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            TransactionEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            TransactionEntityData = await TransactionsService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

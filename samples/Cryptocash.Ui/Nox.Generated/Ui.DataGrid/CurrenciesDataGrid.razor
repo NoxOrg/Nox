@@ -249,45 +249,84 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewText Text="@context.Name" />
-        </MudTd>
-        <MudTd>
-            <ViewCurrencyNumber CurrencyNumber="@context.CurrencyIsoNumeric" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.Symbol" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.ThousandsSeparator" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.DecimalSeparator" />
-        </MudTd>
-        <MudTd>
-            <ViewBoolean Boolean="@context.SpaceBetweenAmountAndSymbol" />
-        </MudTd>
-        <MudTd>
-            <ViewBoolean Boolean="@context.SymbolOnLeft" />
-        </MudTd>
-        <MudTd>
-            <ViewNumber Number="@context.DecimalDigits" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.MajorName" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.MajorSymbol" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.MinorName" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.MinorSymbol" />
-        </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.MinorToMajorValue" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            <MudTd>
+                <ViewText Text="@context.Name" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CurrencyIsoNumeric"))
+        {
+            <MudTd>
+                <ViewCurrencyNumber CurrencyNumber="@context.CurrencyIsoNumeric" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Symbol"))
+        {
+            <MudTd>
+                <ViewText Text="@context.Symbol" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("ThousandsSeparator"))
+        {
+            <MudTd>
+                <ViewText Text="@context.ThousandsSeparator" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("DecimalSeparator"))
+        {
+            <MudTd>
+                <ViewText Text="@context.DecimalSeparator" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SpaceBetweenAmountAndSymbol"))
+        {
+            <MudTd>
+                <ViewBoolean Boolean="@context.SpaceBetweenAmountAndSymbol" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SymbolOnLeft"))
+        {
+            <MudTd>
+                <ViewBoolean Boolean="@context.SymbolOnLeft" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("DecimalDigits"))
+        {
+            <MudTd>
+                <ViewNumber Number="@context.DecimalDigits" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MajorName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.MajorName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MajorSymbol"))
+        {
+            <MudTd>
+                <ViewText Text="@context.MajorSymbol" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MinorName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.MinorName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MinorSymbol"))
+        {
+            <MudTd>
+                <ViewText Text="@context.MinorSymbol" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MinorToMajorValue"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.MinorToMajorValue" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -296,6 +335,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="CurrenciesService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

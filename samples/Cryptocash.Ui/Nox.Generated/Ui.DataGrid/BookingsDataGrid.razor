@@ -164,30 +164,54 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.AmountFrom" />
-        </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.AmountTo" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTimeRange DateTimeRange="@context.RequestedPickUpDate" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTimeRange DateTimeRange="@context.PickedUpDateTime" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTime DateTime="@context.ExpiryDateTime" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTime DateTime="@context.CancelledDateTime" />
-        </MudTd>
-        <MudTd>
-            <ViewFormula Formula="@context.Status" />
-        </MudTd>
-        <MudTd>
-            <ViewVatNumber VatNumber="@context.VatNumber" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("AmountFrom"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.AmountFrom" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("AmountTo"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.AmountTo" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RequestedPickUpDate"))
+        {
+            <MudTd>
+                <ViewDateTimeRange DateTimeRange="@context.RequestedPickUpDate" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PickedUpDateTime"))
+        {
+            <MudTd>
+                <ViewDateTimeRange DateTimeRange="@context.PickedUpDateTime" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("ExpiryDateTime"))
+        {
+            <MudTd>
+                <ViewDateTime DateTime="@context.ExpiryDateTime" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CancelledDateTime"))
+        {
+            <MudTd>
+                <ViewDateTime DateTime="@context.CancelledDateTime" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Status"))
+        {
+            <MudTd>
+                <ViewFormula Formula="@context.Status" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("VatNumber"))
+        {
+            <MudTd>
+                <ViewVatNumber VatNumber="@context.VatNumber" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -196,6 +220,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="BookingsService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

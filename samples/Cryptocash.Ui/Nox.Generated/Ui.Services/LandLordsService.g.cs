@@ -155,17 +155,12 @@ internal abstract partial class LandLordsServiceBase : ILandLordsService
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
             });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "Address",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
 
         rtnApiUiService.SearchFilterList = new List<SearchFilter>();
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Name",
+                DisplayLabel = "Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -173,12 +168,14 @@ internal abstract partial class LandLordsServiceBase : ILandLordsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Name",
+                DisplayLabel = "Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Address",
+                DisplayLabel = "Address",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -186,11 +183,24 @@ internal abstract partial class LandLordsServiceBase : ILandLordsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Address",
+                DisplayLabel = "Address",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Name",
+                DisplayLabel = "Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

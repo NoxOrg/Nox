@@ -18,6 +18,8 @@ public class SearchFilter
     /// </summary>
     public string? PropertyName { get; set; }
 
+    public string? DisplayLabel { get; set; }
+
     public string? RelatedEntityName { get; set; }
 
     public string? RelatedEntityMatchingPropertyName { get; set; }

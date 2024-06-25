@@ -7,6 +7,8 @@ namespace {{codeGenConventions.UiNameSpace}}.Data;
 /// </summary>
 public class ShowInSearchResultsOption
 {
+#nullable enable
+
     private ShowInSearchResultsType? _currentShowInSearchResultsOption = null;
 
     private ShowInSearchResultsType? _setShowInSearchResultsOption = null;
@@ -15,6 +17,8 @@ public class ShowInSearchResultsOption
     /// Property PropertyName used to associate ShowInSearchResultsOption with a PropertyName in result entity
     /// </summary>
     public string? PropertyName { get; set; }
+
+    public string? DisplayLabel { get; set; }
 
     /// <summary>
     /// Property DefaultView used as a default column display setting for this ShowInSearchResultsOption when resetting back to default settings on Ui

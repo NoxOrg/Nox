@@ -86,7 +86,7 @@
 {{- end }}
 {{- if entity.Persistence.Read.IsEnabled }}
     <MudItem xs="12">
-        <{{entity.PluralName}}DataGrid @ref="referencedDataGrid" bind-CurrentApiUiService="@CurrentApiUiService" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
+        <{{entity.PluralName}}DataGrid @ref="referencedDataGrid" CurrentApiUiService="@CurrentApiUiService" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
 {{- end }}
 </MudGrid>
@@ -163,7 +163,7 @@
                     <table style="width:100%;">
                         @foreach (SearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == SearchFilterLocation.FilterSearch))
                         {
-                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.DisplayLabel);
 
                             if (CurrentFilter.IsDropdownSelection)
                             {
@@ -258,7 +258,7 @@
                 {
                     @foreach (ShowInSearchResultsOption CurrentFilter in CurrentApiUiService!.ViewList!)
                     {
-                        string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+                        string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.DisplayLabel);
                         bool IsChecked = (CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.OptionalAndOnByDefault)
                         || CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.Always));
                         <MudSwitch Label="@labelName"

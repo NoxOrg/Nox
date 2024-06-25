@@ -151,12 +151,6 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
         rtnApiUiService.OrderList = new List<SortOrder>();
             rtnApiUiService.OrderList.Add(new SortOrder()
             {
-                PropertyName = "Amount",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
                 PropertyName = "RequestedDeliveryDate",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
@@ -178,6 +172,7 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
+                DisplayLabel = "Amount",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -185,12 +180,14 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
+                DisplayLabel = "Amount",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -198,12 +195,14 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -211,11 +210,36 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

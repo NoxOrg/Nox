@@ -80,7 +80,7 @@ public partial class CountriesDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            CountryEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            CountryEntityData = await CountriesService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

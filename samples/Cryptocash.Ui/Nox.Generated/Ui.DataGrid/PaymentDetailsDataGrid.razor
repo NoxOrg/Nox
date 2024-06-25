@@ -79,15 +79,24 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewText Text="@context.PaymentAccountName" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.PaymentAccountNumber" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.PaymentAccountSortCode" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentAccountName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountNumber"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentAccountNumber" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountSortCode"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentAccountSortCode" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -96,6 +105,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="PaymentDetailsService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

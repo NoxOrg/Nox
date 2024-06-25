@@ -80,7 +80,7 @@ public partial class VendingMachinesDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            VendingMachineEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            VendingMachineEntityData = await VendingMachinesService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

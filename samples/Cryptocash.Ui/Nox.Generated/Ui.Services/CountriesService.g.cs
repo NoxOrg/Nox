@@ -175,18 +175,6 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             });
             rtnApiUiService.OrderList.Add(new SortOrder()
             {
-                PropertyName = "GeoCoords",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "StartOfWeek",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
                 PropertyName = "Population",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
@@ -196,6 +184,7 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Population",
+                DisplayLabel = "Population",
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -203,12 +192,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Population",
+                DisplayLabel = "Population",
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Name",
+                DisplayLabel = "Country Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -216,12 +207,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Name",
+                DisplayLabel = "Country Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "OfficialName",
+                DisplayLabel = "Official Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -229,12 +222,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "OfficialName",
+                DisplayLabel = "Official Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CountryIsoNumeric",
+                DisplayLabel = "Country Id",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -242,12 +237,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CountryIsoNumeric",
+                DisplayLabel = "Country Id",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CountryIsoAlpha3",
+                DisplayLabel = "Country Code",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -255,12 +252,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CountryIsoAlpha3",
+                DisplayLabel = "Country Code",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "GeoCoords",
+                DisplayLabel = "Geo Coordinates",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -268,12 +267,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "GeoCoords",
+                DisplayLabel = "Geo Coordinates",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "StartOfWeek",
+                DisplayLabel = "Start of Week",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -281,12 +282,14 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "StartOfWeek",
+                DisplayLabel = "Start of Week",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Population",
+                DisplayLabel = "Population",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -294,6 +297,7 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Population",
+                DisplayLabel = "Population",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
@@ -302,71 +306,85 @@ internal abstract partial class CountriesServiceBase : ICountriesService
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "FlagEmoji",
+                DisplayLabel = "Flag Emoji",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "FlagSvg",
+                DisplayLabel = "Flag SVG",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "FlagPng",
+                DisplayLabel = "Flag PNG",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "CoatOfArmsSvg",
+                DisplayLabel = "Coat of Arms SVG",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "CoatOfArmsPng",
+                DisplayLabel = "Coat of Arms PNG",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "GoogleMapsUrl",
+                DisplayLabel = "Google Maps URL",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "OpenStreetMapsUrl",
+                DisplayLabel = "Open Street Maps URL",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "FlagEmoji",
+                PropertyName = "Name",
+                DisplayLabel = "Country Name",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "FlagSvg",
+                PropertyName = "OfficialName",
+                DisplayLabel = "Official Name",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "FlagPng",
+                PropertyName = "CountryIsoNumeric",
+                DisplayLabel = "Country Id",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "CoatOfArmsSvg",
+                PropertyName = "CountryIsoAlpha3",
+                DisplayLabel = "Country Code",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "CoatOfArmsPng",
+                PropertyName = "GeoCoords",
+                DisplayLabel = "Geo Coordinates",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "GoogleMapsUrl",
+                PropertyName = "StartOfWeek",
+                DisplayLabel = "Start of Week",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
-                PropertyName = "OpenStreetMapsUrl",
+                PropertyName = "Population",
+                DisplayLabel = "Population",
                 DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             });        
 

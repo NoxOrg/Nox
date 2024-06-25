@@ -96,18 +96,30 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewText Text="@context.TransactionType" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTime DateTime="@context.ProcessedOnDateTime" />
-        </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.Amount" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.Reference" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("TransactionType"))
+        {
+            <MudTd>
+                <ViewText Text="@context.TransactionType" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("ProcessedOnDateTime"))
+        {
+            <MudTd>
+                <ViewDateTime DateTime="@context.ProcessedOnDateTime" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Amount"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.Amount" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Reference"))
+        {
+            <MudTd>
+                <ViewText Text="@context.Reference" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -116,6 +128,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="TransactionsService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

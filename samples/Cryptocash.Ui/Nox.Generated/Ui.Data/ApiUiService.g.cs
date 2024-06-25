@@ -345,7 +345,7 @@ public class ApiUiService
             {
                 string RtnFilterNameList = string.Empty;
 
-                var SearchNameList = SearchFilterList!.Select(SearchFilter => SearchFilter.PropertyName).ToList();
+                var SearchNameList = SearchFilterList!.Select(SearchFilter => SearchFilter.DisplayLabel).ToList();
 
                 var DistinctNameList = UtilityHelper.GetDistinctNameList(SearchNameList, true);
 

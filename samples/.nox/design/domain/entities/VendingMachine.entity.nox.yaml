@@ -67,7 +67,7 @@ attributes:
       label: GeoLocation
       pageGroup: Location
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -82,7 +82,7 @@ attributes:
       label: Address
       pageGroup: Location
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -115,7 +115,7 @@ attributes:
       label: Installation Area
       pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -130,7 +130,7 @@ attributes:
       label: Rent per Square Metre
       pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true

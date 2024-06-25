@@ -151,30 +151,6 @@ internal abstract partial class BookingsServiceBase : IBookingsService
         rtnApiUiService.OrderList = new List<SortOrder>();
             rtnApiUiService.OrderList.Add(new SortOrder()
             {
-                PropertyName = "AmountFrom",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "AmountTo",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "RequestedPickUpDate",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "PickedUpDateTime",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
                 PropertyName = "ExpiryDateTime",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
@@ -188,12 +164,6 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.OrderList.Add(new SortOrder()
             {
                 PropertyName = "Status",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "VatNumber",
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
             });
@@ -202,6 +172,7 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "AmountFrom",
+                DisplayLabel = "Amount From",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -209,12 +180,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "AmountFrom",
+                DisplayLabel = "Amount From",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "AmountTo",
+                DisplayLabel = "Amount To",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -222,12 +195,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "AmountTo",
+                DisplayLabel = "Amount To",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RequestedPickUpDate",
+                DisplayLabel = "Requested Pick Up Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -235,12 +210,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RequestedPickUpDate",
+                DisplayLabel = "Requested Pick Up Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PickedUpDateTime",
+                DisplayLabel = "Picked Up Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -248,12 +225,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PickedUpDateTime",
+                DisplayLabel = "Picked Up Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "ExpiryDateTime",
+                DisplayLabel = "Expiry Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -261,12 +240,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "ExpiryDateTime",
+                DisplayLabel = "Expiry Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CancelledDateTime",
+                DisplayLabel = "Cancelled Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -274,12 +255,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CancelledDateTime",
+                DisplayLabel = "Cancelled Date",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Status",
+                DisplayLabel = "Status",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -287,12 +270,14 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Status",
+                DisplayLabel = "Status",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "VatNumber",
+                DisplayLabel = "Vat Number",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -300,11 +285,60 @@ internal abstract partial class BookingsServiceBase : IBookingsService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "VatNumber",
+                DisplayLabel = "Vat Number",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "AmountFrom",
+                DisplayLabel = "Amount From",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "AmountTo",
+                DisplayLabel = "Amount To",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "RequestedPickUpDate",
+                DisplayLabel = "Requested Pick Up Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PickedUpDateTime",
+                DisplayLabel = "Picked Up Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "ExpiryDateTime",
+                DisplayLabel = "Expiry Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "CancelledDateTime",
+                DisplayLabel = "Cancelled Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "VatNumber",
+                DisplayLabel = "Vat Number",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

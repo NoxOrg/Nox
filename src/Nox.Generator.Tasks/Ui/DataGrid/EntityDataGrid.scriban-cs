@@ -80,7 +80,7 @@ public partial class {{className}} : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            {{entity.Name}}EntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            {{entity.Name}}EntityData = await {{entity.PluralName}}Service!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

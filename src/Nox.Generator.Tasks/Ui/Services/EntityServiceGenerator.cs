@@ -58,7 +58,7 @@ internal class EntityServiceGenerator : INoxFileGenerator
                 .Select(a => a.Name);
 
             var attributesByViewTypeOptionalOn = entity.Attributes
-                .Where(a => a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOffByDefault)
+                .Where(a => a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOnByDefault)
                 .Select(a => a.Name);
 
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)

@@ -149,17 +149,12 @@ internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStock
         ApiUiService rtnApiUiService = new();
 
         rtnApiUiService.OrderList = new List<SortOrder>();
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "Amount",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
 
         rtnApiUiService.SearchFilterList = new List<SearchFilter>();
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
+                DisplayLabel = "Amount",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -167,11 +162,18 @@ internal abstract partial class MinimumCashStocksServiceBase : IMinimumCashStock
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
+                DisplayLabel = "Amount",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

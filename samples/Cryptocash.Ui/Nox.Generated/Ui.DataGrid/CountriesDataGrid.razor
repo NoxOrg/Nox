@@ -266,48 +266,90 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewText Text="@context.Name" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.OfficialName" />
-        </MudTd>
-        <MudTd>
-            <ViewCountryNumber CountryNumber="@context.CountryIsoNumeric" />
-        </MudTd>
-        <MudTd>
-            <ViewCountryCode3 CountryCode3="@context.CountryIsoAlpha3" />
-        </MudTd>
-        <MudTd>
-            <ViewLatLong LatLong="@context.GeoCoords" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.FlagEmoji" />
-        </MudTd>
-        <MudTd>
-            <ViewImage Image="@context.FlagSvg" />
-        </MudTd>
-        <MudTd>
-            <ViewImage Image="@context.FlagPng" />
-        </MudTd>
-        <MudTd>
-            <ViewImage Image="@context.CoatOfArmsSvg" />
-        </MudTd>
-        <MudTd>
-            <ViewImage Image="@context.CoatOfArmsPng" />
-        </MudTd>
-        <MudTd>
-            <ViewUrl Url="@context.GoogleMapsUrl" />
-        </MudTd>
-        <MudTd>
-            <ViewUrl Url="@context.OpenStreetMapsUrl" />
-        </MudTd>
-        <MudTd>
-            <ViewDayOfWeek DayOfWeek="@context.StartOfWeek" />
-        </MudTd>
-        <MudTd>
-            <ViewNumber Number="@context.Population" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            <MudTd>
+                <ViewText Text="@context.Name" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("OfficialName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.OfficialName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CountryIsoNumeric"))
+        {
+            <MudTd>
+                <ViewCountryNumber CountryNumber="@context.CountryIsoNumeric" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CountryIsoAlpha3"))
+        {
+            <MudTd>
+                <ViewCountryCode3 CountryCode3="@context.CountryIsoAlpha3" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GeoCoords"))
+        {
+            <MudTd>
+                <ViewLatLong LatLong="@context.GeoCoords" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagEmoji"))
+        {
+            <MudTd>
+                <ViewText Text="@context.FlagEmoji" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagSvg"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.FlagSvg" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagPng"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.FlagPng" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CoatOfArmsSvg"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.CoatOfArmsSvg" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CoatOfArmsPng"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.CoatOfArmsPng" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GoogleMapsUrl"))
+        {
+            <MudTd>
+                <ViewUrl Url="@context.GoogleMapsUrl" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("OpenStreetMapsUrl"))
+        {
+            <MudTd>
+                <ViewUrl Url="@context.OpenStreetMapsUrl" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("StartOfWeek"))
+        {
+            <MudTd>
+                <ViewDayOfWeek DayOfWeek="@context.StartOfWeek" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Population"))
+        {
+            <MudTd>
+                <ViewNumber Number="@context.Population" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -316,6 +358,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="CountriesService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

@@ -166,6 +166,7 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentProviderName",
+                DisplayLabel = "Payment Provider",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -173,12 +174,14 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentProviderName",
+                DisplayLabel = "Payment Provider",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentProviderType",
+                DisplayLabel = "Provider Type",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -186,11 +189,24 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentProviderType",
+                DisplayLabel = "Provider Type",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentProviderName",
+                DisplayLabel = "Payment Provider",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentProviderType",
+                DisplayLabel = "Provider Type",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {

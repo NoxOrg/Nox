@@ -80,7 +80,7 @@ public partial class CustomersDataGrid : ComponentBase
             || String.IsNullOrEmpty(PreviousAPiQuery)
             || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
         {
-            CustomerEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
+            CustomerEntityData = await CustomersService!.GetAllFilteredPagedAsync(CurrentApiQuery);
 
             PreviousAPiQuery = CurrentApiQuery;
 

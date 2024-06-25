@@ -147,27 +147,48 @@
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewMacAddress MacAddress="@context.MacAddress" />
-        </MudTd>
-        <MudTd>
-            <ViewIpAddress IpAddress="@context.PublicIp" />
-        </MudTd>
-        <MudTd>
-            <ViewLatLong LatLong="@context.GeoLocation" />
-        </MudTd>
-        <MudTd>
-            <ViewStreetAddress StreetAddress="@context.StreetAddress" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.SerialNumber" />
-        </MudTd>
-        <MudTd>
-            <ViewArea Area="@context.InstallationFootPrint" />
-        </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.RentPerSquareMetre" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
+        {
+            <MudTd>
+                <ViewMacAddress MacAddress="@context.MacAddress" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
+        {
+            <MudTd>
+                <ViewIpAddress IpAddress="@context.PublicIp" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GeoLocation"))
+        {
+            <MudTd>
+                <ViewLatLong LatLong="@context.GeoLocation" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("StreetAddress"))
+        {
+            <MudTd>
+                <ViewStreetAddress StreetAddress="@context.StreetAddress" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
+        {
+            <MudTd>
+                <ViewText Text="@context.SerialNumber" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("InstallationFootPrint"))
+        {
+            <MudTd>
+                <ViewArea Area="@context.InstallationFootPrint" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RentPerSquareMetre"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.RentPerSquareMetre" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -176,6 +197,6 @@
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="VendingMachinesService!.Paging?.PageSizeList?.ToArray()" />
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
     </PagerContent>
 </MudTable>

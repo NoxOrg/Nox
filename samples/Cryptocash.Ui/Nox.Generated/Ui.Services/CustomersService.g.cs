@@ -167,23 +167,12 @@ internal abstract partial class CustomersServiceBase : ICustomersService
                 DefaultOrderDirection = SortOrderDirection.Descending,
                 CanSort = true
             });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "Address",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
-            rtnApiUiService.OrderList.Add(new SortOrder()
-            {
-                PropertyName = "MobileNumber",
-                DefaultOrderDirection = SortOrderDirection.Descending,
-                CanSort = true
-            });
 
         rtnApiUiService.SearchFilterList = new List<SearchFilter>();
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "FirstName",
+                DisplayLabel = "First Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -191,12 +180,14 @@ internal abstract partial class CustomersServiceBase : ICustomersService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "FirstName",
+                DisplayLabel = "First Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "LastName",
+                DisplayLabel = "Last Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -204,12 +195,14 @@ internal abstract partial class CustomersServiceBase : ICustomersService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "LastName",
+                DisplayLabel = "Last Name",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -217,12 +210,14 @@ internal abstract partial class CustomersServiceBase : ICustomersService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Address",
+                DisplayLabel = "Address",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -230,12 +225,14 @@ internal abstract partial class CustomersServiceBase : ICustomersService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Address",
+                DisplayLabel = "Address",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "MobileNumber",
+                DisplayLabel = "Mobile",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
@@ -243,11 +240,42 @@ internal abstract partial class CustomersServiceBase : ICustomersService
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "MobileNumber",
+                DisplayLabel = "Mobile",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });               
 
-        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();        
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "MobileNumber",
+                DisplayLabel = "Mobile",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
 
         rtnApiUiService.Paging = new Paging()
         {
