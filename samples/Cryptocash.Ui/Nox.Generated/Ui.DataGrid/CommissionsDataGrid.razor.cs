@@ -45,6 +45,7 @@ public partial class CommissionsDataGrid : ComponentBase
 
     public async Task RefreshDataGrid()
     {
+        PreviousAPiQuery = String.Empty;
         await Search();
         StateHasChanged();
     }

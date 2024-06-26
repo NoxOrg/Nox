@@ -73,7 +73,7 @@ public partial class Commissions : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -81,7 +81,7 @@ public partial class Commissions : ComponentBase
     {
         if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
         {
-            await referencedDataGrid.Search();
+            await Search();
         }
     }
 
@@ -109,7 +109,7 @@ public partial class Commissions : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -188,10 +188,10 @@ public partial class Commissions : ComponentBase
         showAddDialog = false;
     }
 
-    private void AddCommissionSubmit()
+    private async Task AddCommissionSubmit()
     {
         showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
+        await Search();
     }
 #endregion ADD
 #region EDIT
@@ -211,11 +211,11 @@ public partial class Commissions : ComponentBase
         showEditDialog = false;
     }
 
-    private void EditCommissionSubmit()
+    private async Task EditCommissionSubmit()
     {
         showEditDialog = false;    
         SelectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
+        await Search();        
     }
 #endregion EDIT
 #region DELETE
@@ -271,7 +271,7 @@ public partial class Commissions : ComponentBase
             IsDeleteLoading = false;
             showDeleteDialog = false;    
             DeleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
+            await Search(); 
         }               
     }
 #endregion DELETE

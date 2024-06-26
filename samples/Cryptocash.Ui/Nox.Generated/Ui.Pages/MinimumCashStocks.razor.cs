@@ -73,7 +73,7 @@ public partial class MinimumCashStocks : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -81,7 +81,7 @@ public partial class MinimumCashStocks : ComponentBase
     {
         if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
         {
-            await referencedDataGrid.Search();
+            await Search();
         }
     }
 
@@ -109,7 +109,7 @@ public partial class MinimumCashStocks : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -188,10 +188,10 @@ public partial class MinimumCashStocks : ComponentBase
         showAddDialog = false;
     }
 
-    private void AddMinimumCashStockSubmit()
+    private async Task AddMinimumCashStockSubmit()
     {
         showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
+        await Search();
     }
 #endregion ADD
 #region EDIT
@@ -211,11 +211,11 @@ public partial class MinimumCashStocks : ComponentBase
         showEditDialog = false;
     }
 
-    private void EditMinimumCashStockSubmit()
+    private async Task EditMinimumCashStockSubmit()
     {
         showEditDialog = false;    
         SelectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
+        await Search();        
     }
 #endregion EDIT
 #region DELETE
@@ -271,7 +271,7 @@ public partial class MinimumCashStocks : ComponentBase
             IsDeleteLoading = false;
             showDeleteDialog = false;    
             DeleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
+            await Search(); 
         }               
     }
 #endregion DELETE

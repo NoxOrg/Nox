@@ -73,7 +73,7 @@ public partial class PaymentProviders : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -81,7 +81,7 @@ public partial class PaymentProviders : ComponentBase
     {
         if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
         {
-            await referencedDataGrid.Search();
+            await Search();
         }
     }
 
@@ -109,7 +109,7 @@ public partial class PaymentProviders : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -188,10 +188,10 @@ public partial class PaymentProviders : ComponentBase
         showAddDialog = false;
     }
 
-    private void AddPaymentProviderSubmit()
+    private async Task AddPaymentProviderSubmit()
     {
         showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
+        await Search();
     }
 #endregion ADD
 #region EDIT
@@ -211,11 +211,11 @@ public partial class PaymentProviders : ComponentBase
         showEditDialog = false;
     }
 
-    private void EditPaymentProviderSubmit()
+    private async Task EditPaymentProviderSubmit()
     {
         showEditDialog = false;    
         SelectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
+        await Search();        
     }
 #endregion EDIT
 #region DELETE
@@ -271,7 +271,7 @@ public partial class PaymentProviders : ComponentBase
             IsDeleteLoading = false;
             showDeleteDialog = false;    
             DeleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
+            await Search(); 
         }               
     }
 #endregion DELETE

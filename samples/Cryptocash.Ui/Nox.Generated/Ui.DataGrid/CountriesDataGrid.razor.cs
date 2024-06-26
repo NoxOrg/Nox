@@ -45,6 +45,7 @@ public partial class CountriesDataGrid : ComponentBase
 
     public async Task RefreshDataGrid()
     {
+        PreviousAPiQuery = String.Empty;
         await Search();
         StateHasChanged();
     }

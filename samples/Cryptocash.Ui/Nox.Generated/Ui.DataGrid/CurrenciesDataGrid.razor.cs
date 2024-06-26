@@ -45,6 +45,7 @@ public partial class CurrenciesDataGrid : ComponentBase
 
     public async Task RefreshDataGrid()
     {
+        PreviousAPiQuery = String.Empty;
         await Search();
         StateHasChanged();
     }

@@ -75,7 +75,7 @@ public partial class {{className}} : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -83,7 +83,7 @@ public partial class {{className}} : ComponentBase
     {
         if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
         {
-            await referencedDataGrid.Search();
+            await Search();
         }
     }
 
@@ -111,7 +111,7 @@ public partial class {{className}} : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -198,10 +198,10 @@ public partial class {{className}} : ComponentBase
         showAddDialog = false;
     }
 
-    private void Add{{entity.Name}}Submit()
+    private async Task Add{{entity.Name}}Submit()
     {
         showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
+        await Search();
     }
 #endregion ADD
 {{- end }}
@@ -224,11 +224,11 @@ public partial class {{className}} : ComponentBase
         showEditDialog = false;
     }
 
-    private void Edit{{entity.Name}}Submit()
+    private async Task Edit{{entity.Name}}Submit()
     {
         showEditDialog = false;    
         SelectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
+        await Search();        
     }
 #endregion EDIT
 {{- end }}
@@ -287,7 +287,7 @@ public partial class {{className}} : ComponentBase
             IsDeleteLoading = false;
             showDeleteDialog = false;    
             DeleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
+            await Search(); 
         }               
     }
 #endregion DELETE

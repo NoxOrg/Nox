@@ -45,6 +45,7 @@ public partial class MinimumCashStocksDataGrid : ComponentBase
 
     public async Task RefreshDataGrid()
     {
+        PreviousAPiQuery = String.Empty;
         await Search();
         StateHasChanged();
     }

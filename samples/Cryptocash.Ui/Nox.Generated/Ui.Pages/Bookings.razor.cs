@@ -73,7 +73,7 @@ public partial class Bookings : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -81,7 +81,7 @@ public partial class Bookings : ComponentBase
     {
         if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
         {
-            await referencedDataGrid.Search();
+            await Search();
         }
     }
 
@@ -109,7 +109,7 @@ public partial class Bookings : ComponentBase
 
         if (referencedDataGrid != null)
         {
-            await referencedDataGrid.Search();
+            await referencedDataGrid.RefreshDataGrid();
         }
     }
 
@@ -188,10 +188,10 @@ public partial class Bookings : ComponentBase
         showAddDialog = false;
     }
 
-    private void AddBookingSubmit()
+    private async Task AddBookingSubmit()
     {
         showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
+        await Search();
     }
 #endregion ADD
 #region EDIT
@@ -211,11 +211,11 @@ public partial class Bookings : ComponentBase
         showEditDialog = false;
     }
 
-    private void EditBookingSubmit()
+    private async Task EditBookingSubmit()
     {
         showEditDialog = false;    
         SelectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
+        await Search();        
     }
 #endregion EDIT
 #region DELETE
@@ -271,7 +271,7 @@ public partial class Bookings : ComponentBase
             IsDeleteLoading = false;
             showDeleteDialog = false;    
             DeleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
+            await Search(); 
         }               
     }
 #endregion DELETE
