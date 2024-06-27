@@ -176,7 +176,97 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Name",
+                DisplayLabel = "Currency Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "CurrencyIsoNumeric",
+                DisplayLabel = "Currency Id",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Symbol",
+                DisplayLabel = "Currency Symbol",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "ThousandsSeparator",
+                DisplayLabel = "Thousands Separator",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DecimalSeparator",
+                DisplayLabel = "Decimal Separator",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "SpaceBetweenAmountAndSymbol",
+                DisplayLabel = "Space Between",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "SymbolOnLeft",
+                DisplayLabel = "Symbol On Left",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DecimalDigits",
+                DisplayLabel = "Decimal Digits",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MajorName",
+                DisplayLabel = "Major Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MajorSymbol",
+                DisplayLabel = "Major Symbol",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MinorName",
+                DisplayLabel = "Minor Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MinorSymbol",
+                DisplayLabel = "Minor Symbol",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MinorToMajorValue",
+                DisplayLabel = "Minor to Major Value",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "DecimalDigits",
@@ -189,24 +279,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "Name",
                 DisplayLabel = "Currency Name",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Name",
-                DisplayLabel = "Currency Name",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "CurrencyIsoNumeric",
-                DisplayLabel = "Currency Id",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CurrencyIsoNumeric",
@@ -219,24 +293,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "Symbol",
                 DisplayLabel = "Currency Symbol",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Symbol",
-                DisplayLabel = "Currency Symbol",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "ThousandsSeparator",
-                DisplayLabel = "Thousands Separator",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "ThousandsSeparator",
@@ -249,24 +307,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "DecimalSeparator",
                 DisplayLabel = "Decimal Separator",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "DecimalSeparator",
-                DisplayLabel = "Decimal Separator",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "SpaceBetweenAmountAndSymbol",
-                DisplayLabel = "Space Between",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "SpaceBetweenAmountAndSymbol",
@@ -279,24 +321,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "SymbolOnLeft",
                 DisplayLabel = "Symbol On Left",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "SymbolOnLeft",
-                DisplayLabel = "Symbol On Left",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "DecimalDigits",
-                DisplayLabel = "Decimal Digits",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "DecimalDigits",
@@ -309,24 +335,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "MajorName",
                 DisplayLabel = "Major Name",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "MajorName",
-                DisplayLabel = "Major Name",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "MajorSymbol",
-                DisplayLabel = "Major Symbol",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "MajorSymbol",
@@ -339,24 +349,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "MinorName",
                 DisplayLabel = "Minor Name",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "MinorName",
-                DisplayLabel = "Minor Name",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "MinorSymbol",
-                DisplayLabel = "Minor Symbol",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "MinorSymbol",
@@ -369,16 +363,8 @@ internal abstract partial class CurrenciesServiceBase : ICurrenciesService
                 PropertyName = "MinorToMajorValue",
                 DisplayLabel = "Minor to Major Value",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "MinorToMajorValue",
-                DisplayLabel = "Minor to Major Value",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()

@@ -30,6 +30,9 @@ internal class EntityPageRazorGenerator : INoxFileGenerator
             var getSearchEnabled = entity.Attributes
                 .Any(a => a.UserInterface?.CanSearch == true);
 
+            var getSearchFilterEnabled = entity.Attributes
+                .Any(a => a.UserInterface?.CanFilter == true);
+
             var getViewDrawerEnabled = entity.Attributes
                 .Any(a => a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOffByDefault
                     || a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOnByDefault);
@@ -40,6 +43,7 @@ internal class EntityPageRazorGenerator : INoxFileGenerator
                 .WithFileNamePrefix($"Ui.Pages")
                 .WithObject("entity", entity)
                 .WithObject("getSearchEnabled", getSearchEnabled)
+                .WithObject("getSearchFilterEnabled", getSearchFilterEnabled)
                 .WithObject("getViewDrawerEnabled", getViewDrawerEnabled)
                 .GenerateSourceCodeFromResource(templateName);
         }

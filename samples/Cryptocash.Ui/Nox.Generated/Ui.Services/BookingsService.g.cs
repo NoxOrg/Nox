@@ -176,7 +176,55 @@ internal abstract partial class BookingsServiceBase : IBookingsService
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "AmountTo",
+                DisplayLabel = "Amount To",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RequestedPickUpDate",
+                DisplayLabel = "Requested Pick Up Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PickedUpDateTime",
+                DisplayLabel = "Picked Up Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "ExpiryDateTime",
+                DisplayLabel = "Expiry Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "CancelledDateTime",
+                DisplayLabel = "Cancelled Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "VatNumber",
+                DisplayLabel = "Vat Number",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "AmountFrom",
@@ -189,24 +237,8 @@ internal abstract partial class BookingsServiceBase : IBookingsService
                 PropertyName = "AmountTo",
                 DisplayLabel = "Amount To",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "AmountTo",
-                DisplayLabel = "Amount To",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "RequestedPickUpDate",
-                DisplayLabel = "Requested Pick Up Date",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "RequestedPickUpDate",
@@ -219,24 +251,8 @@ internal abstract partial class BookingsServiceBase : IBookingsService
                 PropertyName = "PickedUpDateTime",
                 DisplayLabel = "Picked Up Date",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "PickedUpDateTime",
-                DisplayLabel = "Picked Up Date",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "ExpiryDateTime",
-                DisplayLabel = "Expiry Date",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "ExpiryDateTime",
@@ -249,24 +265,8 @@ internal abstract partial class BookingsServiceBase : IBookingsService
                 PropertyName = "CancelledDateTime",
                 DisplayLabel = "Cancelled Date",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "CancelledDateTime",
-                DisplayLabel = "Cancelled Date",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Status",
-                DisplayLabel = "Status",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Status",
@@ -279,16 +279,8 @@ internal abstract partial class BookingsServiceBase : IBookingsService
                 PropertyName = "VatNumber",
                 DisplayLabel = "Vat Number",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "VatNumber",
-                DisplayLabel = "Vat Number",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()

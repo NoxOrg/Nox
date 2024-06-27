@@ -31,15 +31,29 @@ internal class EntityServiceGenerator : INoxFileGenerator
                 .Where(a => a.UserInterface?.CanSort == true)
                 .Select(a => a.Name);
 
-            var attributesBySearchTypeEqual = entity.Attributes
+            var attributesBySearchMainTypeEqual = entity.Attributes
                 .Where(a => a.UserInterface?.CanSearch == true && 
                 (a.Type == Types.NoxType.AutoNumber 
                 || a.Type == Types.NoxType.Number
                 || a.Type == Types.NoxType.Guid))                
                 .Select(a => a.Name);
 
-            var attributesBySearchTypeContains = entity.Attributes
+            var attributesBySearchMainTypeContains = entity.Attributes
                 .Where(a => a.UserInterface?.CanSearch == true &&
+                (a.Type != Types.NoxType.AutoNumber
+                || a.Type != Types.NoxType.Number
+                || a.Type != Types.NoxType.Guid))
+                .Select(a => a.Name);
+
+            var attributesBySearchFilterTypeEqual = entity.Attributes
+                .Where(a => a.UserInterface?.CanFilter == true &&
+                (a.Type == Types.NoxType.AutoNumber
+                || a.Type == Types.NoxType.Number
+                || a.Type == Types.NoxType.Guid))
+                .Select(a => a.Name);
+
+            var attributesBySearchFilterTypeContains = entity.Attributes
+                .Where(a => a.UserInterface?.CanFilter == true &&
                 (a.Type != Types.NoxType.AutoNumber
                 || a.Type != Types.NoxType.Number
                 || a.Type != Types.NoxType.Guid))
@@ -66,8 +80,10 @@ internal class EntityServiceGenerator : INoxFileGenerator
                 .WithFileNamePrefix($"Ui.Services")
                 .WithObject("entity", entity)
                 .WithObject("attributesByOrder", attributesByOrder)
-                .WithObject("attributesBySearchTypeEqual", attributesBySearchTypeEqual)
-                .WithObject("attributesBySearchTypeContains", attributesBySearchTypeContains)
+                .WithObject("attributesBySearchMainTypeEqual", attributesBySearchMainTypeEqual)
+                .WithObject("attributesBySearchMainTypeContains", attributesBySearchMainTypeContains)
+                .WithObject("attributesBySearchFilterTypeEqual", attributesBySearchFilterTypeEqual)
+                .WithObject("attributesBySearchFilterTypeContains", attributesBySearchFilterTypeContains)
                 .WithObject("attributesByViewTypeAlways", attributesByViewTypeAlways)
                 .WithObject("attributesByViewTypeNever", attributesByViewTypeNever)
                 .WithObject("attributesByViewTypeOptionalOff", attributesByViewTypeOptionalOff)

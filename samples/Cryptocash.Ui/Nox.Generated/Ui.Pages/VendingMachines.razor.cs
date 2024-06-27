@@ -21,8 +21,6 @@ public partial class VendingMachines : ComponentBase
 
     private VendingMachinesDataGrid? referencedDataGrid;
 
-
-
     protected override void OnInitialized()
     {
         CurrentApiUiService = VendingMachinesService.IntialiseApiUiService();
@@ -40,9 +38,7 @@ public partial class VendingMachines : ComponentBase
 
 #endregion
 
-#region Search
-
-    private bool IsOpenSearchFilterDrawer = false;
+#region Search    
 
     public string SearchMainValue { get; set; } = string.Empty;
 
@@ -76,6 +72,8 @@ public partial class VendingMachines : ComponentBase
             await referencedDataGrid.RefreshDataGrid();
         }
     }
+
+    private bool IsOpenSearchFilterDrawer = false;
 
     public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
     {

@@ -170,7 +170,13 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "EffectiveAt",
+                DisplayLabel = "Effective At",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Rate",
@@ -183,16 +189,8 @@ internal abstract partial class CommissionsServiceBase : ICommissionsService
                 PropertyName = "EffectiveAt",
                 DisplayLabel = "Effective At",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "EffectiveAt",
-                DisplayLabel = "Effective At",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()

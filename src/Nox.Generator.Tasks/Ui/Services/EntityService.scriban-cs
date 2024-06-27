@@ -175,7 +175,7 @@ internal abstract partial class {{className}}Base : I{{className}}
         rtnApiUiService.SearchFilterList = new List<SearchFilter>();
 
         {{- for attribute in entity.Attributes }}
-        {{- if attributesBySearchTypeEqual | !array.contains attribute.Name }}
+        {{- if attributesBySearchMainTypeEqual | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
@@ -185,7 +185,25 @@ internal abstract partial class {{className}}Base : I{{className}}
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
+        {{- end }}
 
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesBySearchMainTypeContains | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "{{attribute.Name}}",
+                DisplayLabel = "{{getDisplayLabel attribute}}",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+        {{- end }}  
+        
+        {{- for attribute in entity.Attributes }}
+        {{- if attributesBySearchFilterTypeEqual | !array.contains attribute.Name }}
+        {{- continue; }}
+        {{- end }}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "{{attribute.Name}}",
@@ -196,7 +214,7 @@ internal abstract partial class {{className}}Base : I{{className}}
         {{- end }}
 
         {{- for attribute in entity.Attributes }}
-        {{- if attributesBySearchTypeContains | !array.contains attribute.Name }}
+        {{- if attributesBySearchFilterTypeContains | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
@@ -204,17 +222,9 @@ internal abstract partial class {{className}}Base : I{{className}}
                 PropertyName = "{{attribute.Name}}",
                 DisplayLabel = "{{getDisplayLabel attribute}}",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "{{attribute.Name}}",
-                DisplayLabel = "{{getDisplayLabel attribute}}",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-        {{- end }}               
+        {{- end }}  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>(); 
 

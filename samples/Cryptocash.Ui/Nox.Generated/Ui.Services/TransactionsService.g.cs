@@ -176,7 +176,27 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Reference",
+                DisplayLabel = "Reference",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "TransactionType",
@@ -189,24 +209,8 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
                 PropertyName = "ProcessedOnDateTime",
                 DisplayLabel = "Processed On",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "ProcessedOnDateTime",
-                DisplayLabel = "Processed On",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Amount",
-                DisplayLabel = "Amount",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
@@ -219,16 +223,8 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
                 PropertyName = "Reference",
                 DisplayLabel = "Reference",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Reference",
-                DisplayLabel = "Reference",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()

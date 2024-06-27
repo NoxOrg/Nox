@@ -188,7 +188,55 @@ internal abstract partial class CountriesServiceBase : ICountriesService
                 SearchFilterType = SearchFilterType.Eq,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Name",
+                DisplayLabel = "Country Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "OfficialName",
+                DisplayLabel = "Official Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "CountryIsoNumeric",
+                DisplayLabel = "Country Id",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "CountryIsoAlpha3",
+                DisplayLabel = "Country Code",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "GeoCoords",
+                DisplayLabel = "Geo Coordinates",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "StartOfWeek",
+                DisplayLabel = "Start of Week",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Population",
+                DisplayLabel = "Population",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Population",
@@ -201,24 +249,8 @@ internal abstract partial class CountriesServiceBase : ICountriesService
                 PropertyName = "Name",
                 DisplayLabel = "Country Name",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Name",
-                DisplayLabel = "Country Name",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "OfficialName",
-                DisplayLabel = "Official Name",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "OfficialName",
@@ -231,24 +263,8 @@ internal abstract partial class CountriesServiceBase : ICountriesService
                 PropertyName = "CountryIsoNumeric",
                 DisplayLabel = "Country Id",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "CountryIsoNumeric",
-                DisplayLabel = "Country Id",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "CountryIsoAlpha3",
-                DisplayLabel = "Country Code",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "CountryIsoAlpha3",
@@ -261,24 +277,8 @@ internal abstract partial class CountriesServiceBase : ICountriesService
                 PropertyName = "GeoCoords",
                 DisplayLabel = "Geo Coordinates",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "GeoCoords",
-                DisplayLabel = "Geo Coordinates",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "StartOfWeek",
-                DisplayLabel = "Start of Week",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "StartOfWeek",
@@ -291,16 +291,8 @@ internal abstract partial class CountriesServiceBase : ICountriesService
                 PropertyName = "Population",
                 DisplayLabel = "Population",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "Population",
-                DisplayLabel = "Population",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()

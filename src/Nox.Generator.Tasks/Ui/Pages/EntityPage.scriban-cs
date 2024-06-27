@@ -21,8 +21,6 @@ public partial class {{className}} : ComponentBase
 
     private {{entity.PluralName}}DataGrid? referencedDataGrid;
 
-
-
     protected override void OnInitialized()
     {
         CurrentApiUiService = {{entity.PluralName}}Service.IntialiseApiUiService();
@@ -40,11 +38,7 @@ public partial class {{className}} : ComponentBase
 
 #endregion
 
-{{- if getSearchEnabled }}
-
-#region Search
-
-    private bool IsOpenSearchFilterDrawer = false;
+#region Search    
 
     public string SearchMainValue { get; set; } = string.Empty;
 
@@ -59,7 +53,9 @@ public partial class {{className}} : ComponentBase
 
     public async Task Search()
     {
+    {{- if getSearchEnabled }}
         IsOpenSearchFilterDrawer = false;
+    {{- end }}
 
         if (IsPagingPopulated)
         {
@@ -78,6 +74,10 @@ public partial class {{className}} : ComponentBase
             await referencedDataGrid.RefreshDataGrid();
         }
     }
+
+    {{- if getSearchEnabled }}
+
+    private bool IsOpenSearchFilterDrawer = false;
 
     public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
     {
@@ -135,9 +135,9 @@ public partial class {{className}} : ComponentBase
         }
     }
 
-#endregion
+    {{- end }}
 
-{{- end }}
+#endregion
 
 {{- if getViewDrawerEnabled }}
 

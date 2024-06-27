@@ -52,12 +52,16 @@
                                            Color="Color.Info">Search</MudButton>
                             </td>
 
+                            {{- if getSearchFilterEnabled }}
+
                             <td style="padding-left:20px;">
                                 <MudButton OnClick="@(() => OpenSearchFilterDrawer(true))"
                                            Variant="Variant.Text"
                                            StartIcon="@Icons.Material.Filled.FilterAlt"
                                            Color="Color.Info">Filters</MudButton>
                             </td>
+
+                            {{- end }}  
 
                             {{- if getViewDrawerEnabled }}
 

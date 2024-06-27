@@ -21,8 +21,6 @@ public partial class Bookings : ComponentBase
 
     private BookingsDataGrid? referencedDataGrid;
 
-
-
     protected override void OnInitialized()
     {
         CurrentApiUiService = BookingsService.IntialiseApiUiService();
@@ -40,9 +38,7 @@ public partial class Bookings : ComponentBase
 
 #endregion
 
-#region Search
-
-    private bool IsOpenSearchFilterDrawer = false;
+#region Search    
 
     public string SearchMainValue { get; set; } = string.Empty;
 
@@ -76,6 +72,8 @@ public partial class Bookings : ComponentBase
             await referencedDataGrid.RefreshDataGrid();
         }
     }
+
+    private bool IsOpenSearchFilterDrawer = false;
 
     public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
     {

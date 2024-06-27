@@ -170,14 +170,6 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "PaymentProviderName",
-                DisplayLabel = "Payment Provider",
-                SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentProviderType",
@@ -185,21 +177,27 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentProviderName",
+                DisplayLabel = "Payment Provider",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentProviderType",
                 DisplayLabel = "Provider Type",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "PaymentProviderName",
                 DisplayLabel = "Payment Provider",
-                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {

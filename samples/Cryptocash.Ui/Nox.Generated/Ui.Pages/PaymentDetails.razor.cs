@@ -21,8 +21,6 @@ public partial class PaymentDetails : ComponentBase
 
     private PaymentDetailsDataGrid? referencedDataGrid;
 
-
-
     protected override void OnInitialized()
     {
         CurrentApiUiService = PaymentDetailsService.IntialiseApiUiService();
@@ -40,9 +38,7 @@ public partial class PaymentDetails : ComponentBase
 
 #endregion
 
-#region Search
-
-    private bool IsOpenSearchFilterDrawer = false;
+#region Search    
 
     public string SearchMainValue { get; set; } = string.Empty;
 
@@ -76,6 +72,8 @@ public partial class PaymentDetails : ComponentBase
             await referencedDataGrid.RefreshDataGrid();
         }
     }
+
+    private bool IsOpenSearchFilterDrawer = false;
 
     public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
     {

@@ -176,7 +176,20 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "Amount",
@@ -189,14 +202,6 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
                 PropertyName = "RequestedDeliveryDate",
                 DisplayLabel = "Requested Delivery Date",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "RequestedDeliveryDate",
-                DisplayLabel = "Requested Delivery Date",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
@@ -204,16 +209,15 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
                 PropertyName = "DeliveryDateTime",
                 DisplayLabel = "Delivery Date",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
-
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
-                PropertyName = "DeliveryDateTime",
-                DisplayLabel = "Delivery Date",
+                PropertyName = "Status",
+                DisplayLabel = "Status",
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()

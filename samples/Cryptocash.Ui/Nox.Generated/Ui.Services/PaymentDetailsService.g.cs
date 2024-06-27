@@ -176,7 +176,20 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
                 SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.MainSearch
             });
-
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
             {
                 PropertyName = "PaymentAccountName",
@@ -189,14 +202,6 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
                 PropertyName = "PaymentAccountNumber",
                 DisplayLabel = "Account Number",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "PaymentAccountNumber",
-                DisplayLabel = "Account Number",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
             });
             rtnApiUiService.SearchFilterList.Add(new SearchFilter()
@@ -204,16 +209,8 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
                 PropertyName = "PaymentAccountSortCode",
                 DisplayLabel = "Account Sort Code",
                 SearchFilterType = SearchFilterType.Contains,
-                SearchFilterLocation = SearchFilterLocation.MainSearch
-            });
-
-            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
-            {
-                PropertyName = "PaymentAccountSortCode",
-                DisplayLabel = "Account Sort Code",
-                SearchFilterType = SearchFilterType.Contains,
                 SearchFilterLocation = SearchFilterLocation.FilterSearch
-            });               
+            });  
 
         rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
