@@ -13,9 +13,9 @@ public partial class PaymentProvidersDataGrid : ComponentBase
 
     public EntityData<PaymentProviderModel>? PaymentProviderEntityData { get; set; }
 
-    public IEnumerable<PaymentProviderModel>? PagedData = null;
+    private IEnumerable<PaymentProviderModel>? PagedData = null;
 
-    public MudTable<PaymentProviderModel>? PaymentProviderDataGridTable;
+    private MudTable<PaymentProviderModel>? PaymentProviderDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class PaymentProvidersDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class PaymentProvidersDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

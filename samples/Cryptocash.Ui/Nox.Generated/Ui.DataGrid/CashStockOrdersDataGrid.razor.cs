@@ -13,9 +13,9 @@ public partial class CashStockOrdersDataGrid : ComponentBase
 
     public EntityData<CashStockOrderModel>? CashStockOrderEntityData { get; set; }
 
-    public IEnumerable<CashStockOrderModel>? PagedData = null;
+    private IEnumerable<CashStockOrderModel>? PagedData = null;
 
-    public MudTable<CashStockOrderModel>? CashStockOrderDataGridTable;
+    private MudTable<CashStockOrderModel>? CashStockOrderDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class CashStockOrdersDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class CashStockOrdersDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

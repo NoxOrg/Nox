@@ -13,9 +13,9 @@ public partial class CountriesDataGrid : ComponentBase
 
     public EntityData<CountryModel>? CountryEntityData { get; set; }
 
-    public IEnumerable<CountryModel>? PagedData = null;
+    private IEnumerable<CountryModel>? PagedData = null;
 
-    public MudTable<CountryModel>? CountryDataGridTable;
+    private MudTable<CountryModel>? CountryDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class CountriesDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class CountriesDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

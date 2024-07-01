@@ -13,9 +13,9 @@ public partial class {{className}} : ComponentBase
 
     public EntityData<{{entity.Name}}Model>? {{entity.Name}}EntityData { get; set; }
 
-    public IEnumerable<{{entity.Name}}Model>? PagedData = null;
+    private IEnumerable<{{entity.Name}}Model>? PagedData = null;
 
-    public MudTable<{{entity.Name}}Model>? {{entity.Name}}DataGridTable;
+    private MudTable<{{entity.Name}}Model>? {{entity.Name}}DataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class {{className}} : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class {{className}} : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

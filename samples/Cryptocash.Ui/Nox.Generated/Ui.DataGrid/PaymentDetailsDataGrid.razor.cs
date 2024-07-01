@@ -13,9 +13,9 @@ public partial class PaymentDetailsDataGrid : ComponentBase
 
     public EntityData<PaymentDetailModel>? PaymentDetailEntityData { get; set; }
 
-    public IEnumerable<PaymentDetailModel>? PagedData = null;
+    private IEnumerable<PaymentDetailModel>? PagedData = null;
 
-    public MudTable<PaymentDetailModel>? PaymentDetailDataGridTable;
+    private MudTable<PaymentDetailModel>? PaymentDetailDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class PaymentDetailsDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class PaymentDetailsDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

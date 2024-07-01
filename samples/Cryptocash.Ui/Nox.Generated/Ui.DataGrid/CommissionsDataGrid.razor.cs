@@ -13,9 +13,9 @@ public partial class CommissionsDataGrid : ComponentBase
 
     public EntityData<CommissionModel>? CommissionEntityData { get; set; }
 
-    public IEnumerable<CommissionModel>? PagedData = null;
+    private IEnumerable<CommissionModel>? PagedData = null;
 
-    public MudTable<CommissionModel>? CommissionDataGridTable;
+    private MudTable<CommissionModel>? CommissionDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class CommissionsDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class CommissionsDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

@@ -13,9 +13,9 @@ public partial class CurrenciesDataGrid : ComponentBase
 
     public EntityData<CurrencyModel>? CurrencyEntityData { get; set; }
 
-    public IEnumerable<CurrencyModel>? PagedData = null;
+    private IEnumerable<CurrencyModel>? PagedData = null;
 
-    public MudTable<CurrencyModel>? CurrencyDataGridTable;
+    private MudTable<CurrencyModel>? CurrencyDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class CurrenciesDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class CurrenciesDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

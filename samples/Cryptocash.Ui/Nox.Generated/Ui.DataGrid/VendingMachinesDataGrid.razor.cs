@@ -13,9 +13,9 @@ public partial class VendingMachinesDataGrid : ComponentBase
 
     public EntityData<VendingMachineModel>? VendingMachineEntityData { get; set; }
 
-    public IEnumerable<VendingMachineModel>? PagedData = null;
+    private IEnumerable<VendingMachineModel>? PagedData = null;
 
-    public MudTable<VendingMachineModel>? VendingMachineDataGridTable;
+    private MudTable<VendingMachineModel>? VendingMachineDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class VendingMachinesDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class VendingMachinesDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

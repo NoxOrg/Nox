@@ -13,9 +13,9 @@ public partial class LandLordsDataGrid : ComponentBase
 
     public EntityData<LandLordModel>? LandLordEntityData { get; set; }
 
-    public IEnumerable<LandLordModel>? PagedData = null;
+    private IEnumerable<LandLordModel>? PagedData = null;
 
-    public MudTable<LandLordModel>? LandLordDataGridTable;
+    private MudTable<LandLordModel>? LandLordDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class LandLordsDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class LandLordsDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

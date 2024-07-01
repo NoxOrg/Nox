@@ -13,9 +13,9 @@ public partial class BookingsDataGrid : ComponentBase
 
     public EntityData<BookingModel>? BookingEntityData { get; set; }
 
-    public IEnumerable<BookingModel>? PagedData = null;
+    private IEnumerable<BookingModel>? PagedData = null;
 
-    public MudTable<BookingModel>? BookingDataGridTable;
+    private MudTable<BookingModel>? BookingDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class BookingsDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class BookingsDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

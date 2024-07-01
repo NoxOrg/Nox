@@ -13,9 +13,9 @@ public partial class EmployeesDataGrid : ComponentBase
 
     public EntityData<EmployeeModel>? EmployeeEntityData { get; set; }
 
-    public IEnumerable<EmployeeModel>? PagedData = null;
+    private IEnumerable<EmployeeModel>? PagedData = null;
 
-    public MudTable<EmployeeModel>? EmployeeDataGridTable;
+    private MudTable<EmployeeModel>? EmployeeDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class EmployeesDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class EmployeesDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

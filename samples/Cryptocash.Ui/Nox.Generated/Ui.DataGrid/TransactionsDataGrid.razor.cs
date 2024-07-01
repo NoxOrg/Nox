@@ -13,9 +13,9 @@ public partial class TransactionsDataGrid : ComponentBase
 
     public EntityData<TransactionModel>? TransactionEntityData { get; set; }
 
-    public IEnumerable<TransactionModel>? PagedData = null;
+    private IEnumerable<TransactionModel>? PagedData = null;
 
-    public MudTable<TransactionModel>? TransactionDataGridTable;
+    private MudTable<TransactionModel>? TransactionDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class TransactionsDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class TransactionsDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

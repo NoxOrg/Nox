@@ -13,9 +13,9 @@ public partial class CustomersDataGrid : ComponentBase
 
     public EntityData<CustomerModel>? CustomerEntityData { get; set; }
 
-    public IEnumerable<CustomerModel>? PagedData = null;
+    private IEnumerable<CustomerModel>? PagedData = null;
 
-    public MudTable<CustomerModel>? CustomerDataGridTable;
+    private MudTable<CustomerModel>? CustomerDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class CustomersDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class CustomersDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

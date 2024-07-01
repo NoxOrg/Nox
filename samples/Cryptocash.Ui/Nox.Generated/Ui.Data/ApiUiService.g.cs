@@ -359,7 +359,9 @@ public class ApiUiService
                         }
                     }
 
-                    return RtnFilterNameList.TrimEnd([',', ' ']);
+                    char[] removeArray = new char[2] { ',', ' ' };
+
+                    return RtnFilterNameList.TrimEnd(removeArray);
                 }
             }
 

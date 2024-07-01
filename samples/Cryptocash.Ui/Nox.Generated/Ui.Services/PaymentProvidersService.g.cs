@@ -197,13 +197,13 @@ internal abstract partial class PaymentProvidersServiceBase : IPaymentProvidersS
             {
                 PropertyName = "PaymentProviderName",
                 DisplayLabel = "Payment Provider",
-                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOffByDefault
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.Always
             });
             rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
             {
                 PropertyName = "PaymentProviderType",
                 DisplayLabel = "Provider Type",
-                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.Always
             });        
 
         rtnApiUiService.Paging = new Paging()

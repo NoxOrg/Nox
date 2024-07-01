@@ -13,9 +13,9 @@ public partial class MinimumCashStocksDataGrid : ComponentBase
 
     public EntityData<MinimumCashStockModel>? MinimumCashStockEntityData { get; set; }
 
-    public IEnumerable<MinimumCashStockModel>? PagedData = null;
+    private IEnumerable<MinimumCashStockModel>? PagedData = null;
 
-    public MudTable<MinimumCashStockModel>? MinimumCashStockDataGridTable;
+    private MudTable<MinimumCashStockModel>? MinimumCashStockDataGridTable;
 
     private bool IsLoading = true;
 
@@ -100,10 +100,10 @@ public partial class MinimumCashStocksDataGrid : ComponentBase
 
     public bool IsSearchFilterPopulated
     {
-        get
+         get
         {
             return CurrentApiUiService.SearchFilterList != null
-                && CurrentApiUiService.SearchFilterList.Any();
+                && CurrentApiUiService.SearchFilterList.Count > 0;
         }
     }
 
@@ -145,7 +145,7 @@ public partial class MinimumCashStocksDataGrid : ComponentBase
         get
         {
             return CurrentApiUiService.OrderList != null
-                    && CurrentApiUiService.OrderList.Any();
+                    && CurrentApiUiService.OrderList.Count > 0;
         }
     }
 

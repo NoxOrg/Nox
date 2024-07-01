@@ -131,46 +131,6 @@ public partial class PaymentProviders : ComponentBase
         }
     }
 
-#endregion
-
-#region View
-
-    private bool IsOpenViewDrawer = false;
-
-    public bool IsViewPopulated
-    {
-        get
-        {
-            return CurrentApiUiService.ViewList != null
-                    && CurrentApiUiService.ViewList.Count > 0;
-        }
-    }
-
-    public void OpenViewDrawer(bool Open)
-    {
-        IsOpenViewDrawer = Open;
-    }
-
-    public void ApplyViewList()
-    {
-        IsOpenViewDrawer = false;
-
-        if (IsViewPopulated)
-        {
-            CurrentApiUiService!.ApplyShowInSearchList();
-        }
-    }
-
-    public void ResetViewList()
-    {
-        IsOpenViewDrawer = false;
-
-        if (IsViewPopulated)
-        {
-            CurrentApiUiService!.ResetShowInSearchList();
-        }
-    }
-
 #endregion    
 
 #region ADD
