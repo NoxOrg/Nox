@@ -8,8 +8,12 @@
 
 @inject IPaymentProvidersService PaymentProvidersService
 
-<MudTable T="PaymentProviderModel" 
-          Items="@PaymentProviders" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<PaymentProviderModel>>>(ServerReload))"
+          @ref="PaymentProviderDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="PaymentProviderModel" 
+          Items="@PaymentProvidersData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,20 +22,58 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Payment Provider</MudTh>
-        <MudTh>Provider Type</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentProviderName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentProviderName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentProviderModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentProviderName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentProviderName")">
+                        Payment Provider
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Payment Provider</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentProviderType"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentProviderType"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentProviderModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentProviderType"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentProviderType")">
+                        Provider Type
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Provider Type</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewText Text="@context.PaymentProviderName" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.PaymentProviderType" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentProviderName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentProviderName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentProviderType"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentProviderType" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -39,4 +81,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

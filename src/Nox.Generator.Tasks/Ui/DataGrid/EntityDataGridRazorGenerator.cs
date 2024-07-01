@@ -28,7 +28,8 @@ internal class EntityDataGridRazorGenerator : INoxFileGenerator
         {
             var attributesToShowInSearch = entity.Attributes
                 .Where(a => a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.Always 
-                    || a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOnByDefault)
+                    || a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOnByDefault
+                    || a.UserInterface?.ShowInSearchResults == ShowInSearchResultsOption.OptionalAndOffByDefault)
                 .Select(a => a.Name);
 
             new TaskTemplateFileBuilder(codeGeneratorState, absoluteOutputPath)

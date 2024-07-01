@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{672E56
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tests", "tests\Nox.Generator.Tests\Nox.Generator.Tests.csproj", "{58599385-98BD-44A4-9990-A7AEDCAFC8A0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0SolutionItems", "0SolutionItems", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "r", "r", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		GitVersion.yml = GitVersion.yml

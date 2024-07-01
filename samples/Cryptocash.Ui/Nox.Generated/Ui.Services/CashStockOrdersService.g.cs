@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICashStockOrdersService
 {
     public Task<List<CashStockOrderModel>> GetAllAsync();
+    public Task<EntityData<CashStockOrderModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<CashStockOrderModel?> GetByIdAsync(string id);
     public Task<CashStockOrderModel?> CreateAsync(CashStockOrderModel cashStockOrder);
     public Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder);
     public Task DeleteAsync(CashStockOrderModel cashStockOrder);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class CashStockOrdersService : CashStockOrdersServiceBase
@@ -56,6 +60,22 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<CashStockOrderDto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CashStockOrderModel>();
+    }
+
+    public async Task<EntityData<CashStockOrderModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<CashStockOrderDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<CashStockOrderModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CashStockOrderModel>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<CashStockOrderModel?> GetByIdAsync(string id)
@@ -122,5 +142,122 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
         }
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "DeliveryDateTime",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "Status",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });  
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

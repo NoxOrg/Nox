@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IPaymentDetailsService
 {
     public Task<List<PaymentDetailModel>> GetAllAsync();
+    public Task<EntityData<PaymentDetailModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<PaymentDetailModel?> GetByIdAsync(string id);
     public Task<PaymentDetailModel?> CreateAsync(PaymentDetailModel paymentDetail);
     public Task<PaymentDetailModel?> UpdateAsync(PaymentDetailModel paymentDetail);
     public Task DeleteAsync(PaymentDetailModel paymentDetail);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class PaymentDetailsService : PaymentDetailsServiceBase
@@ -56,6 +60,22 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<PaymentDetailDto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<PaymentDetailModel>();
+    }
+
+    public async Task<EntityData<PaymentDetailModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<PaymentDetailDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<PaymentDetailModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<PaymentDetailModel>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<PaymentDetailModel?> GetByIdAsync(string id)
@@ -122,5 +142,109 @@ internal abstract partial class PaymentDetailsServiceBase : IPaymentDetailsServi
         }
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "PaymentAccountName",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "PaymentAccountNumber",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "PaymentAccountSortCode",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountName",
+                DisplayLabel = "Payment Account",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountName",
+                DisplayLabel = "Payment Account",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });  
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentAccountName",
+                DisplayLabel = "Payment Account",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentAccountNumber",
+                DisplayLabel = "Account Number",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "PaymentAccountSortCode",
+                DisplayLabel = "Account Sort Code",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

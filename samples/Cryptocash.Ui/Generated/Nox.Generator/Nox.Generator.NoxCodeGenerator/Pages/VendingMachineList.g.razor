@@ -542,8 +542,8 @@
                         || CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.Always));
                         <MudSwitch Label="@labelName"
                                    Color="Color.Info"
-                                   Checked="IsChecked"
-                                   CheckedChanged="@(e=>CurrentApiUiService!.UpdateShowInSearch(e,CurrentFilter))"
+                                   Value="IsChecked"
+                                   ValueChanged="@(e=>CurrentApiUiService!.UpdateShowInSearch(e,CurrentFilter))"
                                    T="bool"
                                    Style="padding:15px 0px 0px 25px;"
                                    Disabled="CurrentFilter.IsSetViewDisabled" />

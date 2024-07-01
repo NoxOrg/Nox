@@ -123,8 +123,17 @@
   <data name="AddEntity" xml:space="preserve">
     <value>Add {0}</value>
   </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="DefaultView" xml:space="preserve">
+    <value>Default View</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -144,6 +153,9 @@
   <data name="FieldIsRequired" xml:space="preserve">
     <value>{0} is required.</value>
   </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
   <data name="LatLongSummary" xml:space="preserve">
     <value>Latitude: {0}, Longitude: {1}</value>
   </data>
@@ -158,6 +170,9 @@
   </data>
   <data name="NoResultsFound" xml:space="preserve">
     <value>No Results Found</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Please Select</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -230,6 +245,9 @@
   </data>
   <data name="ValidateTextLength" xml:space="preserve">
     <value>{0} is required and must be at least {1} characters long</value>
+  </data>
+  <data name="ViewColumns" xml:space="preserve">
+    <value>View Columns</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>

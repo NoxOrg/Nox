@@ -33,6 +33,7 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true
+    isReadonly: false
     userInterface:
       label: Country Name
       showInSearchResults: optionalAndOnByDefault
@@ -91,7 +92,7 @@ attributes:
     userInterface:
       label: Geo Coordinates
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true
@@ -198,7 +199,7 @@ attributes:
     userInterface:
       label: Start of Week
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true

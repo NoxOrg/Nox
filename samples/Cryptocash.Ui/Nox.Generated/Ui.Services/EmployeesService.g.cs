@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface IEmployeesService
 {
     public Task<List<EmployeeModel>> GetAllAsync();
+    public Task<EntityData<EmployeeModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<EmployeeModel?> GetByIdAsync(string id);
     public Task<EmployeeModel?> CreateAsync(EmployeeModel employee);
     public Task<EmployeeModel?> UpdateAsync(EmployeeModel employee);
     public Task DeleteAsync(EmployeeModel employee);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class EmployeesService : EmployeesServiceBase
@@ -56,6 +60,22 @@ internal abstract partial class EmployeesServiceBase : IEmployeesService
     {
         var items = await _httpClient.GetODataCollectionResponseAsync<List<EmployeeDto>>(_apiBaseUrl);
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<EmployeeModel>();
+    }
+
+    public async Task<EntityData<EmployeeModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<EmployeeDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<EmployeeModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<EmployeeModel>();
+
+            return rtnItems;
+        }
+
+        return null;
     }
 
     public async Task<EmployeeModel?> GetByIdAsync(string id)
@@ -122,5 +142,181 @@ internal abstract partial class EmployeesServiceBase : IEmployeesService
         }
 
         await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "FirstName",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "LastName",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "EmailAddress",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "FirstWorkingDay",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "LastWorkingDay",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "FirstWorkingDay",
+                DisplayLabel = "First Day",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "LastWorkingDay",
+                DisplayLabel = "Last Day",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "FirstWorkingDay",
+                DisplayLabel = "First Day",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "LastWorkingDay",
+                DisplayLabel = "Last Day",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });  
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "FirstWorkingDay",
+                DisplayLabel = "First Day",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "LastWorkingDay",
+                DisplayLabel = "Last Day",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

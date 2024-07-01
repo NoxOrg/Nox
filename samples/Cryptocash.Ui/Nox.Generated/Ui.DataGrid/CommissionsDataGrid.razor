@@ -8,8 +8,12 @@
 
 @inject ICommissionsService CommissionsService
 
-<MudTable T="CommissionModel" 
-          Items="@Commissions" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CommissionModel>>>(ServerReload))"
+          @ref="CommissionDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="CommissionModel" 
+          Items="@CommissionsData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,20 +22,58 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Commission Rate</MudTh>
-        <MudTh>Effective At</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Rate"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Rate"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CommissionModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Rate"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Rate")">
+                        Commission Rate
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Commission Rate</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EffectiveAt"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("EffectiveAt"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CommissionModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "EffectiveAt"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("EffectiveAt")">
+                        Effective At
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Effective At</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewPercentage Percentage="@context.Rate" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTime DateTime="@context.EffectiveAt" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Rate"))
+        {
+            <MudTd>
+                <ViewPercentage Percentage="@context.Rate" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EffectiveAt"))
+        {
+            <MudTd>
+                <ViewDateTime DateTime="@context.EffectiveAt" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -39,4 +81,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

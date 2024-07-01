@@ -5,6 +5,9 @@
 @using Cryptocash.Ui.Forms.Edit
 @using Cryptocash.Ui.DataGrid
 @using Cryptocash.Ui.Models
+@using Cryptocash.Ui.Helper
+@using Cryptocash.Ui.Enum
+@using Cryptocash.Ui.Data
 @using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
 @using Cryptocash.Ui.Services
 
@@ -20,19 +23,49 @@
 
 @inject IPaymentProvidersService PaymentProvidersService
 
-<MudText>PaymentProviders</MudText>
+<MudText Typo="Typo.h5" Style="margin-top:15px;"><b>PaymentProviders</b></MudText>
 
 <MudGrid Spacing="0">
     <MudItem xs="12">
-        <MudText>Search section</MudText>
+        <MudGrid Spacing="2" Style="margin-top:10px;">
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="@SearchMainValue"
+                                  Label="Search"
+                                  Variant="Variant.Outlined"
+                                  FullWidth="true"
+                                  Clearable="true"
+                                  OnClearButtonClick="@(() => ClearMainSearchFilterList())"
+                                  OnKeyUp="@(e=>SearchEnterSubmit(e))"
+                                  Placeholder="@CurrentApiUiService!.SearchLabel"></MudTextField>
+                </MudItem>
+                <MudItem xs="3" Class="align-left justify-left" Style="margin-top:15px;">
+                    <table>
+                        <tr>
+                            <td style="padding-left:10px;">
+                                <MudButton OnClick="Search"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Search"
+                                           Color="Color.Info">Search</MudButton>
+                            </td>
+
+                            <td style="padding-left:20px;">
+                                <MudButton OnClick="@(() => OpenSearchFilterDrawer(true))"
+                                           Variant="Variant.Text"
+                                           StartIcon="@Icons.Material.Filled.FilterAlt"
+                                           Color="Color.Info">Filters</MudButton>
+                            </td>                           
+                        </tr>
+                    </table>
+                </MudItem>
+            </MudGrid>
     </MudItem>
     <MudItem xs="12" Style="margin:15px 0px 15px 0px;text-align:right;">
         <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
     </MudItem>
     <AddPaymentProviderForm @bind-IsVisible="showAddDialog" OnSubmit="AddPaymentProviderSubmit" OnCancel="HideAddDialog" />
-    <EditPaymentProviderForm @bind-IsVisible="showEditDialog" OnSubmit="EditPaymentProviderSubmit" OnCancel="HideEditDialog" PaymentProvider="selectedEntity" />
+    <EditPaymentProviderForm @bind-IsVisible="showEditDialog" OnSubmit="EditPaymentProviderSubmit" OnCancel="HideEditDialog" PaymentProvider="SelectedEntity" />
     <MudItem xs="12">
-        <PaymentProvidersDataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
+        <PaymentProvidersDataGrid @ref="referencedDataGrid" CurrentApiUiService="@CurrentApiUiService" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
     </MudItem>
 </MudGrid>
 <MudDialog @bind-IsVisible="showDeleteDialog" Options="ConfirmationDialogOptions">
@@ -75,108 +108,94 @@
         </DialogActions>
     </MudDialog>
 
-@code{
-
-private PaymentProvidersDataGrid? referencedDataGrid;
-
-#region ADD
-    private bool showAddDialog = false;
-
-    private void ShowAddDialog()
+    @if (IsOpenSearchFilterDrawer)
     {
-        showAddDialog = true;
+        <MudDrawer @bind-Open="IsOpenSearchFilterDrawer"
+                   Width="400px"
+                   Height="100%"
+                   Anchor="Anchor.End"
+                   Elevation="1"
+                   Variant="@DrawerVariant.Temporary">
+            <MudDrawerHeader>
+                <table style="width:100%">
+                    <tr>
+                        <td style="text-align:left">
+                            <MudText Typo="Typo.h6">@NoxResources.Filters</MudText>
+                        </td>
+                        <td style="text-align:right">
+                            <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                           Color="Color.Info"
+                                           OnClick="@(() => OpenSearchFilterDrawer(false))"></MudIconButton>
+                        </td>
+                    </tr>
+                </table>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                @if (IsSearchFilterPopulated)
+                {
+                    <table style="width:100%;">
+                        @foreach (SearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == SearchFilterLocation.FilterSearch))
+                        {
+                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.DisplayLabel);
+
+                            if (CurrentFilter.IsDropdownSelection)
+                            {
+                                <tr>
+                                    <td style="padding:15px 25px 0px 25px;">
+                                        @if (CurrentFilter.SearchValueOptionList != null)
+                                        {
+                                            <MudSelect Dense="true"
+                                                       T="string"
+                                                       Label="@LabelName"
+                                                       Variant="Variant.Outlined"
+                                                       Placeholder="@NoxResources.PleaseSelect"
+                                                       ValueChanged="@(e=>CurrentApiUiService!.UpdateSearchFilter(e,CurrentFilter))"
+                                                       Clearable="true"
+                                                       OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
+                                                       SelectedValues="CurrentApiUiService!.GetSearchFilterValueList(CurrentFilter)">
+                                                @foreach (var CurrentOption in CurrentFilter.SearchValueOptionList)
+                                                {
+                                                    <MudSelectItem Value="@(CurrentOption.Value)" />
+                                                }
+                                            </MudSelect>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td style="padding:15px 25px 0px 25px;">
+                                        <MudTextField Label="@LabelName"
+                                                      Variant="Variant.Outlined"
+                                                      FullWidth="true"
+                                                      TextChanged="@(e=>CurrentApiUiService!.UpdateSearchFilter(e,CurrentFilter))"
+                                                      OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
+                                                      T="string"
+                                                      Clearable="true"
+                                                      Value="CurrentApiUiService!.GetSearchFilterValue(CurrentFilter)"></MudTextField>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <table style="width:100%;margin-top:20px;">
+                        <tr>
+                            <td style="text-align:left;padding:25px;width:50%;">
+                                <MudButton OnClick="@(() => CurrentApiUiService!.ResetFilterSearchFilterList())"
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Info"
+                                           FullWidth="true">@NoxResources.ClearAll</MudButton>
+                            </td>
+                            <td style="text-align:right;padding:25px;width:50%;">
+                                <MudButton OnClick="ApplySearchFilterList"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Info"
+                                           FullWidth="true">@NoxResources.Apply</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </MudNavMenu>
+        </MudDrawer>
     }
-
-    private void HideAddDialog()
-    {
-        showAddDialog = false;
-    }
-
-    private void AddPaymentProviderSubmit()
-    {
-        showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
-    }
-#endregion ADD
-#region EDIT
-    private bool showEditDialog = false;   
-    
-    [Parameter]
-    public PaymentProviderModel? selectedEntity { get; set; }   
-
-    private void ShowEditDialog(PaymentProviderModel? currentSelected)
-    {
-        selectedEntity = currentSelected;
-        showEditDialog = true;
-    }
-
-    private void HideEditDialog()
-    {
-        showEditDialog = false;
-    }
-
-    private void EditPaymentProviderSubmit()
-    {
-        showEditDialog = false;    
-        selectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
-    }
-#endregion EDIT
-#region DELETE
-    private bool showDeleteDialog = false; 
-    
-    private bool IsDeleteLoading = false;
-
-    private bool HasDeleteError = false;
-    
-    [Parameter]
-    public PaymentProviderModel? deleteEntity { get; set; }   
-
-    public DialogOptions ConfirmationDialogOptions { get; set; } = new()
-    {
-        ClassBackground = "dialog-blur-class",
-        DisableBackdropClick = true,
-        Position = DialogPosition.TopCenter,
-        MaxWidth = MaxWidth.Medium
-    };
-
-    private void ShowDeleteConfirmation(PaymentProviderModel? currentSelected)
-    {
-        deleteEntity = currentSelected;
-        showDeleteDialog = true;
-    }
-
-    private void HideDeleteConfirmation()
-    {
-        showDeleteDialog = false;
-    }
-
-    private async Task DeletePaymentProviderSubmit()
-    {
-        try
-        {
-            IsDeleteLoading = true;
-
-            if (deleteEntity != null)
-            {
-                await PaymentProvidersService.DeleteAsync(deleteEntity);
-            }
-            else
-            {
-                HasDeleteError = true;
-            }
-        }
-        catch
-        {
-            HasDeleteError = true;
-        }
-        finally
-        {
-            IsDeleteLoading = false;
-            showDeleteDialog = false;    
-            deleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
-        }               
-    }
-#endregion DELETE
-}

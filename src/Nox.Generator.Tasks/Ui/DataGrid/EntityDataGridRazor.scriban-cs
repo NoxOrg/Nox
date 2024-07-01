@@ -18,8 +18,12 @@ end -}}
 
 @inject I{{entity.PluralName}}Service {{entity.PluralName}}Service
 
-<MudTable T="{{entity.Name}}Model" 
-          Items="@{{entity.PluralName}}" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<{{entity.Name}}Model>>>(ServerReload))"
+          @ref="{{entity.Name}}DataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="{{entity.Name}}Model" 
+          Items="@{{entity.PluralName}}Data" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -34,7 +38,23 @@ end -}}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
-        <MudTh>{{getDisplayLabel attribute}}</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("{{attribute.Name}}"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("{{attribute.Name}}"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="{{entity.Name}}Model"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "{{attribute.Name}}"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("{{attribute.Name}}")">
+                        {{getDisplayLabel attribute}}
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>{{getDisplayLabel attribute}}</MudTh>
+            }
+        }
         {{- end }}
         {{- if entity.Persistence.Delete.IsEnabled }}
         <MudTh>Delete</MudTh>
@@ -50,9 +70,12 @@ end -}}
         {{- if attributesToShowInSearch | !array.contains attribute.Name }}
         {{- continue; }}
         {{- end }}
-        <MudTd>
-            <View{{attribute.Type}} {{attribute.Type}}="@context.{{attribute.Name}}" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("{{attribute.Name}}"))
+        {
+            <MudTd>
+                <View{{attribute.Type}} {{attribute.Type}}="@context.{{attribute.Name}}" />
+            </MudTd>
+        }
         {{- end }}
         {{- if entity.Persistence.Delete.IsEnabled }}
         <MudTd>
@@ -63,4 +86,7 @@ end -}}
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

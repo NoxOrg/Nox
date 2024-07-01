@@ -57,7 +57,7 @@
     byte testDayOfWeek = 1;
     string? testCountryCode3 = "UKR";
     string? testCountryCode2 = "GB";
-    string? testCurrencyCode3 = "GBP";
+    string? testCurrencyCode3 = "GBP"; 
     ushort? testCountryNumber = null;
     short? testCurrencyNumber = null;
     StreetAddressModel testStreetAddress = new StreetAddressModel()
@@ -260,9 +260,9 @@
                                                         <MudText>TestCountryCode3: @testCountryCode3</MudText>
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <EditCountryCode2 Title="Country2" @bind-CountryCode2="testCountryCode2" Disabled="@testDisabled" />
+                                                        <EditCountryCode2 Title="CountryCode2" @bind-CountryCode2="testCountryCode2" Disabled="@testDisabled" />
                                                         <MudText>TestCountryCode2: @testCountryCode2</MudText>
-                                                    </MudItem>
+                                                    </MudItem> 
                                                     <MudItem xs="6">
                                                     <EditCountryNumber Title="CountryNumber" @bind-CountryNumber="testCountryNumber" Disabled="@testDisabled" />
                                                         <MudText>testCountryNumber: @testCountryNumber</MudText>
@@ -272,9 +272,9 @@
                                                     <MudText>testCurrencyNumber: @testCurrencyNumber </MudText>
                                                     </MudItem> 
                                                     <MudItem xs="6">
-                                                        <EditCurrencyCode3 Title="Currency3" @bind-CurrencyCode3="testCurrencyCode3" Disabled="@testDisabled" />
+                                                        <EditCurrencyCode3 Title="CurrencyCode3" @bind-CurrencyCode3="testCurrencyCode3" Disabled="@testDisabled" />
                                                         <MudText>TestCurrencyCode3: @testCurrencyCode3</MudText>
-                                                    </MudItem>
+                                                    </MudItem> 
                                                     <MudItem xs="6">
                                                         <Select Title="Select"
                                                             SelectionList="@testGenericEntityList" Disabled="@testDisabled" />

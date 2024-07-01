@@ -33,15 +33,14 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true
-    isReadonly: true
     userInterface:
       label: Payment Provider
-      showInSearchResults: optionalAndOnByDefault
-      canSort: true
-      canSearch: true
-      canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      showInSearchResults: always      
+      canSearch: true
+      canFilter: true
+      canSort: true      
 
   - name: PaymentProviderType
     description: Payment provider account type
@@ -52,12 +51,12 @@ attributes:
     isRequired: true
     userInterface:
       label: Provider Type
-      showInSearchResults: optionalAndOnByDefault
-      canSort: true
-      canSearch: true
-      canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      showInSearchResults: always      
+      canSearch: true
+      canFilter: true
+      canSort: true      
 
 relationships:
     

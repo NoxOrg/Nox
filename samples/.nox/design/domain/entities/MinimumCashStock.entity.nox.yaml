@@ -33,7 +33,7 @@ attributes:
     userInterface:
       label: Amount
       showInSearchResults: optionalAndOnByDefault
-      canSort: true
+      canSort: false
       canSearch: true
       canFilter: true
       showOnCreateForm: true

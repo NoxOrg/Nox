@@ -8,8 +8,12 @@
 
 @inject ICashStockOrdersService CashStockOrdersService
 
-<MudTable T="CashStockOrderModel" 
-          Items="@CashStockOrders" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CashStockOrderModel>>>(ServerReload))"
+          @ref="CashStockOrderDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="CashStockOrderModel" 
+          Items="@CashStockOrdersData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -18,28 +22,104 @@
           Dense="true">
     <HeaderContent>
         <MudTh>Select</MudTh>
-        <MudTh>Amount</MudTh>
-        <MudTh>Requested Delivery Date</MudTh>
-        <MudTh>Delivery Date</MudTh>
-        <MudTh>Status</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Amount"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Amount"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CashStockOrderModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Amount"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Amount")">
+                        Amount
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Amount</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RequestedDeliveryDate"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("RequestedDeliveryDate"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CashStockOrderModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "RequestedDeliveryDate"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("RequestedDeliveryDate")">
+                        Requested Delivery Date
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Requested Delivery Date</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("DeliveryDateTime"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("DeliveryDateTime"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CashStockOrderModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "DeliveryDateTime"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("DeliveryDateTime")">
+                        Delivery Date
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Delivery Date</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Status"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Status"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CashStockOrderModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Status"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Status")">
+                        Status
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Status</MudTh>
+            }
+        }
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.Amount" />
-        </MudTd>
-        <MudTd>
-            <ViewDate Date="@context.RequestedDeliveryDate" />
-        </MudTd>
-        <MudTd>
-            <ViewDateTime DateTime="@context.DeliveryDateTime" />
-        </MudTd>
-        <MudTd>
-            <ViewFormula Formula="@context.Status" />
-        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Amount"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.Amount" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RequestedDeliveryDate"))
+        {
+            <MudTd>
+                <ViewDate Date="@context.RequestedDeliveryDate" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("DeliveryDateTime"))
+        {
+            <MudTd>
+                <ViewDateTime DateTime="@context.DeliveryDateTime" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Status"))
+        {
+            <MudTd>
+                <ViewFormula Formula="@context.Status" />
+            </MudTd>
+        }
         <MudTd>
              <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
@@ -47,4 +127,7 @@
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>
