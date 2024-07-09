@@ -8,8 +8,12 @@
 
 @inject ICustomersService CustomersService
 
-<MudTable T="CustomerModel" 
-          Items="@Customers" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerModel>>>(ServerReload))"
+          @ref="CustomerDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="CustomerModel" 
+          Items="@CustomersData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -17,30 +21,136 @@
           Style="border-style:solid;border-width:2px;border-color:lightgray;"
           Dense="true">
     <HeaderContent>
-        <MudTh>FirstName</MudTh>
-        <MudTh>LastName</MudTh>
-        <MudTh>EmailAddress</MudTh>
-        <MudTh>Address</MudTh>
-        <MudTh>MobileNumber</MudTh>
+        <MudTh>Select</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FirstName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("FirstName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CustomerModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "FirstName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("FirstName")">
+                        First Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>First Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("LastName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("LastName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CustomerModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "LastName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("LastName")">
+                        Last Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Last Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EmailAddress"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("EmailAddress"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CustomerModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "EmailAddress"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("EmailAddress")">
+                        Email
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Email</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Address"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Address"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CustomerModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Address"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Address")">
+                        Address
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Address</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MobileNumber"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MobileNumber"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CustomerModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MobileNumber"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MobileNumber")">
+                        Mobile
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Mobile</MudTh>
+            }
+        }
+        <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd>
-            <ViewText Text="@context.FirstName" />
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FirstName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.FirstName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("LastName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.LastName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("EmailAddress"))
+        {
+            <MudTd>
+                <ViewEmail Email="@context.EmailAddress" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Address"))
+        {
+            <MudTd>
+                <ViewStreetAddress StreetAddress="@context.Address" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MobileNumber"))
+        {
+            <MudTd>
+                <ViewPhoneNumber PhoneNumber="@context.MobileNumber" />
+            </MudTd>
+        }
         <MudTd>
-            <ViewText Text="@context.LastName" />
-        </MudTd>
-        <MudTd>
-            <ViewEmail Email="@context.EmailAddress" />
-        </MudTd>
-        <MudTd>
-            <ViewStreetAddress StreetAddress="@context.Address" />
-        </MudTd>
-        <MudTd>
-            <ViewPhoneNumber PhoneNumber="@context.MobileNumber" />
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
     </RowTemplate>
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

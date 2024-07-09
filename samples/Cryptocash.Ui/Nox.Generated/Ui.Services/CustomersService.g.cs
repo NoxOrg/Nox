@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICustomersService
 {
     public Task<List<CustomerModel>> GetAllAsync();
+    public Task<EntityData<CustomerModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<CustomerModel?> GetByIdAsync(string id);
     public Task<CustomerModel?> CreateAsync(CustomerModel customer);
     public Task<CustomerModel?> UpdateAsync(CustomerModel customer);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(CustomerModel customer);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class CustomersService : CustomersServiceBase
@@ -58,6 +62,22 @@ internal abstract partial class CustomersServiceBase : ICustomersService
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CustomerModel>();
     }
 
+    public async Task<EntityData<CustomerModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<CustomerDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<CustomerModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CustomerModel>();
+
+            return rtnItems;
+        }
+
+        return null;
+    }
+
     public async Task<CustomerModel?> GetByIdAsync(string id)
     {
         var item = await _httpClient.GetODataSimpleResponseAsync<CustomerDto>($"{_apiBaseUrl}/{id}");
@@ -72,12 +92,199 @@ internal abstract partial class CustomersServiceBase : ICustomersService
 
     public async Task<CustomerModel?> UpdateAsync(CustomerModel customer)
     {
-        var item = await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(customer));
+        if (customer.Etag != Guid.Empty)
+        {
+            string currentEtag = customer.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (customer.Id != null)
+        {
+            currentID = customer.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<CustomerUpdateDto, CustomerDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(customer));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(CustomerModel customer)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (customer.Etag != Guid.Empty)
+        {
+            string currentEtag = customer.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (customer.Id != null)
+        {
+            currentID = customer.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "FirstName",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "LastName",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "EmailAddress",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MobileNumber",
+                DisplayLabel = "Mobile",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "MobileNumber",
+                DisplayLabel = "Mobile",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });  
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "FirstName",
+                DisplayLabel = "First Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "LastName",
+                DisplayLabel = "Last Name",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "EmailAddress",
+                DisplayLabel = "Email",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Address",
+                DisplayLabel = "Address",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "MobileNumber",
+                DisplayLabel = "Mobile",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

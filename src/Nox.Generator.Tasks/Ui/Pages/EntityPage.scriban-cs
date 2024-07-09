@@ -1,96 +1,189 @@
-﻿@using Nox.Ui.Blazor.Lib.Components.Generic
-@using Nox.Ui.Blazor.Lib.Services
-@using Nox.Ui.Blazor.Lib.Resources
-@using {{codeGenConventions.UiNameSpace}}.Forms.Add
-@using {{codeGenConventions.UiNameSpace}}.Forms.Edit
-@using {{codeGenConventions.UiNameSpace}}.DataGrid
-@using {{codeGenConventions.UiNameSpace}}.Models
-@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
-@using {{codeGenConventions.UiNameSpace}}.Services
+﻿using Nox.Ui.Blazor.Lib.Components.Generic;
+using Nox.Ui.Blazor.Lib.Services;
+using Nox.Ui.Blazor.Lib.Resources;
+using {{codeGenConventions.UiNameSpace}}.Forms.Add;
+using {{codeGenConventions.UiNameSpace}}.Forms.Edit;
+using {{codeGenConventions.UiNameSpace}}.DataGrid;
+using {{codeGenConventions.UiNameSpace}}.Models;
+using {{codeGenConventions.UiNameSpace}}.Data;
+using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources;
+using {{codeGenConventions.UiNameSpace}}.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using MudBlazor;
 
-@namespace {{codeGenConventions.UiNameSpace}}.Pages
+namespace {{codeGenConventions.UiNameSpace}}.Pages;
 
-@page "/{{entity.PluralName}}"
+public partial class {{className}} : ComponentBase
+{
 
-@inject ApplicationState AppState
-@{
-    AppState.PageTitle = "{{entity.PluralName}}";
-}
+    public ApiUiService CurrentApiUiService { get; set; } = new();
 
-{{- if entity.Persistence.Delete.IsEnabled }}
-@inject IDialogService DialogService
-{{- end}}
+    private {{entity.PluralName}}DataGrid? referencedDataGrid;
 
-@inject I{{entity.PluralName}}Service {{entity.PluralName}}Service
+    protected override void OnInitialized()
+    {
+        CurrentApiUiService = {{entity.PluralName}}Service.IntialiseApiUiService();
+    }
 
-<MudText>{{entity.PluralName}}</MudText>
+#region Paging
 
-<MudGrid Spacing="0">
-    <MudItem xs="12">
-        <MudText>Search section</MudText>
-    </MudItem>
-{{- if entity.Persistence.Create.IsEnabled }}
-    <MudItem xs="12" Style="margin:15px 0px 15px 0px;text-align:right;">
-        <Actions OnClick="ShowAddDialog" Title="@NoxResources.Add.ToUpper()" StartIcon="@Icons.Material.Filled.Add" />
-    </MudItem>
-    <Add{{entity.Name}}Form @bind-IsVisible="showAddDialog" OnSubmit="Add{{entity.Name}}Submit" OnCancel="HideAddDialog" />
-{{- end }}
-{{- if entity.Persistence.Update.IsEnabled }}
-    <Edit{{entity.Name}}Form @bind-IsVisible="showEditDialog" OnSubmit="Edit{{entity.Name}}Submit" OnCancel="HideEditDialog" {{entity.Name}}="selectedEntity" />
-{{- end }}
-{{- if entity.Persistence.Read.IsEnabled }}
-    <MudItem xs="12">
-        <{{entity.PluralName}}DataGrid @ref="referencedDataGrid" OnSelectionChanged="@(e=>ShowEditDialog(e))" OnDeleteChanged="@(e=>ShowDeleteConfirmation(e))" />
-    </MudItem>
-{{- end }}
-</MudGrid>
-
-{{- if entity.Persistence.Delete.IsEnabled }}
-<MudDialog @bind-IsVisible="showDeleteDialog" Options="ConfirmationDialogOptions">
-        <TitleContent>
-            <MudGrid>
-                <MudItem Style="background-color:red;margin-top:5px;" xs="12">
-                    <MudText Typo="Typo.h6" Style="color:white;">@string.Format(NoxResources.DeleteEntity, "{{entity.Name}}")</MudText>
-                </MudItem>
-            </MudGrid>
-        </TitleContent>
-        <DialogContent>
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudText Typo="Typo.h6">@string.Format(NoxResources.DeleteConfirmation, "{{entity.Name}}")</MudText>
-                </MudItem>
-            </MudGrid>
-            @if (HasDeleteError) {
-            <ErrorSummary />
-            <MudText Color="Color.Error">ERROR</MudText>
+   public bool IsPagingPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.Paging != null;
         }
-        </DialogContent>
-        <DialogActions>
-            <MudButton OnClick="@HideDeleteConfirmation"
-                       Variant="Variant.Outlined"
-                       Color="Color.Error"
-                       Style="Margin:15px;">
-                @NoxResources.Cancel.ToUpper()
-            </MudButton>
-            <MudButton OnClick="@Delete{{entity.Name}}Submit"
-                       Variant="Variant.Filled"
-                       Color="Color.Error"
-                       Style="Margin:15px;"
-                       Disabled="@IsDeleteLoading">
-                <MudText>@NoxResources.Delete.ToUpper()</MudText>
-                @if (IsDeleteLoading)
-                {
-                    <MudProgressCircular Color="Color.Default" Indeterminate="true" Size="Size.Small" />
-                }
-            </MudButton>
-        </DialogActions>
-    </MudDialog>
+    }
+
+#endregion
+
+#region Search    
+
+    public string SearchMainValue { get; set; } = string.Empty;
+
+    public bool IsSearchFilterPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.SearchFilterList != null
+                && CurrentApiUiService.SearchFilterList.Count > 0;
+        }
+    }
+
+    public async Task Search()
+    {
+    {{- if getSearchEnabled }}
+        IsOpenSearchFilterDrawer = false;
+    {{- end }}
+
+        if (IsPagingPopulated)
+        {
+            CurrentApiUiService!.Paging!.ResetPaging();
+        }
+
+        if (IsSearchFilterPopulated)
+        {
+            CurrentApiUiService!.ResetFilterSearchFilterList();
+            CurrentApiUiService!.UpdateMainSearchFilterList(SearchMainValue);
+            CurrentApiUiService!.UpdateFilterSearchFilterList();
+        }
+
+        if (referencedDataGrid != null)
+        {
+            await referencedDataGrid.RefreshDataGrid();
+        }
+    }
+
+    {{- if getSearchEnabled }}
+
+    private bool IsOpenSearchFilterDrawer = false;
+
+    public async Task SearchEnterSubmit(KeyboardEventArgs CurrentEvent)
+    {
+        if (CurrentEvent != null && referencedDataGrid != null && (CurrentEvent.Code == "Enter" || CurrentEvent.Code == "NumpadEnter"))
+        {
+            await Search();
+        }
+    }
+
+    public void OpenSearchFilterDrawer(bool Open)
+    {
+        IsOpenSearchFilterDrawer = Open;
+    }
+
+    public async Task ApplySearchFilterList()
+    {
+        IsOpenSearchFilterDrawer = false;
+
+        if (IsPagingPopulated)
+        {
+            CurrentApiUiService!.Paging!.ResetPaging();
+        }
+
+        if (IsSearchFilterPopulated)
+        {
+            SearchMainValue = string.Empty;
+            CurrentApiUiService!.ResetMainSearchFilterList();
+            CurrentApiUiService!.UpdateMainSearchFilterList(SearchMainValue);
+            CurrentApiUiService!.UpdateFilterSearchFilterList();
+        }
+
+        if (referencedDataGrid != null)
+        {
+            await referencedDataGrid.RefreshDataGrid();
+        }
+    }
+
+    public void ClearSearchFilter(MouseEventArgs CurrentValue, SearchFilter CurrentFilter)
+    {
+        if (CurrentFilter != null
+            && CurrentValue != null
+            && !string.IsNullOrWhiteSpace(CurrentFilter.PropertyName)
+            && IsSearchFilterPopulated)
+        {
+            CurrentApiUiService!.UpdateSearchFilter(String.Empty, CurrentFilter);
+        }
+    }
+
+    public void ClearMainSearchFilterList()
+    {
+        if (IsSearchFilterPopulated)
+        {
+            SearchMainValue = string.Empty;
+            CurrentApiUiService!.ResetMainSearchFilterList();
+        }
+    }
+
+    {{- end }}
+
+#endregion
+
+{{- if getViewDrawerEnabled }}
+
+#region View
+
+    private bool IsOpenViewDrawer = false;
+
+    public bool IsViewPopulated
+    {
+        get
+        {
+            return CurrentApiUiService.ViewList != null
+                    && CurrentApiUiService.ViewList.Count > 0;
+        }
+    }
+
+    public void OpenViewDrawer(bool Open)
+    {
+        IsOpenViewDrawer = Open;
+    }
+
+    public void ApplyViewList()
+    {
+        IsOpenViewDrawer = false;
+
+        if (IsViewPopulated)
+        {
+            CurrentApiUiService!.ApplyShowInSearchList();
+        }
+    }
+
+    public void ResetViewList()
+    {
+        IsOpenViewDrawer = false;
+
+        if (IsViewPopulated)
+        {
+            CurrentApiUiService!.ResetShowInSearchList();
+        }
+    }
+
+#endregion
+
 {{- end }}
 
-@code{
-{{- if entity.Persistence.Create.IsEnabled }}
-
-private {{entity.PluralName}}DataGrid? referencedDataGrid;
+{{- if entity.Persistence.Create.IsEnabled }}    
 
 #region ADD
     private bool showAddDialog = false;
@@ -105,10 +198,10 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
         showAddDialog = false;
     }
 
-    private void Add{{entity.Name}}Submit()
+    private async Task Add{{entity.Name}}Submit()
     {
         showAddDialog = false;        
-        referencedDataGrid?.RefreshDataGrid();
+        await Search();
     }
 #endregion ADD
 {{- end }}
@@ -118,11 +211,11 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
     private bool showEditDialog = false;   
     
     [Parameter]
-    public {{entity.Name}}Model? selectedEntity { get; set; }   
+    public {{entity.Name}}Model? SelectedEntity { get; set; }   
 
     private void ShowEditDialog({{entity.Name}}Model? currentSelected)
     {
-        selectedEntity = currentSelected;
+        SelectedEntity = currentSelected;
         showEditDialog = true;
     }
 
@@ -131,11 +224,11 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
         showEditDialog = false;
     }
 
-    private void Edit{{entity.Name}}Submit()
+    private async Task Edit{{entity.Name}}Submit()
     {
         showEditDialog = false;    
-        selectedEntity = null;
-        referencedDataGrid?.RefreshDataGrid();        
+        SelectedEntity = null;
+        await Search();        
     }
 #endregion EDIT
 {{- end }}
@@ -149,7 +242,7 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
     private bool HasDeleteError = false;
     
     [Parameter]
-    public {{entity.Name}}Model? deleteEntity { get; set; }   
+    public {{entity.Name}}Model? DeleteEntity { get; set; }   
 
     public DialogOptions ConfirmationDialogOptions { get; set; } = new()
     {
@@ -161,7 +254,7 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
 
     private void ShowDeleteConfirmation({{entity.Name}}Model? currentSelected)
     {
-        deleteEntity = currentSelected;
+        DeleteEntity = currentSelected;
         showDeleteDialog = true;
     }
 
@@ -176,9 +269,9 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
         {
             IsDeleteLoading = true;
 
-            if (deleteEntity != null)
+            if (DeleteEntity != null)
             {
-                await {{entity.PluralName}}Service.DeleteAsync(deleteEntity);
+                await {{entity.PluralName}}Service.DeleteAsync(DeleteEntity);
             }
             else
             {
@@ -193,8 +286,8 @@ private {{entity.PluralName}}DataGrid? referencedDataGrid;
         {
             IsDeleteLoading = false;
             showDeleteDialog = false;    
-            deleteEntity = null;
-            referencedDataGrid?.RefreshDataGrid(); 
+            DeleteEntity = null;
+            await Search(); 
         }               
     }
 #endregion DELETE

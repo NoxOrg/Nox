@@ -79,11 +79,38 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear All.
+        /// </summary>
+        public static string ClearAll {
+            get {
+                return ResourceManager.GetString("ClearAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default View.
+        /// </summary>
+        public static string DefaultView {
+            get {
+                return ResourceManager.GetString("DefaultView", resourceCulture);
             }
         }
         
@@ -142,6 +169,15 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        public static string Filters {
+            get {
+                return ResourceManager.GetString("Filters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latitude: {0}, Longitude: {1}.
         /// </summary>
         public static string LatLongSummary {
@@ -183,6 +219,15 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         public static string NoResultsFound {
             get {
                 return ResourceManager.GetString("NoResultsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Select.
+        /// </summary>
+        public static string PleaseSelect {
+            get {
+                return ResourceManager.GetString("PleaseSelect", resourceCulture);
             }
         }
         
@@ -399,6 +444,15 @@ namespace Nox.Ui.Blazor.Lib.Resources {
         public static string ValidateTextLength {
             get {
                 return ResourceManager.GetString("ValidateTextLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Columns.
+        /// </summary>
+        public static string ViewColumns {
+            get {
+                return ResourceManager.GetString("ViewColumns", resourceCulture);
             }
         }
         

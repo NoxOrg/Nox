@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ITransactionsService
 {
     public Task<List<TransactionModel>> GetAllAsync();
+    public Task<EntityData<TransactionModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<TransactionModel?> GetByIdAsync(string id);
     public Task<TransactionModel?> CreateAsync(TransactionModel transaction);
     public Task<TransactionModel?> UpdateAsync(TransactionModel transaction);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(TransactionModel transaction);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class TransactionsService : TransactionsServiceBase
@@ -58,6 +62,22 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<TransactionModel>();
     }
 
+    public async Task<EntityData<TransactionModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<TransactionDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<TransactionModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<TransactionModel>();
+
+            return rtnItems;
+        }
+
+        return null;
+    }
+
     public async Task<TransactionModel?> GetByIdAsync(string id)
     {
         var item = await _httpClient.GetODataSimpleResponseAsync<TransactionDto>($"{_apiBaseUrl}/{id}");
@@ -72,12 +92,179 @@ internal abstract partial class TransactionsServiceBase : ITransactionsService
 
     public async Task<TransactionModel?> UpdateAsync(TransactionModel transaction)
     {
-        var item = await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(transaction));
+        if (transaction.Etag != Guid.Empty)
+        {
+            string currentEtag = transaction.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (transaction.Id != null)
+        {
+            currentID = transaction.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<TransactionUpdateDto, TransactionDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(transaction));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(TransactionModel transaction)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (transaction.Etag != Guid.Empty)
+        {
+            string currentEtag = transaction.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (transaction.Id != null)
+        {
+            currentID = transaction.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "TransactionType",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "ProcessedOnDateTime",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "Reference",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "TransactionType",
+                DisplayLabel = "Transaction Type",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Reference",
+                DisplayLabel = "Reference",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "TransactionType",
+                DisplayLabel = "Transaction Type",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Reference",
+                DisplayLabel = "Reference",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });  
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "TransactionType",
+                DisplayLabel = "Transaction Type",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "ProcessedOnDateTime",
+                DisplayLabel = "Processed On",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Reference",
+                DisplayLabel = "Reference",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

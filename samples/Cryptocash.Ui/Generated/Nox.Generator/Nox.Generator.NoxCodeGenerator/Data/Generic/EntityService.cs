@@ -60,16 +60,16 @@ namespace Cryptocash.Ui.Generated.Data.Generic
                     rtnEntities = new()
                     {
                         EntityTotal = OverallTotal,
-                        EntityList = new()
+                        EntityList = []
                     };
                 }
 
                 if (currentEntities != null && currentEntities.EntityList != null)
                 {
                     CurrentTotal = currentEntities.EntityList.Count;
-                    if (rtnEntities != null && CurrentTotal > 0)
+                    if (CurrentTotal > 0)
                     {
-                        rtnEntities.EntityList!.AddRange(currentEntities.EntityList);
+                        rtnEntities!.EntityList!.AddRange(currentEntities.EntityList);
                     }
                 }
                 else

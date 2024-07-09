@@ -8,8 +8,12 @@
 
 @inject IVendingMachinesService VendingMachinesService
 
-<MudTable T="VendingMachineModel" 
-          Items="@VendingMachines" 
+<MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachineModel>>>(ServerReload))"
+          @ref="VendingMachineDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="VendingMachineModel" 
+          Items="@VendingMachinesData" 
           Loading="@IsLoading"
           Hover="true"                                  
           Breakpoint="Breakpoint.Sm"
@@ -17,38 +21,182 @@
           Style="border-style:solid;border-width:2px;border-color:lightgray;"
           Dense="true">
     <HeaderContent>
-        <MudTh>MacAddress</MudTh>
-        <MudTh>PublicIp</MudTh>
-        <MudTh>GeoLocation</MudTh>
-        <MudTh>StreetAddress</MudTh>
-        <MudTh>SerialNumber</MudTh>
-        <MudTh>InstallationFootPrint</MudTh>
-        <MudTh>RentPerSquareMetre</MudTh>
+        <MudTh>Select</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("MacAddress"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MacAddress"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("MacAddress")">
+                        MacAddress
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>MacAddress</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PublicIp"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PublicIp"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PublicIp")">
+                        Public Ip
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Public Ip</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GeoLocation"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("GeoLocation"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "GeoLocation"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("GeoLocation")">
+                        GeoLocation
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>GeoLocation</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("StreetAddress"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("StreetAddress"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "StreetAddress"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("StreetAddress")">
+                        Address
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Address</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("SerialNumber"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "SerialNumber"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("SerialNumber")">
+                        Serial Number
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Serial Number</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("InstallationFootPrint"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("InstallationFootPrint"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "InstallationFootPrint"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("InstallationFootPrint")">
+                        Installation Area
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Installation Area</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RentPerSquareMetre"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("RentPerSquareMetre"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="VendingMachineModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "RentPerSquareMetre"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("RentPerSquareMetre")">
+                        Rent per Square Metre
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Rent per Square Metre</MudTh>
+            }
+        }
+        <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd>
-            <ViewMacAddress MacAddress="@context.MacAddress" />
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
         </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
+        {
+            <MudTd>
+                <ViewMacAddress MacAddress="@context.MacAddress" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
+        {
+            <MudTd>
+                <ViewIpAddress IpAddress="@context.PublicIp" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GeoLocation"))
+        {
+            <MudTd>
+                <ViewLatLong LatLong="@context.GeoLocation" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("StreetAddress"))
+        {
+            <MudTd>
+                <ViewStreetAddress StreetAddress="@context.StreetAddress" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
+        {
+            <MudTd>
+                <ViewText Text="@context.SerialNumber" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("InstallationFootPrint"))
+        {
+            <MudTd>
+                <ViewArea Area="@context.InstallationFootPrint" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("RentPerSquareMetre"))
+        {
+            <MudTd>
+                <ViewMoney Money="@context.RentPerSquareMetre" />
+            </MudTd>
+        }
         <MudTd>
-            <ViewIpAddress IpAddress="@context.PublicIp" />
-        </MudTd>
-        <MudTd>
-            <ViewLatLong LatLong="@context.GeoLocation" />
-        </MudTd>
-        <MudTd>
-            <ViewStreetAddress StreetAddress="@context.StreetAddress" />
-        </MudTd>
-        <MudTd>
-            <ViewText Text="@context.SerialNumber" />
-        </MudTd>
-        <MudTd>
-            <ViewArea Area="@context.InstallationFootPrint" />
-        </MudTd>
-        <MudTd>
-            <ViewMoney Money="@context.RentPerSquareMetre" />
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
         </MudTd>
     </RowTemplate>
     <NoRecordsContent>
         <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
     </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
 </MudTable>

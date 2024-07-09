@@ -18,11 +18,13 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditText @bind-Text="PaymentProvider.PaymentProviderName" 
-                        Title="PaymentProviderName" TypeOptions="@PaymentProviderMetadata.PaymentProviderNameTypeOptions" />
+                        Title="Payment Provider" TypeOptions="@PaymentProviderMetadata.PaymentProviderNameTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="PaymentProvider.PaymentProviderType" 
-                        Title="PaymentProviderType" TypeOptions="@PaymentProviderMetadata.PaymentProviderTypeTypeOptions" />
+                        Title="Provider Type" TypeOptions="@PaymentProviderMetadata.PaymentProviderTypeTypeOptions" Required="true"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

@@ -7,16 +7,20 @@ using Nox.Ui.Blazor.Lib.Contracts;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Models;
+using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Enum;
 
 namespace Cryptocash.Ui.Services;
 
 public interface ICashStockOrdersService
 {
     public Task<List<CashStockOrderModel>> GetAllAsync();
+    public Task<EntityData<CashStockOrderModel>?> GetAllFilteredPagedAsync(string? query);
     public Task<CashStockOrderModel?> GetByIdAsync(string id);
     public Task<CashStockOrderModel?> CreateAsync(CashStockOrderModel cashStockOrder);
     public Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder);
-    public Task DeleteAsync(string id);
+    public Task DeleteAsync(CashStockOrderModel cashStockOrder);
+    public ApiUiService IntialiseApiUiService();
 }
 
 internal partial class CashStockOrdersService : CashStockOrdersServiceBase
@@ -58,6 +62,22 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
         return items?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CashStockOrderModel>();
     }
 
+    public async Task<EntityData<CashStockOrderModel>?> GetAllFilteredPagedAsync(string? query)
+    {
+        var items = await _httpClient.GetODataSimpleResponseAsync<EntityData<CashStockOrderDto>>(_apiBaseUrl + query);
+
+        if (items != null)
+        {
+            EntityData<CashStockOrderModel> rtnItems = new();
+            rtnItems.EntityTotal = items.EntityTotal;
+            rtnItems.EntityList = items?.EntityList?.Select(i => _dtoConverter.ConvertToModel(i)).ToList() ?? new List<CashStockOrderModel>();
+
+            return rtnItems;
+        }
+
+        return null;
+    }
+
     public async Task<CashStockOrderModel?> GetByIdAsync(string id)
     {
         var item = await _httpClient.GetODataSimpleResponseAsync<CashStockOrderDto>($"{_apiBaseUrl}/{id}");
@@ -72,12 +92,172 @@ internal abstract partial class CashStockOrdersServiceBase : ICashStockOrdersSer
 
     public async Task<CashStockOrderModel?> UpdateAsync(CashStockOrderModel cashStockOrder)
     {
-        var item = await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl, _updateDtoConverter.ConvertToDto(cashStockOrder));
+        if (cashStockOrder.Etag != Guid.Empty)
+        {
+            string currentEtag = cashStockOrder.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (cashStockOrder.Id != null)
+        {
+            currentID = cashStockOrder.Id.ToString();
+        }
+
+        var item = await _httpClient.PutAsync<CashStockOrderUpdateDto, CashStockOrderDto>(_apiBaseUrl + $"/{currentID}", _updateDtoConverter.ConvertToDto(cashStockOrder));
+
         return item != null ? _dtoConverter.ConvertToModel(item) : null;
     }
 
-    public async Task DeleteAsync(string id)
+    public async Task DeleteAsync(CashStockOrderModel cashStockOrder)
     {
-        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{id}");
+        if (cashStockOrder.Etag != Guid.Empty)
+        {
+            string currentEtag = cashStockOrder.Etag.ToString();
+
+            Dictionary<string, IEnumerable<string>> headers = new()
+            {
+                { "If-Match", new List<string> { $"\"{currentEtag}\"" } }
+            };
+            _httpClient.DefaultRequestHeaders.Clear();
+            foreach (var header in headers)
+            {
+                _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
+
+        string? currentID = string.Empty;
+        if (cashStockOrder.Id != null)
+        {
+            currentID = cashStockOrder.Id.ToString();
+        }
+
+        await _httpClient.DeleteAsync($"{_apiBaseUrl}/{currentID}");
+    }
+
+    public ApiUiService IntialiseApiUiService()
+    {
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.OrderList = new List<SortOrder>();
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "DeliveryDateTime",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+            rtnApiUiService.OrderList.Add(new SortOrder()
+            {
+                PropertyName = "Status",
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
+            });
+
+        rtnApiUiService.SearchFilterList = new List<SearchFilter>();
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });
+            rtnApiUiService.SearchFilterList.Add(new SearchFilter()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch
+            });  
+
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption>();
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Amount",
+                DisplayLabel = "Amount",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "RequestedDeliveryDate",
+                DisplayLabel = "Requested Delivery Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "DeliveryDateTime",
+                DisplayLabel = "Delivery Date",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });
+            rtnApiUiService.ViewList.Add(new ShowInSearchResultsOption()
+            {
+                PropertyName = "Status",
+                DisplayLabel = "Status",
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
+            });        
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 5,
+            EntityTotal = 0,
+            PageSizeList = new List<int> {
+                3,
+                5,
+                10,
+                20
+            }
+        };
+
+        return rtnApiUiService;
     }
 }

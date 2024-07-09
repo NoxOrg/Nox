@@ -10,7 +10,7 @@
            Required="@Required"
            RequiredError="@ErrorRequiredMessage"
            TextChanged="OnCurrencyCode3Changed"
-           @bind-Value="CurrencyCodes">
+           @bind-Value="CurrencyCode3">
     @foreach (var currencyCode in CurrencyCodes)
     {
         <MudSelectItem Value="@currencyCode">@currencyCode</MudSelectItem>
