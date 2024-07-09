@@ -64,6 +64,9 @@
 		<InputFiles Include="../.nox/design/**/*.yaml" />
 		<InputFiles Include="*generator.nox.yaml" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Update="..\.nox\design" />
+	</ItemGroup>
 	<Target Name="NoxGeneratorBeforeTarget" BeforeTargets="CoreCompile" Inputs="@(InputFiles)" Outputs="$(OutputDirectory)">
 		<NoxGeneratorTask NoxYamlFiles="@(InputFiles)" OutputDirectory="$(OutputDirectory)"></NoxGeneratorTask>
 	</Target>

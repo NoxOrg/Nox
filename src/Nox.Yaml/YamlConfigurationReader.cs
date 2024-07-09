@@ -23,7 +23,7 @@ public class YamlConfigurationReader<TFullType, TVarsOnlyType>
 
     private string _filePattern = "*.yaml";
 
-    private readonly HashSet<string> _searchPaths = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> _searchPaths = new(StringComparer.Ordinal);
 
     private IDictionary<string, Func<TextReader>>? _yamlFilesAndContent;
 

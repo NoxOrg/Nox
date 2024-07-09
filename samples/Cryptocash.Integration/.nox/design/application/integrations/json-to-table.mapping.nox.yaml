@@ -4,55 +4,31 @@
 # yaml-language-server: $schema=../../../../../schemas/integrationTransform.json
 #
 
+# NOTE: When targeting a Nox db table, target type and isRequired are redundant
+
 mapping:
   - source:
       name: CountryId
       type: integer
     target:
       name: Id
-      type: integer
-    isRequired: true
 
   - source:
       name: CountryName
       type: string
     target:
       name: Name
-      type: string
-    isRequired: true
 
   - source:
       name: NoOfInhabitants
       type: integer
     target:
       name: Population
-      type: integer
-    isRequired: true
 
+# NOTE: create and edit dates are not mapped as the field names are the same in the source and target, Nox will map them auto-magically
+  
+# This demonstrated a field that only exists in the source, we will map it to a target field in the transform function
   - source:
-      name: DateCreated
+      name: ConcurrencyStamp
       type: string
-    target:
-      name: CreateDate
-      type: dateTime
-    isRequired: true
 
-  - source:
-      name: DateChanged
-      type: string
-    target:
-      name: EditDate
-      type: dateTime
-
-# Left this here as a reminder - Integrations that target Nox Entity tables are not allowed to target Etag attribute.
-#  - source:
-#      name: ConcurrencyStamp
-#      type: string
-#    target:
-#      name: Etag
-#      type: guid
-#    isRequired: true
-    
-  - target:
-      name: PopulationMillions
-      type: integer

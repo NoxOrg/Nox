@@ -21,7 +21,7 @@ public class EtlDtoTests
             .AssertFileCount(27)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles/Integration/Dto")
-            .AssertFileExistsAndContent("EntitySourceDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationSourceDto.g.cs")
-            .AssertFileExistsAndContent("EntityTargetDto.expected.g.cs", "Application.Integration.CustomTransform.TestIntegrationTargetDto.g.cs");
+            .AssertFileExistsAndContent("EntitySourceDto.expected.g.cs", "Application.Integration.Transform.TestIntegrationSourceDto.g.cs")
+            .AssertFileExistsAndContent("EntityTargetDto.expected.g.cs", "Application.Integration.Transform.TestIntegrationTargetDto.g.cs");
     }
 }

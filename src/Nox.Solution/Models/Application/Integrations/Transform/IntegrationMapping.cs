@@ -12,10 +12,9 @@ public class IntegrationMapping
     [Description("Specify the attributes of the source field.")]
     public IntegrationMappingField? Source { get; set; } = null!;
 
-    [Required]
     [Title("The attributes of the target field.")]
     [Description("Specify the attributes of the target field.")]
-    public IntegrationMappingField Target { get; set; } = null!;
+    public IntegrationMappingField? Target { get; set; } = null!;
     
     [Title("Is the field required?")]
     [Description("Specify whether the field is required.")]

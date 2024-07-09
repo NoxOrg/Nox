@@ -38,6 +38,16 @@ attributes:
   - name: EditDate
     description: The date on which the country record was last updated
     type: dateTime
+    
+  - name: PopulationMillions
+    description: This holds a calculated value, set in the transform function. value = NoFoInhabitants / 1million
+    type: number
+    numberTypeOptions:
+      
+    
+  - name: NameWithConcurrency
+    description: This holds a concat of CountryName and ConcurrencyStamp, which is set in the transform function
+    type: text
 
 persistence:
   isAudited: false
