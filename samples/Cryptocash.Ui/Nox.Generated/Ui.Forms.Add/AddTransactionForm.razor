@@ -18,19 +18,23 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditText @bind-Text="Transaction.TransactionType" 
-                        Title="TransactionType" TypeOptions="@TransactionMetadata.TransactionTypeTypeOptions" />
+                        Title="Transaction Type" TypeOptions="@TransactionMetadata.TransactionTypeTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="Transaction.ProcessedOnDateTime" 
-                        Title="ProcessedOnDateTime"/>
+                        Title="Processed On" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditMoney @bind-Money="Transaction.Amount" 
-                        Title="Amount"/>
+                        Title="Amount" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="Transaction.Reference" 
-                        Title="Reference" TypeOptions="@TransactionMetadata.ReferenceTypeOptions" />
+                        Title="Reference" TypeOptions="@TransactionMetadata.ReferenceTypeOptions" Required="true"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

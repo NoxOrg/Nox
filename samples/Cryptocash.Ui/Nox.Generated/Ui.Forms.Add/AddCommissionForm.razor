@@ -18,11 +18,13 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditPercentage @bind-Percentage="Commission.Rate" 
-                        Title="Rate"/>
+                        Title="Commission Rate" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDateTime @bind-DateTime="Commission.EffectiveAt" 
-                        Title="EffectiveAt"/>
+                        Title="Effective At" Required="true"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

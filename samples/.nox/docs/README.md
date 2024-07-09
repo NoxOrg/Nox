@@ -496,7 +496,7 @@ Payment provider related data. *This entity is auditable and tracks info about w
 Member|Type|Description|Info
 ---------|----|----------|-------
 Id|Guid|Payment provider unique identifier.|Required, Primary Key
-PaymentProviderName|Text|Payment provider name.|Required, Readonly, MinLength: 4, MaxLength: 63
+PaymentProviderName|Text|Payment provider name.|Required, MinLength: 4, MaxLength: 63
 PaymentProviderType|Text|Payment provider account type.|Required, MinLength: 4, MaxLength: 63
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

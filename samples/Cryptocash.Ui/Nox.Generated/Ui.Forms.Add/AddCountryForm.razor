@@ -18,59 +18,73 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditText @bind-Text="Country.Name" 
-                        Title="Name" TypeOptions="@CountryMetadata.NameTypeOptions" />
+                        Title="Country Name" TypeOptions="@CountryMetadata.NameTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="Country.OfficialName" 
-                        Title="OfficialName" TypeOptions="@CountryMetadata.OfficialNameTypeOptions" />
+                        Title="Official Name" TypeOptions="@CountryMetadata.OfficialNameTypeOptions"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditCountryNumber @bind-CountryNumber="Country.CountryIsoNumeric" 
-                        Title="CountryIsoNumeric"/>
+                        Title="Country Id"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditCountryCode3 @bind-CountryCode3="Country.CountryIsoAlpha3" 
-                        Title="CountryIsoAlpha3"/>
+                        Title="Country Code"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditLatLong @bind-LatLong="Country.GeoCoords" 
-                        Title="GeoCoords"/>
+                        Title="Geo Coordinates"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="Country.FlagEmoji" 
-                        Title="FlagEmoji" TypeOptions="@CountryMetadata.FlagEmojiTypeOptions" />
+                        Title="Flag Emoji" TypeOptions="@CountryMetadata.FlagEmojiTypeOptions"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditImage @bind-Image="Country.FlagSvg" 
-                        Title="FlagSvg"/>
+                        Title="Flag SVG"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditImage @bind-Image="Country.FlagPng" 
-                        Title="FlagPng"/>
+                        Title="Flag PNG"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditImage @bind-Image="Country.CoatOfArmsSvg" 
-                        Title="CoatOfArmsSvg"/>
+                        Title="Coat of Arms SVG"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditImage @bind-Image="Country.CoatOfArmsPng" 
-                        Title="CoatOfArmsPng"/>
+                        Title="Coat of Arms PNG"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditUrl @bind-Url="Country.GoogleMapsUrl" 
-                        Title="GoogleMapsUrl"/>
+                        Title="Google Maps URL"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditUrl @bind-Url="Country.OpenStreetMapsUrl" 
-                        Title="OpenStreetMapsUrl"/>
+                        Title="Open Street Maps URL"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDayOfWeek @bind-DayOfWeek="Country.StartOfWeek" 
-                        Title="StartOfWeek"/>
+                        Title="Start of Week" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditNumber @bind-Number="Country.Population" 
-                        Title="Population" T="Int32"/>
+                        Title="Population" T="Int32" Required="true"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>

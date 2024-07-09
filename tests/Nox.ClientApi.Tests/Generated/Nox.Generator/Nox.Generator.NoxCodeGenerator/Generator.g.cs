@@ -85,9 +85,9 @@
 //  - Nox.Generator.Application.Queries.TranslationsByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.TranslationsQueryGenerator
 //  - Nox.Generator.Application.Jobs.JobGenerator
-//  - Nox.Generator.Application.Integration.CustomTransformGenerator
 //  - Nox.Generator.Application.Integration.EtlEventGenerator
 //  - Nox.Generator.Application.Integration.IntegrationJobGenerator
+//  - Nox.Generator.Application.Integration.TransformGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
 //  - Nox.Generator.Application.Factories.EntityLocalizedFactoryGenerator
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator
@@ -118,7 +118,7 @@
 //  - Nox.Generator.Application.Commands.UpdateOwnedCommandGenerator
 //  - Nox.Generator.Application.Commands.UpsertEnumerationTranslationsCommandGenerator
 // Nox.Generator.Presentation.Api.OData.NoxIntegrationControllerGenerator Skipping generator because no integrations defined
-// Nox.Generator.Application.Integration.CustomTransformGenerator Skipping generator because no integrations defined
 // Nox.Generator.Application.Integration.EtlEventGenerator Skipping generator because no integrations defined
 // Nox.Generator.Application.Integration.IntegrationJobGenerator Skipping generator because no integrations defined
+// Nox.Generator.Application.Integration.TransformGenerator Skipping generator because no integrations defined
 // SUCCESS.

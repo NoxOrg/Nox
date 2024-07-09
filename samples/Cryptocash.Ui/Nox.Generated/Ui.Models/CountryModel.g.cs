@@ -3,6 +3,7 @@
 #nullable enable
 using Nox.Ui.Blazor.Lib.Models.NoxTypes;
 using Nox.Ui.Blazor.Lib.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Models;
 
@@ -94,4 +95,8 @@ public abstract class CountryModelBase: IEntityModel
     /// Country's population     
     /// </summary>
     public virtual System.Int32? Population { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; set; }
+
 }

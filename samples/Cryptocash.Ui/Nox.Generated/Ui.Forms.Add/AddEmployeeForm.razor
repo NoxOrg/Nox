@@ -18,27 +18,33 @@
             <MudGrid Style="margin-top:15px;">
                 <MudItem xs="12">
                     <EditText @bind-Text="Employee.FirstName" 
-                        Title="FirstName" TypeOptions="@EmployeeMetadata.FirstNameTypeOptions" />
+                        Title="First Name" TypeOptions="@EmployeeMetadata.FirstNameTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditText @bind-Text="Employee.LastName" 
-                        Title="LastName" TypeOptions="@EmployeeMetadata.LastNameTypeOptions" />
+                        Title="Last Name" TypeOptions="@EmployeeMetadata.LastNameTypeOptions" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditEmail @bind-Email="Employee.EmailAddress" 
-                        Title="EmailAddress"/>
+                        Title="Email" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditStreetAddress @bind-StreetAddress="Employee.Address" 
-                        Title="Address"/>
+                        Title="Address" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDate @bind-Date="Employee.FirstWorkingDay" 
-                        Title="FirstWorkingDay"/>
+                        Title="First Day" Required="true"
+                        />
                 </MudItem>
                 <MudItem xs="12">
                     <EditDate @bind-Date="Employee.LastWorkingDay" 
-                        Title="LastWorkingDay"/>
+                        Title="Last Day"
+                        />
                 </MudItem>
             </MudGrid>            
         </MudForm>
