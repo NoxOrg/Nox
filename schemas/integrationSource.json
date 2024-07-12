@@ -256,6 +256,161 @@
         }
       },
       "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "sourceAdapterType",
+        "procedureOptions"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the Integration source. Contains no spaces.",
+          "description": "The name should be a commonly used singular noun and be unique within a solution.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "A description of the Integration source.",
+          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceAdapterType": {    
+          "const": "databaseProcedure"
+        },
+        "procedureOptions": {    
+          "type": "object",
+          "required": [
+            "storedProcedure"
+          ],
+          "properties": {
+            "storedProcedure": {    
+              "title": "The database procedure to execute.",
+              "description": "The procedure that will be executed on the source database.",
+              "type": "string"
+            },
+            "parameters": {    
+              "title": "The procedure parameters.",
+              "description": "The parameters to pass to the database procedure stored procedure.",
+              "oneOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "items":   {
+                "oneOf": [
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "required": [
+                  "name",
+                  "dataType"
+                ],
+                "properties": {
+                  "name": {    
+                    "title": "Parameter name.",
+                    "description": "The name of the database procedure parameter.",
+                    "type": "string"
+                  },
+                  "dataType": {    
+                    "title": "Parameter Type.",
+                    "description": "The type of the database procedure parameter. Note: this is database implementation specific.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "dataConnectionName": {    
+          "title": "The name of the data connection. Contains no spaces.",
+          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "additionalProperties": false
+        },
+        "watermark": {    
+          "title": "Definition namespace for watermark columns on the integration source data.",
+          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "properties": {
+            "dateColumns": {    
+              "title": "Column(s) in datetime format used for watermark purpose.",
+              "description": "List of datetime columns to be compared to target data to indicate if data has changed. These columns will also be used to filter data on the source.",
+              "oneOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "items":   {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "sequentialKeyColumns": {    
+              "title": "Sequential key column used for watermark purpose.",
+              "description": "Specify a sequential key columns to be compared to target data to indicate if data has changed.",
+              "oneOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "items":   {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   ]
 }

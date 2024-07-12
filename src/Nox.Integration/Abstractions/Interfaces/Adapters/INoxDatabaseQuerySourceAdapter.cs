@@ -1,12 +1,12 @@
 namespace Nox.Integration.Abstractions.Interfaces;
 
-public interface INoxDatabaseSourceAdapter: INoxSourceAdapter
+public interface INoxDatabaseQuerySourceAdapter: INoxSourceAdapter
 {
     string Query { get; }
     int MinimumExpectedRecords { get; }
 }
 
-public interface INoxDatabaseSourceAdapter<TSource>: INoxSourceAdapter<TSource>
+public interface INoxDatabaseQuerySourceAdapter<TSource>: INoxSourceAdapter<TSource>
 {
     string Query { get; }
     int MinimumExpectedRecords { get; }

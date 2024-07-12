@@ -29,8 +29,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Azure.Identity" Version="1.11.4" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+      <PackageReference Include="Azure.Identity" Version="1.12.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
     </ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

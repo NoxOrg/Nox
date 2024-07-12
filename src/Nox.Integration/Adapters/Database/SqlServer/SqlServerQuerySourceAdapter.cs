@@ -5,7 +5,7 @@ using Nox.Integration.Abstractions.Interfaces;
 
 namespace Nox.Integration.Adapters.SqlServer;
 
-public class SqlServerQuerySourceAdapter: SqlServerQuerySourceAdapterBase, INoxDatabaseSourceAdapter
+public class SqlServerQuerySourceAdapter: SqlServerQuerySourceAdapterBase, INoxDatabaseQuerySourceAdapter
 {
     public string Query => BaseQuery;
     public int MinimumExpectedRecords => BaseMinimumExpectedRecords;
@@ -22,7 +22,7 @@ public class SqlServerQuerySourceAdapter: SqlServerQuerySourceAdapterBase, INoxD
     }
 }
 
-public class SqlServerQuerySourceAdapter<TSource> : SqlServerQuerySourceAdapterBase, INoxDatabaseSourceAdapter<TSource>
+public class SqlServerQuerySourceAdapter<TSource> : SqlServerQuerySourceAdapterBase, INoxDatabaseQuerySourceAdapter<TSource>
 {
     public string Query => BaseQuery;
     public int MinimumExpectedRecords => BaseMinimumExpectedRecords;

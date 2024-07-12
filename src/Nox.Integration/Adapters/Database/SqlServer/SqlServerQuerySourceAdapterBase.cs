@@ -33,26 +33,14 @@ public abstract class SqlServerQuerySourceAdapterBase
         {
             if (mergeStates.Any(ms => ms.Key.Equals(filterColumn, StringComparison.InvariantCultureIgnoreCase)))
             {
-                result = ReplaceMergeField(sql, mergeStates[filterColumn], filterColumn);
+                result = sql.Replace($"@{filterColumn}", $"'{mergeStates[filterColumn].LastDateLoadedUtc:yyyy-MM-dd HH:mm:ss:fff}'");
             }
             else
             {
-                result = ReplaceMergeField(sql, mergeStates[IntegrationContextConstants.DefaultFilterProperty], filterColumn);
+                result = sql.Replace($"@{filterColumn}", $"'{mergeStates[IntegrationContextConstants.DefaultFilterProperty].LastDateLoadedUtc:yyyy-MM-dd HH:mm:ss:fff}'");
             }
         }
 
         return result;
-    }
-
-    private static string ReplaceMergeField(string source, MergeState mergeState, string columnName)
-    {
-        if (mergeState.LastDateLoadedUtc.Equals(IntegrationContextConstants.MinSqlMergeDate))
-        {
-            return source.Replace($"@{columnName}", $"'{IntegrationContextConstants.MinSqlMergeDate:yyyy-MM-dd HH:mm:ss:fff}'");
-        }
-        else
-        {
-            return source.Replace($"@{columnName}", $"'{mergeState.LastDateLoadedUtc:yyyy-MM-dd HH:mm:ss:fff}'");
-        }
     }
 }

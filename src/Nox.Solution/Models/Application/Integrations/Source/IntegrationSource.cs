@@ -41,6 +41,10 @@ public class IntegrationSource : YamlConfigNode<NoxSolution,Integration>
     [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.File)]
     [Required]
     public IntegrationSourceFileOptions? FileOptions { get; set; }
+    
+    [IfEquals(nameof(SourceAdapterType), IntegrationSourceAdapterType.DatabaseProcedure)]
+    [Required]
+    public IntegrationSourceProcedureOptions? ProcedureOptions { get; set; }
 
     /*
 

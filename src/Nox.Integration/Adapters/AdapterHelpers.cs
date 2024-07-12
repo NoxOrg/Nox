@@ -16,9 +16,11 @@ public static class AdapterHelpers
         switch (sourceDefinition.SourceAdapterType)
         {
             case IntegrationSourceAdapterType.DatabaseQuery:
-                return DatabaseSourceHelpers.CreateDatabaseSourceAdapter(sourceType, integrationName, sourceDefinition.QueryOptions!, dataConnection!);
+                return DatabaseSourceHelpers.CreateDatabaseQuerySourceAdapter(sourceType, integrationName, sourceDefinition.QueryOptions!, dataConnection!);
             case IntegrationSourceAdapterType.File:
                 return FileSourceHelpers.CreateFileSourceAdapter(sourceType, integrationName, sourceDefinition.FileOptions!, dataConnection!);
+            case IntegrationSourceAdapterType.DatabaseProcedure:
+                return DatabaseSourceHelpers.CreateDatabaseProcedureSourceAdapter(sourceType, integrationName, sourceDefinition.ProcedureOptions!, dataConnection!);
         }
 
         throw new NotImplementedException($"{sourceDefinition.SourceAdapterType.ToString()} source adapter for integration {integrationName} has not been implemented");

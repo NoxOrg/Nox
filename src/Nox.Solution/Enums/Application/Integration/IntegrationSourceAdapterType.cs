@@ -3,9 +3,9 @@ namespace Nox;
 public enum IntegrationSourceAdapterType
 {
     DatabaseQuery,
-    File
+    File,
+    DatabaseProcedure,
     //Uncomment these as they are implemented
-    // StoredProcedure,
     // WebApi,
     // MessageQueue
 }

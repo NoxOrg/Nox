@@ -8,3 +8,5 @@ integrations:
   - $ref: ./integrations/query-to-table.integration.nox.yaml
     
   - $ref: ./integrations/json-to-table.integration.nox.yaml
+    
+  - $ref: ./integrations/proc-to-table.integration.nox.yaml

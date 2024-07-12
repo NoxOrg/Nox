@@ -269,3 +269,22 @@ INSERT INTO CountrySource.dbo.CountryMaster (CountryId, Name, Population, Create
 INSERT INTO CountrySource.dbo.CountryMaster (CountryId, Name, Population, CreateDate, EditDate, ETag) VALUES (264, N'South Africa', 59893885, N'2023-01-13 00:00:00.0000000', N'2023-10-26 00:00:00.0000000', N'509B3C6A-ACC7-480D-949F-8E6AA66FDF74');
 INSERT INTO CountrySource.dbo.CountryMaster (CountryId, Name, Population, CreateDate, EditDate, ETag) VALUES (265, N'Zambia', 20017675, N'2023-08-15 00:00:00.0000000', null, N'F1FD6C2B-02F2-4CE2-B4EF-28D88F4A18C2');
 INSERT INTO CountrySource.dbo.CountryMaster (CountryId, Name, Population, CreateDate, EditDate, ETag) VALUES (266, N'Zimbabwe', 16320537, N'2023-08-31 00:00:00.0000000', null, N'020806B5-86BC-4DBA-99C0-F53C7AA169AB');
+GO
+CREATE PROCEDURE up_CountryList_Select
+    @CreateDate datetime2,
+    @EditDate datetime2
+AS
+SELECT
+    CountryId,
+    Name,
+    Population,
+    CreateDate,
+    EditDate,
+    NEWID() AS Etag
+FROM
+    CountryMaster
+WHERE
+    (CreateDate > @CreateDate)
+   OR (EditDate IS NOT NULL AND EditDate > @EditDate)
+RETURN(0)
+GO
