@@ -27,10 +27,9 @@ var app = builder.Build();
 
 var events = app.Services.GetServices<EtlExecuteCompletedEvent>();
 
-// For Development only
+//For Development only
 // using var scope = app.Services.CreateScope();
 // var dbContext = scope.ServiceProvider.GetRequiredService<CryptocashIntegration.Infrastructure.Persistence.AppDbContext>();
-//
 // dbContext.Database.EnsureDeleted();
 // dbContext.Database.EnsureCreated();
 

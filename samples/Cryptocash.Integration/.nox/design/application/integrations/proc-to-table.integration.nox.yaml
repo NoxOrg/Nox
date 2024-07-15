@@ -1,0 +1,48 @@
+#
+# ProcToTable.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integration.json
+#
+
+name: ProcToTable
+
+description: Synchronization of Country data from a sample sql database table using a SQL stored procedure, to a Nox database table.
+
+mergeType: mergeNew #mergeNew upserts records from the source to the target
+
+schedule:
+  start: Every week on Sunday at 3am #interpreter converts this to a cron expression
+  runOnStartup: false #if this is true this integration will run immediately on startup of the service, regardless of the schedule
+
+source:
+  name: SampleSource
+  description: Curated dataset of country information.
+  dataConnectionName: CountrySource
+  watermark:
+    sequentialKeyColumns:
+      - CountryId
+    dateColumns:
+      - CreateDate
+      - EditDate
+  
+  sourceAdapterType: databaseProcedure
+  
+  procedureOptions: 
+    storedProcedure: up_CountryList_Select
+    parameters: 
+      - name: CreateDate
+        dataType: datetime2
+      - name: EditDate
+        dataType: datetime2
+  
+target:
+  name: SampleTarget
+  description: The country table of the Cryptocash database
+  dataConnectionName: CryptocashEtlDb
+  targetAdapterType: databaseTable
+  tableOptions:
+    tableName: CountriesProcToTable
+    watermark:
+      sequentialKeyColumns:
+        - CountryId
+

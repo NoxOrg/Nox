@@ -47,27 +47,27 @@ public partial class MultiSelect : ComponentBase
 
     protected async Task OnIdChanged(string newValue)
     {
-
+    
         CurrentIdList = newValue;
         IEnumerable<string> selectedIdList = new List<string>();
         if (!string.IsNullOrWhiteSpace(CurrentIdList))
         {
             selectedIdList = CurrentIdList.Split(',').Select(Id => Id.Trim()).ToList();
         }
-
+    
         EntityList = new();
-
+    
         foreach (string currentId in selectedIdList)
         {
             SelectEntityModel? entity = SelectionList.Find(Entity => 
             Entity.Id.ToString().Equals(currentId));
-
+    
             if (entity != null)
             {
                 EntityList.Add(entity);
             }
         }         
-
+    
         await EntityListChanged.InvokeAsync(EntityList);
     }
 
