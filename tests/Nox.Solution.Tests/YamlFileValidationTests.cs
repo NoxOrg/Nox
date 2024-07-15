@@ -109,7 +109,7 @@ public class YamlFileValidationTests
 
         var errors = exception.Errors.Select(e => e.ErrorMessage).ToArray();
 
-        errors.Length.Should().Be(35);
+        errors.Length.Should().Be(37);
     }
 
     
