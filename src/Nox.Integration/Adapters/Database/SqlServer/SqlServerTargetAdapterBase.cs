@@ -66,17 +66,17 @@ public abstract class SqlServerTargetAdapterBase
     {
         var record = (IDictionary<string, object?>)dto;
         var changeActionId = (ChangeAction)record["ChangeAction"]!;
-        if (changeActionId == ChangeAction.Insert)
+        switch (changeActionId)
         {
-            RaiseOnInsert(dto);
-        }
-        else if (changeActionId == ChangeAction.Update)
-        {
-            RaiseOnUpdate(dto);
-        }
-        else if (changeActionId == ChangeAction.Exists)
-        {
-            RaiseOnUnchanged();
+            case ChangeAction.Insert:
+                RaiseOnInsert(dto);
+                break;
+            case ChangeAction.Update:
+                RaiseOnUpdate(dto);
+                break;
+            case ChangeAction.Exists:
+                RaiseOnUnchanged();
+                break;
         }
     }
     

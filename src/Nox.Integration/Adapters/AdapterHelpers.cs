@@ -3,6 +3,8 @@ using ETLBox;
 using ETLBox.DataFlow;
 using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions.Interfaces;
+using Nox.Integration.Abstractions.Models;
+using Nox.Integration.Adapters.Message;
 using Nox.Integration.Extensions;
 using Nox.Solution;
 
@@ -26,13 +28,18 @@ public static class AdapterHelpers
         throw new NotImplementedException($"{sourceDefinition.SourceAdapterType.ToString()} source adapter for integration {integrationName} has not been implemented");
     }
 
-    internal static object? CreateTargetAdapter(Type targetType, Solution.Integration definition, IReadOnlyList<DataConnection>? dataConnections)
+    internal static object? CreateTargetAdapter(
+        Type targetType, 
+        Solution.Integration definition, 
+        IReadOnlyList<DataConnection>? dataConnections)
     {
         var dataConnection = dataConnections!.FirstOrDefault(dc => dc.Name == definition.Target.DataConnectionName);
         switch (definition.Target.TargetAdapterType)
         {
             case IntegrationTargetAdapterType.DatabaseTable:
                 return DatabaseTargetHelpers.CreateDatabaseTargetAdapter(targetType, definition.Name, definition.Target.TableOptions!, dataConnection!, definition.MergeType.ToEtlBoxMergeMode());
+            case IntegrationTargetAdapterType.MessageBroker:
+                return MessageTargetHelpers.CreateMessageBrokerTargetAdapter(targetType, definition.Name, definition.Target.MessageBrokerOptions!, dataConnection!);
         }
 
         //Code should never reach this

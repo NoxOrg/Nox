@@ -10,3 +10,5 @@ integrations:
   - $ref: ./integrations/json-to-table.integration.nox.yaml
     
   - $ref: ./integrations/proc-to-table.integration.nox.yaml
+    
+  - $ref: ./integrations/SqlQuery-to-RabbitMQ.integration.nox.yaml    

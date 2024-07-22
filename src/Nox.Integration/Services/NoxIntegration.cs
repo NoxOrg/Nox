@@ -105,7 +105,7 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
                     var dbAdapter = (INoxDatabaseTargetAdapter<TTarget>)_targetAdapter;
                     var tableTarget = dbAdapter.TableTarget!
                         .WithMergeFields(TargetIdColumns, TargetDateColumns);
-                    var metricsTarget = dbAdapter.MetricsTarget;
+                    var dbMetricsTarget = dbAdapter.MetricsTarget;
                     dbAdapter.OnInsert += TargetAdapterOnInsert;
                     dbAdapter.OnUpdate += TargetAdapterOnUpdate;
 
@@ -113,7 +113,7 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
                     {
                         var dynamicSource = source as IDataFlowExecutableSource<ExpandoObject>;
                         var dynamicTarget = tableTarget as IDataFlowDestination<ExpandoObject>;
-                        var dynamicMetrics = metricsTarget as CustomDestination<ExpandoObject>;
+                        var dynamicMetrics = dbMetricsTarget as CustomDestination<ExpandoObject>;
                         dynamicSource!
                             .LinkTo(dynamicTarget)
                             .LinkTo(dynamicMetrics);
@@ -125,10 +125,34 @@ internal sealed class NoxIntegration<TSource, TTarget>: INoxIntegration<TSource,
                         source
                             .LinkTo<TTarget>(rowTransform)
                             .LinkTo<TTarget>(tableTarget)
-                            .LinkTo(metricsTarget);
+                            .LinkTo(dbMetricsTarget);
                         await Network.ExecuteAsync(source);
                     }
 
+                    break;
+                case IntegrationTargetAdapterType.MessageBroker:
+                    var msgAdapter = (INoxEtlMessageTargetAdapter<TTarget>)_targetAdapter;
+                    var msgTarget = msgAdapter.Target;
+                    var msgMetricsTarget = msgAdapter.MetricsTarget;
+                    msgAdapter.OnInsert += TargetAdapterOnInsert;
+                    msgAdapter.OnUpdate += TargetAdapterOnUpdate;
+                    if (transform == null)
+                    {
+                        var dynamicSource = source as IDataFlowExecutableSource<ExpandoObject>;
+                        var dynamicTarget = msgTarget as IDataFlowDestination<ExpandoObject>;
+                        var dynamicMetrics = msgMetricsTarget as CustomDestination<ExpandoObject>;
+                        dynamicSource!.LinkTo(dynamicTarget);
+                        dynamicSource!.LinkTo(dynamicMetrics);
+                        await Network.ExecuteAsync(dynamicSource);
+                    }
+                    else
+                    {
+                        var rowTransform = new RowTransformation<TSource, TTarget>(record => transform.Invoke(record));
+                        var msgTransformSource = source.LinkTo<TTarget>(rowTransform);
+                        msgTransformSource.LinkTo<TTarget>(msgTarget);
+                        msgTransformSource.LinkTo(msgMetricsTarget);
+                        await Network.ExecuteAsync(source);
+                    }
                     break;
                 default:
                     throw new NotImplementedException($"Target adapter type: {Enum.GetName(_targetAdapter.AdapterType)} has not been implemented!");

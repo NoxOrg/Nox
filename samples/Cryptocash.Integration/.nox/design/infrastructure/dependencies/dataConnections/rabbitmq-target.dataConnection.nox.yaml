@@ -1,0 +1,10 @@
+#
+# rabbitmq-target.dataConnection.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/dataConnection.json
+#
+
+name: CryptocashEtlRabbitMq
+provider: rabbitMq
+serverUri: rabbitmq://guest:guest@localhost
+

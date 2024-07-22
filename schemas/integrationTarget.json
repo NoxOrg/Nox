@@ -129,6 +129,61 @@
         }
       },
       "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "targetAdapterType",
+        "messageBrokerOptions",
+        "dataConnectionName"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the ETL target. Contains no spaces.",
+          "description": "The name of the ETL target. It should be a commonly used singular noun and be unique within a solution.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the ETL target.",
+          "description": "A phrase describing the ETL target.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "targetAdapterType": {    
+          "const": "messageBroker"
+        },
+        "messageBrokerOptions": {    
+          "title": "Definition namespace for a Message Queue integration target.",
+          "description": "This section specified attributes related to an integration target of type Message Broker. Attributes include the name of the target queue or topic.",
+          "type": "object",
+          "required": [
+            "targetName"
+          ],
+          "properties": {
+            "targetName": {    
+              "title": "The target name.",
+              "description": "The name of the queue, topic or subscription to which messages will be sent.",
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "dataConnectionName": {    
+          "title": "The name of the integration target data connection. Contains no spaces.",
+          "description": "The name should be a commonly used singular noun and be unique within a solution.",
+          "type": "string",
+          "pattern": "^[^\\s]*$",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   ]
 }

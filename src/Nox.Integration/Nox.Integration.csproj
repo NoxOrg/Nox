@@ -35,6 +35,8 @@
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
       <PackageReference Include="ETLBox.Json" Version="3.4.0" />
+      <PackageReference Include="MassTransit" Version="8.2.3" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
       <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.28.0" />
       <PackageReference Include="ETLBox" Version="3.4.0" />

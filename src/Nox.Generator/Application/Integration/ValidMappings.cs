@@ -14,6 +14,6 @@ internal static class MappingConstants
         {"date", new []{"string", "date", "datetime"}},
         {"time", new []{"string", "time"}},
         {"datetime", new []{"string", "date", "time", "datetime"}},
-        {"guid", new []{"string", "guid"}}
+        {"uniqueidentifier", new []{"string", "uniqueidentifier"}}
     });
 }

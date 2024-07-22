@@ -9,3 +9,5 @@ dataConnections:
   - $ref: ./dataConnections/country-source-data.dataConnection.nox.yaml
 
   - $ref: ./dataConnections/json-source-data.dataConnection.nox.yaml
+    
+  - $ref: ./dataConnections/rabbitmq-target.dataConnection.nox.yaml

@@ -37,6 +37,11 @@ public class IntegrationTarget : YamlConfigNode<NoxSolution, Integration>
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetTableOptions? TableOptions { get; set; }
+    
+    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.MessageBroker)]
+    [Required]
+    [AdditionalProperties(false)]
+    public IntegrationTargetMessageBrokerOptions? MessageBrokerOptions { get; set; }
 
     /*
     [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.File)]
@@ -48,11 +53,6 @@ public class IntegrationTarget : YamlConfigNode<NoxSolution, Integration>
     [Required]
     [AdditionalProperties(false)]
     public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
-
-    [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.MessageQueue)]
-    [Required]
-    [AdditionalProperties(false)]
-    public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
 
     [IfEquals(nameof(TargetAdapterType), IntegrationTargetAdapterType.Entity)]
     [Required]

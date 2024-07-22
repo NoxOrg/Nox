@@ -1,0 +1,44 @@
+#
+# SqlQuery-to-RabbitMQ.mapping.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integrationMapping.json
+#
+
+mapping:
+  - source:
+      name: Id
+      type: integer
+    target:
+      name: CountryId
+
+  - source:
+      name: Name
+      type: string
+    target:
+      name: CountryName
+
+  - source:
+      name: Population
+      type: integer
+    target:
+      name: NoOfInhabitants
+  
+  - source:
+      name: CreateDate
+      type: dateTime
+    target:
+      name: DateCreated
+      
+  - source:
+      name: EditDate
+      type: dateTime
+    target:
+      name: DateChanged
+      
+  - source:
+      name: Etag
+      type: uniqueIdentifier 
+    target:
+      name: DateChanged
+      
+

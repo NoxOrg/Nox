@@ -1,0 +1,55 @@
+#
+# SqlQueryToRabbitMq.integration.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/integration.json
+#
+
+name: SqlQueryToRabbitMq
+
+description: Synchronization of Country data from a sample sql database table using a SQL query statement, to a RabbitMQ message broker
+
+mergeType: mergeNew #mergeNew upserts records from the source to the target
+#mergeType: addNew #addNew only inserts new record, does not update existing records.
+
+schedule:
+  start: Every week on Sunday at 3am #interpreter converts this to a cron expression
+  runOnStartup: false #if this is true this integration will run immediately on startup of the service, regardless of the schedule
+
+source:
+  name: SampleSource
+  description: Curated dataset of country information.
+  dataConnectionName: CountrySource
+  watermark:
+    sequentialKeyColumns:
+      - Id
+    dateColumns:
+      - CreateDate
+      - EditDate
+  
+  sourceAdapterType: databaseQuery
+  
+  queryOptions:
+    query: >-
+      SELECT 
+        CountryId AS Id, 
+        Name, 
+        Population, 
+        CreateDate, 
+        EditDate,
+        CONVERT(datetime, CreateDate) AS AsAt,
+        NEWID() AS Etag
+      FROM 
+        dbo.CountryMaster
+    minimumExpectedRecords: 10
+    
+transformation:
+  $ref: ./SqlQuery-to-RabbitMQ.mapping.nox.yaml    
+
+target:
+  name: SampleTarget
+  description: a Sample RabbitMq endpoint
+  dataConnectionName: CryptocashEtlRabbitMq
+  targetAdapterType: messageBroker
+  messageBrokerOptions:
+    targetName: CryptoTargetQueue
+
