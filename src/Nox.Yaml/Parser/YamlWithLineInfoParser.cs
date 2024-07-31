@@ -38,13 +38,13 @@ internal static class YamlWithLineInfoParser
             {
                 var value = GetYamlValue(valueEvent);
 
-                result[keyEvent.Value] = new(value, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(value, yamlRefResolver.GetLineInfo((int)keyEvent.Start.Line));
             }
             else if (parser.Current is MappingStart)
             {
                 var nestedMapping = ParseMapping(parser, yamlRefResolver);
 
-                result[keyEvent.Value] = new(nestedMapping, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(nestedMapping, yamlRefResolver.GetLineInfo((int)keyEvent.Start.Line));
 
             }
             else if (parser.Current is SequenceStart)
@@ -93,7 +93,7 @@ internal static class YamlWithLineInfoParser
 
 
                 }
-                result[keyEvent.Value] = new(objList.ToArray(), yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(objList.ToArray(), yamlRefResolver.GetLineInfo((int)keyEvent.Start.Line));
             }
             else
             {

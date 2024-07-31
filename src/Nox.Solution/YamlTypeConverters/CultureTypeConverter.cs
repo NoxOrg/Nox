@@ -15,7 +15,7 @@ public class CultureTypeConverter: IYamlTypeConverter
         return type == typeof(Culture);
     }
 
-    public object? ReadYaml(IParser parser, Type type)
+    public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         if (parser.Current?.GetType() != typeof(Scalar))
             throw new InvalidOperationException("Expected a YAML scalar");
@@ -30,7 +30,7 @@ public class CultureTypeConverter: IYamlTypeConverter
 
     }
 
-    public void WriteYaml(IEmitter emitter, object? value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
         if(value is null)
             return;

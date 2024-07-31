@@ -1,0 +1,363 @@
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject ICountriesService CountriesService
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<CountryModel>>>(ServerReload))"
+          @ref="CountryDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="CountryModel" 
+          Items="@CountriesData" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>Select</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Name"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Name"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Name")">
+                        Country Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Country Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("OfficialName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("OfficialName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "OfficialName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("OfficialName")">
+                        Official Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Official Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CountryIsoNumeric"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("CountryIsoNumeric"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CountryIsoNumeric"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("CountryIsoNumeric")">
+                        Country Id
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Country Id</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CountryIsoAlpha3"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("CountryIsoAlpha3"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CountryIsoAlpha3"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("CountryIsoAlpha3")">
+                        Country Code
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Country Code</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GeoCoords"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("GeoCoords"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "GeoCoords"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("GeoCoords")">
+                        Geo Coordinates
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Geo Coordinates</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagEmoji"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("FlagEmoji"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "FlagEmoji"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("FlagEmoji")">
+                        Flag Emoji
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Flag Emoji</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagSvg"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("FlagSvg"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "FlagSvg"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("FlagSvg")">
+                        Flag SVG
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Flag SVG</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagPng"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("FlagPng"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "FlagPng"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("FlagPng")">
+                        Flag PNG
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Flag PNG</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CoatOfArmsSvg"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("CoatOfArmsSvg"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CoatOfArmsSvg"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("CoatOfArmsSvg")">
+                        Coat of Arms SVG
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Coat of Arms SVG</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CoatOfArmsPng"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("CoatOfArmsPng"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CoatOfArmsPng"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("CoatOfArmsPng")">
+                        Coat of Arms PNG
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Coat of Arms PNG</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GoogleMapsUrl"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("GoogleMapsUrl"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "GoogleMapsUrl"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("GoogleMapsUrl")">
+                        Google Maps URL
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Google Maps URL</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("OpenStreetMapsUrl"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("OpenStreetMapsUrl"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "OpenStreetMapsUrl"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("OpenStreetMapsUrl")">
+                        Open Street Maps URL
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Open Street Maps URL</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("StartOfWeek"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("StartOfWeek"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "StartOfWeek"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("StartOfWeek")">
+                        Start of Week
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Start of Week</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Population"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Population"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="CountryModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Population"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Population")">
+                        Population
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Population</MudTh>
+            }
+        }
+        <MudTh>Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
+        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            <MudTd>
+                <ViewText Text="@context.Name" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("OfficialName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.OfficialName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CountryIsoNumeric"))
+        {
+            <MudTd>
+                <ViewCountryNumber CountryNumber="@context.CountryIsoNumeric" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CountryIsoAlpha3"))
+        {
+            <MudTd>
+                <ViewCountryCode3 CountryCode3="@context.CountryIsoAlpha3" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GeoCoords"))
+        {
+            <MudTd>
+                <ViewLatLong LatLong="@context.GeoCoords" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagEmoji"))
+        {
+            <MudTd>
+                <ViewText Text="@context.FlagEmoji" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagSvg"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.FlagSvg" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("FlagPng"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.FlagPng" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CoatOfArmsSvg"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.CoatOfArmsSvg" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("CoatOfArmsPng"))
+        {
+            <MudTd>
+                <ViewImage Image="@context.CoatOfArmsPng" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("GoogleMapsUrl"))
+        {
+            <MudTd>
+                <ViewUrl Url="@context.GoogleMapsUrl" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("OpenStreetMapsUrl"))
+        {
+            <MudTd>
+                <ViewUrl Url="@context.OpenStreetMapsUrl" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("StartOfWeek"))
+        {
+            <MudTd>
+                <ViewDayOfWeek DayOfWeek="@context.StartOfWeek" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Population"))
+        {
+            <MudTd>
+                <ViewNumber Number="@context.Population" />
+            </MudTd>
+        }
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
+    </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
+</MudTable>

@@ -1,0 +1,110 @@
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject IPaymentDetailsService PaymentDetailsService
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<PaymentDetailModel>>>(ServerReload))"
+          @ref="PaymentDetailDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="PaymentDetailModel" 
+          Items="@PaymentDetailsData" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>Select</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountName"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentAccountName"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentDetailModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentAccountName"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentAccountName")">
+                        Payment Account
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Payment Account</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountNumber"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentAccountNumber"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentDetailModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentAccountNumber"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentAccountNumber")">
+                        Account Number
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Account Number</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountSortCode"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("PaymentAccountSortCode"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="PaymentDetailModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PaymentAccountSortCode"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("PaymentAccountSortCode")">
+                        Account Sort Code
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Account Sort Code</MudTh>
+            }
+        }
+        <MudTh>Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
+        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountName"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentAccountName" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountNumber"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentAccountNumber" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("PaymentAccountSortCode"))
+        {
+            <MudTd>
+                <ViewText Text="@context.PaymentAccountSortCode" />
+            </MudTd>
+        }
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
+    </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
+</MudTable>
