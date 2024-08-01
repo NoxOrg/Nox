@@ -28,7 +28,9 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
     /// <summary>
     /// Bunit test which renders ui component and then checks html output of input Title is valid
     /// </summary>
+#pragma warning disable xUnit1004 // Test methods should not be skipped
     [Fact(Skip = "System.InvalidOperationException : Cannot provide a value for property 'Localizer' on type 'MudBlazor.MudInput`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'. There is no registered service of type 'MudBlazor.InternalMudLocalizer'.")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
     public void When_EditText_Should_Render_Title() 
     {
         // Arrange
@@ -48,7 +50,9 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
     /// <summary>
     /// BUnit test which renders ui component and then checks if TextChanged eventcallback<string> from text manual input is valid
     /// </summary>
+#pragma warning disable xUnit1004 // Test methods should not be skipped
     [Fact(Skip = "System.InvalidOperationException : Cannot provide a value for property 'Localizer' on type 'MudBlazor.MudInput`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'. There is no registered service of type 'MudBlazor.InternalMudLocalizer'.")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
     public void When_EditText_Should_Update_TextChanged()
     {
         // Arrange
@@ -75,7 +79,9 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
     /// <summary>
     /// BUnit test which renders ui component and then checks ValidateLength method from text manual input is validated successfully
     /// </summary>
+#pragma warning disable xUnit1004 // Test methods should not be skipped
     [Fact(Skip = "System.InvalidOperationException : Cannot provide a value for property 'Localizer' on type 'MudBlazor.MudInput`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'. There is no registered service of type 'MudBlazor.InternalMudLocalizer'.")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
     public void When_EditText_Should_ValidateMinLength_Success()
     {
         // Arrange
@@ -96,7 +102,9 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
     /// <summary>
     /// BUnit test which renders ui component and then checks ValidateLength method from text manual input is validated unsuccessfully
     /// </summary>
+#pragma warning disable xUnit1004 // Test methods should not be skipped
     [Fact(Skip = "System.InvalidOperationException : Cannot provide a value for property 'Localizer' on type 'MudBlazor.MudInput`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'. There is no registered service of type 'MudBlazor.InternalMudLocalizer'.")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
     public void When_EditText_Should_ValidateMinLength_Fail()
     {
         // Arrange
