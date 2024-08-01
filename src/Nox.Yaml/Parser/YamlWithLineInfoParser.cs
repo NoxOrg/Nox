@@ -38,24 +38,24 @@ internal static class YamlWithLineInfoParser
             {
                 var value = GetYamlValue(valueEvent);
 
-                result[keyEvent.Value] = new(value, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(value, yamlRefResolver.GetLineInfo((int)keyEvent.Start.Line));
             }
             else if (parser.Current is MappingStart)
             {
                 var nestedMapping = ParseMapping(parser, yamlRefResolver);
 
-                result[keyEvent.Value] = new(nestedMapping, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(nestedMapping, yamlRefResolver.GetLineInfo((int)keyEvent.Start.Line));
 
             }
-            else if (parser.Current is SequenceStart)
+            else if (parser.Current is SequenceStart _)
             {
                 var objList = new List<object>();
 
                 parser.MoveNext();
 
-                if (parser.Current is Scalar)
+                if (parser.Current is Scalar _)
                 {
-                    while (parser.Current is not SequenceEnd)
+                    while (parser.Current is not SequenceEnd _)
                     {
                         if (parser.Current is Scalar element)
                             objList.Add(element.Value);
@@ -64,22 +64,22 @@ internal static class YamlWithLineInfoParser
                     }
 
                 }
-                else if (parser.Current is MappingStart)
+                else if (parser.Current is MappingStart _)
                 {
-                    while (parser.Current is not SequenceEnd)
+                    while (parser.Current is not SequenceEnd _)
                     {
                         objList.Add(ParseMapping(parser, yamlRefResolver));
                         parser.MoveNext();
                     }
                 }
                 
-                else if (parser.Current is SequenceStart) //nested array
+                else if (parser.Current is SequenceStart _) //nested array
                 {
-                    while (parser.Current is not SequenceEnd)
+                    while (parser.Current is not SequenceEnd _)
                     {
                         parser.MoveNext();
                         var valueList = new List<object>();
-                        while (parser.Current is not SequenceEnd)
+                        while (parser.Current is not SequenceEnd _)
                         {
                             if (parser.Current is Scalar element)
                             {
@@ -93,7 +93,7 @@ internal static class YamlWithLineInfoParser
 
 
                 }
-                result[keyEvent.Value] = new(objList.ToArray(), yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(objList.ToArray(), yamlRefResolver.GetLineInfo((int)keyEvent.Start.Line));
             }
             else
             {

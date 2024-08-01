@@ -1,0 +1,87 @@
+﻿@using NoxResources = Nox.Ui.Blazor.Lib.Resources.Resources
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes
+
+@using Cryptocash.Ui.Services
+@using Cryptocash.Ui.Models
+
+@namespace Cryptocash.Ui.DataGrid
+
+@inject ILandLordsService LandLordsService
+
+<MudTable ServerData="@(new Func<TableState, Task<TableData<LandLordModel>>>(ServerReload))"
+          @ref="LandLordDataGridTable"
+          CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+          RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+          T="LandLordModel" 
+          Items="@LandLordsData" 
+          Loading="@IsLoading"
+          Hover="true"                                  
+          Breakpoint="Breakpoint.Sm"
+          Elevation="0"
+          Style="border-style:solid;border-width:2px;border-color:lightgray;"
+          Dense="true">
+    <HeaderContent>
+        <MudTh>Select</MudTh>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Name"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="LandLordModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Name"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Name")">
+                        Name
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Name</MudTh>
+            }
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Address"))
+        {
+            @if (CurrentApiUiService!.IsPropertyOrdered("Address"))
+            {
+                <MudTh>
+                    <MudTableSortLabel T="LandLordModel"
+                                        SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "Address"))"
+                                        InitialDirection="@GetPropertyMudSortDirection("Address")">
+                        Address
+                    </MudTableSortLabel>
+                </MudTh>
+            }
+            else
+            {
+                <MudTh>Address</MudTh>
+            }
+        }
+        <MudTh>Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(e=>SelectedOnClick(context))" />
+        </MudTd>
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Name"))
+        {
+            <MudTd>
+                <ViewText Text="@context.Name" />
+            </MudTd>
+        }
+        @if (CurrentApiUiService!.IsPropertyShowInSearch("Address"))
+        {
+            <MudTd>
+                <ViewStreetAddress StreetAddress="@context.Address" />
+            </MudTd>
+        }
+        <MudTd>
+             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(e=>DeleteOnClick(context))" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText Typo="Typo.h6">@NoxResources.NoResultsFound</MudText>
+    </NoRecordsContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+    </PagerContent>
+</MudTable>
