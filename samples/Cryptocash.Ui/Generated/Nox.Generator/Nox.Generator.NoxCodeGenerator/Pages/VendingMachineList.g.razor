@@ -276,7 +276,7 @@
                     @if (PagedData != null
                    && CurrentApiUiService != null)
                     {
-                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachineDto>>>(ServerReload))"
+                        <MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<VendingMachineDto>>>(ServerReload))"
                         @ref="DataGridTable"
                                   CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
                                   RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
