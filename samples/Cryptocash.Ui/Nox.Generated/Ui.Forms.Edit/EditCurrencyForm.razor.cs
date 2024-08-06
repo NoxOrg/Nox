@@ -29,8 +29,8 @@ public partial class EditCurrencyForm : ComponentBase
     public DialogOptions EditDialogOptions { get; set; } = new()
         {
             FullWidth = true,
-            ClassBackground = "custom-dialog",
-            DisableBackdropClick = true,
+            BackgroundClass = "custom-dialog",
+            BackdropClick = true,
             Position = DialogPosition.TopCenter,
             MaxWidth = MaxWidth.Large
         };
