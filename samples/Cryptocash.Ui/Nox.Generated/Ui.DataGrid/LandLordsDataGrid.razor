@@ -8,7 +8,7 @@
 
 @inject ILandLordsService LandLordsService
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<LandLordModel>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<LandLordModel>>>(ServerReload))"
           @ref="LandLordDataGridTable"
           CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
           RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"

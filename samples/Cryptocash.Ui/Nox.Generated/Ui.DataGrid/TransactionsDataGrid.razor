@@ -8,7 +8,7 @@
 
 @inject ITransactionsService TransactionsService
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<TransactionModel>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<TransactionModel>>>(ServerReload))"
           @ref="TransactionDataGridTable"
           CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
           RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"

@@ -52,7 +52,7 @@ public partial class MinimumCashStocksDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<MinimumCashStockModel>> ServerReload(TableState State)
+    public async Task<TableData<MinimumCashStockModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

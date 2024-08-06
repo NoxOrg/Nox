@@ -52,7 +52,7 @@ public partial class TransactionsDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<TransactionModel>> ServerReload(TableState State)
+    public async Task<TableData<TransactionModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

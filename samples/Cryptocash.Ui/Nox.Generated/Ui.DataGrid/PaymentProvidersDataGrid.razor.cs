@@ -52,7 +52,7 @@ public partial class PaymentProvidersDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<PaymentProviderModel>> ServerReload(TableState State)
+    public async Task<TableData<PaymentProviderModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

@@ -18,7 +18,7 @@ end -}}
 
 @inject I{{entity.PluralName}}Service {{entity.PluralName}}Service
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<{{entity.Name}}Model>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<{{entity.Name}}Model>>>(ServerReload))"
           @ref="{{entity.Name}}DataGridTable"
           CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
           RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"

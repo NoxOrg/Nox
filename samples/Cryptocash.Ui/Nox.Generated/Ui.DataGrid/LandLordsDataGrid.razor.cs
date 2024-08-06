@@ -52,7 +52,7 @@ public partial class LandLordsDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<LandLordModel>> ServerReload(TableState State)
+    public async Task<TableData<LandLordModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

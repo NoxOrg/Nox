@@ -8,7 +8,7 @@
 
 @inject ICommissionsService CommissionsService
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<CommissionModel>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<CommissionModel>>>(ServerReload))"
           @ref="CommissionDataGridTable"
           CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
           RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"

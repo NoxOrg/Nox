@@ -8,7 +8,7 @@
 
 @inject IPaymentProvidersService PaymentProvidersService
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<PaymentProviderModel>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<PaymentProviderModel>>>(ServerReload))"
           @ref="PaymentProviderDataGridTable"
           CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
           RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"

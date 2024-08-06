@@ -52,7 +52,7 @@ public partial class EmployeesDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<EmployeeModel>> ServerReload(TableState State)
+    public async Task<TableData<EmployeeModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {
