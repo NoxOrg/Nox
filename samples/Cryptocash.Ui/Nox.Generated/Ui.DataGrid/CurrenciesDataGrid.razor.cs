@@ -52,7 +52,7 @@ public partial class CurrenciesDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<CurrencyModel>> ServerReload(TableState State)
+    public async Task<TableData<CurrencyModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

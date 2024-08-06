@@ -52,7 +52,7 @@ public partial class BookingsDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<BookingModel>> ServerReload(TableState State)
+    public async Task<TableData<BookingModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

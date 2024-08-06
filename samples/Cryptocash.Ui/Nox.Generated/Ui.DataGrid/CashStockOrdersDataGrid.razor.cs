@@ -52,7 +52,7 @@ public partial class CashStockOrdersDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<CashStockOrderModel>> ServerReload(TableState State)
+    public async Task<TableData<CashStockOrderModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

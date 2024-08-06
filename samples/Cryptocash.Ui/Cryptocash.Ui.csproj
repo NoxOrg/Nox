@@ -37,6 +37,11 @@
   <PropertyGroup>
     <OutputDirectory>Nox.Generated</OutputDirectory>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<MudAllowedAttributePattern>Any</MudAllowedAttributePattern>
+		<MudIllegalParameters>Disabled</MudIllegalParameters>
+	</PropertyGroup>
   <ItemGroup>
     <InputFiles Include="../.nox/design/**/*.yaml" />
       <InputFiles Include="../.nox/docs/**/*.md" />

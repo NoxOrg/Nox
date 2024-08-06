@@ -228,8 +228,8 @@ public partial class Currencies : ComponentBase
 
     public DialogOptions ConfirmationDialogOptions { get; set; } = new()
     {
-        ClassBackground = "dialog-blur-class",
-        DisableBackdropClick = true,
+        BackgroundClass = "dialog-blur-class",
+        BackdropClick = true,
         Position = DialogPosition.TopCenter,
         MaxWidth = MaxWidth.Medium
     };

@@ -27,8 +27,8 @@ public partial class AddBookingForm : ComponentBase
     public DialogOptions AddDialogOptions { get; set; } = new()
         {
             FullWidth = true,
-            ClassBackground = "custom-dialog",
-            DisableBackdropClick = true,
+            BackgroundClass = "custom-dialog",
+            BackdropClick = true,
             Position = DialogPosition.TopCenter,
             MaxWidth = MaxWidth.Large
         };

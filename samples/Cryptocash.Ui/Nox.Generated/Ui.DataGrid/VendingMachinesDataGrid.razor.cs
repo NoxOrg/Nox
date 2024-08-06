@@ -52,7 +52,7 @@ public partial class VendingMachinesDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<VendingMachineModel>> ServerReload(TableState State)
+    public async Task<TableData<VendingMachineModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

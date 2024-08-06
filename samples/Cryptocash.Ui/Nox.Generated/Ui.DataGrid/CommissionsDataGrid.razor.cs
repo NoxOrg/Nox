@@ -52,7 +52,7 @@ public partial class CommissionsDataGrid : ComponentBase
 
     #region Data
 
-    public async Task<TableData<CommissionModel>> ServerReload(TableState State)
+    public async Task<TableData<CommissionModel>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {

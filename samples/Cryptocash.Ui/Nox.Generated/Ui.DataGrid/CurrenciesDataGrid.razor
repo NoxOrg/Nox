@@ -8,7 +8,7 @@
 
 @inject ICurrenciesService CurrenciesService
 
-<MudTable ServerData="@(new Func<TableState, Task<TableData<CurrencyModel>>>(ServerReload))"
+<MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<CurrencyModel>>>(ServerReload))"
           @ref="CurrencyDataGridTable"
           CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
           RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"

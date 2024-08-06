@@ -52,7 +52,7 @@ public partial class {{className}} : ComponentBase
 
     #region Data
 
-    public async Task<TableData<{{entity.Name}}Model>> ServerReload(TableState State)
+    public async Task<TableData<{{entity.Name}}Model>> ServerReload(TableState State, CancellationToken cancellationToken)
     {
         if (IsPagingPopulated)
         {
