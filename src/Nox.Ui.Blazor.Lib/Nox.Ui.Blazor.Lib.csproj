@@ -21,6 +21,11 @@
 		<PackageIcon>nox.png</PackageIcon>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<MudAllowedAttributePattern>Any</MudAllowedAttributePattern>
+		<MudIllegalParameters>Disabled</MudIllegalParameters>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
