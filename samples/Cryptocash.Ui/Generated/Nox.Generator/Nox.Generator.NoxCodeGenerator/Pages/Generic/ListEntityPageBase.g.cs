@@ -94,8 +94,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public DialogOptions AddDialogOptions = new()
         {
             FullWidth = true,
-            ClassBackground = "custom-dialog",
-            DisableBackdropClick = true,
+            BackgroundClass = "custom-dialog",
+            BackdropClick = true,
             Position = DialogPosition.TopCenter,
             MaxWidth = MaxWidth.Large
         };
@@ -106,8 +106,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public DialogOptions EditDialogOptions = new()
         {
             FullWidth = true,
-            ClassBackground = "custom-dialog",
-            DisableBackdropClick = true,
+            BackgroundClass = "custom-dialog",
+            BackdropClick = true,
             Position = DialogPosition.TopCenter,
             MaxWidth = MaxWidth.Large
         };
@@ -118,8 +118,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public DialogOptions DeleteDialogOptions = new()
         {
             FullWidth = true,
-            ClassBackground = "custom-dialog",
-            DisableBackdropClick = true
+            BackgroundClass = "custom-dialog",
+            BackdropClick = true
         };
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// </summary>
         /// <param name="State"></param>
         /// <returns>Task<TableData<ApiEntity>></returns>
-        public async Task<TableData<T>> ServerReload(TableState State)
+        public async Task<TableData<T>> ServerReload(TableState State, CancellationToken cancellationToken)
         {
             if (IsPagingPopulated)
             {

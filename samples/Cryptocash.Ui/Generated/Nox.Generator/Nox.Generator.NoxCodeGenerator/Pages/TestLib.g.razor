@@ -319,7 +319,7 @@
                     @if (PagedData != null
                    && CurrentApiUiService != null)
                     {   
-                        <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
+                        <MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<CustomerDto>>>(ServerReload))"
                                   T="CustomerDto"
                                   Loading="@IsDataGridLoading"
                                   Hover="true"                                  
