@@ -31,6 +31,19 @@ jobs:
         with:
           useConfigFile: true
           additionalArguments: '/updateprojectfiles'
+          
+      - name: Get Latest NuGet Version
+        id: nuget_version
+        run: |
+          VERSION=$(curl -s https://api.nuget.org/v3-flatcontainer/nox.lib/index.json | jq -r '.versions[-1]')
+          echo "Latest NuGet Version: $VERSION"
+          echo "nuget_version=$VERSION" >> $GITHUB_ENV
+      - name: Check Version
+        run: |
+          if [ "${{ steps.gitversion.outputs.nuGetVersion }}" = "${{ env.nuget_version }}" ]; then
+            echo "The determined version is the same as the current NuGet version. Cancelling the workflow."
+            exit 0
+          fi
 
       - name: Display GitVersion outputs (step output)
         run: |
