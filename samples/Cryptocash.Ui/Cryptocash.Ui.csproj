@@ -13,11 +13,13 @@
 
   <ItemGroup>
 	<PackageReference Include="AutoMapper" Version="13.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" NoWarn="NU1605" />
-  	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.7" NoWarn="NU1605" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.0.1" />
-    <PackageReference Include="MudBlazor" Version="7.4.0" />
+	<PackageReference Include="Azure.Identity" Version="1.12.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" NoWarn="NU1605" />
+  	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.8" NoWarn="NU1605" />
+  	<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.1.0" />
+    <PackageReference Include="MudBlazor" Version="7.6.0" />
   </ItemGroup>
 
   <ItemGroup>
