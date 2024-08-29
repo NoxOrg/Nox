@@ -12,6 +12,8 @@ namespace ClientApi.Application.Exceptions
 
         public required object ErrorDetails { get; set; }
 
+        public string DisplayMessage => "Invalid request. Please check your input and try again.";
+        
         public CountryNameInvalid()
         {
         }
@@ -25,6 +27,6 @@ namespace ClientApi.Application.Exceptions
             : base(message, inner)
         {
         }
-       
+
     }
 }

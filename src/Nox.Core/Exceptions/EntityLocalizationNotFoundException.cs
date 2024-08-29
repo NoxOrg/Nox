@@ -29,6 +29,8 @@ public class EntityLocalizationNotFoundException : Exception, IApplicationExcept
 
     public object? ErrorDetails { get; private set; }
 
+    public string DisplayMessage => "Localization of the entity was not found.";
+
     public static void ThrowIfNull([NotNull] object? argument, string entityName, string entityId, string cultureCode)
     {
         if (argument is null)

@@ -37,6 +37,8 @@ public class BadRequestException : Exception, IApplicationException
 
     public object? ErrorDetails { get; private set; }
 
+    public string DisplayMessage => "Invalid request. Please check your input and try again.";
+
     public static void ThrowIfNotValid(ValidationResult validationResult)
     {
         if (!validationResult.IsValid)

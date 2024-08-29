@@ -15,4 +15,6 @@ public sealed class ConcurrencyException : System.Exception, IApplicationExcepti
     public string ErrorCode => "etag_invalid";
 
     public object? ErrorDetails => Message;
+
+    public string DisplayMessage => "Conflict occurred. Make sure to provide latest ETag.";
 }
