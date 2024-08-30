@@ -90,19 +90,11 @@ internal class NoxUseOptions : INoxUseOptions
         //4. Version
         //5. Routing Mechanism
 
-        if (_useHsts && !env.IsDevelopment())
-        {
-            builder.UseHsts();
-        }
-
-        if (_useHttpsRedirection)
-        {
-            builder.UseHttpsRedirection();
-        }
+        UseHttpsMiddlewares(builder, env);
 
         builder.UseMiddleware<ExceptionHanderMiddleware>();
 
-        ConfigureHealthChecks(builder);        
+        ConfigureHealthChecks(builder);
 
         builder.UseWhen(context => context.Request.Path.StartsWithSegments("/version"), appBuilder =>
         {
@@ -178,8 +170,6 @@ internal class NoxUseOptions : INoxUseOptions
         integrationContext?.ExecuteStartupIntegrations();
     }
 
-   
-
     private void ConfigureHealthChecks(IApplicationBuilder builder)
     {
         if (_useHealthChecks && builder is IEndpointRouteBuilder endpointRouteBuilder)
@@ -222,5 +212,18 @@ internal class NoxUseOptions : INoxUseOptions
             default:
                 throw new NotImplementedException($"Unknown provider {noxSolution.Infrastructure.Monitoring.Provider}");
             }
+    }
+
+    private void UseHttpsMiddlewares(IApplicationBuilder builder, IHostEnvironment env)
+    {
+        if (_useHsts && !env.IsDevelopment())
+        {
+            builder.UseHsts();
+        }
+
+        if (_useHttpsRedirection)
+        {
+            builder.UseHttpsRedirection();
+        }
     }
 }

@@ -387,7 +387,7 @@ namespace Nox.Configuration
                 .Build();
         }
 
-        private void AddIntegrations(IServiceCollection services)
+        private static void AddIntegrations(IServiceCollection services)
         {
             services.AddNoxIntegrations(options =>
             {
