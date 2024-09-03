@@ -44,14 +44,14 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.7" />
 
 		<PackageReference Include="Microsoft.Build.Locator" Version="1.7.8" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.10.0" />
 		
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
-		<PackageReference Include="Moq" Version="4.20.70" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+		<PackageReference Include="Moq" Version="4.20.71" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
 		<PackageReference Include="Npgsql" Version="8.0.3" />
 		<PackageReference Include="Testcontainers" Version="3.9.0" />
 		<PackageReference Include="Testcontainers.MsSql" Version="3.9.0" />
@@ -62,7 +62,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
 		<PackageReference Include="Microsoft.OData.Core" Version="7.21.3" />
 	</ItemGroup>
