@@ -97,7 +97,7 @@ internal class ExceptionHanderMiddleware
                 //Unique id for this error type, use error code if provided, otherwise use the exception type name
                 id = Nuid.From(errorCode ?? exception.GetType().FullName!).ToString(),
                 code = errorCode ?? "undefined",
-                details = isDevelopmentEnvironment ? errorDetails : "hidden",
+                details = isDevelopmentEnvironment ? errorDetails : default,
                 exception = isDevelopmentEnvironment ? exception.ToString(): "hidden"
             }
         });

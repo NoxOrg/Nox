@@ -18,7 +18,9 @@ public class NoxAppClient
 
     public void ResetDataContext()
     {
-        var dbContext = _factory.Services.GetRequiredService<Infrastructure.Persistence.AppDbContext>();
+        using var scope = _factory.Services.CreateScope();
+
+        var dbContext = scope.ServiceProvider.GetRequiredService<Infrastructure.Persistence.AppDbContext>();
         dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
     }

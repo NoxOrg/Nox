@@ -154,8 +154,7 @@ namespace ClientApi.Tests.Controllers
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var content = await result.Content.ReadAsStringAsync();
             var applicationError = DeserializeResponse<ApplicationErrorCodeResponse<List<AttributeNoxTypeValidationException>>>(content);
-            applicationError!.Error.Details.Should().HaveCount(1);
-            applicationError!.Error.Details.First().AttributeName.Should().Be("Id");
+            applicationError!.Error.Details.Should().BeNull();
         }
 
         [Fact]

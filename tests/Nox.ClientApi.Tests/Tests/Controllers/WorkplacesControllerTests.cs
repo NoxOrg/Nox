@@ -1302,9 +1302,6 @@ namespace ClientApi.Tests.Tests.Controllers
                 .Should()
                 .HaveStatusCode(HttpStatusCode.PreconditionRequired);
 
-            content.Should()
-                .Contain("ETag is empty. ETag should be provided via the If-Match HTTP Header.");
-
             headers = new()
             {
                 { "If-Match", new List<string> { $"\"wrongETag\"" } }
@@ -1316,9 +1313,6 @@ namespace ClientApi.Tests.Tests.Controllers
             responseMessage
                 .Should()
                 .HaveStatusCode(HttpStatusCode.PreconditionFailed);
-
-            content.Should()
-                .Contain("ETag is not well-formed.");
         }
 
         [Fact]

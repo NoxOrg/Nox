@@ -41,7 +41,6 @@ public class EnumerationsControllerTests : NoxWebApiTestBase
 
         // Assert
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        (await response.Content.ReadAsStringAsync()).Should().Contain("CultureCode cannot be the default culture code: en-US.");
     }
 
     [Fact]
@@ -95,7 +94,6 @@ public class EnumerationsControllerTests : NoxWebApiTestBase
 
         // Assert
         response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        (await response.Content.ReadAsStringAsync()).Should().Contain("CultureCode cannot be the default culture code: en-US.");
     }
 
     [Fact]

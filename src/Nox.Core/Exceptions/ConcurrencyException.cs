@@ -16,5 +16,5 @@ public sealed class ConcurrencyException : System.Exception, IApplicationExcepti
 
     public object? ErrorDetails => Message;
 
-    public string DisplayMessage => "Conflict occurred. Make sure to provide latest ETag.";
+    public string DisplayMessage => "Latest value of ETag must be provided.";
 }
