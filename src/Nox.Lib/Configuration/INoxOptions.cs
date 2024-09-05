@@ -4,6 +4,7 @@ using Serilog;
 using Nox.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Infrastructure.Persistence;
+using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace Nox.Configuration;
 
@@ -67,4 +68,9 @@ public interface INoxOptions
     /// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     /// </summary>
     INoxOptions WithoutSwagger();
+
+    /// <summary>
+    /// Configures the HSTS.
+    /// </summary>
+    INoxOptions WithHsts(Action<HstsOptions> hstsConfiguration);
 }

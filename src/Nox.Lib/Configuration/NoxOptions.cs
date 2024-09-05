@@ -36,6 +36,8 @@ using Nox.Integration.Adapters;
 using Nox.Integration.Adapters.SqlServer;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Nox.Configuration
 {
@@ -46,6 +48,7 @@ namespace Nox.Configuration
         private Action<IServiceCollection>? _configureRepositories;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
         private Action<IHealthChecksBuilder>? _healthChecksBuilderAction;
+        private Action<HstsOptions>? _hstsConfiguration;
 
         private bool _withNoxLogging = true;
         private bool _withHealthChecks = true;
@@ -181,6 +184,13 @@ namespace Nox.Configuration
             return this;
         }
 
+        public INoxOptions WithHsts(Action<HstsOptions> hstsConfiguration)
+        {
+            _hstsConfiguration = hstsConfiguration;
+
+            return this;
+        }
+
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
         {
             InvalidConfigurationException.ThrowIfNull(NoxAssemblyConfiguration.DomainAssembly, "Domain is not being generated in any client assembly. Review the generator.nox.yaml configuration");
@@ -235,7 +245,9 @@ namespace Nox.Configuration
             AddLogging(webApplicationBuilder);
             AddSwagger(services);
 
-            if(_withNoxJobs) services.AddNoxJobs(noxAndEntryAssemblies, noxSolution);
+            if (_hstsConfiguration is not null) services.AddHsts(_hstsConfiguration!);
+
+            if (_withNoxJobs) services.AddNoxJobs(noxAndEntryAssemblies, noxSolution);
 
             if (_withHealthChecks)
             {
@@ -375,7 +387,7 @@ namespace Nox.Configuration
                 .Build();
         }
 
-        private void AddIntegrations(IServiceCollection services)
+        private static void AddIntegrations(IServiceCollection services)
         {
             services.AddNoxIntegrations(options =>
             {

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Elastic.Apm.NetCoreAll;
 using Nox.Extensions;
 using Nox.Integration.Abstractions.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Nox;
 
@@ -31,6 +32,8 @@ internal class NoxUseOptions : INoxUseOptions
     private bool _useEtlBox = false;
     private bool _useHealthChecks = true;
     private bool _useMonitoring = true;
+    private bool _useHttpsRedirection = true;
+    private bool _useHsts = true;
 
     public INoxUseOptions UseODataRouteDebug()
     {
@@ -60,7 +63,20 @@ internal class NoxUseOptions : INoxUseOptions
 
         return this;
     }
-    public void Configure(IApplicationBuilder builder)
+
+    public INoxUseOptions UseHttpsRedirection(bool use)
+    {
+        _useHttpsRedirection = use;
+        return this;
+    }
+
+    public INoxUseOptions UseHsts(bool use)
+    {
+        _useHsts = use;
+        return this;
+    }
+
+    public void Configure(IApplicationBuilder builder, IHostEnvironment env)
     {
         if (_useSerilogRequestLogging)
             builder.UseSerilogRequestLogging();
@@ -68,13 +84,17 @@ internal class NoxUseOptions : INoxUseOptions
         var logger = builder.ApplicationServices.GetRequiredService<ILogger<NoxUseOptions>>();
 
         //Middleware order is important
-        //1. Exception
-        //2. HealthChecks
-        //3. Version
-        //4. Routing Mechanism
+        //1. HSTS & HttpsRedirection
+        //2. Exception
+        //3. HealthChecks
+        //4. Version
+        //5. Routing Mechanism
+
+        UseHttpsMiddlewares(builder, env);
+
         builder.UseMiddleware<ExceptionHanderMiddleware>();
 
-        ConfigureHealthChecks(builder);        
+        ConfigureHealthChecks(builder);
 
         builder.UseWhen(context => context.Request.Path.StartsWithSegments("/version"), appBuilder =>
         {
@@ -150,8 +170,6 @@ internal class NoxUseOptions : INoxUseOptions
         integrationContext?.ExecuteStartupIntegrations();
     }
 
-   
-
     private void ConfigureHealthChecks(IApplicationBuilder builder)
     {
         if (_useHealthChecks && builder is IEndpointRouteBuilder endpointRouteBuilder)
@@ -194,5 +212,18 @@ internal class NoxUseOptions : INoxUseOptions
             default:
                 throw new NotImplementedException($"Unknown provider {noxSolution.Infrastructure.Monitoring.Provider}");
             }
+    }
+
+    private void UseHttpsMiddlewares(IApplicationBuilder builder, IHostEnvironment env)
+    {
+        if (_useHsts && !env.IsDevelopment())
+        {
+            builder.UseHsts();
+        }
+
+        if (_useHttpsRedirection)
+        {
+            builder.UseHttpsRedirection();
+        }
     }
 }

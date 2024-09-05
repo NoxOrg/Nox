@@ -28,4 +28,16 @@ public interface INoxUseOptions
     INoxUseOptions UseODataRouteDebug();
 
     INoxUseOptions UseEtlBox(bool checkLicense);
+
+    /// <summary>
+    /// Enables the HTTPS redirection.
+    /// True by default
+    /// </summary>
+    INoxUseOptions UseHttpsRedirection(bool use);
+
+    /// <summary>
+    /// Enables the HSTS headers.
+    /// True by default.
+    /// </summary>
+    INoxUseOptions UseHsts(bool use);
 }
