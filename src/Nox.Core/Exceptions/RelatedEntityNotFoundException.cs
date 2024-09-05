@@ -19,5 +19,7 @@ public class RelatedEntityNotFoundException : EntityNotFoundException, IApplicat
     {
     }
 
+    public override string DisplayMessage => "Related entity was not found.";
+
     public override string ErrorCode => "related_entity_not_found";
 }

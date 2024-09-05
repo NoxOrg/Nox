@@ -33,6 +33,8 @@ public sealed class CreateUpdateEntityInvalidDataException : Exception, IApplica
 
     public object? ErrorDetails { get; }
 
+    public string DisplayMessage => "Invalid request. Please check your input and try again.";
+
     public static void ThrowIfAnyNoxTypeValidationException(IReadOnlyDictionary<string, NoxTypeValidationException> attributeExceptionDictionary)
     {
         if (attributeExceptionDictionary.Any())

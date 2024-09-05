@@ -20,4 +20,6 @@ public class RelationshipDeletionException : Exception, IApplicationException
     public string ErrorCode => "can_not_delete_relationship";
 
     public object? ErrorDetails { get; private set; }
+
+    public string DisplayMessage => "Relationship could not be deleted.";
 }

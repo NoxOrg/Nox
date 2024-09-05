@@ -26,17 +26,16 @@ internal class ExceptionHanderMiddleware
     {
         try
         {
-                await _next(httpContext);
+            await _next(httpContext);
         }
         catch (Exception ex) when (ex.InnerException is IApplicationException exception)
         {
-            _logger.LogError(ex, "Error occurred during request: {Path}",httpContext.Request?.Path);
-
             await CommonHandleExceptionAsync(
                 httpContext,
                 ex,
                 exception.ErrorCode,
                 exception.ErrorDetails,
+                exception.DisplayMessage,
                 exception.StatusCode,
                 webHostEnvironment.IsDevelopment());
         }
@@ -47,6 +46,7 @@ internal class ExceptionHanderMiddleware
                 ex, 
                 exception.ErrorCode,
                 exception.ErrorDetails, 
+                exception.DisplayMessage,
                 exception.StatusCode,
                 webHostEnvironment.IsDevelopment());
         }        
@@ -56,11 +56,13 @@ internal class ExceptionHanderMiddleware
                 httpContext, 
                 ex,
                 null,
-                null,                
+                null,
+                "An unexpected error occurred",
                 HttpStatusCode.InternalServerError,
                 webHostEnvironment.IsDevelopment());
         }
     }
+
     /// <summary>
     /// Setup the client response in case of unhandled exception
     /// </summary>
@@ -74,11 +76,12 @@ internal class ExceptionHanderMiddleware
         HttpContext context,
         Exception exception,
         string? errorCode,
-        object? errorDetails,        
+        object? errorDetails,
+        string displayMessage,
         HttpStatusCode? statusCode,
         bool isDevelopmentEnvironment)
     {
-        _logger.LogError(exception, "Error occurred during request: {Path}",context.Request?.Path);
+        _logger.LogError(exception, "Error occurred during request: {Path}", context.Request?.Path);
 
         if (!context.Response.HasStarted)
         {
@@ -90,11 +93,11 @@ internal class ExceptionHanderMiddleware
         {
             error = new
             {
-                message = $"Error occurred during request: {context.Request?.Path}",
+                message = displayMessage,
                 //Unique id for this error type, use error code if provided, otherwise use the exception type name
                 id = Nuid.From(errorCode ?? exception.GetType().FullName!).ToString(),
                 code = errorCode ?? "undefined",
-                details = errorDetails,
+                details = isDevelopmentEnvironment ? errorDetails : default,
                 exception = isDevelopmentEnvironment ? exception.ToString(): "hidden"
             }
         });

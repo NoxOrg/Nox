@@ -23,4 +23,9 @@ public interface IApplicationException
     /// This object will be serialized to JSON
     /// </summary>
     object? ErrorDetails { get; }
+
+    /// <summary>
+    /// The message to be displayed in the API response when the error occurs.
+    /// </summary>
+    public string DisplayMessage { get; }
 }

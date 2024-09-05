@@ -31,6 +31,8 @@ public class EntityNotFoundException : Exception, IApplicationException
 
     public object? ErrorDetails { get; private set; }
 
+    public virtual string DisplayMessage => "Entity was not found.";
+
     public static void ThrowIfNull([NotNull] object? argument, string entityName, string entityId)
     {
         if (argument is null)
