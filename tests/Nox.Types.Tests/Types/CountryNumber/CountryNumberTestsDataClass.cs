@@ -255,7 +255,6 @@ public class CountryNumberTestsDataClass : IEnumerable<object[]>
         yield return new object[] { 710 };
         yield return new object[] { 894 };
         yield return new object[] { 716 };
-        yield return new object[] { 0 };
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
