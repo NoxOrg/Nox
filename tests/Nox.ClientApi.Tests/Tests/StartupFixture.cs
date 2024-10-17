@@ -48,7 +48,7 @@ public class StartupFixture
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseNox(options => options.UseRequestLogging(false));
+        app.UseNox(env, options => options.UseRequestLogging(false));
 
         app.UseEndpoints(endpoints =>
         {

@@ -21,7 +21,7 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode CountryC
         { CountryCode.PL, new string[] { @"^PL\d{10}$" } },                                                                                                 // Poland
         { CountryCode.IT, new string[] { @"^IT\d{11}$" } },                                                                                                 // Italy
         { CountryCode.NL, new string[] { @"^NL\d{9}B\d{2}$" } },                                                                                            // Netherlands
-        { CountryCode.MX, new string[] { @"^MX[A-Z&Ñ]{3}[0-9]{6}[1-9A-V][1-9A-Z][0-9A]$" } },                                                               // Mexico
+        { CountryCode.MX, new string[] { @"^MX[A-Z&ï¿½]{3}[0-9]{6}[1-9A-V][1-9A-Z][0-9A]$" } },                                                               // Mexico
         { CountryCode.DE, new string[] { @"^DE[1-9]\d{8}$" } },                                                                                             // Germany
         { CountryCode.FR, new string[] { @"^FR\d{11}$" } },                                                                                                 // France
         { CountryCode.IN, new string[] { @"^IN\d{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{3}$" } },                                                               // India

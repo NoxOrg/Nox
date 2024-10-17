@@ -18,6 +18,7 @@
 		<RepositoryUrl>https://github.com/NoxOrg/Nox.Type.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,12 +39,6 @@
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="Types\Uri\" />
 	</ItemGroup>
