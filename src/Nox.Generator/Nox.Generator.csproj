@@ -57,7 +57,7 @@
 		<PackageReference Include="YamlDotNet" Version="16.0.0" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="FluentValidation" Version="11.9.2" PrivateAssets="all" GeneratePathProperty="true" />
-		<PackageReference Include="System.Text.Json" Version="8.0.4" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="System.Text.Json" Version="8.0.5" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Scriban" Version="5.10.0" IncludeAssets="Build" />
 	</ItemGroup>
 	
@@ -76,10 +76,7 @@
 
 	<PropertyGroup>
 		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<Target Name="GetDependencyTargetPaths">

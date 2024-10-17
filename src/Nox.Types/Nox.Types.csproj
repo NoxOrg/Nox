@@ -18,6 +18,7 @@
     <RepositoryUrl>https://github.com/NoxOrg/Nox.Types.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>nox.png</PackageIcon>
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
    
 
@@ -26,14 +27,6 @@
     <InternalsVisibleTo Include="Nox.Types.Tests" />
   </ItemGroup>
   
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\Nox.Types.Abstractions\Nox.Types.Abstractions.csproj" />
   </ItemGroup>
@@ -41,7 +34,7 @@
   <ItemGroup>
     <PackageReference Include="Nox.Cron" Version="8.0.3" />
     <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
 

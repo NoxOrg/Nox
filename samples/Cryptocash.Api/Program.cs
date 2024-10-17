@@ -13,12 +13,6 @@ builder.Services.AddDataSeeders();
 
 builder.AddNox();
 
-//builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
-
-//builder.AddNox((noxOptions) => noxOptions.WithNoxLogging((loggerConfiguration) =>
-//    loggerConfiguration.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day))
-//);
-
 var app = builder.Build();
 
 
@@ -39,7 +33,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseNox();
+app.UseNox(app.Environment);
 
 app.MapControllers();
 
