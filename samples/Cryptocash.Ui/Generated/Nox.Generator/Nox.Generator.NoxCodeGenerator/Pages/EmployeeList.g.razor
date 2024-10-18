@@ -1,0 +1,27 @@
+﻿@using Cryptocash.Application.Dto;
+@using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Services
+
+@page "/CustomEmployees"
+
+@inject ApplicationState TestGlobalData
+@{
+    TestGlobalData.PageTitle = "Custom Employees";
+}
+
+@inherits ListEntityPageBase<EmployeeDto, EmployeeCreateDto, EmployeeUpdateDto>
+
+@if (!IsLoading)
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudText Class="ms-2">Placeholder for Employees</MudText>
+    </MudPaper>
+}
+else
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudProgressCircular Color="Color.Info"
+                             Size="Size.Large"
+                             Indeterminate="true" />
+    </MudPaper>
+}

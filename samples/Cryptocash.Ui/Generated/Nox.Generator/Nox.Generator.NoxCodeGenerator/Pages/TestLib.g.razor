@@ -1,0 +1,473 @@
+@using Cryptocash.Ui
+@using System.Dynamic
+@using System.Data
+@using Cryptocash.Application.Dto;
+@using Cryptocash.Ui.Generated.Component
+@using Cryptocash.Ui.Generated.Data.ApiSetting;
+@using Cryptocash.Ui.Generated.Data.Enum;
+@using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
+@using Cryptocash.Ui.Generated.Pages.Generic
+@using Nox.Ui.Blazor.Lib.Components.Generic
+@using Nox.Ui.Blazor.Lib.Components.NoxTypes;
+@using MudBlazor
+@using System.Globalization;
+@using Nox.Ui.Blazor.Lib.Models
+@using Nox.Ui.Blazor.Lib.Models.NoxTypes
+@using global::Cryptocash.Ui.Generated.Data.Helper;
+@using Nox.Ui.Blazor.Lib.Services;
+
+
+@page "/TestLib"
+
+@inject ApplicationState TestGlobalData
+@{
+    TestGlobalData.PageTitle = "Test Lib";
+}
+
+@inherits ListEntityPageBase<CustomerDto, CustomerCreateDto, CustomerUpdateDto>
+
+@if (!IsLoading)
+{
+    #region Test Data
+
+    string AddLabel = "ADD Test Lib";
+    MoneyModel testMoney = new MoneyModel() {
+                    Amount = (decimal)6432.43,
+                    CurrencyCode = Nox.Types.CurrencyCode.GBP
+                };
+    string testCurrencySymbol = "£";
+    decimal? testArea = (decimal)5645.27;
+    bool testBoolean = true;
+    decimal? testDistance = (decimal)1174.25;
+    decimal? testLength = (decimal)1311.87;
+    string testMacAddress = "ddaaccbbeedd";
+    decimal? testNumber = (decimal)1223.75;
+    float? testPercentage = (float)36.67;
+    decimal? testTemperature = (decimal)14.33;
+    decimal? testVolume = (decimal)85.31;
+    decimal? testWeight = (decimal)23.56;
+    int testHour = 11;
+    int testMinute = 22;
+    int testSecond = 33;
+    CultureInfo testCultureInfo = CultureInfo.GetCultureInfo("en-GB");
+    byte testMonth = 1;
+    int testYear = 2024;
+    DateTime? testDate = DateTime.Now;
+    DateTimeRangeModel testDateTimeRangeModel = new() { Start = DateTime.Now, End = DateTime.Now.AddHours(23) };
+    byte testDayOfWeek = 1;
+    string? testCountryCode3 = "UKR";
+    string? testCountryCode2 = "GB";
+    string? testCurrencyCode3 = "GBP"; 
+    ushort? testCountryNumber = null;
+    short? testCurrencyNumber = null;
+    StreetAddressModel testStreetAddress = new StreetAddressModel()
+    {
+        StreetNumber = "StreetNumber",
+        AddressLine1 = "AddressLine1",
+        AddressLine2 = "AddressLine2",
+        Route = "Route",
+        Locality = "Locality",
+        Neighborhood = "Neighborhood",
+        AdministrativeArea1 = "AdministrativeArea1",
+        AdministrativeArea2 = "AdministrativeArea2",
+        PostalCode = "PostalCode",
+        CountryId = Nox.Types.CountryCode.GB
+    };
+    List<CountryModel> testCountryList = new List<CountryModel>()
+    {
+        new CountryModel("GB", "Great Britain", "GBP")
+    };
+    LatLongModel testLatLong = new LatLongModel(51.509865, -0.118092);
+    string testIpAddress = "100.100.100.100";
+    CountryModel testCountry = new CountryModel()
+                {
+                    Id = "GB",
+                    Name = "United Kingdom"
+                };
+    CurrencyModel testCurrency = new CurrencyModel()
+                        {
+                            Id = "GBP",
+                            Name = "British Pound"
+                        };
+    List<SelectEntityModel> testGenericEntityList = new List<SelectEntityModel>()
+                {
+                    new SelectEntityModel("IDA", "Entity A"),
+                    new SelectEntityModel("IDB", "Entity B")
+                };
+    string testEmail = "test@email.com";
+    bool testDisabled = false;
+
+    #endregion
+
+    <MudGrid Spacing="0">
+        <MudItem xs="12">
+            <MudGrid Spacing="2" Style="margin-top:10px;">
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="@SearchMainValue"
+                                  Label="Search"
+                                  Variant="Variant.Outlined"
+                                  FullWidth="true"
+                                  Clearable="true"                                                                    
+                                  OnClearButtonClick="@(() => ClearMainSearchFilterList())"
+                                  OnKeyUp="@(e=>SearchEnterSubmit(e))"
+                                  Placeholder="@CurrentApiUiService!.SearchLabel"></MudTextField>
+                </MudItem>
+                <MudItem xs="3" Class="align-left justify-left" Style="margin-top:15px;">
+                    <table>
+                        <tr>
+                            <td style="padding-left:10px;">
+                                <MudButton OnClick="Search"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Search"
+                                           Color="Color.Info">Search</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+        <MudItem xs="12">
+            <MudGrid Spacing="2" Style="margin-top:15px;">
+
+                @if (CurrentApiUiService != null && CurrentAddEntity != null)
+                {     
+                    <MudItem xs="12" Class="align-left justify-left">
+                        <MudButton OnClick="AddEntityOpenDialog"
+                                   Variant="Variant.Filled"
+                                   StartIcon="@Icons.Material.Filled.Add"
+                                   Color="Color.Info">ADD</MudButton>
+                    </MudItem>
+
+                    <MudDialog @bind-IsVisible="IsVisibleAddEntityDialog" Options="AddDialogOptions">
+                        <TitleContent>
+                            <MudText Typo="Typo.h6">@AddLabel</MudText>
+                        </TitleContent>
+                        <DialogContent>
+                            <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess">
+                                <MudGrid>
+                                    <MudItem xs="12">
+                                                <MudGrid Style="margin-top:15px;">
+                                                    <MudItem xs="6">
+                                                    <EditText Title="Text" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                    <EditMoney Title="Money" @bind-Money="@testMoney" Disabled="@testDisabled" />
+                                                        <MudText>money.amount: @testMoney.Amount</MudText>
+                                                        <MudText>money.CurrencyCode: @testMoney.CurrencyCode</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditArea Title="Area" Area="@testArea" Units="Nox.Types.AreaTypeUnit.SquareMeter" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditBoolean Title="Boolean" Boolean="@testBoolean" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDistance Title="Distance" Distance="@testDistance" Units="Nox.Types.DistanceTypeUnit.Kilometer" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditLength Title="Length" Length="@testLength" Units="Nox.Types.LengthTypeUnit.Meter" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditMacAddress Title="MAC Address" MacAddress="@testMacAddress" Format="##:##:##:##:##:##" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditNumber T="decimal" Title="Number" @bind-Number="@testNumber" Minimum="0" Maximum="2000" Disabled="@testDisabled"/>
+                                                        <MudText>TestNumber: @testNumber</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditPercentage Title="Percentage" Percentage="@testPercentage" Format="#.##" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditTemperature Title="Temperature" Temperature="@testTemperature" Units="Nox.Types.TemperatureTypeUnit.Celsius" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditVolume Title="Volume" Volume="@testVolume" Units="Nox.Types.VolumeTypeUnit.CubicMeter" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                    <EditWeight Title="Weight" Weight="@testWeight" Units="Nox.Types.WeightTypeUnit.Kilogram" Disabled="@testDisabled" />
+                                                    </MudItem> 
+                                                    <MudItem xs="6">
+                                                        <EditTime
+                                                            DisplayMinute="true" 
+                                                            DisplaySecond="true" 
+                                                            DisplayMillisecond="false" 
+                                                            Disabled="@testDisabled"
+                                                            CultureInfo="@testCultureInfo"                                                            
+                                                            Title="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second"/>
+                                                    </MudItem>                                                    
+                                                    <MudItem xs="6">
+                                                        <EditMonth Title="Month" Month="@testMonth" CultureInfo="testCultureInfo" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditYear Title="Year" Year="@testYear" Disabled="@testDisabled" />
+                                                    </MudItem>                                                      
+                                                    <MudItem xs="6">
+                                                    <EditDate Title="Date" Date="@testDate" CultureInfo="testCultureInfo" Disabled="@testDisabled" />
+                                                    </MudItem>                                                    
+                                                    <MudItem xs="6">
+                                                        <EditDateTime 
+                                                            DateTime="@testDate"
+                                                            DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                            Disabled="@testDisabled"
+                                                            CultureInfo="@testCultureInfo"
+                                                            Title="DateTime"
+                                                            TitleHour="Hour"
+                                                            TitleMinute="Minute"
+                                                            TitleSecond="Second" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDateTimeRange @bind-DateTimeRange="@testDateTimeRangeModel"
+                                                            DisplayMinute="true"
+                                                            DisplaySecond="false"
+                                                            DisplayMillisecond="false"
+                                                                       Disabled="@testDisabled"
+                                                            CultureInfo="@testCultureInfo"
+                                                            Title="DateTimeRange"
+                                                            TitleHourStart="Start Hour"
+                                                            TitleMinuteStart="Start Minute"
+                                                            TitleSecondStart="Start Second"
+                                                            TitleHourEnd="End Hour"
+                                                            TitleMinuteEnd="End Minute"
+                                                            TitleSecondEnd="End Second" />
+                                                        <MudText>testDateTimeRangeModel: @testDateTimeRangeModel</MudText>
+                                                        <MudText>testDateTimeRangeModel.Start: @testDateTimeRangeModel?.Start</MudText>
+                                                        <MudText>testDateTimeRangeModel.End: @testDateTimeRangeModel?.End</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditDayOfWeek Title="DayOfWeek" DayOfWeek="@testDayOfWeek" CultureInfo="testCultureInfo" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditStreetAddress @bind-StreetAddress="@testStreetAddress"
+                                                                       Title="StreetNumber" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditLatLong @bind-Latlong="@testLatLong"
+                                                            Title="Latitude"
+                                                            TitleLongitude="Longitude"
+                                                            Format="#.########"
+                                                            Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditIpAddress @bind-IpAddress="@testIpAddress"
+                                                            Title="IpAddress" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCountryCode3 Title="Country" @bind-CountryCode3="testCountryCode3" Disabled="@testDisabled" />
+                                                        <MudText>TestCountryCode3: @testCountryCode3</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditCountryCode2 Title="CountryCode2" @bind-CountryCode2="testCountryCode2" Disabled="@testDisabled" />
+                                                        <MudText>TestCountryCode2: @testCountryCode2</MudText>
+                                                    </MudItem> 
+                                                    <MudItem xs="6">
+                                                    <EditCountryNumber Title="CountryNumber" @bind-CountryNumber="testCountryNumber" Disabled="@testDisabled" />
+                                                        <MudText>testCountryNumber: @testCountryNumber</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                    <EditCurrencyNumber Title="Currency" @bind-CurrencyNumber="@testCurrencyNumber" Disabled="@testDisabled" />
+                                                    <MudText>testCurrencyNumber: @testCurrencyNumber </MudText>
+                                                    </MudItem> 
+                                                    <MudItem xs="6">
+                                                        <EditCurrencyCode3 Title="CurrencyCode3" @bind-CurrencyCode3="testCurrencyCode3" Disabled="@testDisabled" />
+                                                        <MudText>TestCurrencyCode3: @testCurrencyCode3</MudText>
+                                                    </MudItem> 
+                                                    <MudItem xs="6">
+                                                        <Select Title="Select"
+                                                            SelectionList="@testGenericEntityList" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <MultiSelect Title="SelectList"
+                                                                SelectionList="@testGenericEntityList" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <EditEmail Title="Email" Email="@testEmail" Disabled="@testDisabled" />
+                                                    </MudItem>
+                                                <MudItem xs="6">
+                                                    <EditTextMultiline Title="TextMultiline" Text="testText" Lines="1" MaxLines="3" Disabled="@testDisabled" />
+                                                </MudItem>
+                                                <MudItem xs="6">
+                                                    <EditPhoneNumber Title="PhoneNumber" Disabled="@testDisabled" />
+                                                </MudItem>
+                                                </MudGrid>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <UiErrorSummary_g Errors="AddErrors" />
+                                    </MudItem>
+                                </MudGrid>
+                            </MudForm>                                                                       
+                        </DialogContent>
+                        <DialogActions>                              
+                                    <MudButton OnClick="AddEntityCloseDialog"
+                                               Variant="Variant.Outlined"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">CANCEL</MudButton>
+                                    <MudButton OnClick="@(async () => await AddEntitySubmit())"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">
+                                        <MudText>SUBMIT</MudText>
+                                    </MudButton>
+                        </DialogActions>
+                    </MudDialog>
+                }
+
+                <MudItem xs="12">
+                    @if (PagedData != null
+                   && CurrentApiUiService != null)
+                    {   
+                        <MudTable ServerData="@(new Func<TableState, System.Threading.CancellationToken, Task<TableData<CustomerDto>>>(ServerReload))"
+                                  T="CustomerDto"
+                                  Loading="@IsDataGridLoading"
+                                  Hover="true"                                  
+                                  Breakpoint="Breakpoint.Sm"
+                                  Elevation="0"
+                                  Style="border-style:solid;border-width:2px;border-color:lightgray;"
+                                  HeaderClass="custom-header"
+                                  Dense="true">
+                            <HeaderContent>
+                                <MudTh>Text</MudTh>
+                                <MudTh>Money</MudTh>
+                                <MudTh>Area</MudTh>
+                                <MudTh>Boolean</MudTh>
+                                <MudTh>Distance</MudTh>
+                                <MudTh>Length</MudTh>
+                                <MudTh>MacAddress</MudTh>
+                                <MudTh>Number</MudTh>
+                                <MudTh>Percentage</MudTh>
+                                <MudTh>Temperature</MudTh>
+                                <MudTh>Volume</MudTh>
+                                <MudTh>Weight</MudTh>
+                                <MudTh>Time</MudTh>
+                                <MudTh>Month</MudTh>
+                                <MudTh>Year</MudTh>
+                                <MudTh>Date</MudTh>                                                               
+                                <MudTh>DateTime</MudTh>
+                                <MudTh>DateTimeRange</MudTh>
+                                <MudTh>DayOfWeek</MudTh>
+                                <MudTh>StreetAddress</MudTh>
+                                <MudTh>LatLong</MudTh>
+                                <MudTh>IpAddress</MudTh>
+                                <MudTh>Country</MudTh>
+                                <MudTh>Currency</MudTh>
+                                <MudTh>Email</MudTh>
+                            </HeaderContent>
+                            <RowTemplate> 
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewText Text="Test Text" />                                  
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewMoney Money="@testMoney" Symbol="@testCurrencySymbol" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewArea Area="@testArea" AreaUnit="Nox.Types.AreaUnit.SquareMeter" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewBoolean Boolean="@testBoolean" TitleTrue="True" TitleFalse="False" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDistance Distance="@testDistance" Units="Nox.Types.DistanceTypeUnit.Kilometer" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewLength Length="@testLength" Units="Nox.Types.LengthTypeUnit.Meter" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewMacAddress MacAddress="@testMacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
+                                </MudTd> 
+                                <MudTd Style="vertical-align:top;">                                    
+                                    <ViewNumber Number="@testNumber" Format="#,##0.##" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewPercentage Percentage="@testPercentage" />                                    
+                                </MudTd> 
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewTemperature Temperature="@testTemperature" Units="Nox.Types.TemperatureTypeUnit.Celsius" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewVolume Volume="@testVolume" Units="Nox.Types.VolumeTypeUnit.CubicMeter" />
+                                </MudTd>  
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewWeight Weight="@testWeight" Units="Nox.Types.WeightTypeUnit.Kilogram" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewTime Hour="@testHour" Minute="@testMinute" Second="@testSecond" CultureInfo="@testCultureInfo" Format="HH:mm:ss"/>
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewMonth Month="@testMonth" CultureInfo="@testCultureInfo" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewYear Year="@testYear" />
+                                </MudTd>                                 
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDate Date="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy"/>
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDateTime DateTime="@testDate" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDateTimeRange DateTimeRange="testDateTimeRangeModel" CultureInfo="@testCultureInfo" Format="dd/MM/yyyy HH:mm:ss" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewDayOfWeek DayOfWeek="@testDayOfWeek" CultureInfo="@testCultureInfo" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewStreetAddress StreetAddress="@testStreetAddress" CountrySelectionList="@testCountryList" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewLatLong LatLong="@testLatLong" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewIpAddress IpAddress="@testIpAddress" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewCountry Country="@testCountry" />
+                                </MudTd>
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewCurrency Currency="@testCurrency" />
+                                </MudTd>                                
+                                <MudTd Style="vertical-align:top;">
+                                    <ViewEmail Email="@testEmail" />
+                                </MudTd>
+                            </RowTemplate>
+                            <NoRecordsContent>
+                                <MudText Typo="Typo.h6">No Results Found</MudText>
+                            </NoRecordsContent>
+                            <PagerContent>
+                                <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+                            </PagerContent>
+                        </MudTable>
+                    }
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+    </MudGrid>
+}
+else
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudProgressCircular Color="Color.Info"
+                             Size="Size.Large"
+                             Indeterminate="true" />
+    </MudPaper>
+}
+
+
+<style>
+    .custom-header {
+        background-color: #f0f3f5;
+    }
+
+    .custom-dialog {
+        backdrop-filter: blur(2px);
+    }
+
+    .mud-tab.mud-tab-active {
+        color: var(--mud-palette-info);
+        border-bottom-style: solid;
+        border-bottom-color: var(--mud-palette-info);
+        border-bottom-width: 3px;
+    }
+</style>
