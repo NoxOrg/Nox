@@ -23,7 +23,7 @@ public class CountryNumberTests
             CountryNumber.From(value)
         );
 
-        Assert.Equal($"Could not create a Nox CountryNumber type as value {value} is not allowed.", exception.Errors.First().ErrorMessage);
+        Assert.Equal($"Could not create a Nox CountryNumber type as value {value} is not allowed.", exception.Errors[0].ErrorMessage);
     }
 
     [Fact]
