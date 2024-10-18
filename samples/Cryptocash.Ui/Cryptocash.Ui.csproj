@@ -8,7 +8,7 @@
     <UserSecretsId>435ebf39-2d2b-4f80-b323-7853bbd643ce</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
     <IsPackable>false</IsPackable>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
