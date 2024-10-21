@@ -269,7 +269,7 @@ namespace Nox.Configuration
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext()
                     .Enrich.WithElasticApmCorrelationInfo()
-                    .Enrich.WithEcsHttpContext(httpAccessor!)
+                    .Enrich.WithProperty("HttpContext", httpAccessor?.HttpContext)
                     .WriteTo.Debug()
                     .WriteTo.Console(new EcsTextFormatter());
                     _loggerConfigurationAction?.Invoke(loggerConfig);

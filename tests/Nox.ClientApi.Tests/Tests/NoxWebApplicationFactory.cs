@@ -1,16 +1,14 @@
-﻿using Divergic.Logging.Xunit;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Nox.Types.EntityFramework.Abstractions;
-using Xunit.Abstractions;
-using Nox.Solution;
-using Nox.Infrastructure;
-using SqlKata.Compilers;
+using Neovolve.Logging.Xunit;
 using Nox;
-using Nox.Extensions;
-using System.Reflection;
+using Nox.Infrastructure;
+using Nox.Solution;
+using Nox.Types.EntityFramework.Abstractions;
+using SqlKata.Compilers;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 

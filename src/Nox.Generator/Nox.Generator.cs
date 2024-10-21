@@ -79,7 +79,7 @@ public abstract class NoxGeneratorBase
     }
 }
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public class NoxCodeGenerator : NoxGeneratorBase, IIncrementalGenerator
 {
 
