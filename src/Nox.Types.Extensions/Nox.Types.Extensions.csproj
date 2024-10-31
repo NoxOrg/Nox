@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="GeoTimeZone" Version="5.3.0" />
-		<PackageReference Include="Nox.Reference.Data.World" Version="8.0.0" />
+		<PackageReference Include="Nox.Reference.Data.World" Version="8.0.2" />
 		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.10" />
 	</ItemGroup>
 
