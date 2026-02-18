@@ -8,6 +8,8 @@
 		<DebugType>embedded</DebugType>
 		<!-- Include symbol files (*.pdb) in the built .nupkg -->
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<!-- .NET 10 emits NU1510 prune-candidate warnings; keep them visible without failing warning-as-error builds -->
+		<WarningsNotAsErrors>$(WarningsNotAsErrors);NU1510</WarningsNotAsErrors>
 	</PropertyGroup>
 	<!-- Enable Source Links -->
 	<ItemGroup>
