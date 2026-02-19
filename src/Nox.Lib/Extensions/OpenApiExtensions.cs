@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 
 namespace Nox.Extensions;
 
@@ -17,15 +17,17 @@ public static class OpenApiExtensions
                     Description = "Success"
                 }
             },
-            Tags = new List<OpenApiTag>
-                {
-                    new OpenApiTag { Name = tagName }
-                }
+            Tags = new HashSet<OpenApiTagReference>
+            {
+                new OpenApiTagReference(tagName, new OpenApiDocument(), string.Empty)
+            }
         };
     }
 
     public static OpenApiOperation WithPathParameters(this OpenApiOperation operation, List<string> parameterNames)
     {
+        operation.Parameters ??= new List<IOpenApiParameter>();
+
         foreach (var name in parameterNames)
         {
             operation.Parameters.Add(new OpenApiParameter
@@ -35,19 +37,19 @@ public static class OpenApiExtensions
                 Required = true,
                 Schema = new OpenApiSchema()
                 {
-                    Type = "string",
+                    Type = JsonSchemaType.String,
                 }
             });
         }
         return operation;
     }
 
-    public static OpenApiOperation WithRequestBody(this OpenApiOperation operation, string? referenceId, OperationType operationType)
+    public static OpenApiOperation WithRequestBody(this OpenApiOperation operation, string? referenceId, HttpMethod operationType)
     {
         if (string.IsNullOrEmpty(referenceId))
             return operation;
 
-        if (operationType == OperationType.Get || operationType == OperationType.Delete)
+        if (operationType == HttpMethod.Get || operationType == HttpMethod.Delete)
             return operation;
 
         operation.RequestBody = new OpenApiRequestBody
@@ -58,14 +60,7 @@ public static class OpenApiExtensions
                     "application/json",
                     new OpenApiMediaType
                     {
-                        Schema = new OpenApiSchema
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.Schema,
-                                Id = referenceId
-                            }
-                        }
+                        Schema = CreateSchemaReference(referenceId)
                     }
                 }
             }
@@ -75,43 +70,40 @@ public static class OpenApiExtensions
 
     public static OpenApiOperation WithResponseBody(this OpenApiOperation operation, string? referenceId, string? responseType = null)
     {
+        operation.Responses ??= new OpenApiResponses();
         if (!operation.Responses.ContainsKey("200"))
             operation.Responses.Add("200", new OpenApiResponse { Description = "Success" });
 
         if (string.IsNullOrEmpty(referenceId))
             return operation;
 
-        var reference = new OpenApiReference
-        {
-            Type = ReferenceType.Schema,
-            Id = referenceId
-        };
-
-        var schema = (responseType is null) ?
-            new OpenApiSchema
+        IOpenApiSchema schema = responseType is null
+            ? CreateSchemaReference(referenceId)
+            : new OpenApiSchema
             {
-                Reference = reference
-            } :
-            new OpenApiSchema
-            {
-                Type = responseType,
-                Items = new OpenApiSchema
-                {
-                    Reference = reference
-                }
+                Type = JsonSchemaType.Array,
+                Items = CreateSchemaReference(referenceId)
             };
 
-        operation.Responses["200"].Content = new Dictionary<string, OpenApiMediaType>
+        if (operation.Responses["200"] is OpenApiResponse response)
         {
+            response.Content = new Dictionary<string, OpenApiMediaType>
             {
-                "application/json",
-                new OpenApiMediaType
                 {
-                    Schema = schema
+                    "application/json",
+                    new OpenApiMediaType
+                    {
+                        Schema = schema
+                    }
                 }
-            }
-        };
+            };
+        }
         return operation;
+    }
+
+    private static IOpenApiSchema CreateSchemaReference(string referenceId)
+    {
+        return new OpenApiSchemaReference(referenceId, new OpenApiDocument(), string.Empty);
     }
 
 }

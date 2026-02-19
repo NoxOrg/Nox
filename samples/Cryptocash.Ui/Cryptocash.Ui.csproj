@@ -12,12 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="AutoMapper" Version="13.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" NoWarn="NU1605" />
-  	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.10" NoWarn="NU1605" />
+	<PackageReference Include="AutoMapper" Version="16.0.0" />
+	<PackageReference Include="Microsoft.AspNetCore.App.Internal.Assets" Version="10.0.3" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.3" NoWarn="NU1605" />
+  	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.3" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.Identity.Web" Version="4.3.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="4.3.0" />
-    <PackageReference Include="MudBlazor" Version="7.13.0" />
+    <PackageReference Include="MudBlazor" Version="8.15.0" />
   </ItemGroup>
 
   <ItemGroup>

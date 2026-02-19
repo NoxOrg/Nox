@@ -35,11 +35,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" Version="13.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.10" />
-		<PackageReference Include="MudBlazor" Version="7.13.0" />
-		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.10" />
+		<PackageReference Include="AutoMapper" Version="16.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.3" />
+		<PackageReference Include="MudBlazor" Version="8.15.0" />
+		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
 	</ItemGroup>
 
 	<ItemGroup>

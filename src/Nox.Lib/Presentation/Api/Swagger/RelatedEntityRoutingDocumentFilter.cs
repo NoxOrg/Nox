@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using Nox.Solution;
 using Swashbuckle.AspNetCore.SwaggerGen;
 

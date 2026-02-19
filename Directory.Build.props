@@ -13,7 +13,7 @@
 	</PropertyGroup>
 	<!-- Enable Source Links -->
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All"/>
 	</ItemGroup>
 	<!-- Deterministic build in GitHub -->
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

@@ -53,7 +53,7 @@ namespace Nox.Tests.ProjectDependencies
             // This method is not deterministic and returns sometimes transitive projects dependencies
             var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxGenerator.Id);
 
-            projectDependencies.Should().HaveCountLessOrEqualTo(3);
+            projectDependencies.Count.Should().BeLessThanOrEqualTo(3);
             projectDependencies.Should().Contain(_fixture.NoxSolution.Id);
 
             if (projectDependencies.Count == 3)

@@ -37,7 +37,7 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
         string expectedTitle = _fixture.Fixture.Create<string>();
 
         // Act
-        var rendered = RenderComponent<EditText>(parameters => parameters
+        var rendered = Render<EditText>(parameters => parameters
         .Add(controlParameter => controlParameter.Title, expectedTitle)
         );
         var input = rendered.Find("label");
@@ -60,7 +60,7 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
         string value = string.Empty;
 
         // Act
-        var rendered = RenderComponent<EditText>(parameters => parameters
+        var rendered = Render<EditText>(parameters => parameters
         .Add(controlParameter => controlParameter.Text, value)
         .Add(controlParameter => controlParameter.TextChanged, (inputString) =>
             {
@@ -89,7 +89,7 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
         int inputMinLength = 3;
 
         // Act
-        var rendered = RenderComponent<EditText>(parameters => parameters
+        var rendered = Render<EditText>(parameters => parameters
         .Add(controlParameter => controlParameter.MinLength, inputMinLength)
         );
 
@@ -112,7 +112,7 @@ public class EditTextTests : TestContext, IClassFixture<UiTextFixture>
         int inputMinLength = 4;
 
         // Act
-        var rendered = RenderComponent<EditText>(parameters => parameters
+        var rendered = Render<EditText>(parameters => parameters
         .Add(controlParameter => controlParameter.MinLength, inputMinLength)
         );
 

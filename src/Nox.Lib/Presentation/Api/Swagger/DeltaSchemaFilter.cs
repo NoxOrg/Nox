@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Diagnostics;
 
@@ -7,8 +7,13 @@ namespace Nox.Presentation.Api.Swagger;
 
 internal class DeltaSchemaFilter : ISchemaFilter
 {
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
+        if (schema is not OpenApiSchema mutableSchema)
+        {
+            return;
+        }
+
         if (!context.Type.IsGenericType || !context.Type.GetGenericTypeDefinition().IsAssignableFrom(typeof(Delta<>)))
         {
             return;
@@ -24,7 +29,7 @@ internal class DeltaSchemaFilter : ISchemaFilter
 
             var objectSchema = context.SchemaRepository.Schemas[objectType.Name];
 
-            schema.Properties = objectSchema.Properties;
+            mutableSchema.Properties = objectSchema.Properties;
         }
         catch (Exception ex)
         {

@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Nox.Presentation.Api.Swagger;
@@ -10,6 +10,7 @@ internal class EtagHeaderOperationFilter:  IOperationFilter
     {
         if (ETagRequiredHttpMethods.Contains(context.ApiDescription.HttpMethod!))
         {
+            operation.Parameters ??= new List<IOpenApiParameter>();
             operation.Parameters.Add(new OpenApiParameter
             {
                 Name = "If-Match",
@@ -18,7 +19,7 @@ internal class EtagHeaderOperationFilter:  IOperationFilter
                 Style = ParameterStyle.Simple,
                 Schema = new OpenApiSchema
                 {
-                    Type = "string", 
+                    Type = JsonSchemaType.String,
                     Format = "uuid",
                     Pattern = "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[89abAB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$"
                 },
