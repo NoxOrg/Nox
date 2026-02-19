@@ -13,8 +13,7 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
 
     public NoxTestMsSqlContainerFixture()
     {
-        _container = new MsSqlBuilder()
-            .WithImage("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04")
+        _container = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04")
             .WithAutoRemove(true)
             .WithCleanUp(true)
             .Build();

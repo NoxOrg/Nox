@@ -60,8 +60,7 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         switch (DbProviderKind)
         {
             case DatabaseServerProvider.Postgres:
-                var postgreContainer = new PostgreSqlBuilder()
-                  .WithImage("postgres:14.7")
+                var postgreContainer = new PostgreSqlBuilder("postgres:14.7")
                   .WithDatabase("db")
                   .WithUsername("postgres")
                   .WithPassword("postgres")
@@ -75,8 +74,7 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
                 break;
 
             case DatabaseServerProvider.SqlServer:
-                var sqlContainer = new MsSqlBuilder()
-                .WithImage("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04")
+                var sqlContainer = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04")
                 .WithAutoRemove(true)
                 .WithCleanUp(true)
                 .Build();

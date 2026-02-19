@@ -10,8 +10,7 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
 {
     public NoxTestPostgreContainerFixture()
     {
-        _container = new PostgreSqlBuilder()
-          .WithImage("postgres:15.4")
+        _container = new PostgreSqlBuilder("postgres:15.4")
           .WithDatabase("db")
           .WithUsername("postgres")
           .WithPassword("postgres")

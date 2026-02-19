@@ -1,7 +1,8 @@
-﻿using MassTransit;
-using Microsoft.AspNetCore;
+using MassTransit;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 using Neovolve.Logging.Xunit;
 using Nox;
 using Nox.Infrastructure;
@@ -35,60 +36,62 @@ public class NoxWebApplicationFactory : WebApplicationFactory<StartupFixture>
         }
     }
 
-    protected override IWebHostBuilder? CreateWebHostBuilder()
+    protected override IHostBuilder CreateHostBuilder()
     {
-        var host = WebHost.CreateDefaultBuilder(null!)
-            .UseEnvironment(_environment)
-            .UseStartup<StartupFixture>()
-            // this extension makes it sure that our lambda will run after the Startup.ConfigureServices()
-            // method has been executed.
-            .ConfigureTestServices(services =>
+        return Host.CreateDefaultBuilder()
+            .ConfigureWebHostDefaults(webBuilder =>
             {
-                //Override Db Provider and set container connection string
-                RemoveIfExists(services, typeof(INoxDatabaseProvider));
-
-                //For now we just support SQL Server
-                //Our Strategy for creating the database in incompatable, because db is only created after services and app build
-                //so hangfire is not able to create its schema
-                //if (TestDatabaseContainerService.DbProviderKind == DatabaseServerProvider.SqlServer)
-                //{
-                //    services.AddNoxJobs(
-                //        new Assembly[] { typeof(NoxWebApplicationFactory).Assembly },
-                //        TestDatabaseContainerService.DbProviderKind,
-                //        _databaseService.ConnectionString);
-                //}
-
-                services.AddSingleton(sp =>
-                {
-                    return _databaseService.GetDatabaseProvider(
-                        sp.GetServices<INoxTypeDatabaseConfigurator>(),
-                        sp.GetRequiredService<NoxCodeGenConventions>(),
-                        sp.GetRequiredService<INoxClientAssemblyProvider>());
-                });
-
-                RemoveIfExists(services, typeof(Compiler));
-                services.AddSingleton<Compiler>(sp =>
-                {
-                    return _databaseService.GetDatabaseServerProvider() switch
+                webBuilder
+                    .UseEnvironment(_environment)
+                    .UseStartup<StartupFixture>()
+                    // this extension makes it sure that our lambda will run after the Startup.ConfigureServices()
+                    // method has been executed.
+                    .ConfigureTestServices(services =>
                     {
-                        DatabaseServerProvider.SqlServer => new SqlServerCompiler(),
-                        DatabaseServerProvider.SqLite => new SqliteCompiler(),
-                        DatabaseServerProvider.Postgres => new PostgresCompiler(),
-                        _ => throw new NotImplementedException()
-                    };
-                });
+                        //Override Db Provider and set container connection string
+                        RemoveIfExists(services, typeof(INoxDatabaseProvider));
 
-                if (_enableMessaging)
-                    services.AddMassTransitTestHarness();
+                        //For now we just support SQL Server
+                        //Our Strategy for creating the database in incompatable, because db is only created after services and app build
+                        //so hangfire is not able to create its schema
+                        //if (TestDatabaseContainerService.DbProviderKind == DatabaseServerProvider.SqlServer)
+                        //{
+                        //    services.AddNoxJobs(
+                        //        new Assembly[] { typeof(NoxWebApplicationFactory).Assembly },
+                        //        TestDatabaseContainerService.DbProviderKind,
+                        //        _databaseService.ConnectionString);
+                        //}
 
-                //TODO Override NoxSolution with _dbProviderKind
-            })
-            .ConfigureLogging(opts => opts.AddXunit(_testOutput, new LoggingConfig
-            {
-                LogLevel = LogLevel.Error
-            }));
+                        services.AddSingleton(sp =>
+                        {
+                            return _databaseService.GetDatabaseProvider(
+                                sp.GetServices<INoxTypeDatabaseConfigurator>(),
+                                sp.GetRequiredService<NoxCodeGenConventions>(),
+                                sp.GetRequiredService<INoxClientAssemblyProvider>());
+                        });
 
-        return host;
+                        RemoveIfExists(services, typeof(Compiler));
+                        services.AddSingleton<Compiler>(sp =>
+                        {
+                            return _databaseService.GetDatabaseServerProvider() switch
+                            {
+                                DatabaseServerProvider.SqlServer => new SqlServerCompiler(),
+                                DatabaseServerProvider.SqLite => new SqliteCompiler(),
+                                DatabaseServerProvider.Postgres => new PostgresCompiler(),
+                                _ => throw new NotImplementedException()
+                            };
+                        });
+
+                        if (_enableMessaging)
+                            services.AddMassTransitTestHarness();
+
+                        //TODO Override NoxSolution with _dbProviderKind
+                    })
+                    .ConfigureLogging(opts => opts.AddXunit(_testOutput, new LoggingConfig
+                    {
+                        LogLevel = LogLevel.Error
+                    }));
+            });
     }
 
     private void RemoveIfExists(IServiceCollection services, Type serviceType)

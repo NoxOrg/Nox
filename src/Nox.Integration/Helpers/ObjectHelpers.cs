@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Reflection;
-using Humanizer.Localisation.Formatters;
 
 namespace Nox.Integration.Helpers;
 

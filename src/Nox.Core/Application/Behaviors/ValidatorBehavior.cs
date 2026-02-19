@@ -26,13 +26,10 @@ namespace Nox.Application.Behaviors
 
             _logger.LogInformation("Validating {CommandType}", typeName);
 
-            var failuresQuery = _validators
-                .ToAsyncEnumerable()
-                .SelectAwait(async v => await v.ValidateAsync(request, cancellationToken));
-
             var failures = new ConcurrentBag<ValidationFailure>();
-            await foreach (var failure in failuresQuery)
+            foreach (var validator in _validators)
             {
+                var failure = await validator.ValidateAsync(request, cancellationToken);
                 failure
                     .Errors
                     .Select(x => new ValidationFailure($"{typeName}.{x.PropertyName}", x.ErrorMessage))

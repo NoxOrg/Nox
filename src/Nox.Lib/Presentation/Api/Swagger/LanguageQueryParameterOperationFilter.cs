@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Nox.Presentation.Api.Swagger;
@@ -10,6 +10,7 @@ internal class LanguageQueryParameterOperationFilter : IOperationFilter
     {
         if (context.ApiDescription.HttpMethod == HttpMethod.Get.Method)
         {
+            operation.Parameters ??= new List<IOpenApiParameter>();
             operation.Parameters.Add(new OpenApiParameter
             {
                 Name = QueryParams.Language,
@@ -17,7 +18,7 @@ internal class LanguageQueryParameterOperationFilter : IOperationFilter
                 In = ParameterLocation.Query,
                 Schema = new OpenApiSchema
                 {
-                    Type = "string",
+                    Type = JsonSchemaType.String,
                     Pattern = Types.Abstractions.CultureCode.RegularExpression
                 },
                 Required = false

@@ -17,7 +17,7 @@ internal sealed class VersionMiddleware
 
     public VersionMiddleware(RequestDelegate next, NoxSolution noxSolution, INoxClientAssemblyProvider clientAssemblyProvider)
     {
-        ArgumentNullException.ThrowIfNull(nameof(next));
+        ArgumentNullException.ThrowIfNull(next);
         _next = next;
         _noxSolution = noxSolution;
         _clientAssemblyProvider = clientAssemblyProvider;

@@ -1,7 +1,7 @@
-﻿using Azure;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Nox.Extensions;
 using Nox.Solution;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -46,12 +46,30 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             };
 
             // assign tag
-            operation.Tags.Add(new OpenApiTag { Name = route.Name });
+            operation.Tags = new HashSet<OpenApiTagReference>
+            {
+                new(route.Name, new OpenApiDocument(), string.Empty)
+            };
 
             // create parameter properties
             foreach (var inputParam in route.RequestInput)
             {
                 var parameterLocation = FindParameterLocationInRoute(inputParam.Name, route.Route);
+                var parameterSchema = new OpenApiSchema
+                {
+                    Type = ToJsonSchemaType(inputParam.Type)
+                };
+
+                if (inputParam.Default is not null)
+                {
+                    parameterSchema.Default = DefaultToJsonNode(inputParam);
+                }
+
+                if (inputParam.Format is not null)
+                {
+                    parameterSchema.Format = inputParam.JsonFormatString;
+                }
+
                 var p = new OpenApiParameter
                 {
                     Name = inputParam.Name,
@@ -59,22 +77,10 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
                     AllowEmptyValue = !inputParam.IsRequired,
                     Required = parameterLocation == ParameterLocation.Path || inputParam.IsRequired,
                     In = FindParameterLocationInRoute(inputParam.Name, route.Route),
-                    Schema = new OpenApiSchema()
-                    {
-                        Type = inputParam.JsonTypeString,
-                    }
+                    Schema = parameterSchema
                 };
 
-                if (inputParam.Default is not null)
-                {
-                    p.Schema.Default = DefaultToOpenApiAny(inputParam);
-                }
-
-                if (inputParam.Format is not null)
-                {
-                    p.Schema.Format = inputParam.JsonFormatString;
-                }
-
+                operation.Parameters ??= new List<IOpenApiParameter>();
                 operation.Parameters.Add(p);
             }
 
@@ -91,7 +97,10 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
             var routeKey = $"{_solution.Presentation.ApiConfiguration.ApiRoutePrefix}{StripQueryParameters(route.Route)}";
             if (newPaths.TryGetValue(routeKey, out var existing))
             {
-                existing.Operations.Add(RouteHttpVerbToOperationType(route.HttpVerb), operation);
+                if (existing is OpenApiPathItem existingPathItem)
+                {
+                    existingPathItem.AddOperation(RouteHttpVerbToOperationType(route.HttpVerb), operation);
+                }
             }
             else
             {
@@ -137,12 +146,16 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
 
         // add response type
         if (route.ResponseOutput is not null)
+        {
+            response.Content ??= new Dictionary<string, OpenApiMediaType>();
             response.Content.Add(route.ResponseContentTypeString, new OpenApiMediaType
             {
                 Schema = ToOpenApiSchema(route.ResponseOutput)
             });
+        }
 
         // adding response to operation
+        operation.Responses ??= new OpenApiResponses();
         operation.Responses.Add("200", response);
     }
 
@@ -170,7 +183,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         }
     }
 
-    private static void AddRequestBody(OpenApiOperation operation, ApiDescription apiDescription, OperationType operationType)
+    private static void AddRequestBody(OpenApiOperation operation, ApiDescription apiDescription, HttpMethod operationType)
     {
         var bodyParameterDescription = apiDescription.ParameterDescriptions.FirstOrDefault(pd => pd.Source.Id == "Body");
         var requestReferenceId = bodyParameterDescription?.Type.Name ?? string.Empty;
@@ -251,7 +264,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         {
             AdditionalPropertiesAllowed = false,
             Description = typeDefinition.Description,
-            Type = typeDefinition.JsonTypeString,
+            Type = ToJsonSchemaType(typeDefinition.Type),
             Format = typeDefinition.JsonFormatString,
         };
 
@@ -263,7 +276,7 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
 
             case JsonType.Object:
                 schema.Properties = typeDefinition.Attributes
-                    .ToDictionary(t => t.Name, ToOpenApiSchema);
+                    .ToDictionary(t => t.Name, t => (IOpenApiSchema)ToOpenApiSchema(t));
                 break;
 
             default:
@@ -273,31 +286,38 @@ internal partial class ApiRouteMappingDocumentFilter : IDocumentFilter
         return schema;
     }
 
-    private static OperationType RouteHttpVerbToOperationType(HttpVerb httpVerb)
+    private static HttpMethod RouteHttpVerbToOperationType(HttpVerb httpVerb)
     {
         return httpVerb switch
         {
-            HttpVerb.Get => OperationType.Get,
-            HttpVerb.Post => OperationType.Post,
-            HttpVerb.Put => OperationType.Put,
-            HttpVerb.Delete => OperationType.Delete,
-            HttpVerb.Patch => OperationType.Patch,
+            HttpVerb.Get => HttpMethod.Get,
+            HttpVerb.Post => HttpMethod.Post,
+            HttpVerb.Put => HttpMethod.Put,
+            HttpVerb.Delete => HttpMethod.Delete,
+            HttpVerb.Patch => HttpMethod.Patch,
             _ => throw new NotSupportedException()
         };
     }
 
-    private static IOpenApiAny? DefaultToOpenApiAny(JsonTypeDefinition t)
+    private static JsonNode? DefaultToJsonNode(JsonTypeDefinition t)
     {
         if (t.Default is null) return null;
 
-        return t.Type switch
+        return JsonSerializer.SerializeToNode(t.Default);
+    }
+
+    private static JsonSchemaType ToJsonSchemaType(JsonType type)
+    {
+        return type switch
         {
-            JsonType.Number => new OpenApiDouble(Convert.ToDouble(t.Default)),
-            JsonType.Integer => new OpenApiInteger(Convert.ToInt32(t.Default)),
-            JsonType.String => new OpenApiString((string)t.Default),
-            JsonType.Boolean => new OpenApiBoolean(Convert.ToBoolean(t.Default)),
-            JsonType.Null => new OpenApiNull(),
-            _ => throw new NotImplementedException(),
+            JsonType.Number => JsonSchemaType.Number,
+            JsonType.Integer => JsonSchemaType.Integer,
+            JsonType.String => JsonSchemaType.String,
+            JsonType.Boolean => JsonSchemaType.Boolean,
+            JsonType.Array => JsonSchemaType.Array,
+            JsonType.Object => JsonSchemaType.Object,
+            JsonType.Null => JsonSchemaType.Null,
+            _ => throw new NotSupportedException()
         };
     }
 
